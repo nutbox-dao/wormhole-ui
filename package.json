@@ -11,8 +11,13 @@
     "@vue/compat": "^3.2.36",
     "core-js": "^3.8.3",
     "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "js-base64": "^3.7.2",
+    "jsencrypt": "^3.2.1",
+    "jsrsasign": "^10.5.23",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.2.36",
+    "vue-cookies": "^1.8.1",
     "vue-router": "^4.0.8",
     "vuex": "^4.0.2"
   },
@@ -42,8 +47,6 @@
     "rules": {}
   },
   "browser": {
-    "fs": false,
-    "path": false,
     "crypto": false
   },
   "browserslist": [

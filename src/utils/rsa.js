@@ -1,10 +1,20 @@
-import crypto from 'crypto'
-import fs from 'fs'
-import path from 'path'
+// const crypto = await import('crypto');
+
+import JSEncrypt from 'jsencrypt'
+import { KEYUTIL } from 'jsrsasign'
+
+export async function getKey() {
+  return new Promise((resolve) => {
+    var rsaKeypair = KEYUTIL.generateKeypair("RSA", 2048);
+    resolve({privateKey: KEYUTIL.getPEM(rsaKeypair.prvKeyObj, "PKCS8PRV"), publicKey: KEYUTIL.getPEM(rsaKeypair.pubKeyObj)})
+  })
+}
 
 // 生成 rsa 非对称密钥对
 // 返回 {publicKey, privateKey}
-export function getKeyPair(passphrase) {
+export async function getKeyPair(passphrase) {
+  const { crypto } = await import('crypto');
+  console.log(35, crypto);
   return crypto.generateKeyPairSync('rsa', {
     modulusLength: 2048, // 模数的位数，即密钥的位数，2048 或以上一般是安全的
     publicExponent: 0x10001, // 指数值，必须为奇数，默认值为 0x10001，即 65537
@@ -19,17 +29,6 @@ export function getKeyPair(passphrase) {
       passphrase,
     },
   })
-}
-
-// 生成 rsa 非对称密钥对文件到指定路径，名称分别为 private.pem 和 public.pem
-function createKeyPairFile(filePath, passphrase) {
-  const { publicKey, privateKey } = getKeyPair(passphrase)
-  try {
-    fs.writeFileSync(path.join(filePath, 'private.pem'), privateKey, 'utf8')
-    fs.writeFileSync(path.join(filePath, 'public.pem'), publicKey, 'utf8')
-  } catch (err) {
-    console.error(err)
-  }
 }
 
 // 使用公钥加密数据

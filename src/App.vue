@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import * as Vue from 'vue'
 </script>
 
 <style>

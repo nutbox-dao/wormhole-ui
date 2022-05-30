@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <p>
+      sfadl
+    </p>
     <a
       class="twitter-share-button"
       target="blank"
@@ -11,20 +14,38 @@
 </template>
 
 <script>
-import * as Vue from 'vue'
-// @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-// import { getKeyPair } from '@/utils/rsa'
+import { getKey } from '@/utils/rsa'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'HomeView',
   components: {
     HelloWorld,
   },
+  data: () => {
+    return {
+      pubKey: ''
+    }
+  },  
+  computed: {
+    ...mapState(['rsaKey']),
+  },
   method() {},
-  mounted() {
-    // const a = getKeyPair('asdf')
-    // console.log(235, a)
+  async mounted() {
+    console.log(646);
+    this.$store.commit('saveRsaKey', {})
+    if (this.rsaKey && this.rsaKey.privateKey){
+      console.log(2, this.rsaKey, this.rsaKey.publicKey);
+    }else {
+      console.log(1, new Date().getTime());
+      getKey().then(rsa => {
+        this.pubKey = rsa.publicKey
+        this.$store.commit('saveRsaKey', rsa)
+        console.log(2, rsa);
+        console.log(3, new Date().getTime())
+      })
+    }
   },
 }
 </script>
