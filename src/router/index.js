@@ -1,14 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import * as Vue from 'vue'
+import * as VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/about',
@@ -16,12 +14,13 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    component: Vue.defineAsyncComponent(() => import('../views/AboutView.vue')),
+  },
 ]
 
-const router = new VueRouter({
-  routes
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(),
+  routes: routes,
 })
 
 export default router
