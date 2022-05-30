@@ -6,7 +6,7 @@
     <a
       class="twitter-share-button"
       target="blank"
-      href="https://twitter.com/intent/tweet?text=@nutbos create account: sdfsgsgf"
+      :href="'https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + pubKey"
     >
       Tweet</a
     >
@@ -15,8 +15,10 @@
 
 <script>
 import HelloWorld from '@/components/HelloWorld.vue'
-import { getKey } from '@/utils/rsa'
 import { mapState, mapGetters } from 'vuex'
+import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
+import { createKeypair, sign, verify, open, box, openBox } from '@/utils/tweet-nacl'
+import { ParseKeyNonce } from '@/config'
 
 export default {
   name: 'HomeView',
@@ -30,22 +32,21 @@ export default {
   },  
   computed: {
     ...mapState(['rsaKey']),
+    ...mapGetters(['getPrivateKey'])
   },
   method() {},
   async mounted() {
-    console.log(646);
-    this.$store.commit('saveRsaKey', {})
-    if (this.rsaKey && this.rsaKey.privateKey){
-      console.log(2, this.rsaKey, this.rsaKey.publicKey);
-    }else {
-      console.log(1, new Date().getTime());
-      getKey().then(rsa => {
-        this.pubKey = rsa.publicKey
-        this.$store.commit('saveRsaKey', rsa)
-        console.log(2, rsa);
-        console.log(3, new Date().getTime())
-      })
+    if (this.rsaKey && this.rsaKey.privateKey) {
+      console.log(1 , this.rsaKey);
+      this.pubKey = this.rsaKey.publicKey
+    } else {
+      // generate new pair
+      const pair = createKeypair()
+      this.pubKey = pair.pubKey;
+      this.$store.commit('saveKeyPair', pair)
     }
+
+    
   },
 }
 </script>

@@ -5,7 +5,7 @@ import { b64uEnc, b64uDec } from '@/utils/helper'
 
 export default Vuex.createStore({
   state: {
-    rsaKey: Cookie.get('rsaKey')
+    rsaKey: Cookie.get('keyPair')
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -15,12 +15,10 @@ export default Vuex.createStore({
     }
   },
   mutations: {
-    saveRsaKey: (state, rsaKey) => {
-      console.log(11);
+    saveKeyPair: (state, rsaKey) => {
       rsaKey.privateKey = b64uEnc(rsaKey.privateKey)
-      console.log(22);
       state.rsaKey = rsaKey;
-      Cookie.set('rsaKey', rsaKey, '20min')
+      Cookie.set('keyPair', state.rsaKey, '20min')
     }
   },
   actions: {},

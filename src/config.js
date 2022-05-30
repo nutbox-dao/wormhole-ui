@@ -1,0 +1,4 @@
+
+
+export const SendPwdServerPubKey = 'edeae4fcb76fd8c634b8687ee7bd033eefd5ea3b2a8121f8c06445aebb269434'
+export const ParseKeyNonce = '111111111111111111111111111111111111111111111111'

@@ -8,6 +8,17 @@
 </template>
 
 <script>
+export default {
+  data: () => {
+    return {
+      pubKey: ''
+    }
+  },  
+  method() {},
+  async mounted() {
+
+  },
+}
 </script>
 
 <style>
