@@ -1,4 +1,4 @@
-# warmhole-ui
+# wormhole-ui
 
 ## Project setup
 ```
