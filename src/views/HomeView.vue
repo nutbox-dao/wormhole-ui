@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+<<<<<<< HEAD
     <div class="container mx-auto lg:mt-10rem mt-20vh px-0.75rem">
       <div class="fade-in">
         <div class="gradient-text gradient-text-left c-text-black text-3.2rem max-w-40rem mx-auto mb-2.3rem">
@@ -23,6 +24,24 @@
 <!--    >-->
 <!--      Tweet</a-->
 <!--    >-->
+=======
+    <p>
+      sfadl
+    </p>
+    <button @click="sendTestTwitter">
+      Sign Up
+    </button>
+    <a
+      class="twitter-share-button"
+      target="blank"
+      :href="'https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + pubKey"
+    >
+      Tweet</a
+    >
+    <button @click="login">
+      login
+    </button>
+>>>>>>> d20df39 (add test code)
   </div>
 </template>
 
@@ -32,6 +51,7 @@ import { mapState, mapGetters } from 'vuex'
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { ParseKeyNonce, SendPwdServerPubKey } from '@/config'
+import { registerAccount } from '@/api/api'
 
 export default {
   name: 'HomeView',
