@@ -7,6 +7,8 @@ const b64uLookup = {
     "-": "+",
     "=": ".",
     ".": "=",
+    "N": 'p',
+    "p": 'N'
 };
 
 export const b64uEnc = (str) => {

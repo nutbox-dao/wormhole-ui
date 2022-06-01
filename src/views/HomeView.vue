@@ -3,6 +3,9 @@
     <p>
       sfadl
     </p>
+    <button @click="sendTestTwitter">
+      Sign Up
+    </button>
     <a
       class="twitter-share-button"
       target="blank"
@@ -10,6 +13,9 @@
     >
       Tweet</a
     >
+    <button @click="login">
+      login
+    </button>
   </div>
 </template>
 
@@ -19,6 +25,7 @@ import { mapState, mapGetters } from 'vuex'
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { ParseKeyNonce, SendPwdServerPubKey } from '@/config'
+import { registerAccount } from '@/api/api'
 
 export default {
   name: 'HomeView',
@@ -36,12 +43,28 @@ export default {
     ...mapState(['rsaKey']),
     ...mapGetters(['getPrivateKey'])
   },
-  method() {},
-  async mounted() {
+  methods: {
+    async sendTestTwitter() {
+      // operation.twitterId,
+    // operation.name,
+    // operation.userName,
+    // operation.content,
+    // operation.publicKey,
+    // operation.postTime,
+      await registerAccount({
+        postId: 235768564646235,
+        twitterId: 23523452543566,
+        name: 'terry3t1',
+        userName: 'terry3t1',
+        content: '@nutbox !register new account: sadfgasgfasgsg',
+        publicKey: this.pubKey
+      })
+    },
+    async login() {
 
-    test()
-    
-    return
+    }
+  },
+  async mounted() {
     if (this.rsaKey && this.rsaKey.privateKey) {
       console.log(1 , this.rsaKey);
       this.pubKey = this.rsaKey.publicKey
