@@ -2,6 +2,7 @@ import * as Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import 'windi.css'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.use(store)
