@@ -63,20 +63,16 @@ export default {
   },
   methods: {
     async sendTestTwitter() {
-      // operation.twitterId,
-    // operation.name,
-    // operation.userName,
-    // operation.content,
-    // operation.publicKey,
-    // operation.postTime,
-      await registerAccount({
-        postId: 235768564646235,
-        twitterId: 23523452543566,
-        twitterName: 'terry3t1',
-        twitterUsername: 'terry3t1',
-        content: '@nutbox !register new account: sadfgasgfasgsg',
-        publicKey: this.pubKey
-      })
+      if (this.pubKey) {
+        await registerAccount({
+          postId: 235768564646235,
+          twitterId: '1412585243085844481',
+          twitterName: 'terry3t1',
+          twitterUsername: 'terry3t1',
+          content: '@nutbox !register new account: sadfgasgfasgsg',
+          publicKey: this.pubKey
+        })
+      }
     },
     async sendTwitter() {
       window.open('https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + this.pubKey, '__blank')

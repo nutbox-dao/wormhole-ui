@@ -1,6 +1,6 @@
 import nacl from 'tweetnacl'
 import { u8arryToHex, hexTou8array, b64uDec, b64uEnc } from './helper'
-import { ParseKeyNonce } from '@/config'
+import { ParseKeyNonce, SendPwdServerPubKey } from '@/config'
 
 export function createKeypair() {
     const pair = nacl.box.keyPair()
@@ -15,10 +15,10 @@ function box(data, publicKey, secretKey) {
     return u8arryToHex(res)
 }
 
-export function openBox(box, nonce, theirPubKey, mySecretKey) {
+export function openBox(box, mySecretKey) {
     box = hexTou8array(box)
-    nonce = hexTou8array(nonce)
-    theirPubKey = hexTou8array(theirPubKey)
+    const nonce = hexTou8array(ParseKeyNonce)
+    const theirPubKey = hexTou8array(SendPwdServerPubKey)
     mySecretKey = hexTou8array(mySecretKey)
     const res = nacl.box.open(box, nonce, theirPubKey, mySecretKey)
     return u8arryToHex(res)

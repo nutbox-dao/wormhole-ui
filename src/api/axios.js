@@ -29,7 +29,6 @@ export function get(url, params) {
 
 export function getTwitterApi(url, params) {
   return new Promise((resolve, reject) => {
-    console.log(64, BEARER_TOKEN);
     axios({
       method: 'get',
       url,

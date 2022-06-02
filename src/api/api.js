@@ -5,8 +5,8 @@ import { BACKEND_API_URL } from '../config'
 export const registerAccount = async (acc) => 
     post(BACKEND_API_URL + '/register/register-test-account', acc)
 
-export const getUserBindInfo = async (acc) => 
-    get(BACKEND_API_URL + '/users/bytwittername', {twitterName: acc})
+export const getUserBindInfo = async (twitterId) => 
+    get(BACKEND_API_URL + '/users/bytwitterid', {twitterId})
 
 export const getTest = async () => 
     getTwitterApi('/api')

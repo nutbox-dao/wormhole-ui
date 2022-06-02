@@ -1,6 +1,6 @@
 
 
-export const SendPwdServerPubKey = '75defedcee68b60b33795d7105bc5f17d4757150c90487740e3ce6187345c769'
+export const SendPwdServerPubKey = '12e7373d2ca385d952365e86e27194a28bdfee37e5014ac422212577879c3d7b'
 export const ParseKeyNonce = '111111111111111111111111111111111111111111111111'
 export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 

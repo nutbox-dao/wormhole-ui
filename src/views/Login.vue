@@ -6,7 +6,7 @@
           Login
         </div>
         <div class="text-1.2rem font-bold leading-1.5rem mb-1.5rem">
-          Please enter your twitter handle.
+          Please enter your twitter username.
         </div>
         <div>
           <input class="bg-white h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
@@ -18,27 +18,64 @@
         <div class="text-text8F text-1rem font-bold mt-1.5rem">
           Haven't signed up yet ?
         </div>
-        <div class="underline c-text-black text-primaryColor1 text-1.2rem leading-1.5rem mt-0.5rem">
-          Create an account
-        </div>
+        <router-link to="'/">
+          <div class="underline c-text-black text-primaryColor1 text-1.2rem leading-1.5rem mt-0.5rem">
+            Create an account
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getTwitterAccount } from '@/api/api'
+import { getTwitterAccount, getUserBindInfo } from '@/api/api'
+import { mapState, mapGetters } from 'vuex'
+import { openBox } from '@/utils/tweet-nacl'
 
 export default {
   name: "Login",
   data() {
     return {
-      username: ''
+      username: '',
+      loging: false,
+      accountInfo: null
     }
+  },
+  computed: {
+    ...mapState(['rsaKey']),
+    ...mapGetters(['getPrivateKey'])
   },
   methods: {
     async login() {
-      console.log(64,this.username);
+      try{
+        this.loging = true
+        const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
+        const account = await getTwitterAccount(username)
+        if (account.errors && account.errors.length > 0) {
+          console.log('Not exsit');
+        }else {
+          let bindInfo = await getUserBindInfo(account.data.id)
+          bindInfo = JSON.parse(bindInfo)
+          this.accountInfo = bindInfo
+          if (bindInfo && Object.keys(bindInfo).length > 0) {
+            console.log(76, bindInfo);
+            if (this.rsaKey.publicKey === bindInfo.publicKey) {
+              // show private key
+              const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))
+              console.log('eth: ', bindInfo.ethAddress, privateKey);
+            }else {
+              // login directly
+            }
+          }else {
+            // To public account page
+          }
+        }
+      } catch (e) {
+        console.log(3333, e);
+      } finally {
+        this.loging = false
+      }
     }
   },
 }
