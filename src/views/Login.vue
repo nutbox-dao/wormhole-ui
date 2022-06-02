@@ -10,9 +10,9 @@
         </div>
         <div>
           <input class="bg-white h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
-                 type="text">
+                 type="text" placeholder="@Hello_web3" v-model="username">
         </div>
-        <button class="c-text-medium gradient-btn h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem">
+        <button @click="login" class="c-text-medium gradient-btn h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem">
           Login
         </button>
         <div class="text-text8F text-1rem font-bold mt-1.5rem">
@@ -27,8 +27,20 @@
 </template>
 
 <script>
+import { getTwitterAccount } from '@/api/api'
+
 export default {
-  name: "Login"
+  name: "Login",
+  data() {
+    return {
+      username: ''
+    }
+  },
+  methods: {
+    async login() {
+      console.log(64,this.username);
+    }
+  },
 }
 </script>
 

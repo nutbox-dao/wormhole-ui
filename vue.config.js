@@ -5,5 +5,23 @@ module.exports = defineConfig({
   pluginOptions: {
     windicss: {}
   },
+  devServer: {
+    proxy: {
+      '/twitter': {
+        target: 'https://api.twitter.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/twitter': ''
+        }
+      },
+      '/api': {
+        target: 'https://www.baidu.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  },
   productionSourceMap: false
 })

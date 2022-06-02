@@ -1,5 +1,6 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
+import { BEARER_TOKEN } from '@/config'
 
 axiosRetry(axios, { retries: 5 });
 
@@ -22,8 +23,23 @@ export function get(url, params) {
         } else {
           reject(500);
         }
-      });
+      }).then(resolve);
   });
+}
+
+export function getTwitterApi(url, params) {
+  return new Promise((resolve, reject) => {
+    console.log(64, BEARER_TOKEN);
+    axios({
+      method: 'get',
+      url,
+      headers: {
+        'Authorization': 'Bearer ' + BEARER_TOKEN 
+      }
+    }).then(res => {
+      resolve(res.data)
+    })
+  })
 }
 
 export function post(url, params) {

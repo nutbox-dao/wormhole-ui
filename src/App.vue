@@ -12,7 +12,7 @@
           <div class="menu-box w-13.5rem"
                :class="showMenu?'active':''">
             <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
-              <router-link to="/login" @click="showMenu=false"
+              <router-link to="/" @click="showMenu=false"
                            class="flex-1 flex justify-center items-center cursor-pointer hover:gradient-text-left">Signup</router-link>
               <router-link to="/faq" @click="showMenu=false"
                            class="flex-1 flex justify-center items-center cursor-pointer">FAQs</router-link>
