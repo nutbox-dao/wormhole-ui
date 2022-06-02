@@ -1,19 +1,21 @@
 <template>
-  <div id="app" class="flex flex-col">
+  <div id="app">
     <div class="mt-2.2rem">
       <div class="container mx-auto flex justify-between items-center px-0.75rem">
-        <a href="#" target="_blank">
+        <router-link to="/">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
-        </a>
+        </router-link>
         <div class="relative">
           <button class="bg-transparent w-2.4rem mr-0.5rem" @click="showMenu=!showMenu">
             <span class="menu-icon" :class="showMenu?'active':''"></span>
           </button>
           <div class="menu-box w-13.5rem"
                :class="showMenu?'active':''">
-            <div class="gradient-border border-6px rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-24px">
-              <div class="flex-1 flex justify-center items-center cursor-pointer hover:gradient-text-left">Signup</div>
-              <div class="flex-1 flex justify-center items-center cursor-pointer">FAQs</div>
+            <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
+              <router-link to="/login" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:gradient-text-left">Signup</router-link>
+              <router-link to="/faq" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer">FAQs</router-link>
               <div class="flex-1 flex justify-center items-center cursor-pointer">About Us</div>
               <div class="flex-1 flex justify-center items-center cursor-pointer">Discord</div>
             </div>
@@ -21,9 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 overflow-hidden">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
@@ -65,6 +65,7 @@ export default {
   --gradient-primary-color2: #ED782F;
   --gradient-primary-color3: #FF1F00;
   --text8F: #8F8F8F;
+  --textA6:#A6A6A6;
 }
 @import "style/responsive";
 @import "style/common";
@@ -139,4 +140,36 @@ html, body {
     height: 18.2rem;
   }
 }
+.slide-in-blurred-top {
+  animation: slide-in-blurred-top .6s cubic-bezier(.23,1,.32,1) both;
+}
+@keyframes slide-in-blurred-top{
+  0%{
+    filter:blur(40px);
+    opacity:0;
+    transform:translateY(-1000px) scaleY(2.5) scaleX(.2);
+    transform-origin:50% 0
+  }
+  to{
+    filter:blur(0);
+    opacity:1;
+    transform:translateY(0) scaleY(1) scaleX(1);
+    transform-origin:50% 50%
+  }
+}
+.fade-in {
+  animation-name: FadeIn;
+  animation-duration: 3s;
+  transition-timing-function: linear;
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 </style>

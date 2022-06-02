@@ -1,12 +1,30 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
+import VerifyView from '@/views/Verify'
+import LoginView from '@/views/Login'
+import FAQView from '@/views/FAQ'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/verify',
+    name: 'verify',
+    component: VerifyView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: FAQView,
   },
   {
     path: '/about',
