@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-<<<<<<< HEAD
     <div class="container mx-auto lg:mt-10rem mt-20vh px-0.75rem">
       <div class="fade-in">
         <div class="gradient-text gradient-text-left c-text-black text-3.2rem max-w-40rem mx-auto mb-2.3rem">
@@ -24,7 +23,6 @@
 <!--    >-->
 <!--      Tweet</a-->
 <!--    >-->
-=======
     <p>
       sfadl
     </p>
@@ -41,7 +39,6 @@
     <button @click="login">
       login
     </button>
->>>>>>> d20df39 (add test code)
   </div>
 </template>
 
@@ -69,7 +66,27 @@ export default {
     ...mapState(['rsaKey']),
     ...mapGetters(['getPrivateKey'])
   },
-  method() {},
+  methods: {
+    async sendTestTwitter() {
+      // operation.twitterId,
+    // operation.name,
+    // operation.userName,
+    // operation.content,
+    // operation.publicKey,
+    // operation.postTime,
+      await registerAccount({
+        postId: 235768564646235,
+        twitterId: 23523452543566,
+        name: 'terry3t1',
+        userName: 'terry3t1',
+        content: '@nutbox !register new account: sadfgasgfasgsg',
+        publicKey: this.pubKey
+      })
+    },
+    async login() {
+
+    }
+  },
   async mounted() {
     // if (this.rsaKey && this.rsaKey.privateKey) {
     //   console.log(1 , this.rsaKey);
