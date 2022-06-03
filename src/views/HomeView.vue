@@ -6,7 +6,14 @@
           Send & Receive SOL through Twitter
         </div>
       </div>
-      <button :disabled="!pubKey" @click="sendTwitter" class="slide-in-blurred-top gradient-btn gradient-btn-outline border-6px rounded-full c-text-bold text-1.6rem py-1rem px-2.5rem">Activate Your Wallet</button>
+      <button :disabled="!pubKey" @click="sendTwitter"
+              class="slide-in-blurred-top gradient-btn gradient-btn-outline
+              flex items-center mx-auto
+              border-6px rounded-full c-text-bold
+              text-1.6rem py-1rem px-2.5rem">
+        <span>Activate Your Wallet</span>
+        <c-spinner class="w-2.4rem h-2.4rem ml-1rem"></c-spinner>
+      </button>
       <div class="fade-in">
         <div class="text-text8F mt-2rem">
           Already verified yourself ?

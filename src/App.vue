@@ -69,6 +69,7 @@ export default {
 }
 @import "style/responsive";
 @import "style/common";
+@import "style/el-custom";
 html, body {
   background-color: black;
 }
