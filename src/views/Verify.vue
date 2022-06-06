@@ -5,19 +5,22 @@
         Below is the password
         to your new wallet:
       </div>
+      <p class="mb-2rem text-1.6rem">
+        {{ ethAccount.ethAddress }}
+      </p>
       <div class="tip-block py-1rem lg:px-6rem px-1rem max-w-49rem mx-auto rounded-full c-text-medium text-1.5rem leading-2.5rem mb-2.3rem">
-        {{ privateKey }}
+        {{ ethAccount.privateKey }}
       </div>
       <div class="flex justify-center max-w-41rem mx-auto">
         <div class="leading-1.5rem flex item-center mr-1rem">
           <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">
         </div>
         <div class="max-w text-1.2rem font-bold leading-1.5rem text-left">
-          Save these 12 words in a very secure location and never show these to anybody ever again. If you do, you'll lose all your money.
+          Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.
         </div>
       </div>
       <router-link to="/login">
-        <button class="c-text-black text-1.5rem leading-1.5rem mt-2.3rem underline">
+        <button class="c-text-black text-1.5rem leading-1.5rem mt-2.3rem underline" @click="$emit('hide')">
           Ok, I saved it.
         </button>
       </router-link>
@@ -29,10 +32,13 @@
 export default {
   name: "Verify",
   props: {
-    privateKey: {
-      type: String,
-      default: ''
+    ethAccount: {
+      type: Object,
+      default: {}
     },
+  },
+  mounted () {
+    console.log(235, this.ethAccount);;
   },
 }
 </script>

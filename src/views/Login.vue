@@ -29,17 +29,18 @@
     </div>
     <!--    验证弹框-->
     <el-dialog v-model="verifyModalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :privateKey="accountInfo.accountInfo"></Verify>
+      <Verify :ethAccount="accountInfo" @hide="savedKey"></Verify>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getTwitterAccount, getUserBindInfo } from '@/api/api'
+import { getTwitterAccount, getUserBindInfo, getRegisterOp } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { openBox } from '@/utils/tweet-nacl'
 import Verify from "@/views/Verify";
-import {notify} from "@/utils/notify";
+import { notify } from "@/utils/notify";
+import { sleep } from '@/utils/helper'
 
 export default {
   name: "Login",
@@ -61,6 +62,14 @@ export default {
     showNotify(message, duration, type) {
       notify({message, duration, type})
     },
+    async savedKey() {
+      this.verifyModalVisible = false
+      // remove distribute key pairs
+
+      // login to profile page
+      await sleep(1)
+      this.$router.push('/profile/@' + this.accountInfo.twitterUsername)
+    },
     async login() {
       try{
         if (this.username.length < 3) {
@@ -72,27 +81,49 @@ export default {
         const account = await getTwitterAccount(username)
         if (account.errors && account.errors.length > 0) {
           console.log('Not exsit');
+          this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
         }else {
-          let bindInfo = await getUserBindInfo(account.data.id)
+          let bindInfo;
+          bindInfo = await getUserBindInfo(account.data.id)
+          let retryTimes = 0
+          if (this.rsaKey && !bindInfo) {
+            let op = await getRegisterOp({twitterId: account.data.id, publicKey: this.rsaKey.publicKey})
+            if (op && op.publicKey === this.rsaKey.publicKey){
+              while (!bindInfo){
+                if (retryTimes++ > 3) {
+                  break;
+                }
+                await sleep(3)
+                bindInfo = await getUserBindInfo(account.data.id)
+              }
+            }
+          }
           bindInfo = JSON.parse(bindInfo)
           this.accountInfo = bindInfo
           if (bindInfo && Object.keys(bindInfo).length > 0) {
-            console.log(76, bindInfo);
+            this.$store.commit('saveAccountInfo', bindInfo)
             if (this.rsaKey.publicKey === bindInfo.publicKey) {
               // show private key
               const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))
-              this.verifyModalVisible = true
-              this.accountInfo.privateKey = privateKey
-              console.log('eth: ', bindInfo.ethAddress, privateKey);
+              if (privateKey) {
+                this.verifyModalVisible = true
+                this.accountInfo.privateKey = privateKey
+                console.log('eth: ', bindInfo.ethAddress, '===', privateKey);
+              }else {
+                // login directly with eth address
+                this.$router.push('/profile/' + this.username)
+              }
             }else {
-              // login directly
+              // login directly with eth address
+                this.$router.push('/profile/' + this.username)
             }
           }else {
-            // To public account page
+            // login in without eth address
+            this.$router.push('/profile/' + this.username)
           }
         }
       } catch (e) {
-        console.log(3333, e);
+        console.log('Get twitter account from Twitter fail:', e);
       } finally {
         this.loging = false
       }
