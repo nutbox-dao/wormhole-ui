@@ -87,7 +87,8 @@ export default {
     } else {
       // generate new pair
       const pair = createKeypair()
-      this.pubKey = pair.pubKey;
+      this.pubKey = pair.publicKey;
+      console.log(235, this.pubKey);
       this.$store.commit('saveKeyPair', pair)
     }
 

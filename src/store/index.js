@@ -9,16 +9,20 @@ export default Vuex.createStore({
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
-      if (publicKey === state.rsaKey.publicKey) {
-        return b64uDec(state.rsaKey.privateKey)
+      if (state.rsaKey){
+        if (publicKey === state.rsaKey.publicKey) {
+          return b64uDec(state.rsaKey.privateKey)
+        }
       }
     }
   },
   mutations: {
     saveKeyPair: (state, rsaKey) => {
-      rsaKey.privateKey = b64uEnc(rsaKey.privateKey)
+      if (rsaKey){
+        rsaKey.privateKey = b64uEnc(rsaKey.privateKey)
+      }
       state.rsaKey = rsaKey;
-      Cookie.set('keyPair', state.rsaKey, '20min')
+      Cookie.set('keyPair', state.rsaKey, '2m')
     }
   },
   actions: {},
