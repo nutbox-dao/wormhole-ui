@@ -3,7 +3,7 @@
     <div class="container mx-auto lg:mt-10rem mt-20vh px-0.75rem">
       <div class="fade-in">
         <div class="gradient-text gradient-text-left c-text-black text-3.2rem max-w-40rem mx-auto mb-2.3rem">
-          Send & Receive SOL through Twitter
+          Send & Receive Asset through Twitter
         </div>
       </div>
       <button :disabled="!pubKey" @click="sendTwitter"
@@ -21,11 +21,6 @@
         <router-link to="/login" class="text-primaryColor1 c-text-black text-1.2rem leading-1.5rem mt-0.5rem underline" @click="login">Log in here</router-link>
       </div>
     </div>
-   <!-- <p></p>
-   <br>
-    <button @click="sendTestTwitter">
-      Sign Up
-    </button> -->
   </div>
 </template>
 
@@ -42,9 +37,7 @@ export default {
   },
   data: () => {
     return {
-      pubKey: null,
-      testMyPub: '913b75ea8d2371337e2febdfe7959ee344cad7236827cc8575fe85fbb0365669',
-      testMyPrive: 'NzA1OWQ3Y2NiNTdmMWZkZDJkZWNhOGE1NDhmMGVjNmU4NzgyZjgzN2E4ODc0ZGYzM2M2YzEyNDJmNGJkMzY2NQ..'
+      pubKey: null
     }
   },
   computed: {
@@ -52,18 +45,6 @@ export default {
     ...mapGetters(['getPrivateKey'])
   },
   methods: {
-    async sendTestTwitter() {
-      if (this.pubKey) {
-        await registerAccount({
-          postId: 235768564646235,
-          twitterId: '1412585243085844481',
-          twitterName: 'terry3t1',
-          twitterUsername: 'terry3t1',
-          content: '@nutbox !register new account: sadfgasgfasgsg',
-          publicKey: this.pubKey
-        })
-      }
-    },
     async sendTwitter() {
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with pub key:' + this.pubKey, '__blank')
     },
@@ -78,7 +59,6 @@ export default {
       // generate new pair
       const pair = createKeypair()
       this.pubKey = pair.publicKey;
-      console.log(235, this.pubKey);
       this.$store.commit('saveKeyPair', pair)
     }
   },
