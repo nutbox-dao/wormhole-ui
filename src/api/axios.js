@@ -38,6 +38,10 @@ export function getTwitterApi(url, params) {
     }).then(res => {
       resolve(res.data)
     })
+    .catch(err => {
+      console.log('get twitter fail:', err);
+      reject(500)
+    })
   })
 }
 

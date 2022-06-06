@@ -1,0 +1,80 @@
+.el-dialog.c-dialog {
+  width: 90%;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: var(--primary-bg);
+  box-shadow: 0 0 20px 8px rgba(#EEB134, 0.4);
+  display: flex;
+  flex-direction: column;
+  &-md {
+    max-width: 500px;
+  }
+  &-lg {
+    max-width: 760px;
+  }
+  &-center {
+    position: absolute!important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .dialog-close-icon {
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("~@/assets/icon-close-white.svg");
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+  .c-dialog-content {
+    flex: 1;
+    overflow: hidden;
+    padding: 1.2rem;
+  }
+}
+
+.el-dialog.no-header {
+  background: transparent;
+  .el-dialog__header, .el-dialog__body {
+    padding: 0;
+    background: transparent;
+  }
+}
+
+.c-notification.el-notification{
+  background-color: var(--primary-bg);
+  border: 2px solid var(--gradient-primary-color1);
+  background-origin: border-box;
+  box-shadow: 0 0 20px 8px rgba(#EEB134, 0.4);
+  box-sizing: border-box;
+  .el-notification__closeBtn {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+.c-notification .el-notification__content {
+  color: white;
+}
+.c-notification .el-notification__title {
+  color: var(--primary-custom);
+}
