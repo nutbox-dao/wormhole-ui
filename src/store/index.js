@@ -6,7 +6,9 @@ import { b64uEnc, b64uDec } from '@/utils/helper'
 export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
-    accountInfo: null
+    accountInfo: null,
+    saveSteemBalance: 0,
+    prices: {}
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -27,6 +29,12 @@ export default Vuex.createStore({
     },
     saveAccountInfo: (state, accountInfo) => {
       state.accountInfo = accountInfo;
+    },
+    saveSteemBalance: (state, steemBalance) => {
+      state.steemBalance = steemBalance
+    },
+    savePrices: (state, prices) => {
+      state.prices = prices
     }
   },
   actions: {},

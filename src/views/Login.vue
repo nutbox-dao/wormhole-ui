@@ -83,6 +83,7 @@ export default {
           console.log('Not exsit');
           this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
         }else {
+          console.log(64, account);
           let bindInfo;
           bindInfo = await getUserBindInfo(account.data.id)
           let retryTimes = 0
@@ -101,7 +102,7 @@ export default {
           bindInfo = JSON.parse(bindInfo)
           this.accountInfo = bindInfo
           if (bindInfo && Object.keys(bindInfo).length > 0) {
-            this.$store.commit('saveAccountInfo', bindInfo)
+            this.$store.commit('saveAccountInfo', {...bindInfo, ...account.data})
             if (this.rsaKey.publicKey === bindInfo.publicKey) {
               // show private key
               const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))

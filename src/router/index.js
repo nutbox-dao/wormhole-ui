@@ -26,33 +26,33 @@ const routes = [
     name: 'login',
     component: LoginView,
   },
-  {
-    path: '/profile/:id',
-    name: 'profile',
-    component: Profile
-  },
+  // {
+  //   path: '/profile/:id',
+  //   name: 'profile',
+  //   component: Profile
+  // },
   {
     path: '/faq',
     name: 'faq',
     component: FAQView,
   },
   {
-    path: '/:user',
+    path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
     children: [
       {
-        path: '/:user',
+        path: '/profile/:user',
         name: 'token',
         component: UserTokenView
       },
       {
-        path: '/:user/nft',
+        path: '/profile/:user/nft',
         name: 'nft',
         component: UserNftView
       },
       {
-        path: '/:user/transaction',
+        path: '/profile/:user/transaction',
         name: 'transaction',
         component: UserTransactionView
       }

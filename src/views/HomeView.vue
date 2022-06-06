@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
 import { mapState, mapGetters } from 'vuex'
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
@@ -40,7 +39,6 @@ import { registerAccount } from '@/api/api'
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld,
   },
   data: () => {
     return {

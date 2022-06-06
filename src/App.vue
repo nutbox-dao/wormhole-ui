@@ -28,6 +28,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { sleep } from '@/utils/helper'
+
 export default {
   data: () => {
     return {
@@ -35,9 +38,29 @@ export default {
       showMenu: false
     }
   },
-  method() {},
+  methods: {
+    async monitorPrices() {
+      let res = await Promise.all([
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT'),
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BNBETH'),
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=STEEMUSDT'),
+      ])
+      res = res.map(p => parseFloat(p.data.price))
+      const prices = {
+        eth: res[0],
+        btc: res[1],
+        bnb: res[2] * res[0],
+        steem: res[3]
+      }
+      this.$store.commit('savePrices', prices)
+    }
+  },
   async mounted() {
-
+    while(true) {
+      await this.monitorPrices()
+      await sleep(15)
+    }
   },
 }
 </script>
