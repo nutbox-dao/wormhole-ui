@@ -10,8 +10,12 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
-export const RPC_NODE = 'https://bsc-dataseed.binance.org'
-export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
+// export const RPC_NODE = 'https://bsc-dataseed.binance.org'
+// export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
+
+// eth
+export const RPC_NODE = 'https://mainnet.infura.io/v3/'
+export const MultiAddress = '0x5ba1e12693dc8f9c48aad8770482f4739beed696'
 
 export const ERC20List = [
     {'usdt': ''},
