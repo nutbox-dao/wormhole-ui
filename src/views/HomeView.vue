@@ -67,7 +67,7 @@ export default {
       }
     },
     async sendTwitter() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create warm hole account with pub key:' + this.pubKey, '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with pub key:' + this.pubKey, '__blank')
     },
     async login() {
 
@@ -79,7 +79,8 @@ export default {
     } else {
       // generate new pair
       const pair = createKeypair()
-      this.pubKey = pair.pubKey;
+      this.pubKey = pair.publicKey;
+      console.log(235, this.pubKey);
       this.$store.commit('saveKeyPair', pair)
     }
   },

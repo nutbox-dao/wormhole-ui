@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import VerifyView from '@/views/Verify'
 import LoginView from '@/views/Login'
 import FAQView from '@/views/FAQ'
+import Profile from '@/views/Profile'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
@@ -24,6 +25,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView,
+  },
+  {
+    path: '/profile/:id',
+    name: 'profile',
+    component: Profile
   },
   {
     path: '/faq',
