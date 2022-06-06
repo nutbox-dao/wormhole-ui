@@ -12,10 +12,10 @@
           <input class="bg-white h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
-        <button @click="login"
+        <button @click="login" :disable="loging || username.length < 3"
                 class="c-text-medium gradient-btn h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem flex justify-center items-center">
           <span>Login</span>
-          <c-spinner class="w-2.4rem h-2.4rem ml-1rem"></c-spinner>
+          <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="loging"></c-spinner>
         </button>
         <div class="text-text8F text-1rem font-bold mt-1.5rem">
           Haven't signed up yet ?
@@ -29,7 +29,7 @@
     </div>
     <!--    验证弹框-->
     <el-dialog v-model="verifyModalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify></Verify>
+      <Verify :privateKey="accountInfo.accountInfo"></Verify>
     </el-dialog>
   </div>
 </template>
@@ -58,11 +58,15 @@ export default {
   },
   methods: {
     // 右上角提示信息框
-    showNotify() {
-      notify({message: 'msg'})
+    showNotify(message, duration, type) {
+      notify({message, duration, type})
     },
     async login() {
       try{
+        if (this.username.length < 3) {
+          this.showNotify('Please enter twitter username')
+          return;
+        }
         this.loging = true
         const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
         const account = await getTwitterAccount(username)
@@ -77,6 +81,8 @@ export default {
             if (this.rsaKey.publicKey === bindInfo.publicKey) {
               // show private key
               const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))
+              this.verifyModalVisible = true
+              this.accountInfo.privateKey = privateKey
               console.log('eth: ', bindInfo.ethAddress, privateKey);
             }else {
               // login directly

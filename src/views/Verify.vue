@@ -6,8 +6,7 @@
         to your new wallet:
       </div>
       <div class="tip-block py-1rem lg:px-6rem px-1rem max-w-49rem mx-auto rounded-full c-text-medium text-1.5rem leading-2.5rem mb-2.3rem">
-        shine predict amazing pretty humor person
-        repair cattle stomach citizen list sugar
+        {{ privateKey }}
       </div>
       <div class="flex justify-center max-w-41rem mx-auto">
         <div class="leading-1.5rem flex item-center mr-1rem">
@@ -28,7 +27,13 @@
 
 <script>
 export default {
-  name: "Verify"
+  name: "Verify",
+  props: {
+    privateKey: {
+      type: String,
+      default: ''
+    },
+  },
 }
 </script>
 

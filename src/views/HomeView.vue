@@ -12,7 +12,7 @@
               border-6px rounded-full c-text-bold
               text-1.6rem py-1rem px-2.5rem">
         <span>Activate Your Wallet</span>
-        <c-spinner class="w-2.4rem h-2.4rem ml-1rem"></c-spinner>
+        <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="!pubKey"></c-spinner>
       </button>
       <div class="fade-in">
         <div class="text-text8F mt-2rem">
@@ -21,26 +21,11 @@
         <router-link to="/login" class="text-primaryColor1 c-text-black text-1.2rem leading-1.5rem mt-0.5rem underline" @click="login">Log in here</router-link>
       </div>
     </div>
-   <a
-     class="twitter-share-button"
-     target="blank"
-     :href="'https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + pubKey"
-   >
-     Tweet</a
-   >
+   <!-- <p></p>
+   <br>
     <button @click="sendTestTwitter">
       Sign Up
-    </button>
-    <a
-      class="twitter-share-button"
-      target="blank"
-      :href="'https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + pubKey"
-    >
-      Tweet</a
-    >
-    <button @click="login">
-      login
-    </button>
+    </button> -->
   </div>
 </template>
 
@@ -49,7 +34,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import { mapState, mapGetters } from 'vuex'
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
-import { ParseKeyNonce, SendPwdServerPubKey } from '@/config'
+import { ParseKeyNonce, SendPwdServerPubKey, TWITTER_MONITOR_ACCOUNT } from '@/config'
 import { registerAccount } from '@/api/api'
 
 export default {
@@ -82,7 +67,7 @@ export default {
       }
     },
     async sendTwitter() {
-      window.open('https://twitter.com/intent/tweet?text=@nutbox !create warm hole account with pub key:' + this.pubKey, '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create warm hole account with pub key:' + this.pubKey, '__blank')
     },
     async login() {
 
@@ -97,7 +82,6 @@ export default {
       this.pubKey = pair.pubKey;
       this.$store.commit('saveKeyPair', pair)
     }
-
   },
 }
 </script>
