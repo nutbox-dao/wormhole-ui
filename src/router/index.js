@@ -4,6 +4,10 @@ import HomeView from '@/views/HomeView.vue'
 import VerifyView from '@/views/Verify'
 import LoginView from '@/views/Login'
 import FAQView from '@/views/FAQ'
+import UserIndexView from '@/views/user/UserIndex'
+import UserTokenView from '@/views/user/Token'
+import UserNftView from '@/views/user/NFT'
+import UserTransactionView from '@/views/user/Transaction'
 
 const routes = [
   {
@@ -25,6 +29,28 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQView,
+  },
+  {
+    path: '/:user',
+    name: 'user',
+    component: UserIndexView,
+    children: [
+      {
+        path: '/:user',
+        name: 'token',
+        component: UserTokenView
+      },
+      {
+        path: '/:user/nft',
+        name: 'nft',
+        component: UserNftView
+      },
+      {
+        path: '/:user/transaction',
+        name: 'transaction',
+        component: UserTransactionView
+      }
+    ]
   },
   {
     path: '/about',
