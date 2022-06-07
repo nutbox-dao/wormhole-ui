@@ -1,26 +1,26 @@
 <template>
   <div class="pb-2rem">
-    <div class="flex justify-between items-center my-0.8rem">
+    <div class="flex justify-between items-center my-2.5rem">
       <div class="flex items-center">
-        <img class="w-5rem h-5rem rounded-full border-1px border-dark-400"
+        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
              src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.4rem">Steem</div>
-          <div class="text-text8F">{{ steemBalance }} STEEM</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ steemBalance }} STEEM</div>
         </div>
       </div>
-      <div class="text-1.8rem c-text-medium font-bold gradient-text gradient-text-bottom">{{ steemValue }}</div>
+      <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
     </div>
-    <div class="flex justify-between items-center my-0.8rem" v-for="i of 10" :key="i">
+    <div class="flex justify-between items-center my-2.5rem" v-for="i in 10" :key="i">
       <div class="flex items-center">
-        <img class="w-5rem h-5rem rounded-full border-1px border-dark-400"
+        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
              src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.4rem">Solana</div>
-          <div class="text-text8F">0 SOL</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">0 SOL</div>
         </div>
       </div>
-      <div class="text-1.8rem c-text-medium font-bold gradient-text gradient-text-bottom">$0.00</div>
+      <div class="text-1.6rem c-text-bold">$0.00</div>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div class="login-view">
     <div class="container max-w-425px mx-auto lg:mt-6rem mt-20vh px-0.75rem">
       <div class="fade-in">
-        <div class="gradient-text gradient-text-left c-text-black text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
+        <div class="gradient-text gradient-text-right c-text-black text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
           Login
         </div>
         <div class="text-1.2rem font-bold leading-1.5rem mb-1.5rem">
