@@ -85,7 +85,7 @@ export default {
         }else {
           console.log(64, account);
           let bindInfo;
-          bindInfo = await getUserBindInfo(account.data.id)
+          bindInfo = await getUserBindInfo('1412585243085844481')
           console.log('bind:', bindInfo);
           let retryTimes = 0
           if (this.rsaKey && this.rsaKey.publicKey && !bindInfo) {
