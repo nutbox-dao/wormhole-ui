@@ -45,13 +45,15 @@ export default {
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BNBETH'),
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=STEEMUSDT'),
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=UNIUSDT'),
       ])
       res = res.map(p => parseFloat(p.data.price))
       const prices = {
         eth: res[0],
         btc: res[1],
         bnb: res[2] * res[0],
-        steem: res[3]
+        steem: res[3],
+        uni: res[4]
       }
       this.$store.commit('savePrices', prices)
     }
