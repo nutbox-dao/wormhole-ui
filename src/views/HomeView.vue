@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container mx-auto lg:mt-10rem mt-20vh px-0.75rem">
       <div class="fade-in">
-        <div class="gradient-text gradient-text-left c-text-black text-3.2rem max-w-40rem mx-auto mb-2.3rem">
+        <div class="gradient-text gradient-text-right3 c-text-black text-3.2rem max-w-40rem mx-auto mb-2.3rem">
           Send & Receive Asset through Twitter
         </div>
       </div>

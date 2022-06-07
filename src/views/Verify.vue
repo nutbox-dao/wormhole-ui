@@ -1,7 +1,7 @@
 <template>
   <div class="verify-view p-3rem">
     <div class="text-white">
-      <div class="gradient-text gradient-text-left c-text-black text-2.4rem max-w-30rem mx-auto mb-2.3rem leading-2.9rem">
+      <div class="gradient-text gradient-text-right c-text-black text-2.4rem max-w-30rem mx-auto mb-2.3rem leading-2.9rem">
         Below is the password
         to your new wallet:
       </div>

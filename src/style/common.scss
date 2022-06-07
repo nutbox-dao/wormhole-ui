@@ -1,6 +1,9 @@
 .c-text-black {
   font-family: MontserratBlack, Avenir, Helvetica, Arial, sans-serif;
 }
+.c-text-bold {
+  font-family: MontserratBold, Avenir, Helvetica, Arial, sans-serif;
+}
 .c-text-medium {
   font-family: MontserratMedium, Avenir, Helvetica, Arial, sans-serif;
 }
@@ -28,6 +31,14 @@
     }
   }
 }
+.gradient-bg {
+  background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
+  background-repeat: no-repeat;
+  background-size: 100%;
+  &-color3 {
+    background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+  }
+}
 .gradient-border {
   background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
   background-repeat: no-repeat;
@@ -37,15 +48,21 @@
   background-origin: border-box;
   box-shadow: 2px 1000px 2px var(--primary-bg) inset;
   box-sizing: border-box;
+  &-color3 {
+    background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+  }
 }
 .gradient-text {
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   width: fit-content;
-  &-left {
-    background-image:-webkit-linear-gradient(left, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+  &-right3 {
+    background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+  }
+  &-right {
+    background-image:linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
   }
   &-bottom {
-    background-image:-webkit-linear-gradient(bottom, var(--gradient-primary-color2), var(--gradient-primary-color1));
+    background-image:linear-gradient(to bottom, var(--gradient-primary-color2), var(--gradient-primary-color1));
   }
 }
