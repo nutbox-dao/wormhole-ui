@@ -7,12 +7,12 @@
                :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.id : '')" alt="">
           <div class="text-left ml-1.5rem">
             <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
-              {{accountInfo ? accountInfo.name : 'terry3t'}}
+              {{accountInfo ? accountInfo.name : ''}}
             </div>
             <div class="text-text8F text-1.2rem flex items-center mt-0.7rem font-bold">
-              <span>@{{accountInfo ? accountInfo.username : 'terry3t1 '}}</span>
+              <span>@{{accountInfo ? accountInfo.username : ' '}}</span>
               <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-              <span class="ml-1rem" v-if="accountInfo && accountInfo.steemId">#{{accountInfo ? accountInfo.steemId : '44,783'}}</span>
+              <span class="ml-1rem" v-if="accountInfo && accountInfo.steemId">#{{accountInfo ? accountInfo.steemId : ''}}</span>
             </div>
           </div>
         </div>
