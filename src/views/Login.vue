@@ -86,6 +86,7 @@ export default {
           console.log(64, account);
           let bindInfo;
           bindInfo = await getUserBindInfo(account.data.id)
+          console.log('bind:', bindInfo);
           let retryTimes = 0
           if (this.rsaKey && this.rsaKey.publicKey && !bindInfo) {
             let op = await getRegisterOp({twitterId: account.data.id, publicKey: this.rsaKey.publicKey})
