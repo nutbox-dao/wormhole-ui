@@ -65,7 +65,7 @@ export default {
     async savedKey() {
       this.verifyModalVisible = false
       // remove distribute key pairs
-
+      this.$store.commit('saveKeyPair', {})
       // login to profile page
       await sleep(1)
       this.$router.push('/profile/@' + this.accountInfo.twitterUsername)
@@ -87,7 +87,7 @@ export default {
           let bindInfo;
           bindInfo = await getUserBindInfo(account.data.id)
           let retryTimes = 0
-          if (this.rsaKey && !bindInfo) {
+          if (this.rsaKey && this.rsaKey.publicKey && !bindInfo) {
             let op = await getRegisterOp({twitterId: account.data.id, publicKey: this.rsaKey.publicKey})
             if (op && op.publicKey === this.rsaKey.publicKey){
               while (!bindInfo){
@@ -103,7 +103,7 @@ export default {
           this.accountInfo = bindInfo
           if (bindInfo && Object.keys(bindInfo).length > 0) {
             this.$store.commit('saveAccountInfo', {...bindInfo, ...account.data})
-            if (this.rsaKey.publicKey === bindInfo.publicKey) {
+            if (this.rsaKey && (this.rsaKey.publicKey === bindInfo.publicKey)) {
               // show private key
               const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))
               if (privateKey) {

@@ -53,7 +53,9 @@ export default {
         btc: res[1],
         bnb: res[2] * res[0],
         steem: res[3],
-        uni: res[4]
+        uni: res[4],
+        usdt: 1,
+        usdc: 1
       }
       this.$store.commit('savePrices', prices)
     }

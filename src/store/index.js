@@ -8,7 +8,10 @@ export default Vuex.createStore({
     rsaKey: Cookie.get('keyPair'),
     accountInfo: null,
     saveSteemBalance: 0,
-    prices: {}
+    ethBalance: 0,
+    prices: {},
+    ethers: {},
+    erc20Balances: {}
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -35,6 +38,15 @@ export default Vuex.createStore({
     },
     savePrices: (state, prices) => {
       state.prices = prices
+    },
+    saveEthers: (state, ethers) => {
+      state.ethers = ethers
+    },
+    saveEthBalance: (state, ethBalance) => {
+      state.ethBalance = ethBalance
+    },
+    saveERC20Balances: (state, erc20Balances) => {
+      state.erc20Balances = erc20Balances
     }
   },
   actions: {},
