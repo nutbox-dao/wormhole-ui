@@ -6,7 +6,7 @@
              :src="mainToken.icon" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.4rem">{{ mainToken.name }}</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ ethBalance }} {{ mainToken.symbol }}</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(ethBalance) }} {{ mainToken.symbol }}</div>
         </div>
       </div>
       <div class="text-1.6rem c-text-bold">{{ ethValue }}</div>
@@ -17,7 +17,7 @@
              src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.4rem">Steem</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ steemBalance }} STEEM</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
       <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
@@ -76,6 +76,11 @@ export default {
         }
       }
       return ls
+    }
+  },
+  methods: {
+    formatAmount(a) {
+      return formatAmount(a)
     }
   },
   mounted () {

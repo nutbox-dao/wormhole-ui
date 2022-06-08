@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { getTwitterAccount, getUserBindInfo, getRegisterOp } from '@/api/api'
+import { getTwitterAccount, getUserBindInfo, getRegisterOp, getUserInfo } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { openBox } from '@/utils/tweet-nacl'
 import Verify from "@/views/Verify";
@@ -78,39 +78,22 @@ export default {
         }
         this.loging = true
         const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
-        const account = await getTwitterAccount(username)
+        let account = await getUserInfo(username, this.rsaKey ? this.rsaKeypublicKey : null)
+         
         if (account.errors && account.errors.length > 0) {
           console.log('Not exsit');
           this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
         }else {
           console.log(64, account);
-          let bindInfo;
-          bindInfo = await getUserBindInfo('1412585243085844481')
-          console.log('bind:', bindInfo);
-          let retryTimes = 0
-          if (this.rsaKey && this.rsaKey.publicKey && !bindInfo) {
-            let op = await getRegisterOp({twitterId: account.data.id, publicKey: this.rsaKey.publicKey})
-            if (op && op.publicKey === this.rsaKey.publicKey){
-              while (!bindInfo){
-                if (retryTimes++ > 3) {
-                  break;
-                }
-                await sleep(3)
-                bindInfo = await getUserBindInfo(account.data.id)
-              }
-            }
-          }
-          bindInfo = JSON.parse(bindInfo)
-          this.accountInfo = bindInfo
-          if (bindInfo && Object.keys(bindInfo).length > 0) {
-            this.$store.commit('saveAccountInfo', {...bindInfo, ...account.data})
-            if (this.rsaKey && (this.rsaKey.publicKey === bindInfo.publicKey)) {
+          this.$store.commit('saveAccountInfo', account)
+          if (account && account.steemId) {
+            if (this.rsaKey && (this.rsaKey.publicKey === account.publicKey)) {
               // show private key
-              const privateKey = openBox(bindInfo.encryptedKey, this.getPrivateKey(bindInfo.publicKey))
+              const privateKey = openBox(account.encryptedKey, this.getPrivateKey(account.publicKey))
               if (privateKey) {
                 this.verifyModalVisible = true
                 this.accountInfo.privateKey = privateKey
-                console.log('eth: ', bindInfo.ethAddress, '===', privateKey);
+                console.log('eth: ', account.ethAddress, '===', privateKey);
               }else {
                 // login directly with eth address
                 this.$router.push('/profile/' + this.username)

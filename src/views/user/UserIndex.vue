@@ -4,13 +4,13 @@
       <div class="mt-4rem flex justify-between items-center">
         <div class="flex items-center">
           <img class="w-8rem h-8rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
-               :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.id : '')" alt="">
+               :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
           <div class="text-left ml-1.5rem">
             <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
-              {{accountInfo ? accountInfo.name : ''}}
+              {{accountInfo ? accountInfo.twitterName : ''}}
             </div>
             <div class="text-text8F text-1.2rem flex items-center mt-0.7rem font-bold">
-              <span>@{{accountInfo ? accountInfo.username : ' '}}</span>
+              <span>@{{accountInfo ? accountInfo.twitterUsername : ' '}}</span>
               <template v-if="accountInfo && accountInfo.steemId">
                 <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
                 <span class="ml-1rem">#{{accountInfo ? accountInfo.steemId : ''}}</span>
@@ -51,7 +51,7 @@
 <script>
 import { getSteemBalance } from '@/utils/steem'
 import { mapState } from 'vuex'
-import { getTwitterAccount, getUserBindInfo, getRegisterOp } from '@/api/api'
+import { getTwitterAccount, getUserBindInfo, getUserInfo } from '@/api/api'
 import { notify } from "@/utils/notify";
 import { formatPrice, formatAmount } from '@/utils/helper'
 import emptyAvatar from '@/assets/icon-default-avatar.svg'
@@ -90,42 +90,37 @@ export default {
   },
   async mounted() {
     const twitterUsername = this.$route.params.user.startsWith('@') ? this.$route.params.user.substring(1) : this.$route.params.user
-  
-        if (this.accountInfo && twitterUsername == this.accountInfo.twitterUsername) {
-        }else {
-            // check twitter account
-            try{
-                const account = await getTwitterAccount(twitterUsername)
-                if (account.errors && account.errors.length > 0) {
-                    console.log('Not exsit');
-                    this.showNotify('This twitter account is invalid.', 5000, 'error')
-                    this.$router.push('/')
-                    return;
-                }else {
-                    // get bind account
-                    const bindInfo = await getUserBindInfo(account.data.id)
-  
-                    // store bind account
-                    this.$store.commit('saveAccountInfo', {...JSON.parse(bindInfo), ...account.data})
-                }
-            }catch(e) {
-                this.showNotify("Server error", 5000, 'error')
+    // getUserInfo
+    if (this.accountInfo && twitterUsername == this.accountInfo.twitterUsername) {
+    }else {
+        // check twitter account
+        try{
+            const account = await getUserInfo(twitterUsername)
+            if (account.errors && account.errors.length > 0) {
+                console.log('Not exsit');
+                this.showNotify('This twitter account is invalid.', 5000, 'error')
                 this.$router.push('/')
                 return;
+            }else {
+                // store bind account
+                this.$store.commit('saveAccountInfo', account)
             }
+        }catch(e) {
+            this.showNotify("Server error", 5000, 'error')
+            this.$router.push('/')
+            return;
         }
-        // get and show account balance
-        const { steemId, ethAddress } = this.accountInfo
-        if (steemId) {
-            // get steem balance
-            getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
-                .catch(err => console.log('get steem balance fail:', err))
-        }
-        if (ethAddress) {
-            //get eth balances
-            getTokenBalance(ethAddress)
-            getMainChainBalance(ethAddress)
-        }
+    }
+    // get and show account balance
+    const { steemId, ethAddress } = this.accountInfo
+    if (steemId) {
+        // get steem balance
+        getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
+            .catch(err => console.log('get steem balance fail:', err))
+    }
+    //get eth balances
+    getTokenBalance(ethAddress)
+    getMainChainBalance(ethAddress)
   }
 }
 </script>

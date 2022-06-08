@@ -11,6 +11,9 @@ export const getUserBindInfo = async (twitterId) =>
 export const getRegisterOp = async (params) =>
     get(BACKEND_API_URL + '/register/registerOp', params)
 
+export const getUserInfo = async (username, publicKey) => 
+    get(BACKEND_API_URL + '/users/byusername', {username, publicKey})
+
 export const getTest = async () => 
     getTwitterApi('/api')
 

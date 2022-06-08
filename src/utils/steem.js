@@ -6,10 +6,10 @@ export const getAccountInfo = async (account) => {
             if (res.data.result)
                 resolve(res.data.result[0])
             else
-                reject()
+                resolve()
         }).catch(err => {
             console.log('Get steem account data fail:', err)
-            reject(err)
+            resolve()
         })
 
     })
@@ -17,5 +17,6 @@ export const getAccountInfo = async (account) => {
 
 export const getSteemBalance = async (username) => {
     const accountInfo = await getAccountInfo(username)
-    return parseFloat(accountInfo.balance)
+    
+    return parseFloat(accountInfo ? accountInfo.balance : 0)
 }
