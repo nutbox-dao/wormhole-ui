@@ -57,6 +57,7 @@ export default {
       }
       this.generatingKeys = false
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with pub key:' + this.pubKey, '__blank')
+      this.$router.push('/login')
     },
     async login() {
 
