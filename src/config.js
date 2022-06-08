@@ -6,8 +6,8 @@ export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 
 export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 
-// export const BACKEND_API_URL = 'https://api-test.nutbox.app'
-export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+// export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
 // export const RPC_NODE = 'https://bsc-dataseed.binance.org'
