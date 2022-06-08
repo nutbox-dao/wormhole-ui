@@ -117,6 +117,8 @@ export default {
         // get steem balance
         getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
             .catch(err => console.log('get steem balance fail:', err))
+    }else {
+      this.$store.commit('saveSteemBalance', 0)
     }
     //get eth balances
     getTokenBalance(ethAddress)
