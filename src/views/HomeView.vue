@@ -6,13 +6,13 @@
           Send & Receive Asset through Twitter
         </div>
       </div>
-      <button :disabled="!pubKey" @click="sendTwitter"
+      <button :disabled="generatingKeys" @click="sendTwitter"
               class="slide-in-blurred-top gradient-btn gradient-btn-outline
               flex items-center mx-auto
               border-6px rounded-full c-text-bold
               text-1.6rem py-1rem px-2.5rem">
         <span>Activate Your Wallet</span>
-        <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="!pubKey"></c-spinner>
+        <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="generatingKeys"></c-spinner>
       </button>
       <div class="fade-in">
         <div class="text-text8F mt-2rem">
@@ -29,7 +29,6 @@ import { mapState, mapGetters } from 'vuex'
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { ParseKeyNonce, SendPwdServerPubKey, TWITTER_MONITOR_ACCOUNT } from '@/config'
-import { registerAccount } from '@/api/api'
 
 export default {
   name: 'HomeView',
@@ -37,7 +36,8 @@ export default {
   },
   data: () => {
     return {
-      pubKey: null
+      pubKey: null,
+      generatingKeys: false
     }
   },
   computed: {
@@ -46,6 +46,16 @@ export default {
   },
   methods: {
     async sendTwitter() {
+      this.generatingKeys = true
+      if (this.rsaKey && this.rsaKey.privateKey) {
+        this.pubKey = this.rsaKey.publicKey
+      } else {
+        // generate new pair
+        const pair = createKeypair()
+        this.pubKey = pair.publicKey;
+        this.$store.commit('saveKeyPair', pair)
+      }
+      this.generatingKeys = false
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with pub key:' + this.pubKey, '__blank')
     },
     async login() {
@@ -53,14 +63,6 @@ export default {
     }
   },
   async mounted() {
-    if (this.rsaKey && this.rsaKey.privateKey) {
-      this.pubKey = this.rsaKey.publicKey
-    } else {
-      // generate new pair
-      const pair = createKeypair()
-      this.pubKey = pair.publicKey;
-      this.$store.commit('saveKeyPair', pair)
-    }
   },
 }
 </script>
