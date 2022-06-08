@@ -38,7 +38,6 @@ export default {
     },
   },
   mounted () {
-    console.log(235, this.ethAccount);;
   },
 }
 </script>

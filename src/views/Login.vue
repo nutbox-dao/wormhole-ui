@@ -49,12 +49,11 @@ export default {
     return {
       username: '',
       loging: false,
-      accountInfo: null,
       verifyModalVisible: false
     }
   },
   computed: {
-    ...mapState(['rsaKey']),
+    ...mapState(['rsaKey', 'accountInfo']),
     ...mapGetters(['getPrivateKey'])
   },
   methods: {
@@ -78,13 +77,12 @@ export default {
         }
         this.loging = true
         const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
-        let account = await getUserInfo(username, this.rsaKey ? this.rsaKeypublicKey : null)
+        let account = await getUserInfo(username, this.rsaKey ? this.rsaKey.publicKey : null)
          
         if (account.errors && account.errors.length > 0) {
           console.log('Not exsit');
           this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
         }else {
-          console.log(64, account);
           this.$store.commit('saveAccountInfo', account)
           if (account && account.steemId) {
             if (this.rsaKey && (this.rsaKey.publicKey === account.publicKey)) {
@@ -93,7 +91,6 @@ export default {
               if (privateKey) {
                 this.verifyModalVisible = true
                 this.accountInfo.privateKey = privateKey
-                console.log('eth: ', account.ethAddress, '===', privateKey);
               }else {
                 // login directly with eth address
                 this.$router.push('/profile/' + this.username)
@@ -108,7 +105,7 @@ export default {
           }
         }
       } catch (e) {
-        console.log('Get twitter account from Twitter fail:', e);
+        console.log('Get twitter account fail:', e);
       } finally {
         this.loging = false
       }
