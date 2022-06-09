@@ -28,7 +28,7 @@ export default Vuex.createStore({
         rsaKey.privateKey = b64uEnc(rsaKey.privateKey)
       }
       state.rsaKey = rsaKey;
-      Cookie.set('keyPair', state.rsaKey, '30min')
+      Cookie.set('keyPair', state.rsaKey, '7d')
     },
     saveAccountInfo: (state, accountInfo) => {
       state.accountInfo = accountInfo;
