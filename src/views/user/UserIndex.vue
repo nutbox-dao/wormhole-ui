@@ -34,7 +34,7 @@
       <div class="border-b-1px border-primaryColor flex text-1.2rem leading-1.5rem c-text-medium gap-1.5rem mt-5rem mb-4rem text-text8F">
         <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}`">Tokens</router-link>
         <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/nft`">NFTs</router-link>
-        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/transaction`">Transactions</router-link>
+        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/post`">Posts</router-link>
       </div>
       <router-view></router-view>
     </template>

@@ -9,6 +9,7 @@ import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
 import UserTransactionView from '@/views/user/Transaction'
+import UserPostView from '@/views/user/Post'
 
 const routes = [
   {
@@ -55,6 +56,11 @@ const routes = [
         path: '/profile/:user/transaction',
         name: 'transaction',
         component: UserTransactionView
+      },
+      {
+        path: '/profile/:user/post',
+        name: 'post',
+        component: UserPostView
       }
     ]
   },
