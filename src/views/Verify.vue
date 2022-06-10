@@ -19,9 +19,16 @@
           Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.
         </div>
       </div>
-      <router-link to="/login">
-        <button class="c-text-black text-1.5rem leading-1.5rem mt-2.3rem underline" @click="$emit('hide')">
+      <div class="flex justify-start items-center mt-1.5rem max-w-41rem mx-auto">
+        <el-checkbox v-model="checked" size="lg" class="c-checkbox" />
+        <div class="c-text-black text-1.5rem leading-1.5rem underline ml-1rem cursor-pointer" @click="checked=true">
           Ok, I saved it.
+        </div>
+      </div>
+      <router-link to="/login">
+        <button class="c-text-medium gradient-btn h-3.6rem px-1rem mx-auto rounded-full text-1.6rem mt-1.25rem"
+                :disabled="!checked">
+          Send twitter to registry
         </button>
       </router-link>
     </div>
@@ -36,6 +43,11 @@ export default {
       type: Object,
       default: {}
     },
+  },
+  data() {
+    return {
+      checked: false
+    }
   },
   mounted () {
   },

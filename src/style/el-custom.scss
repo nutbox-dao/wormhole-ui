@@ -78,3 +78,7 @@
 .c-notification .el-notification__title {
   color: var(--primary-custom);
 }
+.c-checkbox .el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: var(--primary-custom);
+  border-color: var(--primary-custom);
+}
