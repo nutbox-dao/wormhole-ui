@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" @click="showMenu=false">
     <div class="mt-2.2rem">
       <div class="container mx-auto flex justify-between items-center px-0.75rem">
         <router-link to="/">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </router-link>
         <div class="relative">
-          <button class="bg-transparent w-2.4rem mr-0.5rem" @click="showMenu=!showMenu">
+          <button class="bg-transparent w-2.4rem mr-0.5rem" @click.stop="showMenu=!showMenu">
             <span class="menu-icon" :class="showMenu?'active':''"></span>
           </button>
           <div class="menu-box w-13.5rem"
@@ -25,6 +25,7 @@
     </div>
     <router-view />
   </div>
+
 </template>
 
 <script>
