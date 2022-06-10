@@ -27,29 +27,20 @@
         </router-link>
       </div>
     </div>
-    <!--    验证弹框-->
-    <el-dialog v-model="verifyModalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :ethAccount="accountInfo" @hide="savedKey"></Verify>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getTwitterAccount, getUserBindInfo, getRegisterOp, getUserInfo } from '@/api/api'
+import { getUserInfo } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
-import { openBox } from '@/utils/tweet-nacl'
-import Verify from "@/views/Verify";
 import { notify } from "@/utils/notify";
-import { sleep } from '@/utils/helper'
 
 export default {
   name: "Login",
-  components: {Verify},
   data() {
     return {
       username: '',
       loging: false,
-      verifyModalVisible: false
     }
   },
   computed: {
@@ -60,14 +51,6 @@ export default {
     // 右上角提示信息框
     showNotify(message, duration, type) {
       notify({message, duration, type})
-    },
-    async savedKey() {
-      this.verifyModalVisible = false
-      // remove distribute key pairs
-      this.$store.commit('saveKeyPair', {})
-      // login to profile page
-      await sleep(1)
-      this.$router.push('/profile/@' + this.accountInfo.twitterUsername)
     },
     async login() {
       try{
@@ -84,25 +67,7 @@ export default {
           this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
         }else {
           this.$store.commit('saveAccountInfo', account)
-          if (account && account.steemId) {
-            if (this.rsaKey && (this.rsaKey.publicKey === account.publicKey)) {
-              // show private key
-              const privateKey = openBox(account.encryptedKey, this.getPrivateKey(account.publicKey))
-              if (privateKey) {
-                this.verifyModalVisible = true
-                this.accountInfo.privateKey = privateKey
-              }else {
-                // login directly with eth address
-                this.$router.push('/profile/' + this.username)
-              }
-            }else {
-              // login directly with eth address
-                this.$router.push('/profile/' + this.username)
-            }
-          }else {
-            // login in without eth address
-            this.$router.push('/profile/' + this.username)
-          }
+          this.$router.push('/profile/' + this.username)
         }
       } catch (e) {
         console.log('Get twitter account fail:', e);

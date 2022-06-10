@@ -27,7 +27,7 @@
       </div>
       <router-link to="/login">
         <button class="c-text-medium gradient-btn h-3.6rem px-1rem mx-auto rounded-full text-1.6rem mt-1.25rem"
-                :disabled="!checked">
+                :disabled="!checked" @click="$emit('send')">
           Send twitter to registry
         </button>
       </router-link>

@@ -6,7 +6,7 @@
           Send & Receive Asset through Twitter
         </div>
       </div>
-      <button :disabled="generatingKeys" @click="sendTwitter"
+      <button :disabled="generatingKeys" @click="fetchKey"
               class="slide-in-blurred-top gradient-btn gradient-btn-outline
               flex items-center mx-auto
               border-6px rounded-full c-text-bold
@@ -21,49 +21,69 @@
         <router-link to="/login" class="text-primaryColor1 c-text-black text-1.2rem leading-1.5rem mt-0.5rem underline" @click="login">Log in here</router-link>
       </div>
     </div>
+    <!--    验证弹框-->
+    <el-dialog v-model="showPrivateKey" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <Verify :ethAccount="accountInfo" @send="sendTwitter" @hide="savedKey"></Verify>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { getRegisterTicket } from '@/api/api'
+import Verify from "@/views/Verify";
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { ParseKeyNonce, SendPwdServerPubKey, TWITTER_MONITOR_ACCOUNT } from '@/config'
+import { generateEth } from '@/utils/ethers'
+import { notify } from "@/utils/notify";
 
 export default {
   name: 'HomeView',
   components: {
+    Verify
   },
   data: () => {
     return {
-      pubKey: null,
-      generatingKeys: false
+      generatingKeys: false,
+      showPrivateKey: false,
+      ticket: 0,
+      accountInfo: {}
     }
   },
   computed: {
-    ...mapState(['rsaKey']),
-    ...mapGetters(['getPrivateKey'])
   },
   methods: {
-    async sendTwitter() {
-      this.generatingKeys = true
-      if (this.rsaKey && this.rsaKey.privateKey) {
-        this.pubKey = this.rsaKey.publicKey
-      } else {
+    showNotify(message, duration, type) {
+        notify({message, duration, type})
+    },
+    async fetchKey() {
+      try {
+        this.generatingKeys = true
         // generate new pair
         const pair = createKeypair()
-        this.pubKey = pair.publicKey;
-        this.$store.commit('saveKeyPair', pair)
+        const {id, pwd} = await getRegisterTicket(pair.publicKey)
+        this.ticket = id
+        const pass = openBox(pwd, pair.privateKey)
+        const { eth, ethPrivateKey } = generateEth(id, pass)
+        this.accountInfo = { ethAddress: eth, privateKey: ethPrivateKey }
+        this.showPrivateKey = true
+      }catch(e) {
+        this.showNotify(e.toString(), 5000, 'error')
+      } finally {
+        this.generatingKeys = false
       }
-      this.generatingKeys = false
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with pub key:' + this.pubKey, '__blank')
-      this.$router.push('/login')
+    },
+    sendTwitter() {
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with ticket:' + this.ticket, '__blank')
+
+        this.$router.push('/login')
     },
     async login() {
 
     }
   },
   async mounted() {
+    
   },
 }
 </script>
