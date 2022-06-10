@@ -1,24 +1,24 @@
 <template>
-  <div class="container mx-auto max-w-49rem px-0.725rem fade-in">
+  <div class="container mx-auto max-w-49rem px-0.725rem fade-in overflow-x-hidden">
     <template v-if="userIsExist">
-      <div class="mt-4rem flex justify-between items-center">
-        <div class="flex items-center">
-          <img class="w-8rem h-8rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
-               :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
-          <div class="text-left ml-1.5rem">
+      <div class="mt-4rem flex items-center">
+        <img class="w-8rem h-8rem mr-1.5rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
+             :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
+        <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col">
+          <div class="text-left ">
             <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
               {{accountInfo ? accountInfo.twitterName : ''}}
             </div>
-            <div class="text-text8F text-1.2rem flex items-center mt-0.7rem font-bold">
-              <span>@{{accountInfo ? accountInfo.twitterUsername : ' '}}</span>
-              <template v-if="accountInfo && accountInfo.steemId">
-                <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-                <span class="ml-1rem">#{{accountInfo ? accountInfo.steemId : ''}}</span>
-              </template>
+            <div class="text-text8F text-1.2rem flex mt-0.7rem font-bold sm:flex-row sm:items-center flex-col">
+              <span class="mr-0.5rem">@{{accountInfo ? accountInfo.twitterUsername : ' '}}</span>
+              <div class="flex items-center justify-start sm:mt-0 mt-1rem" v-if="accountInfo && accountInfo.steemId">
+                <img class="w-1.1rem h-1.1rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+                <span>#{{accountInfo ? accountInfo.steemId : ''}}</span>
+              </div>
             </div>
           </div>
+          <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem sm:mt-0 mt-0.8rem">{{ totalValue }}</div>
         </div>
-        <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem">{{ totalValue }}</div>
       </div>
       <template v-if="accountInfo && accountInfo.ethAddress">
         <div class="gradient-bg gradient-bg-color3 rounded-2rem p-0.2rem mt-2.5rem mb-5rem">
