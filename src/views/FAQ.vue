@@ -1,11 +1,11 @@
 <template>
   <div class="faq-view overflow-auto">
-    <div class="container mx-auto mt-6rem text-left max-w-43rem fade-in">
+    <div class="container px-15px mx-auto mt-6rem text-left max-w-43rem fade-in c-text-medium">
       <div>
         <div class="text-1.6rem leading-2rem">
           How does this work?
         </div>
-        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem">
+        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem ">
           Hey Wallet is a cryptocurrency wallet where you can send and receive SOL using tweets.
           After signing up and depositing crypto into your account, you can tweet something like
           "@hey_wallet send 1 SOL to @TheRock" and it will transfer 1 SOL from your account to
