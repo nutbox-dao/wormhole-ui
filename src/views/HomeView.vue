@@ -46,7 +46,7 @@ export default {
     return {
       generatingKeys: false,
       showPrivateKey: false,
-      ticket: 0,
+      ethAddress: '',
       accountInfo: {}
     }
   },
@@ -62,10 +62,10 @@ export default {
         // generate new pair
         const pair = createKeypair()
         const {id, pwd} = await getRegisterTicket(pair.publicKey)
-        this.ticket = id
         const pass = openBox(pwd, pair.privateKey)
         const { eth, ethPrivateKey } = generateEth(id, pass)
         this.accountInfo = { ethAddress: eth, privateKey: ethPrivateKey }
+        this.ethAddress = eth
         this.showPrivateKey = true
       }catch(e) {
         this.showNotify(e.toString(), 5000, 'error')
@@ -74,7 +74,7 @@ export default {
       }
     },
     sendTwitter() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account with ticket:' + this.ticket, '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account:' + this.ethAddress, '__blank')
 
         this.$router.push('/login')
     },
