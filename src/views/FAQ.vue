@@ -17,6 +17,7 @@
         <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem">
           Please keep your key in a very security place, we dont keep them, so nobody can find them back if you lose them.
         </div>
+         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
       <div>
         <div class="text-1.6rem leading-2rem">
@@ -26,6 +27,7 @@
           Yes, you can send STEEM token at this phase, but can't send eth assets because of we don't keep your key.<br>
           You can send STEEM to another one by send twitter: @NutboxDao !send 1 STEEM to @another twitter account.
         </div>
+         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
       <div>
         <div class="text-1.6rem leading-2rem">
@@ -35,6 +37,7 @@
           Sure, your tweet will be stored in web3 for ever, it always belong to you.<br>
           You can send twitter to sync them like this: @NutboxDao !post content. 
         </div>
+         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
     </div>
   </div>
