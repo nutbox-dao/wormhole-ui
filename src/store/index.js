@@ -9,6 +9,7 @@ export default Vuex.createStore({
     accountInfo: null,
     saveSteemBalance: 0,
     ethBalance: 0,
+    ethAddress: null,
     prices: {},
     ethers: {},
     erc20Balances: {}
@@ -44,6 +45,9 @@ export default Vuex.createStore({
     },
     saveEthBalance: (state, ethBalance) => {
       state.ethBalance = ethBalance
+    },
+    saveEthAddress: (state, ethAddress) => {
+      state.ethAddress = ethAddress
     },
     saveERC20Balances: (state, erc20Balances) => {
       state.erc20Balances = erc20Balances

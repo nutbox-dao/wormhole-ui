@@ -59,6 +59,7 @@ export default {
     async fetchKey() {
       try {
         this.generatingKeys = true
+        this.$store.commit('saveEthAddress', null)
         // generate new pair
         const pair = createKeypair()
         const {id, pwd} = await getRegisterTicket(pair.publicKey)
@@ -74,16 +75,12 @@ export default {
       }
     },
     sendTwitter() {
+      this.$store.commit('saveEthAddress', this.ethAddress)
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account:' + this.ethAddress, '__blank')
-
-        this.$router.push('/login')
     },
-    async login() {
-
-    }
   },
   async mounted() {
-    
+    this.$store.commit('saveAccountInfo', {})
   },
 }
 </script>

@@ -39,9 +39,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import { formatBalance, formatUserAddress, formatPrice, formatAmount } from '@/utils/helper'
-import { getMainChainBalance } from '@/utils/asset'
+import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
+import { getTokenBalance, getMainChainBalance } from '@/utils/asset'
 import { ERC20List, MainToken } from '@/config'
+import { getSteemBalance } from '@/utils/steem'
 
 export default {
   name: "Token",
@@ -51,7 +52,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances']),
+    ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo']),
     steemValue() {
       if (this.prices['steem'] && this.steemBalance){
         return formatPrice(this.prices['steem'] * this.steemBalance)
@@ -83,8 +84,28 @@ export default {
       return formatAmount(a)
     }
   },
-  mounted () {
-    // getMainChainBalance(this.accountInfo?.ethAddress);
+  async mounted () {
+    let count = 0
+    while(true) {
+      if (this.accountInfo && this.accountInfo.steemId) {
+        break;
+      }
+      if (count++ > 10) {
+        break;
+      }
+      await sleep(1)
+    }
+    const { steemId, ethAddress } = this.accountInfo
+    if (steemId) {
+        // get steem balance
+        getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
+            .catch(err => console.log('get steem balance fail:', err))
+    }else {
+      this.$store.commit('saveSteemBalance', 0)
+    }
+    //get eth balances
+    getTokenBalance(ethAddress)
+    getMainChainBalance(ethAddress)
   },
 }
 </script>

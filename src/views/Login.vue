@@ -27,13 +27,25 @@
         </router-link>
       </div>
     </div>
+    <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
+        Your account is being registered <br>
+        Please wait for a moment
+      </div>
+    </el-dialog>
+    <el-dialog v-model="showNotSendTwitter" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
+        You havn't send twitter yet
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserInfo } from '@/api/api'
+import { getUserInfo, FetchingStatus } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
+import { sleep } from '@/utils/helper'
 
 export default {
   name: "Login",
@@ -41,10 +53,12 @@ export default {
     return {
       username: '',
       loging: false,
+      showRegistering: false,
+      showNotSendTwitter: false
     }
   },
   computed: {
-    ...mapState(['rsaKey', 'accountInfo']),
+    ...mapState(['ethAddress', 'accountInfo']),
     ...mapGetters(['getPrivateKey'])
   },
   methods: {
@@ -60,19 +74,30 @@ export default {
         }
         this.loging = true
         const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
-        let account = await getUserInfo(username, this.rsaKey ? this.rsaKey.publicKey : null)
+        let result = await getUserInfo(username, this.ethAddress, async (status) => {
+          if (status === FetchingStatus.MATCH_TICKETS) {
+          } else if(status === FetchingStatus.REGISTERING) {
+            this.showRegistering = true
+          } else if(status === FetchingStatus.NOT_SEND_TWITTER) {
+            this.showNotSendTwitter = true
+          }
+        })
          
-        if (account.errors && account.errors.length > 0) {
+        if (!result) {
           console.log('Not exsit');
-          this.showNotify('This twitter account is invalid, please check your input.', 5000, 'error')
+          this.showNotify('This twitter account is not binded.', 5000, 'error')
+          await sleep(5)
+          this.showNotSendTwitter = false
+          this.showRegistering = false
         }else {
-          this.$store.commit('saveAccountInfo', account)
           this.$router.push('/profile/' + this.username)
         }
       } catch (e) {
+        this.showNotify('Server error', 5000, 'error')
         console.log('Get twitter account fail:', e);
       } finally {
         this.loging = false
+        this.$store.commit('saveEthAddress', null)
       }
     }
   },
