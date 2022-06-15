@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto max-w-49rem px-0.725rem fade-in overflow-x-hidden">
-    <template v-if="userIsExist">
+    <template v-if="!loading">
       <div class="mt-4rem flex items-center">
         <img class="w-8rem h-8rem mr-1.5rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
              :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
@@ -38,11 +38,8 @@
       </div>
       <router-view></router-view>
     </template>
-    <div v-else class="gradient-border border-4px max-w-40rem mx-auto py-2.5rem px-2rem my-5rem">
-      <div class="c-text-black text-1.8rem mb-3rem">
-        This Twitter account doesn’t exist. Try searching for another.
-      </div>
-      <router-link to="/" class="underline text-1rem">Retry</router-link>
+    <div class="c-text-black text-1.8rem mb-3rem" v-else>
+      <img src="~@/assets/profile-loading.gif" alt="">
     </div>
   </div>
 
