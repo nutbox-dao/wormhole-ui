@@ -60,7 +60,7 @@
     background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
   }
   &-right {
-    background-image:linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
+    background-image:linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2) 99%, transparent 100%);
   }
   &-bottom {
     background-image:linear-gradient(to bottom, var(--gradient-primary-color2), var(--gradient-primary-color1));
