@@ -11,6 +11,7 @@ export default defineConfig({
         primaryColor1: 'var(--gradient-primary-color1)',
         primaryColor2: 'var(--gradient-primary-color2)',
         primaryColor3: 'var(--gradient-primary-color3)',
+        redColor: '#F4245E',
         primaryBg: '#000'
       }
     }
