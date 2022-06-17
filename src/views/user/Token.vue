@@ -20,9 +20,9 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
-      <button @click="sendSteem">
+      <!-- <button @click="sendSteem">
         Send
-      </button>
+      </button> -->
       <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
     </div>
 
