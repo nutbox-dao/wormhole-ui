@@ -33,7 +33,7 @@ import { getRegisterTicket } from '@/api/api'
 import Verify from "@/views/Verify";
 import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
-import { ParseKeyNonce, SendPwdServerPubKey, TWITTER_MONITOR_ACCOUNT } from '@/config'
+import { TWITTER_MONITOR_RULE } from '@/config'
 import { generateEth } from '@/utils/ethers'
 import { notify } from "@/utils/notify";
 
@@ -76,7 +76,7 @@ export default {
     },
     sendTwitter() {
       this.$store.commit('saveEthAddress', this.ethAddress)
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_ACCOUNT + ' !create worm hole account:' + this.ethAddress, '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create worm hole account:' + this.ethAddress, '__blank')
     },
   },
   async mounted() {
