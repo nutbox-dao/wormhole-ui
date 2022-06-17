@@ -72,7 +72,6 @@ export default {
   mounted () {
     var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
-    console.log(1, this.urls);
   },
 }
 </script>

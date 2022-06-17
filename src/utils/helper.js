@@ -142,7 +142,6 @@ export function parseTimestamp(time) {
   timestamp = parseInt(timestamp)
   const diff = nowStamp - timestamp;
   if (diff < 0) {
-    console.log(11, nowStamp, timestamp);
     return getDateString(null, null, timestamp - nowStamp);
   }else {
     if (diff < 10) {
@@ -158,7 +157,6 @@ export function parseTimestamp(time) {
     }else if (diff < 3600 * 24 * 60) {
       return '1 month ago'
     }else {
-      console.log(33 ,diff);
       return getDateString(null, null, timestamp - nowStamp)
     }
   }
