@@ -93,6 +93,7 @@ export default {
           this.showNotSendTwitter = false
           this.showRegistering = false
         }else {
+          this.$store.commit('savePosts', [])
           this.$router.push('/profile/' + this.username)
         }
       } catch (e) {

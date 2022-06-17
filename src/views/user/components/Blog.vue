@@ -1,25 +1,26 @@
 <template>
   <div>
     <div class="flex">
-      <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px"
-           src="@/assets/icon-default-avatar.svg" alt="">
+      <img v-if="accountInfo" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px"
+           :src="'https://profile-images.heywallet.com/' + accountInfo.twitterId" alt="">
+      <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px" src="@/assets/icon-default-avatar.svg" v-else alt="">
       <div class="flex-full overflow-x-hidden">
         <div class="flex items-center overflow-x-hidden">
-          <a @click.stop href="/#/profile/@terry3t1" class="font-700">terry3t</a>
+          <a class="font-700">{{ post.name }}</a>
           <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
           <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
-            @terry3t1 · 7 hours ago
+            @{{ post.username }} · {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
         <div class="text-left font-400 mt-1">
-          Save these 12 words in a very secure location and never show these to anybody ever again. More info:
+          {{ post.content }}
         </div>
-        <div class="img-box grid max-h-500px overflow-hidden rounded-16px mt-10px ">
+        <div v-if="urls && urls.length > 1" class="img-box grid max-h-500px overflow-hidden rounded-16px mt-10px ">
           <div class="overflow-hidden w-full h-full">
-            <img class="object-cover" src="https://pbs.twimg.com/media/FVVodwqakAEuvQ7?format=jpg&name=medium" alt="">
+            <img class="object-cover" :src="urls[1]" alt="">
           </div>
         </div>
-        <div class="flex gap-4rem mt-15px">
+        <!-- <div class="flex gap-4rem mt-15px">
           <div class="text-text8F flex items-center">
             <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
             <span class="c-text-medium ml-2px">61</span>
@@ -37,20 +38,42 @@
           <div class="text-text8F flex items-center">
             <img class="w-16px" src="~@/assets/icon-share.svg" alt="">
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { parseTimestamp } from '@/utils/helper'
+import { mapState } from 'vuex'
+
 export default {
   name: "Blog",
+  props: {
+    post: {
+      type: Object
+    },
+  },
   data() {
     return {
-      like: true
+      like: true,
+      urls: []
     }
-  }
+  },
+  computed: {
+    ...mapState(['accountInfo'])
+  },
+  methods: {
+    parseTimestamp(time) {
+      return parseTimestamp(time)
+    }
+  },
+  mounted () {
+    var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
+    console.log(1, this.urls);
+  },
 }
 </script>
 
