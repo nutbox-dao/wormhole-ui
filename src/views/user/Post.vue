@@ -37,7 +37,6 @@ export default {
       await sleep(1)
     }
     getUsersPosts(this.accountInfo.twitterUsername).then(res => {
-      console.log(1, res);
       this.$store.commit('savePosts', res)
     })
   },

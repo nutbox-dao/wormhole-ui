@@ -20,6 +20,9 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
+      <button @click="sendSteem">
+        Send
+      </button>
       <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
     </div>
 
@@ -41,7 +44,7 @@
 import { mapState } from 'vuex'
 import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
 import { getTokenBalance, getMainChainBalance } from '@/utils/asset'
-import { ERC20List, MainToken } from '@/config'
+import { ERC20List, MainToken, TWITTER_MONITOR_RULE } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 
 export default {
@@ -82,6 +85,9 @@ export default {
   methods: {
     formatAmount(a) {
       return formatAmount(a)
+    },
+    sendSteem() {
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send ', '__blank')
     }
   },
   async mounted () {
