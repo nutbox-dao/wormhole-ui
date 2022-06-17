@@ -36,9 +36,16 @@ export default {
     while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
-    getUsersPosts(this.accountInfo.twitterUsername).then(res => {
-      this.$store.commit('savePosts', res)
-    })
+    if (this.posts && this.posts.length > 0){
+      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
+        this.$store.commit('savePosts', res)
+      })
+    }
+    else {
+      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
+        this.$store.commit('savePosts', res)
+      })
+    }
   },
 }
 </script>

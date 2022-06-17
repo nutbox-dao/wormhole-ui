@@ -124,18 +124,27 @@ export function getDateString(now, timezone, extra = 0) {
   return now.toISOString().replace("T", " ").substring(0, 19);
 }
 
+
+export function getUTCTime() {
+  const d1 = new Date();
+  const d2 = new Date(d1.getUTCFullYear(), d1.getUTCMonth(), d1.getUTCDate(), d1.getUTCHours(), d1.getUTCMinutes(), d1.getUTCSeconds())
+  return Date.parse(d2);
+}
+
 export function parseTimestamp(time) {
   if (!time) {
     return ''
   }
-  let timestamp = new Date(time).getTime()
-  let nowStamp = (new Date().getTime()) / 1000;
+  let timestamp = new Date(time).getTime() / 1000
+  timestamp -= 8 * 60 * 60
+  let nowStamp = new Date().getTime() / 1000
   nowStamp = parseInt(nowStamp)
-  timestamp = parseInt(timestamp) / 1000
-  if (timestamp > nowStamp) {
+  timestamp = parseInt(timestamp)
+  const diff = nowStamp - timestamp;
+  if (diff < 0) {
+    console.log(11, nowStamp, timestamp);
     return getDateString(null, null, timestamp - nowStamp);
   }else {
-    const diff = nowStamp - timestamp;
     if (diff < 10) {
       return 'Now'
     }else if(diff < 60) {
@@ -149,6 +158,7 @@ export function parseTimestamp(time) {
     }else if (diff < 3600 * 24 * 60) {
       return '1 month ago'
     }else {
+      console.log(33 ,diff);
       return getDateString(null, null, timestamp - nowStamp)
     }
   }
