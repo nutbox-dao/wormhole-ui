@@ -23,7 +23,10 @@
       <!-- <button @click="sendSteem">
         Send
       </button> -->
-      <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
+      <div class="flex flex-col items-end">
+        <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px">Send</button>
+      </div>
     </div>
 
     <div class="flex justify-between items-center my-2.5rem" v-for="erc20 in erc20List" :key="erc20.address">
@@ -35,7 +38,10 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ erc20.amount }} {{erc20.symbol}}</div>
         </div>
       </div>
-      <div class="text-1.6rem c-text-bold">{{erc20.value}}</div>
+      <div>
+        <div class="text-1.6rem c-text-bold">{{erc20.value}}</div>
+<!--        <button class="gradient-btn c-text-bold px-10px mt-8px">Send</button>-->
+      </div>
     </div>
   </div>
 </template>

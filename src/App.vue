@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="showMenu=false">
-    <div class="mt-2.2rem">
+    <div class="py-2.2rem">
       <div class="container mx-auto flex justify-between items-center px-0.75rem">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
@@ -23,7 +23,9 @@
         </div>
       </div>
     </div>
-    <router-view />
+    <div class="flex-full overflow-auto">
+      <router-view />
+    </div>
   </div>
 
 </template>
@@ -129,6 +131,8 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 .menu-icon {
   display: inline-block;
