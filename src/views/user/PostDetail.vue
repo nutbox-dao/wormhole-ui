@@ -3,7 +3,7 @@
     <div class="text-left mb-1.5rem flex items-center w-max cursor-pointer" @click="$router.back()">
       <img class="w-1.4rem"
            src="~@/assets/icon-back.svg" alt="">
-      <span class="c-text-medium">返回</span>
+      <span class="c-text-medium">Back</span>
     </div>
     <Blog/>
     <div class="mt-1rem" v-for="i of commentList" :key="i">
@@ -12,7 +12,7 @@
     <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
     <button v-show="!loading && !finished"
             class="text-center my-1rem"
-            @click="loadMore">加载更多</button>
+            @click="loadMore">Load more</button>
   </div>
 </template>
 

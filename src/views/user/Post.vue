@@ -19,7 +19,7 @@
       <div class="my-1rem text-center">
         <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
         <button v-if="!loading && !finished"
-                @click="onLoad">Refresh</button>
+                @click="onLoad">Load more</button>
         <div v-if="finished">No more data</div>
       </div>
     </pull-refresh>
@@ -44,7 +44,7 @@ export default {
       refreshing: true,
       loading: false,
       finished: false,
-      pageSize: 20,
+      pageSize: 30,
       pageIndex: 0
     }
   },
@@ -58,8 +58,12 @@ export default {
     onRefresh() {
       console.log('refresh')
       this.refreshing = true
-      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
-        this.$store.commit('savePosts', res)
+      let time;
+      if (this.posts && this.posts.length > 0) {
+        time = this.posts[0].postTime
+      }
+      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(res => {
+        this.$store.commit('savePosts', res.concat(this.posts))
         this.refreshing = false
       }).catch(e => {
         this.refreshing = false
@@ -67,10 +71,21 @@ export default {
     },
     onLoad() {
       console.log('load more')
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 2000)
+      if (this.finished) return;
+      let time;
+      if (this.posts && this.posts.length > 0) {
+        this.loading = true
+        time = this.posts[this.posts.length - 1].postTime
+        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(res => {
+          this.$store.commit('savePosts', this.posts.concat(res))
+          if (res.length < this.pageSize) {
+            this.finished = true
+          }
+          this.loading = false
+        }).catch(e => {
+          this.loading = false
+        })
+      }
     }
   }
 }

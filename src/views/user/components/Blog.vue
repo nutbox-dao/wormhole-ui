@@ -22,6 +22,11 @@
             <img class="object-cover" :src="urls[1]" alt="">
           </div>
         </div>
+        <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
+          <div class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
+            #{{ tag }}
+          </div>
+        </div>
         <!-- <div class="flex gap-4rem mt-15px">
           <div class="text-text8F flex items-center">
             <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
@@ -101,5 +106,12 @@ export default {
 .img-4 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
+}
+
+.blog-tag{
+  border-radius: 0.4rem;
+  padding: .2rem .5rem;
+  border: 1px solid #ccc;
+  background-color: gray;
 }
 </style>
