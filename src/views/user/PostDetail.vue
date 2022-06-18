@@ -11,7 +11,8 @@
     </div>
     <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
     <button v-show="!loading && !finished"
-            class="text-center my-1rem" v-if="!finished" @click="loadMore">加载更多</button>
+            class="text-center my-1rem"
+            @click="loadMore">加载更多</button>
   </div>
 </template>
 

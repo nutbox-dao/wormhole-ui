@@ -5,9 +5,11 @@
            :src="'https://profile-images.heywallet.com/' + accountInfo.twitterId" alt="">
       <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px" src="@/assets/icon-default-avatar.svg" v-else alt="">
       <div class="flex-full overflow-x-hidden">
-        <div class="flex items-center overflow-x-hidden">
-          <a class="font-700">{{ post.name }}</a>
-          <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+        <div class="flex sm:items-center sm:flex-row flex-col items-start">
+          <div class="flex items-center">
+            <a class="font-700">{{ post.name }}</a>
+            <img class="w-1rem h-1rem sm:mx-0.5rem ml-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+          </div>
           <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
             @{{ post.username }} · {{ parseTimestamp(post.postTime) }}
           </span>
