@@ -136,7 +136,9 @@ export function parseTimestamp(time) {
     return ''
   }
   let timestamp = new Date(time).getTime() / 1000
-  timestamp -= 8 * 60 * 60
+  let _dif = new Date().getTimezoneOffset();
+  timestamp += _dif * 60
+  
   let nowStamp = new Date().getTime() / 1000
   nowStamp = parseInt(nowStamp)
   timestamp = parseInt(timestamp)

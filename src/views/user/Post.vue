@@ -9,7 +9,7 @@
     </div>
     <pull-refresh v-else  v-model="refreshing"
                   class="min-h-20rem"
-                  :pulling-text="'加载中...'"
+                  :pulling-text="'Loading...'"
                   :loosing-text="''"
                   :success-text="''"
                   @refresh="onRefresh">
@@ -19,8 +19,8 @@
       <div class="my-1rem text-center">
         <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
         <button v-if="!loading && !finished"
-                @click="onLoad">加载更多</button>
-        <div v-if="finished">暂无更多</div>
+                @click="onLoad">Refresh</button>
+        <div v-if="finished">No more data</div>
       </div>
     </pull-refresh>
   </div>
@@ -41,32 +41,29 @@ export default {
   },
   data() {
     return {
-      refreshing: false,
+      refreshing: true,
       loading: false,
-      finished: false
+      finished: false,
+      pageSize: 20,
+      pageIndex: 0
     }
   },
   async mounted () {
     while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
-    if (this.posts && this.posts.length > 0){
-      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
-        this.$store.commit('savePosts', res)
-      })
-    }
-    else {
-      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
-        this.$store.commit('savePosts', res)
-      })
-    }
+    this.onRefresh()
   },
   methods: {
     onRefresh() {
       console.log('refresh')
-      setTimeout(() => {
+      this.refreshing = true
+      getUsersPosts(this.accountInfo.twitterUsername).then(res => {
+        this.$store.commit('savePosts', res)
         this.refreshing = false
-      }, 2000)
+      }).catch(e => {
+        this.refreshing = false
+      })
     },
     onLoad() {
       console.log('load more')
