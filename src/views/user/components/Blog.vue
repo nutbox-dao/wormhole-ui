@@ -16,12 +16,14 @@
         </div>
         <p class="text-left font-400 mt-1">
           {{ post.content }}
+<!--          <a href="https://pbs.twimg.com/media/FVqtCg1XoAAIjUL.png"-->
+<!--             class="text-blue-500" target="_blank">-->
+<!--            https://pbs.twimg.com/media/FVqtCg1XoAAIjUL.png-->
+<!--          </a>-->
         </p>
-        <div v-if="urls" class="img-box grid max-h-500px overflow-hidden rounded-16px mt-10px ">
-          <div class="overflow-hidden w-full h-full">
-            <img class="object-cover" :src="url" alt="">
-          </div>
-        </div>
+        <img v-if="url"
+             class="object-contain object-left max-h-500px w-auto w-max rounded-16px mt-10px"
+             :src="url" alt="">
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
           <div class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
             #{{ tag }}
@@ -99,24 +101,6 @@ export default {
     height: 100%;
   }
 }
-.img-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-.img-3 {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  :nth-child(1)  {
-    grid-row: span 2 / span 2;
-  }
-  :nth-child(2),  :nth-child(3)  {
-    grid-row: span 1 / span 1;
-  }
-}
-.img-4 {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-}
-
 .blog-tag{
   border-radius: 0.4rem;
   padding: .2rem .5rem;

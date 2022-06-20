@@ -92,4 +92,9 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 560px) {
+  .lb-pull-refresh {
+    user-select: auto;
+  }
+}
 </style>
