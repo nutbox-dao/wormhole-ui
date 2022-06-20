@@ -14,12 +14,12 @@
             @{{ post.username }} · {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
-        <div class="text-left font-400 mt-1">
+        <p class="text-left font-400 mt-1">
           {{ post.content }}
-        </div>
-        <div v-if="urls && urls.length > 1" class="img-box grid max-h-500px overflow-hidden rounded-16px mt-10px ">
+        </p>
+        <div v-if="urls" class="img-box grid max-h-500px overflow-hidden rounded-16px mt-10px ">
           <div class="overflow-hidden w-full h-full">
-            <img class="object-cover" :src="urls[1]" alt="">
+            <img class="object-cover" :src="url" alt="">
           </div>
         </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
@@ -65,7 +65,8 @@ export default {
   data() {
     return {
       like: true,
-      urls: []
+      urls: [],
+      url: null
     }
   },
   computed: {
@@ -79,6 +80,14 @@ export default {
   mounted () {
     var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
+    if (this.urls) {
+      for (let u of this.urls) {
+        if (u.endsWith('.png') || u.endsWith('.jpg') || u.endsWith('.jpeg')) {
+          this.url = u
+          break;
+        }
+      }
+    }
   },
 }
 </script>
