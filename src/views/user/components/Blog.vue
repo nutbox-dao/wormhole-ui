@@ -103,8 +103,11 @@ export default {
 }
 .blog-tag{
   border-radius: 0.4rem;
-  padding: .2rem .5rem;
-  border: 1px solid #ccc;
-  background-color: gray;
+  padding: .2rem .5rem 0.2rem 0.8rem;
+  border: 1px solid #434343;
+  background-color: rgba(white, .1);
+  background-image: linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
+  background-size: 0.3rem 100%;
+  background-repeat: no-repeat;
 }
 </style>
