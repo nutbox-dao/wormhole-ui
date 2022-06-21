@@ -22,8 +22,8 @@
       </div>
     </div>
     <!--    验证弹框-->
-    <el-dialog v-model="showPrivateKey" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :ethAccount="accountInfo" @send="sendTwitter" @hide="savedKey"></Verify>
+    <el-dialog :destroy-on-close="true" v-model="showPrivateKey" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <Verify :ethAccount="accountInfo" @send="sendTwitter"></Verify>
     </el-dialog>
   </div>
 </template>
@@ -31,7 +31,7 @@
 <script>
 import { getRegisterTicket } from '@/api/api'
 import Verify from "@/views/Verify";
-import { b64uEnc, b64uDec, u8arryToHex, hexTou8array } from '@/utils/helper'
+import { hexToString } from '@/utils/helper'
 import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { generateEth } from '@/utils/ethers'
@@ -63,10 +63,15 @@ export default {
         // generate new pair
         const pair = createKeypair()
         const {id, pwd} = await getRegisterTicket(pair.publicKey)
-        const pass = openBox(pwd, pair.privateKey)
+        let pass = openBox(pwd, pair.privateKey)
+        pass = hexToString(pass)
+        console.log(1, id, pass);
         const { eth, ethPrivateKey } = generateEth(id, pass)
-        this.accountInfo = { ethAddress: eth, privateKey: ethPrivateKey }
-        this.ethAddress = eth
+        console.log(22, eth, ethPrivateKey);
+        const web25 = generateEth('', ethPrivateKey)
+        console.log(333, web25);
+        this.accountInfo = { ethAddress: web25.eth, privateKey: ethPrivateKey }
+        this.ethAddress = web25.eth
         this.showPrivateKey = true
       }catch(e) {
         this.showNotify(e.toString(), 5000, 'error')
@@ -80,6 +85,7 @@ export default {
     },
   },
   async mounted() {
+    console.log(generateEth('', 'ddc91d2c342d56e03215054844717daced1f9976ee5e1740eb97f25d4baade86'))
     this.$store.commit('saveAccountInfo', {})
   },
 }

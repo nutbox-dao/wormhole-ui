@@ -10,24 +10,24 @@
               {{accountInfo ? accountInfo.twitterName : ''}}
             </div>
             <div class="text-text8F text-1.2rem flex mt-0.7rem font-bold sm:flex-row sm:items-center flex-col">
-              <span class="mr-0.5rem">@{{accountInfo ? accountInfo.twitterUsername : ' '}}</span>
+              <span @click="gotoTwitter" class="mr-0.5rem hover">@{{accountInfo ? accountInfo.twitterUsername : ' '}}</span>
               <div class="flex items-center justify-start sm:mt-0 mt-1rem" v-if="accountInfo && accountInfo.steemId">
                 <img class="w-1.1rem h-1.1rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-                <span>#{{accountInfo ? accountInfo.steemId : ''}}</span>
+                <span class="hover" @click="gotoSteem">#{{accountInfo ? accountInfo.steemId : ''}}</span>
               </div>
             </div>
           </div>
           <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem sm:mt-0 mt-0.8rem">{{ totalValue }}</div>
         </div>
       </div>
-      <template v-if="accountInfo && accountInfo.ethAddress">
+      <template v-if="accountInfo && accountInfo.web25ETH">
         <div class="gradient-bg gradient-bg-color3 rounded-2rem p-0.2rem mt-2.5rem sm:mb-5rem mb-2rem">
           <div class="text-1.4rem font-bold py-0.8rem text-primaryColor bg-primaryBg rounded-t-1.8rem">
             Your binded ETH Address
             <span class="ml-2">👇</span>
           </div>
           <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all">
-            {{ accountInfo ? accountInfo.ethAddress : '' }}
+            {{ accountInfo ? accountInfo.web25ETH : '' }}
           </div>
         </div>
       </template>
@@ -83,6 +83,12 @@ export default {
      replaceEmptyImg(e) {
         e.target.src = emptyAvatar
      },
+     gotoTwitter() {
+      window.open('https://twitter.com/' + this.accountInfo.twitterUsername, '__blank')
+     },
+     gotoSteem() {
+      window.open('https://steemit.com/@' + this.accountInfo.steemId, '__blank')
+     }
   },
   async mounted() {
     const twitterUsername = this.$route.params.user.startsWith('@') ? this.$route.params.user.substring(1) : this.$route.params.user

@@ -33,7 +33,7 @@
         Great, now let's bind address to your Twitter account
       </div>
       <button class="c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full lg:text-1.6rem mb-2.3rem text-1.2rem mt-1.25rem"
-              @click="$emit('send')">
+              @click="$emit('send');">
         Go to bind
       </button>
 
@@ -68,6 +68,7 @@ export default {
     }
   },
   mounted () {
+    this.showRegisterModal = false
   },
 }
 </script>

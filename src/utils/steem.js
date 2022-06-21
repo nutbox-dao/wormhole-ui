@@ -11,7 +11,6 @@ export const getAccountInfo = async (account) => {
             console.log('Get steem account data fail:', err)
             resolve()
         })
-
     })
 }
 

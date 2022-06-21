@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex">
-      <img v-if="accountInfo" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px"
+      <img v-if="accountInfo" @click="gotoSteemProfile" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px hover"
            :src="'https://profile-images.heywallet.com/' + accountInfo.twitterId" alt="">
       <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px" src="@/assets/icon-default-avatar.svg" v-else alt="">
       <div class="flex-full overflow-x-hidden">
@@ -14,18 +14,22 @@
             @{{ post.username }} · {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
-        <p class="text-left font-400 mt-1">
-          {{ post.content }}
-<!--          <a href="https://pbs.twimg.com/media/FVqtCg1XoAAIjUL.png"-->
-<!--             class="text-blue-500" target="_blank">-->
-<!--            https://pbs.twimg.com/media/FVqtCg1XoAAIjUL.png-->
-<!--          </a>-->
-        </p>
+        <div class="text-left font-400 mt-1">
+          <p @click="gotoSteem" class="hover">
+            {{ post.content.replace(reg, '') }}
+          </p>
+          <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
+             <a :href="u"
+                class="text-blue-500" target="_blank">
+              {{ u }}
+            </a>
+          </p>
+        </div>
         <img v-if="url"
              class="object-contain object-left max-h-500px w-auto w-max rounded-16px mt-10px"
              :src="url" alt="">
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
-          <div class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
+          <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
             #{{ tag }}
           </div>
         </div>
@@ -68,7 +72,8 @@ export default {
     return {
       like: true,
       urls: [],
-      url: null
+      url: null,
+      reg: ''
     }
   },
   computed: {
@@ -77,10 +82,17 @@ export default {
   methods: {
     parseTimestamp(time) {
       return parseTimestamp(time)
+    },
+    gotoSteem() {
+      window.open(`https://steemit.com/@${this.post.steemId}/${this.post.postId}`, '__blank')
+    },
+    gotoSteemProfile() {
+      window.open('https://steemit.com/@' + this.post.steemId, '__blank')
     }
   },
   mounted () {
     var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.reg = reg
     this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
     if (this.urls) {
       for (let u of this.urls) {
@@ -106,5 +118,8 @@ export default {
   padding: .2rem .5rem;
   border: 1px solid #ccc;
   background-color: gray;
+}
+.hover{
+  cursor: pointer;
 }
 </style>

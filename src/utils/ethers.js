@@ -14,10 +14,11 @@ export const getReadOnlyProvider = () => {
 }
 
 export const generateEth = (username, pwd) => {
-    const pass = hexToString(pwd)
+    const pass = pwd
     var seed = username + 'owner' + pass;
 	var brainKey = seed.trim().split(/[\t\n\v\f\r ]+/).join(' ');
 	var privateKey = sha256(brainKey);
     const wallet = new ethers.Wallet(privateKey)
+    console.log(555, `${username}\n${pwd}\n${brainKey}\n${privateKey}`);
     return {eth: wallet.address, ethPrivateKey: privateKey}
 }

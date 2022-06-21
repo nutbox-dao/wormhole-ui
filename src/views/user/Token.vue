@@ -104,7 +104,7 @@ export default {
       }
       await sleep(1)
     }
-    const { steemId, ethAddress } = this.accountInfo
+    const { steemId, ethAddress, web25ETH } = this.accountInfo
     if (steemId) {
         // get steem balance
         getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
@@ -113,8 +113,8 @@ export default {
       this.$store.commit('saveSteemBalance', 0)
     }
     //get eth balances
-    getTokenBalance(ethAddress)
-    getMainChainBalance(ethAddress)
+    getTokenBalance(web25ETH)
+    getMainChainBalance(web25ETH)
   },
 }
 </script>
