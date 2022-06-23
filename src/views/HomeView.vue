@@ -85,7 +85,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(generateEth('', 'ddc91d2c342d56e03215054844717daced1f9976ee5e1740eb97f25d4baade86'))
     this.$store.commit('saveAccountInfo', {})
   },
 }

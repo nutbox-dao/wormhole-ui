@@ -54,7 +54,8 @@ export default {
   name: "Token",
   data() {
     return {
-      mainToken: MainToken
+      mainToken: MainToken,
+      ethBalanceInterval: null
     }
   },
   computed: {
@@ -66,6 +67,7 @@ export default {
       return formatPrice(0)
     },
     ethValue() {
+      console.log(2222, this.prices, this.ethBalance);
       if (this.prices['eth'] && this.ethBalance){
         return formatPrice(this.prices['eth'] * this.ethBalance)
       }
@@ -104,7 +106,7 @@ export default {
       }
       await sleep(1)
     }
-    const { steemId, ethAddress, web25ETH } = this.accountInfo
+    const { steemId, ethAddress, web25ETH } = {...this.accountInfo}
     if (steemId) {
         // get steem balance
         getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
@@ -115,7 +117,20 @@ export default {
     //get eth balances
     getTokenBalance(web25ETH)
     getMainChainBalance(web25ETH)
+    this.ethBalanceInterval = setInterval(() => {
+      try {
+        if (web25ETH){
+          getTokenBalance(web25ETH)
+          getMainChainBalance(web25ETH)
+        }
+      }catch(e) {
+        console.log('get ETH balance fail:', e);
+      }
+    }, 10000)
   },
+  beforeDestroy() {
+    window.clearInterval(this.ethBalanceInterval)
+  }
 }
 </script>
 

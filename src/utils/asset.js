@@ -43,8 +43,6 @@ export const getMainChainBalance = async (address) => {
             balance = balance.toString() / 1e18
             store.commit('saveEthBalance', balance)
             return balance
-        }else {
-            store.commit('saveEthBalance', 0)
         }
     }catch(e) {
         console.log('Get main net balance fail', e);

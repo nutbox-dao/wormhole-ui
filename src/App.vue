@@ -64,6 +64,7 @@ export default {
         usdt: 1,
         usdc: 1
       }
+      if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
     },
     goBack() {
@@ -76,7 +77,11 @@ export default {
   },
   async mounted() {
     while(true) {
-      await this.monitorPrices()
+      try{
+        await this.monitorPrices()
+      }catch(e) {
+        console.log('get commen price fail:', e)
+      }
       await sleep(15)
     }
   },
