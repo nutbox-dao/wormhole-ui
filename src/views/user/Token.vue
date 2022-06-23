@@ -95,31 +95,10 @@ export default {
     }
   },
   async mounted () {
-    let count = 0
-    while(true) {
-      if (this.accountInfo && this.accountInfo.steemId) {
-        break;
-      }
-      if (count++ > 10) {
-        break;
-      }
-      await sleep(1)
-    }
-    const { steemId, ethAddress, web25ETH } = JSON.parse(JSON.stringify(this.accountInfo))
+    while(true){
+      if (this.accountInfo) {
+        const { steemId, ethAddress, web25ETH } = this.accountInfo
 
-    if (steemId) {
-      // get steem balance
-      getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
-          .catch(err => console.log('get steem balance fail:', err))
-    }else {
-      this.$store.commit('saveSteemBalance', 0)
-    }
-
-    //get eth balances
-    getTokenBalance(web25ETH)
-    getMainChainBalance(web25ETH)
-    this.ethBalanceInterval = setInterval(() => {
-      try {
         if (steemId) {
           // get steem balance
           getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
@@ -127,15 +106,15 @@ export default {
         }else {
           this.$store.commit('saveSteemBalance', 0)
         }
-        getTokenBalance(web25ETH)
-        getMainChainBalance(web25ETH)
-      }catch(e) {
-        console.log('get ETH balance fail:', e);
+
+        //get eth balances
+        if (web25ETH) {
+          getTokenBalance(web25ETH)
+          getMainChainBalance(web25ETH)
+        }
       }
-    }, 10000)
-  },
-  beforeDestroy() {
-    window.clearInterval(this.ethBalanceInterval)
+      await sleep(15000)
+    }
   }
 }
 </script>
