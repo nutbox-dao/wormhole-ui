@@ -83,3 +83,10 @@
   background-color: var(--primary-custom);
   border-color: var(--primary-custom);
 }
+.c-tip-drawer.el-drawer {
+  background-color: transparent;
+  box-shadow: none;
+}
+.c-tip-drawer .el-drawer__body {
+  padding: 0;
+}

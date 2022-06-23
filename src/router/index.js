@@ -10,6 +10,7 @@ import UserNftView from '@/views/user/NFT'
 import UserTransactionView from '@/views/user/Transaction'
 import UserPostView from '@/views/user/Post'
 import UserPostDetailView from '@/views/user/PostDetail'
+import AccountInfoView from '@/views/AccountInfo'
 
 const routes = [
   {
@@ -27,11 +28,11 @@ const routes = [
     name: 'login',
     component: LoginView,
   },
-  // {
-  //   path: '/profile/:id',
-  //   name: 'profile',
-  //   component: Profile
-  // },
+  {
+    path: '/account-info',
+    name: 'account-info',
+    component: AccountInfoView
+  },
   {
     path: '/faq',
     name: 'faq',

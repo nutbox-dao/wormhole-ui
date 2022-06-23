@@ -12,8 +12,8 @@
           <div class="menu-box w-13.5rem"
                :class="showMenu?'active':''">
             <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
-              <router-link to="/" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Signup</router-link>
+              <router-link to="/account-info" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">View web3 wallet</router-link>
               <router-link to="/faq" @click="showMenu=false"
                            class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
               <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-full overflow-auto">
+    <div class="flex-1 overflow-auto">
       <router-view />
     </div>
   </div>
@@ -116,7 +116,8 @@ export default {
   --gradient-primary-color2: #ED782F;
   --gradient-primary-color3: #FF1F00;
   --text8F: #8F8F8F;
-  --textA6:#A6A6A6;
+  --textA6: #A6A6A6;
+  --text53: #535353;
 }
 @import "style/responsive";
 @import "style/common";

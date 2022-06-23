@@ -63,7 +63,7 @@
     background-image:linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2) 99%, transparent 100%);
   }
   &-bottom {
-    background-image:linear-gradient(to bottom, var(--gradient-primary-color2), var(--gradient-primary-color1));
+    background-image:linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
   }
 }
 .hover {
