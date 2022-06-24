@@ -17,7 +17,16 @@
               </div>
             </div>
           </div>
-          <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem sm:mt-0 mt-0.8rem">{{ totalValue }}</div>
+          <div class="flex flex-col sm:items-center">
+            <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem sm:mt-0 mt-0.8rem">{{ totalValue }}</div>
+            <button class="flex items-center justify-center gradient-btn h-2.7rem px-1rem rounded-0.6rem mt-0.5rem c-text-medium
+                    absolute bottom-2rem left-1/2 transform -translate-x-1/2 sm:relative
+                    sm:left-auto sm:bottom-auto sm:transform-none"
+                    @click="tipDrawer=true">
+              <img class="w-1.5rem h-1.5rem mr-0.5rem" src="~@/assets/icon-warning.svg" alt="">
+              Tweet action tips
+            </button>
+          </div>
         </div>
       </div>
       <template v-if="accountInfo && accountInfo.web25ETH">
@@ -26,21 +35,76 @@
             Your binded ETH Address
             <span class="ml-2">👇</span>
           </div>
-          <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all">
+          <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all flex items-center justify-center">
             {{ accountInfo ? accountInfo.web25ETH : '' }}
+            <img class="w-1.5rem h-1.5rem ml-1rem" src="~@/assets/icon-copy.svg" alt="">
           </div>
         </div>
       </template>
-      <div class="border-b-1px border-primaryColor flex text-1.2rem leading-1.5rem c-text-medium gap-1.5rem sm:mt-5rem sm:mb-4rem text-text8F">
+      <div class="border-b-1px border-primaryColor flex text-1.2rem leading-1.5rem c-text-medium gap-1.5rem sm:mt-5rem sm:mb-2rem text-text8F overflow-x-auto no-scroll-bar">
         <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}`">Tokens</router-link>
         <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/nft`">NFTs</router-link>
         <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/post`">Posts</router-link>
+        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/transaction`">Transactions</router-link>
       </div>
       <router-view></router-view>
     </template>
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
       <img src="~@/assets/profile-loading.gif" alt="">
     </div>
+    <el-drawer v-model="tipDrawer"
+               :direction="direction"
+               :with-header="false"
+               :size="direction==='rtl'?560:''"
+               custom-class="c-tip-drawer">
+      <template #default>
+        <div class="w-full bg-dialogBg md:p-5rem py-4rem px-1.5rem md:rounded-1.5rem rounded-t-1.5rem text-left relative">
+          <div class="gradient-text gradient-text-bottom c-text-black md:text-2rem md:leading-3.6rem text-1.8rem leading-2.4rem w-full">
+            Tweet action tips
+          </div>
+          <div class="text-primaryColor text-0.9rem font-bold">Need to activate your wallet at wormhole3 first.</div>
+          <div class="text-1rem leading-1.2rem c-text-bold mt-4rem">
+            1. Transfer ETH/STEEM to a twitter account or an ETH address
+          </div>
+          <div class="bg-black rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
+            <div class="text-left break-all">
+              <span class="text-primaryColor">#wormhole3 !send </span>
+              <span class="text-text8F">{0.5 ETH} to {@vitalik}</span>
+            </div>
+            <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
+              <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
+              <span class="text-white">GO tweet</span>
+            </button>
+          </div>
+          <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
+            tips:    please replace {***} to real content. and also you could replace   {@twitter_username} with a wallet address.
+          </div>
+          <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
+            2. Add a post  to web3
+          </div>
+          <div class="bg-black rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
+            <div class="text-left break-all">
+              <span class="text-primaryColor">#wormhole3 !send </span>
+              <span class="text-text8F">{0.5 ETH} to {@vitalik}</span>
+            </div>
+            <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
+              <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
+              <span class="text-white">GO tweet</span>
+            </button>
+          </div>
+          <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
+            tips:    replace {***} to real content.
+          </div>
+          <img v-if="direction==='rtl'"
+               @click="tipDrawer=false"
+               class="absolute left-1rem top-1/2 translate-y-1/2 w-1rem"
+               src="~@/assets/icon-drawer-arrow.svg" alt="">
+          <img v-else @click="tipDrawer=false"
+               class="absolute transform top-1rem left-1/2 translate-x-1/2 w-1rem rotate-90"
+               src="~@/assets/icon-drawer-arrow.svg" alt="">
+        </div>
+      </template>
+    </el-drawer>
   </div>
 
 </template>
@@ -58,7 +122,9 @@ export default {
   data() {
     return {
         userIsExist: true,
-        loading: false
+        loading: false,
+        tipDrawer: false,
+        direction: document.body.clientWidth < 560?'btt':'rtl'
     }
   },
   computed: {

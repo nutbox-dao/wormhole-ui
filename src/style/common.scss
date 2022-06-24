@@ -69,3 +69,6 @@
 .hover {
   cursor: pointer;
 }
+.no-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
