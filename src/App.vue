@@ -12,12 +12,14 @@
           <div class="menu-box w-13.5rem"
                :class="showMenu?'active':''">
             <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
-              <router-link to="/account-info" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">View web3 wallet</router-link>
+              <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.web25ETH" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
               <router-link to="/faq" @click="showMenu=false"
                            class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
               <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
               <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
+              <router-link v-if="accountInfo && accountInfo.web25ETH" to="/" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
             </div>
           </div>
         </div>

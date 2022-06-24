@@ -29,7 +29,7 @@
     </div>
     <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        Your account is being registered <br>
+        Your account is in the process of registration<br>
         Please wait for a moment<br>
         <div class="mx-auto">
           <img src="~@/assets/loading.gif" alt="" class="w-25 mx-auto mt-2rem">

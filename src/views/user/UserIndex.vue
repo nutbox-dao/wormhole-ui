@@ -37,7 +37,7 @@
           </div>
           <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all flex items-center justify-center">
             {{ accountInfo ? accountInfo.web25ETH : '' }}
-            <img class="w-1.5rem h-1.5rem ml-1rem" src="~@/assets/icon-copy.svg" alt="">
+            <img class="w-1.5rem h-1.5rem ml-1rem hover"  @click="copy(accountInfo.web25ETH)" src="~@/assets/icon-copy.svg" alt="">
           </div>
         </div>
       </template>
@@ -71,23 +71,23 @@
               <span class="text-primaryColor">#wormhole3 !send </span>
               <span class="text-text8F">{0.5 ETH} to {@vitalik}</span>
             </div>
-            <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
+            <button @click="gotoSend" class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
               <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
               <span class="text-white">GO tweet</span>
             </button>
           </div>
           <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
-            tips:    please replace {***} to real content. and also you could replace   {@twitter_username} with a wallet address.
+            tips:    please replace {***} to real content.<br> And you could replace   {@twitter_username} with an ETH address.
           </div>
           <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
             2. Add a post  to web3
           </div>
           <div class="bg-black rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
             <div class="text-left break-all">
-              <span class="text-primaryColor">#wormhole3 !send </span>
-              <span class="text-text8F">{0.5 ETH} to {@vitalik}</span>
+              <span class="text-primaryColor">#wormhole3 !post </span>
+              <span class="text-text8F">{content}</span>
             </div>
-            <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
+            <button @click="gotoPost" class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
               <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
               <span class="text-white">GO tweet</span>
             </button>
@@ -105,8 +105,21 @@
         </div>
       </template>
     </el-drawer>
+    <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
+        Your account is in the process of registration<br>
+        Please wait for a moment<br>
+        <div class="mx-auto">
+          <img src="~@/assets/loading.gif" alt="" class="w-25 mx-auto mt-2rem">
+        </div>
+      </div>
+    </el-dialog>
+    <el-dialog v-model="showNotSendTwitter" custom-class="c-dialog c-dialog-lg c-dialog-center">
+      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
+        You havn't send twitter yet
+      </div>
+    </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -116,6 +129,7 @@ import { formatPrice, formatAmount } from '@/utils/helper'
 import emptyAvatar from '@/assets/icon-default-avatar.svg'
 import { ERC20List } from '@/config';
 import { getUserInfo, FetchingStatus } from '@/utils/account'
+import { ethers } from 'ethers'
 
 export default {
   name: "User",
@@ -124,6 +138,8 @@ export default {
         userIsExist: true,
         loading: false,
         tipDrawer: false,
+        showRegistering: false,
+        showNotSendTwitter: false,
         direction: document.body.clientWidth < 560?'btt':'rtl'
     }
   },
@@ -154,6 +170,21 @@ export default {
      },
      gotoSteem() {
       window.open('https://steemit.com/@' + this.accountInfo.steemId, '__blank')
+     },
+     gotoSend() {
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send   ETH to ', '__blank')
+     },
+     gotoPost() {
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !post ', '__blank')
+     },
+     copy(address) {
+      if (ethers.utils.isAddress(address)) {
+        navigator.clipboard.writeText(address).then(() => {
+            this.showNotify('Copied address:'+address, 5000, 'success')
+        }, (e) => {
+          console.log(e)
+        })
+      }
      }
   },
   async mounted() {
@@ -164,12 +195,12 @@ export default {
         try{
             this.loading = true
             const result = await getUserInfo(twitterUsername, null, status => {
-              // if (status === FetchingStatus.MATCH_TICKETS) {
-              // } else if(status === FetchingStatus.REGISTERING) {
-              //   this.showRegistering = true
-              // } else if(status === FetchingStatus.NOT_SEND_TWITTER) {
-              //   this.showNotSendTwitter = true
-              // }
+              if (status === FetchingStatus.MATCH_TICKETS) {
+              } else if(status === FetchingStatus.REGISTERING) {
+                this.showRegistering = true
+              } else if(status === FetchingStatus.NOT_SEND_TWITTER) {
+                this.showNotSendTwitter = true
+              }
             })
             if (!result) {
                 console.log('Not exsit');

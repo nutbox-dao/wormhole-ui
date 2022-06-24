@@ -65,11 +65,8 @@ export default {
         const {id, pwd} = await getRegisterTicket(pair.publicKey)
         let pass = openBox(pwd, pair.privateKey)
         pass = hexToString(pass)
-        console.log(1, id, pass);
         const { eth, ethPrivateKey } = generateEth(id, pass)
-        console.log(22, eth, ethPrivateKey);
         const web25 = generateEth('', ethPrivateKey)
-        console.log(333, web25);
         this.accountInfo = { ethAddress: web25.eth, privateKey: ethPrivateKey }
         this.ethAddress = web25.eth
         this.showPrivateKey = true

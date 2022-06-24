@@ -29,7 +29,7 @@ const routes = [
     component: LoginView,
   },
   {
-    path: '/account-info',
+    path: '/account-info/:user',
     name: 'account-info',
     component: AccountInfoView
   },
