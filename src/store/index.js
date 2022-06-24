@@ -13,7 +13,8 @@ export default Vuex.createStore({
     prices: {},
     ethers: {},
     erc20Balances: {},
-    posts: []
+    posts: [],
+    transactions: []
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -55,6 +56,9 @@ export default Vuex.createStore({
     },
     savePosts: (state, posts) => {
       state.posts = posts
+    },
+    saveTransactions: (state, transactions) => {
+      state.transactions = transactions
     }
   },
   actions: {},
