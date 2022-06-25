@@ -36,6 +36,7 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState } from 'vuex'
+import { getTwitterAccount } from '@/api/api'
 
 export default {
   data: () => {
@@ -79,6 +80,9 @@ export default {
     }
   },
   async mounted() {
+    getTwitterAccount('terry3t1').then(res => {
+      console.log(234, res);
+    })
     while(true) {
       try{
         await this.monitorPrices()

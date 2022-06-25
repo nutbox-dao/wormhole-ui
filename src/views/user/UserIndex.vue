@@ -3,7 +3,7 @@
     <template v-if="!loading">
       <div class="mt-1rem flex items-center">
         <img class="w-8rem h-8rem mr-1.5rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
-             :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
+             :src="profileImg" alt="">
         <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col">
           <div class="text-left ">
             <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
@@ -158,6 +158,14 @@ export default {
          return formatPrice(t)
        }
        return '$0.00'
+     },
+     profileImg() {
+      if (!this.accountInfo) return ''
+      if (this.accountInfo.profileImg) {
+        return 'https://pbs.twimg.com/profile_images/' + this.accountInfo.profileImg.replace('normal', '400x400')
+      }else {
+        return 'https://profile-images.heywallet.com/' + this.accountInfo.twitterId
+      }
      }
   },
   methods: {
