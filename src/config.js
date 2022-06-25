@@ -42,9 +42,9 @@ export const EVM_CHAINS = {
         rpc: "https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978",
         scan: 'https://etherscan.io/',
         assets: {
-            USDT: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-            USDC: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-            UNI: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
+            USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
+            USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            UNI:  {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
         },
         Multi_Config: {
             rpcUrl: RPC_NODE,

@@ -9,20 +9,9 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(ethBalance) }} {{ mainToken.symbol }}</div>
         </div>
       </div>
-      <div class="text-1.6rem c-text-bold">{{ ethValue }}</div>
-    </div>
-    <div class="flex justify-between items-center my-2.5rem">
-      <div class="flex items-center">
-        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
-             src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
-        <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.4rem">Steem</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
-        </div>
-      </div>
-      <div class="flex flex-col items-end">
-        <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
+      <div>
+        <div class="text-1.6rem c-text-bold">{{ ethValue }}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken({symbol: 'ETH'})">Send</button>
       </div>
     </div>
 
@@ -37,9 +26,24 @@
       </div>
       <div>
         <div class="text-1.6rem c-text-bold">{{erc20.value}}</div>
-<!--        <button class="gradient-btn c-text-bold px-10px mt-8px">Send</button>-->
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20)">Send</button>
       </div>
     </div>
+
+    <div class="flex justify-between items-center my-2.5rem">
+        <div class="flex items-center">
+          <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
+              src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1.4rem">Steem</div>
+            <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end">
+          <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
+          <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -92,7 +96,10 @@ export default {
       return formatAmount(a)
     },
     sendSteem() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send ', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send  STEEM to', '__blank')
+    },
+    sendToken(token) {
+      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token.symbol} to`, '__blank')
     }
   },
   async mounted () {
