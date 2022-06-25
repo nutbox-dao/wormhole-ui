@@ -21,7 +21,7 @@
             <div class="gradient-text gradient-text-bottom c-text-black text-2.4rem sm:mt-0 mt-0.8rem">{{ totalValue }}</div>
             <button class="flex items-center justify-center gradient-btn h-2.7rem px-1rem rounded-0.6rem mt-0.5rem c-text-medium
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 sm:relative
-                    sm:left-auto sm:bottom-auto sm:transform-none z-0"
+                    sm:left-auto sm:bottom-auto sm:transform-none z-2"
                     @click="tipDrawer=true">
               <img class="w-1.5rem h-1.5rem mr-0.5rem" src="~@/assets/icon-warning.svg" alt="">
               Tweet action tips
