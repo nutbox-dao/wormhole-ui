@@ -15,19 +15,21 @@
                   @refresh="onRefresh">
           <div class="border-b-1px border-white/20 pt-1rem pb-1.4rem"
             v-for="(item, index) of transactions" :key="index">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center">
+          <div class="grid grid-cols-5">
+            <div class="col-span-3 flex items-center">
               <img v-if="!isReceive(item)" class="w-2.4rem" src="~@/assets/icon-up-arrow.svg" alt="">
               <img v-else class="w-2.4rem" src="~@/assets/icon-down-arrow.svg" alt="">
               <div class="text-text8F flex flex-col items-start sm:ml-2rem ml-0.5rem">
-                <div class="text-1.2rem leading-1.5rem">
+                <div class="text-1.2rem leading-1.5rem text-left">
                   <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                 </div>
                 <div class="text-1rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
               </div>
             </div>
-            <div class="flex flex-col items-end">
-              <div class="c-text-black text-1.2rem leading-1.5rem">{{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}</div>
+            <div class="col-span-2 flex flex-col items-end">
+              <div class="c-text-black text-1.2rem leading-1.5rem whitespace-nowrap">
+                {{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}
+              </div>
               <div class="c-text-medium text-1rem mt-0.5rem">{{ getValue(item) }}</div>
             </div>
           </div>
@@ -110,9 +112,9 @@ export default {
           return trans.targetUsername.substring(0, 10) + '......'
         }else {
           return '@' + trans.targetUsername
-        } 
+        }
       }
-      
+
     },
     onRefresh() {
       console.log('refresh')
