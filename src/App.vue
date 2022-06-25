@@ -9,7 +9,7 @@
           <button class="bg-transparent w-2.4rem mr-0.5rem" @click.stop="showMenu=!showMenu">
             <span class="menu-icon" :class="showMenu?'active':''"></span>
           </button>
-          <div class="menu-box w-13.5rem"
+          <div class="menu-box w-13.5rem z-99"
                :class="showMenu?'active':''">
             <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
               <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.web25ETH" @click="showMenu=false"
