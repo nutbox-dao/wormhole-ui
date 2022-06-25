@@ -77,7 +77,7 @@
             </button>
           </div>
           <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
-            tips:    please replace {***} to real content.<br> And you could replace   {@twitter_username} with an ETH address.
+            Tips:<br>Please replace {***} to real content.<br> You can replace   {@twitter_username} with a twitter username or an ETH address.
           </div>
           <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
             2. Add a post  to web3
@@ -93,7 +93,7 @@
             </button>
           </div>
           <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
-            tips:    replace {***} to real content.
+            Tips: <br>   Replace {***} to real content.
           </div>
           <img v-if="direction==='rtl'"
                @click="tipDrawer=false"
@@ -127,9 +127,11 @@ import { mapState } from 'vuex'
 import { notify } from "@/utils/notify";
 import { formatPrice, formatAmount } from '@/utils/helper'
 import emptyAvatar from '@/assets/icon-default-avatar.svg'
-import { ERC20List } from '@/config';
 import { getUserInfo, FetchingStatus } from '@/utils/account'
 import { ethers } from 'ethers'
+import { getTokenBalance } from '@/utils/asset'
+import { ERC20List, TWITTER_MONITOR_RULE } from '@/config'
+import { getSteemBalance } from '@/utils/steem'
 
 export default {
   name: "User",
@@ -146,9 +148,9 @@ export default {
   computed: {
       ...mapState(['accountInfo', 'prices', 'ethBalance', 'erc20Balances', 'steemBalance']),
      totalValue() {
-       if (this.prices && this.ethBalance >= 0 && this.erc20Balances && this.steemBalance >= 0) {
+       if (this.erc20Balances && this.steemBalance >= 0) {
          let t = 0
-         t += this.ethBalance * this.prices['eth']
+         t += this.erc20Balances['ETH'] * this.prices['eth']
          t += this.steemBalance * this.prices['steem']
          for (let erc20 of ERC20List) {
            t += this.erc20Balances[erc20.symbol] * this.prices[erc20.symbol.toLowerCase()]
@@ -208,6 +210,22 @@ export default {
                 this.$router.push('/')
                 return;
             }else {
+              if (this.accountInfo) {
+              const { steemId, ethAddress, web25ETH } = this.accountInfo
+
+              if (steemId) {
+                // get steem balance
+                getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
+                    .catch(err => console.log('get steem balance fail:', err))
+              }else {
+                this.$store.commit('saveSteemBalance', 0)
+              }
+
+              //get eth balances
+              if (web25ETH) {
+                getTokenBalance(web25ETH)
+              }
+            }
             }
         }catch(e) {
             this.showNotify("Server error", 5000, 'error')

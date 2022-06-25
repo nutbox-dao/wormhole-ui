@@ -46,7 +46,7 @@
 <script>
 import { mapState } from 'vuex'
 import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
-import { getTokenBalance, getMainChainBalance } from '@/utils/asset'
+import { getTokenBalance } from '@/utils/asset'
 import { ERC20List, MainToken, TWITTER_MONITOR_RULE } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 
@@ -55,7 +55,8 @@ export default {
   data() {
     return {
       mainToken: MainToken,
-      ethBalanceInterval: null
+      ethBalanceInterval: null,
+      monitor: null,
     }
   },
   computed: {
@@ -67,8 +68,8 @@ export default {
       return formatPrice(0)
     },
     ethValue() {
-      if (this.prices['eth'] && this.ethBalance){
-        return formatPrice(this.prices['eth'] * this.ethBalance)
+      if (this.prices['eth'] && this.erc20Balances){
+        return formatPrice(this.prices['eth'] * this.erc20Balances['ETH'])
       }
       return formatPrice(0)
     },
@@ -95,7 +96,7 @@ export default {
     }
   },
   async mounted () {
-    while(true){
+    this.monitor = setInterval(() => {
       if (this.accountInfo) {
         const { steemId, ethAddress, web25ETH } = this.accountInfo
 
@@ -110,12 +111,13 @@ export default {
         //get eth balances
         if (web25ETH) {
           getTokenBalance(web25ETH)
-          getMainChainBalance(web25ETH)
         }
       }
-      await sleep(15000)
-    }
-  }
+    }, 15000)
+  },
+  beforeMount () {
+    window.clearInterval(this.monitor);
+  },
 }
 </script>
 

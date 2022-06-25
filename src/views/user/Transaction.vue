@@ -21,14 +21,14 @@
               <img v-else class="w-2.4rem" src="~@/assets/icon-down-arrow.svg" alt="">
               <div class="text-text8F flex flex-col items-start sm:ml-2rem ml-0.5rem">
                 <div class="text-1.2rem leading-1.5rem">
-                  <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> @vitalik
+                  <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                 </div>
-                <div class="text-1rem mt-0.5rem">{{ item.postTime }}</div>
+                <div class="text-1rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
               </div>
             </div>
             <div class="flex flex-col items-end">
               <div class="c-text-black text-1.2rem leading-1.5rem">{{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}</div>
-              <div class="c-text-medium text-1rem mt-0.5rem">$612.36</div>
+              <div class="c-text-medium text-1rem mt-0.5rem">{{ getValue(item) }}</div>
             </div>
           </div>
           <div class="text-right mt-1rem c-text-medium text-1rem">
@@ -57,7 +57,8 @@ import { getUsersTransaction } from '@/api/api'
 import PullRefresh from 'pull-refresh-vue3'
 import { mapState } from 'vuex'
 import { EVM_CHAINS } from '@/config'
-import { sleep } from '@/utils/helper'
+import { sleep, formatAmount } from '@/utils/helper'
+import { ethers } from 'ethers'
 
 export default {
   name: "Transaction",
@@ -73,14 +74,45 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'transactions'])
+    ...mapState(['accountInfo', 'transactions', 'prices'])
   },
   methods: {
     isReceive(trans) {
       return trans.username !== this.accountInfo.twitterUsername
     },
     failResult(trans) {
-      return 'wrong'
+      switch(trans.sendResult) {
+        case 0:
+          return 'success'
+        case 1:
+          return 'Insufficient balance'
+        case 2:
+          return 'Insufficient gas fee'
+        case 3:
+          return 'Transaction fail'
+        case 4:
+          return 'Target account not registered'
+      }
+    },
+    getValue(trans) {
+      const amount = parseFloat(trans.amount)
+      const symbol = trans.asset.toLowerCase()
+      return '$' + formatAmount(amount * this.prices[symbol])
+    },
+    formatAmount(a) {
+      return formatAmount(a)
+    },
+    getTargetAccount(trans) {
+      if (this.isReceive(trans)){
+        return '@' + trans.username
+      }else {
+        if (ethers.utils.isAddress(trans.targetUsername)) {
+          return trans.targetUsername.substring(0, 10) + '......'
+        }else {
+          return '@' + trans.targetUsername
+        } 
+      }
+      
     },
     onRefresh() {
       console.log('refresh')
@@ -90,7 +122,6 @@ export default {
         time = this.transactions[0].postTime
       }
       getUsersTransaction(this.accountInfo.twitterId, this.pageSize, time, true).then(res => {
-        console.log(1, res);
         this.$store.commit('saveTransactions', res.concat(this.transactions))
         this.refreshing = false
       }).catch(e => {

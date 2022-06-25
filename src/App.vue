@@ -64,7 +64,8 @@ export default {
         steem: res[3],
         uni: res[4],
         usdt: 1,
-        usdc: 1
+        usdc: 1,
+        busd: 1
       }
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)

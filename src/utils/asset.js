@@ -8,7 +8,7 @@ export const getTokenBalance = async (address) => {
     return new Promise(async (resolve, reject) => {
         try{
             if (ethers.utils.isAddress(address)){
-                const res = await aggregate(ERC20List.map(e => ({
+                let calls = ERC20List.map(e => ({
                     target: e.address,
                     call: [
                         'balanceOf(address)(uint256)',
@@ -17,7 +17,17 @@ export const getTokenBalance = async (address) => {
                     returns: [
                         [e.symbol, val => val.toString() / (10 ** e.decimals)]
                     ]
-                })), Multi_Config)
+                }))
+                calls.push({
+                    call: [
+                        'getEthBalance(address)(uint256)',
+                        address
+                    ],
+                    returns:[
+                        ['ETH', val => val / 10 ** 18]
+                    ]
+                })
+                const res = await aggregate(calls, Multi_Config)
                 const balances = res.results.transformed
                 store.commit('saveERC20Balances', balances)
                 resolve(balances)
