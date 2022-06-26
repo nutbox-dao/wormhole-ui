@@ -1,4 +1,7 @@
 import axios from "axios"
+import steem from "steem"
+const { auth } = require("steem");
+const { key_utils, hash } = require("steem/lib/auth/ecc");
 
 export const getAccountInfo = async (account) => {
     return new Promise((resolve, reject) => {
