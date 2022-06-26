@@ -9,15 +9,17 @@
           <button class="bg-transparent w-2.4rem mr-0.5rem" @click.stop="showMenu=!showMenu">
             <span class="menu-icon" :class="showMenu?'active':''"></span>
           </button>
-          <div class="menu-box w-13.5rem"
+          <div class="menu-box w-13.5rem z-99"
                :class="showMenu?'active':''">
             <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
-              <router-link to="/account-info" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">View web3 wallet</router-link>
+              <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.web25ETH" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
               <router-link to="/faq" @click="showMenu=false"
                            class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
               <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
               <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
+              <router-link v-if="accountInfo && accountInfo.web25ETH" to="/" @click="showMenu=false"
+                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
             </div>
           </div>
         </div>
@@ -34,6 +36,7 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState } from 'vuex'
+import { getTwitterAccount } from '@/api/api'
 
 export default {
   data: () => {
@@ -62,7 +65,8 @@ export default {
         steem: res[3],
         uni: res[4],
         usdt: 1,
-        usdc: 1
+        usdc: 1,
+        busd: 1
       }
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
@@ -76,6 +80,9 @@ export default {
     }
   },
   async mounted() {
+    getTwitterAccount('terry3t1').then(res => {
+      console.log(234, res);
+    })
     while(true) {
       try{
         await this.monitorPrices()

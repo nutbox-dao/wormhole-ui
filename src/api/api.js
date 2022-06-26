@@ -14,5 +14,5 @@ export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =
     get(BACKEND_API_URL + '/transaction/byTwitterId', { twitterId, pageSize, time, newTrans })
 
 export const getTwitterAccount = async (username) =>
-getTwitterApi('https://api.twitter.com/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
+getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
 

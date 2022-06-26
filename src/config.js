@@ -32,7 +32,60 @@ export const ERC20List = [
     {symbol: 'USDT', name: 'Tether USD', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
     {symbol: 'USDC', name: 'USD Coin', address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
     {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
-]   
+]
+
+/**
+ * EVM Chains
+ */
+export const EVM_CHAINS = {
+    ETH: {
+        rpc: "https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978",
+        scan: 'https://etherscan.io/',
+        assets: {
+            USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
+            USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            UNI:  {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
+        },
+        Multi_Config: {
+            rpcUrl: RPC_NODE,
+            multicallAddress: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+            interval: 3000,
+        }
+    },
+    BNB: {
+        rpc:'https://bsc-dataseed.binance.org',
+        scan: 'https://bscscan.com/',
+        assets: {
+            WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+            BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+            USDT: '0x55d398326f99059fF775485246999027B3197955',
+            USDC: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'
+        },
+        Multi_Config: {
+            rpcUrl: RPC_NODE,
+            multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
+            interval: 3000,
+        }
+    },
+    MATIC: {
+        rpc: 'https://polygon-rpc.com',
+        scan: 'https://polygonscan.com/',
+        assets: {
+            WETH: '',
+            USDT: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+            USDC: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
+        },
+        Multi_Config: {
+            rpcUrl: RPC_NODE,
+            multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
+            interval: 3000,
+        }
+    },
+    STEEM: {
+        rpc: '',
+        scan: 'https://steemblockexplore.com/'
+    }
+}
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,

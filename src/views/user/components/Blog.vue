@@ -2,7 +2,7 @@
   <div>
     <div class="flex">
       <img v-if="accountInfo" @click="gotoSteemProfile" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px hover"
-           :src="'https://profile-images.heywallet.com/' + accountInfo.twitterId" alt="">
+           :src="profileImg" alt="">
       <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px" src="@/assets/icon-default-avatar.svg" v-else alt="">
       <div class="flex-full overflow-x-hidden">
         <div class="flex sm:items-center sm:flex-row flex-col items-start">
@@ -77,7 +77,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo'])
+    ...mapState(['accountInfo']),
+    profileImg() {
+      if (!this.accountInfo) return ''
+      if (this.accountInfo.profileImg) {
+        return 'https://pbs.twimg.com/profile_images/' + this.accountInfo.profileImg.replace('normal', '200x200')
+      }else {
+        return 'https://profile-images.heywallet.com/' + this.accountInfo.twitterId
+      }
+     }
   },
   methods: {
     parseTimestamp(time) {
