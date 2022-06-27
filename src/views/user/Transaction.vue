@@ -17,8 +17,8 @@
             v-for="(item, index) of transactions" :key="index">
           <div class="grid grid-cols-5">
             <div class="col-span-3 flex items-center">
-              <img v-if="!isReceive(item)" class="w-2.4rem" src="~@/assets/icon-up-arrow.svg" alt="">
-              <img v-else class="w-2.4rem" src="~@/assets/icon-down-arrow.svg" alt="">
+              <img v-if="!isReceive(item)" class="w-2.2rem" src="~@/assets/icon-up-arrow.svg" alt="">
+              <img v-else class="w-2.2rem" src="~@/assets/icon-down-arrow.svg" alt="">
               <div class="text-text8F flex flex-col items-start sm:ml-2rem ml-0.5rem">
                 <div class="text-1.2rem leading-1.5rem text-left">
                   <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
