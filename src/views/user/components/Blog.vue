@@ -27,8 +27,9 @@
         </div>
         <!--img-1, img-2, img-3, img-4 -->
         <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
-          <div class="overflow-hidden" v-for="url of imgurls">
+          <div class="img-box" v-for="url of imgurls">
             <img class="object-contain object-left max-h-500px w-auto w-max rounded-16px pic"
+                  @click="viewImg(url)"
                  :src="url" alt="">
           </div>
         </div>
@@ -59,6 +60,10 @@
         </div>
       </div>
     </div>
+    <el-dialog custom-class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
+      <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
+           :src="imgUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -81,7 +86,8 @@ export default {
       url: null,
       reg: '',
       urlreg: '',
-      content: ''
+      imgViewDialog: false,
+      imgUrl: ''
     }
   },
   computed: {
@@ -107,12 +113,16 @@ export default {
     },
     parseSBD(v) {
       return parseFloat(v.replace(' SBD', ''))
-    },  
+    },
     gotoSteem() {
       window.open(`https://steemit.com/@${this.post.steemId}/${this.post.postId}`, '__blank')
     },
     gotoSteemProfile() {
       window.open('https://steemit.com/@' + this.post.steemId, '__blank')
+    },
+    viewImg(url) {
+      this.imgUrl = url
+      this.imgViewDialog = true
     }
   },
   mounted () {
@@ -129,8 +139,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.img-box {
+  overflow: hidden;
+  img {
+    border-radius: 16px;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
 .img-1 {
   grid-template-columns: repeat(1, 1fr);
+  .img-box img {
+    object-fit: contain;
+    width: auto;
+    max-height: 25rem;
+    object-position: left;
+  }
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
