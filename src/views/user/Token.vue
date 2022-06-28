@@ -1,32 +1,63 @@
 <template>
   <div class="pb-2rem">
-    <div class="flex justify-between items-center my-2.5rem">
+    <!-- <div class="flex justify-between items-center my-2.5rem">
       <div class="flex items-center">
         <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
-             :src="mainToken.icon" alt="">
+             :src="icons.ETH" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.4rem">{{ mainToken.name }}</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances['ETH']) }} {{ mainToken.symbol }}</div>
+          <div class="c-text-black text-1.4rem">ETH</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances ? erc20Balances?.ETH?.ETH : 0) }} {{ mainToken.symbol }}</div>
         </div>
       </div>
       <div>
         <div class="text-1.6rem c-text-bold">{{ ethValue }}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken({symbol: 'ETH'})">Send</button>
       </div>
-    </div>
+    </div> -->
+    {{ erc20Balances }}
 
-    <div class="flex justify-between items-center my-2.5rem" v-for="erc20 in erc20List" :key="erc20.address">
+    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
-             :src="erc20.icon" alt="">
+             :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.4rem">{{erc20.name}}</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ erc20.amount }} {{erc20.symbol}}</div>
+          <div class="c-text-black text-1.4rem">{{names[erc20]}}</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.ETH[erc20]) }} {{erc20}}</div>
         </div>
       </div>
       <div>
-        <div class="text-1.6rem c-text-bold">{{erc20.value}}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20)">Send</button>
+        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.BNB" v-for="erc20 of Object.keys(erc20Balances.BNB)" :key="erc20 + 'eth'">
+      <div class="flex items-center">
+        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
+             :src="icons[erc20]" alt="">
+        <div class="text-left ml-1rem">
+          <div class="c-text-black text-1.4rem">{{names[erc20]}}(BSC)</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.BNB[erc20]) }} {{erc20}}</div>
+        </div>
+      </div>
+      <div>
+        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'eth'">
+      <div class="flex items-center">
+        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
+             :src="icons[erc20]" alt="">
+        <div class="text-left ml-1rem">
+          <div class="c-text-black text-1.4rem">{{names[erc20]}}(Polygon)</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
+        </div>
+      </div>
+      <div>
+        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button>
       </div>
     </div>
 
@@ -51,7 +82,7 @@
 import { mapState } from 'vuex'
 import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
 import { getTokenBalance } from '@/utils/asset'
-import { ERC20List, MainToken, TWITTER_MONITOR_RULE } from '@/config'
+import { ERC20List, MainToken, TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 
 export default {
@@ -61,6 +92,8 @@ export default {
       mainToken: MainToken,
       ethBalanceInterval: null,
       monitor: null,
+      icons: TokenIcon,
+      names: TokenName
     }
   },
   computed: {
@@ -72,24 +105,11 @@ export default {
       return formatPrice(0)
     },
     ethValue() {
-      if (this.prices['eth'] && this.erc20Balances){
-        return formatPrice(this.prices['eth'] * this.erc20Balances['ETH'])
+      if (this.prices['eth'] && this.erc20Balances && this.erc20Balances.ETH){
+        return formatPrice(this.prices['eth'] * this.erc20Balances['ETH'].ETH)
       }
       return formatPrice(0)
     },
-    erc20List() {
-      let ls = []
-      if (this.erc20Balances && Object.keys(this.erc20Balances).length > 0 && this.prices['eth'] > 0) {
-        for (let erc20 of ERC20List) {
-          ls.push({
-            ...erc20,
-            amount: formatAmount(this.erc20Balances[erc20.symbol]),
-            value: formatPrice(this.erc20Balances[erc20.symbol] * this.prices[erc20.symbol.toLowerCase()])
-          })
-        }
-      }
-      return ls
-    }
   },
   methods: {
     formatAmount(a) {
@@ -98,8 +118,8 @@ export default {
     sendSteem() {
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send  STEEM to', '__blank')
     },
-    sendToken(token) {
-      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token.symbol} to`, '__blank')
+    sendToken(token, chain) {
+      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token}${token === chain ? '' : ('('+chain +')')} to`, '__blank')
     }
   },
   async mounted () {

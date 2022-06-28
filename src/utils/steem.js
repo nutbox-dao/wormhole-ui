@@ -32,7 +32,6 @@ export const getPost = async (author, permlink) => {
 
 export const getPosts = async (posts) => {
     return new Promise(async (resolve, reject) => {
-        console.log(111, posts);
         const steemPosts = await Promise.all(posts.map(post => getPost(post.steemId, post.postId)))
         posts = posts.map((p, idx) => {
             const steemP = steemPosts[idx]
@@ -45,7 +44,6 @@ export const getPosts = async (posts) => {
                 votes: steemP.active_votes.length
             }
         })
-        console.log(333, posts);
         resolve(posts)
     })
 }

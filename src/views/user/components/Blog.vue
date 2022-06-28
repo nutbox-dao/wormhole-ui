@@ -16,7 +16,7 @@
         </div>
         <div class="text-left font-400 mt-1">
           <p @click="gotoSteem" class="hover">
-            {{ post.content.replace(reg, '') }}
+            {{ post.content.replace(urlreg, '') }}
           </p>
           <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
              <a :href="u"
@@ -26,10 +26,9 @@
           </p>
         </div>
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px" :class="`img-1`">
-          <div class="overflow-hidden">
-            <img v-if="url"
-                 class="object-contain object-left max-h-500px w-auto w-max rounded-16px"
+        <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
+          <div class="overflow-hidden" v-for="url of imgurls">
+            <img class="object-contain object-left max-h-500px w-auto w-max rounded-16px pic"
                  :src="url" alt="">
           </div>
         </div>
@@ -78,8 +77,11 @@ export default {
     return {
       like: true,
       urls: [],
+      imgurls: [],
       url: null,
-      reg: ''
+      reg: '',
+      urlreg: '',
+      content: ''
     }
   },
   computed: {
@@ -114,16 +116,13 @@ export default {
     }
   },
   mounted () {
-    var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
-    this.reg = reg
-    this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
-    if (this.urls) {
-      for (let u of this.urls) {
-        if (u.endsWith('.png') || u.endsWith('.jpg') || u.endsWith('.jpeg')) {
-          this.url = u
-          break;
-        }
-      }
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
     }
   },
 }

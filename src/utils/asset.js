@@ -20,9 +20,6 @@ export const getTokenBalance = async (address) => {
                 resolve(balances)
             }else {
                 let balances = {}
-                for (let e of ERC20List) {
-                    balances[e.symbol] = 0
-                }
                 store.commit('saveERC20Balances', balances)
             }
         }catch(e) {
@@ -35,7 +32,16 @@ export const getTokenBalance = async (address) => {
 async function multicallBalances(address, chain) {
     if (!chain.assets) return;
     const ERC20List = Object.values(chain.assets)
-    let calls = ERC20List.map(e => ({
+    let calls = [{
+        call: [
+            'getEthBalance(address)(uint256)',
+            address
+        ],
+        returns:[
+            [chain.main.symbol.toUpperCase(), val => val / 10 ** 18]
+        ]
+    }]
+    calls = calls.concat(ERC20List.map(e => ({
         target: e.address,
         call: [
             'balanceOf(address)(uint256)',
@@ -44,16 +50,7 @@ async function multicallBalances(address, chain) {
         returns: [
             [e.symbol, val => val.toString() / (10 ** e.decimals)]
         ]
-    }))
-    calls.push({
-        call: [
-            'getEthBalance(address)(uint256)',
-            address
-        ],
-        returns:[
-            [chain.main.symbol.toLowerCase(), val => val / 10 ** 18]
-        ]
-    })
+    })))
     const res = await aggregate(calls, chain.Multi_Config)
     const balances = res.results.transformed
     return balances
