@@ -27,7 +27,7 @@
         </div>
         <!--img-1, img-2, img-3, img-4 -->
         <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
-          <div class="img-box" v-for="url of imgurls">
+          <div class="img-box" v-for="url of imgurls.slice(0,4)">
             <img class="object-contain object-left max-h-500px w-auto w-max rounded-16px pic"
                   @click="viewImg(url)"
                  :src="url" alt="">

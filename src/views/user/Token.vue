@@ -1,20 +1,5 @@
 <template>
   <div class="pb-2rem">
-    <!-- <div class="flex justify-between items-center my-2.5rem">
-      <div class="flex items-center">
-        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
-             :src="icons.ETH" alt="">
-        <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.4rem">ETH</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances ? erc20Balances?.ETH?.ETH : 0) }} {{ mainToken.symbol }}</div>
-        </div>
-      </div>
-      <div>
-        <div class="text-1.6rem c-text-bold">{{ ethValue }}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken({symbol: 'ETH'})">Send</button>
-      </div>
-    </div> -->
-    {{ erc20Balances }}
 
     <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
@@ -26,7 +11,7 @@
         </div>
       </div>
       <div>
-        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button>
       </div>
     </div>
@@ -41,7 +26,7 @@
         </div>
       </div>
       <div>
-        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button>
       </div>
     </div>
@@ -56,7 +41,7 @@
         </div>
       </div>
       <div>
-        <div class="text-1.6rem c-text-bold">{{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button>
       </div>
     </div>
