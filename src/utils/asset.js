@@ -1,6 +1,5 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List } from "@/config";
-import { getReadOnlyProvider } from '@/utils/ethers'
+import { Multi_Config, ERC20List, EVM_CHAINS } from "@/config";
 import store from '@/store'
 import { ethers } from 'ethers'
 
@@ -8,28 +7,16 @@ export const getTokenBalance = async (address) => {
     return new Promise(async (resolve, reject) => {
         try{
             if (ethers.utils.isAddress(address)){
-                let calls = ERC20List.map(e => ({
-                    target: e.address,
-                    call: [
-                        'balanceOf(address)(uint256)',
-                        address
-                    ],
-                    returns: [
-                        [e.symbol, val => val.toString() / (10 ** e.decimals)]
-                    ]
-                }))
-                calls.push({
-                    call: [
-                        'getEthBalance(address)(uint256)',
-                        address
-                    ],
-                    returns:[
-                        ['ETH', val => val / 10 ** 18]
-                    ]
-                })
-                const res = await aggregate(calls, Multi_Config)
-                const balances = res.results.transformed
-                store.commit('saveERC20Balances', balances)
+                let balances = await Promise.all(Object.values(EVM_CHAINS).map(chain=>multicallBalances(address, chain)))
+                let result = {}
+                for (let i = 0; i < Object.values(EVM_CHAINS).length; i++) {
+                    const key = Object.keys(EVM_CHAINS)[i]
+                    const value = balances[i]
+                    if (value) {
+                        result[key] = value
+                    }
+                }
+                store.commit('saveERC20Balances', result)
                 resolve(balances)
             }else {
                 let balances = {}
@@ -45,18 +32,29 @@ export const getTokenBalance = async (address) => {
     })
 }
 
-export const getMainChainBalance = async (address) => {
-    try{
-        if (ethers.utils.isAddress(address)) {
-            const provider = getReadOnlyProvider()
-            let balance = await provider.getBalance(address)
-            balance = balance.toString() / 1e18
-            store.commit('saveEthBalance', balance)
-            return balance
-        }
-    }catch(e) {
-        console.log('Get main net balance fail', e);
-    }
-    store.commit('saveEthBalance', 0)
-    return 0
+async function multicallBalances(address, chain) {
+    if (!chain.assets) return;
+    const ERC20List = Object.values(chain.assets)
+    let calls = ERC20List.map(e => ({
+        target: e.address,
+        call: [
+            'balanceOf(address)(uint256)',
+            address
+        ],
+        returns: [
+            [e.symbol, val => val.toString() / (10 ** e.decimals)]
+        ]
+    }))
+    calls.push({
+        call: [
+            'getEthBalance(address)(uint256)',
+            address
+        ],
+        returns:[
+            [chain.main.symbol.toLowerCase(), val => val / 10 ** 18]
+        ]
+    })
+    const res = await aggregate(calls, chain.Multi_Config)
+    const balances = res.results.transformed
+    return balances
 }
