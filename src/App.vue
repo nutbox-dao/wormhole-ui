@@ -36,7 +36,6 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState } from 'vuex'
-import { getTwitterAccount } from '@/api/api'
 
 export default {
   data: () => {
@@ -56,6 +55,7 @@ export default {
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BNBETH'),
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=STEEMUSDT'),
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=UNIUSDT'),
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=MATICUSDT'),
       ])
       res = res.map(p => parseFloat(p.data.price))
       const prices = {
@@ -64,6 +64,7 @@ export default {
         bnb: res[2] * res[0],
         steem: res[3],
         uni: res[4],
+        matic: res[5],
         usdt: 1,
         usdc: 1,
         busd: 1
@@ -80,9 +81,6 @@ export default {
     }
   },
   async mounted() {
-    getTwitterAccount('terry3t1').then(res => {
-      console.log(234, res);
-    })
     while(true) {
       try{
         await this.monitorPrices()

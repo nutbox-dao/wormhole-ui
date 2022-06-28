@@ -6,7 +6,7 @@
              :src="mainToken.icon" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.4rem">{{ mainToken.name }}</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(ethBalance) }} {{ mainToken.symbol }}</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances['ETH']) }} {{ mainToken.symbol }}</div>
         </div>
       </div>
       <div>

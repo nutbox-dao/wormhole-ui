@@ -32,6 +32,7 @@ import { mapState } from 'vuex'
 import { getUsersPosts } from '@/api/api'
 import { sleep } from '@/utils/helper'
 import PullRefresh from 'pull-refresh-vue3'
+import { getPost, getPosts } from '@/utils/steem'
 
 export default {
   name: "Transaction",
@@ -49,7 +50,7 @@ export default {
     }
   },
   async mounted () {
-    while(!this.accountInfo || !this.accountInfo.twitterUsername){
+   while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
     this.onRefresh()
@@ -62,8 +63,9 @@ export default {
       if (this.posts && this.posts.length > 0) {
         time = this.posts[0].postTime
       }
-      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(res => {
-        this.$store.commit('savePosts', res.concat(this.posts))
+      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
+        const posts = await getPosts(res)
+        this.$store.commit('savePosts', posts.concat(this.posts))
         this.refreshing = false
       }).catch(e => {
         this.refreshing = false
@@ -76,8 +78,9 @@ export default {
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(res => {
-          this.$store.commit('savePosts', this.posts.concat(res))
+        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
+          const posts = await getPosts(res)
+          this.$store.commit('savePosts', this.posts.concat(posts))
           if (res.length < this.pageSize) {
             this.finished = true
           }
