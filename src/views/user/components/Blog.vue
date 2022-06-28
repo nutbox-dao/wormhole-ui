@@ -25,9 +25,14 @@
             </a>
           </p>
         </div>
-        <img v-if="url"
-             class="object-contain object-left max-h-500px w-auto w-max rounded-16px mt-10px"
-             :src="url" alt="">
+        <!--img-1, img-2, img-3, img-4 -->
+        <div class="grid mt-10px" :class="`img-1`">
+          <div class="overflow-hidden">
+            <img v-if="url"
+                 class="object-contain object-left max-h-500px w-auto w-max rounded-16px"
+                 :src="url" alt="">
+          </div>
+        </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
           <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
             #{{ tag }}
@@ -115,11 +120,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.img-box {
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.img-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.img-2 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.img-3 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.img-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
 }
 .blog-tag{
   border-radius: 0.4rem;
