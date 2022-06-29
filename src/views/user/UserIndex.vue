@@ -130,7 +130,7 @@ import emptyAvatar from '@/assets/icon-default-avatar.svg'
 import { getUserInfo, FetchingStatus } from '@/utils/account'
 import { ethers } from 'ethers'
 import { getTokenBalance } from '@/utils/asset'
-import { ERC20List, TWITTER_MONITOR_RULE } from '@/config'
+import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 
 export default {
@@ -190,7 +190,7 @@ export default {
       window.open('https://twitter.com/' + this.accountInfo.twitterUsername, '__blank')
      },
      gotoSteem() {
-      window.open('https://steemit.com/@' + this.accountInfo.steemId, '__blank')
+      window.open(EVM_CHAINS.STEEM.scan + '@' + this.accountInfo.steemId, '__blank')
      },
      gotoSend() {
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send   ETH to ', '__blank')

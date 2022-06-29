@@ -16,7 +16,7 @@
         </div>
         <div class="text-left font-400 mt-1">
           <p @click="gotoSteem" class="cursor-pointer">
-            {{ post.content.replace(urlreg, '') }}
+            {{ post.content.replace(this.urlreg, '') }}
           </p>
           <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
              <a :href="u"
@@ -26,8 +26,8 @@
           </p>
         </div>
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
-          <div class="img-box" v-for="url of imgurls.slice(0,4)">
+        <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+          <div class="img-box" v-for="url of imgurls.slice(0,4)" :key="url">
             <img @click="viewImg(url)" :src="url" alt="">
           </div>
         </div>
@@ -68,6 +68,7 @@
 <script>
 import { parseTimestamp } from '@/utils/helper'
 import { mapState } from 'vuex'
+import { EVM_CHAINS } from '@/config'
 
 export default {
   name: "Blog",
@@ -81,6 +82,7 @@ export default {
       like: true,
       urls: [],
       imgurls: [],
+      allurls: [],
       url: null,
       reg: '',
       urlreg: '',
@@ -113,10 +115,10 @@ export default {
       return parseFloat(v.replace(' SBD', ''))
     },
     gotoSteem() {
-      window.open(`https://steemit.com/@${this.post.steemId}/${this.post.postId}`, '__blank')
+      window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
     },
     gotoSteemProfile() {
-      window.open('https://steemit.com/@' + this.post.steemId, '__blank')
+      window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
     },
     viewImg(url) {
       this.imgUrl = url
@@ -127,10 +129,12 @@ export default {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
     const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.allurls = urls
     this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
-
     if (urls && this.imgurls) {
       this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
+    } else if(urls) {
+      this.urls = urls
     }
   },
 }
