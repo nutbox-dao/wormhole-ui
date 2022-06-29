@@ -90,3 +90,15 @@
 .c-tip-drawer .el-drawer__body {
   padding: 0;
 }
+.c-img-dialog.el-dialog {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+.c-img-dialog .el-dialog__header {
+
+}
+.c-img-dialog .el-dialog__body {
+  flex: 1;
+  position: relative;
+}

@@ -34,6 +34,26 @@ export const ERC20List = [
     {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
 ]
 
+export const TokenIcon = {
+    'ETH': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
+    'BNB': 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+    'USDT': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png',
+    'USDC': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png',
+    'UNI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png',
+    'BUSD': 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png',
+    'MATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
+}
+
+export const TokenName = {
+    'ETH': 'Ethereum',
+    'BNB': 'BSC Token',
+    'USDT': 'Tether USD',
+    'USDC': 'USD Coin',
+    'UNI': 'Uniswap',
+    'BUSD': 'BSC-USD',
+    'MATIC': 'Polygon'
+}
+
 /**
  * EVM Chains
  */

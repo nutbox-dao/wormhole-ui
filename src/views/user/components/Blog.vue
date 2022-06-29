@@ -16,7 +16,7 @@
         </div>
         <div class="text-left font-400 mt-1">
           <p @click="gotoSteem" class="hover">
-            {{ post.content.replace(reg, '') }}
+            {{ post.content.replace(urlreg, '') }}
           </p>
           <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
              <a :href="u"
@@ -25,9 +25,14 @@
             </a>
           </p>
         </div>
-        <img v-if="url"
-             class="object-contain object-left max-h-500px w-auto w-max rounded-16px mt-10px"
-             :src="url" alt="">
+        <!--img-1, img-2, img-3, img-4 -->
+        <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
+          <div class="img-box" v-for="url of imgurls.slice(0,4)" :key="url">
+            <img class="object-contain object-left max-h-500px w-auto w-max rounded-16px pic"
+                  @click="viewImg(url)"
+                 :src="url" alt="">
+          </div>
+        </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
           <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
             #{{ tag }}
@@ -55,6 +60,10 @@
         </div>
       </div>
     </div>
+    <el-dialog custom-class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
+      <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
+           :src="imgUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -74,8 +83,12 @@ export default {
     return {
       like: true,
       urls: [],
+      imgurls: [],
       url: null,
-      reg: ''
+      reg: '',
+      urlreg: '',
+      imgViewDialog: false,
+      imgUrl: ''
     }
   },
   computed: {
@@ -101,25 +114,26 @@ export default {
     },
     parseSBD(v) {
       return parseFloat(v.replace(' SBD', ''))
-    },  
+    },
     gotoSteem() {
       window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
     },
     gotoSteemProfile() {
       window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
+    },
+    viewImg(url) {
+      this.imgUrl = url
+      this.imgViewDialog = true
     }
   },
   mounted () {
-    var reg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
-    this.reg = reg
-    this.urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(reg)
-    if (this.urls) {
-      for (let u of this.urls) {
-        if (u.endsWith('.png') || u.endsWith('.jpg') || u.endsWith('.jpeg')) {
-          this.url = u
-          break;
-        }
-      }
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
     }
   },
 }
@@ -127,10 +141,35 @@ export default {
 
 <style scoped lang="scss">
 .img-box {
+  overflow: hidden;
   img {
-    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
     height: 100%;
+    width: 100%;
   }
+}
+.img-1 {
+  grid-template-columns: repeat(1, 1fr);
+  .img-box img {
+    object-fit: contain;
+    width: auto;
+    max-height: 25rem;
+    object-position: left;
+  }
+}
+.img-2 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.img-3 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.img-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
 }
 .blog-tag{
   border-radius: 0.4rem;

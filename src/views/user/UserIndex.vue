@@ -148,12 +148,23 @@ export default {
   computed: {
       ...mapState(['accountInfo', 'prices', 'ethBalance', 'erc20Balances', 'steemBalance']),
      totalValue() {
-       if (this.erc20Balances && this.steemBalance >= 0) {
+       if (this.erc20Balances && this.erc20Balances.ETH) {
          let t = 0
-         t += this.erc20Balances['ETH'] * this.prices['eth']
+         // eth
+        //  t += this.erc20Balances['ETH'].ETH * this.prices['eth']
+         for (let erc20 in this.erc20Balances['ETH']) {
+           t += this.erc20Balances.ETH[erc20] * this.prices[erc20.toLowerCase()]
+         }
+         // steem
          t += this.steemBalance * this.prices['steem']
-         for (let erc20 of ERC20List) {
-           t += this.erc20Balances[erc20.symbol] * this.prices[erc20.symbol.toLowerCase()]
+
+         // bsc
+         for (let erc20 in this.erc20Balances['BNB']) {
+           t += this.erc20Balances.BNB[erc20] * this.prices[erc20.toLowerCase()]
+         }
+        //  // polygon
+         for (let erc20 in this.erc20Balances['MATIC']) {
+           t += this.erc20Balances.MATIC[erc20] * this.prices[erc20.toLowerCase()]
          }
          return formatPrice(t)
        }
