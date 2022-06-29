@@ -97,7 +97,7 @@ export const EVM_CHAINS = {
     },
     STEEM: {
         rpc: '',
-        scan: 'https://steemblockexplore.com/'
+        scan: 'https://steemd.com/'
     }
 }
 

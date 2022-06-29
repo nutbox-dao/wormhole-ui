@@ -61,6 +61,7 @@
 <script>
 import { parseTimestamp } from '@/utils/helper'
 import { mapState } from 'vuex'
+import { EVM_CHAINS } from '@/config'
 
 export default {
   name: "Blog",
@@ -102,10 +103,10 @@ export default {
       return parseFloat(v.replace(' SBD', ''))
     },  
     gotoSteem() {
-      window.open(`https://steemit.com/@${this.post.steemId}/${this.post.postId}`, '__blank')
+      window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
     },
     gotoSteemProfile() {
-      window.open('https://steemit.com/@' + this.post.steemId, '__blank')
+      window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
     }
   },
   mounted () {
