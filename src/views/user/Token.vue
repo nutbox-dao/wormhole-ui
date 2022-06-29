@@ -10,7 +10,7 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.ETH[erc20]) }} {{erc20}}</div>
         </div>
       </div>
-      <div>
+      <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button>
       </div>
@@ -25,7 +25,7 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.BNB[erc20]) }} {{erc20}}</div>
         </div>
       </div>
-      <div>
+      <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button>
       </div>
@@ -40,7 +40,7 @@
           <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
         </div>
       </div>
-      <div>
+      <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
         <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button>
       </div>
@@ -55,7 +55,7 @@
             <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
           </div>
         </div>
-        <div class="flex flex-col items-end">
+        <div class="flex flex-col items-end justify-end">
           <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
           <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
         </div>

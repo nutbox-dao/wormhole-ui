@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="flex">
-      <img v-if="accountInfo" @click="gotoSteemProfile" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px hover"
+      <img v-if="accountInfo" @click="gotoSteemProfile" class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px cursor-pointer"
            :src="profileImg" alt="">
       <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px" src="@/assets/icon-default-avatar.svg" v-else alt="">
-      <div class="flex-full overflow-x-hidden">
+      <div class="flex-1 overflow-x-hidden">
         <div class="flex sm:items-center sm:flex-row flex-col items-start">
           <div class="flex items-center">
-            <a class="font-700">{{ post.name }}</a>
+            <a class="font-700 text-left">{{ post.name }}</a>
             <img class="w-1rem h-1rem sm:mx-0.5rem ml-0.5rem" src="~@/assets/icon-checked.svg" alt="">
           </div>
           <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
@@ -15,7 +15,7 @@
           </span>
         </div>
         <div class="text-left font-400 mt-1">
-          <p @click="gotoSteem" class="hover">
+          <p @click="gotoSteem" class="cursor-pointer">
             {{ post.content.replace(urlreg, '') }}
           </p>
           <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -26,11 +26,9 @@
           </p>
         </div>
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
+        <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 1">
           <div class="img-box" v-for="url of imgurls.slice(0,4)">
-            <img class="object-contain object-left max-h-500px w-auto w-max rounded-16px pic"
-                  @click="viewImg(url)"
-                 :src="url" alt="">
+            <img @click="viewImg(url)" :src="url" alt="">
           </div>
         </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
@@ -130,7 +128,7 @@ export default {
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
     const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
     this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
-    
+
     if (urls && this.imgurls) {
       this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
     }
@@ -141,21 +139,21 @@ export default {
 <style scoped lang="scss">
 .img-box {
   overflow: hidden;
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
   img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     border-radius: 16px;
     object-fit: cover;
-    height: 100%;
-    width: 100%;
   }
 }
 .img-1 {
   grid-template-columns: repeat(1, 1fr);
-  .img-box img {
-    object-fit: contain;
-    width: auto;
-    max-height: 25rem;
-    object-position: left;
-  }
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
@@ -179,7 +177,10 @@ export default {
   background-size: 0.3rem 100%;
   background-repeat: no-repeat;
 }
-.hover{
-  cursor: pointer;
+@media (max-width: 500px) {
+  .img-3 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
 }
 </style>
