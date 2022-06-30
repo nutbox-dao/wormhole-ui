@@ -46,7 +46,7 @@
                :size="direction==='rtl'?560:''"
                custom-class="c-tip-drawer">
       <template #default>
-        <div class="w-full bg-dialogBg md:p-5rem py-4rem px-1.5rem md:rounded-1.5rem rounded-t-1.5rem text-left relative">
+        <div class="w-full bg-dialogBg sm:p-5rem py-4rem px-2.5rem sm:rounded-1.5rem rounded-t-1.5rem text-left relative">
           <div class="gradient-text gradient-text-bottom c-text-black md:text-2rem md:leading-3.6rem text-1.8rem leading-2.4rem text-center w-full">
             What is a wormhole3 <br>
             wallet or web3 wallet?
@@ -76,9 +76,10 @@
                @click="tipDrawer=false"
                class="absolute left-1rem top-1/2 translate-y-1/2 w-1rem"
                src="~@/assets/icon-drawer-arrow.svg" alt="">
-          <img v-else @click="tipDrawer=false"
-               class="absolute transform top-1rem left-1/2 translate-x-1/2 w-1rem rotate-90"
-               src="~@/assets/icon-drawer-arrow.svg" alt="">
+          <button v-else @click="tipDrawer=false"
+                  class="w-4rem h-2.5rem absolute transform top-1rem left-1/2 -translate-x-1/2">
+            <img class="w-2rem mx-auto" src="~@/assets/icon-drawer-arrow-white.svg" alt="">
+          </button>
         </div>
       </template>
     </el-drawer>
