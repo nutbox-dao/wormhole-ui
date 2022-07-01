@@ -99,9 +99,10 @@
                @click="tipDrawer=false"
                class="absolute left-1rem top-1/2 translate-y-1/2 w-1rem"
                src="~@/assets/icon-drawer-arrow.svg" alt="">
-          <img v-else @click="tipDrawer=false"
-               class="absolute transform top-1rem left-1/2 translate-x-1/2 w-1rem rotate-90"
-               src="~@/assets/icon-drawer-arrow.svg" alt="">
+          <button v-else @click="tipDrawer=false"
+                  class="w-4rem h-2.5rem absolute transform top-1rem left-1/2 -translate-x-1/2">
+            <img class="w-2rem mx-auto" src="~@/assets/icon-drawer-arrow-white.svg" alt="">
+          </button>
         </div>
       </template>
     </el-drawer>
