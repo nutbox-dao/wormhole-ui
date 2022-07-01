@@ -117,7 +117,7 @@ export const EVM_CHAINS = {
     },
     STEEM: {
         rpc: '',
-        scan: 'https://steemd.com/'
+        scan: 'https://ecosynthesizer.com/steem/'
     }
 }
 
