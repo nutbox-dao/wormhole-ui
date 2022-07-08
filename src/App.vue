@@ -36,6 +36,7 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState } from 'vuex'
+import { getAccountInfo } from '@/utils/steem'
 
 export default {
   data: () => {
@@ -81,6 +82,9 @@ export default {
     }
   },
   async mounted() {
+    getAccountInfo('wherein').then(res => {
+      console.log(5354, res);
+    })
     while(true) {
       try{
         await this.monitorPrices()

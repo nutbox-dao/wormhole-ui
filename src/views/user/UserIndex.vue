@@ -64,12 +64,12 @@
           </div>
           <div class="text-primaryColor text-0.9rem font-bold">Need to activate your wallet at wormhole3 first.</div>
           <div class="text-1rem leading-1.2rem c-text-bold mt-4rem">
-            1. Transfer ETH/STEEM to a twitter account or an ETH address
+            1. Transfer STEEM/SBD to a twitter account
           </div>
           <div class="bg-black rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
             <div class="text-left break-all">
               <span class="text-primaryColor">#wormhole3 !send </span>
-              <span class="text-text8F">{0.5 ETH} to {@vitalik}</span>
+              <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button @click="gotoSend" class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
               <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
@@ -77,7 +77,7 @@
             </button>
           </div>
           <div class="text-text8F text-0.8rem leading-1rem mt-0.5rem italic">
-            Tips:<br>Please replace {***} to real content.<br> You can replace   {@twitter_username} with a twitter username or an ETH address.
+            Tips:<br>Please replace {***} to real content.<br> You can replace   {@twitter_username} with a twitter username.
           </div>
           <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
             2. Add a post  to web3
@@ -194,7 +194,7 @@ export default {
       window.open(EVM_CHAINS.STEEM.scan + '@' + this.accountInfo.steemId, '__blank')
      },
      gotoSend() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send   ETH to ', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send   STEEM to ', '__blank')
      },
      gotoPost() {
       window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !post ', '__blank')
