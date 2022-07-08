@@ -95,7 +95,7 @@ export default {
     profileImg() {
       if (!this.accountInfo) return ''
       if (this.accountInfo.profileImg) {
-        return 'https://pbs.twimg.com/profile_images/' + this.accountInfo.profileImg.replace('normal', '200x200')
+        return this.accountInfo.profileImg.replace('normal', '200x200')
       }else {
         return 'https://profile-images.heywallet.com/' + this.accountInfo.twitterId
       }
