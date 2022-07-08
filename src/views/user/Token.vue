@@ -12,7 +12,7 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button>
+        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button> -->
       </div>
     </div>
 
@@ -27,7 +27,7 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button>
+        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button> -->
       </div>
     </div>
 
@@ -42,7 +42,7 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button>
+        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button> -->
       </div>
     </div>
 
@@ -121,8 +121,8 @@ export default {
         }
 
         //get eth balances
-        if (web25ETH) {
-          getTokenBalance(web25ETH)
+        if (ethAddress) {
+          getTokenBalance(ethAddress)
         }
       }
     }, 15000)

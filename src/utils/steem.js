@@ -19,6 +19,30 @@ export const getAccountInfo = async (account) => {
     })
 }
 
+/**
+ * Get voting powering status
+ * @param {*} account 
+ * @returns 
+ */
+ export function getVPHF20(account) {
+    var totalShares = parseFloat(account.vesting_shares) + parseFloat(account.received_vesting_shares) - parseFloat(account.delegated_vesting_shares) - parseFloat(account.vesting_withdraw_rate);
+
+    var elapsed = Date.now() / 1000 - account.voting_manabar.last_update_time;
+    var maxMana = totalShares * 1000000;
+    // 432000 sec = 5 days
+    var currentMana = parseFloat(account.voting_manabar.current_mana) + elapsed * maxMana / 432000;
+
+    if (currentMana > maxMana) {
+        currentMana = maxMana;
+    }
+
+    return [currentMana, maxMana]
+
+    var currentManaPerc = currentMana * 100 / maxMana;
+
+    return Math.round(currentManaPerc * 100);
+}
+
 export const getPost = async (author, permlink) => {
     return new Promise(async (resolve, reject) => {
         const res = await steem.api.getContentAsync(author, permlink);

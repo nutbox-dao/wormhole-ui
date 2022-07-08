@@ -66,9 +66,9 @@ export default {
         let pass = openBox(pwd, pair.privateKey)
         pass = hexToString(pass)
         const { eth, ethPrivateKey } = generateEth(id, pass)
-        const web25 = generateEth('', ethPrivateKey)
-        this.accountInfo = { ethAddress: web25.eth, privateKey: ethPrivateKey }
-        this.ethAddress = web25.eth
+        // const web25 = generateEth('', ethPrivateKey)
+        this.accountInfo = { ethAddress: eth, privateKey: ethPrivateKey }
+        this.ethAddress = eth
         this.showPrivateKey = true
       }catch(e) {
         this.showNotify(e.toString(), 5000, 'error')

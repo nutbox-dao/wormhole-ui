@@ -29,15 +29,15 @@
           </div>
         </div>
       </div>
-      <template v-if="accountInfo && accountInfo.web25ETH">
+      <template v-if="accountInfo && accountInfo.ethAddress">
         <div class="gradient-bg gradient-bg-color3 rounded-2rem p-0.2rem mt-2.5rem sm:mb-5rem mb-2rem">
           <div class="text-1.4rem font-bold py-0.8rem text-primaryColor bg-primaryBg rounded-t-1.8rem">
             Your binded ETH Address
             <span class="ml-2">👇</span>
           </div>
           <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all flex items-center justify-center">
-            {{ accountInfo ? accountInfo.web25ETH : '' }}
-            <img class="w-1.5rem h-1.5rem ml-1rem hover"  @click="copy(accountInfo.web25ETH)" src="~@/assets/icon-copy.svg" alt="">
+            {{ accountInfo ? accountInfo.ethAddress : '' }}
+            <img class="w-1.5rem h-1.5rem ml-1rem hover"  @click="copy(accountInfo.ethAddress)" src="~@/assets/icon-copy.svg" alt="">
           </div>
         </div>
       </template>
@@ -242,8 +242,8 @@ export default {
               }
 
               //get eth balances
-              if (web25ETH) {
-                getTokenBalance(web25ETH)
+              if (ethAddress) {
+                getTokenBalance(ethAddress)
               }
             }
             }
