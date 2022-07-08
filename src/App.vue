@@ -82,9 +82,6 @@ export default {
     }
   },
   async mounted() {
-    getAccountInfo('wherein').then(res => {
-      console.log(5354, res);
-    })
     while(true) {
       try{
         await this.monitorPrices()
