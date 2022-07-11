@@ -13,6 +13,22 @@
                   :loosing-text="''"
                   :success-text="''"
                   @refresh="onRefresh">
+      <div class="my-1rem max-w-35rem mx-auto">
+        <div class="flex items-center justify-center mb-0.5rem">
+          <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
+          <el-tooltip>
+            <template #content>
+              <div class="max-w-14rem">
+                提示内容
+              </div>
+            </template>
+            <button>
+              <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+            </button>
+          </el-tooltip>
+        </div>
+        <el-progress class="c-progress" :text-inside="true" :stroke-width="20" :percentage="70" />
+      </div>
       <div class="border-b-1px border-white/20 py-1rem" v-for="p of posts" :key="p.postId">
         <Blog :post="p"/>
       </div>
