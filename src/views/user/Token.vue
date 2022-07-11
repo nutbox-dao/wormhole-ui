@@ -114,7 +114,10 @@ export default {
 
         if (steemId) {
           // get steem balance
-          getSteemBalance(steemId).then(balance => this.$store.commit('saveSteemBalance', balance))
+          getSteemBalance(steemId).then(balance => {
+              this.$store.commit('saveSteemBalance', balance.steemBalance)
+              this.$store.commit('saveSbdBalance', balance.sbdBalance)
+            })
               .catch(err => console.log('get steem balance fail:', err))
         }else {
           this.$store.commit('saveSteemBalance', 0)

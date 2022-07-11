@@ -7,7 +7,8 @@ export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
     accountInfo: null,
-    saveSteemBalance: 0,
+    steemBalance: 0,
+    sbdBalance: 0,
     ethBalance: 0,
     ethAddress: null,
     prices: {},
@@ -38,6 +39,9 @@ export default Vuex.createStore({
     },
     saveSteemBalance: (state, steemBalance) => {
       state.steemBalance = steemBalance
+    },
+    saveSbdBalance: (state, sbdBalance) => {
+      state.sbdBalance = sbdBalance
     },
     savePrices: (state, prices) => {
       state.prices = prices

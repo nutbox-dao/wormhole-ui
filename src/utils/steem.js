@@ -85,6 +85,7 @@ export const getComments = async (author, permlink) => {
 
 export const getSteemBalance = async (username) => {
     const accountInfo = await getAccountInfo(username)
-    
-    return parseFloat(accountInfo ? accountInfo.balance : 0)
+    const sbdBalance = parseFloat(accountInfo ? accountInfo.sbd_balance : 0)
+    const steemBalance = parseFloat(accountInfo ? accountInfo.balance : 0)
+    return {steemBalance, sbdBalance}
 }
