@@ -36,7 +36,7 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState } from 'vuex'
-import { getAccountInfo } from '@/utils/steem'
+import { getAccountInfo, getAccountRC, vestsToSteem } from '@/utils/steem'
 
 export default {
   data: () => {
@@ -82,8 +82,10 @@ export default {
     }
   },
   async mounted() {
-    getAccountInfo('wherein').then(res => {
-      console.log(5354, res);
+    vestsToSteem(1).then(res => {
+      this.$store.commit('saveVestsToSteem', res)
+    }).catch(e => {
+      console.log('Get vest to steem fail:', e);
     })
     while(true) {
       try{

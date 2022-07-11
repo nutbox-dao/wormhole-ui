@@ -102,3 +102,13 @@
   flex: 1;
   position: relative;
 }
+.c-progress .el-progress-bar__outer {
+  background-color: #333333;
+}
+.c-progress .el-progress-bar__inner {
+  background-color: var(--gradient-primary-color1);
+  background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
+}
+.c-progress .el-progress-bar__innerText {
+  color: #1B1B1B;
+}

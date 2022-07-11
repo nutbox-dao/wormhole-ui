@@ -15,7 +15,8 @@ export default Vuex.createStore({
     ethers: {},
     erc20Balances: {},
     posts: [],
-    transactions: []
+    transactions: [],
+    vestsToSteem: 1
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -63,6 +64,9 @@ export default Vuex.createStore({
     },
     saveTransactions: (state, transactions) => {
       state.transactions = transactions
+    },
+    saveVestsToSteem: (state, vestsToSteem) => {
+      state.vestsToSteem = vestsToSteem
     }
   },
   actions: {},
