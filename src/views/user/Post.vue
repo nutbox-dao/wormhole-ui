@@ -19,7 +19,7 @@
           <el-tooltip>
             <template #content>
               <div class="max-w-14rem">
-                提示内容
+                Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
               </div>
             </template>
             <button>
@@ -27,7 +27,7 @@
             </button>
           </el-tooltip>
         </div>
-        <el-progress class="c-progress" :text-inside="true" :stroke-width="20" :percentage="70" />
+        <el-progress class="c-progress" :text-inside="true" :stroke-width="20" :percentage="rcPercent" />
       </div>
       <div class="border-b-1px border-white/20 py-1rem" v-for="p of posts" :key="p.postId">
         <Blog :post="p"/>
@@ -48,13 +48,13 @@ import { mapState } from 'vuex'
 import { getUsersPosts } from '@/api/api'
 import { sleep } from '@/utils/helper'
 import PullRefresh from 'pull-refresh-vue3'
-import { getPost, getPosts } from '@/utils/steem'
+import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 
 export default {
   name: "Transaction",
   components: {Blog, PullRefresh},
   computed: {
-    ...mapState(['accountInfo', 'posts'])
+    ...mapState(['accountInfo', 'posts', 'rcPercent'])
   },
   data() {
     return {
@@ -70,6 +70,9 @@ export default {
       await sleep(1)
     }
     this.onRefresh()
+    getAccountRC(this.accountInfo.steemId).then(rc => {
+      this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+    }).catch()
   },
   methods: {
     onRefresh() {

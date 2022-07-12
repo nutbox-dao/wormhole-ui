@@ -46,7 +46,7 @@ export const getAccountRC = async (account) => {
             if (res.data.result) {
                 const rc = res.data.result.rc_accounts[0]
                 var elapsed = Date.now() / 1000 - rc.rc_manabar.last_update_time;
-                var maxMana = rc.max_rc;
+                var maxMana = parseFloat(rc.max_rc);
                 // 432000 sec = 5 days
                 var currentMana = parseFloat(rc.rc_manabar.current_mana) + elapsed * maxMana / 432000;
                 if (currentMana > maxMana) {

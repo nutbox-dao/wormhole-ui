@@ -9,6 +9,7 @@ export default Vuex.createStore({
     accountInfo: null,
     steemBalance: 0,
     sbdBalance: 0,
+    rcPercent: 0,
     ethBalance: 0,
     ethAddress: null,
     prices: {},
@@ -43,6 +44,9 @@ export default Vuex.createStore({
     },
     saveSbdBalance: (state, sbdBalance) => {
       state.sbdBalance = sbdBalance
+    },
+    saveRcPercent: (state, rcPercent) => {
+      state.rcPercent = rcPercent
     },
     savePrices: (state, prices) => {
       state.prices = prices
