@@ -33,7 +33,8 @@
         Great, now let's bind address to your Twitter account
       </div>
       <button class="c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full lg:text-1.6rem mb-2.3rem text-1.2rem mt-1.25rem"
-              @click="$emit('send');">
+              @click="attachKeyToServer" :disabled="attachServer">
+        <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
         Go to bind
       </button>
 
@@ -53,6 +54,12 @@
 </template>
 
 <script>
+import { cacheKey } from '@/api/api'
+import { generateBrainKey } from '@/utils/ethers'
+import { box, createKeypair } from '@/utils/tweet-nacl'
+import { SendPwdServerPubKey } from '@/config'
+import { notify } from "@/utils/notify";
+
 export default {
   name: "Verify",
   props: {
@@ -64,7 +71,30 @@ export default {
   data() {
     return {
       checked: false,
+      attachServer: false,
       showRegisterModal: false
+    }
+  },
+  methods: {
+    showNotify(message, duration, type) {
+        notify({message, duration, type})
+    },
+    async attachKeyToServer() {
+      try{
+        this.attachServer = true
+        const pair = createKeypair()
+        const pwd = box(generateBrainKey(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
+        await cacheKey({
+          ethAddress: this.ethAccount.ethAddress,
+          pwd,
+          publicKey: pair.publicKey
+        })
+        this.$emit('send')
+      } catch (e) {
+        this.showNoertify('Pre bind account fail', 5000, 'error')
+      } finally {
+        this.attachServer = false
+      }
     }
   },
   mounted () {

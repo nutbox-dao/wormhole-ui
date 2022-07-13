@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
 import store from '@/store'
 import { RPC_NODE } from '@/config'
-import { u8arryToHex, hexToString } from '@/utils/helper'
+import { u8arryToHex, hexTou8array, hexToString, stringToHex } from '@/utils/helper'
 import { sha256 } from 'js-sha256'
+import base58 from 'bs58'
 
 export const getReadOnlyProvider = () => {
     // if (store.state.ethers && Object.keys(store.state.ethers).length > 0) {
@@ -19,6 +20,20 @@ export const generateEth = (username, pwd) => {
 	var brainKey = seed.trim().split(/[\t\n\v\f\r ]+/).join(' ');
 	var privateKey = sha256(brainKey);
     const wallet = new ethers.Wallet(privateKey)
-    console.log(555, `${username}\n${pwd}\n${brainKey}\n${privateKey}`);
     return {eth: wallet.address, ethPrivateKey: privateKey}
+}
+
+export const randomEthAccount = () => {
+    const key = ethers.utils.randomBytes(32);
+    const wallet = new ethers.Wallet(key);
+    return { ethAddress: wallet.address, privateKey: u8arryToHex(key)}
+}
+
+export const generateBrainKey = (key) => {
+    key = '0x80' + key;
+    var checksum = sha256(key)
+    checksum = sha256(checksum)
+    checksum = checksum.slice(0, 4)
+    const private_wif = key + checksum;
+    return stringToHex('P' + base58.encode(hexTou8array(private_wif)))
 }

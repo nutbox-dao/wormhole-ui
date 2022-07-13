@@ -7,7 +7,7 @@ export function createKeypair() {
     return { publicKey: u8arryToHex(pair.publicKey), privateKey: u8arryToHex(pair.secretKey) }
 }
 
-function box(data, publicKey, secretKey) {
+export function box(data, publicKey, secretKey) {
     data = hexTou8array(data)
     publicKey = hexTou8array(publicKey)
     secretKey = hexTou8array(secretKey)

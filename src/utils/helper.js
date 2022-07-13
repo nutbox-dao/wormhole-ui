@@ -47,6 +47,18 @@ export const hexToString = (str) => {
    return val;
 }
 
+export const stringToHex = (str) => {
+  let val = "";
+  for (let i = 0; i < str.length; i++) {
+    if (val == "") {
+      val = str.charCodeAt(i).toString(16);
+    } else {
+      val += str.charCodeAt(i).toString(16);
+    }
+  }
+  return val;
+}
+
 export const formatAmount = function (value) {
   if (!value) return "0.00";
   let unit = ''
