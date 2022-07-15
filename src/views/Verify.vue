@@ -91,7 +91,7 @@ export default {
         })
         this.$emit('send')
       } catch (e) {
-        this.showNoertify('Pre bind account fail', 5000, 'error')
+        this.showNotify('Pre bind account fail', 5000, 'error')
       } finally {
         this.attachServer = false
       }
