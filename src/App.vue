@@ -1,25 +1,32 @@
 <template>
   <div id="app" @click="showMenu=false">
-    <div class="py-2.2rem">
+    <div class="py-1.8rem border-b-1 border-headerBorder">
       <div class="container mx-auto flex justify-between items-center px-0.75rem">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
-        <div class="relative">
-          <button class="bg-transparent w-2.4rem mr-0.5rem" @click.stop="showMenu=!showMenu">
-            <span class="menu-icon" :class="showMenu?'active':''"></span>
-          </button>
-          <div class="menu-box w-13.5rem z-99"
-               :class="showMenu?'active':''">
-            <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
-              <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
-              <router-link to="/faq" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
-              <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
-              <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
-              <router-link v-if="accountInfo && accountInfo.ethAddress" to="/" @click="showMenu=false"
-                           class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
+        <div class="flex items-center">
+          <img class="h-2rem" src="~@/assets/icon-profile.svg" alt="">
+          <img class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+          <div class="relative">
+            <button class="bg-transparent h-2rem w-1.8rem mr-0.5rem flex items-center"
+                    @click.stop="showMenu=!showMenu">
+              <span class="menu-icon" :class="showMenu?'active':''"></span>
+            </button>
+            <div class="menu-box w-13.5rem z-99"
+                 :class="showMenu?'active':''">
+              <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
+                <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
+                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
+                <router-link to="/square" @click="showMenu=false"
+                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Square</router-link>
+                <router-link to="/faq" @click="showMenu=false"
+                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
+                <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
+                <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
+                <router-link v-if="accountInfo && accountInfo.ethAddress" to="/" @click="showMenu=false"
+                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -154,17 +161,17 @@ html, body {
 .menu-icon {
   display: inline-block;
   width: 100%;
-  height: 4px;
-  border-radius: 4px;
-  background-color: #555555;
+  height: 2px;
+  border-radius: 2px;
+  background-color: rgba(white, 0.6);
   position: relative;
   &::before {
     left: 0;
-    top: -.7rem;
+    top: -.6rem;
     width: 100%;
-    height: 4px;
-    border-radius: 4px;
-    background: #555555;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(white, 0.6);
     content: "";
     display: inline-block;
     position: absolute;
@@ -172,11 +179,11 @@ html, body {
   }
   &::after {
     left: 0;
-    top: .7rem;
+    top: .6rem;
     width: 100%;
-    height: 4px;
-    border-radius: 4px;
-    background: #555555;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(white, 0.6);
     content: "";
     display: inline-block;
     position: absolute;

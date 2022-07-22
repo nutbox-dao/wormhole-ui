@@ -9,14 +9,26 @@ import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
 import UserTransactionView from '@/views/user/Transaction'
 import UserPostView from '@/views/user/Post'
-import UserPostDetailView from '@/views/user/PostDetail'
+import UserPostDetailView from '@/views/post/PostDetail'
 import AccountInfoView from '@/views/AccountInfo'
+import SquareIndex from "@/views/square/SquareIndex";
+import TagView from "@/views/square/TagView";
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/square',
+    name: 'square',
+    component: SquareIndex,
+  },
+  {
+    path: '/square/tag/:tag',
+    name: 'tag',
+    component: TagView,
   },
   {
     path: '/verify',
@@ -62,13 +74,13 @@ const routes = [
         path: '/profile/:user/post',
         name: 'post',
         component: UserPostView
-      },
-      {
-        path: '/profile/:user/post-detail',
-        name: 'post-detail',
-        component: UserPostDetailView
       }
     ]
+  },
+  {
+    path: '/post-detail',
+    name: 'post-detail',
+    component: UserPostDetailView
   },
   {
     path: '/about',

@@ -8,13 +8,17 @@ export default defineConfig({
         text8F: 'var(--text8F)',
         textA6: 'var(--textA6)',
         text53: 'var(--text53)',
+        text2C: '#2C2C2C',
         primaryColor: '#EEB134',
         primaryColor1: 'var(--gradient-primary-color1)',
         primaryColor2: 'var(--gradient-primary-color2)',
         primaryColor3: 'var(--gradient-primary-color3)',
-        redColor: '#F4245E',
+        redColor: '#CE395F',
         primaryBg: '#000',
-        dialogBg: '#131313'
+        dialogBg: '#131313',
+        headerBorder: '#323436',
+        blockBg: '#2C2C2C',
+        dividerColor: '#696969'
       }
     }
   }

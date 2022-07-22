@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto max-w-49rem px-0.725rem fade-in overflow-x-hidden">
+  <div class="container mx-auto max-w-49rem fade-in overflow-x-hidden">
     <template v-if="!loading">
-      <div class="mt-1rem flex items-center">
+      <div class="px-0.725rem mt-1rem flex items-center">
         <img class="w-8rem h-8rem mr-1.5rem rounded-full gradient-border border-3px" @error="replaceEmptyImg"
              :src="profileImg" alt="">
         <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col">
@@ -29,25 +29,30 @@
           </div>
         </div>
       </div>
-      <template v-if="accountInfo && accountInfo.ethAddress">
-        <div class="gradient-bg gradient-bg-color3 rounded-2rem p-0.2rem mt-2.5rem sm:mb-5rem mb-2rem">
-          <div class="text-1.4rem font-bold py-0.8rem text-primaryColor bg-primaryBg rounded-t-1.8rem">
-            Your binded ETH Address
-            <span class="ml-2">👇</span>
-          </div>
-          <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all flex items-center justify-center">
-            {{ accountInfo ? accountInfo.ethAddress : '' }}
-            <img class="w-1.5rem h-1.5rem ml-1rem hover"  @click="copy(accountInfo.ethAddress)" src="~@/assets/icon-copy.svg" alt="">
-          </div>
+<!--      <div class="px-0.725rem" v-if="accountInfo && accountInfo.ethAddress">-->
+<!--        <div class="gradient-bg gradient-bg-color3 rounded-2rem p-0.2rem mt-2.5rem sm:mb-5rem mb-2rem">-->
+<!--          <div class="text-1.4rem font-bold py-0.8rem text-primaryColor bg-primaryBg rounded-t-1.8rem">-->
+<!--            Your binded ETH Address-->
+<!--            <span class="ml-2">👇</span>-->
+<!--          </div>-->
+<!--          <div class="c-text-bold text-1.4rem leading-1.9rem py-1.2rem px-2.1rem break-all flex items-center justify-center">-->
+<!--            {{ accountInfo ? accountInfo.ethAddress : '' }}-->
+<!--            <img class="w-1.5rem h-1.5rem ml-1rem hover"  @click="copy(accountInfo.ethAddress)" src="~@/assets/icon-copy.svg" alt="">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="border-b-1px border-primaryColor flex text-1.2rem leading-1.5rem c-text-medium gap-1.5rem sm:mt-5rem sm:mb-2rem text-text8F overflow-x-auto no-scroll-bar">-->
+<!--        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}`">Tokens</router-link>-->
+<!--        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/nft`">NFTs</router-link>-->
+<!--        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/post`">Posts</router-link>-->
+<!--      </div>-->
+      <div class="bg-blockBg sm:bg-transparent rounded-t-1rem mt-1rem">
+        <div class="border-b-1px border-dividerColor flex text-1.2rem leading-1.5rem c-text-medium">
+          <router-link class="flex-1 py-0.8rem px-1rem" :to="`/profile/${$route.params.user}/post`">Social assets</router-link>
+          <router-link class="flex-1 py-0.8rem px-1rem" :to="`/profile/${$route.params.user}`">Web3 wallet</router-link>
         </div>
-      </template>
-      <div class="border-b-1px border-primaryColor flex text-1.2rem leading-1.5rem c-text-medium gap-1.5rem sm:mt-5rem sm:mb-2rem text-text8F overflow-x-auto no-scroll-bar">
-        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}`">Tokens</router-link>
-        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/nft`">NFTs</router-link>
-        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/post`">Posts</router-link>
-        <router-link class="py-0.2rem px-1rem" :to="`/profile/${$route.params.user}/transaction`">Transactions</router-link>
+        <router-view></router-view>
       </div>
-      <router-view></router-view>
     </template>
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
       <img src="~@/assets/profile-loading.gif" alt="">
@@ -264,8 +269,7 @@ export default {
 
 <style scoped>
 .router-link-exact-active {
-  background-image: linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
-  border-radius: 8px 8px 0 0;
-  color: white;
+  border-bottom: 2px solid var(--primary-custom);
+  color: var(--primary-custom);
 }
 </style>

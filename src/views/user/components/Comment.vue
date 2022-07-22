@@ -1,6 +1,6 @@
 <template>
-  <div class="flex py-1rem border-t-1px border-white/20">
-    <img class="w-5rem h-5rem mr-1.5rem rounded-full gradient-border border-3px"
+  <div class="flex">
+    <img class="w-2.2rem h-2.2rem mr-1.5rem rounded-full gradient-border border-3px"
          src="@/assets/icon-default-avatar.svg" alt="">
     <div>
       <div class="flex items-center overflow-x-hidden">

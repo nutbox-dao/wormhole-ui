@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-0.5rem pr-1rem pb-2rem">
+  <div class="pb-2rem">
     <div v-if="posts.length===0">
       <div class="c-text-black text-zinc-700 text-2rem my-4rem">None</div>
       <div class="text-zinc-400 text-0.8rem leading-1.4rem">
@@ -7,30 +7,38 @@
         By depositing into this account, you are agreeing to our terms of service.
       </div>
     </div>
-    <pull-refresh v-else  v-model="refreshing"
-                  class="min-h-20rem"
-                  :pulling-text="'Loading...'"
-                  :loosing-text="''"
-                  :success-text="''"
-                  @refresh="onRefresh">
-      <div class="my-1rem max-w-35rem mx-auto">
-        <div class="flex items-center justify-center mb-0.5rem">
-          <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
-          <el-tooltip>
-            <template #content>
-              <div class="max-w-14rem">
-                Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
-              </div>
-            </template>
-            <button>
-              <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
-            </button>
-          </el-tooltip>
+    <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh">
+      <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
+        <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
+          <span class="text-black c-text-bold">Social token</span>
+          <div class="c-text-medium flex-1 flex justify-end items-center">
+            <span class="text-text2C/60 mr-1rem">358 STEEM</span>
+            <span class="text-white">$340.88 </span>
+          </div>
         </div>
-        <el-progress class="c-progress" :text-inside="true" :stroke-width="20" :percentage="rcPercent" />
+        <div class="mt-2.5rem mb-1.5rem px-1rem">
+          <div class="flex justify-between items-center mb-0.8rem">
+            <div class="flex items-center justify-center">
+              <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
+              <el-tooltip>
+                <template #content>
+                  <div class="max-w-14rem">
+                    Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
+                  </div>
+                </template>
+                <button>
+                  <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                </button>
+              </el-tooltip>
+            </div>
+            <span class="c-text-black text-primaryColor text-1.2rem">{{rcPercent}}%</span>
+          </div>
+          <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
+                       :percentage="Number(rcPercent)" />
+        </div>
       </div>
-      <div class="border-b-1px border-white/20 py-1rem" v-for="p of posts" :key="p.postId">
-        <Blog :post="p"/>
+      <div class="" v-for="p of posts" :key="p.postId">
+        <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10 border-b-1 border-white/20"/>
       </div>
       <div class="my-1rem text-center">
         <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
@@ -38,21 +46,20 @@
                 @click="onLoad">Load more</button>
         <div v-if="finished">No more data</div>
       </div>
-    </pull-refresh>
+    </van-pull-refresh>
   </div>
 </template>
 
 <script>
-import Blog from "@/views/user/components/Blog";
+import Blog from "@/components/Blog";
 import { mapState } from 'vuex'
 import { getUsersPosts } from '@/api/api'
 import { sleep } from '@/utils/helper'
-import PullRefresh from 'pull-refresh-vue3'
 import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 
 export default {
   name: "Transaction",
-  components: {Blog, PullRefresh},
+  components: {Blog},
   computed: {
     ...mapState(['accountInfo', 'posts', 'rcPercent'])
   },
@@ -89,6 +96,7 @@ export default {
       }).catch(e => {
         this.refreshing = false
       })
+      console.log(this.posts)
     },
     onLoad() {
       console.log('load more')
@@ -114,9 +122,10 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 560px) {
-  .lb-pull-refresh {
-    user-select: auto;
-  }
+.top-box {
+  background: linear-gradient(99.28deg, rgba(83, 83, 83, 0.8) 0.41%, rgba(78, 72, 61, 0.8) 75.78%);
+  border: 1px solid #323436;
+  border-radius: 12px;
 }
+
 </style>
