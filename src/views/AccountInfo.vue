@@ -40,13 +40,13 @@
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
       <img src="~@/assets/profile-loading.gif" alt="">
     </div>
-    <el-drawer v-model="tipDrawer"
-               :direction="direction"
-               :with-header="false"
-               :size="direction==='rtl'?560:''"
-               custom-class="c-tip-drawer">
-      <template #default>
-        <div class="w-full bg-dialogBg sm:p-5rem py-4rem px-2.5rem sm:rounded-1.5rem rounded-t-1.5rem text-left relative">
+    <van-popup class="c-tip-drawer" v-model:show="tipDrawer"
+               :position="position">
+      <div class="modal-bg w-full md:w-49rem max-h-80vh overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-2rem md:p-2rem">
+        <div v-if="position === 'bottom'"
+             @click="tipDrawer=false"
+             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"></div>
+        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-4rem">
           <div class="gradient-text gradient-text-bottom c-text-black md:text-2rem md:leading-3.6rem text-1.8rem leading-2.4rem text-center w-full">
             What is a wormhole3 <br>
             wallet or web3 wallet?
@@ -72,17 +72,9 @@
           <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
             4. Add a post  to web3
           </div>
-          <img v-if="direction==='rtl'"
-               @click="tipDrawer=false"
-               class="absolute left-1rem top-1/2 translate-y-1/2 w-1rem"
-               src="~@/assets/icon-drawer-arrow.svg" alt="">
-          <button v-else @click="tipDrawer=false"
-                  class="w-4rem h-2.5rem absolute transform top-1rem left-1/2 -translate-x-1/2">
-            <img class="w-2rem mx-auto" src="~@/assets/icon-drawer-arrow-white.svg" alt="">
-          </button>
         </div>
-      </template>
-    </el-drawer>
+      </div>
+    </van-popup>
     <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
         Your account is in the process of registration<br>
@@ -115,7 +107,7 @@ export default {
       tipDrawer: false,
       showRegistering: false,
       showNotSendTwitter: false,
-      direction: document.body.clientWidth < 560?'btt':'rtl'
+      position: document.body.clientWidth < 768?'bottom':'center',
     }
   },
   computed: {

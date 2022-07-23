@@ -86,15 +86,6 @@
   background-color: var(--primary-custom);
   border-color: var(--primary-custom);
 }
-.c-tip-drawer.el-drawer {
-  background-color: transparent;
-  box-shadow: none;
-  height: fit-content!important;
-  max-height: 80vh;
-}
-.c-tip-drawer .el-drawer__body {
-  padding: 0;
-}
 .c-img-dialog.el-dialog {
   background-color: transparent;
   display: flex;

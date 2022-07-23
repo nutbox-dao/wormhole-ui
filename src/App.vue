@@ -141,6 +141,7 @@ export default {
   --text8F: #8F8F8F;
   --textA6: #A6A6A6;
   --text53: #535353;
+  --van-popup-background-color: transparent!important;
 }
 @import "style/responsive";
 @import "style/common";

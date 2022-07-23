@@ -45,20 +45,18 @@
         </div>
       </van-pull-refresh>
     </van-list>
-    <el-drawer v-model="modalVisible"
-               :direction="direction"
-               :with-header="false"
-               custom-class="c-tip-drawer">
-      <template #default>
-        <div class="modal-bg w-full md:p-5rem pt-2rem pb-4rem px-1.5rem rounded-t-1.5rem md:rounded-b-1.5rem md:rounded-t-0px text-left relative">
-          <div v-if="direction === 'btt'"
-               class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"></div>
+    <van-popup class="c-tip-drawer" v-model:show="modalVisible"
+               :position="position">
+      <div class="modal-bg w-full md:w-49rem max-h-80vh overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-2rem md:p-2rem">
+        <div v-if="position === 'bottom'"
+             @click="modalVisible=false"
+             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"></div>
+        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
 <!--          <Login class="text-center"/>-->
-          <PostTip/>
+          <PostTip class="pb-4rem text-left"/>
         </div>
-      </template>
-    </el-drawer>
-
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -79,7 +77,7 @@ export default {
       listFinished: false,
       refreshing: false,
       list: [],
-      direction: document.body.clientWidth < 560?'btt':'ttb',
+      position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
       testData: {
         children: 0,

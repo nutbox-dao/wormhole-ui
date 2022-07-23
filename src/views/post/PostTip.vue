@@ -33,7 +33,7 @@
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="bg-black rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
+    <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
       <div class="text-left break-all">
         <span class="text-primaryColor">#wormhole3 !send </span>
         <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
