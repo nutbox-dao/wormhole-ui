@@ -1,7 +1,7 @@
 <template>
   <div class="login-view">
-    <div class="container max-w-425px mx-auto lg:mt-6rem mt-20vh px-0.75rem">
-      <div class="fade-in">
+    <div class="container max-w-425px mx-auto px-0.75rem">
+      <div class="">
         <div class="gradient-text gradient-text-right c-text-black text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
           Login
         </div>
@@ -85,7 +85,7 @@ export default {
             this.showNotSendTwitter = true
           }
         })
-         
+
         if (!result) {
           console.log('Not exsit');
           this.showNotify('This twitter account is not binded.', 5000, 'error')

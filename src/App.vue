@@ -6,8 +6,13 @@
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
-          <img class="h-2rem" src="~@/assets/icon-profile.svg" alt="">
-          <img class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+          <router-link v-if="accountInfo" :to="`/profile/@${accountInfo.twitterUsername}/post`">
+            <img class="h-2rem" src="~@/assets/icon-profile.svg" alt="">
+          </router-link>
+          <router-link v-if="accountInfo" :to="`/transaction/@${accountInfo.twitterUsername}`" v-slot="{isActive}">
+            <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
+            <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+          </router-link>
           <div class="relative">
             <button class="bg-transparent h-2rem w-1.8rem mr-0.5rem flex items-center"
                     @click.stop="showMenu=!showMenu">

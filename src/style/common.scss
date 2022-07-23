@@ -72,3 +72,9 @@
 .no-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+.modal-bg {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset -5px -5px 4px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+}

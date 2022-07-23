@@ -1,7 +1,7 @@
 <template>
   <div class="pb-2rem">
-
-    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
+    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
+         v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
              :src="icons[erc20]" alt="">
@@ -16,7 +16,8 @@
       </div>
     </div>
 
-    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.BNB" v-for="erc20 of Object.keys(erc20Balances.BNB)" :key="erc20 + 'eth'">
+    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
+         v-if="erc20Balances && erc20Balances.BNB" v-for="erc20 of Object.keys(erc20Balances.BNB)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
              :src="icons[erc20]" alt="">
@@ -31,7 +32,8 @@
       </div>
     </div>
 
-    <div class="flex justify-between items-center my-2.5rem" v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'eth'">
+    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
+         v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
              :src="icons[erc20]" alt="">
@@ -46,7 +48,7 @@
       </div>
     </div>
 
-    <div class="flex justify-between items-center my-2.5rem">
+    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder">
         <div class="flex items-center">
           <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
               src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
@@ -69,6 +71,8 @@ import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } fr
 import { getTokenBalance } from '@/utils/asset'
 import { ERC20List, MainToken, TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
+import {ethers} from "ethers";
+import {notify} from "@/utils/notify";
 
 export default {
   name: "Token",
@@ -105,6 +109,19 @@ export default {
     },
     sendToken(token, chain) {
       window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token}${token === chain ? '' : ('('+chain +')')} to`, '__blank')
+    },
+    copy(address) {
+      if (ethers.utils.isAddress(address)) {
+        navigator.clipboard.writeText(address).then(() => {
+          notify({
+            message: 'Copied address:'+address,
+            duration: 5000,
+            type: 'success'
+          })
+        }, (e) => {
+          console.log(e)
+        })
+      }
     }
   },
   async mounted () {

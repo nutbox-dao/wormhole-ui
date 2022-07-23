@@ -13,6 +13,8 @@ import UserPostDetailView from '@/views/post/PostDetail'
 import AccountInfoView from '@/views/AccountInfo'
 import SquareIndex from "@/views/square/SquareIndex";
 import TagView from "@/views/square/TagView";
+import WalletView from "@/views/user/WalletView";
+import TopicsView from "@/views/square/TopicsView";
 
 const routes = [
   {
@@ -29,6 +31,11 @@ const routes = [
     path: '/square/tag/:tag',
     name: 'tag',
     component: TagView,
+  },
+  {
+    path: '/square/topics',
+    name: 'topics',
+    component: TopicsView,
   },
   {
     path: '/verify',
@@ -56,19 +63,21 @@ const routes = [
     component: UserIndexView,
     children: [
       {
-        path: '/profile/:user',
-        name: 'token',
-        component: UserTokenView
-      },
-      {
-        path: '/profile/:user/nft',
-        name: 'nft',
-        component: UserNftView
-      },
-      {
-        path: '/profile/:user/transaction',
-        name: 'transaction',
-        component: UserTransactionView
+        path: '/profile/:user/wallet',
+        name: 'wallet',
+        component: WalletView,
+        children: [
+          {
+            path: '',
+            name: 'token',
+            component: UserTokenView
+          },
+          {
+            path: 'nft',
+            name: 'nft',
+            component: UserNftView
+          },
+        ]
       },
       {
         path: '/profile/:user/post',
@@ -76,6 +85,11 @@ const routes = [
         component: UserPostView
       }
     ]
+  },
+  {
+    path: '/transaction/:user',
+    name: 'transaction',
+    component: UserTransactionView
   },
   {
     path: '/post-detail',

@@ -8,44 +8,45 @@
       </div>
     </div>
     <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh">
-      <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
-        <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
-          <span class="text-black c-text-bold">Social token</span>
-          <div class="c-text-medium flex-1 flex justify-end items-center">
-            <span class="text-text2C/60 mr-1rem">358 STEEM</span>
-            <span class="text-white">$340.88 </span>
-          </div>
-        </div>
-        <div class="mt-2.5rem mb-1.5rem px-1rem">
-          <div class="flex justify-between items-center mb-0.8rem">
-            <div class="flex items-center justify-center">
-              <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
-              <el-tooltip>
-                <template #content>
-                  <div class="max-w-14rem">
-                    Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
-                  </div>
-                </template>
-                <button>
-                  <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
-                </button>
-              </el-tooltip>
+      <van-list :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :finished-text="'没有更多了'"
+                @load="onLoad">
+        <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
+          <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
+            <span class="text-black c-text-bold">Social token</span>
+            <div class="c-text-medium flex-1 flex justify-end items-center">
+              <span class="text-text2C/60 mr-1rem">358 STEEM</span>
+              <span class="text-white">$340.88 </span>
             </div>
-            <span class="c-text-black text-primaryColor text-1.2rem">{{rcPercent}}%</span>
           </div>
-          <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
-                       :percentage="Number(rcPercent)" />
+          <div class="mt-2.5rem mb-1.5rem px-1rem">
+            <div class="flex justify-between items-center mb-0.8rem">
+              <div class="flex items-center justify-center">
+                <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
+                <el-tooltip>
+                  <template #content>
+                    <div class="max-w-14rem">
+                      Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
+                    </div>
+                  </template>
+                  <button>
+                    <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                  </button>
+                </el-tooltip>
+              </div>
+              <span class="c-text-black text-primaryColor text-1.2rem">{{rcPercent}}%</span>
+            </div>
+            <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
+                         :show-text="false"
+                         :percentage="Number(rcPercent)" />
+          </div>
         </div>
-      </div>
-      <div class="" v-for="p of posts" :key="p.postId">
-        <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10 border-b-1 border-white/20"/>
-      </div>
-      <div class="my-1rem text-center">
-        <c-spinner class="w-2.4rem h-2.4rem mx-auto" v-show="loading"></c-spinner>
-        <button v-if="!loading && !finished"
-                @click="onLoad">Load more</button>
-        <div v-if="finished">No more data</div>
-      </div>
+        <div class="" v-for="p of posts" :key="p.postId">
+          <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10 border-b-1 border-white/20"/>
+        </div>
+      </van-list>
     </van-pull-refresh>
   </div>
 </template>
@@ -68,7 +69,7 @@ export default {
       refreshing: true,
       loading: false,
       finished: false,
-      pageSize: 30,
+      pageSize: 10,
       pageIndex: 0
     }
   },
@@ -100,7 +101,7 @@ export default {
     },
     onLoad() {
       console.log('load more')
-      if (this.finished) return;
+      if (this.finished || this.loading) return;
       let time;
       if (this.posts && this.posts.length > 0) {
         this.loading = true
@@ -114,6 +115,7 @@ export default {
           this.loading = false
         }).catch(e => {
           this.loading = false
+          this.finished = true
         })
       }
     }

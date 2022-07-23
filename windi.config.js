@@ -18,7 +18,10 @@ export default defineConfig({
         dialogBg: '#131313',
         headerBorder: '#323436',
         blockBg: '#2C2C2C',
-        dividerColor: '#696969'
+        dividerColor: '#696969',
+        listBgBorder: '#323436',
+        color1E: '#1E1E1E',
+        color73: '#737373'
       }
     }
   }
