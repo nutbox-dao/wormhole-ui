@@ -34,14 +34,15 @@
 
 <script>
 import Blog from "@/components/Blog";
+import { mapState } from 'vuex'
 
 export default {
   components: {Blog},
   data() {
     return {
-      tagList: ['All', 'dutopian', 'NFT', '坐而论DAO', 'dutopian', 'NFT', '坐而论DAO'],
+      tagList: ['All'],
       activeTagIndex: 0,
-      subTagList: ['Trending', 'New', 'Payouts', 'New', 'Payouts', 'Trending', 'New', 'Payouts'],
+      subTagList: ['Trending', 'New'],
       subActiveTagIndex: 0,
       listLoading: false,
       listFinished: false,
@@ -62,6 +63,9 @@ export default {
         votes: 1
       }
     }
+  },
+  computed: {
+    ...mapState('postsModule', ['tagsAggregation'])
   },
   mounted() {
     this.onLoad()

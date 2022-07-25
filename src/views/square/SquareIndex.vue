@@ -65,14 +65,14 @@ import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
 import { getTagAggregation } from '@/api/api';
+import { mapState } from 'vuex'
 
 export default {
   components: {Blog, Login, PostTip},
   data() {
     return {
-      tagList: ['All', 'dutopian', 'NFT', '坐而论DAO', 'dutopian', 'NFT', '坐而论DAO'],
       activeTagIndex: 0,
-      subTagList: ['Trending', 'New', 'Payouts', 'New', 'Payouts', 'Trending', 'New', 'Payouts'],
+      subTagList: ['Trending', 'New'],
       subActiveTagIndex: 0,
       listLoading: false,
       listFinished: false,
@@ -96,10 +96,20 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('postsModule', ['tagsAggregation']),
+    tagList() {
+      if (this.tagsAggregation) {
+        return ['All'].concat(Object.keys(this.tagsAggregation).slice(1, 7))
+      }
+    }
+  },
   mounted() {
     this.onLoad()
     getTagAggregation().then(tags => {
       console.log(235, tags);
+      this.$store.commit('postsModule/saveTagsAggregation', tags)
+      this.tagList = ['All'].concat(Object.keys(tags).slice(1, 7))
     })
   },
   methods: {
