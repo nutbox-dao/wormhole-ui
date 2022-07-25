@@ -58,7 +58,8 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { getAccountInfo, getAccountRC, vestsToSteem } from '@/utils/steem'
+import { getAccountInfo, getAccountRC, vestsToSteem, getSteemBalance } from '@/utils/steem'
+import { getTokenBalance } from "@/utils/asset";
 
 export default {
   data: () => {
@@ -111,6 +112,28 @@ export default {
     }).catch(e => {
       console.log('Get vest to steem fail:', e);
     })
+
+    if (this.getAccountInfo) {
+      const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
+      
+      if (steemId) {
+        // get steem balance
+        getSteemBalance(steemId)
+          .then((balance) => {
+            this.$store.commit("saveSteemBalance", balance.steemBalance);
+            this.$store.commit("saveSbdBalance", balance.sbdBalance);
+          })
+          .catch((err) => console.log("get steem balance fail:", err));
+      } else {
+        this.$store.commit("saveSteemBalance", 0);
+      }
+
+      //get eth balances
+      if (ethAddress) {
+        getTokenBalance(ethAddress);
+      }
+    }
+
     while(true) {
       try{
         await this.monitorPrices()

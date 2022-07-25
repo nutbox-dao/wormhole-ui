@@ -58,7 +58,7 @@
           </div>
           <div class="text-white flex items-center">
              <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
-            <span class="c-text-medium ml-2px">$ {{ value }}</span>
+            <span class="c-text-medium ml-2px">{{ value }}</span>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { parseTimestamp } from '@/utils/helper'
+import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
@@ -116,7 +116,7 @@ export default {
       const value = this.parseSBD(this.post.curatorPayoutValue)
        + this.parseSBD(this.post.pendingPayoutValue)
       + this.parseSBD(this.post.totalPayoutValue)
-      return value || 0
+      return formatPrice(value)
     }
   },
   methods: {

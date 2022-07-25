@@ -7,8 +7,8 @@
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
         <span class="text-black c-text-bold">Social token</span>
         <div class="c-text-bold flex-1 flex justify-end items-center">
-          <span class="text-text2C/60 mr-1rem">358 STEEM</span>
-          <span class="text-white">$340.88 </span>
+          <span class="text-text2C/60 mr-1rem">{{steemBalance}} STEEM</span>
+          <span class="text-white">{{ steemValue }}</span>
         </div>
       </div>
       <div class="mt-2.5rem mb-1.5rem px-1rem">
@@ -54,12 +54,17 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState, mapGetters} from "vuex";
+import { formatPrice } from '@/utils/helper'
 
 export default {
   name: "PostTip",
   computed: {
-    ...mapState(['accountInfo', 'posts', 'rcPercent'])
+    ...mapState(['accountInfo', 'posts', 'rcPercent', 'steemBalance', 'prices']),
+    ...mapGetters(['getAccountInfo']),
+    steemValue() {
+      return formatPrice(this.steemBalance * this.prices['steem'])
+    }
   },
 }
 </script>
