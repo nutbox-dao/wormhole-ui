@@ -19,3 +19,5 @@ export const cacheKey = async (params) =>
 export const getTwitterAccount = async (username) =>
 getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
 
+export const getTagAggregation = async () =>
+    get(BACKEND_API_URL + '/twitter/tags')

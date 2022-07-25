@@ -19,8 +19,7 @@ import TopicsView from "@/views/square/TopicsView";
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    redirect: '/square',
   },
   {
     path: '/square',
@@ -41,6 +40,11 @@ const routes = [
     path: '/verify',
     name: 'verify',
     component: VerifyView,
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: HomeView
   },
   {
     path: '/login',

@@ -2,7 +2,7 @@
   <div class="">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex items-center">
-        <img v-if="accountInfo" @click="gotoSteemProfile"
+        <img v-if="getAccountInfo" @click="gotoSteemProfile"
              class="w-2.6rem h-2.6rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
         <img class="w-2.6rem h-2.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
@@ -76,7 +76,7 @@
 
 <script>
 import { parseTimestamp } from '@/utils/helper'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
 
@@ -84,7 +84,8 @@ export default {
   name: "Blog",
   props: {
     post: {
-      type: Object
+      type: Object,
+      default: {}
     },
   },
   data() {
@@ -102,12 +103,13 @@ export default {
   },
   computed: {
     ...mapState(['accountInfo']),
+    ...mapGetters(['getAccountInfo']),
     profileImg() {
-      if (!this.accountInfo) return ''
-      if (this.accountInfo.profileImg) {
-        return this.accountInfo.profileImg.replace('normal', '200x200')
+      if (!this.getAccountInfo) return ''
+      if (this.getAccountInfo.profileImg) {
+        return this.getAccountInfo.profileImg.replace('normal', '200x200')
       }else {
-        return 'https://profile-images.heywallet.com/' + this.accountInfo.twitterId
+        return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
      },
     value() {

@@ -54,7 +54,7 @@
 
 <script>
 import { getUsersTransaction } from '@/api/api'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
@@ -72,11 +72,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'transactions', 'prices'])
+    ...mapState(['accountInfo', 'transactions', 'prices']),
+    ...mapGetters(['getAccountInfo'])
   },
   methods: {
     isReceive(trans) {
-      return trans.username !== this.accountInfo.twitterUsername
+      return trans.username !== this.getAccountInfo.twitterUsername
     },
     failResult(trans) {
       switch(trans.sendResult) {
@@ -119,7 +120,7 @@ export default {
       if (this.transactions && this.transactions.length > 0) {
         time = this.transactions[0].postTime
       }
-      getUsersTransaction(this.accountInfo.twitterId, this.pageSize, time, true).then(res => {
+      getUsersTransaction(this.getAccountInfo.twitterId, this.pageSize, time, true).then(res => {
         this.$store.commit('saveTransactions', res.concat(this.transactions))
         this.refreshing = false
       }).catch(e => {
@@ -134,7 +135,7 @@ export default {
       if (this.transactions && this.transactions.length > 0) {
         this.loading = true
         time = this.transactions[this.transactions.length - 1].postTime
-        getUsersTransaction(this.accountInfo.twitterId, this.pageSize, time, false).then(res => {
+        getUsersTransaction(this.getAccountInfo.twitterId, this.pageSize, time, false).then(res => {
           this.$store.commit('saveTransactions', this.transactions.concat(res))
           if (res.length < this.pageSize) {
             this.finished = true
@@ -148,7 +149,7 @@ export default {
     }
   },
   async mounted () {
-    while(!this.accountInfo || !this.accountInfo.twitterUsername){
+    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
     }
     this.onRefresh()

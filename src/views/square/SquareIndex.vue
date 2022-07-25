@@ -64,6 +64,7 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
+import { getTagAggregation } from '@/api/api';
 
 export default {
   components: {Blog, Login, PostTip},
@@ -97,6 +98,9 @@ export default {
   },
   mounted() {
     this.onLoad()
+    getTagAggregation().then(tags => {
+      console.log(235, tags);
+    })
   },
   methods: {
     getData() {

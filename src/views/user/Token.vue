@@ -12,7 +12,6 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'ETH')">Send</button> -->
       </div>
     </div>
 
@@ -28,7 +27,6 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'BNB')">Send</button> -->
       </div>
     </div>
 
@@ -44,32 +42,31 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.6rem c-text-bold">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
-        <!-- <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendToken(erc20, 'MATIC')">Send</button> -->
       </div>
     </div>
 
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder">
-        <div class="flex items-center">
-          <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
-              src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.4rem">Steem</div>
-            <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
-          </div>
-        </div>
-        <div class="flex flex-col items-end justify-end">
-          <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
-          <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
+      <div class="flex items-center">
+        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
+            src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
+        <div class="text-left ml-1rem">
+          <div class="c-text-black text-1.4rem">Steem</div>
+          <div class="text-text8F text-1rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
+      <div class="flex flex-col items-end justify-end">
+        <div class="text-1.6rem c-text-bold">{{ steemValue }}</div>
+        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
 import { getTokenBalance } from '@/utils/asset'
-import { ERC20List, MainToken, TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
+import { TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
@@ -78,7 +75,6 @@ export default {
   name: "Token",
   data() {
     return {
-      mainToken: MainToken,
       ethBalanceInterval: null,
       monitor: null,
       icons: TokenIcon,
@@ -87,6 +83,7 @@ export default {
   },
   computed: {
     ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo']),
+    ...mapGetters(['getAccountInfo']),
     steemValue() {
       if (this.prices['steem'] && this.steemBalance){
         return formatPrice(this.prices['steem'] * this.steemBalance)
@@ -126,8 +123,8 @@ export default {
   },
   async mounted () {
     this.monitor = setInterval(() => {
-      if (this.accountInfo) {
-        const { steemId, ethAddress, web25ETH } = this.accountInfo
+      if (this.getAccountInfo) {
+        const { steemId, ethAddress, web25ETH } = this.getAccountInfo
 
         if (steemId) {
           // get steem balance

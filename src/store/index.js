@@ -2,18 +2,18 @@ import * as Vue from 'vue'
 import * as Vuex from 'vuex'
 import Cookie from 'vue-cookies'
 import { b64uEnc, b64uDec } from '@/utils/helper'
+import postsModule from './posts'
 
 export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
-    accountInfo: null,
+    accountInfo: Cookie.get('accountInfo'),
     steemBalance: 0,
     sbdBalance: 0,
     rcPercent: 0,
     ethBalance: 0,
     ethAddress: null,
     prices: {},
-    ethers: {},
     erc20Balances: {},
     posts: [],
     transactions: [],
@@ -26,6 +26,15 @@ export default Vuex.createStore({
           return b64uDec(state.rsaKey.privateKey)
         }
       }
+    },
+    getAccountInfo: (state) => {
+      const acc = state.accountInfo
+      if (acc) {
+        if (acc.twitterUsername) return acc
+        return JSON.parse(acc)
+      }else {
+        return null
+      }
     }
   },
   mutations: {
@@ -37,7 +46,14 @@ export default Vuex.createStore({
       Cookie.set('keyPair', state.rsaKey, '7d')
     },
     saveAccountInfo: (state, accountInfo) => {
-      state.accountInfo = accountInfo;
+      if (!accountInfo || Object.keys(accountInfo).length === 0) {
+        state.accountInfo = null;
+        Cookie.remove('accountInfo')
+      }else {
+        state.accountInfo = JSON.stringify(accountInfo);
+        Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d')
+      }
+      
     },
     saveSteemBalance: (state, steemBalance) => {
       state.steemBalance = steemBalance
@@ -50,9 +66,6 @@ export default Vuex.createStore({
     },
     savePrices: (state, prices) => {
       state.prices = prices
-    },
-    saveEthers: (state, ethers) => {
-      state.ethers = ethers
     },
     saveEthBalance: (state, ethBalance) => {
       state.ethBalance = ethBalance
@@ -74,5 +87,7 @@ export default Vuex.createStore({
     }
   },
   actions: {},
-  modules: {},
+  modules: {
+    postsModule
+  },
 })

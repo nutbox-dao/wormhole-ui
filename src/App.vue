@@ -6,13 +6,23 @@
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
-          <router-link v-if="accountInfo" :to="`/profile/@${accountInfo.twitterUsername}/post`">
-            <img class="h-2rem" src="~@/assets/icon-profile.svg" alt="">
-          </router-link>
-          <router-link v-if="accountInfo" :to="`/transaction/@${accountInfo.twitterUsername}`" v-slot="{isActive}">
-            <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
-            <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
-          </router-link>
+          <template v-if="getAccountInfo">
+            <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
+              <img class="h-2rem rounded-full" :src="getAccountInfo.profileImg" alt="">
+            </router-link>
+            <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
+              <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
+              <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+            </router-link>
+          </template>
+          <template v-else>
+            <router-link to="/login" class="mr-3 font-10">
+              Sign In
+            </router-link>
+            <router-link to="/signup" class="mr-3 font-10">
+              Sign Up
+            </router-link>
+          </template>
           <div class="relative">
             <button class="bg-transparent h-2rem w-1.8rem mr-0.5rem flex items-center"
                     @click.stop="showMenu=!showMenu">
@@ -29,7 +39,7 @@
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
                 <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
                 <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
-                <router-link v-if="accountInfo && accountInfo.ethAddress" to="/" @click="showMenu=false"
+                <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
               </div>
             </div>
@@ -47,7 +57,7 @@
 <script>
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, getAccountRC, vestsToSteem } from '@/utils/steem'
 
 export default {
@@ -58,7 +68,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo'])
+    ...mapState(['accountInfo', 'loginUsername']),
+    ...mapGetters(['getAccountInfo'])
   },
   methods: {
     async monitorPrices() {
@@ -86,11 +97,12 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     goBack() {
-      if (this.accountInfo && this.accountInfo.steemId) {
-        this.$router.push('/profile/' + this.accountInfo.twitterUsername)
-      }else {
-        this.$router.push('/')
-      }
+      this.$router.push('/')
+      // if (this.accountInfo && this.accountInfo.steemId) {
+      //   this.$router.push('/profile/' + this.accountInfo.twitterUsername)
+      // }else {
+      //   this.$router.push('/')
+      // }
     }
   },
   async mounted() {

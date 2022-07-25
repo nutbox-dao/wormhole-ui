@@ -17,8 +17,8 @@
           <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
             <span class="text-black c-text-bold">Social token</span>
             <div class="c-text-medium flex-1 flex justify-end items-center">
-              <span class="text-text2C/60 mr-1rem">358 STEEM</span>
-              <span class="text-white">$340.88 </span>
+              <span class="text-text2C/60 mr-1rem">{{ steemBalance }} STEEM</span>
+              <span class="text-white">{{ steemValue}} </span>
             </div>
           </div>
           <div class="mt-2.5rem mb-1.5rem px-1rem">
@@ -53,16 +53,20 @@
 
 <script>
 import Blog from "@/components/Blog";
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { getUsersPosts } from '@/api/api'
-import { sleep } from '@/utils/helper'
+import { sleep, formatPrice } from '@/utils/helper'
 import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 
 export default {
   name: "Transaction",
   components: {Blog},
   computed: {
-    ...mapState(['accountInfo', 'posts', 'rcPercent'])
+    ...mapState(['accountInfo', 'posts', 'rcPercent', 'steemBalance', 'prices']),
+    ...mapGetters(['getAccountInfo']),
+    steemValue() {
+      return formatPrice(this.steemBalance * this.prices['steem'])
+    }
   },
   data() {
     return {
@@ -74,11 +78,11 @@ export default {
     }
   },
   async mounted () {
-   while(!this.accountInfo || !this.accountInfo.twitterUsername){
+   while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
     }
     this.onRefresh()
-    getAccountRC(this.accountInfo.steemId).then(rc => {
+    getAccountRC(this.getAccountInfo.steemId).then(rc => {
       this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
     }).catch()
   },
@@ -90,7 +94,8 @@ export default {
       if (this.posts && this.posts.length > 0) {
         time = this.posts[0].postTime
       }
-      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
+
+      getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
         const posts = await getPosts(res)
         this.$store.commit('savePosts', posts.concat(this.posts))
         this.refreshing = false
@@ -106,8 +111,8 @@ export default {
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
-          const posts = await getPosts(res)
+        getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
+         const posts = await getPosts(res)
           this.$store.commit('savePosts', this.posts.concat(posts))
           if (res.length < this.pageSize) {
             this.finished = true

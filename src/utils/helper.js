@@ -132,7 +132,6 @@ export function getDateString(now, timezone, extra = 0) {
   now = now || new Date();
   const offset = timezone != null ? timezone * 60 : 0;
   now = new Date(now.getTime() + (offset + extra) * 1000);
-
   return now.toISOString().replace("T", " ").substring(0, 19);
 }
 
