@@ -101,15 +101,15 @@ export default {
     tagList() {
       if (this.tagsAggregation) {
         return ['All'].concat(Object.keys(this.tagsAggregation).slice(1, 7))
+      }else {
+        return ['All']
       }
     }
   },
   mounted() {
     this.onLoad()
     getTagAggregation().then(tags => {
-      console.log(235, tags);
       this.$store.commit('postsModule/saveTagsAggregation', tags)
-      this.tagList = ['All'].concat(Object.keys(tags).slice(1, 7))
     })
   },
   methods: {
