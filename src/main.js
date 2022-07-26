@@ -6,6 +6,7 @@ import 'windi.css'
 import Spinner from "@/components/Spinner";
 import { List, PullRefresh, ImagePreview, Popup } from 'vant'
 import 'vant/es/image-preview/style';
+import 'element-plus/dist/index.css'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.component('c-spinner', Spinner)
