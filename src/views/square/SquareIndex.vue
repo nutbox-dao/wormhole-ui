@@ -27,7 +27,7 @@
             <div class="text-14px w-min flex gap-1.5rem h-3rem">
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer"
-                    :class="activeTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
+                    :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
                     @click="onTagChange(index)">{{tag === 'wormhole3' ? 'All' : ('#' + tag)}}</span>
             </div>
           </div>
@@ -36,7 +36,7 @@
           </router-link>
         </div>
       </div>
-      <div class="container mx-auto max-w-49rem">
+      <div class="container mx-auto max-w-49rem pt-3">
         <!-- <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
           <span v-for="(tag, index) of subTagList" :key="index"
                 class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
@@ -48,7 +48,7 @@
           pulling-text="Pull to refresh data"
           loosing-text="Release to refresh"
         >
-          <div class="" v-for="p of list" :key="p.postId">
+          <div class="" v-for="p of currentPosts" :key="p.postId">
             <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10"/>
           </div>
         </van-pull-refresh>
@@ -128,17 +128,6 @@ export default {
     })
   },
   methods: {
-    getData() {
-      return new Promise(resolve => {
-        const list = []
-        setTimeout(() => {
-          for (let i = 0; i < 4; i++) {
-            list.push(this.testData);
-          }
-          resolve(list)
-        }, 3000);
-      })
-    },
     publishTweet(){
       if (this.getAccountInfo){
         this.modalVisible=true

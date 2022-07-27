@@ -6,7 +6,13 @@
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
-          <template v-if="getAccountInfo">
+            <template v-if="!getAccountInfo">
+              <router-link to="/login"
+                            class="font-10 mr-3">Sign In</router-link>
+              <router-link to="/signup"
+                            class="font-10 mr-3">Sign Up</router-link>
+            </template>
+          <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
               <img class="h-2rem rounded-full" :src="getAccountInfo.profileImg" alt="">
             </router-link>
@@ -23,12 +29,6 @@
             <div class="menu-box w-13.5rem z-99"
                  :class="showMenu?'active':''">
               <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-1.2rem">
-                <template v-if="!getAccountInfo">
-                  <router-link to="/login"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign In</router-link>
-                  <router-link to="/signup"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign Up</router-link>
-                </template>
                 <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
                 <router-link to="/square" @click="showMenu=false"
