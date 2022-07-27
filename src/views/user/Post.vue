@@ -1,19 +1,6 @@
 <template>
   <div class="pb-2rem">
-    <div v-if="posts.length===0">
-      <div class="c-text-black text-zinc-700 text-2rem my-4rem">None</div>
-      <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-        This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
-        By depositing into this account, you are agreeing to our terms of service.
-      </div>
-    </div>
-    <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh">
-      <van-list :loading="loading"
-                :finished="finished"
-                :immediate-check="false"
-                :finished-text="'没有更多了'"
-                @load="onLoad">
-        <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
+    <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
           <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
             <span class="text-black c-text-bold">Social token</span>
             <div class="c-text-medium flex-1 flex justify-end items-center">
@@ -41,6 +28,23 @@
             <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
                          :show-text="false"
                          :percentage="Number(rcPercent)" />
+          </div>
+        </div>
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+          loading-text="Loading"
+          pulling-text="Pull to refresh data"
+          loosing-text="Release to refresh">
+      <van-list :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :finished-text="'No more data'"
+                @load="onLoad">
+
+        <div v-if="posts.length===0 && !refreshing">
+          <div class="c-text-black text-zinc-700 text-2rem my-4rem">None</div>
+          <div class="text-zinc-400 text-0.8rem leading-1.4rem">
+            This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
+            By depositing into this account, you are agreeing to our terms of service.
           </div>
         </div>
         <div class="" v-for="p of posts" :key="p.postId">

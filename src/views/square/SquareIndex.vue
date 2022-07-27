@@ -132,7 +132,7 @@ export default {
       if (this.getAccountInfo){
         this.modalVisible=true
       }else {
-        this.$router.push('/signup')
+        this.$router.push('/login')
       }
     },
     async onLoad() {
@@ -168,7 +168,9 @@ export default {
         const posts = this.getPostsByTag(tag)
         let time;
         if (posts && posts.length > 0) {
-          time = posts[0].postTime
+          time = posts[0].postTime.replace('T', ' ')
+          time = time.slice(0, 19)
+          console.log(3, time);
         }
         const res = await getPostsByTagTime(tag, 12, time, true)
         console.log(tag, res);
