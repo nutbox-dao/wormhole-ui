@@ -15,6 +15,7 @@ import SquareIndex from "@/views/square/SquareIndex";
 import TagView from "@/views/square/TagView";
 import WalletView from "@/views/user/WalletView";
 import TopicsView from "@/views/square/TopicsView";
+import AboutUsView from "@/views/AboutView";
 
 const routes = [
   {
@@ -62,6 +63,11 @@ const routes = [
     component: FAQView,
   },
   {
+    path: '/about',
+    name: 'about',
+    component: AboutUsView,
+  },
+  {
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
@@ -99,15 +105,7 @@ const routes = [
     path: '/post-detail',
     name: 'post-detail',
     component: UserPostDetailView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: Vue.defineAsyncComponent(() => import('../views/AboutView.vue')),
-  },
+  }
 ]
 
 const router = VueRouter.createRouter({
