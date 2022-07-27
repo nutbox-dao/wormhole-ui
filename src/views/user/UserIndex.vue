@@ -426,7 +426,7 @@ export default {
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
-      
+
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)

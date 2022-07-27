@@ -2,7 +2,7 @@ import * as Vue from 'vue'
 import * as Vuex from 'vuex'
 import Cookie from 'vue-cookies'
 import { b64uEnc, b64uDec } from '@/utils/helper'
-import postsModule from './posts'
+import postsModule from './postsModule'
 
 export default Vuex.createStore({
   state: {

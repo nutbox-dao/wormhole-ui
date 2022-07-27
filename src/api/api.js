@@ -7,9 +7,6 @@ export const getUserInfo = async (username, ethAddress) =>
 export const getRegisterTicket = async (publicKey) => 
     get(BACKEND_API_URL + '/register/getRegisterTicket', {publicKey})
 
-export const getUsersPosts = async (username, pageSize, time, newPost) => 
-    get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
-
 export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =>
     get(BACKEND_API_URL + '/transaction/byTwitterId', { twitterId, pageSize, time, newTrans })
 
@@ -21,3 +18,15 @@ getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created
 
 export const getTagAggregation = async () =>
     get(BACKEND_API_URL + '/twitter/tags')
+
+/****************************************  posts  ***********************************************/
+export const getUsersPosts = async (username, pageSize, time, newPost) => 
+get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
+
+export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
+    if (newPost) {
+        return get(BACKEND_API_URL + '/twitter/refreshByTagTime', {tag,pageSize, time})
+    }else {
+        return get(BACKEND_API_URL + '/twitter/moreByTagTime', {tag, pageSize, time})
+    }
+}

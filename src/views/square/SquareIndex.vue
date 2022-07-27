@@ -3,7 +3,9 @@
     <van-list :loading="listLoading"
               :finished="listFinished"
               :immediate-check="false"
-              :finished-text="'没有更多了'"
+              loosing-text="Pull to refresh data"
+              loading-text="Loading..."
+              finished-text="No more data"
               @load="onLoad">
       <div class="px-1.5rem">
         <div class="mt-25px flex sm:items-center sm:justify-between">
@@ -14,7 +16,7 @@
           <button class="flex items-center justify-center gradient-btn h-2.7rem px-1rem rounded-full c-text-bold
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 sm:relative
                     sm:left-auto sm:bottom-auto sm:transform-none z-2"
-                  @click="modalVisible=true">
+                  @click="publishTweet">
             Tweet a post
           </button>
         </div>
@@ -25,8 +27,8 @@
           <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-3rem">
           <span v-for="(tag, index) of tagList" :key="index"
                 class="whitespace-nowrap leading-3rem cursor-pointer"
-                :class="activeTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
-                @click="onTagChange(index)">{{tag==='All'?'':'#'}}{{tag}}</span>
+                :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
+                @click="onTagChange(index)">{{tag === 'wormhole3' ? 'All' : ('#' + tag)}}</span>
           </div>
         </div>
         <router-link class="px-1rem" to="/square/topics">
@@ -34,13 +36,17 @@
         </router-link>
       </div>
       <div class="border-b-1px border-white/20 sm:border-b-0 px-1.5rem py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
-      <span v-for="(tag, index) of subTagList" :key="index"
+      <!-- <span v-for="(tag, index) of subTagList" :key="index"
             class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
             :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
-            @click="subActiveTagIndex=index">{{tag}}</span>
+            @click="subActiveTagIndex=index">{{tag}}</span> -->
       </div>
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <div class="" v-for="p of list" :key="p.postId">
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+        loading-text="Loading"
+        pulling-text="Pull to refresh data"
+        loosing-text="Release to refresh"
+      >
+        <div class="" v-for="p of currentPosts" :key="p.postId">
           <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10"/>
         </div>
       </van-pull-refresh>
@@ -64,14 +70,15 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
-import { getTagAggregation } from '@/api/api';
-import { mapState } from 'vuex'
+import { getTagAggregation, getPostsByTagTime } from '@/api/api';
+import { mapState, mapGetters } from 'vuex'
+import { notify, showError } from "@/utils/notify"; 
+import { getPosts } from '@/utils/steem'
 
 export default {
   components: {Blog, Login, PostTip},
   data() {
     return {
-      activeTagIndex: 0,
       subTagList: ['Trending', 'New'],
       subActiveTagIndex: 0,
       listLoading: false,
@@ -97,19 +104,24 @@ export default {
     }
   },
   computed: {
-    ...mapState('postsModule', ['tagsAggregation']),
+    ...mapState('postsModule', ['tagsAggregation', 'allPosts', 'currentTagIndex']),
+    ...mapGetters(['getAccountInfo']),
+    ...mapGetters('postsModule', ['getPostsByTag']),
     tagList() {
       if (this.tagsAggregation) {
-        return ['All'].concat(Object.keys(this.tagsAggregation).slice(1, 7))
+        return Object.keys(this.tagsAggregation)
       }else {
-        return ['All']
+        return ['wormhole3']
       }
+    },
+    currentPosts() {
+      return this.getPostsByTag(this.tagList[this.currentTagIndex])
     }
   },
   mounted() {
-    this.onLoad()
     getTagAggregation().then(tags => {
       this.$store.commit('postsModule/saveTagsAggregation', tags)
+      this.onRefresh()
     })
   },
   methods: {
@@ -124,25 +136,72 @@ export default {
         }, 3000);
       })
     },
+    publishTweet(){
+      if (this.getAccountInfo){
+        this.modalVisible=true
+      }else {
+        this.$router.push('/signup')
+      }
+    },
     async onLoad() {
       if(this.listLoading || this.listFinished) return
-      this.listLoading = true
-      const res = await this.getData()
-      if(this.refreshing) this.list = []
-      this.listLoading = false
-      this.refreshing = false
-      this.list = this.list.concat(res)
-      // 加载完成
-      if (this.list.length >= 10) this.listFinished = true
+      try{
+        this.listLoading = true
+        const tag = this.tagList[this.currentTagIndex]
+        const posts = this.getPostsByTag(tag)
+        let time;
+        if (posts && posts.length > 0) {
+          time = posts[posts.length - 1].postTime
+        }
+        const res = await getPostsByTagTime(tag, 12, time, false)
+        const postsf = await getPosts(res)
+        this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
+        this.$store.commit('savePosts', this.allPosts)
+        if (postsf.length < 12) {
+          this.listFinished = true
+        }else {
+          this.listFinished = false
+        }
+      } catch (e) {
+        console.log(555, e);
+        showError(501)
+      } finally {
+        this.listLoading = false
+      }
     },
-    onRefresh() {
-      this.listFinished = false
-      this.onLoad()
+    async onRefresh() {
+      try{
+        this.refreshing = true
+        const tag = this.tagList[this.currentTagIndex]
+        const posts = this.getPostsByTag(tag)
+        let time;
+        if (posts && posts.length > 0) {
+          time = posts[0].postTime
+        }
+        const res = await getPostsByTagTime(tag, 12, time, true)
+        console.log(tag, res);
+        const postsf = await getPosts(res)
+        this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
+        if (postsf.length < 12) {
+          this.listFinished = true
+        }else {
+          this.listFinished = false
+        }
+        this.$store.commit('savePosts', this.allPosts)
+      } catch (e) {
+        console.log(321, e);
+        showError(501)
+      } finally {
+        this.refreshing = false
+      }
     },
     onTagChange(index) {
-      if(index === this.activeTagIndex) return
-      this.activeTagIndex = index
-      this.$router.push(`/square/tag/${this.tagList[index]}`)
+      if(index === this.currentTagIndex) return
+      this.$store.commit('postsModule/saveCurrentTagIndex', index)
+      const posts = this.getPostsByTag(this.tagList[index])
+      this.listFinished = false
+      this.onRefresh()
+      // this.$router.push(`/square/tag/${this.tagList[index]}`)
     }
   }
 }

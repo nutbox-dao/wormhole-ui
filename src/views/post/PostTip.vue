@@ -35,12 +35,12 @@
     </div>
     <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
       <div class="text-left break-all">
-        <span class="text-primaryColor">#wormhole3 !send </span>
-        <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
+        <span class="text-primaryColor">#wormhole3 !post </span>
+        <span class="text-text8F">{content}</span>
       </div>
       <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
         <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
-        <span class="text-white">GO tweet</span>
+        <span class="text-white">Go tweet</span>
       </button>
     </div>
     <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">

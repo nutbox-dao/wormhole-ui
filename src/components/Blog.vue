@@ -2,7 +2,7 @@
   <div class="">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex items-center">
-        <img v-if="getAccountInfo" @click="gotoSteemProfile"
+        <img v-if="profileImg" @click="gotoSteemProfile"
              class="w-2.6rem h-2.6rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
         <img class="w-2.6rem h-2.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
@@ -21,7 +21,7 @@
       <div class="overflow-x-hidden">
         <div class="text-left font-400 mt-1rem">
           <p @click="gotoSteem" class="cursor-pointer">
-            {{ post.content.replace(this.urlreg, '') }}
+            {{ post.content && post.content.replace(this.urlreg, '') }}
           </p>
           <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
              <a :href="u"
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
-          <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
+          <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
             #{{ tag }}
           </div>
         </div>
@@ -105,14 +105,15 @@ export default {
     ...mapState(['accountInfo']),
     ...mapGetters(['getAccountInfo']),
     profileImg() {
-      if (!this.getAccountInfo) return ''
-      if (this.getAccountInfo.profileImg) {
-        return this.getAccountInfo.profileImg.replace('normal', '200x200')
+      if (!this.post.profileImg) return null
+      if (this.post.profileImg) {
+        return this.post.profileImg.replace('normal', '200x200')
       }else {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
      },
     value() {
+      if (!this.post.content) return '$0'
       const value = this.parseSBD(this.post.curatorPayoutValue)
        + this.parseSBD(this.post.pendingPayoutValue)
       + this.parseSBD(this.post.totalPayoutValue)
@@ -148,6 +149,7 @@ export default {
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    if (!this.post.content) return;
     const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
     this.allurls = urls
     this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)

@@ -7,8 +7,8 @@ export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "%23wormhole3"
 
-export const BACKEND_API_URL = 'https://api-test.web3id.pro'
-// export const BACKEND_API_URL = 'http://localhost:3000'
+// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
 // export const RPC_NODE = 'https://bsc-dataseed.binance.org'
@@ -119,6 +119,10 @@ export const EVM_CHAINS = {
         rpc: '',
         scan: 'https://ecosynthesizer.com/steem/'
     }
+}
+
+export const ERR_CODE = {
+    501: "Server error"
 }
 
 export const Multi_Config = {
