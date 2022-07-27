@@ -30,7 +30,7 @@
             </button>
             <div class="menu-box w-13.5rem z-99"
                  :class="showMenu?'active':''">
-              <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
+              <div class="border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-1.2rem">
                 <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
                 <router-link to="/square" @click="showMenu=false"
@@ -115,7 +115,7 @@ export default {
 
     if (this.getAccountInfo) {
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
-      
+
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -235,10 +235,12 @@ html, body {
     &::before{
       top: 0;
       transform: rotate(45deg);
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
     }
     &::after {
       top: 0;
       transform: rotate(-45deg);
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
     }
   }
 }

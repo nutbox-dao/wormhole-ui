@@ -1,72 +1,40 @@
 <template>
-  <div class="">
-    <div class="py-1rem px-1.5rem sm:rounded-1rem">
-      <div class="flex items-center">
-        <img v-if="getAccountInfo" @click="gotoSteemProfile"
-             class="w-2.6rem h-2.6rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
-             :src="profileImg" alt="">
-        <img class="w-2.6rem h-2.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex flex-col items-start">
-          <div class="flex items-center">
-            <a class="font-700 text-left">{{ post.name }}</a>
-            <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-            <span>@{{ post.username }}</span>
-          </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
+  <div class="border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
+    <div class="">
+      <div class="p-0.6rem">
+        <div class="flex items-center">
+          <img v-if="getAccountInfo" @click="gotoSteemProfile"
+               class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
+               :src="profileImg" alt="">
+          <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+          <div class="flex-1 flex flex-col items-start">
+            <div class="flex items-center">
+              <a class="font-700 text-left">{{ post.name }}</a>
+              <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+              <span>@{{ post.username }}</span>
+            </div>
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
             {{ parseTimestamp(post.postTime) }}
           </span>
+          </div>
+        </div>
+        <div class="overflow-x-hidden">
+          <div class="text-left font-400 mt-1rem">
+            <p @click="gotoSteem" class="cursor-pointer">
+              {{ post.content.replace(this.urlreg, '') }}
+            </p>
+            <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
+              <a :href="u"
+                 class="text-blue-500" target="_blank">
+                {{ u }}
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-
-      <div class="overflow-x-hidden ">
-        <div class="text-left font-400 mt-1rem">
-          <p @click="gotoSteem" class="cursor-pointer">
-            {{ post.content.replace(this.urlreg, '') }}
-          </p>
-          <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
-             <a :href="u"
-                class="text-blue-500" target="_blank">
-              {{ u }}
-            </a>
-          </p>
-        </div>
-
-<!--        外部链接-->
-<!--        <LinkPreview/>-->
-<!--        转帖-->
-<!--        <Repost :post="post"/>-->
-
-        <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px max-w-25rem rounded-12px overflow-hidden"
-             :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
-          <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
-            <img @click="viewImg(index)" :src="url" alt="">
-          </div>
-        </div>
-        <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
-          <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags)" :key="tag">
-            #{{ tag }}
-          </div>
-        </div>
-        <div class="flex gap-4rem mt-15px">
-          <div class="text-white flex items-center">
-            <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
-            <span class="c-text-medium ml-2px">{{ post.children }}</span>
-          </div>
-          <!-- <div class="text-text8F flex items-center">
-            <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
-            <span class="c-text-medium ml-2px">61</span>
-          </div> -->
-          <div class="flex items-center">
-            <svg width="18" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="white" d="M10.0001 17.8349H9.98726C7.61951 17.7909 0.787598 11.6181 0.787598 5.77157C0.787598 2.9629 3.10218 0.49707 5.74035 0.49707C7.83951 0.49707 9.25118 1.9454 9.99918 2.99957C10.7453 1.94724 12.157 0.49707 14.2571 0.49707C16.8971 0.49707 19.2108 2.9629 19.2108 5.77249C19.2108 11.6172 12.3779 17.79 10.0102 17.8331H10.0001V17.8349Z"/>
-            </svg>
-            <span class="c-text-medium ml-2px text-white">{{ post.votes }}</span>
-          </div>
-          <div class="text-white flex items-center">
-             <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
-            <span class="c-text-medium ml-2px">{{ value }}</span>
-          </div>
+      <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+        <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
+          <img @click="viewImg(index)" :src="url" alt="">
         </div>
       </div>
     </div>
@@ -86,12 +54,9 @@ import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
-import LinkPreview from "@/components/LinkPreview";
-import Repost from "@/components/Repost";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost},
   props: {
     post: {
       type: Object,
@@ -121,11 +86,11 @@ export default {
       }else {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
-     },
+    },
     value() {
       const value = this.parseSBD(this.post.curatorPayoutValue)
-       + this.parseSBD(this.post.pendingPayoutValue)
-      + this.parseSBD(this.post.totalPayoutValue)
+          + this.parseSBD(this.post.pendingPayoutValue)
+          + this.parseSBD(this.post.totalPayoutValue)
       return formatPrice(value)
     }
   },
@@ -190,16 +155,16 @@ export default {
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .img-3 {
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .img-4 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .blog-tag{
   border-radius: 0.4rem;
@@ -214,10 +179,6 @@ export default {
   .img-3 {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    :nth-child(2) {
-      grid-column: 2 / 2;
-      grid-row: 1 / 3;
-    }
   }
 }
 </style>

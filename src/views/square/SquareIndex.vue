@@ -1,49 +1,53 @@
 <template>
-  <div class="container mx-auto max-w-49rem pb-2rem">
+  <div class="">
     <van-list :loading="listLoading"
               :finished="listFinished"
               :immediate-check="false"
+              :loading-text="'loading....'"
               :finished-text="'没有更多了'"
               @load="onLoad">
-      <div class="px-1.5rem">
+      <div class="px-1.5rem sm:px-0 container mx-auto max-w-49rem">
         <div class="mt-25px flex sm:items-center sm:justify-between">
           <div class="w-min relative ">
             <div class="w-full h-7px bg-primaryColor absolute bottom-3px rounded-full"></div>
             <span class="text-2.4rem leading-30px c-text-bold relative">Square</span>
           </div>
           <button class="flex items-center justify-center gradient-btn h-2.7rem px-1rem rounded-full c-text-bold
-                    absolute bottom-2rem left-1/2 transform -translate-x-1/2 sm:relative
-                    sm:left-auto sm:bottom-auto sm:transform-none z-2"
+                    absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                   @click="modalVisible=true">
             Tweet a post
           </button>
         </div>
         <div class="text-white/40 mt-10px text-left">Post twitter content on chain and earn rewards</div>
       </div>
-      <div class="border-b-1px border-white/20 mt-0.5rem flex justify-between items-center">
-        <div class="flex-1 overflow-x-auto no-scroll-bar">
-          <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-3rem">
-          <span v-for="(tag, index) of tagList" :key="index"
-                class="whitespace-nowrap leading-3rem cursor-pointer"
-                :class="activeTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
-                @click="onTagChange(index)">{{tag==='All'?'':'#'}}{{tag}}</span>
+      <div class="border-b-1px border-white/20 mt-0.5rem">
+        <div class="px-1.5rem sm:px-0 container mx-auto max-w-49rem flex justify-between items-center">
+          <div class="flex-1 overflow-x-auto no-scroll-bar">
+            <div class="text-14px w-min flex gap-1.5rem h-3rem">
+              <span v-for="(tag, index) of tagList" :key="index"
+                    class="whitespace-nowrap leading-3rem cursor-pointer"
+                    :class="activeTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
+                    @click="onTagChange(index)">{{tag==='All'?'':'#'}}{{tag}}</span>
+            </div>
           </div>
+          <router-link class="pl-1rem" to="/square/topics">
+            <img class="w-2rem" src="~@/assets/icon-forward-circle.svg" alt="">
+          </router-link>
         </div>
-        <router-link class="px-1rem" to="/square/topics">
-          <img class="w-2rem" src="~@/assets/icon-forward-circle.svg" alt="">
-        </router-link>
       </div>
-      <div class="border-b-1px border-white/20 sm:border-b-0 px-1.5rem py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
-      <span v-for="(tag, index) of subTagList" :key="index"
-            class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
-            :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
-            @click="subActiveTagIndex=index">{{tag}}</span>
-      </div>
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <div class="" v-for="p of list" :key="p.postId">
-          <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10"/>
+      <div class="container mx-auto max-w-49rem">
+        <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
+          <span v-for="(tag, index) of subTagList" :key="index"
+                class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
+                :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
+                @click="subActiveTagIndex=index">{{tag}}</span>
         </div>
-      </van-pull-refresh>
+        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+          <div class="" v-for="p of list" :key="p.postId">
+            <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10"/>
+          </div>
+        </van-pull-refresh>
+      </div>
     </van-list>
     <van-popup class="c-tip-drawer" v-model:show="modalVisible"
                :position="position">
