@@ -21,7 +21,8 @@ export default defineConfig({
         dividerColor: '#696969',
         listBgBorder: '#323436',
         color1E: '#1E1E1E',
-        color73: '#737373'
+        color73: '#737373',
+        colorD8: '#D8D8D8'
       }
     }
   }

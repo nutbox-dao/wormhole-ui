@@ -1,0 +1,184 @@
+<template>
+  <div class="border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
+    <div class="">
+      <div class="p-0.6rem">
+        <div class="flex items-center">
+          <img v-if="getAccountInfo" @click="gotoSteemProfile"
+               class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
+               :src="profileImg" alt="">
+          <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+          <div class="flex-1 flex flex-col items-start">
+            <div class="flex items-center">
+              <a class="font-700 text-left">{{ post.name }}</a>
+              <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+              <span>@{{ post.username }}</span>
+            </div>
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
+            {{ parseTimestamp(post.postTime) }}
+          </span>
+          </div>
+        </div>
+        <div class="overflow-x-hidden">
+          <div class="text-left font-400 mt-1rem">
+            <p @click="gotoSteem" class="cursor-pointer">
+              {{ post.content.replace(this.urlreg, '') }}
+            </p>
+            <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
+              <a :href="u"
+                 class="text-blue-500" target="_blank">
+                {{ u }}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+        <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
+          <img @click="viewImg(index)" :src="url" alt="">
+        </div>
+      </div>
+    </div>
+    <el-dialog custom-class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
+      <el-carousel height="70vh" indicator-position="none" :autoplay="false" :initial-index="imgIndex">
+        <el-carousel-item v-for="item in imgurls" :key="item">
+          <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
+               :src="item" alt="">
+        </el-carousel-item>
+      </el-carousel>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { parseTimestamp, formatPrice } from '@/utils/helper'
+import { mapState, mapGetters } from 'vuex'
+import { EVM_CHAINS } from '@/config'
+import { ImagePreview } from 'vant';
+
+export default {
+  name: "Blog",
+  props: {
+    post: {
+      type: Object,
+      default: {}
+    },
+  },
+  data() {
+    return {
+      like: true,
+      urls: [],
+      imgurls: [],
+      allurls: [],
+      url: null,
+      reg: '',
+      urlreg: '',
+      imgViewDialog: false,
+      imgIndex: 0
+    }
+  },
+  computed: {
+    ...mapState(['accountInfo']),
+    ...mapGetters(['getAccountInfo']),
+    profileImg() {
+      if (!this.getAccountInfo) return ''
+      if (this.getAccountInfo.profileImg) {
+        return this.getAccountInfo.profileImg.replace('normal', '200x200')
+      }else {
+        return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
+      }
+    },
+    value() {
+      const value = this.parseSBD(this.post.curatorPayoutValue)
+          + this.parseSBD(this.post.pendingPayoutValue)
+          + this.parseSBD(this.post.totalPayoutValue)
+      return formatPrice(value)
+    }
+  },
+  methods: {
+    parseTimestamp(time) {
+      return parseTimestamp(time)
+    },
+    parseSBD(v) {
+      return parseFloat(v.replace(' SBD', ''))
+    },
+    gotoSteem() {
+      window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
+    },
+    gotoSteemProfile() {
+      window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
+    },
+    viewImg(index) {
+      if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||
+          navigator.userAgent.toUpperCase().indexOf('ANDROID')>=0) {
+        ImagePreview({
+          images: this.imgurls,
+          startPosition: index
+        });
+      } else {
+        this.imgIndex = index
+        this.imgViewDialog = true
+      }
+    }
+  },
+  mounted () {
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.allurls = urls
+    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
+    } else if(urls) {
+      this.urls = urls
+    }
+  },
+}
+</script>
+
+<style scoped lang="scss">
+.img-box {
+  overflow: hidden;
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.img-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.img-2 {
+  grid-template-columns: repeat(2, 1fr);
+  //gap: 1rem;
+}
+.img-3 {
+  grid-template-columns: repeat(3, 1fr);
+  //gap: 1rem;
+}
+.img-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  //gap: 1rem;
+}
+.blog-tag{
+  border-radius: 0.4rem;
+  padding: .2rem .5rem 0.2rem 0.8rem;
+  border: 1px solid #434343;
+  background-color: rgba(white, .1);
+  background-image: linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
+  background-size: 0.3rem 100%;
+  background-repeat: no-repeat;
+}
+@media (max-width: 500px) {
+  .img-3 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+</style>

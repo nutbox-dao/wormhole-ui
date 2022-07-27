@@ -1,27 +1,29 @@
 <template>
   <div class="login-view">
     <div class="container max-w-425px mx-auto px-0.75rem">
-      <div class="">
-        <div class="gradient-text gradient-text-right c-text-black text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
-          Login
-        </div>
-        <div class="text-1.2rem font-bold leading-1.5rem mb-1.5rem">
-          Please enter your twitter username.
+      <div :class="$route.name==='login'?'mt-10vh':''">
+        <div class="sm:text-center text-left">
+          <div class="c-text-bold text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
+            Sign in
+          </div>
+          <div class="text-1.2rem font-bold leading-1.5rem mb-1.5rem">
+            Please enter your twitter username.
+          </div>
         </div>
         <div>
           <input class="bg-white h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"
-                class="c-text-medium gradient-btn h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem flex justify-center items-center">
-          <span>Login</span>
+                class="c-text-medium bg-primaryColor h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem flex justify-center items-center">
+          <span>Sign in</span>
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="loging"></c-spinner>
         </button>
-        <div class="text-text8F text-1rem font-bold mt-1.5rem">
+        <div class="text-1rem font-bold mt-1.5rem">
           Haven't signed up yet ?
         </div>
         <router-link to="'/">
-          <div class="underline c-text-black text-primaryColor1 text-1.2rem leading-1.5rem mt-0.5rem">
+          <div class="underline c-text-bold text-1.2rem leading-1.5rem mt-0.5rem">
             Create an account
           </div>
         </router-link>

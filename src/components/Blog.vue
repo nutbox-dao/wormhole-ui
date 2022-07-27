@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="overflow-x-hidden">
+      <div class="overflow-x-hidden ">
         <div class="text-left font-400 mt-1rem">
           <p @click="gotoSteem" class="cursor-pointer">
             {{ post.content && post.content.replace(this.urlreg, '') }}
@@ -30,8 +30,15 @@
             </a>
           </p>
         </div>
+
+<!--        外部链接-->
+<!--        <LinkPreview/>-->
+<!--        转帖-->
+<!--        <Repost :post="post"/>-->
+
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+        <div class="grid mt-10px max-w-25rem rounded-12px overflow-hidden"
+             :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
           <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
             <img @click="viewImg(index)" :src="url" alt="">
           </div>
@@ -79,9 +86,12 @@ import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
+import LinkPreview from "@/components/LinkPreview";
+import Repost from "@/components/Repost";
 
 export default {
   name: "Blog",
+  components: {LinkPreview, Repost},
   props: {
     post: {
       type: Object,
@@ -174,7 +184,6 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    border-radius: 16px;
     object-fit: cover;
   }
 }
@@ -183,16 +192,16 @@ export default {
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 2px;
 }
 .img-3 {
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 2px;
 }
 .img-4 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 2px;
 }
 .blog-tag{
   border-radius: 0.4rem;
@@ -207,6 +216,10 @@ export default {
   .img-3 {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
+    :nth-child(2) {
+      grid-column: 2 / 2;
+      grid-row: 1 / 3;
+    }
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div id="app" @click="showMenu=false">
-    <div class="py-1.8rem border-b-1 border-headerBorder">
+  <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
+    <div class="py-1.8rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
       <div class="container mx-auto flex justify-between items-center px-0.75rem">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
@@ -15,14 +15,6 @@
               <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
             </router-link>
           </template>
-          <template v-else>
-            <router-link to="/login" class="mr-3 font-10">
-              Sign In
-            </router-link>
-            <router-link to="/signup" class="mr-3 font-10">
-              Sign Up
-            </router-link>
-          </template>
           <div class="relative">
             <button class="bg-transparent h-2rem w-1.8rem mr-0.5rem flex items-center"
                     @click.stop="showMenu=!showMenu">
@@ -30,14 +22,21 @@
             </button>
             <div class="menu-box w-13.5rem z-99"
                  :class="showMenu?'active':''">
-              <div class="gradient-border border-0.3rem rounded-30px w-full h-full flex flex-col justify-between c-text-black font-900 text-1.2rem">
+              <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-1.2rem">
+                <template v-if="!getAccountInfo">
+                  <router-link to="/login"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign In</router-link>
+                  <router-link to="/signup"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign Up</router-link>
+                </template>
                 <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
                 <router-link to="/square" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Square</router-link>
                 <router-link to="/faq" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
-                <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About Us</div>
+                <router-link to="/about" @click="showMenu=false"
+                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About us</router-link>
                 <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
                 <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
@@ -115,7 +114,7 @@ export default {
 
     if (this.getAccountInfo) {
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
-      
+
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -235,10 +234,12 @@ html, body {
     &::before{
       top: 0;
       transform: rotate(45deg);
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
     }
     &::after {
       top: 0;
       transform: rotate(-45deg);
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
     }
   }
 }
@@ -251,7 +252,7 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    height: 18.2rem;
+    height: 20rem;
   }
 }
 .slide-in-blurred-top {
@@ -285,5 +286,12 @@ html, body {
     opacity: 1;
   }
 }
-
+@media (max-width: 640px) {
+  .signup-bg {
+    background-image: url("~@/assets/signup-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+  }
+}
 </style>
