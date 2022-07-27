@@ -107,7 +107,6 @@ export default {
       }).catch(e => {
         this.refreshing = false
       })
-      console.log(this.posts)
     },
     onLoad() {
       console.log('load more')
