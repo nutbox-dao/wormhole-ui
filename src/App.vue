@@ -158,11 +158,6 @@ export default {
 }
 @font-face
 {
-  font-family: PoppinsMedium;
-  src: url('~@/style/Poppins-Medium.ttf');
-}
-@font-face
-{
   font-family: PoppinsBold;
   src: url('~@/style/Poppins-Bold.ttf');
 }
