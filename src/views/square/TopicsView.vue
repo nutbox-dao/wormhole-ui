@@ -7,7 +7,8 @@
       <div class="c-text-bold text-1.4rem">More topics</div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1rem sm:px-1.5rem">
-      <div v-for="(v,k,i) in tagsAggregation" :key="i" @click="choseIndex(i)" class="md:col-span-1 bg-blockBg rounded-1rem py-1rem px-1.5rem">
+      <div v-for="(v,k,i) in tagsAggregation" :key="i" @click="choseIndex(i)"
+           class="md:col-span-1 bg-blockBg rounded-1rem py-1rem px-1.5rem cursor-pointer transform hover:scale-105">
         <div class="flex justify-between items-center">
           <div class="text-1.2rem leading-1.6rem c-text-bold text-left">
             <span class="text-primaryColor mr-0.5rem">#</span>

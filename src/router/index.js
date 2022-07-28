@@ -26,6 +26,7 @@ const routes = [
     path: '/square',
     name: 'square',
     component: SquareIndex,
+    meta: {keepAlive: true}
   },
   {
     path: '/square/tag/:tag',
@@ -92,7 +93,8 @@ const routes = [
       {
         path: '/profile/:user/post',
         name: 'post',
-        component: UserPostView
+        component: UserPostView,
+        meta: {keepAlive: true}
       }
     ]
   },

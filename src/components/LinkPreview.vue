@@ -1,10 +1,10 @@
 <template>
-  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
+  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden md:max-w-35rem">
     <img class="" :src="linkPreviewInfo.images && linkPreviewInfo.images[0]" alt="">
     <div class="px-1rem py-0.5rem">
       <div class="">{{getUrlHost(linkPreviewInfo.url)}}</div>
       <div class="c-text-bold text-1rem my-0.4rem overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.title}}</div>
-      <div class="overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.description}}</div>
+      <div class="text-line-3">{{linkPreviewInfo.description}}</div>
     </div>
   </div>
 </template>
@@ -41,5 +41,12 @@ export default {
 </script>
 
 <style scoped>
-
+.text-line-3 {
+  word-break: break-word;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
 </style>

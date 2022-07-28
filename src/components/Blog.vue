@@ -2,10 +2,10 @@
   <div class="">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex items-center">
-        <img v-if="profileImg" @click="gotoSteemProfile"
-             class="w-2.6rem h-2.6rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
+        <img v-if="profileImg" @click.stop="gotoSteemProfile"
+             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
-        <img class="w-2.6rem h-2.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start">
           <div class="flex items-center">
             <a class="font-700 text-left mr-3">{{ post.name }}</a>
@@ -18,17 +18,17 @@
         </div>
       </div>
 
-      <div class="overflow-x-hidden md:mx-3.6rem">
-        <div class="text-left font-400 mt-1rem">
-          <p @click="gotoSteem" class="cursor-pointer">
-            {{ post.content && post.content.replace(this.urlreg, '') }}
-          </p>
-          <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
+      <div class="overflow-x-hidden md:mx-5.1rem">
+        <div class="text-left font-400 my-1rem">
+          <div class="cursor-pointer ">
+            <span @click.stop="gotoSteem" >{{ post.content && post.content.replace(this.urlreg, '') }}</span>
+          </div>
+          <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">
              <a :href="u"
                 class="text-blue-500" target="_blank">
               {{ u }}
             </a>
-          </p>
+          </div>
         </div>
 
 <!--        外部链接-->
@@ -37,10 +37,10 @@
        <Repost v-if="post.retweetInfo && post.retweetInfo.length>10" :retweetInfo="post.retweetInfo"/>
 
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px max-w-25rem rounded-12px overflow-hidden"
+        <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden"
              :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
           <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
-            <img @click="viewImg(index)" :src="url" alt="">
+            <img @click.stop="viewImg(index)" :src="url" alt="">
           </div>
         </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">

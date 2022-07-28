@@ -26,7 +26,7 @@
           <div class="flex-1 overflow-x-auto no-scroll-bar">
             <div class="text-14px w-min flex gap-1.5rem h-3rem">
               <span v-for="(tag, index) of tagList" :key="index"
-                    class="whitespace-nowrap leading-3rem cursor-pointer"
+                    class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
                     :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
                     @click="onTagChange(index)">{{tag === 'wormhole3' ? 'All' : ('#' + tag)}}</span>
             </div>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="sm:mt-1rem sm:px-1rem">
-        <div class="container mx-auto max-w-960px sm:bg-blockBg rounded-12px md:p-1rem">
+        <div class="container mx-auto max-w-960px sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
           <!-- <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
             <span v-for="(tag, index) of subTagList" :key="index"
                   class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
@@ -50,7 +50,8 @@
                             loosing-text="Release to refresh"
           >
             <div class="" v-for="p of currentPosts" :key="p.postId">
-              <Blog :post="p" class="bg-blockBg sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0"/>
+              <Blog @click="$router.push(`/post-detail/${p.postId}`)"
+                    :post="p" class="bg-blockBg sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0"/>
             </div>
           </van-pull-refresh>
         </div>

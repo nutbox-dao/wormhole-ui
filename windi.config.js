@@ -14,7 +14,7 @@ export default defineConfig({
         primaryColor2: 'var(--gradient-primary-color2)',
         primaryColor3: 'var(--gradient-primary-color3)',
         redColor: '#CE395F',
-        primaryBg: '#000',
+        primaryBg: '#191919',
         dialogBg: '#131313',
         headerBorder: '#323436',
         blockBg: '#2C2C2C',
@@ -24,7 +24,8 @@ export default defineConfig({
         color73: '#737373',
         colorD8: '#D8D8D8',
         colorDD: '#DDDDDD',
-        colorB6: '#B6B6B6B2'
+        colorB6: '#B6B6B6B2',
+        colorE3: '#E3E3E3'
       },
       screens: {
         '2md': { min: '961px' },

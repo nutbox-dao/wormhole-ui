@@ -32,8 +32,8 @@
         </button>
       </div>
       <div class="text-white" v-else>
-        <div class="keep-all c-text-bold text-2rem max-w-20rem sm:max-w-40rem sm:mx-auto mb-2.3rem leading-2.9rem text-left">
-          <span class="gradient-text gradient-text-right">Great,</span> <br>
+        <div class="keep-all c-text-black text-2rem max-w-20rem mx-auto sm:max-w-30rem sm:mx-auto mb-2.3rem leading-2.9rem text-left sm:text-center">
+          <span class="gradient-text gradient-text-right">Great,</span> <br class="sm:hidden">
           now let's verify your Twitter handle
         </div>
         <button class="c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1.2rem mt-1.25rem"

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-960px pb-2rem">
+  <div class="container mx-auto max-w-960px pb-2rem md:px-1rem">
     <div class="mx-1.2rem md:mx-0 relative h-3.5rem flex items-center justify-center mb-1rem">
       <img class="absolute left-0rem top-0.5rem transform rotate-180 w-2.5rem cursor-pointer"
            @click="$router.back()"
@@ -14,7 +14,7 @@
                 @load="onLoad">
         <Blog :post="testData"/>
         <div class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">
-          <div class="c-text-bold text-left">Comments ( 32 )</div>
+          <div class="c-text-bold text-left text-1.2rem">Comments ( 32 )</div>
           <div class="mt-1rem" v-for="i of list" :key="i">
             <Comment class="py-0.5rem"/>
           </div>

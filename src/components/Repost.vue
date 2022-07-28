@@ -1,9 +1,9 @@
 <template>
-  <div class="border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
+  <div class="border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden md:max-w-35rem">
     <div class="" v-if="post && post.author">
       <div class="p-0.6rem">
         <div class="flex items-center">
-          <img v-if="post && post.author && post.author.profile_image_url" @click="gotoSteemProfile"
+          <img v-if="post && post.author && post.author.profile_image_url" @click.stop="gotoSteemProfile"
                class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
                :src="post.author.profile_image_url" alt="">
           <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
@@ -20,7 +20,7 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-1rem">
-            <p @click="gotoSteem" class="cursor-pointer">
+            <p @click.stop="gotoSteem" class="cursor-pointer">
               {{ post.text }}
             </p>
             <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -32,9 +32,9 @@
           </div>
         </div>
       </div>
-      <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+      <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
         <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
-          <img @click="viewImg(index)" :src="url" alt="">
+          <img @click.stop="viewImg(index)" :src="url" alt="">
         </div>
       </div>
     </div>

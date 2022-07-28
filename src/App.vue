@@ -47,7 +47,12 @@
       </div>
     </div>
     <div class="flex-1 overflow-auto">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component"  v-if="$route.meta.keepAlive"/>
+        </keep-alive>
+        <component :is="Component"  v-if="!$route.meta.keepAlive"/>
+      </router-view>
     </div>
   </div>
 
@@ -148,26 +153,22 @@ export default {
 <style lang="scss">
 @font-face
 {
-  font-family: MontserratRegular;
-  src: url('~@/style/Montserrat-Regular.ttf');
+  font-family: PoppinsRegular;
+  src: url('~@/style/Poppins-Regular.ttf');
 }
 @font-face
 {
-  font-family: MontserratMedium;
-  src: url('~@/style/Montserrat-Medium.ttf');
+  font-family: PoppinsMedium;
+  src: url('~@/style/Poppins-Medium.ttf');
 }
 @font-face
 {
-  font-family: MontserratBold;
-  src: url('~@/style/Montserrat-Bold.ttf');
+  font-family: PoppinsBold;
+  src: url('~@/style/Poppins-Bold.ttf');
 }
-@font-face
-{
-  font-family: MontserratBlack;
-  src: url('~@/style/Montserrat-Black.ttf');
-}
+
 :root {
-  --primary-bg: #000;
+  --primary-bg: #191919;
   --primary-custom: #EEB134;
   --gradient-primary-color1: #EEB134;
   --gradient-primary-color2: #ED782F;
@@ -184,12 +185,12 @@ html, body {
   background-color: black;
 }
 #app {
-  font-family:MontserratRegular, Avenir, Helvetica, Arial, sans-serif;
+  font-family:PoppinsRegular, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #fff;
-  background-color: black;
+  background-color: var(--primary-bg);
   position: absolute;
   top: 0;
   left: 0;

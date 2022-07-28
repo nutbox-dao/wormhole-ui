@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <img class="w-2.2rem h-2.2rem mr-1.5rem rounded-full"
+    <img class="w-2.2rem h-2.2rem md:w-3rem md:h-3rem md:ml-0.6rem mr-1.5rem rounded-full"
          src="@/assets/icon-default-avatar.svg" alt="">
     <div class="flex-1 text-left">
       <div class="flex items-center overflow-x-hidden">
@@ -12,7 +12,7 @@
         Replying to
         <a class="text-primaryColor" href="">@acsc</a>
       </div>
-      <div class="text-0.9rem">ords in a very secure location and never show these to anybody ever again. </div>
+      <div class="text-0.9rem text-colorE3">ords in a very secure location and never show these to anybody ever again. </div>
       <div class="flex gap-4rem mt-15px">
         <div class="flex items-center">
           <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
