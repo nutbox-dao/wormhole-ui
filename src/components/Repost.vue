@@ -9,8 +9,8 @@
           <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
             <div class="flex items-center">
-              <a class="font-700 text-left">{{ post.author.name }}</a>
-              <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+              <a class="font-700 text-left mr-1">{{ post.author.name }}</a>
+              <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               <span>@{{ post.author.username }}</span>
             </div>
             <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
