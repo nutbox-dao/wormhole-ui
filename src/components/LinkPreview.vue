@@ -1,10 +1,10 @@
 <template>
   <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
-    <img class="" :src="linkPreviewInfo.image" alt="">
+    <img class="" :src="linkPreviewInfo.images && linkPreviewInfo.images[0]" alt="">
     <div class="px-1rem py-0.5rem">
       <div class="">{{getUrlHost(linkPreviewInfo.url)}}</div>
       <div class="c-text-bold text-1rem my-0.4rem overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.title}}</div>
-      <div class="overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.desc}}</div>
+      <div class="overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.description}}</div>
     </div>
   </div>
 </template>
@@ -12,6 +12,12 @@
 <script>
 export default {
   name: "LinkPreview",
+  props: {
+    pageInfo: {
+      type: String,
+      default: "{}"
+    }
+  },
   data() {
     return {
       linkPreviewInfo: {
@@ -27,7 +33,10 @@ export default {
       const url = new URL(link)
       return url.host.toLowerCase() || ''
     }
-  }
+  },
+  mounted () {
+    this.linkPreviewInfo = JSON.parse(this.pageInfo);
+  },
 }
 </script>
 

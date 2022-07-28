@@ -1,29 +1,27 @@
 <template>
-  <div class="border-1 border-white/10 bg-blockBg rounded-12px overflow-hidden sm:max-w-4/5">
-    <div class="">
-      <div class="p-1rem">
+  <div class="border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden max-w-25rem">
+    <div class="" v-if="post && post.author">
+      <div class="p-0.6rem">
         <div class="flex items-center">
-          <img v-if="getAccountInfo" @click="gotoSteemProfile"
+          <img v-if="post && post.author && post.author.profile_image_url" @click="gotoSteemProfile"
                class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
-               :src="profileImg" alt="">
+               :src="post.author.profile_image_url" alt="">
           <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
-            <div class="flex items-center flex-wrap">
-              <div class="flex items-center">
-                <a class="font-700 text-left">{{ post.name }}</a>
-                <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-              </div>
-              <span>@{{ post.username }}</span>
+            <div class="flex items-center">
+              <a class="font-700 text-left mr-1">{{ post.author.name }}</a>
+              <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
+              <span>@{{ post.author.username }}</span>
             </div>
             <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
-            {{ parseTimestamp(post.postTime) }}
+            {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-1rem">
             <p @click="gotoSteem" class="cursor-pointer">
-              {{ post.content.replace(this.urlreg, '') }}
+              {{ post.text }}
             </p>
             <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
               <a :href="u"
@@ -34,7 +32,7 @@
           </div>
         </div>
       </div>
-      <div class="grid mt-10px " :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+      <div class="grid mt-10px max-w-25rem" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
         <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
           <img @click="viewImg(index)" :src="url" alt="">
         </div>
@@ -60,8 +58,8 @@ import { ImagePreview } from 'vant';
 export default {
   name: "Blog",
   props: {
-    post: {
-      type: Object,
+    retweetInfo: {
+      type: String,
       default: {}
     },
   },
@@ -73,6 +71,7 @@ export default {
       allurls: [],
       url: null,
       reg: '',
+      post: {},
       urlreg: '',
       imgViewDialog: false,
       imgIndex: 0
@@ -81,27 +80,10 @@ export default {
   computed: {
     ...mapState(['accountInfo']),
     ...mapGetters(['getAccountInfo']),
-    profileImg() {
-      if (!this.getAccountInfo) return ''
-      if (this.getAccountInfo.profileImg) {
-        return this.getAccountInfo.profileImg.replace('normal', '200x200')
-      }else {
-        return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
-      }
-    },
-    value() {
-      const value = this.parseSBD(this.post.curatorPayoutValue)
-          + this.parseSBD(this.post.pendingPayoutValue)
-          + this.parseSBD(this.post.totalPayoutValue)
-      return formatPrice(value)
-    }
   },
   methods: {
     parseTimestamp(time) {
       return parseTimestamp(time)
-    },
-    parseSBD(v) {
-      return parseFloat(v.replace(' SBD', ''))
     },
     gotoSteem() {
       window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
@@ -123,11 +105,16 @@ export default {
     }
   },
   mounted () {
+    this.post = JSON.parse(this.retweetInfo)
+
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
-    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    const urls = this.post.text.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
     this.allurls = urls
-    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    this.imgurls = this.post.images
+
+    // remove urls display if there
+
     if (urls && this.imgurls) {
       this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
     } else if(urls) {
@@ -157,16 +144,16 @@ export default {
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .img-3 {
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .img-4 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 2px;
+  //gap: 1rem;
 }
 .blog-tag{
   border-radius: 0.4rem;
@@ -181,10 +168,6 @@ export default {
   .img-3 {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    :nth-child(2) {
-      grid-column: 2 / 2;
-      grid-row: 1 / 3;
-    }
   }
 }
 </style>
