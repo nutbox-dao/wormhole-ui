@@ -20,7 +20,7 @@
       </div>
     </div>
     <el-dialog v-model="modalVisible" custom-class="c-dialog c-dialog-md c-dialog-center c-dialog-no-shadow">
-      <GetNft></GetNft>
+      <GetNft @close="modalVisible=false"></GetNft>
     </el-dialog>
   </div>
 </template>

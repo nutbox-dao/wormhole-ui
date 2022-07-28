@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto max-w-49rem pt-0.5rem px-1rem pb-2rem">
-    <div class="bg-blockBg sm:bg-transparent rounded-1rem">
+  <div class="container mx-auto max-w-600px px-1rem pb-2rem">
+    <div class="bg-blockBg rounded-1rem mt-2rem">
       <div v-if="transactions.length===0" class="py-4rem px-1.5rem">
         <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
         <div class="text-zinc-400 text-0.8rem leading-1.4rem">

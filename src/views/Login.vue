@@ -11,7 +11,7 @@
           </div>
         </div>
         <div>
-          <input class="bg-white h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
+          <input class="bg-colorDD/20 h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"
@@ -22,7 +22,7 @@
         <div class="text-1rem font-bold mt-1.5rem">
           Haven't signed up yet ?
         </div>
-        <router-link to="'/">
+        <router-link to="/signup">
           <div class="underline c-text-bold text-1.2rem leading-1.5rem mt-0.5rem">
             Create an account
           </div>

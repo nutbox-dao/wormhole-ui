@@ -1,9 +1,6 @@
 <template>
   <div
     class="
-      container
-      mx-auto
-      max-w-49rem
       fade-in
       overflow-x-hidden
       h-full
@@ -12,9 +9,11 @@
     "
   >
     <template v-if="!loading">
-      <div class="px-0.725rem mt-1rem flex items-center">
-        <img
-          class="
+      <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
+        <div class="container max-w-960px mx-auto">
+          <div class="px-1rem mt-1rem flex items-center">
+            <img
+                class="
             w-8rem
             h-8rem
             mr-1.5rem
@@ -22,26 +21,26 @@
             gradient-border
             border-3px
           "
-          @error="replaceEmptyImg"
-          :src="profileImg"
-          alt=""
-        />
-        <div
-          class="
+                @error="replaceEmptyImg"
+                :src="profileImg"
+                alt=""
+            />
+            <div
+                class="
             flex-1 flex
             justify-between
             sm:flex-row sm:items-center
             flex-col
           "
-        >
-          <div class="text-left">
-            <div
-              class="c-text-bold text-1.8rem gradient-text gradient-text-right"
             >
-              {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
-            </div>
-            <div
-              class="
+              <div class="text-left">
+                <div
+                    class="c-text-bold text-1.8rem gradient-text gradient-text-right"
+                >
+                  {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
+                </div>
+                <div
+                    class="
                 text-text8F text-1.2rem
                 flex
                 mt-0.7rem
@@ -49,41 +48,41 @@
                 sm:flex-row sm:items-center
                 flex-col
               "
-            >
+                >
               <span @click="gotoTwitter" class="mr-0.5rem hover"
-                >@{{
+              >@{{
                   getAccountInfo ? getAccountInfo.twitterUsername : " "
                 }}</span
               >
-              <div
-                class="flex items-center justify-start sm:mt-0 mt-1rem"
-                v-if="getAccountInfo && getAccountInfo.steemId"
-              >
-                <img
-                  class="w-1.1rem h-1.1rem mr-0.5rem"
-                  src="~@/assets/icon-checked.svg"
-                  alt=""
-                />
-                <span class="hover" @click="gotoSteem"
-                  >#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span
-                >
+                  <div
+                      class="flex items-center justify-start sm:mt-0 mt-1rem"
+                      v-if="getAccountInfo && getAccountInfo.steemId"
+                  >
+                    <img
+                        class="w-1.1rem h-1.1rem mr-0.5rem"
+                        src="~@/assets/icon-checked.svg"
+                        alt=""
+                    />
+                    <span class="hover" @click="gotoSteem"
+                    >#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span
+                    >
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="flex flex-col sm:items-center">
-            <div
-              class="
+              <div class="flex flex-col sm:items-center">
+                <div
+                    class="
                 gradient-text gradient-text-bottom
                 c-text-black
                 text-2.4rem
                 sm:mt-0
                 mt-0.8rem
               "
-            >
-              {{ totalValue }}
-            </div>
-            <button
-              class="
+                >
+                  {{ totalValue }}
+                </div>
+                <button
+                    class="
                 flex
                 items-center
                 justify-center
@@ -101,39 +100,35 @@
                 sm:relative sm:left-auto sm:bottom-auto sm:transform-none
                 z-2
               "
-              @click="tipDrawer = true"
-            >
-              <img
-                class="w-1.5rem h-1.5rem mr-0.5rem"
-                src="~@/assets/icon-warning.svg"
-                alt=""
-              />
-              Tweet action tips
-            </button>
+                    @click="tipDrawer = true"
+                >
+                  <img
+                      class="w-1.5rem h-1.5rem mr-0.5rem"
+                      src="~@/assets/icon-warning.svg"
+                      alt=""
+                  />
+                  Tweet action tips
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
+            <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+              <router-link
+                  class="flex-1 py-0.8rem px-1rem"
+                  :to="`/profile/${$route.params.user}/post`"
+              >Social assets</router-link
+              >
+              <router-link
+                  class="flex-1 py-0.8rem px-1rem"
+                  :to="`/profile/${$route.params.user}/wallet`"
+              >Web3 wallet</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
-      <div class="bg-blockBg sm:bg-transparent rounded-t-1rem mt-1rem flex-1">
-        <div
-          class="
-            border-b-1px border-dividerColor
-            flex
-            text-1.2rem
-            leading-1.5rem
-            c-text-medium
-          "
-        >
-          <router-link
-            class="flex-1 py-0.8rem px-1rem"
-            :to="`/profile/${$route.params.user}/post`"
-            >Social assets</router-link
-          >
-          <router-link
-            class="flex-1 py-0.8rem px-1rem"
-            :to="`/profile/${$route.params.user}/wallet`"
-            >Web3 wallet</router-link
-          >
-        </div>
+      <div class="bg-blockBg md:bg-transparent container max-w-960px mx-auto flex-1">
         <router-view></router-view>
       </div>
     </template>

@@ -1,7 +1,7 @@
 <template>
   <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
     <div class="py-1.8rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
-      <div class="container mx-auto flex justify-between items-center px-0.75rem">
+      <div class="container max-w-960px mx-auto flex justify-between items-center">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
@@ -286,11 +286,15 @@ html, body {
     opacity: 1;
   }
 }
+.signup-bg {
+  background-image: url("~@/assets/signup-bg-pc.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
 @media (max-width: 640px) {
   .signup-bg {
     background-image: url("~@/assets/signup-bg.png");
-    background-repeat: no-repeat;
-    background-size: cover;
     background-position: top;
   }
 }

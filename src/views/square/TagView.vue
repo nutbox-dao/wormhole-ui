@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-49rem pb-2rem">
+  <div class="container mx-auto max-w-960px pb-2rem">
     <van-list :loading="listLoading"
               :finished="listFinished"
               :immediate-check="false"

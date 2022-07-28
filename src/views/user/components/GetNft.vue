@@ -1,6 +1,9 @@
 <template>
   <div class="bg-text2C text-white">
-    <div class="bg-color1E py-2rem">
+    <div class="bg-color1E py-2rem relative">
+      <img class="absolute right-1rem top-1rem w-1rem cursor-pointer"
+           @click="$emit('close')"
+           src="~@/assets/icon-close-white.svg" alt="">
       <img class="w-12rem h-12rem rounded-full border-3px gradient-border mx-auto mb-2rem"
            src="~@/assets/icon-default-avatar.svg" alt="">
       <div class="c-text-bold text-1.4rem">New wormholer NFT</div>

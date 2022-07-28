@@ -6,7 +6,7 @@
           Below is the password
           to your new wallet:
         </div>
-        <div class="flex items-center bg-blockBg py-1rem lg:px-6rem px-2rem max-w-49rem mx-auto rounded-12px c-text-bold lg:text-1.4rem text-1.2rem lg:leading-2rem leading-1.6rem mb-2.3rem">
+        <div class="flex items-center bg-blockBg py-1rem lg:px-6rem px-2rem max-w-960px mx-auto rounded-12px c-text-bold lg:text-1.4rem text-1.2rem lg:leading-2rem leading-1.6rem mb-2.3rem">
           {{ ethAccount.privateKey }}
           <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                @click="onCopy(ethAccount.privateKey)"

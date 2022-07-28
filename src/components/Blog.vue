@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="overflow-x-hidden ">
+      <div class="overflow-x-hidden md:mx-3.6rem">
         <div class="text-left font-400 mt-1rem">
           <p @click="gotoSteem" class="cursor-pointer">
             {{ post.content && post.content.replace(this.urlreg, '') }}

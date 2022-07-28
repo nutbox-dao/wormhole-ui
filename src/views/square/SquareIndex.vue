@@ -7,7 +7,7 @@
               loading-text="Loading..."
               finished-text="No more data"
               @load="onLoad">
-      <div class="px-1.5rem sm:px-0 container mx-auto max-w-49rem">
+      <div class="px-1.5rem sm:px-0 container mx-auto max-w-960px">
         <div class="mt-25px flex sm:items-center sm:justify-between">
           <div class="w-min relative ">
             <div class="w-full h-7px bg-primaryColor absolute bottom-3px rounded-full"></div>
@@ -21,8 +21,8 @@
         </div>
         <div class="text-white/40 mt-10px text-left">Post twitter content on chain and earn rewards</div>
       </div>
-      <div class="border-b-1px border-white/20 mt-0.5rem">
-        <div class="px-1.5rem sm:px-0 container mx-auto max-w-49rem flex justify-between items-center">
+      <div class="border-b-1px border-white/20 mt-0.5rem sticky -top-1px bg-primaryBg z-2">
+        <div class="px-1.5rem sm:px-0 container mx-auto max-w-960px flex justify-between items-center">
           <div class="flex-1 overflow-x-auto no-scroll-bar">
             <div class="text-14px w-min flex gap-1.5rem h-3rem">
               <span v-for="(tag, index) of tagList" :key="index"
@@ -36,7 +36,7 @@
           </router-link>
         </div>
       </div>
-      <div class="container mx-auto max-w-49rem pt-3">
+      <div class="container mx-auto max-w-960px md:bg-blockBg rounded-12px md:mt-1rem">
         <!-- <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
           <span v-for="(tag, index) of subTagList" :key="index"
                 class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
@@ -49,7 +49,7 @@
           loosing-text="Release to refresh"
         >
           <div class="" v-for="p of currentPosts" :key="p.postId">
-            <Blog :post="p" class="bg-blockBg mb-1rem sm:rounded-1rem sm:bg-white/10"/>
+            <Blog :post="p" class="bg-blockBg md:bg-transparent md:border-b-1 md:border-listBgBorder mb-1rem md:mb-0"/>
           </div>
         </van-pull-refresh>
       </div>
@@ -61,8 +61,8 @@
              @click="modalVisible=false"
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-<!--          <Login class="text-center"/>-->
-          <PostTip class="pb-4rem text-left"/>
+          <PostTip v-if="getAccountInfo" class="pb-4rem text-left"/>
+          <Login v-else class="text-center sm:my-2rem mb-4rem"/>
         </div>
       </div>
     </van-popup>
@@ -75,7 +75,7 @@ import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
 import { getTagAggregation, getPostsByTagTime } from '@/api/api';
 import { mapState, mapGetters } from 'vuex'
-import { notify, showError } from "@/utils/notify"; 
+import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
 
 export default {
@@ -84,7 +84,7 @@ export default {
     return {
       subTagList: ['Trending', 'New'],
       subActiveTagIndex: 0,
-      listLoading: false,
+      listLoading: true,
       listFinished: false,
       refreshing: false,
       list: [],
@@ -129,11 +129,13 @@ export default {
   },
   methods: {
     publishTweet(){
-      if (this.getAccountInfo){
-        this.modalVisible=true
-      }else {
-        this.$router.push('/login')
-      }
+      this.modalVisible=true
+
+      // if (this.getAccountInfo){
+      //   this.modalVisible=true
+      // }else {
+      //   this.$router.push('/login')
+      // }
     },
     async onLoad() {
       if(this.listLoading || this.listFinished) return
@@ -176,6 +178,7 @@ export default {
         console.log(tag, res);
         const postsf = await getPosts(res)
         this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
+        this.listLoading = false
         if (postsf.length < 12) {
           this.listFinished = true
         }else {

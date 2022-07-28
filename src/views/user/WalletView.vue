@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-4rem">
+  <div class="pb-4rem max-w-600px mx-auto">
     <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
         <span class="text-black c-text-bold"> ETH wallet</span>
@@ -14,13 +14,15 @@
              src="~@/assets/icon-copy-primary.svg" alt="">
       </div>
     </div>
-    <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-2.2rem">
-      <router-link :to="`/profile/${$route.params.user}/wallet`"
-                   class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
-      <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                   class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link>
+    <div class="bg-blockBg md:py-1.5rem rounded-12px">
+      <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-2.2rem">
+        <router-link :to="`/profile/${$route.params.user}/wallet`"
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
+        <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link>
+      </div>
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 

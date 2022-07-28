@@ -22,8 +22,13 @@ export default defineConfig({
         listBgBorder: '#323436',
         color1E: '#1E1E1E',
         color73: '#737373',
-        colorD8: '#D8D8D8'
-      }
+        colorD8: '#D8D8D8',
+        colorDD: '#DDDDDD',
+        colorB6: '#B6B6B6B2'
+      },
+      screens: {
+        '2md': { min: '960px' },
+      },
     }
   }
 })
