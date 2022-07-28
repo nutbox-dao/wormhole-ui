@@ -32,9 +32,9 @@
         </div>
 
 <!--        外部链接-->
-<!--        <LinkPreview/>-->
-<!--        转帖-->
-<!--        <Repost :post="post"/>-->
+       <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10" :pageInfo="post.pageInfo"/>
+<!--        转帖  -->
+       <Repost v-if="post.retweetInfo && post.retweetInfo.length>10" :retweetInfo="post.retweetInfo"/>
 
         <!--img-1, img-2, img-3, img-4 -->
         <div class="grid mt-10px max-w-25rem rounded-12px overflow-hidden"

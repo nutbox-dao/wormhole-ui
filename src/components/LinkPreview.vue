@@ -12,6 +12,12 @@
 <script>
 export default {
   name: "LinkPreview",
+  props: {
+    pageInfo: {
+      type: String,
+      default: "{}"
+    }
+  },
   data() {
     return {
       linkPreviewInfo: {
