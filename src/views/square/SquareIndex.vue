@@ -172,7 +172,6 @@ export default {
         if (posts && posts.length > 0) {
           time = posts[0].postTime.replace('T', ' ')
           time = time.slice(0, 19)
-          console.log(3, time);
         }
         const res = await getPostsByTagTime(tag, 12, time, true)
         console.log(tag, res);

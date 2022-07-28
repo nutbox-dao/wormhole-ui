@@ -32,8 +32,6 @@ export function test() {
 
     const privateKey1 = b64uEnc(pair1.privateKey)
     const privateKey2 = b64uEnc(pair2.privateKey)
-    console.log(3, privateKey1);
-    console.log(4, privateKey2);
 
     const res = box(data, pair1.publicKey, b64uDec(privateKey2))
     const res2 = openBox(res, ParseKeyNonce, pair2.publicKey, b64uDec(privateKey1))
