@@ -128,7 +128,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-blockBg md:bg-transparent container max-w-960px mx-auto flex-1">
+      <div class="bg-blockBg md:bg-transparent container max-w-960px mx-auto flex-1 pb-2rem sm:px-1rem">
         <router-view></router-view>
       </div>
     </template>

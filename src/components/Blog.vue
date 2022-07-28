@@ -3,13 +3,15 @@
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex items-center">
         <img v-if="profileImg" @click="gotoSteemProfile"
-             class="w-2.6rem h-2.6rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
+             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
-        <img class="w-2.6rem h-2.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start">
-          <div class="flex items-center">
-            <a class="font-700 text-left">{{ post.name }}</a>
-            <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+          <div class="flex items-center flex-wrap">
+            <div class="flex items-center">
+              <a class="font-700 text-left">{{ post.name }}</a>
+              <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+            </div>
             <span>@{{ post.username }}</span>
           </div>
           <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
@@ -18,7 +20,7 @@
         </div>
       </div>
 
-      <div class="overflow-x-hidden md:mx-3.6rem">
+      <div class="overflow-x-hidden sm:mx-5.1rem">
         <div class="text-left font-400 mt-1rem">
           <p @click="gotoSteem" class="cursor-pointer">
             {{ post.content && post.content.replace(this.urlreg, '') }}
@@ -34,10 +36,10 @@
 <!--        外部链接-->
 <!--        <LinkPreview/>-->
 <!--        转帖-->
-<!--        <Repost :post="post"/>-->
+<!--        <Repost :post="post" class="mt-1rem"/>-->
 
         <!--img-1, img-2, img-3, img-4 -->
-        <div class="grid mt-10px max-w-25rem rounded-12px overflow-hidden"
+        <div class="grid mt-10px max-w-400px rounded-12px overflow-hidden"
              :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
           <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
             <img @click="viewImg(index)" :src="url" alt="">

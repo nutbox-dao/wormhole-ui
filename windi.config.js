@@ -27,7 +27,7 @@ export default defineConfig({
         colorB6: '#B6B6B6B2'
       },
       screens: {
-        '2md': { min: '960px' },
+        '2md': { min: '961px' },
       },
     }
   }
