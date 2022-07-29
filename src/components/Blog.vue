@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="overflow-x-hidden md:mx-5.1rem">
+      <div class="overflow-x-hidden md:mx-5.1rem sm:mx-4.1rem">
         <div class="text-left font-400 my-1rem">
           <div class="cursor-pointer ">
             <span @click.stop="gotoSteem" >{{ post.content && post.content.replace(this.urlreg, '') }}</span>
