@@ -129,7 +129,12 @@
         </div>
       </div>
       <div class="bg-blockBg md:bg-transparent container max-w-960px mx-auto flex-1 pb-2rem sm:px-1rem">
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
+          </keep-alive>
+          <component :is="Component" v-if="!$route.meta.keepAlive"/>
+        </router-view>
       </div>
     </template>
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
