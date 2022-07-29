@@ -3,7 +3,7 @@
     <div class="" v-if="post && post.author">
       <div class="p-0.6rem">
         <div class="flex items-center">
-          <img v-if="post && post.author && post.author.profile_image_url" @click.stop="gotoSteemProfile"
+          <img v-if="post && post.author && post.author.profile_image_url"
                class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
                :src="post.author.profile_image_url" alt="">
           <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
@@ -20,7 +20,7 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-1rem">
-            <p @click.stop="gotoSteem" class="cursor-pointer">
+            <p class="cursor-pointer">
               {{ post.text }}
             </p>
             <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -84,12 +84,6 @@ export default {
   methods: {
     parseTimestamp(time) {
       return parseTimestamp(time)
-    },
-    gotoSteem() {
-      window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
-    },
-    gotoSteemProfile() {
-      window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
     },
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||

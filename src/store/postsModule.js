@@ -6,7 +6,9 @@ export default {
         // store square posts, classify by tags
         allPosts: {},
         // in square page, this field stored which tag user alread chosed
-        currentTagIndex: 0
+        currentTagIndex: 0,
+        // post detail page data
+        currentShowingDetail: null
     },
     mutations: {
         saveTagsAggregation: (state, tagsAggregation) => {
@@ -17,6 +19,9 @@ export default {
         },
         saveCurrentTagIndex: (state, currentTagIndex) => {
             state.currentTagIndex = currentTagIndex
+        },
+        saveCurrentShowingDetail: (state, currentShowingDetail) => {
+            state.currentShowingDetail = currentShowingDetail
         }
     },
     getters: {

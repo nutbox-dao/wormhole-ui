@@ -21,7 +21,7 @@
       <div class="overflow-x-hidden md:mx-5.1rem">
         <div class="text-left font-400 my-1rem">
           <div class="cursor-pointer ">
-            <span @click.stop="gotoSteem" >{{ post.content && post.content.replace(this.urlreg, '') }}</span>
+            <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">
              <a :href="u"
@@ -31,9 +31,9 @@
           </div>
         </div>
 
-<!--        外部链接-->
+<!--       foreign page -->
        <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10" :pageInfo="post.pageInfo"/>
-<!--        转帖  -->
+<!--       retweet  -->
        <Repost v-if="post.retweetInfo && post.retweetInfo.length>10" :retweetInfo="post.retweetInfo"/>
 
         <!--img-1, img-2, img-3, img-4 -->
