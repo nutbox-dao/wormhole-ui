@@ -21,7 +21,10 @@ export const getTagAggregation = async () =>
 
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (username, pageSize, time, newPost) => 
-get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
+    get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
+
+export const getPostById = async (postId) =>
+    get(BACKEND_API_URL + '/twitter/getPostById', {postId})
 
 export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
     if (newPost) {
@@ -30,3 +33,6 @@ export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
         return get(BACKEND_API_URL + '/twitter/moreByTagTime', {tag, pageSize, time})
     }
 }
+
+export const getCommentsByPostid = async (postId) => 
+    get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})

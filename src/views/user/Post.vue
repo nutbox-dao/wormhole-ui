@@ -54,7 +54,7 @@
           </div>
           <div class="bg-blockBg rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="$router.push(`/post-detail/${p.postId}`)"
+              <Blog @click="goteDetail(p)"
                     :post="p" class="border-b-1 border-white/20 md:border-listBgBorder"/>
             </div>
           </div>
@@ -136,6 +136,10 @@ export default {
           this.finished = true
         })
       }
+    },
+    goteDetail(p) {
+      this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+      this.$router.push(`/post-detail/${p.postId}`)
     }
   }
 }

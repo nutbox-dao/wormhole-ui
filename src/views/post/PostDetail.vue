@@ -1,59 +1,78 @@
 <template>
   <div class="container mx-auto max-w-960px pb-2rem md:px-1rem">
-    <div class="mx-1.2rem md:mx-0 relative h-3.5rem flex items-center justify-center mb-1rem">
-      <img class="absolute left-0rem top-0.5rem transform rotate-180 w-2.5rem cursor-pointer"
-           @click="$router.back()"
-           src="~@/assets/icon-forward-circle.svg" alt="">
-      <div class="c-text-bold text-1.4rem">Post</div>
-    </div>
-    <div class="md:bg-blockBg rounded-12px">
-      <van-list :loading="listLoading"
-                :finished="listFinished"
-                :immediate-check="false"
-                :finished-text="'没有更多了'"
-                @load="onLoad">
-        <Blog :post="testData"/>
-        <div class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">
-          <div class="c-text-bold text-left text-1.2rem">Comments ( 32 )</div>
-          <div class="mt-1rem" v-for="i of list" :key="i">
-            <Comment class="py-0.5rem"/>
+    <template v-if="currentShowingDetail">
+      <div class="mx-1.2rem md:mx-0 relative h-3.5rem flex items-center justify-center mb-1rem">
+        <img class="absolute left-0rem top-0.5rem transform rotate-180 w-2.5rem cursor-pointer"
+            @click="$router.back()"
+            src="~@/assets/icon-forward-circle.svg" alt="">
+        <div class="c-text-bold text-1.4rem">Post</div>
+      </div>
+      <div class="md:bg-blockBg rounded-12px">
+        <van-list :loading="listLoading"
+                  :finished="listFinished"
+                  :immediate-check="false"
+                  :finished-text="'没有更多了'"
+                  @load="onLoad">
+          <Blog :post="currentShowingDetail"/>
+          <div v-if="comments && comments.length > 0" class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">
+            <div class="c-text-bold text-left text-1.2rem">Comments ( {{ comments ? comments.length : 0 }} )</div>
+            <div class="mt-1rem" v-for="c of (comments || [])" :key="c.commentId">
+              <Comment class="py-0.5rem" :comment="c"/>
+            </div>
           </div>
-        </div>
-      </van-list>
-    </div>
+        </van-list>
+      </div>
+    </template>
+
   </div>
 </template>
 
 <script>
 import Blog from "@/components/Blog";
 import Comment from '@/views/user/components/Comment'
+import { mapState, mapGetters } from 'vuex'
+import { getPostById, getCommentsByPostid } from '@/api/api'
+import { getPosts } from '@/utils/steem'
+
 export default {
   name: "PostDetail",
   components: {Blog, Comment},
+  computed: {
+    ...mapState('postsModule', ['currentShowingDetail']),
+    ...mapGetters(['getAccountInfo'])
+  },
   data() {
     return {
       listLoading: false,
       listFinished: false,
       refreshing: false,
       list: [1,2,3,4],
-      testData: {
-        children: 0,
-        content: "Siguniang mountain, here we are。 （ by https://t.co/ybMGq2pJM9）  https://t.co/549D352xTw\nhttps://pbs.twimg.com/media/FWd8DdiX0AAwfEN.jpg\nhttps://pbs.twimg.com/media/FWd8GByWAAAKHT1.jpg\nhttps://pbs.twimg.com/media/FWd8GCDXgAACfL4.jpg\nhttps://pbs.twimg.com/media/FWd8GCtWIAA-4pp.jpg",
-        curatorPayoutValue: "0.574 SBD",
-        name: "terry3t.eth",
-        pendingPayoutValue: "0.000 SBD",
-        postId: "1542338002818666496",
-        postTime: "2022-06-30T02:43:29.000Z",
-        steemId: "terry3t1493",
-        tags: "[\"wormhole3\"]",
-        totalPayoutValue: "0.574 SBD",
-        username: "terry3t1",
-        votes: 1
-      }
+      comments: []
     }
   },
   mounted() {
-    this.onLoad()
+    const postId = this.$route.params.postId
+    // this.onLoad()
+    if (!this.currentShowingDetail) {
+      // get post 
+      getPostById(postId).then(async (p) => {
+        const posts = await getPosts([p])
+        this.$store.commit('postsModule/saveCurrentShowingDetail', posts[0])
+        getCommentsByPostid(postId).then(async comments => {
+          this.comments = await getPosts(comments.map(c => ({
+            ...c,
+            postId: c.commentId
+          })))
+        })
+      })
+    }else {
+      getCommentsByPostid(postId).then(async comments => {
+        this.comments = await getPosts(comments.map(c => ({
+            ...c,
+            postId: c.commentId
+          })))
+      })
+    }
   },
   methods: {
     getData() {
@@ -67,22 +86,26 @@ export default {
         }, 3000);
       })
     },
-    async onLoad() {
-      if(this.listLoading || this.listFinished) return
-      this.listLoading = true
-      const res = await this.getData()
-      if(this.refreshing) this.list = []
-      this.listLoading = false
-      this.refreshing = false
-      this.list = this.list.concat(res)
-      // 加载完成
-      if (this.list.length >= 10) this.listFinished = true
-    },
-    onRefresh() {
-      this.listFinished = false
-      this.onLoad()
-    }
-  }
+    
+    // async onLoad() {
+    //   if(this.listLoading || this.listFinished) return
+    //   this.listLoading = true
+    //   const res = await this.getData()
+    //   if(this.refreshing) this.list = []
+    //   this.listLoading = false
+    //   this.refreshing = false
+    //   this.list = this.list.concat(res)
+    //   // 加载完成
+    //   if (this.list.length >= 10) this.listFinished = true
+    // },
+    // onRefresh() {
+    //   this.listFinished = false
+    //   this.onLoad()
+    // }
+  },
+  beforeDestroy () {
+    this.$store.commit('postsModule/saveCurrentShowingDetail', null)
+  },
 }
 </script>
 

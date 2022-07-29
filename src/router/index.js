@@ -104,7 +104,7 @@ const routes = [
     component: UserTransactionView
   },
   {
-    path: '/post-detail/:tweetid',
+    path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView
   }

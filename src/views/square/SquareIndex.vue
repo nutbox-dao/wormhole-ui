@@ -50,7 +50,7 @@
                             loosing-text="Release to refresh"
           >
             <div class="" v-for="p of currentPosts" :key="p.postId">
-              <Blog @click="$router.push(`/post-detail/${p.postId}`)"
+              <Blog @click="goteDetail(p)"
                     :post="p" class="bg-blockBg sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0"/>
             </div>
           </van-pull-refresh>
@@ -201,6 +201,10 @@ export default {
       this.listFinished = false
       this.onRefresh()
       // this.$router.push(`/square/tag/${this.tagList[index]}`)
+    },
+    goteDetail(p) {
+      this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+      this.$router.push(`/post-detail/${p.postId}`)
     }
   }
 }
