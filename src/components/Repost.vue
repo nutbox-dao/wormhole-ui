@@ -23,12 +23,12 @@
             <p class="cursor-pointer">
               {{ post.text }}
             </p>
-            <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
+            <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
               <a :href="u"
                  class="text-blue-500" target="_blank">
                 {{ u }}
               </a>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
