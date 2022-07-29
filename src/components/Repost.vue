@@ -128,7 +128,7 @@ export default {
 .img-box {
   overflow: hidden;
   width: 100%;
-  padding-top: 100%;
+  padding-top: 57%;
   position: relative;
   img {
     position: absolute;
