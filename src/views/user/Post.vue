@@ -98,11 +98,18 @@ export default {
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
     }
-    this.onRefresh()
 
     getAccountRC(this.getAccountInfo.steemId).then(rc => {
       this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
     }).catch()
+  },
+  async activated() {
+    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+      await sleep(1)
+    }
+    if(!this.posts || this.posts.length === 0) {
+      this.onRefresh()
+    }
   },
   methods: {
     onRefresh() {

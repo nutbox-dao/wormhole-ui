@@ -1,4 +1,4 @@
-import { getUserInfo as gui } from '@/api/api'
+import { getUserInfo as gui, geNftReceivedState, readNft } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 
@@ -19,7 +19,8 @@ const GetRegisterTimes = 5
 const GetTicketInterval = 1;
 const GetRegisterInterval = 5;
 
-export const getUserInfo = async (username, ethAddress, callback) => {
+// login
+export const login = async (username, ethAddress, callback) => {
     return new Promise(async (resolve, reject) => {
         store.commit('saveAccountInfo', {})
         let account = await gui(username, ethAddress)
@@ -27,6 +28,7 @@ export const getUserInfo = async (username, ethAddress, callback) => {
         let getAccountTimes = 0;
         if (account && account.code === FetchingStatus.MATCH_ACCOUNT) {
             store.commit('saveAccountInfo', account.account)
+            monitorNFTReceiveState(account.account)
             resolve(true)
             return;
         }
@@ -41,13 +43,13 @@ export const getUserInfo = async (username, ethAddress, callback) => {
                     account = await gui(username, ethAddress)
                     getAccountTimes++;
                 }
-                console.log(666, account);
 
                 if (account.code === FetchingStatus.NOT_REGISTED) {
                     resolve(false)
                     return;
                 } else if(account.code === FetchingStatus.MATCH_ACCOUNT) {
                     store.commit('saveAccountInfo', account.account)
+                    monitorNFTReceiveState(account.account)
                     resolve(true)
                     return;
                 }
@@ -65,6 +67,45 @@ export const getUserInfo = async (username, ethAddress, callback) => {
                 reject(500)
                 return;
             }
+        }
+    })
+}
+
+export const monitorNFTReceiveState = async (accountInfo) => {
+    stopMonitorNFTReceiveState()
+    if (accountInfo.hasReceivedNft) return
+    const monitorInserval = setInterval(async () => {
+        geNftReceivedState(accountInfo.twitterId).then(res => {
+            const { hasReceivedNft, reputation, hasReputation } = res;
+            if (hasReceivedNft) {
+                stopMonitorNFTReceiveState()
+                store.commit('saveHasReceivedNft', true)
+            }else{
+                if (hasReputation) {
+                    stopMonitorNFTReceiveState()
+                    accountInfo.reputation = reputation;
+                    store.commit('saveAccountInfo', accountInfo)
+                    store.commit('saveHasReceivedNft', false)
+                }
+            }
+        }).catch(err => {})
+    }, 10000);
+    store.commit('saveMonitorNftInserval', monitorInserval)
+}
+
+export const stopMonitorNFTReceiveState = async () => {
+    try{
+        clearInterval(store.state.monitorNftInserval)
+    }catch(e){}
+}
+
+export const getUserInfo = async (username) => {
+    return new Promise(async (resolve, reject) => {
+        let account = await gui(username)
+        if (account && account.code === FetchingStatus.MATCH_ACCOUNT) {
+            resolve(account.account)
+        }else {
+            reject(500)
         }
     })
 }

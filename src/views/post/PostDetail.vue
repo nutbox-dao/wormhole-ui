@@ -13,7 +13,7 @@
                   :immediate-check="false"
                   :finished-text="'没有更多了'"
                   @load="onLoad">
-          <Blog :post="currentShowingDetail"/>
+          <Blog :post="currentShowingDetail" :isDetail='true'/>
           <div v-if="comments && comments.length > 0" class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">
             <div class="c-text-bold text-left text-1.2rem">Comments ( {{ comments ? comments.length : 0 }} )</div>
             <div class="mt-1rem" v-for="c of (comments || [])" :key="c.commentId">

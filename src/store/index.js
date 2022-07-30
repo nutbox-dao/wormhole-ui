@@ -8,6 +8,8 @@ export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
     accountInfo: Cookie.get('accountInfo'),
+    monitorNftInserval: {},
+    hasReceivedNft: true,
     steemBalance: 0,
     sbdBalance: 0,
     rcPercent: 0,
@@ -30,7 +32,9 @@ export default Vuex.createStore({
     getAccountInfo: (state) => {
       const acc = state.accountInfo
       if (acc) {
-        if (acc.twitterUsername) return acc
+        if (acc.twitterUsername) {
+           return acc
+        }
         return JSON.parse(acc)
       }else {
         return null
@@ -48,12 +52,22 @@ export default Vuex.createStore({
     saveAccountInfo: (state, accountInfo) => {
       if (!accountInfo || Object.keys(accountInfo).length === 0) {
         state.accountInfo = null;
+        state.posts = []
+        try{
+          clearInterval(state.monitorNftInserval)
+        }catch(e){}
         Cookie.remove('accountInfo')
       }else {
         state.accountInfo = JSON.stringify(accountInfo);
         Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d')
       }
       
+    },
+    saveMonitorNftInserval: (state, monitorNftInserval) => {
+      state.monitorNftInserval = monitorNftInserval
+    },
+    saveHasReceivedNft: (state, hasReceivedNft) => {
+      state.hasReceivedNft = hasReceivedNft
     },
     saveSteemBalance: (state, steemBalance) => {
       state.steemBalance = steemBalance
@@ -86,7 +100,6 @@ export default Vuex.createStore({
       state.vestsToSteem = vestsToSteem
     }
   },
-  actions: {},
   modules: {
     postsModule
   },
