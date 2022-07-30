@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getUserInfo, FetchingStatus } from '@/utils/account'
+import { login, FetchingStatus } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
@@ -79,7 +79,7 @@ export default {
         }
         this.loging = true
         const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
-        let result = await getUserInfo(username, this.ethAddress, async (status) => {
+        let result = await login(username, this.ethAddress, async (status) => {
           if (status === FetchingStatus.MATCH_TICKETS) {
           } else if(status === FetchingStatus.REGISTERING) {
             this.showRegistering = true

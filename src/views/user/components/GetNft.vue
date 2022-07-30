@@ -34,7 +34,7 @@ export default {
   name: "GetNft",
   data() {
     return {
-      showAnimation: false
+      showAnimation: true
     }
   }
 }

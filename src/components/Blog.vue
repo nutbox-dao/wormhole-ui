@@ -2,11 +2,11 @@
   <div class="">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex items-center">
-        <img v-if="profileImg" @click="gotoSteemProfile($event)"
+        <img v-if="profileImg" @click.stop="gotoUserPage()"
              class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
         <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex flex-col items-start cursor-pointer" @click="gotoSteemProfile($event)">
+        <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
           <div class="flex items-center">
             <a class="font-700 text-left mr-3">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
@@ -147,10 +147,9 @@ export default {
         window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
       }
     },
-    gotoSteemProfile(e) {
-      if (this.isDetail){
-        e.stopPropagation();
-        window.open(`${EVM_CHAINS.STEEM.scan}@` + this.post.steemId, '__blank')
+    gotoUserPage() { 
+      if (this.post.username !== this.getAccountInfo.twitterUsername){
+        this.$router.push('/account-info/'+this.post.username)
       }
     },
     viewImg(index) {

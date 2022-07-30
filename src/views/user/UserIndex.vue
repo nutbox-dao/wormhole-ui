@@ -305,7 +305,7 @@ import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
 import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { getUserInfo, FetchingStatus } from "@/utils/account";
+import { login, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from "@/config";
@@ -425,6 +425,8 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
+      // update user info 
+      login(twitterUsername)
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
 
       if (steemId) {
@@ -446,7 +448,7 @@ export default {
     } else {
       try {
         this.loading = true;
-        const result = await getUserInfo(twitterUsername, null, (status) => {
+        const result = await login(twitterUsername, null, (status) => {
           if (status === FetchingStatus.MATCH_TICKETS) {
           } else if (status === FetchingStatus.REGISTERING) {
             this.showRegistering = true;

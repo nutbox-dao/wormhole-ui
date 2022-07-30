@@ -1,8 +1,15 @@
 import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 
+/****************************************  posts  ***********************************************/
 export const getUserInfo = async (username, ethAddress) => 
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
+
+export const readNft = async (twitterId) => 
+    post(BACKEND_API_URL + '/users/readNft', {twitterId})
+
+export const geNftReceivedState = async (twitterId) =>
+    get(BACKEND_API_URL + '/users/nftReceiveState', {twitterId})
 
 export const getRegisterTicket = async (publicKey) => 
     get(BACKEND_API_URL + '/register/getRegisterTicket', {publicKey})

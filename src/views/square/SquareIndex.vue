@@ -153,7 +153,7 @@ export default {
         const res = await getPostsByTagTime(tag, 12, time, false)
         const postsf = await getPosts(res)
         this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
-        this.$store.commit('savePosts', this.allPosts)
+        this.$store.commit('postsModule/saveAllPosts', this.allPosts)
         if (postsf.length < 12) {
           this.listFinished = true
         }else {
@@ -177,7 +177,6 @@ export default {
           time = time.slice(0, 19)
         }
         const res = await getPostsByTagTime(tag, 12, time, true)
-        console.log(tag, res);
         const postsf = await getPosts(res)
         this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
         this.listLoading = false
@@ -186,7 +185,7 @@ export default {
         }else {
           this.listFinished = false
         }
-        this.$store.commit('savePosts', this.allPosts)
+        this.$store.commit('postsModule/saveAllPosts', this.allPosts)
       } catch (e) {
         console.log(321, e);
         showError(501)
