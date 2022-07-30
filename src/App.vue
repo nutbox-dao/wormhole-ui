@@ -68,6 +68,7 @@ import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, getAccountRC, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
+import { login } from './utils/account';
 
 export default {
   components: {NFTAnimation},
@@ -75,12 +76,15 @@ export default {
     return {
       pubKey: '',
       showMenu: false,
-      modalVisible: true
+      modalVisible: false
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft']),
+    ...mapGetters(['getAccountInfo']),
+    modalVisible() {
+      return !this.hasReceivedNft
+    }
   },
   methods: {
     async monitorPrices() {
@@ -124,7 +128,7 @@ export default {
     })
 
     if (this.getAccountInfo) {
-      const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
+      const { steemId, ethAddress, web25ETH, twitterUsername } = this.getAccountInfo;
 
       if (steemId) {
         // get steem balance
@@ -142,7 +146,10 @@ export default {
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
+
+      login(twitterUsername)
     }
+    
 
     while(true) {
       try{

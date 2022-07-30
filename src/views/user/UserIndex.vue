@@ -444,8 +444,6 @@ export default {
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
-      // update user info 
-      login(twitterUsername)
     } else {
       try {
         this.loading = true;

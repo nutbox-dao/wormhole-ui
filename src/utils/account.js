@@ -1,4 +1,4 @@
-import { getUserInfo as gui, geNftReceivedState, readNft } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, readNft } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 
@@ -22,7 +22,7 @@ const GetRegisterInterval = 5;
 // login
 export const login = async (username, ethAddress, callback) => {
     return new Promise(async (resolve, reject) => {
-        store.commit('saveAccountInfo', {})
+        // store.commit('saveAccountInfo', {})
         let account = await gui(username, ethAddress)
         let getTicketTimes = 0;
         let getAccountTimes = 0;
@@ -71,24 +71,29 @@ export const login = async (username, ethAddress, callback) => {
     })
 }
 
+function getReceivedState(accountInfo) {
+    getNftReceivedState(accountInfo.twitterId).then(res => {
+        const { hasReceivedNft, reputation, hasReputation } = res;
+        if (hasReceivedNft) {
+            stopMonitorNFTReceiveState()
+            store.commit('saveHasReceivedNft', true)
+        }else{
+            if (hasReputation) {
+                stopMonitorNFTReceiveState()
+                accountInfo.reputation = reputation;
+                store.commit('saveAccountInfo', accountInfo)
+                store.commit('saveHasReceivedNft', false)
+            }
+        }
+    }).catch(err => {})
+}
+
 export const monitorNFTReceiveState = async (accountInfo) => {
     stopMonitorNFTReceiveState()
     if (accountInfo.hasReceivedNft) return
-    const monitorInserval = setInterval(async () => {
-        geNftReceivedState(accountInfo.twitterId).then(res => {
-            const { hasReceivedNft, reputation, hasReputation } = res;
-            if (hasReceivedNft) {
-                stopMonitorNFTReceiveState()
-                store.commit('saveHasReceivedNft', true)
-            }else{
-                if (hasReputation) {
-                    stopMonitorNFTReceiveState()
-                    accountInfo.reputation = reputation;
-                    store.commit('saveAccountInfo', accountInfo)
-                    store.commit('saveHasReceivedNft', false)
-                }
-            }
-        }).catch(err => {})
+    getReceivedState(accountInfo)
+    const monitorInserval = setInterval(() => {
+        getReceivedState(accountInfo)
     }, 10000);
     store.commit('saveMonitorNftInserval', monitorInserval)
 }

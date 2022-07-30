@@ -8,7 +8,7 @@ export const getUserInfo = async (username, ethAddress) =>
 export const readNft = async (twitterId) => 
     post(BACKEND_API_URL + '/users/readNft', {twitterId})
 
-export const geNftReceivedState = async (twitterId) =>
+export const getNftReceivedState = async (twitterId) =>
     get(BACKEND_API_URL + '/users/nftReceiveState', {twitterId})
 
 export const getRegisterTicket = async (publicKey) => 
