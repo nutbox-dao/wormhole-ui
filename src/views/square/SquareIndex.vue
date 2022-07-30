@@ -181,11 +181,6 @@ export default {
         const postsf = await getPosts(res)
         this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
         this.listLoading = false
-        if (postsf.length < 12) {
-          this.listFinished = true
-        }else {
-          this.listFinished = false
-        }
         this.$store.commit('savePosts', this.allPosts)
       } catch (e) {
         console.log(321, e);

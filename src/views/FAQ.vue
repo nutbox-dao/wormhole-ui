@@ -7,7 +7,7 @@
           How to generate a new address, do you keep the private key on platform?
         </div>
         <div class="text-1rem leading-1.8rem mt-1.4rem ">
-          We generate a random key pair, send it to you in an encrypted way. And we never keep your any keys.
+          We generate a random new address in your own front page, and the key never be sent to our platform, so we never touch and keep it.
         </div>
       </div>
       <div class="bg-blockBg rounded-12px py-1rem px-1.5rem mb-1rem">
