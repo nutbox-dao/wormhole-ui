@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-4rem max-w-600px mx-auto">
+  <div class="pb-4rem md:max-w-600px lg:max-w-35rem mx-auto">
     <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
         <span class="text-black c-text-bold"> ETH wallet</span>

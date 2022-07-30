@@ -1,16 +1,17 @@
 <template>
   <div
+      id="user-index"
     class="
-      fade-in
       overflow-x-hidden
       h-full
       flex flex-col
       no-scroll-bar
     "
+    ref="wrapper"
   >
     <template v-if="!loading">
       <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
-        <div class="container max-w-960px mx-auto">
+        <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
                 class="
@@ -82,22 +83,21 @@
                   {{ totalValue }}
                 </div>
                 <button
-                    class="
+                    class="text-0.8rem md:text-1rem whitespace-nowrap
                 flex
                 items-center
                 justify-center
                 gradient-btn
                 h-2.7rem
                 px-1rem
-                rounded-0.6rem
+                rounded-full
                 mt-0.5rem
-                c-text-medium
+                c-text-bold
                 absolute
                 bottom-2rem
                 left-1/2
                 transform
                 -translate-x-1/2
-                sm:relative sm:left-auto sm:bottom-auto sm:transform-none
                 z-2
               "
                     @click="tipDrawer = true"
@@ -128,12 +128,12 @@
           </div>
         </div>
       </div>
-      <div class="bg-blockBg md:bg-transparent container max-w-960px mx-auto flex-1 pb-2rem sm:px-1rem">
+      <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
           </keep-alive>
-          <component :is="Component" v-if="!$route.meta.keepAlive"/>
+          <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name"/>
         </router-view>
       </div>
     </template>
@@ -305,7 +305,7 @@ import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
 import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { getUserInfo, FetchingStatus } from "@/utils/account";
+import { login, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from "@/config";
@@ -439,14 +439,17 @@ export default {
         this.$store.commit("saveSteemBalance", 0);
       }
 
+
       //get eth balances
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
+      // update user info 
+      login(twitterUsername)
     } else {
       try {
         this.loading = true;
-        const result = await getUserInfo(twitterUsername, null, (status) => {
+        const result = await login(twitterUsername, null, (status) => {
           if (status === FetchingStatus.MATCH_TICKETS) {
           } else if (status === FetchingStatus.REGISTERING) {
             this.showRegistering = true;

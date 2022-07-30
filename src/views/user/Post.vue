@@ -87,18 +87,27 @@ export default {
       loading: false,
       finished: false,
       pageSize: 10,
-      pageIndex: 0
+      pageIndex: 0,
+      scroll: 0
     }
   },
   async mounted () {
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
     }
-    this.onRefresh()
 
     getAccountRC(this.getAccountInfo.steemId).then(rc => {
       this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
     }).catch()
+  },
+  async activated() {
+    document.getElementById('user-index').scrollTo({top: this.scroll})
+    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+      await sleep(1)
+    }
+    if(!this.posts || this.posts.length === 0) {
+      this.onRefresh()
+    }
   },
   methods: {
     onRefresh() {
@@ -138,6 +147,8 @@ export default {
       }
     },
     goteDetail(p) {
+      let el = document.getElementById('user-index');
+      this.scroll = el.scrollTop
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)
       this.$router.push(`/post-detail/${p.postId}`)
     }

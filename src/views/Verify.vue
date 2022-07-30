@@ -6,7 +6,7 @@
           Below is the password
           to your new wallet:
         </div>
-        <div class="flex items-center bg-blockBg py-1rem lg:px-6rem px-2rem max-w-960px mx-auto rounded-12px c-text-bold lg:text-1.4rem text-1.2rem lg:leading-2rem leading-1.6rem mb-2.3rem">
+        <div class="flex items-center bg-blockBg py-1rem lg:px-6rem px-2rem max-w-50rem mx-auto rounded-12px c-text-bold lg:text-1.4rem text-1.2rem lg:leading-2rem leading-1.6rem mb-2.3rem">
           {{ ethAccount.privateKey }}
           <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                @click="onCopy(ethAccount.privateKey)"
@@ -36,7 +36,7 @@
           <span class="gradient-text gradient-text-right">Great,</span> <br class="sm:hidden">
           now let's verify your Twitter handle
         </div>
-        <button class="c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1.2rem mt-1.25rem"
+        <button class="flex items-center justify-center c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
           Go to bind
