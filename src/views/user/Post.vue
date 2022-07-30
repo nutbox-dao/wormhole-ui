@@ -91,9 +91,6 @@ export default {
       scroll: 0
     }
   },
-  activated() {
-    document.getElementById('user-index').scrollTo({top: this.scroll})
-  },
   async mounted () {
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
@@ -104,6 +101,7 @@ export default {
     }).catch()
   },
   async activated() {
+    document.getElementById('user-index').scrollTo({top: this.scroll})
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       await sleep(1)
     }
