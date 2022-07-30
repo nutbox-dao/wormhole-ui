@@ -425,8 +425,6 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      // update user info 
-      login(twitterUsername)
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
 
       if (steemId) {
@@ -441,10 +439,13 @@ export default {
         this.$store.commit("saveSteemBalance", 0);
       }
 
+
       //get eth balances
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
+      // update user info 
+      login(twitterUsername)
     } else {
       try {
         this.loading = true;
