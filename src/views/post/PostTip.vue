@@ -56,6 +56,7 @@
 <script>
 import {mapState, mapGetters} from "vuex";
 import { formatPrice } from '@/utils/helper'
+import { getAccountRC } from '@/utils/steem'
 
 export default {
   name: "PostTip",
@@ -65,6 +66,11 @@ export default {
     steemValue() {
       return formatPrice(this.steemBalance * this.prices['steem'])
     }
+  },
+  mounted () {
+    getAccountRC(this.getAccountInfo.steemId).then(rc => {
+      this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+    }).catch();
   },
 }
 </script>

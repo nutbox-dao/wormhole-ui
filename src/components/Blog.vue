@@ -149,7 +149,7 @@ export default {
     },
     gotoUserPage() {
       if (this.post.username !== this.getAccountInfo.twitterUsername){
-        this.$router.push('/account-info/'+this.post.username)
+        this.$router.push({path : '/account-info/@' + this.post.username})
       }
     },
     viewImg(index) {

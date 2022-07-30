@@ -3,7 +3,7 @@ import { Multi_Config, ERC20List, EVM_CHAINS } from "@/config";
 import store from '@/store'
 import { ethers } from 'ethers'
 
-export const getTokenBalance = async (address) => {
+export const getTokenBalance = async (address, isHost = true) => {
     return new Promise(async (resolve, reject) => {
         try{
             if (ethers.utils.isAddress(address)){
@@ -16,15 +16,20 @@ export const getTokenBalance = async (address) => {
                         result[key] = value
                     }
                 }
-                store.commit('saveERC20Balances', result)
-                resolve(balances)
+                if (isHost) {
+                    store.commit('saveERC20Balances', result)
+                }
+                resolve(result)
             }else {
                 let balances = {}
-                store.commit('saveERC20Balances', balances)
+                if (isHost) {
+                    store.commit('saveERC20Balances', balances)
+                }
+                resolve(balances)
             }
         }catch(e) {
             console.log('Get erc20 balances fail:', e);
-            reject(e)
+            resolve({})
         }
     })
 }

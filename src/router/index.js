@@ -10,7 +10,13 @@ import UserNftView from '@/views/user/NFT'
 import UserTransactionView from '@/views/user/Transaction'
 import UserPostView from '@/views/user/Post'
 import UserPostDetailView from '@/views/post/PostDetail'
-import AccountInfoView from '@/views/AccountInfo'
+// other user's profile view
+import AccountInfoView from '@/views/user/tempUser/AccountInfo'
+// import AccountPostView from '@/views/user/tempUser/Post'
+// import AccountTokenView from '@/views/user/tempUser/Token'
+// import AccountNFTView from '@/views/user/tempUser/NFT'
+// import AccountWalletView from '@/views/user/tempUser/WalletView'
+
 import SquareIndex from "@/views/square/SquareIndex";
 import TagView from "@/views/square/TagView";
 import WalletView from "@/views/user/WalletView";
@@ -106,7 +112,7 @@ const routes = [
   {
     path: '/post-detail/:postId',
     name: 'post-detail',
-    component: UserPostDetailView
+    component: UserPostDetailView,
   }
 ]
 
