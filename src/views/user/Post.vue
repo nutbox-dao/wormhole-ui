@@ -87,8 +87,12 @@ export default {
       loading: false,
       finished: false,
       pageSize: 10,
-      pageIndex: 0
+      pageIndex: 0,
+      scroll: 0
     }
+  },
+  activated() {
+    document.getElementById('user-index').scrollTo({top: this.scroll})
   },
   async mounted () {
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
@@ -138,6 +142,8 @@ export default {
       }
     },
     goteDetail(p) {
+      let el = document.getElementById('user-index');
+      this.scroll = el.scrollTop
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)
       this.$router.push(`/post-detail/${p.postId}`)
     }

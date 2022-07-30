@@ -7,7 +7,7 @@
               loading-text="Loading..."
               finished-text="No more data"
               @load="onLoad">
-      <div class="px-1rem 2md:px-0 container mx-auto max-w-960px">
+      <div class="px-1rem 2md:px-0 container mx-auto max-w-50rem">
         <div class="mt-25px flex sm:items-center sm:justify-between">
           <div class="w-min relative ">
             <div class="w-full h-7px bg-primaryColor absolute bottom-3px rounded-full"></div>
@@ -22,7 +22,7 @@
         <div class="text-white/40 mt-10px text-left">Post twitter content on chain and earn rewards</div>
       </div>
       <div class="border-b-1px border-white/20 mt-0.5rem sticky -top-1px bg-primaryBg z-2 sm:px-1rem">
-        <div class="px-1.5rem sm:px-0 container mx-auto max-w-960px flex justify-between items-center">
+        <div class="px-1.5rem sm:px-0 container mx-auto max-w-50rem flex justify-between items-center">
           <div class="flex-1 overflow-x-auto no-scroll-bar">
             <div class="text-14px w-min flex gap-1.5rem h-3rem">
               <span v-for="(tag, index) of tagList" :key="index"
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="sm:mt-1rem sm:px-1rem">
-        <div class="container mx-auto max-w-960px sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
+        <div class="container mx-auto max-w-50rem sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
           <!-- <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
             <span v-for="(tag, index) of subTagList" :key="index"
                   class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"

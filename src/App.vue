@@ -1,7 +1,7 @@
 <template>
   <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
     <div class="py-1.8rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
-      <div class="container max-w-960px mx-auto flex justify-between items-center">
+      <div class="container max-w-50rem mx-auto flex justify-between items-center">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
@@ -54,6 +54,9 @@
         <component :is="Component" v-if="!$route.meta.keepAlive"/>
       </router-view>
     </div>
+    <el-dialog custom-class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
+      <NFTAnimation/>
+    </el-dialog>
   </div>
 
 </template>
@@ -64,12 +67,15 @@ import { sleep } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, getAccountRC, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { getTokenBalance } from "@/utils/asset";
+import NFTAnimation from "@/components/NFTAnimation";
 
 export default {
+  components: {NFTAnimation},
   data: () => {
     return {
       pubKey: '',
-      showMenu: false
+      showMenu: false,
+      modalVisible: true
     }
   },
   computed: {

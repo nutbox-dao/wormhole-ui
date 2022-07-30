@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-960px pb-2rem md:px-1rem">
+  <div class="container mx-auto max-w-50rem pb-2rem md:px-1rem">
     <template v-if="currentShowingDetail">
       <div class="mx-1.2rem md:mx-0 relative h-3.5rem flex items-center justify-center mb-1rem">
         <img class="absolute left-0rem top-0.5rem transform rotate-180 w-2.5rem cursor-pointer"
@@ -54,7 +54,7 @@ export default {
     const postId = this.$route.params.postId
     // this.onLoad()
     if (!this.currentShowingDetail) {
-      // get post 
+      // get post
       getPostById(postId).then(async (p) => {
         const posts = await getPosts([p])
         this.$store.commit('postsModule/saveCurrentShowingDetail', posts[0])
@@ -86,7 +86,7 @@ export default {
         }, 3000);
       })
     },
-    
+
     // async onLoad() {
     //   if(this.listLoading || this.listFinished) return
     //   this.listLoading = true

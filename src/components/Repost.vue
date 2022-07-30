@@ -8,19 +8,19 @@
                :src="post.author.profile_image_url" alt="">
           <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
-            <div class="flex items-center">
+            <div class="flex items-center flex-wrap  text-0.8rem">
               <a class="font-700 text-left mr-1">{{ post.author.name }}</a>
               <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               <span>@{{ post.author.username }}</span>
             </div>
-            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F text-0.7rem leading-1.2rem">
             {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-1rem">
-            <p class="cursor-pointer">
+            <p class="cursor-pointer text-0.8rem leading-1.3rem">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">

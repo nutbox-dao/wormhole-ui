@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-600px px-1rem pb-2rem">
+  <div class="container mx-auto md:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
     <div class="bg-blockBg rounded-1rem mt-2rem">
       <div v-if="transactions.length===0" class="py-4rem px-1.5rem">
         <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>

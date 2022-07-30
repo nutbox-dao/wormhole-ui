@@ -12,15 +12,15 @@
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
             <span>@{{ post.username }}</span>
           </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">
+          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F text-0.8rem">
             {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
       </div>
 
-      <div class="overflow-x-hidden md:mx-5.1rem sm:mx-4.1rem">
+      <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem">
         <div class="text-left font-400 my-1rem">
-          <div class="cursor-pointer ">
+          <div class="cursor-pointer text-0.8rem leading-1.2rem">
             <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">

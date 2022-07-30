@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-960px px-0.725rem py-3rem">
+  <div class="container mx-auto max-w-50rem px-0.725rem py-3rem">
     <template v-if="accountInfo && accountInfo.web25ETH">
     <img class="w-8rem h-8rem mx-auto rounded-full gradient-border border-3px" @error="replaceEmptyImg"
          :src="'https://profile-images.heywallet.com/' + (accountInfo ? accountInfo.twitterId : '')" alt="">
