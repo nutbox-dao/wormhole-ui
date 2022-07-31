@@ -1,15 +1,15 @@
 <template>
   <div class="grid md:grid-cols-3 md:gap-1rem pb-2rem">
-    <div class="md:col-start-3 md:col-end-4 top-box rounded-2rem mt-2.5rem mb-2rem h-min overflow-hidden mx-1.5rem md:mx-0">
-      <div class="gradient-bg gradient-bg-color text-1rem px-1rem py-0.8rem flex items-center justify-between md:justify-center">
+    <div class="md:col-start-3 md:col-end-4 top-box rounded-2rem md:my-2rem my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
+      <div class="gradient-bg gradient-bg-color md:text-1rem text-0.6rem px-1rem py-0.8rem flex items-center justify-between md:justify-center">
         <span class="text-black c-text-bold">Social token</span>
         <div class="md:hidden c-text-medium flex-1 flex justify-end items-center">
           <span class="text-text2C/60 mr-1rem">{{ steemBalance }} STEEM</span>
           <span class="text-white">{{ steemValue}} </span>
         </div>
       </div>
-      <div class="mt-2.5rem md:mt-1rem mb-1.5rem px-1rem">
-        <div class="md:mb-1rem">
+      <div class="mt-2rem md:mt-1rem mb-1.5rem px-1rem">
+        <div class="hidden md:block md:mb-1rem">
           <div class="c-text-bold text-1.4rem mb-0.5rem">{{ steemBalance }} STEEM</div>
           <div class="text-white text-colorB6">{{ steemValue}} </div>
         </div>
@@ -34,7 +34,7 @@
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="md:col-start-1 md:col-end-3 md:row-start-1 md:mt-2.5rem">
+    <div class="md:col-start-1 md:col-end-3 md:row-start-1 md:mt-2rem">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"

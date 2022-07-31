@@ -4,9 +4,9 @@
       <div class="p-0.6rem">
         <div class="flex items-center">
           <img v-if="post && post.author && post.author.profile_image_url"
-               class="w-2rem h-2rem mr-1rem rounded-full gradient-border border-2px cursor-pointer"
+               class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px cursor-pointer"
                :src="post.author.profile_image_url" alt="">
-          <img class="w-2rem h-2rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+          <img class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
             <div class="flex items-center flex-wrap  text-0.8rem">
               <a class="font-700 text-left mr-1">{{ post.author.name }}</a>

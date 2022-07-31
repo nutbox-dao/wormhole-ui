@@ -113,7 +113,7 @@
             </div>
           </div>
           <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-            <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+            <div class="flex md:text-1.2rem text-0.7rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
                   class="flex-1 py-0.8rem px-1rem"
                   :to="`/profile/${$route.params.user}/post`"
