@@ -51,7 +51,7 @@
             <div v-else-if="currentPosts && currentPosts.length === 0" class="py-3rem bg-blockBg rounded-12px">
               <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
               <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-                There's no related post about this topic. Please check other topic for try.
+                There's no related posts about this topic. Please check other topic for try.
               </div>
             </div>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
