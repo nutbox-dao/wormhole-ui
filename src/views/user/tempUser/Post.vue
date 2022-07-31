@@ -71,7 +71,7 @@ import { sleep, formatPrice } from '@/utils/helper'
 import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 
 export default {
-  name: "Transaction",
+  name: "Post",
   components: {Blog},
   props: {
     accountInfo: {

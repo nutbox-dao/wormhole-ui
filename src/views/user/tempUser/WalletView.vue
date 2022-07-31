@@ -3,10 +3,11 @@
     <div class="top-box rounded-2rem mb-1rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
         <span class="text-black c-text-bold"> ETH wallet</span>
-        <button>
+        <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
-        </button>
+        </button> -->
       </div>
+      1{{accountInfo}}
       <div class="p-1.5rem c-text-bold text-0.8rem leading-1.4rem text-primaryColor break-all flex items-center justify-center">
         {{ accountInfo ? accountInfo.ethAddress : '' }}
         <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
@@ -34,20 +35,28 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
 import Token from './Token'
 import NFT from './NFT'
 
 export default {
+  name: 'WalletView',
+  props: {
+    accountInfo: {
+      type: Object,
+      default: {}
+    },
+    steemBalance: {
+      type: Number
+    }
+  },
   data() {
     return {
       selectIndex: 0
     }
   },
   computed: {
-    ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo'])
   },
   components: {
     Token,
@@ -67,7 +76,10 @@ export default {
         })
       }
     }
-  }
+  },
+  mounted () {
+    console.log(235, this.accountInfo, this.steemBalance);;
+  },
 }
 </script>
 

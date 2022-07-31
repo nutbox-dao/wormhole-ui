@@ -28,7 +28,7 @@
               gradient-border
               border-3px
             " @error="replaceEmptyImg" :src="profileImg" alt="" />
-                <div class="
+              <div class="
               flex-1 flex
               justify-between
               sm:flex-row sm:items-center
@@ -65,45 +65,41 @@
                   sm:mt-0
                   mt-0.8rem
                 ">
-                      {{ totalValue }}
-                    </div>
+                    {{ totalValue }}
                   </div>
                 </div>
               </div>
-              <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-                <div class="flex text-1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                  <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                        :class="selectIndex===0?'text-primaryColor border-b-2px border-primaryColor':''"
-                        @click="selectIndex = 0">Social assets</div>
-                  <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                        :class="selectIndex===1?'text-primaryColor border-b-2px border-primaryColor':''"
-                        @click="selectIndex = 1">Web3 wallet</div>
-                  <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
-                  </router-link>
-                  <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
-                  </router-link> -->
-                </div>
+            </div>
+            <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
+              <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 0">Social assets</div>
+                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 1">Web3 wallet</div>
+                <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
+                </router-link>
+                <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
+                </router-link> -->
               </div>
             </div>
           </div>
-          <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
-            <component is="post" v-show="selectIndex === 0"
-                       :accountInfo="accountInfo"
-                       :steemBalance="steemBalance"
-                       :key="$route.params.user"
-                       @gotoDetail="gotoPostDetail"/>
-            <wallet-view v-show="selectIndex === 1"/>
-            <!-- <router-view v-slot="{ Component }">
-              <keep-alive>
-                <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
-              </keep-alive>
-              <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name" />
-            </router-view> -->
-          </div>
-        </template>
-        <div class="c-text-black text-1.8rem mb-3rem" v-else>
-          <img src="~@/assets/profile-loading.gif" alt="" />
         </div>
+        <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+          <component is="post" v-show="selectIndex === 0"
+            :accountInfo="accountInfo"
+            :steemBalance="steemBalance"
+            :key="$route.params.user"
+            @gotoDetail="gotoPostDetail"/>
+            {{accountInfo}}
+          <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="35"/>
+          <!-- <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
+            </keep-alive>
+            <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name" />
+          </router-view> -->
+        </div>
+      </template>
+      <div class="c-text-black text-1.8rem mb-3rem" v-else>
+        <img src="~@/assets/profile-loading.gif" alt="" />
       </div>
     </div>
   </div>
@@ -129,7 +125,7 @@ export default {
     Post,
     WalletView,
     PostDetail
-},
+  },
   data() {
     return {
       userIsExist: true,
