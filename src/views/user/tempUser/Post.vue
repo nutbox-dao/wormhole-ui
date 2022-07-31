@@ -74,9 +74,16 @@ import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 export default {
   name: "Transaction",
   components: {Blog},
+  props: {
+    accountInfo: {
+      type: Object
+    },
+    steemBalance: {
+      type: Number
+    }
+  },
   computed: {
-    ...mapState(['accountInfo', 'posts', 'rcPercent', 'steemBalance', 'prices']),
-    ...mapGetters(['getAccountInfo']),
+    ...mapState(['prices']),
     steemValue() {
       return formatPrice(this.steemBalance * this.prices['steem'])
     }
@@ -88,21 +95,23 @@ export default {
       finished: false,
       pageSize: 10,
       pageIndex: 0,
-      scroll: 0
+      scroll: 0,
+      rcPercent: 0,
+      posts: []
     }
   },
   async mounted () {
-    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+    while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
 
-    getAccountRC(this.getAccountInfo.steemId).then(rc => {
-      this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+    getAccountRC(this.accountInfo.steemId).then(rc => {
+      this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
     }).catch()
   },
   async activated() {
     // document.getElementById('user-index').scrollTo({top: this.scroll})
-    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+    while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
     if(!this.posts || this.posts.length === 0) {
@@ -118,9 +127,9 @@ export default {
         time = this.posts[0].postTime
       }
 
-      getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
+      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
         const posts = await getPosts(res)
-        this.$store.commit('savePosts', posts.concat(this.posts))
+        this.posts = posts.concat(this.posts)
         this.refreshing = false
       }).catch(e => {
         this.refreshing = false
@@ -133,9 +142,9 @@ export default {
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
+        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
          const posts = await getPosts(res)
-          this.$store.commit('savePosts', this.posts.concat(posts))
+         this.posts = this.posts.concat(posts)
           if (res.length < this.pageSize) {
             this.finished = true
           }

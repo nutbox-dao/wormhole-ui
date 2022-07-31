@@ -72,7 +72,10 @@
       </div>
       <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
         <keep-alive>
-          <component is="post" v-if="selectIndex === 0" :key="$route.params.user"/>
+          <component is="post" v-if="selectIndex === 0"
+           :accountInfo="accountInfo"
+           :steemBalance="steemBalance"
+            :key="$route.params.user"/>
         </keep-alive>
         <wallet-view v-show="selectIndex === 1"/>
         <!-- <router-view v-slot="{ Component }">
@@ -228,13 +231,16 @@ export default {
         getSteemBalance(steemId)
           .then((balance) => {
             this.steemBalance = balance.steemBalance
+            console.log(1, this.steemBalance);
           })
           .catch((err) => console.log("get steem balance fail:", err));
       } else {
       }
 
       if (ethAddress) {
-        this.erc20Balances = getTokenBalance(ethAddress);
+        this.erc20Balances = await getTokenBalance(ethAddress, false);
+        console.log(2, this.erc20Balances);
+        
       }
     } catch (e) {
 
