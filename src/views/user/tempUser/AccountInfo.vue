@@ -73,12 +73,13 @@
           </div>
         </div>
         <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
-            <component is="post" v-show="selectIndex === 0"
+          <component is="post" v-show="selectIndex === 0"
             :accountInfo="accountInfo"
             :steemBalance="steemBalance"
             :key="$route.params.user"
             @gotoDetail="gotoPostDetail"/>
-          <wallet-view v-show="selectIndex === 1"/>
+            {{accountInfo}}
+          <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="35"/>
           <!-- <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
@@ -114,7 +115,7 @@ export default {
     Post,
     WalletView,
     PostDetail
-},
+  },
   data() {
     return {
       userIsExist: true,
