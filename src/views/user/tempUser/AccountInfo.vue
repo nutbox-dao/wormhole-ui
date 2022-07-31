@@ -5,89 +5,91 @@
       flex flex-col
       no-scroll-bar
     " ref="wrapper">
-    <template v-if="!loading">
-      <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
-        <div class="container max-w-50rem mx-auto">
-          <div class="px-1rem mt-1rem flex items-center">
-            <img class="
-            w-8rem
-            h-8rem
-            mr-1.5rem
-            rounded-full
-            gradient-border
-            border-3px
-          " @error="replaceEmptyImg" :src="profileImg" alt="" />
-            <div class="
-            flex-1 flex
-            justify-between
-            sm:flex-row sm:items-center
-            flex-col
-          ">
-              <div class="text-left">
-                <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
-                  {{ accountInfo ? accountInfo.twitterName : "" }}
+    <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
+    <div v-show="!showDetail">
+      <template v-if="!loading">
+        <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
+          <div class="container max-w-50rem mx-auto">
+            <div class="px-1rem mt-1rem flex items-center">
+              <img class="
+              w-8rem
+              h-8rem
+              mr-1.5rem
+              rounded-full
+              gradient-border
+              border-3px
+            " @error="replaceEmptyImg" :src="profileImg" alt="" />
+              <div class="
+              flex-1 flex
+              justify-between
+              sm:flex-row sm:items-center
+              flex-col
+            ">
+                <div class="text-left">
+                  <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
+                    {{ accountInfo ? accountInfo.twitterName : "" }}
+                  </div>
+                  <div class="
+                  text-text8F text-1.2rem
+                  flex
+                  mt-0.7rem
+                  font-bold
+                  sm:flex-row sm:items-center
+                  flex-col
+                ">
+                    <span @click="gotoTwitter" class="mr-0.5rem hover">@{{
+                        accountInfo ? accountInfo.twitterUsername : " "
+                    }}</span>
+                    <div class="flex items-center justify-start sm:mt-0 mt-1rem"
+                      v-if="accountInfo && accountInfo.steemId">
+                      <img class="w-1.1rem h-1.1rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />
+                      <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="
-                text-text8F text-1.2rem
-                flex
-                mt-0.7rem
-                font-bold
-                sm:flex-row sm:items-center
-                flex-col
-              ">
-                  <span @click="gotoTwitter" class="mr-0.5rem hover">@{{
-                      accountInfo ? accountInfo.twitterUsername : " "
-                  }}</span>
-                  <div class="flex items-center justify-start sm:mt-0 mt-1rem"
-                    v-if="accountInfo && accountInfo.steemId">
-                    <img class="w-1.1rem h-1.1rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />
-                    <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
+                <div class="flex flex-col sm:items-center">
+                  <div class="
+                  gradient-text gradient-text-bottom
+                  c-text-black
+                  text-2.4rem
+                  sm:mt-0
+                  mt-0.8rem
+                ">
+                    {{ totalValue }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col sm:items-center">
-                <div class="
-                gradient-text gradient-text-bottom
-                c-text-black
-                text-2.4rem
-                sm:mt-0
-                mt-0.8rem
-              ">
-                  {{ totalValue }}
-                </div>
+            </div>
+            <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
+              <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 0">Social assets</div>
+                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 1">Web3 wallet</div>
+                <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
+                </router-link>
+                <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
+                </router-link> -->
               </div>
             </div>
           </div>
-          <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-            <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-              <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 0">Social assets</div>
-              <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 1">Web3 wallet</div>
-              <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
-              </router-link>
-              <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
-              </router-link> -->
-            </div>
-          </div>
         </div>
+        <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+            <component is="post" v-show="selectIndex === 0"
+            :accountInfo="accountInfo"
+            :steemBalance="steemBalance"
+            :key="$route.params.user"
+            @gotoDetail="gotoPostDetail"/>
+          <wallet-view v-show="selectIndex === 1"/>
+          <!-- <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
+            </keep-alive>
+            <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name" />
+          </router-view> -->
+        </div>
+      </template>
+      <div class="c-text-black text-1.8rem mb-3rem" v-else>
+        <img src="~@/assets/profile-loading.gif" alt="" />
       </div>
-      <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
-        <keep-alive>
-          <component is="post" v-if="selectIndex === 0"
-           :accountInfo="accountInfo"
-           :steemBalance="steemBalance"
-            :key="$route.params.user"/>
-        </keep-alive>
-        <wallet-view v-show="selectIndex === 1"/>
-        <!-- <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
-          </keep-alive>
-          <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name" />
-        </router-view> -->
-      </div>
-    </template>
-    <div class="c-text-black text-1.8rem mb-3rem" v-else>
-      <img src="~@/assets/profile-loading.gif" alt="" />
     </div>
   </div>
 </template>
@@ -99,19 +101,19 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Post from './Post'
 import WalletView  from "./WalletView";
+import PostDetail from "./PostDetail";
 import { getUserInfo, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
-import Comment from "../components/Comment.vue";
 
 export default {
   name: "AccountInfo",
   components: {
     Post,
     WalletView,
-    Comment
+    PostDetail
 },
   data() {
     return {
@@ -125,7 +127,9 @@ export default {
       accountInfo: null,
       steemBalance: 0,
       erc20Balances: {},
-      ethBalance: 0
+      ethBalance: 0,
+      showDetail: false,
+      post: {}
     };
   },
   computed: {
@@ -202,6 +206,10 @@ export default {
         " !post ",
         "__blank"
       );
+    },
+    gotoPostDetail(post) {
+      this.post = post
+      this.showDetail = true
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {

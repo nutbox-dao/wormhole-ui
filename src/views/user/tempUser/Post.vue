@@ -48,13 +48,12 @@
           <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg rounded-12px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-              This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
-              By depositing into this account, you are agreeing to our terms of service.
+              You havn't post any content to wormhole3, Please try to start from Twitter by wormhole3.
             </div>
           </div>
           <div class="bg-blockBg rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="goteDetail(p)"
+              <Blog @click="$emit('gotoDetail', p)"
                     :post="p" class="border-b-1 border-white/20 md:border-listBgBorder"/>
             </div>
           </div>
@@ -108,15 +107,7 @@ export default {
     getAccountRC(this.accountInfo.steemId).then(rc => {
       this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
     }).catch()
-  },
-  async activated() {
-    // document.getElementById('user-index').scrollTo({top: this.scroll})
-    while(!this.accountInfo || !this.accountInfo.twitterUsername){
-      await sleep(1)
-    }
-    if(!this.posts || this.posts.length === 0) {
-      this.onRefresh()
-    }
+    this.onRefresh()
   },
   methods: {
     onRefresh() {
@@ -155,12 +146,6 @@ export default {
         })
       }
     },
-    goteDetail(p) {
-      // let el = document.getElementById('user-index');
-      // this.scroll = el.scrollTop
-      this.$store.commit('postsModule/saveCurrentShowingDetail', p)
-      this.$router.push(`/post-detail/${p.postId}`)
-    }
   }
 }
 </script>
