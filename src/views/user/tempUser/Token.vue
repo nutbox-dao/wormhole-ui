@@ -63,27 +63,31 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
-import { getTokenBalance } from '@/utils/asset'
+import { mapState } from 'vuex'
+import { formatPrice, formatAmount } from '@/utils/helper'
 import { TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
-import { getSteemBalance } from '@/utils/steem'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
 
 export default {
   name: "Token",
+  props: {
+    erc20Balances: {
+      type: Object,
+    },
+    steemBalance: {
+      type: Number
+    }
+  },
   data() {
     return {
       ethBalanceInterval: null,
-      monitor: null,
       icons: TokenIcon,
       names: TokenName
     }
   },
   computed: {
-    ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo']),
-    ...mapGetters(['getAccountInfo']),
+    ...mapState(['prices']),
     steemValue() {
       if (this.prices['steem'] && this.steemBalance){
         return formatPrice(this.prices['steem'] * this.steemBalance)
@@ -120,32 +124,6 @@ export default {
         })
       }
     }
-  },
-  async mounted () {
-    this.monitor = setInterval(() => {
-      if (this.getAccountInfo) {
-        const { steemId, ethAddress, web25ETH } = this.getAccountInfo
-
-        if (steemId) {
-          // get steem balance
-          getSteemBalance(steemId).then(balance => {
-              this.$store.commit('saveSteemBalance', balance.steemBalance)
-              this.$store.commit('saveSbdBalance', balance.sbdBalance)
-            })
-              .catch(err => console.log('get steem balance fail:', err))
-        }else {
-          this.$store.commit('saveSteemBalance', 0)
-        }
-
-        //get eth balances
-        if (ethAddress) {
-          getTokenBalance(ethAddress)
-        }
-      }
-    }, 15000)
-  },
-  beforeMount () {
-    window.clearInterval(this.monitor);
   },
 }
 </script>

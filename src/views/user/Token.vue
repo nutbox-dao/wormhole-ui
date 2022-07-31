@@ -144,8 +144,8 @@ export default {
       }
     }, 15000)
   },
-  beforeMount () {
-    window.clearInterval(this.monitor);
+  beforeDestroy () {
+     window.clearInterval(this.monitor);
   },
 }
 </script>

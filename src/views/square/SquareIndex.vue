@@ -45,10 +45,20 @@
                     :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
                     @click="subActiveTagIndex=index">{{tag}}</span>
             </div> -->
+            <div class="c-text-black text-1.8rem mb-3rem" v-if="refreshing && (!currentPosts || currentPosts.length === 0)">
+              <img src="~@/assets/profile-loading.gif" alt="" />
+            </div>
+            <div v-else-if="currentPosts && currentPosts.length === 0" class="py-3rem bg-blockBg rounded-12px">
+              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
+              <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
+                There's no related post about this topic. Please check other topic for try.
+              </div>
+            </div>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                               loading-text="Loading"
                               pulling-text="Pull to refresh data"
                               loosing-text="Release to refresh"
+                              v-else
             >
               <div class="" v-for="p of currentPosts" :key="p.postId">
                 <Blog @click="goteDetail(p)"
@@ -186,11 +196,6 @@ export default {
         const postsf = await getPosts(res)
         this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
         this.listLoading = false
-        if (postsf.length < 12) {
-          this.listFinished = true
-        }else {
-          this.listFinished = false
-        }
         this.$store.commit('postsModule/saveAllPosts', this.allPosts)
       } catch (e) {
         console.log(321, e);

@@ -8,11 +8,16 @@
           By depositing into this account, you are agreeing to our terms of service.
         </div>
       </div>
-      <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh">
+      <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh"
+                loading-text="Loading"
+                pulling-text="Pull to refresh data"
+                loosing-text="Release to refresh">
         <van-list :loading="loading"
                   :finished="finished"
                   :immediate-check="false"
-                  :finished-text="'没有更多了'"
+                  loosing-text="Pull to refresh data"
+                  loading-text="Loading..."
+                  finished-text="No more data"
                   @load="onLoad">
           <div class="text-left p-1rem c-text-black md:text-1.2rem text-0.9rem">Recent transactions</div>
           <div class="border-b-1px border-listBgBorder p-1rem"

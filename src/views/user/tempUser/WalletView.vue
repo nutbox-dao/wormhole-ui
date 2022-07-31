@@ -27,7 +27,7 @@
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
                      class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link> -->
       </div>
-      <Token v-show="selectIndex===0"></Token>
+      <Token v-show="selectIndex===0" :erc20Balances="erc20Balances" :steemBalance="steemBalance"></Token>
       <NFT v-show="selectIndex===1"></NFT>
     </div>
   </div>
@@ -45,6 +45,9 @@ export default {
     accountInfo: {
       type: Object,
       default: {}
+    },
+    erc20Balances:{
+      type: Object
     },
     steemBalance: {
       type: Number
@@ -75,9 +78,6 @@ export default {
         })
       }
     }
-  },
-  mounted () {
-    console.log(235, this.accountInfo, this.steemBalance);;
   },
 }
 </script>

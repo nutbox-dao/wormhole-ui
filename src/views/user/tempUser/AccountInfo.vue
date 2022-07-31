@@ -87,7 +87,7 @@
             :steemBalance="steemBalance"
             :key="$route.params.user"
             @gotoDetail="gotoPostDetail"/>
-          <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="35"/>
+          <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="steemBalance" :erc20Balances="erc20Balances"/>
           <!-- <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
@@ -249,7 +249,6 @@ export default {
         getSteemBalance(steemId)
           .then((balance) => {
             this.steemBalance = balance.steemBalance
-            console.log(1, this.steemBalance);
           })
           .catch((err) => console.log("get steem balance fail:", err));
       } else {
@@ -257,7 +256,6 @@ export default {
 
       if (ethAddress) {
         this.erc20Balances = await getTokenBalance(ethAddress, false);
-        console.log(2, this.erc20Balances);
 
       }
     } catch (e) {
