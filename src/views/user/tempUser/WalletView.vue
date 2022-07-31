@@ -16,12 +16,15 @@
     </div>
     <div class="bg-blockBg md:py-1.5rem rounded-12px">
       <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-2.2rem">
-        <router-link :to="`/profile/${$route.params.user}/wallet`"
+        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20" @click="selectIndex = 0">Token</div>
+        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20" @click="selectIndex = 1">NFTs</div>
+        <!-- <router-link :to="`/profile/${$route.params.user}/wallet`"
                      class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link>
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link> -->
       </div>
-      <router-view></router-view>
+      <Token v-show="selectIndex===0"></Token>
+      <NFT v-show="selectIndex===1"></NFT>
     </div>
   </div>
 </template>
@@ -30,14 +33,21 @@
 import { mapState } from 'vuex'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
+import Token from './Token'
+import NFT from './NFT'
 
 export default {
   data() {
     return {
+      selectIndex: 0
     }
   },
   computed: {
     ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo'])
+  },
+  components: {
+    Token,
+    NFT
   },
   methods: {
     copy(address) {
