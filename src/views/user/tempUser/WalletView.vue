@@ -7,7 +7,6 @@
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
       </div>
-      1{{accountInfo}}
       <div class="p-1.5rem c-text-bold text-0.8rem leading-1.4rem text-primaryColor break-all flex items-center justify-center">
         {{ accountInfo ? accountInfo.ethAddress : '' }}
         <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"

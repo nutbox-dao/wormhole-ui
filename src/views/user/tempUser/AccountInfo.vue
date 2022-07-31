@@ -78,7 +78,6 @@
             :steemBalance="steemBalance"
             :key="$route.params.user"
             @gotoDetail="gotoPostDetail"/>
-            {{accountInfo}}
           <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="35"/>
           <!-- <router-view v-slot="{ Component }">
             <keep-alive>
