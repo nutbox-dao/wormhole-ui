@@ -9,11 +9,11 @@
           <img class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
             <div class="flex items-center flex-wrap  text-0.8rem">
-              <a class="font-700 text-left mr-1">{{ post.author.name }}</a>
+              <a class="c-text-black text-left leading-1.1rem mr-3">{{ post.author.name }}</a>
               <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-              <span>@{{ post.author.username }}</span>
+              <span class="text-color73">@{{ post.author.username }}</span>
             </div>
-            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F text-0.7rem leading-1.2rem">
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1.2rem">
             {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>

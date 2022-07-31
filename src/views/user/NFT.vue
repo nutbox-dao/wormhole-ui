@@ -11,11 +11,11 @@
       <div class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
            v-for="i of 4" :key="i"
            @click="modalVisible=true">
-        <img class="w-4rem h-4rem rounded-full border-3px gradient-border"
+        <img class="w-2rem h-2rem rounded-full border-2px gradient-border"
              src="~@/assets/icon-default-avatar.svg" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.4rem">New wormholer NFT</div>
-          <div class="text-text8F text-1rem font-bold mt-0.5rem">from @wormloles official</div>
+          <div class="c-text-black text-1rem">New wormholer NFT</div>
+          <div class="text-text8F text-0.8rem mt-0.5rem">from @wormloles official</div>
         </div>
       </div>
     </div>

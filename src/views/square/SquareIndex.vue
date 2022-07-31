@@ -60,13 +60,13 @@
       </van-list>
       <van-popup class="c-tip-drawer" v-model:show="modalVisible"
                  :position="position">
-        <div class="modal-bg w-full md:w-49rem max-h-80vh overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-2rem md:p-2rem">
+        <div class="modal-bg w-full md:w-49rem max-h-80vh overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:p-2rem">
           <div v-if="position === 'bottom'"
                @click="modalVisible=false"
-               class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"></div>
+               class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
           <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-            <PostTip v-if="getAccountInfo" class="pb-4rem text-left"/>
-            <Login v-else class="text-center sm:my-2rem mb-4rem"/>
+            <PostTip v-if="getAccountInfo" class="pb-2rem text-left"/>
+            <Login v-else class="text-center sm:my-1rem mb-2rem"/>
           </div>
         </div>
       </van-popup>

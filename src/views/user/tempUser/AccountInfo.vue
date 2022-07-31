@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex flex-col">
     <div class="container mx-auto max-w-50rem" v-if="!showDetail">
-      <div class="px-0.725rem relative h-3.5rem flex items-center justify-center mb-1rem">
+      <div class="px-0.725rem relative h-3rem flex items-center justify-center md:mb-1rem">
         <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
              @click="$router.back()"
              src="~@/assets/icon-forward-circle.svg" alt="">
@@ -21,8 +21,8 @@
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-center">
                 <img class="
-              w-8rem
-              h-8rem
+              w-4.8rem
+              h-4.8rem
               mr-1.5rem
               rounded-full
               gradient-border
@@ -35,11 +35,11 @@
               flex-col
             ">
                   <div class="text-left">
-                    <div class="c-text-bold text-1.8rem gradient-text gradient-text-right">
+                    <div class="c-text-black text-1.2rem md:text-1.6rem">
                       {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
                     <div class="
-                  text-text8F text-1.2rem
+                  text-text8F text-0.8rem
                   flex
                   mt-0.7rem
                   font-bold
@@ -49,9 +49,9 @@
                     <span @click="gotoTwitter" class="mr-0.5rem hover">@{{
                         accountInfo ? accountInfo.twitterUsername : " "
                       }}</span>
-                      <div class="flex items-center justify-start sm:mt-0 mt-1rem"
+                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem"
                            v-if="accountInfo && accountInfo.steemId">
-                        <img class="w-1.1rem h-1.1rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />
+                        <img class="w-0.8rem h-0.8rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />
                         <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
                       </div>
                     </div>
@@ -60,7 +60,8 @@
                     <div class="
                   gradient-text gradient-text-bottom
                   c-text-black
-                  text-2.4rem
+                  text-1.2rem
+                  md:text-2rem
                   sm:mt-0
                   mt-0.8rem
                 ">
@@ -70,11 +71,11 @@
                 </div>
               </div>
               <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-                <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                  <div  class="flex-1 py-0.8rem px-1rem"
+                <div class="flex text-1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+                  <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
                         :class="selectIndex===0?'text-primaryColor border-b-2px border-primaryColor':''"
                         @click="selectIndex = 0">Social assets</div>
-                  <div  class="flex-1 py-0.8rem px-1rem"
+                  <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
                         :class="selectIndex===1?'text-primaryColor border-b-2px border-primaryColor':''"
                         @click="selectIndex = 1">Web3 wallet</div>
                   <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
