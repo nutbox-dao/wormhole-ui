@@ -14,36 +14,38 @@
                   :immediate-check="false"
                   :finished-text="'没有更多了'"
                   @load="onLoad">
-          <div class="text-left p-1rem c-text-bold text-1.6rem">Recent transactions</div>
+          <div class="text-left p-1rem c-text-black md:text-1.2rem text-0.9rem">Recent transactions</div>
           <div class="border-b-1px border-listBgBorder p-1rem"
                v-for="(item, index) of transactions" :key="index">
             <div class="grid grid-cols-5">
               <div class="col-span-3 flex items-center">
-                <img v-if="!isReceive(item)" class="w-2.2rem" src="~@/assets/icon-up-arrow.svg" alt="">
-                <img v-else class="w-2.2rem" src="~@/assets/icon-down-arrow.svg" alt="">
+                <img v-if="!isReceive(item)" class="w-2.2rem bg-primaryColor rounded-full border-2 border-black/36"
+                     src="~@/assets/icon-up-arrow.svg" alt="">
+                <img v-else class="w-2.2rem bg-primaryColor2 rounded-full border-2 border-black/36"
+                     src="~@/assets/icon-down-arrow.svg" alt="">
                 <div class="text-text8F flex flex-col items-start sm:ml-2rem ml-0.5rem">
-                  <div class="text-1.2rem leading-1.5rem text-left">
+                  <div class="text-0.8rem leading-1.2rem text-left">
                     <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                   </div>
-                  <div class="text-1rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
+                  <div class="text-0.7rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
                 </div>
               </div>
               <div class="col-span-2 flex flex-col items-end">
-                <div class="c-text-black text-1.2rem leading-1.5rem whitespace-nowrap">
+                <div class="c-text-black text-0.8rem leading-1.2rem whitespace-nowrap">
                   {{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}
                 </div>
-                <div class="c-text-medium text-1rem mt-0.5rem">{{ getValue(item) }}</div>
+                <div class="c-text-medium text-0.7rem mt-0.5rem">{{ getValue(item) }}</div>
               </div>
             </div>
-            <div class="text-right mt-1rem c-text-medium text-1rem">
+            <div class="text-right mt-1rem c-text-medium text-0.6rem">
               <a v-if="item.sendResult===0"
-                 class="text-white rounded-full border-1 border-white/20 py-4px px-1rem"
+                 class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem"
                  :href="chains[item.chainName].scan+'tx/'+item.hash" target="_blank">View on blockchain</a>
               <el-tooltip v-else-if="item.sendStatus!==0">
                 <template #content>{{failResult(item)}}</template>
-                <button class="text-redColor rounded-full border-1 border-redColor py-4px px-1rem">Fail</button>
+                <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">Fail</button>
               </el-tooltip>
-              <span v-else class="text-primaryColor rounded-full border-1 border-primaryColor py-4px px-1rem">Waiting...</span>
+              <span v-else class="text-primaryColor rounded-full border-1 border-primaryColor py-4px px-0.7rem">Waiting...</span>
             </div>
           </div>
         </van-list>

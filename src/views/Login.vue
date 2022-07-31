@@ -1,12 +1,12 @@
 <template>
   <div class="login-view">
-    <div class="container max-w-425px mx-auto px-0.75rem">
-      <div :class="$route.name==='login'?'mt-10vh':''">
-        <div class="sm:text-center text-left">
-          <div class="c-text-bold text-3.2rem max-w-30rem mx-auto mb-2.3rem leading-3.9rem">
+    <div class="container max-w-425px mx-auto" :class="isLoginPage?'px-2rem':''">
+      <div :class="isLoginPage?'mt-10vh':''">
+        <div :class="isLoginPage?'sm:text-center text-left':'text-center'">
+          <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
             Sign in
           </div>
-          <div class="text-1.2rem font-bold leading-1.5rem mb-1.5rem">
+          <div class="text-0.9rem text-text8F leading-1.2rem mt-0.5rem mb-1.5rem">
             Please enter your twitter username.
           </div>
         </div>
@@ -15,15 +15,15 @@
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"
-                class="c-text-medium bg-primaryColor h-3.6rem w-full rounded-full text-1.6rem mt-1.25rem flex justify-center items-center">
+                class="c-text-black bg-primaryColor h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           <span>Sign in</span>
-          <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="loging"></c-spinner>
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>
-        <div class="text-1rem font-bold mt-1.5rem">
+        <div class="text-0.9rem font-bold mt-1.5rem">
           Haven't signed up yet ?
         </div>
         <router-link to="/signup">
-          <div class="underline c-text-bold text-1.2rem leading-1.5rem mt-0.5rem">
+          <div class="underline c-text-black text-0.9rem leading-1.5rem mt-0.5rem">
             Create an account
           </div>
         </router-link>
@@ -59,8 +59,12 @@ export default {
       username: '',
       loging: false,
       showRegistering: false,
-      showNotSendTwitter: false
+      showNotSendTwitter: false,
+      isLoginPage: false
     }
+  },
+  mounted() {
+    this.isLoginPage = (this.$route.name==='login')
   },
   computed: {
     ...mapState(['ethAddress', 'accountInfo']),

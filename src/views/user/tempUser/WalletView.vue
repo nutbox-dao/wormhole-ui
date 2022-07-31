@@ -1,6 +1,6 @@
 <template>
-  <div class="pb-4rem md:max-w-600px lg:max-w-35rem mx-auto">
-    <div class="top-box rounded-2rem mt-2.5rem mb-2rem overflow-hidden mx-1.5rem sm:mx-0">
+  <div class="pb-4rem md:pt-2rem pt-1.5rem md:max-w-600px lg:max-w-35rem mx-auto">
+    <div class="top-box rounded-2rem mb-1rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
         <span class="text-black c-text-bold"> ETH wallet</span>
         <!-- <button>
@@ -15,9 +15,13 @@
       </div>
     </div>
     <div class="bg-blockBg md:py-1.5rem rounded-12px">
-      <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-2.2rem">
-        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20" @click="selectIndex = 0">Token</div>
-        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20" @click="selectIndex = 1">NFTs</div>
+      <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-1.6rem">
+        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer"
+             :class="selectIndex===0?'bg-primaryColor':''"
+             @click="selectIndex = 0">Token</div>
+        <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer"
+             :class="selectIndex===1?'bg-primaryColor':''"
+             @click="selectIndex = 1">NFTs</div>
         <!-- <router-link :to="`/profile/${$route.params.user}/wallet`"
                      class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"

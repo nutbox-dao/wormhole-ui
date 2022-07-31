@@ -15,8 +15,8 @@
           <div class="px-1rem mt-1rem flex items-center">
             <img
                 class="
-            w-8rem
-            h-8rem
+            w-4.8rem
+            h-4.8rem
             mr-1.5rem
             rounded-full
             gradient-border
@@ -36,13 +36,13 @@
             >
               <div class="text-left">
                 <div
-                    class="c-text-bold text-1.8rem gradient-text gradient-text-right"
+                    class="c-text-black text-1.2rem md:text-1.6rem"
                 >
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
                 <div
                     class="
-                text-text8F text-1.2rem
+                text-text8F text-0.8rem
                 flex
                 mt-0.7rem
                 font-bold
@@ -56,11 +56,11 @@
                 }}</span
               >
                   <div
-                      class="flex items-center justify-start sm:mt-0 mt-1rem"
+                      class="flex items-center justify-start sm:mt-0 mt-0.5rem"
                       v-if="getAccountInfo && getAccountInfo.steemId"
                   >
                     <img
-                        class="w-1.1rem h-1.1rem mr-0.5rem"
+                        class="w-0.8rem h-0.8rem mr-0.5rem"
                         src="~@/assets/icon-checked.svg"
                         alt=""
                     />
@@ -75,7 +75,8 @@
                     class="
                 gradient-text gradient-text-bottom
                 c-text-black
-                text-2.4rem
+                text-1.2rem
+                md:text-2rem
                 sm:mt-0
                 mt-0.8rem
               "
@@ -113,7 +114,7 @@
             </div>
           </div>
           <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-            <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+            <div class="flex text-1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
                   class="flex-1 py-0.8rem px-1rem"
                   :to="`/profile/${$route.params.user}/post`"
@@ -155,45 +156,40 @@
           flex flex-col
           rounded-t-1.5rem
           md:rounded-b-1.5rem
-          pt-2rem
+          pt-1rem
           md:p-2rem
         "
       >
         <div
           v-if="position === 'bottom'"
           @click="modalVisible = false"
-          class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-2rem"
+          class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"
         ></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-3rem">
+        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-3rem text-left">
           <div
             class="
-              gradient-text gradient-text-bottom
               c-text-black
-              md:text-2rem md:leading-3.6rem
-              text-1.8rem
-              leading-2.4rem
+              md:text-2rem md:leading-3.6rem text-1.2rem leading-1.6rem
+              md:text-center
               w-full
             "
           >
             Tweet action tips
           </div>
-          <div class="text-primaryColor text-0.9rem font-bold">
-            Need to activate your wallet at wormhole3 first.
-          </div>
-          <div class="text-1rem leading-1.2rem c-text-bold mt-4rem">
+          <div class="text-0.9rem leading-1.2rem c-text-black mt-1rem">
             1. Transfer STEEM/SBD to a twitter account
           </div>
           <div
             class="
               bg-black/40
               rounded-1rem
-              h-min-10rem
+              h-min-8rem
               p-1rem
-              mt-0.8rem
+              mt-0.5rem
               relative
             "
           >
-            <div class="text-left break-all">
+            <div class="text-left break-all text-0.8rem">
               <span class="text-primaryColor">#wormhole3 !send </span>
               <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
@@ -206,8 +202,8 @@
                 justify-center
                 border-1px border-text53
                 rounded-full
-                h-2.45rem
-                px-1.7rem
+                h-2.2rem
+                px-1rem
                 absolute
                 bottom-1rem
                 right-1rem
@@ -218,29 +214,29 @@
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
-              <span class="text-white">GO tweet</span>
+              <span class="text-text8F">GO tweet</span>
             </button>
           </div>
-          <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">
+          <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic text-left">
             Tips:<br />Please replace {***} to real content.<br />
             You can replace {@twitter_username} with a twitter username.
           </div>
-          <div class="text-1rem leading-1.2rem c-text-bold mt-2rem">
+          <div class="text-0.9rem leading-1.2rem c-text-black mt-2rem">
             2. Add a post to web3
           </div>
           <div
             class="
               bg-black/40
               rounded-1rem
-              h-min-10rem
+              h-min-8rem
               p-1rem
-              mt-0.8rem
+              mt-0.5rem
               relative
             "
           >
-            <div class="text-left break-all">
+            <div class="text-left break-all text-0.8rem">
               <span class="text-primaryColor">#wormhole3 !post </span>
-              <span class="text-white">{content}</span>
+              <span class="text-text8F">{content}</span>
             </div>
             <button
               @click="gotoPost"
@@ -251,8 +247,8 @@
                 justify-center
                 border-1px border-text53
                 rounded-full
-                h-2.45rem
-                px-1.7rem
+                h-2.2rem
+                px-1rem
                 absolute
                 bottom-1rem
                 right-1rem
@@ -263,7 +259,7 @@
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
-              <span class="text-white">GO tweet</span>
+              <span class="text-text8F">GO tweet</span>
             </button>
           </div>
           <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">

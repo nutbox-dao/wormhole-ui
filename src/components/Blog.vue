@@ -1,18 +1,18 @@
 <template>
   <div class="">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
-      <div class="flex items-center">
+      <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px cursor-pointer"
+             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem mr-0.8rem rounded-full gradient-border border-2px cursor-pointer"
              :src="profileImg" alt="">
-        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-1.5rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem mr-0.8rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
-          <div class="flex items-center">
-            <a class="font-700 text-left mr-3">{{ post.name }}</a>
+          <div class="flex items-center flex-wrap">
+            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-            <span>@{{ post.username }}</span>
+            <span class="text-0.8rem text-color73">@{{ post.username }}</span>
           </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F text-0.8rem">
+          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1rem my-0.4rem">
             {{ parseTimestamp(post.postTime) }}
           </span>
         </div>

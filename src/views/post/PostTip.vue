@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="text-center c-text-black md:text-2rem md:leading-3.6rem text-1.8rem leading-2.4rem w-full">
+    <div class="text-center c-text-black md:text-2rem md:leading-3.6rem text-1.2rem leading-1.6rem w-full">
       Tweet a post
     </div>
     <div class="top-box rounded-2rem mt-1.5rem mb-1rem overflow-hidden ">
-      <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-between">
+      <div class="gradient-bg gradient-bg-color3 text-0.7rem md:text-1rem px-1rem py-0.8rem flex items-center justify-between">
         <span class="text-black c-text-bold">Social token</span>
         <div class="c-text-bold flex-1 flex justify-end items-center">
           <span class="text-text2C/60 mr-1rem">{{steemBalance}} STEEM</span>
           <span class="text-white">{{ steemValue }}</span>
         </div>
       </div>
-      <div class="mt-2.5rem mb-1.5rem px-1rem">
+      <div class="mt-1.5rem md:mt-2.5rem mb-1.5rem px-1rem">
         <div class="flex justify-between items-center mb-0.8rem">
           <div class="flex items-center justify-center">
-            <span class="text-primaryColor text-1rem font-bold">Resource Credits</span>
+            <span class="text-primaryColor text-0.8rem font-bold">Resource Credits</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
@@ -26,7 +26,7 @@
               </button>
             </el-tooltip>
           </div>
-          <span class="c-text-black text-primaryColor text-1.2rem">{{rcPercent}}%</span>
+          <span class="c-text-black text-primaryColor text-1rem">{{rcPercent}}%</span>
         </div>
         <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
                      :show-text="false"
