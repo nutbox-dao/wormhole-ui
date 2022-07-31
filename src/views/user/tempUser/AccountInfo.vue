@@ -8,12 +8,7 @@
         <div class="c-text-bold md:text-1.2rem text-0.9rem max-w-3/5">{{ accountInfo ? accountInfo.twitterName : "" }}</div>
       </div>
     </div>
-    <div id="user-index" class="
-      overflow-x-hidden
-      h-full
-      flex flex-col
-      no-scroll-bar
-    " ref="wrapper">
+    <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail">
         <template v-if="!loading">
@@ -72,8 +67,12 @@
             </div>
             <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
               <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 0">Social assets</div>
-                <div  class="flex-1 py-0.8rem px-1rem" @click="selectIndex = 1">Web3 wallet</div>
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
+                      :class="selectIndex===0?'border-b-2 border-primaryColor text-primaryColor':''"
+                      @click="selectIndex = 0">Social assets</div>
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
+                      :class="selectIndex===1?'border-b-2 border-primaryColor text-primaryColor':''"
+                      @click="selectIndex = 1">Web3 wallet</div>
                 <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
                 </router-link>
                 <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
@@ -102,6 +101,7 @@
         <img src="~@/assets/profile-loading.gif" alt="" />
       </div>
     </div>
+  </div>
   </div>
 </template>
 
