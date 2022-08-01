@@ -40,7 +40,7 @@
       </div>
       <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
         <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
-        <span class="text-white">Go tweet</span>
+        <span class="text-white" @click="gotoTweet">Go tweet</span>
       </button>
     </div>
     <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">
@@ -57,6 +57,7 @@
 import {mapState, mapGetters} from "vuex";
 import { formatPrice } from '@/utils/helper'
 import { getAccountRC } from '@/utils/steem'
+import { TWITTER_MONITOR_RULE } from '@/config'
 
 export default {
   name: "PostTip",
@@ -71,6 +72,16 @@ export default {
     getAccountRC(this.getAccountInfo.steemId).then(rc => {
       this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
     }).catch();
+  },
+  methods: {
+    gotoTweet() {
+      window.open(
+        "https://twitter.com/intent/tweet?text=" +
+          TWITTER_MONITOR_RULE +
+          " !post ",
+        "__blank"
+      );
+    }
   },
 }
 </script>
