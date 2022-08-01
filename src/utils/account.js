@@ -73,12 +73,12 @@ export const login = async (username, ethAddress, callback) => {
 
 function getReceivedState(accountInfo) {
     getNftReceivedState(accountInfo.twitterId).then(res => {
-        const { hasReceivedNft, reputation, hasReputation } = res;
+        const { hasReceivedNft, reputation, hasMintedRP } = res;
         if (hasReceivedNft) {
             stopMonitorNFTReceiveState()
             store.commit('saveHasReceivedNft', true)
         }else{
-            if (hasReputation) {
+            if (hasMintedRP) {
                 stopMonitorNFTReceiveState()
                 accountInfo.reputation = reputation;
                 store.commit('saveAccountInfo', accountInfo)
@@ -90,7 +90,7 @@ function getReceivedState(accountInfo) {
 
 export const monitorNFTReceiveState = async (accountInfo) => {
     stopMonitorNFTReceiveState()
-    if (accountInfo.hasReceivedNft) return
+    if (accountInfo.hasMintedRP) return
     getReceivedState(accountInfo)
     const monitorInserval = setInterval(() => {
         getReceivedState(accountInfo)

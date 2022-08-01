@@ -14,7 +14,7 @@
             </template>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-              <img class="h-2rem rounded-full" :src="getAccountInfo.profileImg" alt="">
+              <img class="h-2rem rounded-full" :src="profileImg" alt="">
             </router-link>
             <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
               <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
@@ -84,7 +84,18 @@ export default {
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
       return !this.hasReceivedNft
-    }
+    },
+    profileImg() {
+      if (!this.getAccountInfo) return "";
+      if (this.getAccountInfo.profileImg) {
+        return this.getAccountInfo.profileImg.replace("normal", "400x400");
+      } else {
+        return (
+          "https://profile-images.heywallet.com/" +
+          this.getAccountInfo.twitterId
+        );
+      }
+    },
   },
   methods: {
     async monitorPrices() {
