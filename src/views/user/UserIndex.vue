@@ -441,6 +441,8 @@ export default {
         getTokenBalance(ethAddress);
       }
     } else {
+      this.$router.replace('/')
+      return;
       try {
         this.loading = true;
         const result = await login(twitterUsername, null, (status) => {
