@@ -61,7 +61,7 @@
                               v-else
             >
               <div class="" v-for="p of currentPosts" :key="p.postId">
-                <Blog @click="goteDetail(p)"
+                <Blog @click="gotoDetail(p)"
                       :post="p" class="bg-blockBg sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0"/>
               </div>
             </van-pull-refresh>
@@ -146,6 +146,13 @@ export default {
   activated() {
     document.getElementById('square-index').scrollTo({top: this.scroll})
   },
+  watch: {
+    currentTagIndex(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.onRefresh()
+      }
+    }
+  },
   methods: {
     publishTweet(){
       this.modalVisible=true
@@ -207,12 +214,12 @@ export default {
     onTagChange(index) {
       if(index === this.currentTagIndex) return
       this.$store.commit('postsModule/saveCurrentTagIndex', index)
-      const posts = this.getPostsByTag(this.tagList[index])
-      this.listFinished = false
-      this.onRefresh()
+      // const posts = this.getPostsByTag(this.tagList[index])
+      // this.listFinished = false
+      // this.onRefresh()
       // this.$router.push(`/square/tag/${this.tagList[index]}`)
     },
-    goteDetail(p) {
+    gotoDetail(p) {
       let el = document.getElementById('square-index');
       this.scroll = el.scrollTop
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)
