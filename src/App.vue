@@ -6,12 +6,16 @@
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
-            <template v-if="!getAccountInfo">
+            <div class="hidden md:block" v-if="!getAccountInfo">
               <router-link to="/login"
-                            class="font-10 mr-3">Sign In</router-link>
+                            class="c-text-black mr-3">
+                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign In</button>
+              </router-link>
               <router-link to="/signup"
-                            class="font-10 mr-3">Sign Up</router-link>
-            </template>
+                            class="c-text-black mr-3">
+                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign Up</button>
+              </router-link>
+            </div>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
               <img class="h-2rem rounded-full" :src="profileImg" alt="">
@@ -31,6 +35,12 @@
               <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-14px xl:text-1rem">
                 <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
+                <template v-if="!getAccountInfo">
+                  <router-link to="/login" @click="showMenu=false"
+                               class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign In</router-link>
+                  <router-link to="/signup" @click="showMenu=false"
+                               class="md:hidden block min-h-35px flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign Up</router-link>
+                </template>
                 <router-link to="/square" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Square</router-link>
                 <router-link to="/faq" @click="showMenu=false"
@@ -272,7 +282,7 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    height: 218px;
+    height: 260px;
   }
 }
 .slide-in-blurred-top {
