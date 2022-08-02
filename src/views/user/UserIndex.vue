@@ -15,8 +15,10 @@
           <div class="px-1rem mt-1rem flex items-center">
             <img
                 class="
-            w-4.8rem
-            h-4.8rem
+                w-6rem
+                h-6rem
+            md:w-4.8rem
+            md:h-4.8rem
             mr-1.5rem
             rounded-full
             gradient-border
@@ -36,7 +38,7 @@
             >
               <div class="text-left">
                 <div
-                    class="c-text-black text-1.2rem md:text-1.6rem"
+                    class="c-text-black text-1.6rem"
                 >
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
@@ -89,6 +91,7 @@
                 items-center
                 justify-center
                 gradient-btn
+                border-3px
                 h-2.7rem
                 px-1rem
                 rounded-full
@@ -114,14 +117,14 @@
             </div>
           </div>
           <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
-            <div class="flex text-1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
+            <div class="flex text-1.1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
-                  class="flex-1 py-0.8rem px-1rem"
+                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-white/60"
                   :to="`/profile/${$route.params.user}/post`"
               >Social assets</router-link
               >
               <router-link
-                  class="flex-1 py-0.8rem px-1rem"
+                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-white/60"
                   :to="`/profile/${$route.params.user}/wallet`"
               >Web3 wallet</router-link
               >
@@ -494,7 +497,7 @@ export default {
 
 <style scoped>
 .router-link-active {
-  border-bottom: 2px solid var(--primary-custom);
+  border-bottom: 0.2rem solid var(--primary-custom);
   color: var(--primary-custom);
 }
 </style>

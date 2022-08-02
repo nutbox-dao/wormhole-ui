@@ -3,16 +3,16 @@
     <img class="w-2.2rem h-2.2rem md:w-3rem md:h-3rem md:ml-0.6rem mr-1.5rem rounded-full"
          :src="comment.profileImg" alt="">
     <div class="flex-1 text-left">
-      <div class="flex items-center overflow-x-hidden">
-        <span class="font-700">{{comment.name}}</span>
+      <div class="flex items-center flex-wrap">
+        <span class="c-text-black text-1rem">{{comment.name}}</span>
         <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
-        <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-text8F">@{{comment.username}} · {{ parseTimestamp(comment.commentTime) }} </span>
+        <span class="text-text8F">@{{comment.username}} · {{ parseTimestamp(comment.commentTime) }} </span>
       </div>
       <!-- <div class="text-left my-0.5rem">
         Replying to
         <a class="text-primaryColor" href="">@acsc</a>
       </div> -->
-      <div class="text-0.9rem text-colorE3">{{comment.content}}</div>
+      <div class="text-14px leading-20px text-colorE3 mt-1rem">{{comment.content}}</div>
       <div class="flex gap-4rem mt-15px">
         <div class="flex items-center">
           <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">

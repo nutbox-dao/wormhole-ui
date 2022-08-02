@@ -5,7 +5,7 @@
         <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
              @click="$router.back()"
              src="~@/assets/icon-forward-circle.svg" alt="">
-        <div class="c-text-bold text-1.2rem">Post</div>
+        <div class="c-text-black text-1.5rem md:text-1.2rem">Post</div>
       </div>
       <div class="md:bg-blockBg rounded-12px">
         <van-list :loading="listLoading"
@@ -15,8 +15,8 @@
                   @load="onLoad">
           <Blog :post="currentShowingDetail" :isDetail='true'/>
           <div v-if="comments && comments.length > 0" class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">
-            <div class="c-text-bold text-left text-1.2rem">Comments ( {{ comments ? comments.length : 0 }} )</div>
-            <div class="mt-1rem" v-for="c of (comments || [])" :key="c.commentId">
+            <div class="c-text-black text-left text-1.2rem">Comments ( {{ comments ? comments.length : 0 }} )</div>
+            <div class="mt-1rem pb-1.5rem" v-for="c of (comments || [])" :key="c.commentId">
               <Comment class="py-0.5rem" :comment="c"/>
             </div>
           </div>

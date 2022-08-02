@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto md:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
+  <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
     <div class="bg-blockBg rounded-1rem mt-2rem">
       <div v-if="transactions.length===0" class="py-4rem px-1.5rem">
         <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
@@ -19,23 +19,23 @@
                   loading-text="Loading..."
                   finished-text="No more data"
                   @load="onLoad">
-          <div class="text-left p-1rem c-text-black md:text-1.2rem text-0.9rem">Recent transactions</div>
+          <div class="text-left p-1rem c-text-black md:text-1.2rem text-1.5rem">Recent transactions</div>
           <div class="border-b-1px border-listBgBorder p-1rem"
                v-for="(item, index) of transactions" :key="index">
-            <div class="grid grid-cols-5">
-              <div class="col-span-3 flex items-center">
+            <div class="flex justify-between">
+              <div class="flex-1 flex items-center">
                 <img v-if="!isReceive(item)" class="w-2.2rem bg-primaryColor rounded-full border-2 border-black/36"
                      src="~@/assets/icon-up-arrow.svg" alt="">
                 <img v-else class="w-2.2rem bg-primaryColor2 rounded-full border-2 border-black/36"
                      src="~@/assets/icon-down-arrow.svg" alt="">
-                <div class="text-text8F flex flex-col items-start sm:ml-2rem ml-0.5rem">
-                  <div class="text-0.8rem leading-1.2rem text-left">
+                <div class="text-text8F flex flex-col items-start sm:ml-1rem ml-0.5rem">
+                  <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left">
                     <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                   </div>
                   <div class="text-0.7rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
                 </div>
               </div>
-              <div class="col-span-2 flex flex-col items-end">
+              <div class="flex flex-col items-end">
                 <div class="c-text-black text-0.8rem leading-1.2rem whitespace-nowrap">
                   {{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}
                 </div>

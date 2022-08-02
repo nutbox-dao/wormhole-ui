@@ -12,7 +12,7 @@
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
             <span class="text-0.8rem text-color73">@{{ post.username }}</span>
           </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1rem my-0.4rem">
+          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1.5rem">
             {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
@@ -20,7 +20,7 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem">
-          <div class="cursor-pointer text-0.8rem leading-1.2rem">
+          <div class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem">
             <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">

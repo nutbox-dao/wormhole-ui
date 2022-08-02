@@ -5,7 +5,7 @@
         <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
              @click="$router.back()"
              src="~@/assets/icon-forward-circle.svg" alt="">
-        <div class="c-text-bold md:text-1.2rem text-0.9rem max-w-3/5">{{ accountInfo ? accountInfo.twitterName : "" }}</div>
+        <div class="c-text-bold md:text-1.2rem text-1.5rem max-w-3/5">{{ accountInfo ? accountInfo.twitterName : "" }}</div>
       </div>
     </div>
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
@@ -16,8 +16,10 @@
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-center">
                 <img class="
-              w-4.8rem
-              h-4.8rem
+              w-6rem
+              h-6rem
+              md:w-4.8rem
+              md:h-4.8rem
               mr-1.5rem
               rounded-full
               gradient-border
@@ -30,7 +32,7 @@
               flex-col
             ">
                   <div class="text-left">
-                    <div class="c-text-black text-1.2rem md:text-1.6rem">
+                    <div class="c-text-black text-1.6rem">
                       {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
                     <div class="

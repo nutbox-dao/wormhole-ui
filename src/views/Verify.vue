@@ -26,7 +26,7 @@
             Ok, I saved it.
           </div>
         </div> -->
-        <button class="c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full lg:text-1.6rem text-1.2rem mt-1.25rem"
+        <button class="c-text-medium gradient-btn h-3.6rem border-3px px-1.5rem mx-auto rounded-full lg:text-1.6rem text-1.2rem mt-1.25rem"
                 @click="showRegisterModal = true">
           Ok, I saved it.
         </button>
@@ -36,7 +36,7 @@
           <span class="gradient-text gradient-text-right">Great,</span> <br class="sm:hidden">
           now let's verify your Twitter handle
         </div>
-        <button class="flex items-center justify-center c-text-medium gradient-btn h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1rem mt-1.25rem"
+        <button class="flex items-center justify-center c-text-medium gradient-btn border-3px h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
           Go to bind

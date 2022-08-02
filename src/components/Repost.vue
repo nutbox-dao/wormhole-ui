@@ -13,14 +13,14 @@
               <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               <span class="text-color73">@{{ post.author.username }}</span>
             </div>
-            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1.2rem">
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1.5rem">
             {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-1rem">
-            <p class="cursor-pointer text-0.8rem leading-1.3rem">
+            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
