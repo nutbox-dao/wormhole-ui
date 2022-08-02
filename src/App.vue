@@ -1,17 +1,21 @@
 <template>
   <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
-    <div class="py-1.8rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
-      <div class="container max-w-50rem mx-auto flex justify-between items-center">
+    <div class="py-1rem md:py-1.35rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
+      <div class="container 2md:max-w-70rem md:max-w-50rem w-full mx-auto flex justify-between items-center">
         <button @click="goBack">
           <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
-            <template v-if="!getAccountInfo">
+            <div class="hidden md:block" v-if="!getAccountInfo">
               <router-link to="/login"
-                            class="font-10 mr-3">Sign In</router-link>
+                            class="c-text-black mr-3">
+                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign In</button>
+              </router-link>
               <router-link to="/signup"
-                            class="font-10 mr-3">Sign Up</router-link>
-            </template>
+                            class="c-text-black mr-3">
+                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign Up</button>
+              </router-link>
+            </div>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
               <img class="h-2rem rounded-full" :src="profileImg" alt="">
@@ -22,15 +26,21 @@
             </router-link>
           </template>
           <div class="relative">
-            <button class="bg-transparent h-2rem w-1.8rem mr-0.5rem flex items-center"
+            <button class="bg-transparent h-2rem w-1.8rem mr-15px sm:mr-0 md:mr-15px flex items-center"
                     @click.stop="showMenu=!showMenu">
               <span class="menu-icon" :class="showMenu?'active':''"></span>
             </button>
-            <div class="menu-box w-13.5rem z-99"
+            <div class="menu-box w-13.5rem xl:w-11rem z-99"
                  :class="showMenu?'active':''">
-              <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-1.2rem">
+              <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-14px xl:text-1rem">
                 <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
+                <template v-if="!getAccountInfo">
+                  <router-link to="/login" @click="showMenu=false"
+                               class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign In</router-link>
+                  <router-link to="/signup" @click="showMenu=false"
+                               class="md:hidden block min-h-35px flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Sign Up</router-link>
+                </template>
                 <router-link to="/square" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Square</router-link>
                 <router-link to="/faq" @click="showMenu=false"
@@ -160,7 +170,7 @@ export default {
 
       login(twitterUsername)
     }
-    
+
 
     while(true) {
       try{
@@ -201,7 +211,7 @@ export default {
 @import "style/common";
 @import "style/el-custom";
 html, body {
-  background-color: black;
+  background-color: var(--primary-bg);
 }
 #app {
   font-family:PoppinsRegular, Avenir, Helvetica, Arial, sans-serif;
@@ -272,7 +282,7 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    height: 20rem;
+    height: 260px;
   }
 }
 .slide-in-blurred-top {
@@ -316,6 +326,22 @@ html, body {
   .signup-bg {
     background-image: url("~@/assets/signup-bg.png");
     background-position: top;
+  }
+}
+@media (min-width: 1280px) {
+  .menu-box.active {
+    height: 15rem;
+  }
+}
+@media (min-width: 1440px) {
+  .menu-icon {
+    height: 0.14rem;
+    &::before {
+      height: 0.14rem;
+    }
+    &::after {
+      height: 0.14rem;
+    }
   }
 }
 </style>
