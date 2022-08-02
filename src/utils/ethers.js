@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import store from '@/store'
-import { RPC_NODE } from '@/config'
+import { RPC_NODE, REPUTATION_NFT, REPUTATION_NFT_ID } from '@/config'
 import { u8arryToHex, hexTou8array, hexToString, stringToHex } from '@/utils/helper'
 import { sha256 } from 'js-sha256'
 import base58 from 'bs58'
@@ -36,4 +36,33 @@ export const generateBrainKey = (key) => {
     checksum = checksum.slice(0, 4)
     const private_wif = key + checksum;
     return stringToHex('P' + base58.encode(hexTou8array(private_wif)))
+}
+
+const balanceAbi = [{
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }]
+
+export const getReputation = (ethAddress) => {
+    
 }

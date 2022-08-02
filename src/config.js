@@ -121,6 +121,11 @@ export const EVM_CHAINS = {
     }
 }
 
+// reputation NFT configs
+export const REPUTATION_NFT = '0xBbCf128A39c0cA8a6355F3cD1EF75aaa657B16B2'
+export const REPUTATION_NFT_RPC = 'https://bsctestapi.terminet.io/rpc'
+export const REPUTATION_NFT_ID = 1;
+
 export const ERR_CODE = {
     501: "Server error"
 }
