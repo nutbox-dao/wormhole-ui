@@ -201,7 +201,7 @@ export default {
 @import "style/common";
 @import "style/el-custom";
 html, body {
-  background-color: black;
+  background-color: var(--primary-bg);
 }
 #app {
   font-family:PoppinsRegular, Avenir, Helvetica, Arial, sans-serif;
