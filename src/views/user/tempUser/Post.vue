@@ -1,9 +1,9 @@
 <template>
   <div class="grid md:grid-cols-3 md:gap-1rem pb-2rem">
     <div class="md:col-start-3 md:col-end-4 top-box rounded-2rem md:my-2rem my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
-      <div class="gradient-bg gradient-bg-color text-0.7rem md:text-1rem px-1rem py-0.8rem flex items-center justify-between md:justify-center">
-        <span class="text-black c-text-bold">Social token</span>
-        <div class="md:hidden c-text-medium flex-1 flex justify-end items-center">
+      <div class="gradient-bg gradient-bg-color text-1.2rem px-1rem py-0.8rem flex items-center justify-between md:justify-center">
+        <span class="text-black c-text-black">Social token</span>
+        <div class="md:hidden c-text-black flex-1 flex justify-end items-center">
           <span class="text-text2C/60 mr-1rem">{{ steemBalance }} STEEM</span>
           <span class="text-white">{{ steemValue}} </span>
         </div>
@@ -11,7 +11,7 @@
       <div class="mt-2.5rem md:mt-1rem mb-1.5rem px-1rem">
         <div class="hidden md:block md:mb-1rem">
           <div class="c-text-bold text-1.4rem mb-0.5rem">{{ steemBalance }} STEEM</div>
-          <div class="text-white text-colorB6">{{ steemValue}} </div>
+          <div class="text-colorB6">{{ steemValue}} </div>
         </div>
         <div class="flex justify-between items-center mb-0.8rem">
           <div class="flex items-center justify-center">
