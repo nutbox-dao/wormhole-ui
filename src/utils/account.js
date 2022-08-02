@@ -90,7 +90,7 @@ function getReceivedState(accountInfo) {
 
 export const monitorNFTReceiveState = async (accountInfo) => {
     stopMonitorNFTReceiveState()
-    if (accountInfo.hasMintedRP) return
+    if (accountInfo.hasReceivedNft) return
     getReceivedState(accountInfo)
     const monitorInserval = setInterval(() => {
         getReceivedState(accountInfo)
