@@ -3,9 +3,9 @@
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem mr-0.8rem rounded-full gradient-border cursor-pointer"
+             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border cursor-pointer"
              :src="profileImg" alt="">
-        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem mr-0.8rem rounded-full gradient-border" src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
           <div class="flex items-center flex-wrap">
             <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{ post.name }}</a>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
-        <div class="text-left font-400 my-1rem">
+        <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
           <div class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
           </div>

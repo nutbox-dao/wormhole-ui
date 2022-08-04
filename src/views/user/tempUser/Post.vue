@@ -1,6 +1,6 @@
 <template>
-  <div class="grid md:grid-cols-3 md:gap-1rem pb-2rem">
-    <div class="md:col-start-3 md:col-end-4 border-1 border-dividerColor px-1rem rounded-15px md:my-2rem my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
+  <div class="grid xl:grid-cols-3 md:gap-1rem pb-2rem">
+    <div class="xl:col-start-3 xl:col-end-4 border-1 border-dividerColor px-1rem rounded-12px xl:my-2rem md:mb-0 my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
       <div class="text-1.2rem border-b-1 border-dividerColor px-1rem py-0.8rem flex items-center justify-between md:justify-center">
         <span class="c-text-black">Social token</span>
         <div class="md:hidden c-text-black flex-1 flex justify-end items-center">
@@ -13,9 +13,9 @@
           <div class="text-colorB5 mb-0.5rem">{{ steemBalance }} STEEM</div>
           <div class="text-1.6rem">{{ steemValue}} </div>
         </div>
-        <div class="flex justify-between items-center mb-0.8rem">
+        <div class="flex justify-between items-center mb-0.5rem">
           <div class="flex items-center justify-center">
-            <span class="text-color8B text-12px font-bold">Resource Credits</span>
+            <span class="text-color8B text-14px 2xl:text-1rem whitespace-nowrap">Resource Credits</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
@@ -27,14 +27,14 @@
               </button>
             </el-tooltip>
           </div>
-          <span class="c-text-black text-1rem">{{rcPercent}}%</span>
+          <span class="c-text-black text-16px 2xl:text-1.1rem">{{rcPercent}}%</span>
         </div>
-        <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
+        <el-progress class="c-progress" :text-inside="false" :stroke-width="10"
                      :show-text="false"
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="md:col-start-1 md:col-end-3 md:row-start-1 md:mt-2rem">
+    <div class="xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"

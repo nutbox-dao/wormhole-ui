@@ -12,14 +12,18 @@
         Activate Your Wallet
       </button>
       <div class="fade-in">
-        <div class="text-white mt-2rem">
+        <div class="mt-2rem">
           Already verified yourself ?
         </div>
-        <router-link to="/login" class=" c-text-black text-1.2rem leading-1.5rem mt-1rem underline">Log in here</router-link>
+        <router-link to="/login"
+                     class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem mt-1rem underline">
+          Log in here
+        </router-link>
       </div>
     </div>
     <!--  Verify modal -->
-    <el-dialog :destroy-on-close="true" v-model="showPrivateKey" custom-class="c-dialog c-dialog-lg c-dialog-center">
+    <el-dialog :destroy-on-close="true" v-model="showPrivateKey"
+               custom-class="c-dialog c-dialog-lg c-dialog-center">
       <Verify :ethAccount="accountInfo" @send="sendTwitter"></Verify>
     </el-dialog>
   </div>

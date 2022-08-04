@@ -2,9 +2,12 @@
   width: 90%;
   max-height: 90%;
   overflow: hidden;
-  border-radius: 10px;
-  background-color: var(--primary-bg);
-  box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
+  border-radius: 20px;
+  //background-color: var(--primary-bg);
+  //box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
+  border: 1px solid rgba(132, 131, 145, 0.3);
+  backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   &-no-shadow {
@@ -66,9 +69,9 @@
 
 .c-notification.el-notification{
   background-color: var(--primary-bg);
-  border: 2px solid var(--gradient-primary-color1);
+  border: 1px solid rgba(132, 131, 145, 0.3);
   background-origin: border-box;
-  box-shadow: 0 0 20px 8px rgba(#EEB134, 0.4);
+  box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
   box-sizing: border-box;
   .el-notification__closeBtn {
     color: white;

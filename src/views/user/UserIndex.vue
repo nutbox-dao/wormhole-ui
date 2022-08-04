@@ -53,7 +53,7 @@
               "
                 >
                   <div @click="gotoTwitter" class="mr-0.5rem flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
-                    <img class="w-1.5rem md:w-1rem mr-0.5rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                    <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
                   <div

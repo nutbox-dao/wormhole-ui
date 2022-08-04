@@ -15,11 +15,11 @@
       </div>
     </div>
     <div class="bg-blockBg md:py-1.5rem rounded-12px">
-      <div class="px-1.5rem text-14px w-min flex gap-1.5rem h-2rem md:h-1.6rem">
+      <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <router-link :to="`/profile/${$route.params.user}/wallet`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">Token</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link>
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">NFTs</router-link>
       </div>
       <router-view></router-view>
     </div>

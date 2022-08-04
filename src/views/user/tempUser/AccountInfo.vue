@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex flex-col">
     <div class="container mx-auto max-w-50rem" v-if="!showDetail">
-      <div class="px-0.725rem relative h-3rem flex items-center justify-center md:mb-1rem">
+      <div class="px-0.725rem relative h-3rem flex items-center justify-center">
         <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
              @click="$router.back()"
              src="~@/assets/icon-forward-circle.svg" alt="">
@@ -12,7 +12,7 @@
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail">
         <template v-if="!loading">
-          <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
+          <div class="border-b-0 md:border-b-1 border-listBgBorder md:border-b-1 border-white/20">
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-center">
                 <img class="
@@ -71,11 +71,11 @@
             </div>
             <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
               <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                      :class="selectIndex===0?'border-b-2 border-primaryColor text-primaryColor':''"
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
+                      :class="selectIndex===0?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
                       @click="selectIndex = 0">Social assets</div>
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                      :class="selectIndex===1?'border-b-2 border-primaryColor text-primaryColor':''"
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
+                      :class="selectIndex===1?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
                       @click="selectIndex = 1">Web3 wallet</div>
                 <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
                 </router-link>
