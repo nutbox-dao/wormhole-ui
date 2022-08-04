@@ -25,7 +25,7 @@
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">
              <a :href="u"
-                class="text-blue-500" target="_blank">
+                class="text-blue-500 text-14px 2xl:text-0.8rem" target="_blank">
               {{ u }}
             </a>
           </div>
