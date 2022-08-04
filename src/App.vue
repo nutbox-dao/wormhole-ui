@@ -3,7 +3,7 @@
     <div class="py-1rem md:py-1.35rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
       <div class="container 2md:max-w-70rem md:max-w-50rem w-full mx-auto flex justify-between items-center">
         <button @click="goBack">
-          <img class="h-2.3rem" src="~@/assets/logo.png" alt="">
+          <img class="h-2.3rem ml-2.3rem" src="~@/assets/logo.png" alt="">
         </button>
         <div class="flex items-center">
             <div class="hidden md:block" v-if="!getAccountInfo">
