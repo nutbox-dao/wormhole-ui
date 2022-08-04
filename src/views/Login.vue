@@ -6,16 +6,16 @@
           <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
             Sign in
           </div>
-          <div class="text-0.9rem text-text8F leading-1.2rem mt-0.5rem mb-1.5rem">
+          <div class="text-0.9rem text-color8B leading-1.2rem mt-0.5rem mb-1.5rem">
             Please enter your twitter username.
           </div>
         </div>
         <div>
-          <input class="bg-colorDD/20 h-3.6rem w-full rounded-full text-black px-1.6rem outline-none text-1.2rem text-textA6"
+          <input class="bg-inputBg h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"
-                class="c-text-black bg-primaryColor h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
+                class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           <span>Sign in</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>

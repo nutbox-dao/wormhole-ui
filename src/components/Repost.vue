@@ -11,9 +11,9 @@
             <div class="flex items-center flex-wrap  text-0.8rem">
               <a class="c-text-black text-left leading-1.1rem mr-3">{{ post.author.name }}</a>
               <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-              <span class="text-color73">@{{ post.author.username }}</span>
+              <span class="text-color8B">@{{ post.author.username }}</span>
             </div>
-            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color73 text-0.7rem leading-1.5rem">
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color8B text-0.7rem leading-1.5rem">
             {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>

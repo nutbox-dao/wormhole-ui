@@ -8,7 +8,7 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1rem sm:px-1.5rem">
       <div v-for="(v,k,i) in tagsAggregation" :key="i" @click="choseIndex(i)"
-           class="md:col-span-1 bg-blockBg rounded-1rem py-1rem px-1.5rem cursor-pointer transform hover:scale-105">
+           class="md:col-span-1 bg-blockBg border-1 border-dividerColor rounded-1rem py-1rem px-1.5rem cursor-pointer transform hover:scale-105">
         <div class="flex justify-between items-center">
           <div class="text-1.3rem md:text-1rem leading-1.5rem c-text-black text-left">
             <span class="text-primaryColor mr-0.5rem">#</span>
@@ -23,7 +23,7 @@
           </div>
           <span class="text-primaryColor text-0.8rem">Posts</span>
         </div>
-        <div class="text-left text-14px leading-24px">
+        <div class="text-left text-14px leading-24px text-color8B">
           Utopianism, some argue, is essential for the improvement of the human condition.
         </div>
       </div>

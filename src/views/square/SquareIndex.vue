@@ -11,24 +11,24 @@
         <div class="px-1rem pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem">
           <div class="flex sm:items-center sm:justify-between">
             <div class="w-min relative ">
-              <div class="w-full h-7px bg-primaryColor absolute bottom-3px rounded-full"></div>
+              <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
               <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-bold relative">Square</span>
             </div>
-            <button class="flex items-center justify-center gradient-btn border-3px h-2.7rem px-1rem rounded-full c-text-bold
+            <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                     @click="publishTweet">
               Tweet a post
             </button>
           </div>
-          <div class="text-white/40 mt-10px text-left leading-20px">Post twitter content on chain and earn rewards</div>
+          <div class="text-color8B mt-10px text-left leading-20px">Post twitter content on chain and earn rewards</div>
         </div>
-        <div class="border-b-1px border-white/20 mt-0.5rem sticky -top-1px bg-primaryBg z-2 sm:px-1rem">
+        <div class="border-b-1px border-dividerColor mt-0.5rem sticky -top-1px bg-primaryBg z-2 sm:px-1rem">
           <div class="px-1.5rem sm:px-0 container mx-auto max-w-53rem md:max-w-48rem flex justify-between items-center">
             <div class="flex-1 overflow-x-auto no-scroll-bar">
               <div class="text-14px 2xl:text-0.9rem w-min flex gap-1.5rem h-3rem">
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
-                    :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-white/60'"
+                    :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-color8B'"
                     @click="onTagChange(index)">{{tag === 'wormhole3' ? 'All' : ('#' + tag)}}</span>
               </div>
             </div>

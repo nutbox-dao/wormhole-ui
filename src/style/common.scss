@@ -7,28 +7,33 @@
 .c-text-medium {
   //font-family: PoppinsMedium, Avenir, Helvetica, Arial, sans-serif;
 }
-
+.gradient-line {
+  background: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
+}
 .gradient-btn {
   color: white;
   font-weight: bold;
-  border-radius: 6px;
-  border-color: rgba(black, 0.5);
   border-style: solid;
   font-size: 1rem;
   background-color: var(--gradient-blue);
-  box-shadow: 0 10px 20px 2px rgba(248, 117, 43, .3);
   background-origin: border-box;
-  background-image:-webkit-linear-gradient(left, var(--gradient-primary-color1), var(--gradient-primary-color2));
-
+  background-image: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
   &:disabled {
     cursor: not-allowed;
   }
+  &-shadow {
+    box-shadow: 0 0 0 0.3rem rgba(174, 136, 254, 0.4);
+  }
   &-outline {
-    background-image:-webkit-linear-gradient(left, var(--gradient-primary-color1) 0%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
-    box-shadow: 2px 1000px 2px var(--primary-bg) inset;
+    border: 2px solid transparent;
+    background-image: linear-gradient(to right, #812DE2, #3A49F9);
+    box-shadow: 4px 1000px 4px var(--outlineBtnBg) inset;
     &:hover {
       box-shadow: none;
     }
+  }
+  &-purple {
+    background-image: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
   }
 }
 .gradient-bg {
@@ -36,7 +41,7 @@
   background-repeat: no-repeat;
   background-size: 100%;
   &-color3 {
-    background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+    background-image: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
   }
 }
 .gradient-border {
@@ -49,7 +54,7 @@
   box-shadow: 2px 1000px 2px var(--primary-bg) inset;
   box-sizing: border-box;
   &-color3 {
-    background-image:linear-gradient(to right, var(--gradient-primary-color1) 15%, var(--gradient-primary-color2) 74%, var(--gradient-primary-color3) 100%);
+    background-image: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
   }
 }
 .gradient-text {
@@ -74,7 +79,6 @@
 }
 .modal-bg {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset -5px -5px 4px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(132, 131, 145, 0.3);
   backdrop-filter: blur(20px);
 }

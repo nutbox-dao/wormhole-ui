@@ -24,22 +24,22 @@
                v-for="(item, index) of transactions" :key="index">
             <div class="flex justify-between">
               <div class="flex-1 flex items-center">
-                <img v-if="!isReceive(item)" class="w-2.2rem bg-primaryColor rounded-full border-2 border-black/36"
+                <img v-if="!isReceive(item)" class="w-2.2rem"
                      src="~@/assets/icon-up-arrow.svg" alt="">
-                <img v-else class="w-2.2rem bg-primaryColor2 rounded-full border-2 border-black/36"
+                <img v-else class="w-2.2rem"
                      src="~@/assets/icon-down-arrow.svg" alt="">
                 <div class="text-text8F flex flex-col items-start sm:ml-1rem ml-0.5rem">
-                  <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left">
+                  <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left text-color8B">
                     <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                   </div>
-                  <div class="text-0.7rem mt-0.5rem">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
+                  <div class="text-0.7rem mt-0.5rem text-color8B">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
                 </div>
               </div>
               <div class="flex flex-col items-end">
                 <div class="c-text-black text-0.8rem leading-1.2rem whitespace-nowrap">
                   {{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}
                 </div>
-                <div class="c-text-medium text-0.7rem mt-0.5rem">{{ getValue(item) }}</div>
+                <div class="c-text-medium text-0.7rem mt-0.5rem text-color8B">{{ getValue(item) }}</div>
               </div>
             </div>
             <div class="text-right mt-1rem c-text-medium text-0.6rem">

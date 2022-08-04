@@ -3,18 +3,18 @@
     <div class="text-center c-text-black md:text-2rem md:leading-3.6rem text-1.2rem leading-1.6rem w-full">
       Tweet a post
     </div>
-    <div class="top-box rounded-2rem mt-1.5rem mb-1rem overflow-hidden ">
-      <div class="gradient-bg gradient-bg-color3 text-0.7rem md:text-1rem px-1rem py-0.8rem flex items-center justify-between">
-        <span class="text-black c-text-bold">Social token</span>
-        <div class="c-text-bold flex-1 flex justify-end items-center">
-          <span class="text-text2C/60 mr-1rem">{{steemBalance}} STEEM</span>
-          <span class="text-white">{{ steemValue }}</span>
-        </div>
+    <div class="bg-black rounded-15px px-1rem mt-1.5rem mb-1rem overflow-hidden ">
+      <div class="text-1rem md:text-1.2rem px-1rem py-0.8rem border-b-1 border-dividerColor">
+        <span class="">Social token</span>
       </div>
-      <div class="mt-1.5rem md:mt-2.5rem mb-1.5rem px-1rem">
+      <div class="mt-2rem md:mt-1rem mb-1.5rem">
+        <div class="hidden md:block md:mb-1rem text-right">
+          <div class="text-colorB5 mb-0.5rem">{{ steemBalance }} STEEM</div>
+          <div class="text-1.6rem">{{ steemValue}} </div>
+        </div>
         <div class="flex justify-between items-center mb-0.8rem">
           <div class="flex items-center justify-center">
-            <span class="text-primaryColor text-0.8rem font-bold">Resource Credits</span>
+            <span class="text-color8B text-0.8rem font-bold">Resource Credits</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
@@ -26,9 +26,9 @@
               </button>
             </el-tooltip>
           </div>
-          <span class="c-text-black text-primaryColor text-1rem">{{rcPercent}}%</span>
+          <span class="c-text-black text-1.2rem">{{rcPercent}}%</span>
         </div>
-        <el-progress class="c-progress" :text-inside="false" :stroke-width="20"
+        <el-progress class="c-progress" :text-inside="false" :stroke-width="10"
                      :show-text="false"
                      :percentage="Number(rcPercent)" />
       </div>
@@ -38,9 +38,9 @@
         <span class="text-primaryColor">#wormhole3 !post </span>
         <span class="text-text8F">{content}</span>
       </div>
-      <button class="text-text53 flex items-center justify-center border-1px border-text53 rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
+      <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
         <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
-        <span class="text-white" @click="gotoTweet">Go tweet</span>
+        <span class="text-color8B" @click="gotoTweet">Go tweet</span>
       </button>
     </div>
     <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">

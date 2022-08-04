@@ -1,15 +1,14 @@
 <template>
   <div class="home">
-    <div class="container mx-auto lg:mt-10rem mt-20vh px-0.75rem">
+    <div class="container mx-auto lg:mt-5rem mt-20vh px-0.75rem">
       <div class="fade-in">
-        <div class="c-text-black text-2.6rem leading-4.2rem max-w-20rem sm:max-w-40rem sm:mx-auto mb-2.3rem px-2rem text-left sm:text-center">
-          Activate
-          web3 wallet and
-          Sign up
+        <div class="c-text-black text-2.6rem leading-4.2rem max-w-20rem sm:max-w-35rem sm:mx-auto mb-2.3rem px-2rem text-left sm:text-center">
+          <span class="gradient-text gradient-text-right3">Activate web3 wallet</span>
+          and Sign up
         </div>
       </div>
       <button @click="fetchKey"
-              class="slide-in-blurred-top bg-primaryColor text-black w-20rem h-4rem mx-auto rounded-full c-text-bold text-1.2rem">
+              class="slide-in-blurred-top gradient-btn gradient-btn-outline w-20rem h-4rem mx-auto rounded-full c-text-bold text-1.2rem">
         Activate Your Wallet
       </button>
       <div class="fade-in">

@@ -2,21 +2,21 @@
   <div class="w-full h-full overflow-auto">
     <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
       <div class="text-white" v-if="!showRegisterModal">
-        <div class="gradient-text keep-all gradient-text-right c-text-bold text-1.6rem max-w-15rem sm:max-w-30rem mx-auto mb-2.3rem leading-2rem">
+        <div class="gradient-text keep-all gradient-text-right c-text-black text-2rem max-w-30rem mx-auto mb-2.3rem">
           Below is the password
           to your new wallet:
         </div>
-        <div class="flex items-center bg-blockBg py-1rem lg:px-6rem px-2rem max-w-50rem mx-auto rounded-12px c-text-bold lg:text-1.4rem text-1.2rem lg:leading-2rem leading-1.6rem mb-2.3rem">
+        <div class="flex items-center gradient-btn gradient-btn-outline py-1rem lg:px-6rem px-2rem max-w-50rem mx-auto rounded-12px c-text-bold text-1rem lg:leading-2rem leading-1.6rem mb-2.3rem">
           {{ ethAccount.privateKey }}
           <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                @click="onCopy(ethAccount.privateKey)"
                src="~@/assets/icon-copy.svg" alt="">
         </div>
         <div class="flex justify-center max-w-41rem mx-auto">
-          <div class="leading-1.5rem flex item-center mr-1rem">
-            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">
-          </div>
-          <div class="max-w keep-all lg:text-1.2rem text-1rem font-bold lg:leading-1.5rem leading-1.3rem text-left">
+<!--          <div class="leading-1.5rem flex item-center mr-1rem">-->
+<!--            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">-->
+<!--          </div>-->
+          <div class="max-w keep-all text-color8B text-left">
             Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.
           </div>
         </div>
@@ -26,30 +26,30 @@
             Ok, I saved it.
           </div>
         </div> -->
-        <button class="c-text-medium gradient-btn h-3.6rem border-3px px-1.5rem mx-auto rounded-full lg:text-1.6rem text-1.2rem mt-1.25rem"
+        <button class="c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                 @click="showRegisterModal = true">
           Ok, I saved it.
         </button>
       </div>
       <div class="text-white" v-else>
         <div class="keep-all c-text-black text-2rem max-w-20rem mx-auto sm:max-w-30rem sm:mx-auto mb-2.3rem leading-2.9rem text-left sm:text-center">
-          <span class="gradient-text gradient-text-right">Great,</span> <br class="sm:hidden">
+          <span class="text-primaryColor ">Great,</span> <br class="sm:hidden">
           now let's verify your Twitter handle
         </div>
-        <button class="flex items-center justify-center c-text-medium gradient-btn border-3px h-3.6rem px-1.5rem mx-auto rounded-full w-full max-w-20rem lg:text-1.6rem mb-2.3rem text-1rem mt-1.25rem"
+        <button class="flex items-center justify-center c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full w-full max-w-15rem mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
           Go to bind
         </button>
 
         <div class="flex justify-center max-w-41rem mx-auto mb-1rem">
-          <div class="max-w keep-all lg:text-1.2rem text-1rem font-bold lg:leading-1.5rem leading-1.3rem text-left">
+          <div class="max-w keep-all lg:text-1.2rem text-1rem lg:leading-1.5rem leading-1.3rem text-left">
             After you've tweeted the bind message
           </div>
         </div>
 
         <router-link to="/login">
-          <div class="c-text-black text-1.5rem leading-1.5rem underline ml-1rem cursor-pointer">
+          <div class="c-text-black text-1rem leading-1.5rem underline ml-1rem cursor-pointer">
             Log in here
           </div>
         </router-link>

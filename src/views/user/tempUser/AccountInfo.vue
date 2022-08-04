@@ -23,7 +23,7 @@
               mr-1.5rem
               rounded-full
               gradient-border
-              border-3px
+              border-1px
             " @error="replaceEmptyImg" :src="profileImg" alt="" />
               <div class="
               flex-1 flex
@@ -43,19 +43,21 @@
                   sm:flex-row sm:items-center
                   flex-col
                 ">
-                    <span @click="gotoTwitter" class="mr-0.5rem hover">@{{
-                        accountInfo ? accountInfo.twitterUsername : " "
-                      }}</span>
-                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem"
+                      <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                        <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                        <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
+                      </div>
+
+                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
                            v-if="accountInfo && accountInfo.steemId">
-                        <img class="w-0.8rem h-0.8rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />
+<!--                        <img class="w-0.8rem h-0.8rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />-->
                         <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
                       </div>
                     </div>
                   </div>
                   <div class="flex flex-col sm:items-center">
                     <div class="
-                  gradient-text gradient-text-bottom
+
                   c-text-black
                   text-1.2rem
                   md:text-2rem
