@@ -1,20 +1,16 @@
 <template>
   <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
-    <div class="py-1rem md:py-1.35rem border-b-1" :class="$route.name==='signup'?'border-colorD8 sm:border-headerBorder':'border-headerBorder'">
-      <div class="container 2md:max-w-70rem md:max-w-50rem w-full mx-auto flex justify-between items-center">
+    <div class="py-1rem border-b-1 border-headerBorder">
+      <div class="container 2md:max-w-70rem md:max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
         <button @click="goBack">
-          <img class="h-2.3rem ml-2.3rem" src="~@/assets/logo.png" alt="">
+          <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
         </button>
         <div class="flex items-center">
             <div class="hidden md:block" v-if="!getAccountInfo">
               <router-link to="/login"
-                            class="c-text-black mr-3">
-                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign In</button>
-              </router-link>
+                            class="link-btn mr-3">Sign In</router-link>
               <router-link to="/signup"
-                            class="c-text-black mr-3">
-                <button class="md:text-0.8rem px-0.5rem rounded-full h-2rem text-white/60 hover:text-primaryColor">Sign Up</button>
-              </router-link>
+                            class="link-btn mr-3">Sign Up</router-link>
             </div>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
@@ -26,7 +22,7 @@
             </router-link>
           </template>
           <div class="relative">
-            <button class="bg-transparent h-2rem w-1.8rem mr-15px sm:mr-0 md:mr-15px flex items-center"
+            <button class="bg-transparent h-2rem w-1.8rem flex items-center"
                     @click.stop="showMenu=!showMenu">
               <span class="menu-icon" :class="showMenu?'active':''"></span>
             </button>
@@ -197,14 +193,16 @@ export default {
 }
 
 :root {
-  --primary-bg: #191919;
-  --primary-custom: #EEB134;
-  --gradient-primary-color1: #EEB134;
-  --gradient-primary-color2: #ED782F;
-  --gradient-primary-color3: #FF1F00;
+  --primary-bg: #0D1117;
+  --primary-custom: #AE88FE;
+  --gradient-primary-color1: #AE88FE;
+  --gradient-primary-color2: #923CFF;
+  --gradient-primary-color3: #00B2FF;
   --text8F: #8F8F8F;
   --textA6: #A6A6A6;
   --text53: #535353;
+  --iconColor: #848391;
+  --outlineBtnBg: #1C1A50;
   --van-popup-background-color: transparent!important;
 }
 @import "style/responsive";
@@ -233,7 +231,7 @@ html, body {
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background-color: rgba(white, 0.6);
+  background-color: var(--iconColor);
   position: relative;
   &::before {
     left: 0;
@@ -241,7 +239,7 @@ html, body {
     width: 100%;
     height: 2px;
     border-radius: 2px;
-    background: rgba(white, 0.6);
+    background: var(--iconColor);
     content: "";
     display: inline-block;
     position: absolute;
@@ -253,7 +251,7 @@ html, body {
     width: 100%;
     height: 2px;
     border-radius: 2px;
-    background: rgba(white, 0.6);
+    background: var(--iconColor);
     content: "";
     display: inline-block;
     position: absolute;
@@ -285,6 +283,26 @@ html, body {
     height: 260px;
   }
 }
+.link-btn {
+  padding: 2px 8px;
+  border-radius: 28px;
+  height: 1.4rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border: 1px solid var(--primary-custom);
+  color: var(--primary-custom);
+  &:hover {
+    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
+    border-color: transparent;
+    color: white;
+  }
+  &.router-link-active {
+    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
+    border-color: transparent;
+    color: white;
+  }
+}
+
 .slide-in-blurred-top {
   animation: slide-in-blurred-top .6s cubic-bezier(.23,1,.32,1) both;
 }
@@ -321,12 +339,6 @@ html, body {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
-}
-@media (max-width: 640px) {
-  .signup-bg {
-    background-image: url("~@/assets/signup-bg.png");
-    background-position: top;
-  }
 }
 @media (min-width: 1280px) {
   .menu-box.active {

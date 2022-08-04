@@ -22,7 +22,7 @@
             mr-1.5rem
             rounded-full
             gradient-border
-            border-3px
+            border-1px
           "
                 @error="replaceEmptyImg"
                 :src="profileImg"
@@ -52,20 +52,19 @@
                 flex-col
               "
                 >
-              <span @click="gotoTwitter" class="mr-0.5rem hover"
-              >@{{
-                  getAccountInfo ? getAccountInfo.twitterUsername : " "
-                }}</span
-              >
+                  <div @click="gotoTwitter" class="mr-0.5rem flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                    <img class="w-1.5rem md:w-1rem mr-0.5rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                    <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                  </div>
                   <div
-                      class="flex items-center justify-start sm:mt-0 mt-0.5rem"
+                      class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
                       v-if="getAccountInfo && getAccountInfo.steemId"
                   >
-                    <img
-                        class="w-0.8rem h-0.8rem mr-0.5rem"
-                        src="~@/assets/icon-checked.svg"
-                        alt=""
-                    />
+<!--                    <img-->
+<!--                        class="w-0.8rem h-0.8rem mr-0.5rem"-->
+<!--                        src="~@/assets/icon-checked.svg"-->
+<!--                        alt=""-->
+<!--                    />-->
                     <span class="hover" @click="gotoSteem"
                     >#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span
                     >
@@ -75,7 +74,7 @@
               <div class="flex flex-col sm:items-center">
                 <div
                     class="
-                gradient-text gradient-text-bottom
+
                 c-text-black
                 text-1.2rem
                 md:text-2rem
@@ -91,7 +90,7 @@
                 items-center
                 justify-center
                 gradient-btn
-                border-3px
+                gradient-btn-shadow
                 h-2.7rem
                 px-1rem
                 rounded-full
@@ -119,12 +118,12 @@
           <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-1.1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
-                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-white/60"
+                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/post`"
               >Social assets</router-link
               >
               <router-link
-                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-white/60"
+                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
               >Web3 wallet</router-link
               >
@@ -199,11 +198,11 @@
             <button
               @click="gotoSend"
               class="
-                text-text53
+                text-color8B
                 flex
                 items-center
                 justify-center
-                border-1px border-text53
+                border-1px border-color8B
                 rounded-full
                 h-2.2rem
                 px-1rem
@@ -244,11 +243,11 @@
             <button
               @click="gotoPost"
               class="
-                text-text53
+                text-color8B
                 flex
                 items-center
                 justify-center
-                border-1px border-text53
+                border-1px border-color8B
                 rounded-full
                 h-2.2rem
                 px-1rem

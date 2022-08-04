@@ -7,7 +7,7 @@
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}</div>
-          <div class="text-text8F text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.ETH[erc20]) }} {{erc20}}</div>
+          <div class="text-color8B text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.ETH[erc20]) }} {{erc20}}</div>
         </div>
       </div>
       <div class="flex flex-col items-end justify-end">
@@ -22,7 +22,7 @@
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}(BSC)</div>
-          <div class="text-text8F text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.BNB[erc20]) }} {{erc20}}</div>
+          <div class="text-color8B text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.BNB[erc20]) }} {{erc20}}</div>
         </div>
       </div>
       <div class="flex flex-col items-end justify-end">
@@ -37,7 +37,7 @@
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}(Polygon)</div>
-          <div class="text-text8F text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
+          <div class="text-color8B text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
         </div>
       </div>
       <div class="flex flex-col items-end justify-end">
@@ -51,12 +51,12 @@
             src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">Steem</div>
-          <div class="text-text8F text-0.75rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+          <div class="text-color8B text-0.75rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.5rem md:text-1rem text-primaryColor c-text-black">{{ steemValue }}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px" @click="sendSteem">Send</button>
+        <button class="gradient-btn c-text-bold px-10px mt-8px rounded-full" @click="sendSteem">Send</button>
       </div>
     </div>
   </div>

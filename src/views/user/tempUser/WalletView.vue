@@ -1,17 +1,17 @@
 <template>
   <div class="pb-4rem md:pt-2rem pt-1.5rem md:max-w-600px lg:max-w-35rem mx-auto">
-    <div class="top-box rounded-2rem mb-1rem overflow-hidden mx-1.5rem sm:mx-0">
+    <div class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
-        <span class="text-black c-text-bold"> ETH wallet</span>
+        <span class="c-text-black"> ETH wallet</span>
         <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
       </div>
-      <div class="p-1.5rem c-text-bold text-0.8rem leading-1.4rem text-primaryColor break-all flex items-center justify-center">
+      <div class="border-1 border-t-0 border-dividerColor overflow-hidden rounded-b-12px p-1.5rem c-text-bold text-0.8rem leading-1.4rem break-all flex items-center justify-center">
         {{ accountInfo ? accountInfo.ethAddress : '' }}
         <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
              @click="copy(accountInfo.ethAddress)"
-             src="~@/assets/icon-copy-primary.svg" alt="">
+             src="~@/assets/icon-copy.svg" alt="">
       </div>
     </div>
     <div class="bg-blockBg md:py-1.5rem rounded-12px">
