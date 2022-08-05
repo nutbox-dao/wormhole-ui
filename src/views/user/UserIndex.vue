@@ -237,8 +237,8 @@
             "
           >
             <div class="text-left break-all text-0.8rem">
-              <span class="text-primaryColor">#wormhole3 !post </span>
-              <span class="text-text8F">{content}</span>
+              <span class="text-text8F">{content} </span>
+              <span class="text-primaryColor">#iweb3</span>
             </div>
             <button
               @click="gotoPost"
@@ -306,7 +306,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { login, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -396,8 +396,7 @@ export default {
     gotoPost() {
       window.open(
         "https://twitter.com/intent/tweet?text=" +
-          TWITTER_MONITOR_RULE +
-          " !post ",
+          TWITTER_POST_TAG,
         "__blank"
       );
     },

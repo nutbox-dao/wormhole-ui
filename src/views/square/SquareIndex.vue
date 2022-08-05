@@ -29,7 +29,7 @@
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
                     :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-color8B'"
-                    @click="onTagChange(index)">{{tag === 'wormhole3' ? 'All' : ('#' + tag)}}</span>
+                    @click="onTagChange(index)">{{tag === 'iweb3' ? 'All' : ('#' + tag)}}</span>
               </div>
             </div>
             <router-link class="pl-1rem" to="/square/topics">
@@ -105,20 +105,6 @@ export default {
       list: [],
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
-      testData: {
-        children: 0,
-        content: "Siguniang mountain, here we are。 （ by https://t.co/ybMGq2pJM9）  https://t.co/549D352xTw\nhttps://pbs.twimg.com/media/FWd8DdiX0AAwfEN.jpg\nhttps://pbs.twimg.com/media/FWd8GByWAAAKHT1.jpg\nhttps://pbs.twimg.com/media/FWd8GCDXgAACfL4.jpg\nhttps://pbs.twimg.com/media/FWd8GCtWIAA-4pp.jpg",
-        curatorPayoutValue: "0.574 SBD",
-        name: "terry3t.eth",
-        pendingPayoutValue: "0.000 SBD",
-        postId: "1542338002818666496",
-        postTime: "2022-06-30T02:43:29.000Z",
-        steemId: "terry3t1493",
-        tags: "[\"wormhole3\"]",
-        totalPayoutValue: "0.574 SBD",
-        username: "terry3t1",
-        votes: 1
-      },
       scroll: 0
     }
   },
@@ -130,7 +116,7 @@ export default {
       if (this.tagsAggregation) {
         return Object.keys(this.tagsAggregation)
       }else {
-        return ['wormhole3']
+        return ['iweb3']
       }
     },
     currentPosts() {

@@ -35,8 +35,8 @@
     </div>
     <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
       <div class="text-left break-all">
-        <span class="text-primaryColor">#wormhole3 !post </span>
         <span class="text-text8F">{content}</span>
+        <span class="text-primaryColor"> #iweb3</span>
       </div>
       <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
         <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
@@ -57,7 +57,7 @@
 import {mapState, mapGetters} from "vuex";
 import { formatPrice } from '@/utils/helper'
 import { getAccountRC } from '@/utils/steem'
-import { TWITTER_MONITOR_RULE } from '@/config'
+import { TWITTER_POST_TAG } from '@/config'
 
 export default {
   name: "PostTip",
@@ -77,8 +77,7 @@ export default {
     gotoTweet() {
       window.open(
         "https://twitter.com/intent/tweet?text=" +
-          TWITTER_MONITOR_RULE +
-          " !post ",
+          TWITTER_POST_TAG,
         "__blank"
       );
     }

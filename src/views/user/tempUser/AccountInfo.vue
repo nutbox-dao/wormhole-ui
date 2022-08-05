@@ -119,7 +119,7 @@ import PostDetail from "./PostDetail";
 import { getUserInfo, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -216,8 +216,7 @@ export default {
     gotoPost() {
       window.open(
         "https://twitter.com/intent/tweet?text=" +
-        TWITTER_MONITOR_RULE +
-        " !post ",
+        TWITTER_POST_TAG,
         "__blank"
       );
     },

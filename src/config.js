@@ -6,6 +6,7 @@ export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 
 export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "%23wormhole3"
+export const TWITTER_POST_TAG = "%23iweb3"
 
 export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 // export const BACKEND_API_URL = 'http://localhost:3100'

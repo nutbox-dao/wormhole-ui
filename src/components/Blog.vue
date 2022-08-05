@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
-          <div v-show="tag != 'wormhole3'" class="blog-tag" v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
+          <div v-show="tag != 'iweb3'" class="blog-tag" v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
             #{{ tag }}
           </div>
         </div>

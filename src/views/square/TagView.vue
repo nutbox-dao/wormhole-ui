@@ -48,20 +48,6 @@ export default {
       listFinished: false,
       refreshing: false,
       list: [],
-      testData: {
-        children: 0,
-        content: "Siguniang mountain, here we are。 （ by https://t.co/ybMGq2pJM9）  https://t.co/549D352xTw\nhttps://pbs.twimg.com/media/FWd8DdiX0AAwfEN.jpg\nhttps://pbs.twimg.com/media/FWd8GByWAAAKHT1.jpg\nhttps://pbs.twimg.com/media/FWd8GCDXgAACfL4.jpg\nhttps://pbs.twimg.com/media/FWd8GCtWIAA-4pp.jpg",
-        curatorPayoutValue: "0.574 SBD",
-        name: "terry3t.eth",
-        pendingPayoutValue: "0.000 SBD",
-        postId: "1542338002818666496",
-        postTime: "2022-06-30T02:43:29.000Z",
-        steemId: "terry3t1493",
-        tags: "[\"wormhole3\"]",
-        totalPayoutValue: "0.574 SBD",
-        username: "terry3t1",
-        votes: 1
-      }
     }
   },
   computed: {

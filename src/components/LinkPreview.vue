@@ -24,7 +24,7 @@ export default {
         url: 'https://twitter.com/terry3t1/status/1542338002818666496',
         image: 'https://pbs.twimg.com/media/FWd8DdiX0AAwfEN.jpg:large',
         title: 'terry3t.eth on Twitter',
-        desc: '“Siguniang mountain, here we are。 （!post by https://t.co/ybMGq2pJM9） #wormhole3”'
+        desc: '“Siguniang mountain, here we are。 （!post by https://t.co/ybMGq2pJM9） #iweb3'
       }
     }
   },

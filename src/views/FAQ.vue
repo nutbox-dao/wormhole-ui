@@ -33,7 +33,7 @@
         </div>
         <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
           Sure, your tweet will be stored in web3 for ever, it always belong to you.<br>
-          You can send twitter to sync them like this:#wormhole3 !post content.
+          You can send twitter to sync them like this: {content} #iweb3.
         </div>
       </div>
     </div>
