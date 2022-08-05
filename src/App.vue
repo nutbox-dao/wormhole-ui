@@ -6,11 +6,11 @@
           <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
         </button>
         <div class="flex items-center">
-            <div class="hidden md:block" v-if="!getAccountInfo">
+            <div class="hidden md:flex" v-if="!getAccountInfo">
               <router-link to="/login"
-                            class="link-btn mr-3">Sign In</router-link>
+                            class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">Sign In</router-link>
               <router-link to="/signup"
-                            class="link-btn mr-3">Sign Up</router-link>
+                            class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">Sign Up</router-link>
             </div>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
@@ -284,10 +284,8 @@ html, body {
   }
 }
 .link-btn {
-  padding: 2px 8px;
+  padding: 0 1rem;
   border-radius: 28px;
-  height: 1.4rem;
-  font-size: 0.7rem;
   font-weight: bold;
   border: 1px solid var(--primary-custom);
   color: var(--primary-custom);
