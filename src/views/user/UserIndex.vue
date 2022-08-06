@@ -10,7 +10,7 @@
     ref="wrapper"
   >
     <template v-if="!loading">
-      <div class="border-b-2 border-listBgBorder md:border-b-1 border-white/20">
+      <div class="md:border-b-1 border-listBgBorder md:border-b-1 border-white/20">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
@@ -52,7 +52,7 @@
                 flex-col
               "
                 >
-                  <div @click="gotoTwitter" class="mr-0.5rem flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                  <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem w-max flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
                     <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
@@ -118,12 +118,12 @@
           <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-1.1rem md:text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
-                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-color8B"
+                  class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/post`"
               >Social assets</router-link
               >
               <router-link
-                  class="flex-1 py-0.8rem px-1rem border-b-0.2rem border-dividerColor text-color8B"
+                  class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
               >Web3 wallet</router-link
               >
@@ -144,7 +144,7 @@
       <img src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <van-popup
-      class="c-tip-drawer"
+      class="c-tip-drawer 2xl:w-2/5"
       v-model:show="tipDrawer"
       :position="position"
     >
@@ -152,14 +152,15 @@
         class="
           modal-bg
           w-full
-          md:w-49rem
+          md:min-w-560px
           max-h-80vh
+          2xl:max-h-28rem
           overflow-auto
           flex flex-col
           rounded-t-1.5rem
           md:rounded-b-1.5rem
           pt-1rem
-          md:p-2rem
+          md:p-1rem
         "
       >
         <div
@@ -167,18 +168,18 @@
           @click="modalVisible = false"
           class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"
         ></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-3rem text-left">
+        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-2rem text-left">
           <div
             class="
               c-text-black
-              md:text-2rem md:leading-3.6rem text-1.2rem leading-1.6rem
+              md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem
               md:text-center
               w-full
             "
           >
             Tweet action tips
           </div>
-          <div class="text-0.9rem leading-1.2rem c-text-black mt-1rem">
+          <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             1. Transfer STEEM/SBD to a twitter account
           </div>
           <div
@@ -187,11 +188,10 @@
               rounded-1rem
               h-min-8rem
               p-1rem
-              mt-0.5rem
               relative
             "
           >
-            <div class="text-left break-all text-0.8rem">
+            <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-primaryColor">#wormhole3 !send </span>
               <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
@@ -204,7 +204,10 @@
                 justify-center
                 border-1px border-color8B
                 rounded-full
-                h-2.2rem
+                2xl:h-2.2rem
+                text-12px
+                2xl:text-0.9rem
+                h-28px
                 px-1rem
                 absolute
                 bottom-1rem
@@ -212,18 +215,18 @@
               "
             >
               <img
-                class="w-1rem h-1rem mr-1rem"
+                class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
               <span class="text-text8F">GO tweet</span>
             </button>
           </div>
-          <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic text-left">
+          <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
             Tips:<br />Please replace {***} to real content.<br />
             You can replace {@twitter_username} with a twitter username.
           </div>
-          <div class="text-0.9rem leading-1.2rem c-text-black mt-2rem">
+          <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             2. Add a post to web3
           </div>
           <div
@@ -232,11 +235,10 @@
               rounded-1rem
               h-min-8rem
               p-1rem
-              mt-0.5rem
               relative
             "
           >
-            <div class="text-left break-all text-0.8rem">
+            <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-text8F">{content} </span>
               <span class="text-primaryColor">#iweb3</span>
             </div>
@@ -249,7 +251,10 @@
                 justify-center
                 border-1px border-color8B
                 rounded-full
-                h-2.2rem
+                2xl:h-2.2rem
+                text-12px
+                2xl:text-0.9rem
+                h-28px
                 px-1rem
                 absolute
                 bottom-1rem
@@ -257,14 +262,14 @@
               "
             >
               <img
-                class="w-1rem h-1rem mr-1rem"
+                class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
               <span class="text-text8F">GO tweet</span>
             </button>
           </div>
-          <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">
+          <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
             Tips: <br />
             Replace {***} to real content.
           </div>
@@ -493,9 +498,28 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .router-link-active {
-  border-bottom: 0.2rem solid var(--primary-custom);
-  color: var(--primary-custom);
+  box-sizing: border-box;
+  color: white;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
+    border-radius: 1px;
+    bottom: -5px;
+    left: 0;
+  }
+}
+@media (max-width: 768px) {
+  .router-link-active {
+    &::after {
+      height: 2px;
+      bottom: -2px;
+    }
+  }
 }
 </style>

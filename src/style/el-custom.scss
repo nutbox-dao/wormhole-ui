@@ -10,6 +10,11 @@
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
+  &-no-bg {
+    background: none;
+    border:none;
+    backdrop-filter: none;
+  }
   &-no-shadow {
     box-shadow: none;
   }

@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="text-center c-text-black md:text-2rem md:leading-3.6rem text-1.2rem leading-1.6rem w-full">
+    <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
       Tweet a post
     </div>
     <div class="bg-black rounded-15px px-1rem mt-1.5rem mb-1rem overflow-hidden ">
-      <div class="text-1rem md:text-1.2rem px-1rem py-0.8rem border-b-1 border-dividerColor">
+      <div class="text-15px 2xl:text-1rem px-1rem py-0.7rem border-b-1 border-dividerColor">
         <span class="">Social token</span>
       </div>
-      <div class="mt-2rem md:mt-1rem mb-1.5rem">
-        <div class="hidden md:block md:mb-1rem text-right">
-          <div class="text-colorB5 mb-0.5rem">{{ steemBalance }} STEEM</div>
+      <div class="mt-1rem md:mt-1rem mb-1rem">
+        <div class="mb-1rem text-right">
+          <div class="text-colorB5 mb-0.5rem text-14px 2xl:text-.8rem">{{ steemBalance }} STEEM</div>
           <div class="text-1.6rem">{{ steemValue}} </div>
         </div>
-        <div class="flex justify-between items-center mb-0.8rem">
+        <div class="flex justify-between items-center mb-0.5rem">
           <div class="flex items-center justify-center">
-            <span class="text-color8B text-0.8rem font-bold">Resource Credits</span>
+            <span class="text-color8B text-14px 2xl:text-0.7rem font-bold">Resource Credits</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
@@ -22,28 +22,28 @@
                 </div>
               </template>
               <button>
-                <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                <img class="w-14px 2xl:w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
               </button>
             </el-tooltip>
           </div>
-          <span class="c-text-black text-1.2rem">{{rcPercent}}%</span>
+          <span class="c-text-black text-16px 2xl:text-0.8rem">{{rcPercent}}%</span>
         </div>
         <el-progress class="c-progress" :text-inside="false" :stroke-width="10"
                      :show-text="false"
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem mt-0.8rem relative">
-      <div class="text-left break-all">
+    <div class="bg-black/40 rounded-1rem h-min-8rem p-1rem mt-0.8rem relative">
+      <div class="text-left break-all 2xl:text-0.8rem text-14px">
         <span class="text-text8F">{content}</span>
         <span class="text-primaryColor"> #iweb3</span>
       </div>
-      <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-2.45rem px-1.7rem absolute bottom-1rem right-1rem">
-        <img class="w-1rem h-1rem mr-1rem" src="~@/assets/icon-twitter.svg" alt="">
+      <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
+        <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
         <span class="text-color8B" @click="gotoTweet">Go tweet</span>
       </button>
     </div>
-    <div class="text-white text-0.8rem leading-1rem mt-0.5rem italic">
+    <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
       Tips: <br>   Replace {***} to real content.
     </div>
     <!--    <button v-else @click="tipDrawer=false"-->

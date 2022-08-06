@@ -1,11 +1,11 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="container mx-auto max-w-50rem" v-if="!showDetail">
-      <div class="px-0.725rem relative h-3rem flex items-center justify-center">
-        <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
-             @click="$router.back()"
-             src="~@/assets/icon-forward-circle.svg" alt="">
-        <div class="c-text-bold md:text-1.2rem text-1.5rem max-w-3/5">{{ accountInfo ? accountInfo.twitterName : "" }}</div>
+    <div class="md:border-b-1 border-dividerColor mb-1rem" v-if="!showDetail">
+      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px flex items-center md:justify-start justify-center h-2.8rem">
+        <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
+        <!--               @click="$router.back()"-->
+        <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">People</div>
       </div>
     </div>
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
@@ -43,7 +43,7 @@
                   sm:flex-row sm:items-center
                   flex-col
                 ">
-                      <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                      <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem w-max flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
                         <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                         <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                       </div>

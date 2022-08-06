@@ -1,7 +1,7 @@
 <template>
   <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
     <div class="py-1rem border-b-1 border-headerBorder">
-      <div class="container 2md:max-w-70rem md:max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
+      <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
         <button @click="goBack">
           <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
         </button>
