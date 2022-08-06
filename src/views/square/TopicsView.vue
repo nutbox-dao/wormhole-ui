@@ -1,30 +1,34 @@
 <template>
-  <div class="container mx-auto max-w-50rem pb-2rem">
-    <div class="px-0.725rem relative h-3.5rem flex items-center justify-center mb-1rem">
-      <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"
-           @click="$router.back()"
-           src="~@/assets/icon-forward-circle.svg" alt="">
-      <div class="c-text-black text-1.5rem md:text-1.2rem">More topics</div>
+  <div class="">
+    <div class="md:border-b-1 border-dividerColor mb-1rem">
+      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px flex items-center md:justify-start justify-center h-2.8rem">
+        <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
+        <!--               @click="$router.back()"-->
+        <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">More topics</div>
+      </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-1rem sm:px-1.5rem">
-      <div v-for="(v,k,i) in tagsAggregation" :key="i" @click="choseIndex(i)"
-           class="md:col-span-1 bg-blockBg border-1 border-dividerColor rounded-1rem py-1rem px-1.5rem cursor-pointer transform hover:scale-105">
-        <div class="flex justify-between items-center">
-          <div class="text-1.3rem md:text-1rem leading-1.5rem c-text-black text-left">
-            <span class="text-primaryColor mr-0.5rem">#</span>
-            <span class="">{{k}}</span>
+    <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
+      <div class="bg-blockBg rounded-1rem mt-2rem px-12px pt-1rem pb-3rem">
+        <div v-for="(v,k,i) in tagsAggregation" :key="i" @click="choseIndex(i)"
+             class="border-b-1 border-dividerColor py-1rem px-1.5rem cursor-pointer">
+          <div class="flex justify-between items-center">
+            <div class="text-18px md:text-1rem md:leading-1.5rem c-text-bold text-left">
+              <span class="">#</span>
+              <span class="">{{k}}</span>
+            </div>
+            <span class="text-primaryColor text-18px md:text-1.2rem c-text-black">{{v}}</span>
           </div>
-          <span class="text-primaryColor text-1.5rem md:text-1.2rem c-text-black">{{v}}</span>
-        </div>
-        <div class="flex justify-between items-center my-0.5rem">
-          <div class="flex items-center text-1rem leading-1.4rem text-left">
-            <!-- <img class="w-1.2rem mr-0.5rem" src="~@/assets/icon-coin-primary.svg" alt="">
-            <span class="">$1,288.66</span> -->
+          <div class="flex justify-between items-center mt-0.2rem">
+            <div class="flex items-center text-1rem leading-1.4rem text-left">
+<!--              <img class="w-1.2rem mr-0.5rem" src="~@/assets/icon-coin-primary.svg" alt="">-->
+<!--              <span class="">$1,288.66</span>-->
+            </div>
+            <span class="text-primaryColor text-15px md:text-0.8rem">Posts</span>
           </div>
-          <span class="text-primaryColor text-0.8rem">Posts</span>
-        </div>
-        <div class="text-left text-14px leading-24px text-color8B">
-          Utopianism, some argue, is essential for the improvement of the human condition.
+<!--          <div class="text-left text-14px leading-24px text-color8B">-->
+<!--            Utopianism, some argue, is essential for the improvement of the human condition.-->
+<!--          </div>-->
         </div>
       </div>
     </div>
