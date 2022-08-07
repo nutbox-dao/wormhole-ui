@@ -135,6 +135,7 @@ export default {
   watch: {
     currentTagIndex(newValue, oldValue) {
       if (newValue !== oldValue) {
+        this.listFinished = false
         this.onRefresh()
       }
     }

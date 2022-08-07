@@ -192,7 +192,7 @@
             "
           >
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
-              <span class="text-primaryColor">#wormhole3 !send </span>
+              <span class="text-primaryColor">@wormhole_3 !send </span>
               <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button

@@ -24,7 +24,7 @@
         </div>
         <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
           Yes, you can send STEEM token at this phase, but can't send eth assets because of we don't keep your key.<br>
-          You can send STEEM to another one by send twitter: #wormhole3 !send 1 STEEM to @another twitter account.
+          You can send STEEM to another one by send twitter: @wormhole_3 !send 1 STEEM to @another twitter account.
         </div>
       </div>
       <div class="bg-blockBg rounded-12px py-1rem px-1.5rem mb-1rem">
