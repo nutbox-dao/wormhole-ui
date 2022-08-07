@@ -32,7 +32,7 @@
                   <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left text-color8B">
                     <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
                   </div>
-                  <div class="text-0.7rem mt-0.5rem text-color8B">{{ item.postTime.replace("T", " ").substring(0, 19) }}</div>
+                  <div class="text-0.7rem mt-0.5rem text-color8B">{{ parseTime(item.postTime) }}</div>
                 </div>
               </div>
               <div class="flex flex-col items-end">
@@ -153,6 +153,17 @@ export default {
           this.finished = true
         })
       }
+    },
+    parseTime(d) {
+      const date = new Date(d)
+      return date.toLocaleTimeString([], {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute:'2-digit',
+        second: '2-digit'
+      })
     }
   },
   async mounted () {
