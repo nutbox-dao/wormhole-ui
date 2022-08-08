@@ -43,7 +43,8 @@
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">FAQs</router-link>
                 <router-link to="/about" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">About us</router-link>
-                <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
+                <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Discord</div>
+                <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Twitter</div>
                 <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                              class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Log out</router-link>
               </div>
@@ -127,6 +128,12 @@ export default {
       }
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
+    },
+    gotoDC() {
+      window.open('https://discord.gg/QMcGyxPr', '__blank')
+    },
+    gotoTwitter(){
+      window.open('https://twitter.com/wormhole_3', '__blank')
     },
     goBack() {
       this.$router.push('/')
