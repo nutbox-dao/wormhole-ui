@@ -14,7 +14,7 @@
             </div>
           <template v-else>
             <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-              <img class="h-2rem rounded-full" :src="profileImg" alt="">
+              <img class="h-2rem rounded-full" :src="profileImg" @error="replaceEmptyImg" alt="">
             </router-link>
             <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
               <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
@@ -75,6 +75,7 @@ import { getAccountInfo, getAccountRC, vestsToSteem, getSteemBalance } from '@/u
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { login } from './utils/account';
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
 export default {
   components: {NFTAnimation},
@@ -104,6 +105,9 @@ export default {
     },
   },
   methods: {
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
     async monitorPrices() {
       let res = await Promise.all([
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT'),
