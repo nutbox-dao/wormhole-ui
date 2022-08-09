@@ -43,3 +43,6 @@ export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
 
 export const getCommentsByPostid = async (postId) => 
     get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
+
+export const getPostsByTagValue = async (tag, pageSize, pageNum) => 
+    get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
