@@ -65,6 +65,7 @@ import { box, createKeypair } from '@/utils/tweet-nacl'
 import { SendPwdServerPubKey } from '@/config'
 import { notify } from "@/utils/notify";
 import { onCopy } from "@/utils/tool";
+import { generateSteemAuth } from '@/utils/steem'
 
 export default {
   name: "Verify",
@@ -90,7 +91,7 @@ export default {
       try{
         this.attachServer = true
         const pair = createKeypair()
-        const pwd = box(generateBrainKey(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
+        const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
         await cacheKey({
           ethAddress: this.ethAccount.ethAddress,
           pwd,
