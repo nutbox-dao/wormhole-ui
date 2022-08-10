@@ -8,7 +8,15 @@ export default {
         // in square page, this field stored which tag user alread chosed
         currentTagIndex: 0,
         // post detail page data
-        currentShowingDetail: null
+        currentShowingDetail: null,
+        /**
+         * this is categary by tag, contain page info and posts
+         * {
+         *      pageNum:0,
+         *      posts: []
+         * }
+         */
+        allPostsTagValue: {}
     },
     mutations: {
         saveTagsAggregation: (state, tagsAggregation) => {
@@ -22,12 +30,18 @@ export default {
         },
         saveCurrentShowingDetail: (state, currentShowingDetail) => {
             state.currentShowingDetail = currentShowingDetail
+        },
+        saveAllPostsTagValue: (state, allPostsTagValue) => {
+            state.allPostsTagValue = allPostsTagValue
         }
     },
     getters: {
         getPostsByTag: (state) => (tag) => {
             const posts = state.allPosts[tag]
             return posts
+        },
+        getPostsByTagValue: (state) => (tag) => {
+            return state.allPostsTagValue[tag]
         }
     }
 }

@@ -1,11 +1,11 @@
 <template>
   <div class="flex">
     <img class="w-2.2rem h-2.2rem md:w-3rem md:h-3rem md:ml-0.6rem mr-1.5rem rounded-full"
-         :src="comment.profileImg" alt="">
+         :src="profile" alt="">
     <div class="flex-1 text-left">
       <div class="flex items-center flex-wrap">
-        <span class="c-text-black text-1rem">{{comment.name}}</span>
-        <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt="">
+        <span class="c-text-black text-1rem mr-1rem">{{comment.name}}</span>
+        <!-- <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
         <span class="text-text8F">@{{comment.username}} · {{ parseTimestamp(comment.commentTime) }} </span>
       </div>
       <!-- <div class="text-left my-0.5rem">
@@ -56,6 +56,14 @@ export default {
        + this.parseSBD(this.comment.pendingPayoutValue)
       + this.parseSBD(this.comment.totalPayoutValue)
       return formatPrice(value)
+    },
+    profile() {
+      if (!this.comment.profileImg) return null
+      if (this.comment.profileImg) {
+        return this.comment.profileImg.replace('normal', '200x200')
+      }else {
+        return 'https://profile-images.heywallet.com/' + this.comment.twitterId
+      }
     }
   },
   methods: {

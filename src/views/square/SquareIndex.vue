@@ -39,12 +39,12 @@
         </div>
         <div class="sm:mt-1rem sm:px-1rem">
           <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
-            <!-- <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
+            <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"
                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
                     :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
-                    @click="subActiveTagIndex=index">{{tag}}</span>
-            </div> -->
+                    @click="changeSubIndex(index)">{{tag}}</span>
+            </div>
             <div class="c-text-black text-1.8rem mb-3rem" v-if="refreshing && (!currentPosts || currentPosts.length === 0)">
               <img src="~@/assets/profile-loading.gif" alt="" />
             </div>
@@ -88,7 +88,7 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
-import { getTagAggregation, getPostsByTagTime } from '@/api/api';
+import { getTagAggregation, getPostsByTagTime, getPostsByTagValue } from '@/api/api';
 import { mapState, mapGetters } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
@@ -97,7 +97,7 @@ export default {
   components: {Blog, Login, PostTip},
   data() {
     return {
-      subTagList: ['Trending', 'New'],
+      subTagList: ['New', 'Value'],
       subActiveTagIndex: 0,
       listLoading: true,
       listFinished: false,
@@ -109,9 +109,9 @@ export default {
     }
   },
   computed: {
-    ...mapState('postsModule', ['tagsAggregation', 'allPosts', 'currentTagIndex']),
+    ...mapState('postsModule', ['tagsAggregation', 'allPosts', 'currentTagIndex', 'allPostsTagValue']),
     ...mapGetters(['getAccountInfo']),
-    ...mapGetters('postsModule', ['getPostsByTag']),
+    ...mapGetters('postsModule', ['getPostsByTag', 'getPostsByTagValue']),
     tagList() {
       if (this.tagsAggregation) {
         return Object.keys(this.tagsAggregation)
@@ -120,7 +120,15 @@ export default {
       }
     },
     currentPosts() {
-      return this.getPostsByTag(this.tagList[this.currentTagIndex])
+      if (this.subActiveTagIndex === 0){
+        return this.getPostsByTag(this.tagList[this.currentTagIndex])
+      }else if(this.subActiveTagIndex === 1) {
+        const postsByTag = this.getPostsByTagValue(this.tagList[this.currentTagIndex])
+        if (postsByTag && postsByTag.posts) {
+          return postsByTag.posts
+        }
+        return []
+      }
     }
   },
   mounted() {
@@ -150,24 +158,46 @@ export default {
       //   this.$router.push('/login')
       // }
     },
+    changeSubIndex(index) {
+      this.subActiveTagIndex = index
+      this.listFinished = false
+      this.onRefresh()
+    },
     async onLoad() {
       if(this.listLoading || this.listFinished) return
       try{
         this.listLoading = true
         const tag = this.tagList[this.currentTagIndex]
-        const posts = this.getPostsByTag(tag)
-        let time;
-        if (posts && posts.length > 0) {
-          time = posts[posts.length - 1].postTime
-        }
-        const res = await getPostsByTagTime(tag, 12, time, false)
-        const postsf = await getPosts(res)
-        this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
-        this.$store.commit('postsModule/saveAllPosts', this.allPosts)
-        if (postsf.length < 12) {
-          this.listFinished = true
-        }else {
-          this.listFinished = false
+        if (this.subActiveTagIndex === 0) {
+          const posts = this.getPostsByTag(tag)
+          let time;
+          if (posts && posts.length > 0) {
+            time = posts[posts.length - 1].postTime
+          }
+          const res = await getPostsByTagTime(tag, 16, time, false)
+          const postsf = await getPosts(res)
+          this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
+          this.$store.commit('postsModule/saveAllPosts', this.allPosts)
+          if (postsf.length < 16) {
+            this.listFinished = true
+          }else {
+            this.listFinished = false
+          }
+        } else if(this.subActiveTagIndex === 1) {
+          let postsTag = this.getPostsByTagValue(tag);
+          if (!postsTag) return;
+          const pageNum = postsTag.pageNum ?? 0
+          let posts = await getPostsByTagValue(tag, 16, pageNum);
+          posts = await getPosts(posts)
+          postsTag.pageNum = pageNum + 1;
+          postsTag.posts = postsTag.posts.concat(posts)
+          this.allPostsTagValue[tag] = postsTag
+          this.$store.commit('postsModule/saveAllPostsTagValue', this.allPostsTagValue)
+          if (posts.length < 16) {
+            this.listFinished = true
+          }else {
+            this.listFinished = false
+          }
         }
       } catch (e) {
         console.log(555, e);
@@ -180,17 +210,29 @@ export default {
       try{
         this.refreshing = true
         const tag = this.tagList[this.currentTagIndex]
-        const posts = this.getPostsByTag(tag)
-        let time;
-        if (posts && posts.length > 0) {
-          time = posts[0].postTime.replace('T', ' ')
-          time = time.slice(0, 19)
+        if (this.subActiveTagIndex === 0) {
+          const posts = this.getPostsByTag(tag)
+          let time;
+          if (posts && posts.length > 0) {
+            time = posts[0].postTime.replace('T', ' ')
+            time = time.slice(0, 19)
+          }
+          const res = await getPostsByTagTime(tag, 16, time, true)
+          const postsf = await getPosts(res)
+          this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
+          this.listLoading = false
+          this.$store.commit('postsModule/saveAllPosts', this.allPosts)
+        }else if (this.subActiveTagIndex === 1) {
+          // by tag and post value
+          let posts = await getPostsByTagValue(tag);
+          posts = await getPosts(posts)
+          this.allPostsTagValue[tag] = {
+            pageNum: 1,
+            posts
+          }
+          this.listLoading = false
+          this.$store.commit('postsModule/saveAllPostsTagValue', this.allPostsTagValue)
         }
-        const res = await getPostsByTagTime(tag, 12, time, true)
-        const postsf = await getPosts(res)
-        this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
-        this.listLoading = false
-        this.$store.commit('postsModule/saveAllPosts', this.allPosts)
       } catch (e) {
         console.log(321, e);
         showError(501)

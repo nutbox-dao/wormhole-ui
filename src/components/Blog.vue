@@ -4,6 +4,7 @@
       <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
              class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border cursor-pointer"
+             @error="replaceEmptyImg"
              :src="profileImg" alt="">
         <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
@@ -88,6 +89,7 @@ import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
 export default {
   name: "Blog",
@@ -135,6 +137,9 @@ export default {
     }
   },
   methods: {
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
     parseTimestamp(time) {
       return parseTimestamp(time)
     },
@@ -205,8 +210,13 @@ export default {
   gap: 2px;
 }
 .img-3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 2px;
+  :nth-child(2) {
+    grid-column: 2 / 2;
+    grid-row: 1 / 3;
+  }
 }
 .img-4 {
   grid-template-columns: repeat(2, 1fr);

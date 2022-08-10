@@ -5,6 +5,7 @@
         <div class="flex items-center">
           <img v-if="post && post.author && post.author.profile_image_url"
                class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px cursor-pointer"
+               @error="replaceEmptyImg"
                :src="post.author.profile_image_url" alt="">
           <img class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
@@ -54,6 +55,7 @@ import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
 export default {
   name: "Blog",
@@ -82,6 +84,9 @@ export default {
     ...mapGetters(['getAccountInfo']),
   },
   methods: {
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
     parseTimestamp(time) {
       return parseTimestamp(time)
     },
@@ -138,16 +143,21 @@ export default {
 }
 .img-2 {
   grid-template-columns: repeat(2, 1fr);
-  //gap: 1rem;
+  gap: 2px;
 }
 .img-3 {
-  grid-template-columns: repeat(3, 1fr);
-  //gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px;
+  :nth-child(2) {
+    grid-column: 2 / 2;
+    grid-row: 1 / 3;
+  }
 }
 .img-4 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  //gap: 1rem;
+  gap: 2px;
 }
 .blog-tag{
   border-radius: 0.4rem;
@@ -162,6 +172,10 @@ export default {
   .img-3 {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
+    :nth-child(2) {
+      grid-column: 2 / 2;
+      grid-row: 1 / 3;
+    }
   }
 }
 </style>
