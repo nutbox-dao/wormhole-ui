@@ -24,9 +24,9 @@
           <div class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
           </div>
-          <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="w-min">
+          <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
-                class="text-blue-500 text-14px 2xl:text-0.8rem" target="_blank">
+                class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">
               {{ u }}
             </a>
           </div>
