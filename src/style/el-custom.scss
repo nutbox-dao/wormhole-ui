@@ -2,7 +2,7 @@
   width: 90%;
   max-height: 90%;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 12px;
   //background-color: var(--primary-bg);
   //box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
@@ -22,7 +22,7 @@
     max-width: 500px;
   }
   &-lg {
-    max-width: 960px;
+    max-width: 40rem;
   }
   &-center {
     position: absolute!important;

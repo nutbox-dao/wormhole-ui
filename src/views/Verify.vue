@@ -27,7 +27,7 @@
           </div>
         </div> -->
         <button class="c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-                @click="showRegisterModal = true">
+                @click="importModal = true">
           Ok, I saved it.
         </button>
       </div>
@@ -55,6 +55,32 @@
         </router-link>
       </div>
     </div>
+    <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
+               custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg rounded-12px">
+      <div class="w-full gradient-border gradient-border-color3 border-2px rounded-12px">
+        <div class="import-box text-center">
+          <div class="px-3rem pt-2.3rem pb-1.6rem">
+            <div class="c-text-black text-1.4rem text-white">Are you sure saved the important key?</div>
+            <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
+              <div class="key-box">
+                <div class="gradient-text max-w-25rem mx-auto py-15px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
+                  {{ ethAccount.privateKey }}
+                </div>
+              </div>
+            </div>
+            <div class="text-0.9rem font-bold text-white">
+              I know that if I do not save the private key, no one can retrieve my account
+            </div>
+          </div>
+          <div class="bg-black py-1.6rem rounded-b-12px">
+            <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
+                    @click="importModal=false">
+              yes，I'm sure
+            </button>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -79,7 +105,8 @@ export default {
     return {
       checked: false,
       attachServer: false,
-      showRegisterModal: false
+      showRegisterModal: false,
+      importModal: false
     }
   },
   methods: {
@@ -117,5 +144,17 @@ export default {
 }
 .keep-all {
   word-break: keep-all;
+}
+.import-box {
+  background-image: url("~@/assets/modal-bg2.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  .key-box {
+    background: linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%);
+    .gradient-text {
+      background-image: linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%);
+    }
+  }
 }
 </style>
