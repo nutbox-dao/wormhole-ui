@@ -49,6 +49,10 @@
             #{{ tag }}
           </div>
         </div>
+        <div v-if="location" class="flex mt-0.8rem">
+          <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
+          <span class="ml-0.6rem c-text-medium" style="color:#0000ee">{{ location }}</span>
+        </div>
         <div class="flex gap-4rem mt-15px">
           <div class="text-white flex items-center">
             <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
@@ -134,6 +138,14 @@ export default {
        + this.parseSBD(this.post.pendingPayoutValue)
       + this.parseSBD(this.post.totalPayoutValue)
       return formatPrice(value)
+    },
+    location() {
+      let location = this.post.location
+      if (location) {
+        location = JSON.stringify(location)
+        return location.full_name
+      }
+      // return 'sdfsaf'
     }
   },
   methods: {
