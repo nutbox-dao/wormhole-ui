@@ -5,7 +5,7 @@
         <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
         <!--               @click="$router.back()"-->
         <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">More topics</div>
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('topicsView.title')}}</div>
       </div>
     </div>
     <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
@@ -24,7 +24,7 @@
 <!--              <img class="w-1.2rem mr-0.5rem" src="~@/assets/icon-coin-primary.svg" alt="">-->
 <!--              <span class="">$1,288.66</span>-->
             </div>
-            <span class="text-primaryColor text-15px md:text-0.8rem">Posts</span>
+            <span class="text-primaryColor text-15px md:text-0.8rem">{{$t('topicsView.post')}}</span>
           </div>
 <!--          <div class="text-left text-14px leading-24px text-color8B">-->
 <!--            Utopianism, some argue, is essential for the improvement of the human condition.-->

@@ -3,21 +3,21 @@
     <div class="container mx-auto lg:mt-5rem mt-20vh px-0.75rem">
       <div class="fade-in">
         <div class="c-text-black text-2.6rem leading-4.2rem max-w-20rem sm:max-w-35rem sm:mx-auto mb-2.3rem px-2rem text-left sm:text-center">
-          <span class="gradient-text gradient-text-right3">Activate web3 wallet</span>
-          and Sign up
+          <span class="gradient-text gradient-text-right3">{{$t('signUpView.t1')}}</span>
+          {{$t('signUpView.t2')}}
         </div>
       </div>
       <button @click="fetchKey"
               class="slide-in-blurred-top gradient-btn gradient-btn-outline w-20rem h-4rem mx-auto rounded-full c-text-bold text-1.2rem">
-        Activate Your Wallet
+       {{$t('signUpView.btn1')}}
       </button>
       <div class="fade-in">
         <div class="mt-2rem">
-          Already verified yourself ?
+          {{$t('signUpView.p1')}}
         </div>
         <router-link to="/login"
                      class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem mt-1rem underline">
-          Log in here
+          {{$t('signUpView.p2')}}
         </router-link>
       </div>
     </div>

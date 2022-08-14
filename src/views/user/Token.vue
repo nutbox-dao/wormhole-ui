@@ -56,7 +56,7 @@
       </div>
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.5rem md:text-1rem text-primaryColor c-text-black">{{ steemValue }}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px rounded-full" @click="sendSteem">Send</button>
+        <button class="gradient-btn c-text-bold px-10px mt-8px rounded-full" @click="sendSteem">{{$t('common.send')}}</button>
       </div>
     </div>
   </div>

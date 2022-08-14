@@ -110,7 +110,7 @@
                       src="~@/assets/icon-warning.svg"
                       alt=""
                   />
-                  Tweet action tips
+                  {{$t('postView.tweetTip')}}
                 </button>
               </div>
             </div>
@@ -120,12 +120,12 @@
               <router-link
                   class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/post`"
-              >Social assets</router-link
+              >{{$t('profileView.socialAsset')}}</router-link
               >
               <router-link
                   class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
-              >Web3 wallet</router-link
+              >{{$t('profileView.web3Wallet')}}</router-link
               >
             </div>
           </div>
@@ -177,10 +177,10 @@
               w-full
             "
           >
-            Tweet action tips
+            {{$t('postView.tweetTip')}}
           </div>
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
-            1. Transfer STEEM/SBD to a twitter account
+            {{$t('postView.tip1')}}
           </div>
           <div
             class="
@@ -219,15 +219,15 @@
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
-              <span class="text-text8F">GO tweet</span>
+              <span class="text-text8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
           <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
-            Tips:<br />Please replace {***} to real content.<br />
-            You can replace {@twitter_username} with a twitter username.
+            {{$t('postView.tips')}}:<br />{{$t('postView.p2')}}<br />
+            {{$t('postView.p3')}}
           </div>
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
-            2. Add a post to web3
+            {{$t('postView.tip2')}}
           </div>
           <div
             class="
@@ -266,12 +266,12 @@
                 src="~@/assets/icon-twitter.svg"
                 alt=""
               />
-              <span class="text-text8F">GO tweet</span>
+              <span class="text-text8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
           <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
-            Tips: <br />
-            Replace {***} to real content.
+            {{$t('postView.tips')}}: <br />
+            {{$t('postView.p2')}}
           </div>
         </div>
       </div>
@@ -281,8 +281,8 @@
       custom-class="c-dialog c-dialog-lg c-dialog-center"
     >
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        Your account is in the process of registration<br />
-        Please wait for a moment<br />
+        {{$t('postView.p4')}}<br />
+        {{$t('postView.p5')}}<br />
         <div class="mx-auto">
           <img
             src="~@/assets/loading.gif"
@@ -297,7 +297,7 @@
       custom-class="c-dialog c-dialog-lg c-dialog-center"
     >
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        You havn't send twitter yet
+        {{$t('postView.p6')}}
       </div>
     </el-dialog>
   </div>

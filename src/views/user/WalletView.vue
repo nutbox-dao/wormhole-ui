@@ -2,7 +2,7 @@
   <div class="pb-4rem md:max-w-600px lg:max-w-35rem mx-auto">
     <div class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
-        <span class="c-text-black"> ETH wallet</span>
+        <span class="c-text-black">{{$t('profileView.ethWallet')}}</span>
         <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
@@ -17,9 +17,9 @@
     <div class="bg-blockBg md:py-1.5rem rounded-12px">
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <router-link :to="`/profile/${$route.params.user}/wallet`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">Token</router-link>
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">{{$t('common.token')}}</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">NFTs</router-link>
+                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">{{$t('common.nft')}}</router-link>
       </div>
       <router-view></router-view>
     </div>

@@ -2,7 +2,7 @@
   <div class="grid xl:grid-cols-3 md:gap-1rem pb-2rem">
     <div class="xl:col-start-3 xl:col-end-4 border-1 border-dividerColor px-1rem rounded-12px md:my-2rem my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
       <div class="text-1.2rem border-b-1 border-dividerColor px-1rem py-0.8rem flex items-center justify-between md:justify-center">
-        <span class="c-text-black">Social token</span>
+        <span class="c-text-black">{{$t('postView.socialToken')}}</span>
         <div class="md:hidden flex-1 flex justify-end items-center">
           <span class="text-colorB5 mr-1rem">{{ steemBalance }} STEEM</span>
           <span class="text-white c-text-black">{{ steemValue}} </span>
@@ -15,11 +15,11 @@
         </div>
         <div class="flex justify-between items-center mb-0.5rem">
           <div class="flex items-center justify-center">
-            <span class="text-color8B text-14px 2xl:text-1rem font-bold">Resource Credits</span>
+            <span class="text-color8B text-14px 2xl:text-1rem font-bold">{{$t('postView.resourceCredits')}}</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
-                  Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
+                  {{$t('postView.p1')}}
                 </div>
               </template>
               <button>
@@ -42,14 +42,13 @@
         <van-list :loading="loading"
                   :finished="finished"
                   :immediate-check="false"
-                  :finished-text="'No more data'"
+                  :finished-text="$t('common.noMore')"
                   @load="onLoad">
 
           <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg rounded-12px">
-            <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
+            <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-              This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
-              By depositing into this account, you are agreeing to our terms of service.
+              {{$t('postView.p8')}}
             </div>
           </div>
           <div class="bg-blockBg rounded-12px overflow-hidden">

@@ -5,7 +5,7 @@
         <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
         <!--               @click="$router.back()"-->
         <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">People</div>
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('profileView.people')}}</div>
       </div>
     </div>
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
@@ -73,10 +73,10 @@
               <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
                 <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
                       :class="selectIndex===0?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
-                      @click="selectIndex = 0">Social assets</div>
+                      @click="selectIndex = 0">{{$t('profileView.socialAsset')}}</div>
                 <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
                       :class="selectIndex===1?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
-                      @click="selectIndex = 1">Web3 wallet</div>
+                      @click="selectIndex = 1">{{$t('profileView.web3Wallet')}}</div>
                 <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
                 </router-link>
                 <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet

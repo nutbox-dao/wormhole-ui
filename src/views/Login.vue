@@ -4,10 +4,10 @@
       <div :class="isLoginPage?'mt-10vh':''">
         <div :class="isLoginPage?'sm:text-center text-left':'text-center'">
           <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
-            Sign in
+            {{$t('signIn')}}
           </div>
           <div class="text-0.9rem text-color8B leading-1.2rem mt-0.5rem mb-1.5rem">
-            Please enter your twitter username.
+            {{$t('signInView.p1')}}
           </div>
         </div>
         <div>
@@ -16,23 +16,23 @@
         </div>
         <button @click="login" :disable="loging || username.length < 3"
                 class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
-          <span>Sign in</span>
+          <span>{{$t('signIn')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>
         <div class="text-0.9rem font-bold mt-1.5rem">
-          Haven't signed up yet ?
+          {{$t('signInView.p2')}}
         </div>
         <router-link to="/signup">
           <div class="underline c-text-black text-0.9rem leading-1.5rem mt-0.5rem">
-            Create an account
+            {{$t('signInView.p3')}}
           </div>
         </router-link>
       </div>
     </div>
     <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        Your account is in the process of registration<br>
-        Please wait for a moment<br>
+        {{$t('signInView.p4')}}<br>
+        {{$t('signInView.p5')}}<br>
         <div class="mx-auto">
           <img src="~@/assets/loading.gif" alt="" class="w-25 mx-auto mt-2rem">
         </div>
@@ -40,7 +40,7 @@
     </el-dialog>
     <el-dialog v-model="showNotSendTwitter" custom-class="c-dialog c-dialog-lg c-dialog-center">
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        You havn't send twitter yet
+        {{$t('signInView.p6')}}
       </div>
     </el-dialog>
   </div>

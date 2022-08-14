@@ -3,8 +3,7 @@
     <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
       <div class="text-white" v-if="!showRegisterModal">
         <div class=" keep-all c-text-black text-2rem max-w-30rem mx-auto mb-2rem">
-          Below is the password
-          to your new wallet:
+          {{$t('verifyView.p1')}}
         </div>
         <div class="flex items-center bg-inputBg py-1rem lg:px-6rem px-2rem max-w-50rem mx-auto rounded-12px c-text-bold text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
           {{ ethAccount.privateKey }}
@@ -17,7 +16,7 @@
 <!--            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">-->
 <!--          </div>-->
           <div class="max-w keep-all text-color8B text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
-            Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.
+            {{$t('verifyView.p2')}}
           </div>
         </div>
         <!-- <div class="flex justify-start items-center mt-1.5rem max-w-41rem mx-auto">
@@ -28,29 +27,29 @@
         </div> -->
         <button class="c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                 @click="importModal = true">
-          Ok, I saved it.
+          {{$t('verifyView.btn1')}}
         </button>
       </div>
       <div class="text-white" v-else>
         <div class="keep-all c-text-black text-2rem max-w-20rem mx-auto sm:max-w-30rem sm:mx-auto mb-2.3rem leading-2.9rem text-left sm:text-center">
-          <span class="text-primaryColor ">Great,</span> <br class="sm:hidden">
-          now let's verify your Twitter handle
+          <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
+          {{$t('verifyView.p4')}}
         </div>
         <button class="flex items-center justify-center c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full w-full max-w-12rem mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
-          Go to bind
+          {{$t('verifyView.btn2')}}
         </button>
 
         <div class="flex justify-center max-w-41rem mx-auto">
           <div class="max-w keep-all text-left">
-            After you've tweeted the bind message
+            {{$t('verifyView.p5')}}
           </div>
         </div>
 
         <router-link to="/login">
           <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">
-            Log in here
+            {{$t('verifyView.p6')}}
           </div>
         </router-link>
       </div>
@@ -60,7 +59,9 @@
       <div class="w-full gradient-border gradient-border-color3 border-2px rounded-12px">
         <div class="import-box text-center">
           <div class="px-3rem pt-2.3rem pb-1.6rem">
-            <div class="c-text-black text-1.4rem text-white">Are you sure saved the important key?</div>
+            <div class="c-text-black text-1.4rem text-white">
+              {{$t('verifyView.p7')}}
+            </div>
             <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
               <div class="key-box">
                 <div class="gradient-text max-w-25rem mx-auto py-15px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
@@ -69,13 +70,13 @@
               </div>
             </div>
             <div class="text-0.9rem font-bold text-white">
-              I know that if I do not save the private key, no one can retrieve my account
+              {{$t('verifyView.p8')}}
             </div>
           </div>
           <div class="bg-black py-1.6rem rounded-b-12px">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
                     @click="importModal=false">
-              yes，I'm sure
+              {{$t('verifyView.btn3')}}
             </button>
           </div>
         </div>

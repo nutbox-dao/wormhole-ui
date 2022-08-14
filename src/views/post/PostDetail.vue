@@ -6,14 +6,14 @@
 <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
 <!--               @click="$router.back()"-->
 <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
-          <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">Post</div>
+          <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('common.post')}}</div>
         </div>
       </div>
       <div class="container mx-auto max-w-50rem pb-2rem md:px-1rem md:bg-blockBg rounded-12px">
         <van-list :loading="listLoading"
                   :finished="listFinished"
                   :immediate-check="false"
-                  :finished-text="'没有更多了'"
+                  :finished-text="$t('common.noMore')"
                   @load="onLoad">
           <Blog :post="currentShowingDetail" :isDetail='true'/>
           <div v-if="comments && comments.length > 0" class="px-1.5rem pt-1rem border-t-1 border-white/20 md:border-listBgBorder">

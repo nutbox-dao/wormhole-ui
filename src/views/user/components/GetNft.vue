@@ -13,7 +13,9 @@
 
     </div>
     <div class="bg-text2C px-2.5rem py-1.5rem relative z-2">
-      <div class="mb-1rem text-15px leading-24px 2xl:text-1rem 2xl:leading-1.6rem text-color8B break-words">A NFT that shows your social influence on Twitter</div>
+      <div class="mb-1rem text-15px leading-24px 2xl:text-1rem 2xl:leading-1.6rem text-color8B break-words">
+        {{$t('profileView.getNftP1')}}
+      </div>
       <button class="h-2.8rem px-1rem w-full gradient-btn gradient-btn-purple rounded-full text-15px leading-24px 2xl:text-1rem 2xl:leading-1.6rem" @click="$emit('close')">Got it</button>
     </div>
   </div>

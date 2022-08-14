@@ -15,11 +15,11 @@
         <van-list :loading="loading"
                   :finished="finished"
                   :immediate-check="false"
-                  loosing-text="Pull to refresh data"
-                  loading-text="Loading..."
-                  finished-text="No more data"
+                  :loosing-text="$t('common.pullRefresh')"
+                  :loading-text="$t('common.loading')"
+                  :finished-text="$t('common.noMore')"
                   @load="onLoad">
-          <div class="text-left p-1rem c-text-black md:text-1.2rem text-1.5rem">Recent transactions</div>
+          <div class="text-left p-1rem c-text-black md:text-1.2rem text-1.5rem">{{$t('transactionView.recentTransaction')}}</div>
           <div class="border-b-1px border-listBgBorder p-1rem"
                v-for="(item, index) of transactions" :key="index">
             <div class="flex justify-between">
@@ -30,7 +30,7 @@
                      src="~@/assets/icon-down-arrow.svg" alt="">
                 <div class="text-text8F flex flex-col items-start sm:ml-1rem ml-0.5rem">
                   <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left text-color8B">
-                    <strong class="c-text-black text-white">{{ isReceive(item) ? 'Receive from' : 'send to' }}</strong> {{ getTargetAccount(item) }}
+                    <strong class="c-text-black text-white">{{ isReceive(item) ? $t('transactionView.receiveFrom') : $t('transactionView.sendTo') }}</strong> {{ getTargetAccount(item) }}
                   </div>
                   <div class="text-0.7rem mt-0.5rem text-color8B">{{ parseTime(item.postTime) }}</div>
                 </div>
@@ -45,12 +45,12 @@
             <div class="text-right mt-1rem c-text-medium text-0.6rem">
               <a v-if="item.sendResult===0"
                  class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem"
-                 :href="chains[item.chainName].scan+'tx/'+item.hash" target="_blank">View on blockchain</a>
+                 :href="chains[item.chainName].scan+'tx/'+item.hash" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
               <el-tooltip v-else-if="item.sendStatus!==0">
                 <template #content>{{failResult(item)}}</template>
-                <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">Fail</button>
+                <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">{{$t('transactionView.fail')}}</button>
               </el-tooltip>
-              <span v-else class="text-primaryColor rounded-full border-1 border-primaryColor py-4px px-0.7rem">Waiting...</span>
+              <span v-else class="text-primaryColor rounded-full border-1 border-primaryColor py-4px px-0.7rem">{{$t('transactionView.waiting')}}</span>
             </div>
           </div>
         </van-list>

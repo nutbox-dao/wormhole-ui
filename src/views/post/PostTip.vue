@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
-      Tweet a post
+      {{$t('postView.tweetPost')}}
     </div>
     <div class="bg-black rounded-15px px-1rem mt-1.5rem mb-1rem overflow-hidden ">
       <div class="text-15px 2xl:text-1rem px-1rem py-0.7rem border-b-1 border-dividerColor">
-        <span class="">Social token</span>
+        <span class="">{{$t('postView.socialToken')}}</span>
       </div>
       <div class="mt-1rem md:mt-1rem mb-1rem">
         <div class="mb-1rem text-right">
@@ -14,11 +14,11 @@
         </div>
         <div class="flex justify-between items-center mb-0.5rem">
           <div class="flex items-center justify-center">
-            <span class="text-color8B text-14px 2xl:text-0.7rem font-bold">Resource Credits</span>
+            <span class="text-color8B text-14px 2xl:text-0.7rem font-bold">{{$t('postView.resourceCredits')}}</span>
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem">
-                  Every your post upload to the blockchain will cost you resource credits(RC), so your post can't be synced to blockchain if the RC is too lower. The RC will recover 20% every day.
+                  {{$t('postView.p1')}}
                 </div>
               </template>
               <button>
@@ -40,11 +40,11 @@
       </div>
       <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
         <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
-        <span class="text-color8B" @click="gotoTweet">Go tweet</span>
+        <span class="text-color8B" @click="gotoTweet">{{$t('postView.goTweet')}}</span>
       </button>
     </div>
     <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
-      Tips: <br>   Replace {***} to real content.
+      {{$t('postView.tips')}}: <br> {{$t('postView.p2')}}
     </div>
     <!--    <button v-else @click="tipDrawer=false"-->
 <!--            class="w-4rem h-2.5rem absolute transform top-1rem left-1/2 -translate-x-1/2">-->

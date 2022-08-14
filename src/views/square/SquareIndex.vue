@@ -12,15 +12,15 @@
           <div class="flex sm:items-center sm:justify-between">
             <div class="w-min relative ">
               <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
-              <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-bold relative">Square</span>
+              <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-bold relative">{{$t('square')}}</span>
             </div>
             <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                     @click="publishTweet">
-              Tweet a post
+              {{$t('postView.tweetPost')}}
             </button>
           </div>
-          <div class="text-color8B mt-10px text-left leading-20px">Post twitter content on chain and earn rewards</div>
+          <div class="text-color8B mt-10px text-left leading-20px">{{$t('squareView.p1')}}</div>
         </div>
         <div class="border-b-1px border-dividerColor mt-0.5rem sticky -top-1px bg-primaryBg z-2 sm:px-1rem">
           <div class="px-1.5rem sm:px-0 container mx-auto max-w-53rem md:max-w-48rem flex justify-between items-center">
@@ -49,9 +49,9 @@
               <img src="~@/assets/profile-loading.gif" alt="" />
             </div>
             <div v-else-if="currentPosts && currentPosts.length === 0" class="py-3rem bg-blockBg rounded-12px">
-              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">None</div>
+              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
               <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-                There's no related posts about this topic. Please check other topic for try.
+                {{$t('squareView.p2')}}
               </div>
             </div>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh"

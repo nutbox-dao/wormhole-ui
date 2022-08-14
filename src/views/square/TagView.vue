@@ -3,7 +3,7 @@
     <van-list :loading="listLoading"
               :finished="listFinished"
               :immediate-check="false"
-              :finished-text="'没有更多了'"
+              :finished-text="$t('common.noMore')"
               @load="onLoad">
       <div class="px-1.5rem">
         <img class="transform rotate-180 w-3rem mt-1rem cursor-pointer"
@@ -14,7 +14,7 @@
           <span class="">dutopian</span>
         </div>
         <div class="text-white/40 mt-10px text-left">
-          Utopianism, some argue, is essential for the improvement of the human condition.
+          {{$t('tagView.p1')}}
         </div>
       </div>
       <div class="border-b-1px border-white/20 px-1.5rem py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">

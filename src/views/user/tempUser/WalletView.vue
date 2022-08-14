@@ -2,7 +2,7 @@
   <div class="pb-4rem md:pt-2rem pt-1.5rem md:max-w-600px lg:max-w-35rem mx-auto">
     <div class="rounded-12px mb-1rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
-        <span class="c-text-black"> ETH wallet</span>
+        <span class="c-text-black">{{$t('profileView.ethWallet')}}</span>
         <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
@@ -18,10 +18,10 @@
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer text-15px"
              :class="selectIndex===0?'bg-primaryColor':''"
-             @click="selectIndex = 0">Token</div>
+             @click="selectIndex = 0">{{$t('common.token')}}</div>
         <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer text-15px"
              :class="selectIndex===1?'bg-primaryColor':''"
-             @click="selectIndex = 1">NFTs</div>
+             @click="selectIndex = 1">{{$t('common.nft')}}</div>
         <!-- <router-link :to="`/profile/${$route.params.user}/wallet`"
                      class="px-0.8rem flex items-center rounded-full border-1 border-white/20">Token</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"

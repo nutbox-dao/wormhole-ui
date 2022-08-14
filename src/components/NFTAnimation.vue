@@ -10,7 +10,7 @@
     <div class="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center items-center z-2">
       <div class="w-8rem h-10rem bg-blockBg rounded-1rem nft-card mb-8rem">NFT</div>
       <button class="gradient-btn c-text-bold h-2.5rem w-8rem rounded-full get-btn"
-              @click="getNft">GET</button>
+              @click="getNft">{{$t('common.get')}}</button>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
         console.log(111, this.$store.getters.getAccountInfo.twitterId);
         readNft(this.$store.getters.getAccountInfo.twitterId)
         this.$store.commit('saveHasReceivedNft', true)
-      
+
     }
   },
 }

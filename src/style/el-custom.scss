@@ -116,3 +116,12 @@
 .c-progress .el-progress-bar__innerText {
   color: #1B1B1B;
 }
+.c-popper.el-popper.is-light {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.c-popper .el-popper__arrow {
+  display: none;
+}
