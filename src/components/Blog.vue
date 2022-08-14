@@ -142,10 +142,11 @@ export default {
     location() {
       let location = this.post.location
       if (location) {
-        location = JSON.stringify(location)
-        return location.full_name
+        location = JSON.parse(location)
+        if (location && location.full_name) {
+          return location.full_name
+        }
       }
-      // return 'sdfsaf'
     }
   },
   methods: {
