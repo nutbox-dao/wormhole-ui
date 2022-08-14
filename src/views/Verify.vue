@@ -64,17 +64,21 @@
             </div>
             <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
               <div class="key-box">
-                <div class="gradient-text max-w-25rem mx-auto py-15px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
+                <div class="gradient-text max-w-25rem mx-auto py-15px px-20px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
                   {{ ethAccount.privateKey }}
                 </div>
               </div>
             </div>
-            <div class="text-0.9rem font-bold text-white">
-              {{$t('verifyView.p8')}}
+            <div class="flex justify-center items-start mt-1.5rem max-w-41rem mx-auto">
+              <el-checkbox v-model="checked"  class="c-checkbox"/>
+              <div class="flex-1 text-0.9rem font-bold text-white text-left ml-8px" style="word-break: break-word">
+                {{$t('verifyView.p8')}}
+              </div>
             </div>
           </div>
           <div class="bg-black py-1.6rem rounded-b-12px">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
+                    :disabled="!checked"
                     @click="importModal=false;showRegisterModal=true">
               {{$t('verifyView.btn3')}}
             </button>

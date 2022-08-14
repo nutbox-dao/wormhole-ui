@@ -12,7 +12,7 @@
           <div class="flex sm:items-center sm:justify-between">
             <div class="w-min relative ">
               <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
-              <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-bold relative">{{$t('square')}}</span>
+              <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-bold relative whitespace-nowrap">{{$t('square')}}</span>
             </div>
             <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"

@@ -94,6 +94,10 @@
   background-color: var(--primary-custom);
   border-color: var(--primary-custom);
 }
+.c-checkbox.el-checkbox {
+  display: flex;
+  align-items: start;
+}
 .c-img-dialog.el-dialog {
   background-color: transparent;
   display: flex;

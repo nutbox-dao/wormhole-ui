@@ -3,7 +3,7 @@
     <div class="container mx-auto lg:mt-5rem mt-20vh px-0.75rem">
       <div class="fade-in">
         <div class="c-text-black text-2.6rem leading-4.2rem max-w-20rem sm:max-w-35rem sm:mx-auto mb-2.3rem px-2rem text-left sm:text-center">
-          <span class="gradient-text gradient-text-right3">{{$t('signUpView.t1')}}</span><br>
+          <span class="gradient-text gradient-text-right3 block mx-auto">{{$t('signUpView.t1')}}</span>
           {{$t('signUpView.t2')}}
         </div>
       </div>
