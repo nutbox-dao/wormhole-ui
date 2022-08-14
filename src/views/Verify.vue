@@ -75,7 +75,7 @@
           </div>
           <div class="bg-black py-1.6rem rounded-b-12px">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
-                    @click="importModal=false">
+                    @click="importModal=false;showRegisterModal=true">
               {{$t('verifyView.btn3')}}
             </button>
           </div>
