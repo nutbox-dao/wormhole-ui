@@ -48,7 +48,7 @@
           <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg rounded-12px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-              {{$t('postView.p8')}}
+              {{$t('postView.p7')}}
             </div>
           </div>
           <div class="bg-blockBg rounded-12px overflow-hidden">
