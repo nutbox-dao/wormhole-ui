@@ -9,7 +9,7 @@ export default {
   logout: '登出',
   signUpView: {
     t1: '激活您的web3账号',
-    t2: '注册',
+    t2: '并注册',
     btn1: '激活您的钱包',
     p1: '已经绑定了账号?',
     p2: '登录'
