@@ -13,12 +13,12 @@
           <img src="~@/assets/nft.png" alt="">
           <div class="absolute w-4/5 h-25/40 top-21/100 left-0">
             <div class="flex items-center justify-center mt-1rem nft-text">
-              <img class="w-20px md:w-1.2rem" src="~@/assets/icon-twitter-nft.svg" alt="">
-              <span class="c-text-bold text-14px md:text-0.8rem">@{{username}}</span>
+              <img class="w-1rem" src="~@/assets/icon-twitter-nft.svg" alt="">
+              <span class="c-text-bold text-0.6rem">@{{username}}</span>
             </div>
           </div>
           <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
-            <div class="number c-text-black text-2rem" :data-text="reputation">{{reputation}}</div>
+            <div class="number c-text-black text-2.4rem mt-0.5rem" :data-text="reputation">{{reputation}}</div>
           </div>
         </div>
       </div>
