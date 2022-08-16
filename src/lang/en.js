@@ -72,6 +72,9 @@ export default {
     getNftP1: 'A NFT that shows your social influence on Twitter',
     people: 'People'
   },
+  token: {
+    noNft: "You havn't got any NFTs.",
+  },
   transactionView: {
     recentTransaction: 'Recent transactions',
     viewBlockchain: 'View on blockchain',

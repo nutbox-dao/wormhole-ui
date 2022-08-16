@@ -70,6 +70,9 @@ export default {
     getNftP1: '一个展示您推特社交影响力的NFT',
     people: '用户'
   },
+  token: {
+    noNft: "您还没有任何NFT",
+  },
   transactionView: {
     recentTransaction: '交易记录',
     viewBlockchain: '在区块链查看',
