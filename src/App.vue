@@ -96,8 +96,7 @@ export default {
   data: () => {
     return {
       pubKey: '',
-      showMenu: false,
-      modalVisible: false
+      showMenu: false
     }
   },
   computed: {

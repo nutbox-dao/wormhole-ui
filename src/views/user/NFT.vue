@@ -19,16 +19,27 @@
       </div>
     </div>
     <el-dialog v-model="modalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
-      <GetNft @close="modalVisible=false"></GetNft>
+      <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
+import { mapGetters } from 'vuex'
+
 export default {
   name: "NFT",
   components: {GetNft},
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    username() {
+      return this.getAccountInfo?.twitterUsername 
+    },
+    reputation() {
+      return this.getAccountInfo?.reputation
+    }
+  },
   data() {
     return {
       dataList: [],

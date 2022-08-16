@@ -28,7 +28,7 @@
                      class="px-0.8rem flex items-center rounded-full border-1 border-white/20">NFTs</router-link> -->
       </div>
       <Token v-show="selectIndex===0" :erc20Balances="erc20Balances" :steemBalance="steemBalance"></Token>
-      <NFT v-show="selectIndex===1"></NFT>
+      <NFT v-show="selectIndex===1" :accountInfo="accountInfo"></NFT>
     </div>
   </div>
 </template>

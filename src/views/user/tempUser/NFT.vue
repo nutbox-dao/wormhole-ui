@@ -20,7 +20,7 @@
     </div>
     <el-dialog v-model="modalVisible"
                custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-shadow">
-      <GetNft @close="modalVisible=false"></GetNft>
+      <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
   </div>
 </template>
@@ -30,6 +30,20 @@ import GetNft from "@/views/user/components/GetNft";
 export default {
   name: "NFT",
   components: {GetNft},
+  props: {
+    accountInfo: {
+      type: Object,
+      default: {}
+    },
+  },
+  computed: {
+    username() {
+      return this.accountInfo?.twitterUsername 
+    },
+    reputation() {
+      return this.accountInfo?.reputation
+    }
+  },
   data() {
     return {
       dataList: [],
