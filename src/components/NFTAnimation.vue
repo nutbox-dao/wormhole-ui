@@ -3,12 +3,25 @@
     <div class="confetti absolute top-0 w-full h-full">
       <div class="confetti-piece" v-for="i of 50" :key="i"></div>
     </div>
-    <div class="pyro absolute w-full z-0">
-      <div class="before"></div>
-      <div class="after"></div>
-    </div>
+<!--    <div class="pyro absolute w-full z-0">-->
+<!--      <div class="before"></div>-->
+<!--      <div class="after"></div>-->
+<!--    </div>-->
     <div class="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center items-center z-2">
-      <div class="w-8rem h-10rem bg-blockBg rounded-1rem nft-card mb-8rem">NFT</div>
+      <div class="w-16rem nft-card mb-3rem">
+        <div class="md:max-w-30rem mx-auto relative">
+          <img src="~@/assets/nft.png" alt="">
+          <div class="absolute w-4/5 h-25/40 top-21/100 left-0">
+            <div class="flex items-center justify-center mt-1rem nft-text">
+              <img class="w-20px md:w-1.2rem" src="~@/assets/icon-twitter-nft.svg" alt="">
+              <span class="c-text-bold text-14px md:text-0.8rem">@wuxuan520</span>
+            </div>
+          </div>
+          <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
+            <div class="number c-text-black text-2rem" :data-text="id">{{id}}</div>
+          </div>
+        </div>
+      </div>
       <button class="gradient-btn c-text-bold h-2.5rem w-8rem rounded-full get-btn"
               @click="getNft">{{$t('common.get')}}</button>
     </div>
@@ -20,6 +33,11 @@ import { readNft } from '@/api/api'
 
 export default {
   name: "NFTAnimation",
+  data() {
+    return {
+      id: '007213'
+    }
+  },
   methods: {
       getNft(){
         // read NFT
@@ -207,8 +225,9 @@ $box-shadow2: ();
 }
 
 .nft-card {
-  animation: rotation 0.8s 3 linear, enlarge 1.5s 2s ease-in forwards;
-  box-shadow: 0 25px 35px -25px var(--primary-custom);
+  //transform: scale(0.2);
+  animation: rotation 0.8s 2 linear, enlarge 1.5s 2s ease-in forwards;
+  //box-shadow: 0 25px 35px -25px var(--primary-custom);
 }
 .get-btn {
   opacity: 0;
@@ -218,8 +237,12 @@ $box-shadow2: ();
   100%{ transform:rotatey(360deg); }
 }
 @keyframes enlarge {
+  //0% {
+  //  opacity: 0;
+  //  transform: scale(0.2);
+  //}
   100% {
-    transform: scale(2);
+    transform: scale(1.5);
   }
 }
 .pyro {
@@ -245,5 +268,28 @@ $box-shadow2: ();
     transform: scale(1);
   }
 }
-
+.nft-text {
+  color: #CBBEE7;
+}
+.number {
+  width: fit-content;
+  padding-right: 10px;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  background: linear-gradient(97.37deg, #D4B8F9 -4.1%, #BE6CFF 52.46%, #71A1FF 106.51%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  color: #fff;
+  position: relative;
+  &::after {
+    content: attr(data-text);
+    left: 0;
+    position: absolute;
+    text-shadow: 0px -1px white;
+    top: 0;
+    z-index: -1;
+  }
+}
 </style>
