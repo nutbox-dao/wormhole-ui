@@ -70,7 +70,7 @@ export default {
     },
     sendTwitter() {
       this.$store.commit('saveEthAddress', this.ethAddress)
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress, '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress + '%0a(Powerd by https://alpha.wormhole3.io)', '__blank')
     },
   },
   async mounted() {
