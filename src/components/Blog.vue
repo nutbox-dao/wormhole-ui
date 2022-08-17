@@ -21,11 +21,11 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
-          <div v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
+          <div v-html="post.content && post.content.replace(this.urlreg, '')" v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+            
           </div>
           <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <span>{{ post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0] }}</span>
+            <div v-html="post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0]"></div>
             <div>
               <p>主办方：{{ post.acInfo.sponsor }}</p>
               <p>开始时间：{{ post.acInfo.sdate }}</p>
