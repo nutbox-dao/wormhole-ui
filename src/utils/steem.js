@@ -92,10 +92,14 @@ export function getVPHF20(account) {
 
 export const getPost = async (author, permlink) => {
     return new Promise(async (resolve, reject) => {
-        const res = await steem.api.getContentAsync(author, permlink);
-        if (res && res.author !== "" && res.permlink !== "") {
-            resolve(res);
-        } else {
+        try{
+            const res = await steem.api.getContentAsync(author, permlink);
+            if (res && res.author !== "" && res.permlink !== "") {
+                resolve(res);
+            } else {
+                resolve(0)
+            }
+        }catch(e) {
             resolve(0)
         }
     })
@@ -106,7 +110,13 @@ export const getPosts = async (posts) => {
         const steemPosts = await Promise.all(posts.map(post => getPost(post.steemId, post.postId)))
         posts = posts.map((p, idx) => {
             const steemP = steemPosts[idx]
-            if (steemP === 0) return p
+            if (steemP === 0) return {
+                ...p,
+                curatorPayoutValue: "0 SBD",
+                pendingPayoutValue: "0 SBD",
+                totalPayoutValue: "0 SBD",
+                votes: 0
+            }
             return {
                 ...p,
                 children: steemP.children,
