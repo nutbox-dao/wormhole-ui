@@ -10,8 +10,8 @@
     <div>
       <div v-if="reputation>0" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
            @click="modalVisible=true">
-        <img class="w-3rem h-3rem md:w-2rem md:h-2rem rounded-full border-1px gradient-border"
-             src="~@/assets/icon-default-avatar.svg" alt="">
+        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+             src="~@/assets/icon-nft.svg" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">Twitter Reputaion NFT</div>
           <div class="text-color8B text-0.8rem mt-0.5rem">from @wormhole3 official</div>
@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters(['getAccountInfo']),
     username() {
-      return this.getAccountInfo?.twitterUsername 
+      return this.getAccountInfo?.twitterUsername
     },
     reputation() {
       return this.getAccountInfo?.reputation

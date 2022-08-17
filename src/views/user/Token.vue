@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
-        <img class="w-3rem h-3rem md:w-2rem md:h-2rem rounded-full border-1px gradient-border"
+        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}</div>
@@ -18,7 +18,7 @@
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.BNB" v-for="erc20 of Object.keys(erc20Balances.BNB)" :key="erc20 + 'eth'">
       <div class="flex items-center">
-        <img class="w-3rem h-3rem md:w-2rem md:h-2rem rounded-full border-1px gradient-border"
+        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}(BSC)</div>
@@ -33,7 +33,7 @@
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'eth'">
       <div class="flex items-center">
-        <img class="w-3rem h-3rem md:w-2rem md:h-2rem rounded-full border-1px gradient-border"
+        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">{{names[erc20]}}(Polygon)</div>
@@ -47,7 +47,7 @@
 
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder">
       <div class="flex items-center">
-        <img class="w-3rem h-3rem md:w-2rem md:h-2rem rounded-full border-1px gradient-border"
+        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
             src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
         <div class="text-left ml-1rem">
           <div class="c-text-black text-1.3rem md:text-1rem">Steem</div>
