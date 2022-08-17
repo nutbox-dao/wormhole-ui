@@ -142,7 +142,7 @@ export default {
           if (activities.length === 0) return [];
 
           const now = getDateString(new Date(), 480);
-          activities = activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
+          activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
           const pastAc = activities.filter(a => a.acInfo.sdate <= now)
           const pendingAc = activities.filter(a => a.acInfo.sdate > now)
           return pendingAc.concat(pastAc);
