@@ -146,7 +146,7 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     gotoDC() {
-      window.open('https://discord.gg/QMcGyxPr', '__blank')
+      window.open('https://discord.gg/m9SMTjr9', '__blank')
     },
     gotoTwitter(){
       window.open('https://twitter.com/wormhole_3', '__blank')

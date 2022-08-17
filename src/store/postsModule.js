@@ -6,7 +6,7 @@ export default {
         // store square posts, classify by tags
         allPosts: {},
         // in square page, this field stored which tag user alread chosed
-        currentTagIndex: 0,
+        currentTagIndex: -1,
         // post detail page data
         currentShowingDetail: null,
         /**

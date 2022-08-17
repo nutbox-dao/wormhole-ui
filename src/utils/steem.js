@@ -110,7 +110,14 @@ export const getPosts = async (posts) => {
         const steemPosts = await Promise.all(posts.map(post => getPost(post.steemId, post.postId)))
         posts = posts.map((p, idx) => {
             const steemP = steemPosts[idx]
-            if (steemP === 0) return p
+            if (steemP === 0) return {
+                ...p,
+                children: 0,
+                curatorPayoutValue: "0 SBD",
+                pendingPayoutValue: "0 SBD",
+                totalPayoutValue: "0 SBD",
+                votes: 0
+            }
             return {
                 ...p,
                 children: steemP.children,

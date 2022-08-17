@@ -21,8 +21,17 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
-          <div class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+          <div v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
+          </div>
+          <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+            <span>{{ post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0] }}</span>
+            <div>
+              <p>主办方：{{ post.acInfo.sponsor }}</p>
+              <p>开始时间：{{ post.acInfo.sdate }}</p>
+              <p>结束时间：{{ post.acInfo.edate }}</p>
+              <p>位置：<span class="underline text-blue-500" @click.stop="gotoMap">{{ post.acInfo.place }}</span></p>
+            </div>
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
@@ -51,7 +60,7 @@
         </div>
         <div v-if="location" class="flex mt-0.8rem">
           <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
-          <span class="ml-0.6rem c-text-medium" style="color:#0000ee">{{ location }}</span>
+          <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
         </div>
         <div class="flex gap-4rem mt-15px">
           <div class="text-white flex items-center">
@@ -139,6 +148,11 @@ export default {
       + this.parseSBD(this.post.totalPayoutValue)
       return formatPrice(value)
     },
+    baiduUrl() {
+      const [lat, lng] = this.post.acInfo.location.replace('，',',').split(',')
+      const url = `https://api.map.baidu.com/marker?location=${lng},${lat}&title=活动位置&content=${this.post.acInfo.place}&output=html&src=webapp.baidu.openAPIdemo`
+      return url
+    },
     location() {
       let location = this.post.location
       if (location) {
@@ -150,6 +164,9 @@ export default {
     }
   },
   methods: {
+    gotoMap() {
+      window.open(this.baiduUrl, '__blank')
+    },  
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },

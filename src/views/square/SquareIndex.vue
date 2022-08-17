@@ -27,7 +27,7 @@
             <div class="flex-1 overflow-x-auto no-scroll-bar">
               <div class="text-14px 2xl:text-0.9rem w-min flex gap-1.5rem h-3rem">
               <span class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
-              :class="currentTagIndex === -1"
+              :class="currentTagIndex === -1?'text-white border-b-4px border-primaryColor':'text-color8B'"
               @click="onTagChange(-1)"
               >瓦猫之夏</span>
               <span v-for="(tag, index) of tagList" :key="index"
@@ -43,7 +43,7 @@
         </div>
         <div class="sm:mt-1rem sm:px-1rem">
           <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
-            <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
+            <div v-show="currentTagIndex !== -1" class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"
                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
                     :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
@@ -96,6 +96,7 @@ import { getTagAggregation, getPostsByTagTime, getPostsByTagValue } from '@/api/
 import { mapState, mapGetters } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
+import { getDateString } from '@/utils/helper'
 
 export default {
   components: {Blog, Login, PostTip},
@@ -125,6 +126,27 @@ export default {
     },
     currentPosts() {
       if (this.subActiveTagIndex === 0){
+        if (this.currentTagIndex === -1) {
+          let posts = this.getPostsByTag('web3_ac')
+          if (!posts || posts.length === 0) return []
+          let activities = []
+          for(let post of posts) {
+            const acInfo = this.activityInfo(post)
+            if (acInfo) {
+              activities.push({
+                ...post,
+                acInfo
+              })
+            }
+          }
+          if (activities.length === 0) return [];
+
+          const now = getDateString(new Date(), 480);
+          activities = activities.sort((a,b) => a.acInfo.sdate > b.acInfo.sdate)
+          const pastAc = activities.filter(a => a.acInfo.sdate <= now)
+          const pendingAc = activities.filter(a => a.acInfo.sdate > now)
+          return pendingAc.concat(pastAc);
+        }
         return this.getPostsByTag(this.tagList[this.currentTagIndex])
       }else if(this.subActiveTagIndex === 1) {
         const postsByTag = this.getPostsByTagValue(this.tagList[this.currentTagIndex])
@@ -148,6 +170,9 @@ export default {
     currentTagIndex(newValue, oldValue) {
       if (newValue !== oldValue) {
         this.listFinished = false
+        if (newValue === -1) {
+          this.subActiveTagIndex = 0
+        }
         this.onRefresh()
       }
     }
@@ -171,7 +196,7 @@ export default {
       if(this.listLoading || this.listFinished) return
       try{
         this.listLoading = true
-        const tag = this.tagList[this.currentTagIndex]
+        const tag = this.currentTagIndex === -1 ? "web3_ac" : this.tagList[this.currentTagIndex]
         if (this.subActiveTagIndex === 0) {
           const posts = this.getPostsByTag(tag)
           let time;
@@ -179,7 +204,6 @@ export default {
             time = posts[posts.length - 1].postTime
           }
           const res = await getPostsByTagTime(tag, 16, time, false)
-          console.log(53, res);
           const postsf = await getPosts(res)
           this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
           this.$store.commit('postsModule/saveAllPosts', this.allPosts)
@@ -214,7 +238,7 @@ export default {
     async onRefresh() {
       try{
         this.refreshing = true
-        const tag = this.tagList[this.currentTagIndex]
+        const tag = this.currentTagIndex === -1 ? "web3_ac" : this.tagList[this.currentTagIndex]
         if (this.subActiveTagIndex === 0) {
           const posts = this.getPostsByTag(tag)
           let time;
@@ -222,10 +246,8 @@ export default {
             time = posts[0].postTime.replace('T', ' ')
             time = time.slice(0, 19)
           }
-          const res = await getPostsByTagTime(tag, 16, time, true)
-          console.log(53, res);
+          const res = await getPostsByTagTime(tag, this.currentTagIndex === -1 ? 200 : 16, time, true)
           const postsf = await getPosts(res)
-          console.log(64, postsf);
           this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
           this.listLoading = false
           this.$store.commit('postsModule/saveAllPosts', this.allPosts)
@@ -260,6 +282,32 @@ export default {
       this.scroll = el.scrollTop
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)
       this.$router.push(`/post-detail/${p.postId}`)
+    },
+    activityInfo(p) {
+      const content = p.content;
+      let ac = content.split('#web3_ac')
+      if (ac.length > 1) {
+        ac = ac[1]
+        let infos = ac.replace('：', ':');
+        try {
+          const sponsor = infos.split('主办方:')[1].split('开始时间')[0]
+          const sdate = infos.split('开始时间:')[1].split('结束时间')[0]
+          const edate = infos.split('结束时间:')[1].split('地点')[0]
+          const place = infos.split('地点:')[1].split('位置')[0]
+          const location = infos.split('位置:')[1].match(/(\[)(\S*)(\])/)[2]
+          return {
+            sponsor,
+            sdate,
+            edate,
+            place,
+            location
+          }
+        }catch(e) {
+          console.log('Get act info fail:', e);
+          return false
+        }
+      }
+      return false
     }
   }
 }
