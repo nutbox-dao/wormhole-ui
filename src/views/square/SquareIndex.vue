@@ -26,10 +26,14 @@
           <div class="px-1.5rem sm:px-0 container mx-auto max-w-53rem md:max-w-48rem flex justify-between items-center">
             <div class="flex-1 overflow-x-auto no-scroll-bar">
               <div class="text-14px 2xl:text-0.9rem w-min flex gap-1.5rem h-3rem">
+              <span class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
+              :class="currentTagIndex === -1"
+              @click="onTagChange(-1)"
+              >瓦猫之夏</span>
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
                     :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-color8B'"
-                    @click="onTagChange(index)">{{tag === 'iweb3' ? 'All' : ('#' + tag)}}</span>
+                    @click="onTagChange(index)">{{('#' + tag)}}</span>
               </div>
             </div>
             <router-link class="pl-1rem" to="/square/topics">
@@ -175,6 +179,7 @@ export default {
             time = posts[posts.length - 1].postTime
           }
           const res = await getPostsByTagTime(tag, 16, time, false)
+          console.log(53, res);
           const postsf = await getPosts(res)
           this.allPosts[tag] = (this.allPosts[tag] || []).concat(postsf)
           this.$store.commit('postsModule/saveAllPosts', this.allPosts)
@@ -218,7 +223,9 @@ export default {
             time = time.slice(0, 19)
           }
           const res = await getPostsByTagTime(tag, 16, time, true)
+          console.log(53, res);
           const postsf = await getPosts(res)
+          console.log(64, postsf);
           this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
           this.listLoading = false
           this.$store.commit('postsModule/saveAllPosts', this.allPosts)

@@ -92,10 +92,14 @@ export function getVPHF20(account) {
 
 export const getPost = async (author, permlink) => {
     return new Promise(async (resolve, reject) => {
-        const res = await steem.api.getContentAsync(author, permlink);
-        if (res && res.author !== "" && res.permlink !== "") {
-            resolve(res);
-        } else {
+        try {
+            const res = await steem.api.getContentAsync(author, permlink);
+            if (res && res.author !== "" && res.permlink !== "") {
+                resolve(res);
+            } else {
+                resolve(0)
+            }
+        }catch(e) {
             resolve(0)
         }
     })
