@@ -21,8 +21,9 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
-          <div v-html="content" v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-
+          <div  v-if="!post.acInfo" @click.stop="clickContent"
+                class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+            <div v-html="content"></div>
           </div>
           <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <div v-html="post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0]"></div>
@@ -177,7 +178,7 @@ export default {
       let content = this.post.content.replace(this.reg, '');
       for (let url of this.urls){
         content = content.replace(url, `<span
-                @click.prevent(window.open('${url}', '__blank'))
+                data-url="${url}"
                 class="text-blue-500 text-14px 2xl:text-0.8rem break-all">
               ${url}
             </span>`)
@@ -186,6 +187,9 @@ export default {
     }
   },
   methods: {
+    clickContent(e) {
+      window.open(e.target.dataset.url, '_blank')
+    },
     async showMapOptions() {
       this.mapOptionsModalVisible = true
       this.mapLoading = true
