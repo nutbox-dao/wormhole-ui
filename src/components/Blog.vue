@@ -26,7 +26,9 @@
             <div v-html="content"></div>
           </div>
           <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <div v-html="post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0]"></div>
+            <div @click.stop="clickContent">
+              <div v-html="content.split('#web3_ac')[0]"></div>
+            </div>
             <div>
               <p>主办方：{{ post.acInfo.sponsor }}</p>
               <p>开始时间：{{ post.acInfo.sdate }}</p>
