@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
-            <div class="number c-text-black text-2.4rem mt-0.5rem" :data-text="reputation">{{reputation}}</div>
+            <div class="number c-text-black text-2.4rem mt-0.5rem" :data-text="prefixInteger(reputation, 6)">{{prefixInteger(reputation, 6)}}</div>
           </div>
         </div>
       </div>
@@ -51,11 +51,16 @@ export default {
     }
   },
   methods: {
-      getNft(){
+    getNft(){
         // read NFT
         console.log(111, this.$store.getters.getAccountInfo.twitterId);
         readNft(this.$store.getters.getAccountInfo.twitterId)
         this.$store.commit('saveHasReceivedNft', true)
+    },
+    prefixInteger(num, length) {
+      var i = (num + "").length; 
+      while(i++ < length) num = "0" + num; 
+      return num; 
     }
   },
 }

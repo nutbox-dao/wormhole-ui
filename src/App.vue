@@ -146,7 +146,7 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     gotoDC() {
-      window.open('https://discord.gg/QMcGyxPr', '__blank')
+      window.open('https://discord.gg/m9SMTjr9', '__blank')
     },
     gotoTwitter(){
       window.open('https://twitter.com/wormhole_3', '__blank')
@@ -233,6 +233,7 @@ export default {
   --iconColor: #848391;
   --outlineBtnBg: #1C1A50;
   --van-popup-background-color: transparent!important;
+  --el-mask-color: rgba(0,0,0, 0.5) !important;
 }
 @import "style/responsive";
 @import "style/common";

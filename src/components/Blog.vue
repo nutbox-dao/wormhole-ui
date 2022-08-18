@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" ref="blogRef">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
@@ -21,15 +21,16 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
-          <div class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <span>{{ post.content && post.content.replace(this.urlreg, '') }}</span>
+          <div @click.stop="clickContent"
+                class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+            <div v-html="content"></div>
           </div>
-          <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
+          <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
                 class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">
               {{ u }}
             </a>
-          </div>
+          </div> -->
         </div>
 
 <!--       foreign page -->
@@ -51,7 +52,7 @@
         </div>
         <div v-if="location" class="flex mt-0.8rem">
           <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
-          <span class="ml-0.6rem c-text-medium" style="color:#0000ee">{{ location }}</span>
+          <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
         </div>
         <div class="flex gap-4rem mt-15px">
           <div class="text-white flex items-center">
@@ -118,7 +119,10 @@ export default {
       reg: '',
       urlreg: '',
       imgViewDialog: false,
-      imgIndex: 0
+      imgIndex: 0,
+      mapOptionsModalVisible: false,
+      mapLoading: false,
+      gdLocation: ''
     }
   },
   computed: {
@@ -147,9 +151,27 @@ export default {
           return location.full_name
         }
       }
+    },
+    content() {
+      let content = this.post.content.replace(this.reg, '');
+      for (let url of this.urls){
+        content = content.replace(url, `<span
+                data-url="${url}"
+                class="text-blue-500 text-14px 2xl:text-0.8rem break-all">
+              ${url}
+            </span>`)
+      }
+      return content
     }
   },
   methods: {
+    clickContent(e) {
+      if(e.target.dataset.url) {
+        window.open(e.target.dataset.url, '_blank')
+      } else {
+        this.$refs.blogRef.click()
+      }
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -181,7 +203,7 @@ export default {
         this.imgIndex = index
         this.imgViewDialog = true
       }
-    }
+    },
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g

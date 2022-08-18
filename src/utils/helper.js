@@ -135,6 +135,11 @@ export function getDateString(now, timezone, extra = 0) {
   return now.toISOString().replace("T", " ").substring(0, 19);
 }
 
+export function isDateString(str) {
+  const regex_date = /^20\d{2}-\d{2}-\d{2} \d{2}\:\d{2}(:\d{2})?$/
+  const res = str.match(regex_date)
+  return res && res.length > 0
+}
 
 export function getUTCTime() {
   const d1 = new Date();
