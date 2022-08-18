@@ -94,7 +94,7 @@
     </el-dialog>
     <el-dialog v-model="mapOptionsModalVisible" :append-to-body="true"
                custom-class="c-dialog c-dialog-md c-dialog-center">
-      <div class="text-white py-1rem flex flex-col items-center">
+      <div class="text-white py-1rem flex flex-col items-center" v-loading="mapLoading">
         <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">高德地图</div>
         <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">百度地图</div>
       </div>
@@ -137,7 +137,8 @@ export default {
       urlreg: '',
       imgViewDialog: false,
       imgIndex: 0,
-      mapOptionsModalVisible: false
+      mapOptionsModalVisible: false,
+      mapLoading: false
     }
   },
   computed: {
@@ -175,12 +176,15 @@ export default {
   },
   methods: {
     async openGaoDeMap() {
+      this.mapLoading = true
       const locations = this.post.acInfo.location.replace('，',',').split(',')
       const res = await bMapToGMapLocations(locations.join(','))
       console.log(res)
+      this.mapLoading = false
       if(res.status ==='1') {
         const url = `https://uri.amap.com/marker?position=${res.locations}&src=uriapi&callnative=1&innersrc=uriapi`
         window.open(url, '_blank')
+        this.mapOptionsModalVisible = false
       }
     },
     gotoMap(type) {

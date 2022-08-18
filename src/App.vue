@@ -233,6 +233,7 @@ export default {
   --iconColor: #848391;
   --outlineBtnBg: #1C1A50;
   --van-popup-background-color: transparent!important;
+  --el-mask-color: rgba(0,0,0, 0.5) !important;
 }
 @import "style/responsive";
 @import "style/common";

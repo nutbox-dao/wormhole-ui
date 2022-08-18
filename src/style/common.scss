@@ -83,3 +83,7 @@
   border: 1px solid rgba(132, 131, 145, 0.3);
   backdrop-filter: blur(20px);
 }
+.el-loading-spinner .path {
+  stroke: var(--primary-custom)!important;
+  stroke-width: 4 !important;
+}
