@@ -47,9 +47,10 @@ export const getCommentsByPostid = async (postId) =>
 export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
     get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
 
+/****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {
-        key: '782d7bb808be1217502c752c7953ed76',
+        key: 'c69f301c227fe2c5c9c1442ce51f905a',
         locations: locations,
         coordsys: 'baidu'
     })
