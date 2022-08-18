@@ -30,7 +30,7 @@
               <p>主办方：{{ post.acInfo.sponsor }}</p>
               <p>开始时间：{{ post.acInfo.sdate }}</p>
               <p>结束时间：{{ post.acInfo.edate }}</p>
-              <p>位置：<span class="underline text-blue-500" @click.stop="mapOptionsModalVisible=true">{{ post.acInfo.place }}</span></p>
+              <p>位置：<span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
             </div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
@@ -110,7 +110,6 @@ import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-// import AMapLoader from '@amap/amap-jsapi-loader'
 import {bMapToGMapLocations} from "@/api/api";
 
 export default {
@@ -138,7 +137,8 @@ export default {
       imgViewDialog: false,
       imgIndex: 0,
       mapOptionsModalVisible: false,
-      mapLoading: false
+      mapLoading: false,
+      gdLocation: ''
     }
   },
   computed: {
@@ -186,21 +186,20 @@ export default {
     }
   },
   methods: {
-    async openGaoDeMap() {
+    async showMapOptions() {
+      this.mapOptionsModalVisible = true
       this.mapLoading = true
       const locations = this.post.acInfo.location.replace('，',',').split(',')
       const res = await bMapToGMapLocations(locations.join(','))
-      console.log(res)
       this.mapLoading = false
       if(res.status ==='1') {
-        const url = `https://uri.amap.com/marker?position=${res.locations}&src=uriapi&callnative=1&innersrc=uriapi`
-        window.open(url, '_blank')
-        this.mapOptionsModalVisible = false
+        this.gdLocation = res.locations
       }
     },
     gotoMap(type) {
-      if(type==='gaode') this.openGaoDeMap()
+      if(type==='gaode') window.open(`https://uri.amap.com/marker?position=${this.gdLocation}&src=uriapi&callnative=1&innersrc=uriapi`, '_blank')
       if(type==='baidu') window.open(this.baiduUrl, '__blank')
+      this.mapOptionsModalVisible = false
     },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
