@@ -59,7 +59,9 @@ export default {
       // get post
       getPostById(postId).then(async (p) => {
         const posts = await getPosts([p])
-        this.$store.commit('postsModule/saveCurrentShowingDetail', posts[0])
+        let acInfo = this.activityInfo(posts[0])
+        const post = acInfo ? {...posts[0], acInfo} : posts[0]
+        this.$store.commit('postsModule/saveCurrentShowingDetail', post)
         getCommentsByPostid(postId).then(async comments => {
           this.comments = await getPosts(comments.map(c => ({
             ...c,
@@ -88,6 +90,32 @@ export default {
         }, 3000);
       })
     },
+    activityInfo(p) {
+      const content = p.content;
+      let ac = content.split('#web3_ac')
+      if (ac.length > 1) {
+        ac = ac[1]
+        let infos = ac.replace('：', ':').replace('位置', '坐标');
+        try {
+          const sponsor = infos.split('主办方:')[1].split('开始时间')[0]
+          const sdate = infos.split('开始时间:')[1].split('结束时间')[0]
+          const edate = infos.split('结束时间:')[1].split('地点')[0]
+          const place = infos.split('地点:')[1].split('坐标')[0]
+          const location = infos.split('坐标:')[1].match(/(\[)(\S*)(\])/)[2]
+          return {
+            sponsor,
+            sdate,
+            edate,
+            place,
+            location
+          }
+        }catch(e) {
+          console.log('Get act info fail:', e);
+          return false
+        }
+      }
+      return false
+    }
 
     // async onLoad() {
     //   if(this.listLoading || this.listFinished) return
