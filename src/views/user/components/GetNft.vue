@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
-      <div class="number c-text-black text-4rem xl:text-78px" :data-text="reputation">{{reputation}}</div>
+      <div class="number c-text-black text-4rem xl:text-78px" :data-text="prefixInteger(reputation, 6)">{{prefixInteger(reputation, 6)}}</div>
     </div>
   </div>
 </template>
@@ -31,7 +31,14 @@ export default {
       showAnimation: true,
       id: '007213'
     }
-  }
+  },
+  methods: {
+    prefixInteger(num, length) {
+      var i = (num + "").length; 
+      while(i++ < length) num = "0" + num; 
+      return num; 
+    }
+  },
 }
 </script>
 
