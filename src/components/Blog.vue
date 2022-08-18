@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" ref="blogRef">
     <div class="py-1rem px-1.5rem sm:rounded-1rem">
       <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
@@ -188,7 +188,11 @@ export default {
   },
   methods: {
     clickContent(e) {
-      window.open(e.target.dataset.url, '_blank')
+      if(e.target.dataset.url) {
+        window.open(e.target.dataset.url, '_blank')
+      } else {
+        this.$refs.blogRef.click()
+      }
     },
     async showMapOptions() {
       this.mapOptionsModalVisible = true
