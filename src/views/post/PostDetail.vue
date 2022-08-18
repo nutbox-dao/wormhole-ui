@@ -91,6 +91,8 @@ export default {
       })
     },
     activityInfo(p) {
+      if (!p) return false
+      console.log(5325, p)
       const content = p.content;
       let ac = content.split('#web3_ac')
       if (ac.length > 1) {

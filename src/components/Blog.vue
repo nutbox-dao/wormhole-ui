@@ -21,7 +21,7 @@
 
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
-          <div v-html="post.content && post.content.replace(this.urlreg, '')" v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
+          <div v-html="content" v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
 
           </div>
           <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
@@ -33,12 +33,12 @@
               <p>位置：<span class="underline text-blue-500" @click.stop="mapOptionsModalVisible=true">{{ post.acInfo.place }}</span></p>
             </div>
           </div>
-          <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
+          <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
                 class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">
               {{ u }}
             </a>
-          </div>
+          </div> -->
         </div>
 
 <!--       foreign page -->
@@ -172,6 +172,17 @@ export default {
           return location.full_name
         }
       }
+    },
+    content() {
+      let content = this.post.content.replace(this.reg, '');
+      for (let url of this.urls){
+        content = content.replace(url, `<span
+                @click.prevent(window.open('${url}', '__blank'))
+                class="text-blue-500 text-14px 2xl:text-0.8rem break-all">
+              ${url}
+            </span>`)
+      }
+      return content
     }
   },
   methods: {

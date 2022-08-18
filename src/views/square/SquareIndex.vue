@@ -248,6 +248,7 @@ export default {
           }
           const res = await getPostsByTagTime(tag, this.currentTagIndex === -1 ? 200 : 16, time, true)
           const postsf = await getPosts(res)
+          console.log(622, postsf)
           this.allPosts[tag] = postsf.concat(this.allPosts[tag] || [])
           this.listLoading = false
           this.$store.commit('postsModule/saveAllPosts', this.allPosts)
