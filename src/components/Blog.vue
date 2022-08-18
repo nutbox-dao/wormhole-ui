@@ -188,7 +188,7 @@ export default {
       }
     },
     gotoUserPage() {
-      if (this.post.username !== this.getAccountInfo.twitterUsername){
+      if (!this.getAccountInfo || this.post.username !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.post.username})
       }
     },
