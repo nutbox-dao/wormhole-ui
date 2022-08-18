@@ -2,16 +2,16 @@ import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 
 /****************************************  posts  ***********************************************/
-export const getUserInfo = async (username, ethAddress) => 
+export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
 
-export const readNft = async (twitterId) => 
+export const readNft = async (twitterId) =>
     post(BACKEND_API_URL + '/users/readNft', {twitterId})
 
 export const getNftReceivedState = async (twitterId) =>
     get(BACKEND_API_URL + '/users/nftReceiveState', {twitterId})
 
-export const getRegisterTicket = async (publicKey) => 
+export const getRegisterTicket = async (publicKey) =>
     get(BACKEND_API_URL + '/register/getRegisterTicket', {publicKey})
 
 export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =>
@@ -27,7 +27,7 @@ export const getTagAggregation = async () =>
     get(BACKEND_API_URL + '/twitter/tags')
 
 /****************************************  posts  ***********************************************/
-export const getUsersPosts = async (username, pageSize, time, newPost) => 
+export const getUsersPosts = async (username, pageSize, time, newPost) =>
     get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
 
 export const getPostById = async (postId) =>
@@ -41,8 +41,16 @@ export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
     }
 }
 
-export const getCommentsByPostid = async (postId) => 
+export const getCommentsByPostid = async (postId) =>
     get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
 
-export const getPostsByTagValue = async (tag, pageSize, pageNum) => 
+export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
     get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
+
+export const bMapToGMapLocations = async (locations) => {
+    return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {
+        key: '782d7bb808be1217502c752c7953ed76',
+        locations: locations,
+        coordsys: 'baidu'
+    })
+}

@@ -22,7 +22,7 @@
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
           <div v-html="post.content && post.content.replace(this.urlreg, '')" v-if="!post.acInfo" class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            
+
           </div>
           <div v-else class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <div v-html="post.content && post.content.replace(this.urlreg, '').split('#web3_ac')[0]"></div>
@@ -30,7 +30,7 @@
               <p>主办方：{{ post.acInfo.sponsor }}</p>
               <p>开始时间：{{ post.acInfo.sdate }}</p>
               <p>结束时间：{{ post.acInfo.edate }}</p>
-              <p>位置：<span class="underline text-blue-500" @click.stop="gotoMap">{{ post.acInfo.place }}</span></p>
+              <p>位置：<span class="underline text-blue-500" @click.stop="mapOptionsModalVisible=true">{{ post.acInfo.place }}</span></p>
             </div>
           </div>
           <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
@@ -92,6 +92,13 @@
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
+    <el-dialog v-model="mapOptionsModalVisible" :append-to-body="true"
+               custom-class="c-dialog c-dialog-md c-dialog-center">
+      <div class="text-white py-1rem flex flex-col items-center">
+        <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">高德地图</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">百度地图</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -103,6 +110,8 @@ import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+// import AMapLoader from '@amap/amap-jsapi-loader'
+import {bMapToGMapLocations} from "@/api/api";
 
 export default {
   name: "Blog",
@@ -127,7 +136,8 @@ export default {
       reg: '',
       urlreg: '',
       imgViewDialog: false,
-      imgIndex: 0
+      imgIndex: 0,
+      mapOptionsModalVisible: false
     }
   },
   computed: {
@@ -164,9 +174,19 @@ export default {
     }
   },
   methods: {
-    gotoMap() {
-      window.open(this.baiduUrl, '__blank')
-    },  
+    async openGaoDeMap() {
+      const locations = this.post.acInfo.location.replace('，',',').split(',')
+      const res = await bMapToGMapLocations(locations.join(','))
+      console.log(res)
+      if(res.status ==='1') {
+        const url = `https://uri.amap.com/marker?position=${res.locations}&src=uriapi&callnative=1&innersrc=uriapi`
+        window.open(url, '_blank')
+      }
+    },
+    gotoMap(type) {
+      if(type==='gaode') this.openGaoDeMap()
+      if(type==='baidu') window.open(this.baiduUrl, '__blank')
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
