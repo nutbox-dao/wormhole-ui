@@ -141,5 +141,6 @@ export const Multi_Config = {
  * only showing steem link
  */
 export const IgnoreAuthor = [
-    'greattranslatcn'
+    'greattranslatcn',
+    'democretard'
 ]
