@@ -23,7 +23,8 @@
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
           <div @click.stop="clickContent"
                 class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <div v-html="content"></div>
+            <a v-if="isIgnoreAccount" :href="stemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
+            <div v-else v-html="content"></div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
@@ -34,9 +35,9 @@
         </div>
 
 <!--       foreign page -->
-       <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10" :pageInfo="post.pageInfo"/>
+       <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
 <!--       retweet  -->
-       <Repost v-if="post.retweetInfo && post.retweetInfo.length>10" :retweetInfo="post.retweetInfo"/>
+       <Repost v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
         <!--img-1, img-2, img-3, img-4 -->
         <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"
@@ -90,7 +91,7 @@
 <script>
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS, IgnoreAuthor } from '@/config'
 import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
@@ -136,6 +137,13 @@ export default {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
      },
+    isIgnoreAccount() {
+      const res = IgnoreAuthor.indexOf(this.post.steemId) !== -1
+      return res
+    },
+    steemUrl() {
+      return `https://steemit.com/wormhole3/@${this.post.steemId}/${this.post.postId}`
+    },
     value() {
       if (!this.post.content) return '$0'
       const value = this.parseSBD(this.post.curatorPayoutValue)

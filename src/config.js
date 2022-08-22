@@ -135,3 +135,12 @@ export const Multi_Config = {
     multicallAddress: MultiAddress,
     interval: 3000,
 }
+
+/**
+ * ignore steem id's post
+ * only showing steem link
+ */
+export const IgnoreAuthor = [
+    'greattranslatcn',
+    'democretard'
+]
