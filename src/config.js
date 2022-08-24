@@ -11,22 +11,28 @@ export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 // export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
-// export const RPC_NODE = 'https://bsc-dataseed.binance.org'
-// export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
-// export const MainToken = {
-//     name: 'BNB',
-//     symbol: 'BNB',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png'
-// }
+export const RPC_NODE = 'https://bsc-dataseed.binance.org'
+export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
+export const CHAIN_NAME = 'BSC Mainnet'
+export const CHAIN_ID = 56
+export const MainToken = {
+    name: 'BNB',
+    symbol: 'BNB',
+    icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
+    decimals: 18
+}
+export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
 
 // eth
-export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
-export const MultiAddress = '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
-export const MainToken = {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png'
-}
+// export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
+// export const MultiAddress = '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
+// export const BSC_CHAIN_ID = 1
+// export const MainToken = {
+//     name: 'Ethereum',
+//     symbol: 'ETH',
+//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
+//     decimals: 18
+// }
 
 export const ERC20List = [
     {symbol: 'USDT', name: 'Tether USD', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
@@ -61,10 +67,12 @@ export const EVM_CHAINS = {
     ETH: {
         rpc: "https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978",
         scan: 'https://etherscan.io/',
+        id: 1,
         main: {
             name: 'Ethereum',
             symbol: 'ETH',
-            icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png'
+            icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
+            decimals: 18
         },
         assets: {
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
@@ -80,10 +88,12 @@ export const EVM_CHAINS = {
     BNB: {
         rpc:'https://bsc-dataseed.binance.org',
         scan: 'https://bscscan.com/',
+        id: 56,
         main: {
             name: 'BNB',
             symbol: 'BNB',
-            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
+            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+            decimals: 18
         },
         assets: {
             // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
@@ -100,10 +110,12 @@ export const EVM_CHAINS = {
     MATIC: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
+        id: 137,
         main: {
             name: 'Polygon',
             symbol: 'MATIC',
-            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
+            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
+            decimals: 18
         },
         assets: {
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
