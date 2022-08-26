@@ -3,6 +3,7 @@ import * as Vuex from 'vuex'
 import Cookie from 'vue-cookies'
 import { b64uEnc, b64uDec } from '@/utils/helper'
 import postsModule from './postsModule'
+import web3 from './web3'
 
 export default Vuex.createStore({
   state: {
@@ -101,6 +102,7 @@ export default Vuex.createStore({
     }
   },
   modules: {
-    postsModule
+    postsModule,
+    web3
   },
 })

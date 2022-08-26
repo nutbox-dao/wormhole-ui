@@ -24,6 +24,17 @@ export const sleep = async function (interval = 6) {
     });
 }
 
+/**
+ * Check if string is HEX, requires a 0x in front
+ *
+ * @method isHexStrict
+ * @param {String} hex to be checked
+ * @returns {Boolean}
+ */
+export const isHexStrict = function (hex) {
+  return ((typeof hex === 'string' || typeof hex === 'number') && /^(-)?0x[0-9a-f]*$/i.test(hex));
+};
+
 export const u8arryToHex = (buffer) => {
     return [...new Uint8Array(buffer)]
         .map(x => x.toString(16).padStart(2, '0'))

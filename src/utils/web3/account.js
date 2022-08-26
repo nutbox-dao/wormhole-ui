@@ -1,10 +1,9 @@
 import { getEthWeb } from './web3.js'
 import store from '@/store'
 import { ethers } from 'ethers'
-import { updateUserInfo as uui, getSomeUsers, getAllUsers } from '@/apis/api'
+import { getNonce as gn } from '@/apis/api'
 import { sleep } from '../helper.js'
-import { errCode, BSC_CHAIN_ID } from '@/config.js'
-import { signMessage } from './utils'
+import { CHAIN_ID } from '@/config.js'
 
 /**
  * Get metamask accounts
@@ -23,7 +22,7 @@ export const getAccounts = async (update=false) => {
         }
         await sleep(0.3)
     }
-    if (parseInt(store.state.web3.chainId !== parseInt(BSC_CHAIN_ID))) {
+    if (parseInt(store.state.web3.chainId !== parseInt(CHAIN_ID))) {
         store.commit('web3/saveAccount', null)
         return;
     }
@@ -65,3 +64,17 @@ export const accountChanged = async (refresh) => {
     store.commit("web3/saveNonce", nonce);
     return nonce;
   };
+
+  /**
+ * Sining message
+ * @param {*} message 
+ * @returns 
+ */
+export const signMessage = async (message) => {
+    const eth = await getProvider()
+    const siner = eth.getSigner()
+    const signature = await siner.signMessage(
+        message
+    )
+    return signature
+}
