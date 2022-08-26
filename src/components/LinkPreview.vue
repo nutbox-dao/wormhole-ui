@@ -30,8 +30,12 @@ export default {
   },
   methods: {
     getUrlHost(link) {
-      const url = new URL(link)
-      return url.host.toLowerCase() || ''
+      try{
+        const url = new URL(link)
+        return url.host.toLowerCase() || ''
+      }catch(e) {
+        return link
+      }
     }
   },
   mounted () {

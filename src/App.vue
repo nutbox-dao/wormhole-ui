@@ -90,6 +90,7 @@ import NFTAnimation from "@/components/NFTAnimation";
 import { login } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
+import { randomCurationId } from '@/utils/curation'
 
 export default {
   components: {NFTAnimation},
@@ -167,6 +168,7 @@ export default {
 
   },
   async mounted() {
+    console.log(111, randomCurationId());
     vestsToSteem(1).then(res => {
       this.$store.commit('saveVestsToSteem', res)
     }).catch(e => {

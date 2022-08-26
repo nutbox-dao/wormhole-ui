@@ -23,7 +23,7 @@
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
           <div @click.stop="clickContent"
                 class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <a v-if="isIgnoreAccount" :href="stemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
+            <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
             <div v-else v-html="content"></div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
