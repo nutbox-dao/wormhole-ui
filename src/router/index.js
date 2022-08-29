@@ -22,6 +22,8 @@ import TagView from "@/views/square/TagView";
 import WalletView from "@/views/user/WalletView";
 import TopicsView from "@/views/square/TopicsView";
 import AboutUsView from "@/views/AboutView";
+import CurationsIndex from "@/views/curations/CurationsIndex";
+import CreateCuration from "@/views/curations/CreateCuration";
 
 const routes = [
   {
@@ -43,6 +45,17 @@ const routes = [
     path: '/square/topics',
     name: 'topics',
     component: TopicsView,
+  },
+  {
+    path: '/curations',
+    name: 'curations',
+    component: CurationsIndex,
+    meta: {keepAlive: true}
+  },
+  {
+    path: '/create-curation',
+    name: 'create-curation',
+    component: CreateCuration
   },
   {
     path: '/verify',

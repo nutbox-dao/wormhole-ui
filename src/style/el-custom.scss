@@ -1,10 +1,13 @@
+html.dark {
+  --el-color-primary: var(--secondary-custom);
+  --el-bg-color-overlay: var(--blockBg);
+}
+
 .el-dialog.c-dialog {
   width: 90%;
   max-height: 90%;
   overflow: hidden;
   border-radius: 12px;
-  //background-color: var(--primary-bg);
-  //box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
   border: 1px solid rgba(132, 131, 145, 0.3);
   backdrop-filter: blur(20px);
@@ -127,5 +130,26 @@
   padding: 0;
 }
 .c-popper .el-popper__arrow {
+  display: none;
+}
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--primary-custom);
+}
+.c-input-date.el-input {
+  width: 100% !important;
+}
+.c-input-date .el-input__inner {
+  color: white;
+}
+.c-input-date .el-input__wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none!important;
+}
+.c-input-date .el-input__wrapper:hover {
+  box-shadow: none;
+}
+.c-input-date .el-input__prefix {
   display: none;
 }

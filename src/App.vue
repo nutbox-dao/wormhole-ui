@@ -1,83 +1,86 @@
 <template>
-  <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
-    <div class="py-1rem border-b-1 border-headerBorder">
-      <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
-        <button @click="goBack">
-          <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
-        </button>
-        <div class="flex items-center">
+  <el-config-provider :locale="elLocal[$i18n.locale]">
+    <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
+      <div class="py-1rem border-b-1 border-headerBorder">
+        <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
+          <button @click="goBack">
+            <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
+          </button>
+          <div class="flex items-center">
             <div class="hidden md:flex" v-if="!getAccountInfo">
               <router-link to="/login"
-                            class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signIn')}}</router-link>
+                           class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signIn')}}</router-link>
               <router-link to="/signup"
-                            class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signUp')}}</router-link>
+                           class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signUp')}}</router-link>
             </div>
-          <template v-else>
-            <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-              <img class="h-2rem rounded-full" :src="profileImg" @error="replaceEmptyImg" alt="">
-            </router-link>
-            <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
-              <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
-              <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
-            </router-link>
-          </template>
-          <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
-            <template #reference>
-              <img class="h-2rem mr-0.8rem" src="~@/assets/icon-language.svg" alt="">
+            <template v-else>
+              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
+                <img class="h-2rem rounded-full" :src="profileImg" @error="replaceEmptyImg" alt="">
+              </router-link>
+              <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
+                <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
+                <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+              </router-link>
             </template>
-            <template #default>
-              <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg rounded-12px py-0.5rem text-white">
-                <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
-                <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
-              </div>
-            </template>
-          </el-popover>
+            <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
+              <template #reference>
+                <img class="h-2rem mr-0.8rem" src="~@/assets/icon-language.svg" alt="">
+              </template>
+              <template #default>
+                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg rounded-12px py-0.5rem text-white">
+                  <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
+                  <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
+                </div>
+              </template>
+            </el-popover>
 
-          <div class="relative">
-            <button class="bg-transparent h-2rem w-1.8rem flex items-center"
-                    @click.stop="showMenu=!showMenu">
-              <span class="menu-icon" :class="showMenu?'active':''"></span>
-            </button>
-            <div class="menu-box w-13.5rem xl:w-11rem z-99"
-                 :class="showMenu?'active':''">
-              <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-900 text-14px xl:text-1rem">
-                <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
-                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
-                <template v-if="!getAccountInfo">
-                  <router-link to="/login" @click="showMenu=false"
-                               class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>
-                  <router-link to="/signup" @click="showMenu=false"
-                               class="md:hidden block min-h-35px flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>
-                </template>
-                <router-link to="/square" @click="showMenu=false"
-                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('square')}}</router-link>
-                <router-link to="/faq" @click="showMenu=false"
-                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faq')}}</router-link>
-                <router-link to="/about" @click="showMenu=false"
-                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
-                <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
-                <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
-                <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
-                             class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
+            <div class="relative">
+              <button class="bg-transparent h-2rem w-1.8rem flex items-center"
+                      @click.stop="showMenu=!showMenu">
+                <span class="menu-icon" :class="showMenu?'active':''"></span>
+              </button>
+              <div class="menu-box w-13.5rem xl:w-11rem z-99"
+                   :class="showMenu?'active':''">
+                <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-400 text-15px xl:text-1rem">
+                  <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
+                  <template v-if="!getAccountInfo">
+                    <router-link to="/login" @click="showMenu=false"
+                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>
+                    <router-link to="/signup" @click="showMenu=false"
+                                 class="md:hidden block min-h-35px flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>
+                  </template>
+                  <router-link to="/square" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('square')}}</router-link>
+                  <router-link to="/curations" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('curations')}}</router-link>
+                  <router-link to="/faq" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faq')}}</router-link>
+                  <router-link to="/about" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
+                  <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
+                  <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
+                  <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="flex-1 overflow-auto">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
+          </keep-alive>
+          <component :is="Component" v-if="!$route.meta.keepAlive"/>
+        </router-view>
+      </div>
+      <el-dialog custom-class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
+        <NFTAnimation/>
+      </el-dialog>
     </div>
-    <div class="flex-1 overflow-auto">
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
-        </keep-alive>
-        <component :is="Component" v-if="!$route.meta.keepAlive"/>
-      </router-view>
-    </div>
-    <el-dialog custom-class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
-      <NFTAnimation/>
-    </el-dialog>
-  </div>
-
+  </el-config-provider>
 </template>
 
 <script>
@@ -91,13 +94,18 @@ import { login } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { randomCurationId } from '@/utils/curation'
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default {
-  components: {NFTAnimation},
+  components: {NFTAnimation, ElConfigProvider},
   data: () => {
     return {
       pubKey: '',
-      showMenu: false
+      showMenu: false,
+      elLocal: {
+        'zh': zhCn
+      }
     }
   },
   computed: {
@@ -226,12 +234,12 @@ export default {
 :root {
   --primary-bg: #0D1117;
   --primary-custom: #AE88FE;
+  --secondary-custom: #7C3AED;
   --gradient-primary-color1: #AE88FE;
   --gradient-primary-color2: #923CFF;
   --gradient-primary-color3: #00B2FF;
-  --text8F: #8F8F8F;
-  --textA6: #A6A6A6;
-  --text53: #535353;
+  --blockBg: #161B22;
+  --color8B: #8B949E;
   --iconColor: #848391;
   --outlineBtnBg: #1C1A50;
   --van-popup-background-color: transparent!important;
@@ -239,7 +247,7 @@ export default {
 }
 @import "style/responsive";
 @import "style/common";
-@import "style/el-custom";
+//@import "style/el-custom";
 html, body {
   background-color: var(--primary-bg);
 }

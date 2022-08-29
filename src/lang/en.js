@@ -2,6 +2,7 @@ export default {
   signIn: 'Sign In',
   signUp: 'Sign Up',
   square: 'Square',
+  curations: 'Curations',
   faq: 'FAQs',
   aboutUs: 'About Us',
   discord: 'Discord',
@@ -99,6 +100,11 @@ export default {
     a4p1: 'Sure, your tweet will be stored in web3 for ever, it always belong to you.',
     a4p2: `You can send twitter to sync them like this: {'{content}'} #iweb3.`,
   },
+  curationsView: {
+    p1: 'Attend curation win FTs, NFTs or other prizes.',
+    createBtn: 'Create a curation',
+    createCuration: 'Create Curation'
+  },
   common: {
     none: 'None',
     noMore: 'No more',
@@ -107,6 +113,7 @@ export default {
     nft: 'NFTs',
     send: 'Send',
     pullRefresh: 'Pull to refresh data',
+    loosingRefresh: 'Release to refresh',
     loading: 'Loading...',
     get: 'GET'
   }

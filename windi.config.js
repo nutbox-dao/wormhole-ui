@@ -2,14 +2,14 @@ import { defineConfig } from 'windicss/helpers'
 import colors from 'windicss/colors'
 
 export default defineConfig({
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         primaryColor: '#AE88FE',
-        primaryColor1: 'var(--gradient-primary-color1)',
-        primaryColor2: 'var(--gradient-primary-color2)',
-        primaryColor3: 'var(--gradient-primary-color3)',
+        primaryColor1: '#7C3AED',
         redColor: '#CE395F',
+        greenColor: '#36D233',
         primaryBg: '#0D1117',
         dialogBg: '#131313',
         inputBg: '#161B22',

@@ -39,7 +39,7 @@
         </div>
         <div class="sm:mt-1rem sm:px-1rem">
           <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg rounded-12px" :class="currentPosts && currentPosts.length>0?'md:p-1rem':''">
-            <div class="px-1.5rem sm:px-0 border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
+            <div class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"
                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
                     :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40'"
