@@ -25,6 +25,7 @@ import AboutUsView from "@/views/AboutView";
 import CurationsIndex from "@/views/curations/CurationsIndex";
 import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
+import CurationsView from "@/views/user/Curations";
 
 const routes = [
   {
@@ -119,6 +120,12 @@ const routes = [
         path: '/profile/:user/post',
         name: 'post',
         component: UserPostView,
+        meta: {keepAlive: true}
+      },
+      {
+        path: '/profile/:user/curations',
+        name: 'profile-curations',
+        component: CurationsView,
         meta: {keepAlive: true}
       }
     ]

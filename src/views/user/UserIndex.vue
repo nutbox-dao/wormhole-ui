@@ -124,6 +124,11 @@
               >
               <router-link
                   class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
+                  :to="`/profile/${$route.params.user}/curations`"
+              >{{$t('profileView.curations')}}</router-link
+              >
+              <router-link
+                  class="flex-1 py-0.8rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
               >{{$t('profileView.web3Wallet')}}</router-link
               >

@@ -71,7 +71,8 @@ export default {
     web3Wallet: 'Web3 wallet',
     ethWallet: 'ETH wallet',
     getNftP1: 'A NFT that shows your social influence on Twitter',
-    people: 'People'
+    people: 'People',
+    curations: 'Curations'
   },
   token: {
     noNft: "You havn't got any NFTs.",
