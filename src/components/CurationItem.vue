@@ -3,10 +3,10 @@
     <div class="py-1rem px-1.5rem border-b-1 border-listBgBorder">
       <div class="flex ">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="w-2.5rem h-2.5rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border cursor-pointer"
+             class="w-2.5rem h-2.5rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full cursor-pointer"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="w-2.5rem h-2.5rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border" src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <img class="w-2.5rem h-2.5rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full " src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex justify-between items-center cursor-pointer" @click.stop="gotoUserPage()">
           <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">Ian Yin </a>
           <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-primaryColor text-15px xl:text-0.75rem">
@@ -14,7 +14,7 @@
           </span>
         </div>
       </div>
-      <div class="overflow-x-hidden md:ml-5.1rem md:mr-0 sm:mx-4.1rem text-left relative">
+      <div class="overflow-x-hidden md:ml-5.1rem md:mr-0 sm:mx-3.9rem text-left relative sm:-mt-2">
         <div class="xl:max-w-27rem">
           <div class="font-600">Retweet a post to earn USDTs</div>
           <div class="text-color8B font-400 text-leading24px xl:text-0.75rem md:text-leading1.5rem">

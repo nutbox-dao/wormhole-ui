@@ -24,6 +24,7 @@ import TopicsView from "@/views/square/TopicsView";
 import AboutUsView from "@/views/AboutView";
 import CurationsIndex from "@/views/curations/CurationsIndex";
 import CreateCuration from "@/views/curations/CreateCuration";
+import CurationDetail from "@/views/curations/CurationDetail";
 
 const routes = [
   {
@@ -56,6 +57,11 @@ const routes = [
     path: '/create-curation',
     name: 'create-curation',
     component: CreateCuration
+  },
+  {
+    path: '/curation-detail/:id',
+    name: 'curation-detail',
+    component: CurationDetail
   },
   {
     path: '/verify',

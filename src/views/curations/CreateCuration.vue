@@ -19,7 +19,7 @@
         <div class="mt-3rem">
           <div class="mb-6px">Schedule (UTC+08:00)</div>
           <div class="mb-6px text-primaryColor italic">The default start time is the creation time.</div>
-          <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center">
+          <div class="relative border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center">
             <div class="flex-1">
               <el-date-picker
                   class="c-input-date"
@@ -31,7 +31,7 @@
                   placeholder="End time"
               />
             </div>
-            <img class="mx-0.8rem" src="~@/assets/icon-date.svg" alt="">
+            <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
           </div>
         </div>
         <div class="mt-3rem">
@@ -214,13 +214,15 @@ export default {
         isLimit: false,
         token: ''
       },
-      popperWidth: 200,
       modalVisible: false,
       modalComponent: markRaw(SendTokenTip)
     }
   },
-  mounted() {
-    this.popperWidth = this.$refs.tokenPopper.clientWidth
+  computed: {
+    popperWidth: () => {
+      if(this.$refs.tokenPopper) return this.$refs.tokenPopper.clientWidth
+      return 200
+    }
   },
   methods: {
     onSubmit() {
