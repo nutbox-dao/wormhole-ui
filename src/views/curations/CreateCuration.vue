@@ -10,16 +10,16 @@
       <Steps :total-step="2" :current-step="currentStep"/>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
-          <div class="mb-6px">Title</div>
+          <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
             <input class="bg-transparent h-full w-full px-0.5rem"
                   v-model="form.title"
-                   type="text" placeholder="Enter a quest title…">
+                   type="text" :placeholder="$t('curation.inputTitle')">
           </div>
         </div>
         <div class="mt-1.8rem">
-          <div class="mb-6px">Schedule (UTC+08:00)</div>
-          <div class="mb-6px text-primaryColor italic">The default start time is the creation time.</div>
+          <div class="mb-6px">{{$t('curation.schedule')}}</div>
+          <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
           <div class="relative border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center">
             <div class="flex-1">
               <el-date-picker
@@ -36,10 +36,10 @@
             <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">Description</div>
+        <div class="mt-3rem">
+          <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" placeholder="Enter Description…"/>
+            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>
           </div>
         </div>
         <div class="text-right mt-4rem">
@@ -48,12 +48,12 @@
         </div>
       </div>
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="mt-1.8rem">
-          <div class="mb-6px">Connect Wallet</div>
+        <div class="mt-3rem">
+          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
           flex justify-center items-center"
-               @click="connectLoading=true">
-            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">Metamask</span>
+               @click="connectWallet">
+            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : 'Connect Metamask'}}</span>
             <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
             <div v-if="connectLoading"
                  class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
@@ -61,39 +61,38 @@
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">Number of Rewards</div>
+        <div class="mt-3rem">
+          <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
-                     type="text" placeholder="Enter number of rewards">
+                     type="number" :placeholder="$t('curation.maxCountTip')">
             </div>
             <div class="w-full sm:w-3/7 sm:pl-3rem flex items-center">
               <el-switch v-model="form.isLimit" />
               <span class="ml-10px font-600"
-                    :class="form.isLimit?'text-primaryColor1':'text-color8B'">No limited</span>
+                    :class="form.isLimit?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">Rewards Method</div>
+        <div class="mt-3rem">
+          <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
-              Proof of Subjective Work (PoSW)
+              {{$t('curation.posw')}}
             </div>
             <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1.2rem">
-              If it is a PoSW quest, the reward will be issued to the participants according to the review.
-              If it is other quest, the rewards will be automatically.
+              {{$t('curation.poswDes')}}
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">Number of Rewards</div>
+        <div class="mt-3rem">
+          <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
                  class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
-                     type="text" placeholder="Enter number of rewards">
+                     type="number" :placeholder="$t('curation.inputRewardsAmount')">
             </div>
             <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
               <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
@@ -113,7 +112,7 @@
                         <div class="w-full border-1 bg-black border-1 border-color8B/30
                              rounded-12px h-40px 2xl:h-2rem">
                           <input class="bg-transparent h-full w-full px-0.5rem"
-                                 type="text" placeholder="Enter a contract address">
+                                 type="text" :placeholder="$t('curation.inputErc20')">
                         </div>
                       </div>
                       <div v-for="i of 4" :key="i"
@@ -202,8 +201,11 @@ import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
 import { newCuration, updateCurationCreateStatus } from '@/api/api'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { notify } from "@/utils/notify";
+import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
+import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
+import { CHAIN_ID } from "@/config";
 
 export default {
   name: "CreateCuration",
@@ -219,7 +221,8 @@ export default {
         endTime: '',
         isLimit: false,
         description: '',
-        token: ''
+        token: '',
+        amount: ''
       },
       modalVisible: false,
       modalComponent: markRaw(SendTokenTip),
@@ -227,7 +230,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('curation', ['getDraft'])
+    ...mapState('web3', ['account', 'chainId']),
+    ...mapGetters('curation', ['getDraft']),
+    showAccount() {
+      if (this.account && this.chainId === CHAIN_ID)
+        return true;
+      return false
+    }
   },
   methods: {
     disabledDate(time) {
@@ -247,7 +256,7 @@ export default {
     onNext() {
       console.log(523, this.form);
       console.log(66, new Date(this.form.endTime).getTime());
-      if (!this.checkCrateData()) {
+      if (!this.checkCreateData()) {
         return;
       }
       this.$store.commit('curation/saveDraft', this.form);
@@ -255,6 +264,18 @@ export default {
       this.$nextTick(() => {
         this.popperWidth = this.$refs.tokenPopper.clientWidth
       })
+    },
+    async connectWallet() {
+      this.connectLoading = true
+      try{
+        if (await setupNetwork()) {
+          await getAccounts(true);
+        }
+      } catch (e) {
+        notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
+      } finally {
+        this.connectLoading = false
+      }
     },
     onSubmit() {
       this.modalVisible = markRaw(SendTokenTip)
@@ -280,10 +301,11 @@ export default {
       }, 3000)
     }
   },
-  mounted () {
+  async mounted () {
     if (this.getDraft) {
       this.form = this.getDraft
     }
+    chainChanged()
   },
 }
 </script>

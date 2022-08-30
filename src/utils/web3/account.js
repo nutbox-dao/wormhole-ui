@@ -1,7 +1,7 @@
 import { getEthWeb } from './web3.js'
 import store from '@/store'
 import { ethers } from 'ethers'
-import { getNonce as gn } from '@/apis/api'
+import { getNonce as gn } from '@/api/api'
 import { sleep } from '../helper.js'
 import { CHAIN_ID } from '@/config.js'
 
@@ -16,12 +16,7 @@ export const getAccounts = async (update=false) => {
         store.commit('web3/saveAccount', null);
         return
     }
-    while(true) {
-        if (parseInt(store.state.web3.chainId) > 0){
-             break;
-        }
-        await sleep(0.3)
-    }
+    
     if (parseInt(store.state.web3.chainId !== parseInt(CHAIN_ID))) {
         store.commit('web3/saveAccount', null)
         return;
@@ -33,7 +28,6 @@ export const getAccounts = async (update=false) => {
     let account = accounts[0]
     account = ethers.utils.getAddress(account)
     store.commit('web3/saveAccount', account)
-    store.commit('web3/saveAllAccounts', accounts)
     console.log(accounts[0]);
     return accounts[0]
 }
