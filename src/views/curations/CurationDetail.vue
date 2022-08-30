@@ -9,7 +9,7 @@
     </div>
     <div class="container mx-auto max-w-50rem pb-2rem px-15px">
       <div class="grid grid-cols-3 gap-1.5rem">
-        <div class="col-span-3 xl:col-span-2 md:bg-blockBg rounded-15px py-1.5rem text-left">
+        <div class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
           <div class="px-1.5rem">
             <div class="c-text-black text-1.5rem sm:text-24px">
               Retweet a post to earn USDTs
@@ -69,8 +69,9 @@
     <button class="flex items-center justify-center gradient-btn
                    gradient-btn-shadow h-2.7rem px-1rem
                    rounded-full c-text-black text-1.2rem
-                   absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2">
-      Tweet action tips
+                   absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+            @click="modalVisible=true">
+      Attend Curation
     </button>
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
@@ -82,7 +83,8 @@
              @click="modalVisible=false"
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-
+          <TweetAttendTip class="py-2rem md:py-0"
+                          @close="modalVisible=false"/>
         </div>
       </div>
     </van-popup>
@@ -90,9 +92,10 @@
 </template>
 
 <script>
-
+import TweetAttendTip from "@/components/TweetAttendTip";
 export default {
   name: "CurationDetail",
+  components: {TweetAttendTip},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
