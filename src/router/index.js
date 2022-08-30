@@ -139,6 +139,16 @@ const routes = [
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
+  },
+  {
+    path: '/confirm-reward',
+    name: 'confirm-reward',
+    component: () => import('@/views/curations/ConfirmReward'),
+  },
+  {
+    path: '/submissions/:id',
+    name: 'submissions',
+    component: () => import('@/views/curations/Submissions'),
   }
 ]
 

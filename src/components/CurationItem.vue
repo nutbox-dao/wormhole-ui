@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="py-1rem px-1.5rem border-b-1 border-listBgBorder">
-      <div class="flex ">
+      <div class="flex items-center sm:items-start">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
              class="w-2.5rem h-2.5rem 2xl:w-3.6rem 2xl:h-3.6rem 2xl:mr-1.5rem mr-0.8rem rounded-full cursor-pointer"
              @error="replaceEmptyImg"
@@ -9,12 +9,12 @@
         <img class="w-2.5rem h-2.5rem 2xl:w-3.6rem 2xl:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full " src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex justify-between items-center cursor-pointer" @click.stop="gotoUserPage()">
           <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">Ian Yin </a>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-primaryColor text-15px xl:text-0.75rem">
-            2 days left
-          </span>
+<!--          <span class="text-primaryColor text-15px xl:text-0.75rem">2 days left</span>-->
+          <span class="text-orangeColor text-15px xl:text-0.75rem">Ended</span>
+<!--          <span class="text-greenColor text-15px xl:text-0.75rem">Completed</span>-->
         </div>
       </div>
-      <div class="overflow-x-hidden 2xl:ml-5.1rem md:mr-0 sm:ml-3.9rem text-left relative sm:-mt-2">
+      <div class="overflow-x-hidden 2xl:ml-5.1rem md:mr-0 sm:ml-3.9rem text-left relative sm:-mt-3">
         <div class="xl:max-w-27rem pb-12px">
           <div class="font-600">Retweet a post to earn USDTs</div>
           <div class="text-color8B font-400 text-leading24px xl:text-0.75rem md:text-leading1.5rem">
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="flex justify-between items-center">
-          <div class="flex ml-10px">
+          <div class="flex items-center ml-10px">
             <img v-for="i of 3" :key="i"
                  class="w-32px h-32px xl:w-1.6rem xl:h-1.6rem rounded-full -ml-10px border-1 border-blockBg"
                  src="~@/assets/icon-default-avatar.svg" alt="">
@@ -31,9 +31,11 @@
                     rounded-full -ml-10px flex justify-center items-center border-1 border-blockBg bg-primaryColor
                     font-600 text-12px">+12</span>
           </div>
-          <div class="xl:absolute xl:top-1rem xl:right-0 bg-primaryColor/20 text-primaryColor px-13px py-5px
+          <div class="flex items-center h-max">
+            <div class="xl:absolute xl:top-1rem xl:right-0 bg-primaryColor/20 text-primaryColor px-13px py-5px
                  rounded-full c-text-black 2xl:text-0.75rem">100 ETH</div>
-          <slot name="status"></slot>
+            <slot name="status"></slot>
+          </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@
          class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
       <Steps :total-step="2" :current-step="currentStep"/>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Title</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
             <input class="bg-transparent h-full w-full px-0.5rem"
@@ -17,7 +17,7 @@
                    type="text" placeholder="Enter a quest title…">
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Schedule (UTC+08:00)</div>
           <div class="mb-6px text-primaryColor italic">The default start time is the creation time.</div>
           <div class="relative border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center">
@@ -36,7 +36,7 @@
             <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Description</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
             <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" placeholder="Enter Description…"/>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Connect Wallet</div>
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
           flex justify-center items-center"
@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Number of Rewards</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
@@ -75,7 +75,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Rewards Method</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
@@ -87,7 +87,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">Number of Rewards</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
@@ -134,12 +134,12 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem w-full h-1px bg-color8B/30"></div>
-        <div class="mt-3rem text-right font-400">
+        <div class="mt-1.8rem w-full h-1px bg-color8B/30"></div>
+        <div class="mt-1.8rem text-right font-400">
           <div>Total amount (ETH)</div>
           <div class="mt-0.6rem text-24px 2xl:text-1.2rem">100</div>
         </div>
-        <div class="mt-3rem flex justify-between text-15px">
+        <div class="mt-1.8rem flex justify-between text-15px">
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white"
                   @click="currentStep=1">Preview</button>
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
