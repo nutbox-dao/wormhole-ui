@@ -106,6 +106,10 @@ export default {
     createBtn: 'Create a curation',
     createCuration: 'Create Curation'
   },
+  tips: {
+    missingInput: "Please complete all infos.",
+    textLengthOut: "Input text exceed max length.",
+  },
   common: {
     none: 'None',
     noMore: 'No more',
