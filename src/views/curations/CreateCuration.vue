@@ -36,7 +36,7 @@
             <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
             <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>
@@ -48,10 +48,10 @@
         </div>
       </div>
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
-          flex justify-center items-center"
+                      flex justify-center items-center cursor-pointer"
                @click="connectWallet">
             <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : 'Connect Metamask'}}</span>
             <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
@@ -61,21 +61,21 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                      type="number" :placeholder="$t('curation.maxCountTip')">
             </div>
-            <div class="w-full sm:w-3/7 sm:pl-3rem flex items-center">
+            <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
               <el-switch v-model="form.isLimit" />
-              <span class="ml-10px font-600"
+              <span class="ml-10px font-600 whitespace-nowrap"
                     :class="form.isLimit?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
@@ -86,7 +86,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-3rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
