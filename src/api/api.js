@@ -47,6 +47,18 @@ export const getCommentsByPostid = async (postId) =>
 export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
     get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
 
+/****************************************  curation  ***********************************************/
+/**
+ * 
+ * @param {*} curation: 
+ * {
+ *  curationId, creatorTwitter, creatorETH, content, token, amount, maxCount, endtime
+ * } 
+ * @returns 
+ */
+export const newCuration = async (curation) =>
+    post(BACKEND_API_URL + '/curation/newCuration', curation)
+
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {
