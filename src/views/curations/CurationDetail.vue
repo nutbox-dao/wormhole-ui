@@ -76,13 +76,13 @@
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
-      <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
       rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
         <div v-if="position === 'bottom'"
              @click="modalVisible=false"
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
           <TweetAttendTip class="py-2rem md:py-0"
                           @close="modalVisible=false"/>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
-      {{$t('postView.tweetPost')}}
+      <slot name="title">{{$t('postView.tweetPost')}}</slot>
     </div>
     <div class="bg-black rounded-15px px-1rem mt-1.5rem mb-1rem overflow-hidden ">
       <div class="text-15px 2xl:text-1rem px-1rem py-0.7rem border-b-1 border-dividerColor">
@@ -33,15 +33,18 @@
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="bg-black/40 rounded-1rem h-min-8rem p-1rem mt-0.8rem relative">
+    <div class="bg-black/40 rounded-1rem min-h-8rem p-1rem mt-0.8rem relative">
       <div class="text-left break-all 2xl:text-0.8rem text-14px">
         <span class="text-text8F">{content}</span>
         <span class="text-primaryColor"> #iweb3</span>
+        <slot name="content"></slot>
       </div>
-      <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
-        <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
-        <span class="text-color8B" @click="gotoTweet">{{$t('postView.goTweet')}}</span>
-      </button>
+      <slot name="btn">
+        <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
+          <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
+          <span class="text-color8B" @click="gotoTweet">{{$t('postView.goTweet')}}</span>
+        </button>
+      </slot>
     </div>
     <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
       {{$t('postView.tips')}}: <br> {{$t('postView.p2')}}

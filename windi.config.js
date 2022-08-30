@@ -25,7 +25,8 @@ export default defineConfig({
         colorE3: '#E3E3E3',
         color8B: '#8B949E',
         color84: '#848391',
-        colorB5: '#B5BFD6'
+        colorB5: '#B5BFD6',
+        color0E: '#0E0E0E'
       },
       screens: {
         '2md': { min: '961px' },
