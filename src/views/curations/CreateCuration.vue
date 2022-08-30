@@ -29,6 +29,7 @@
                   v-model="form.endTime"
                   type="datetime"
                   placeholder="End time"
+                  :disabled-date="disabledDate"
               />
             </div>
             <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
@@ -42,7 +43,7 @@
         </div>
         <div class="text-right mt-4rem">
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem  gradient-btn"
-                  @click="currentStep=2">Next</button>
+                  @click="onNext">Next</button>
         </div>
       </div>
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
@@ -198,7 +199,8 @@
 import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
-import {markRaw} from "vue";
+import {markRaw, ref} from "vue";
+
 export default {
   name: "CreateCuration",
   components: {Steps, SendTokenTip, TwitterCompleteTip},
@@ -215,16 +217,20 @@ export default {
         token: ''
       },
       modalVisible: false,
-      modalComponent: markRaw(SendTokenTip)
-    }
-  },
-  computed: {
-    popperWidth: () => {
-      if(this.$refs.tokenPopper) return this.$refs.tokenPopper.clientWidth
-      return 200
+      modalComponent: markRaw(SendTokenTip),
+      popperWidth: 200
     }
   },
   methods: {
+    disabledDate(time) {
+      return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
+    },
+    onNext() {
+      this.currentStep = 2
+      this.$nextTick(() => {
+        this.popperWidth = this.$refs.tokenPopper.clientWidth
+      })
+    },
     onSubmit() {
       this.modalVisible = markRaw(SendTokenTip)
       this.modalVisible = true
