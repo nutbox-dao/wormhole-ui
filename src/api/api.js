@@ -59,6 +59,9 @@ export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
 
+export const updateCurationCreateStatus = async (curationId, status) =>
+    post(BACKEND_API_URL + 'curation/updateCurationCreateStatus', {curationId, status})
+
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {

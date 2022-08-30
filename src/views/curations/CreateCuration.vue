@@ -13,6 +13,7 @@
           <div class="mb-6px">Title</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
             <input class="bg-transparent h-full w-full px-0.5rem"
+                  v-model="form.title"
                    type="text" placeholder="Enter a quest title…">
           </div>
         </div>
@@ -38,7 +39,7 @@
         <div class="mt-3rem">
           <div class="mb-6px">Description</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <textarea class="bg-transparent  w-full p-0.5rem" rows="12" placeholder="Enter Description…"/>
+            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" placeholder="Enter Description…"/>
           </div>
         </div>
         <div class="text-right mt-4rem">
@@ -200,6 +201,9 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
+import { newCuration, updateCurationCreateStatus } from '@/api/api'
+import { mapGetters } from 'vuex'
+import { notify } from "@/utils/notify";
 
 export default {
   name: "CreateCuration",
@@ -214,6 +218,7 @@ export default {
         title: '',
         endTime: '',
         isLimit: false,
+        description: '',
         token: ''
       },
       modalVisible: false,
@@ -221,11 +226,31 @@ export default {
       popperWidth: 200
     }
   },
+  computed: {
+    ...mapGetters('curation', ['getDraft'])
+  },
   methods: {
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
     },
+    checkCreateData() {
+      if (!this.form.title || !this.form.endTime || !this.form.description) {
+        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+        return false
+      }
+      if (this.form.title.length + this.form.description.length > 240) {
+        notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
+        return false
+      }
+      return true
+    },
     onNext() {
+      console.log(523, this.form);
+      console.log(66, new Date(this.form.endTime).getTime());
+      if (!this.checkCrateData()) {
+        return;
+      }
+      this.$store.commit('curation/saveDraft', this.form);
       this.currentStep = 2
       this.$nextTick(() => {
         this.popperWidth = this.$refs.tokenPopper.clientWidth
@@ -254,7 +279,12 @@ export default {
         this.$router.replace('/curations')
       }, 3000)
     }
-  }
+  },
+  mounted () {
+    if (this.getDraft) {
+      this.form = this.getDraft
+    }
+  },
 }
 </script>
 

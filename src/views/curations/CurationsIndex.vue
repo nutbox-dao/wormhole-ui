@@ -72,6 +72,8 @@
 <script>
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
+import { mapGetters } from 'vuex'
+
 export default {
   name: "CurationsIndex",
   components: {CurationItem, CurationsTip},
@@ -87,6 +89,9 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
     }
   },
+  computed: {
+    ...mapGetters('curation', ['getDraft'])
+  },
   methods: {
     changeSubIndex(index) {
       this.subActiveTagIndex = index
@@ -97,7 +102,11 @@ export default {
 
     },
     createCurations() {
-      this.modalVisible = true
+      if (this.getDraft) {
+        this.modalVisible = true
+      } else{
+        this.onCreate()
+      }
     },
     onCreate() {
       this.modalVisible = false
