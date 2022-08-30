@@ -45,7 +45,9 @@
                             :loading-text="$t('common.loading')"
                             :pulling-text="$t('common.pullRefresh')"
                             :loosing-text="$t('common.loosingRefresh')">
-            <CurationItem v-for="i of 5" :key="i" @click="$router.push('/curation-detail/0')"/>
+            <CurationItem v-for="i of 5" :key="i"
+                          class="cursor-pointer"
+                          @click="$router.push('/curation-detail/0')"/>
           </van-pull-refresh>
         </div>
       </div>
