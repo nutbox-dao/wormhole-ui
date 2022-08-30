@@ -9,9 +9,9 @@ export default {
     mutations: {
         saveDraft: (state, draft) => {
             if (draft) {
-                draft = JSON.stringify(draft)
-                state.draft = draft;
-                Cookie.set('curation-draft', draft, '2d')
+                const draftStr = JSON.stringify(draft)
+                state.draft = draftStr;
+                Cookie.set('curation-draft', draftStr, '2d')
             }else {
                 state.draft = null;
                 Cookie.remove('curation-draft');
@@ -22,6 +22,7 @@ export default {
         getDraft: (state) => {
             let draft = state.draft;
             if (draft) {
+                return draft
                 return JSON.parse(draft)
             }
             return null;

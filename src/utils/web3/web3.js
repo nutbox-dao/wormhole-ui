@@ -25,8 +25,7 @@ export const setupNetwork = async () => {
         chainId: `0x${chainId.toString(16)}`
       }],
     })
-    store.commit('saveMetamaskConnected', true)
-    store.commit('web3/saveChainId', chainId)
+    store.commit('web3/saveChainId', parseInt(chainId))
     return true
   } catch (error) {
     if (error.code === 4001) return;
@@ -41,14 +40,11 @@ export const setupNetwork = async () => {
           blockExplorerUrls: [BLOCK_CHAIN_BROWER]
         }],
       })
-      store.commit('saveMetamaskConnected', true)
-      store.commit('web3/saveChainId', chainId)
+      store.commit('web3/saveChainId', parseInt(chainId))
       return true
     }catch(error){
       console.log(43256, error);
-      store.commit('web3/saveChainId', 0)
       store.commit('web3/saveAccount', null)
-      store.commit('saveMetamaskConnected', false)
       return false
     }
   }
@@ -114,7 +110,8 @@ export const chainChanged = async (refresh) => {
   metamask.on('chainChanged', async(chainId) => {
     console.log('Changed to new chain', parseInt(chainId));
     store.commit('web3/saveChainId', parseInt(chainId))
-    refresh();
+    if (refresh)
+      refresh();
   })
 }
 

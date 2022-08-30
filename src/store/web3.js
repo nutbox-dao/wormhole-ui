@@ -44,6 +44,9 @@ export default {
     saveReadonlyProvider: (state, readonlyProvider) => {
       state.readonlyProvider = readonlyProvider;
     },
+    saveChainId: (state, chainId) => {
+      state.chainId = chainId
+    }
   },
   getters: {
     isMainChain: (state) => {

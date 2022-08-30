@@ -11,10 +11,23 @@ export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 // export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
-export const RPC_NODE = 'https://bsc-dataseed.binance.org'
-export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
-export const CHAIN_NAME = 'BSC Mainnet'
-export const CHAIN_ID = 56
+// export const RPC_NODE = 'https://bsc-dataseed.binance.org'
+// export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
+// export const CHAIN_NAME = 'BSC Mainnet'
+// export const CHAIN_ID = 56
+// export const MainToken = {
+//     name: 'BNB',
+//     symbol: 'BNB',
+//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
+//     decimals: 18
+// }
+// export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
+
+// bsc test
+export const RPC_NODE = 'https://bsctestapi.terminet.io/rpc'
+export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
+export const CHAIN_NAME = 'BSC Testnet'
+export const CHAIN_ID = 97
 export const MainToken = {
     name: 'BNB',
     symbol: 'BNB',
