@@ -107,8 +107,8 @@
                   <template #reference>
                     <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
                       <div class="flex items-center">
-                        <img v-if="selectedToken.icon" class="h-22px mr-15px" :src="selectedToken.icon" alt="">
-                        <img v-else class="h-22px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
+                        <img v-if="selectedToken.icon" class="h-22px mr-15px rounded-full" :src="selectedToken.icon" alt="">
+                        <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
                         <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                       </div>
                       <img class="w-1rem" src="~@/assets/icon-select-arrow.svg" alt="">
@@ -140,7 +140,7 @@
                             @click="selectedToken=token;$refs.elPopover.hide()"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30">
-                        <img class="h-34px mr-15px" :src="token.icon" alt="">
+                        <img class="h-34px mr-15px rounded-full" :src="token.icon" alt="">
                         <div class="flex-1 flex flex-col text-color8B overflow-x-hidden">
                           <span class="text-15px">{{token.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
@@ -183,8 +183,10 @@
         <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
         <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem relative">
           <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
-            <span class="text-text8F">{{curation.content + '#iweb3\n'}}</span>
-            <span class="text-primaryColor">{{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}</span>
+            <span class="text-text8F whitespace-pre-line">{{curation.content + '#iweb3\n'}}</span>
+            <span class="text-primaryColor whitespace-pre-line">
+              {{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}
+            </span>
           </div>
         </div>
         <!-- <div class="italic text-12px text-left mt-6px leading-15px">
@@ -365,7 +367,7 @@ export default {
       } finally {
         this.loading = false
       }
-      
+
     },
     // created curation on chain
     async createCuration() {
@@ -380,7 +382,7 @@ export default {
           endtime: new Date(this.form.endtime).getTime(),
           token: this.selectedToken.address
         }
-        
+
         this.curation = curation
 
         this.currentStep = 3;
@@ -406,7 +408,7 @@ export default {
         notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
         return;
       }
-      
+
       let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
       window.open(url, '__blank')
       this.modalComponent = markRaw(TwitterCompleteTip)
