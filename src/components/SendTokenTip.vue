@@ -58,7 +58,6 @@ export default {
     }
   },
   mounted () {
-    console.log(6621, this.token);
     this.tokenInfo = this.token.amount + ' ' + this.token.symbol;
     getApprovement(this.token.address, this.account, CURATION_CONTRACT).then(res => {
       this.approvement = res

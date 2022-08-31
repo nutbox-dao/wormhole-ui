@@ -183,8 +183,8 @@
         <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
         <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem relative">
           <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
-            <span class="text-text8F">{{curation.content}}</span>
-            <span class="text-primaryColor">{{'#iweb3' + $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}</span>
+            <span class="text-text8F">{{curation.content + '#iweb3\n'}}</span>
+            <span class="text-primaryColor">{{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}</span>
           </div>
         </div>
         <!-- <div class="italic text-12px text-left mt-6px leading-15px">
@@ -390,7 +390,7 @@ export default {
         // post to backend
         await newCuration(curation);
         this.$store.commit('curation/saveDraft', null);
-        this.step = 3;
+        this.currentStep = 3;
       } catch (e) {
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
@@ -401,16 +401,20 @@ export default {
     },
     onPost() {
       // transfer text to uri
-      encodeURIComponent(this.curation.content)
+      const content = this.curation.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + this.curation.curationId
+      if (content.length > 280) {
+        notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
+        return;
+      }
+      
+      let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+      window.open(url, '__blank')
       this.modalComponent = markRaw(TwitterCompleteTip)
       this.modalVisible =true
     },
     onComplete() {
-      this.modalVisible = false
-      this.loading = true
-      setTimeout(() => {
-        this.$router.replace('/curations')
-      }, 3000)
+      this.$store.commit('curation/saveDraft', null)
+      this.$router.replace('/curations')
     }
   },
   async mounted () {
