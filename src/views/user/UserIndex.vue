@@ -423,7 +423,7 @@ export default {
       }
     },
   },
-  async mounted() {
+  async activated() {
     const twitterUsername = this.$route.params.user.startsWith("@")
       ? this.$route.params.user.substring(1)
       : this.$route.params.user;
@@ -433,7 +433,6 @@ export default {
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
       const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
-
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -453,51 +452,37 @@ export default {
       }
     } else {
       this.$router.replace('/')
-      return;
-      try {
-        this.loading = true;
-        const result = await login(twitterUsername, null, (status) => {
-          if (status === FetchingStatus.MATCH_TICKETS) {
-          } else if (status === FetchingStatus.REGISTERING) {
-            this.showRegistering = true;
-          } else if (status === FetchingStatus.NOT_SEND_TWITTER) {
-            this.showNotSendTwitter = true;
-          }
-        });
-        if (!result) {
-          console.log("Not exsit");
-          this.showNotify("This twitter account is invalid.", 5000, "error");
-          this.$router.push("/");
-          return;
-        } else {
-          if (this.getAccountInfo) {
-            const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
-
-            if (steemId) {
-              // get steem balance
-              getSteemBalance(steemId)
-                .then((balance) => {
-                  this.$store.commit("saveSteemBalance", balance.steemBalance);
-                  this.$store.commit("saveSbdBalance", balance.sbdBalance);
-                })
-                .catch((err) => console.log("get steem balance fail:", err));
-            } else {
-              this.$store.commit("saveSteemBalance", 0);
-            }
-
-            //get eth balances
-            if (ethAddress) {
-              getTokenBalance(ethAddress);
-            }
-          }
-        }
-      } catch (e) {
-        this.showNotify("Server error", 5000, "error");
-        this.$router.push("/");
-        return;
-      } finally {
-        this.loading = false;
+    }
+  },
+  async mounted() {
+    const twitterUsername = this.$route.params.user.startsWith("@")
+      ? this.$route.params.user.substring(1)
+      : this.$route.params.user;
+    // getUserInfo
+    if (
+      this.getAccountInfo &&
+      twitterUsername == this.getAccountInfo.twitterUsername
+    ) {
+      const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
+      if (steemId) {
+        // get steem balance
+        getSteemBalance(steemId)
+          .then((balance) => {
+            this.$store.commit("saveSteemBalance", balance.steemBalance);
+            this.$store.commit("saveSbdBalance", balance.sbdBalance);
+          })
+          .catch((err) => console.log("get steem balance fail:", err));
+      } else {
+        this.$store.commit("saveSteemBalance", 0);
       }
+
+
+      //get eth balances
+      if (ethAddress) {
+        getTokenBalance(ethAddress);
+      }
+    } else {
+      this.$router.replace('/')
     }
   },
 };
