@@ -40,6 +40,7 @@ export const accountChanged = async (refresh) => {
     metamask.on('accountsChanged', (accounts) => {
         console.log('Changed accounts', accounts);
         store.commit('web3/saveAccount', ethers.utils.getAddress(accounts[0]))
+        if (refresh)
         refresh();
     })
 }

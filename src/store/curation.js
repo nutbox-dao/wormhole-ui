@@ -9,8 +9,8 @@ export default {
     mutations: {
         saveDraft: (state, draft) => {
             if (draft) {
+                state.draft = draft;
                 const draftStr = JSON.stringify(draft)
-                state.draft = draftStr;
                 Cookie.set('curation-draft', draftStr, '2d')
             }else {
                 state.draft = null;

@@ -124,11 +124,20 @@ export default {
     noLimited: 'No limited',
     rewardsMethod: 'Reward Method',
     posw: "Proof Of Subjective Work(PoSW)",
-    poswDes: 'If it is a PoSW quest, the reward will be issued to the participants according to the review. \nIf it is other quest, the rewards will be automatically.',
+    poswDes: 'If it is a PoSW curation, the reward will be issued to the participants according to the review. \nIf it is other quest, the rewards will be automatically.',
     rewardsAmount: 'Rewards Amount',
     inputRewardsAmount: 'Enter amount of rewards',
     inputErc20: 'Enter ERC20 address or select one',
-    totalAmount: "Total amount"
+    totalAmount: "Total amount",
+    insuffientBalance: 'Insuffient Balance',
+    approveFail: 'Approve Fail',
+    create:"Create",
+    createTip: "Since the reward of this curation includes tokens, it is necessary to enter the tokens ( {rewards} ) into the bonus vault in advance. After the curation ends, eligible curator will be able to receive the rewards.",
+    backToEdit: 'Back to edit',
+    crateFail: "Crate curation fail",
+    createdOk: 'Create Curation Success!',
+    startCuration: 'Tweet and start curation',
+    moreDetail: 'more details'
   },
   common: {
     none: 'None',
@@ -137,10 +146,16 @@ export default {
     token: 'Token',
     nft: 'NFTs',
     next: 'Next',
+    preview: 'Preview',
+    submit: 'Submit',
+    confirm: 'Confirm',
     send: 'Send',
+    approve: 'Approve',
+    connectMetamask: 'Connect Metamask',
     pullRefresh: 'Pull to refresh data',
     loosingRefresh: 'Release to refresh',
     loading: 'Loading...',
+    serverError: 'Server Error',
     get: 'GET'
   }
 }

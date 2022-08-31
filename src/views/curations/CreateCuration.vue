@@ -8,6 +8,7 @@
     <div v-if="currentStep<=2" v-loading="loading"
          class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
       <Steps :total-step="2" :current-step="currentStep"/>
+      <!-- set up -->
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
@@ -44,16 +45,17 @@
         </div>
         <div class="text-right mt-4rem">
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem  gradient-btn"
-                  @click="onNext">Next</button>
+                  @click="onNext">{{$t('common.next')}}</button>
         </div>
       </div>
+      <!-- reward -->
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
                       flex justify-center items-center cursor-pointer"
                @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : 'Connect Metamask'}}</span>
+            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : $t('common.connectMetamask')}}</span>
             <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
             <div v-if="connectLoading"
                  class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
@@ -61,11 +63,13 @@
             </div>
           </div>
         </div>
+        <!-- max count -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
+                    v-model="form.maxCount"
                      type="number" :placeholder="$t('curation.maxCountTip')">
             </div>
             <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
@@ -75,6 +79,7 @@
             </div>
           </div>
         </div>
+        <!-- posw des -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
@@ -86,22 +91,25 @@
             </div>
           </div>
         </div>
+        <!-- token -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
                  class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
+                      v-model="form.amount"
                      type="number" :placeholder="$t('curation.inputRewardsAmount')">
             </div>
             <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
               <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
-                <el-popover popper-class="c-popper" :width="popperWidth" trigger="click">
+                <el-popover popper-class="c-popper" :width="popperWidth" trigger="click" ref="elPopover">
                   <template #reference>
                     <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
                       <div class="flex items-center">
-                        <img class="h-22px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
-                        <span class="text-color8B text-15px">ETH</span>
+                        <img v-if="selectedToken.icon" class="h-22px mr-15px" :src="selectedToken.icon" alt="">
+                        <img v-else class="h-22px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
+                        <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                       </div>
                       <img class="w-1rem" src="~@/assets/icon-select-arrow.svg" alt="">
                     </div>
@@ -112,17 +120,31 @@
                         <div class="w-full border-1 bg-black border-1 border-color8B/30
                              rounded-12px h-40px 2xl:h-2rem">
                           <input class="bg-transparent h-full w-full px-0.5rem"
+                                v-model="form.token"
+                                @input="updateToken"
                                  type="text" :placeholder="$t('curation.inputErc20')">
                         </div>
                       </div>
-                      <div v-for="i of 4" :key="i"
+                      <div v-if="customToken"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30">
                         <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B overflow-x-hidden">
-                          <span class="text-15px">ETH</span>
+                        <div class="flex-1 flex flex-col text-color8B overflow-x-hidden" @click="selectedToken = customToken;$refs.elPopover.hide()">
+                          <span class="text-15px">{{customToken.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            0xxxxxxxxxxxxxx
+                            {{customToken.address}}
+                          </span>
+                        </div>
+                      </div>
+                      <div v-for="token of tokenList" :key="token.address"
+                            @click="selectedToken=token;$refs.elPopover.hide()"
+                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                           overflow-x-hidden hover:bg-black/30">
+                        <img class="h-34px mr-15px" :src="token.icon" alt="">
+                        <div class="flex-1 flex flex-col text-color8B overflow-x-hidden">
+                          <span class="text-15px">{{token.symbol}}</span>
+                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            {{token.address}}
                           </span>
                         </div>
                       </div>
@@ -135,35 +157,39 @@
         </div>
         <div class="mt-1.8rem w-full h-1px bg-color8B/30"></div>
         <div class="mt-1.8rem text-right font-400">
-          <div>Total amount (ETH)</div>
-          <div class="mt-0.6rem text-24px 2xl:text-1.2rem">100</div>
+          <div>{{$t('curation.totalAmount')}} ({{selectedToken.symbol}})</div>
+          <div class="mt-0.6rem text-24px 2xl:text-1.2rem">{{ form.amount }}</div>
         </div>
+        <!-- submit -->
         <div class="mt-1.8rem flex justify-between text-15px">
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white"
-                  @click="currentStep=1">Preview</button>
+                  @click="currentStep=1">{{$t('common.preview')}}</button>
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
-                  @click="onSubmit">Submit</button>
+                  @click="onSubmit">
+                  <span>{{$t('common.submit')}}</span>
+                </button>
         </div>
       </div>
     </div>
+    <!-- post tweet -->
     <div v-else class="mt-1.5rem">
       <div class="flex justify-center items-center mb-1rem">
         <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem"
              src="~@/assets/icon-success-green.svg" alt="">
-        <span class="text-greenColor text-15px font-500 ml-10px">Create Curation Success!</span>
+        <span class="text-greenColor text-15px font-500 ml-10px">{{$t('curation.createdOk')}}</span>
       </div>
       <div v-loading="loading"
            class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
-        <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">Tweet and start curation</div>
+        <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
         <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem relative">
           <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
-            <span class="text-text8F">{Enter curation twitter content here}more details3</span>
-            <span class="text-primaryColor"> => https://wh3.io/1t2g3f4y#iweb</span>
+            <span class="text-text8F">{{curation.content}}</span>
+            <span class="text-primaryColor">{{'#iweb3' + $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}</span>
           </div>
         </div>
-        <div class="italic text-12px text-left mt-6px leading-15px">
+        <!-- <div class="italic text-12px text-left mt-6px leading-15px">
           tips: Twitter content must include the #iweb3 hashtag and the curation short URL.
-        </div>
+        </div> -->
         <div class="mt-1.5rem">
           <button class="flex items-center justify-center rounded-full gradient-btn mr-0 ml-auto
                   text-12px 2xl:text-0.9rem h-40px 2xl:h-2.2rem px-1rem"
@@ -175,6 +201,7 @@
         </div>
       </div>
     </div>
+    <!-- create curation modal -->
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
@@ -186,7 +213,8 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
-                     @confirmApprove="onApprove"
+                     :token="{amount: form.amount, symbol: selectedToken.symbol, address: selectedToken.address}"
+                     @createCuration="createCuration"
                      @confirmComplete="onComplete"
                      @close="modalVisible=false"></component>
         </div>
@@ -204,8 +232,11 @@ import { newCuration, updateCurationCreateStatus } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
 import { notify } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
+import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
-import { CHAIN_ID } from "@/config";
+import { CHAIN_ID, ERC20List } from "@/config";
+import { ethers } from 'ethers'
+import { randomCurationId, creteNewCuration } from '@/utils/curation'
 
 export default {
   name: "CreateCuration",
@@ -220,23 +251,34 @@ export default {
         title: '',
         endTime: '',
         isLimit: false,
+        maxCount: '',
         description: '',
         token: '',
         amount: ''
       },
+      selectedToken: {},
+      tokenList: ERC20List,
       modalVisible: false,
       modalComponent: markRaw(SendTokenTip),
-      popperWidth: 200
+      popperWidth: 200,
+      customToken: null,
+      curation: {},
+      testTokens: [
+        '0x871AD5aAA75C297EB22A6349871ce4588E3c0306',
+        '0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0',
+        '0x622A71842cb6f2f225bEDa38E0BdD85331573182'
+      ]
     }
   },
   computed: {
     ...mapState('web3', ['account', 'chainId']),
     ...mapGetters('curation', ['getDraft']),
+    ...mapGetters(['getAccountInfo']),
     showAccount() {
       if (this.account && this.chainId === CHAIN_ID)
         return true;
       return false
-    }
+    },
   },
   methods: {
     disabledDate(time) {
@@ -247,15 +289,14 @@ export default {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
-      if (this.form.title.length + this.form.description.length > 240) {
+      if (this.form.title.length + this.form.description.length > 245) {
+        console.log('length:', this.form.title.length + this.form.description.length);
         notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
         return false
       }
       return true
     },
     onNext() {
-      console.log(523, this.form);
-      console.log(66, new Date(this.form.endTime).getTime());
       if (!this.checkCreateData()) {
         return;
       }
@@ -277,19 +318,90 @@ export default {
         this.connectLoading = false
       }
     },
-    onSubmit() {
-      this.modalVisible = markRaw(SendTokenTip)
-      this.modalVisible = true
+    async updateToken() {
+      if (!ethers.utils.isAddress(this.form.token)) {
+        this.customToken = null;
+        return;
+      }
+      const res = await getTokenInfo(this.form.token)
+      this.customToken = {...res, address: this.form.token}
     },
-    onApprove() {
-      this.modalVisible = false
-      this.loading = true
-      setTimeout(() => {
+    checkRewardData() {
+      if (!this.account || (this.form.maxCount <= 0 && this.form.isLimit) || !this.form.amount) {
+        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+        return false
+      }
+      if (!this.showAccount) {
+        notify({message: this.$t('common.connectMetamask'), duration: 5000, type: 'error'})
+        return false
+      }
+
+      return true
+    },
+    async onSubmit() {
+      if(!this.checkRewardData()) return;
+      try{
+        this.loading = true
+        const balance = await getERC20TokenBalance(this.selectedToken.address, this.account)
+        if (balance <= this.form.amount) {
+          notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
+          return;
+        }
+        this.$store.commit('curation/saveDraft', this.form);
+        // // curationId, creatorETH, content, token, amount, maxCount, endtime
+        // await newCuration({
+        //   curationId: randomCurationId(),
+        //   creatorETH: this.account,
+        //   content: this.form.description,
+        //   token: this.form.token,
+        //   amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
+        //   maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
+        //   endtime: new Date(this.form.endtime).getTime()
+        // })
+        this.modalComponent = markRaw(SendTokenTip)
+        this.modalVisible = true
+      } catch (e) {
+        notify({message: this.$t('common.serverError'), duration: 5000, type: 'error'})
+      } finally {
         this.loading = false
-        this.currentStep = 3
-      }, 3000)
+      }
+      
+    },
+    // created curation on chain
+    async createCuration() {
+      try{
+        this.loading = true
+        const curation = {
+          curationId: randomCurationId(),
+          creatorETH: this.account,
+          content: this.form.title + '\n' + this.form.description,
+          amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
+          maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
+          endtime: new Date(this.form.endtime).getTime(),
+          token: this.selectedToken.address
+        }
+        
+        this.curation = curation
+
+        this.currentStep = 3;
+        return;
+        // write in contract
+        await creteNewCuration(curation);
+        // post to backend
+        await newCuration(curation);
+        this.$store.commit('curation/saveDraft', null);
+        this.step = 3;
+      } catch (e) {
+        console.log('Create curation error:', e);
+        notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
+      } finally {
+        this.loading = false
+        this.modalVisible=false
+      }
     },
     onPost() {
+      // transfer text to uri
+      encodeURIComponent(this.curation.content)
       this.modalComponent = markRaw(TwitterCompleteTip)
       this.modalVisible =true
     },
@@ -306,6 +418,11 @@ export default {
       this.form = this.getDraft
     }
     chainChanged()
+    accountChanged()
+    await this.updateToken()
+    if (ethers.utils.isAddress(this.form.token)) {
+      this.selectedToken = this.customToken
+    }
   },
 }
 </script>
