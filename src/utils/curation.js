@@ -176,10 +176,12 @@ export const creteNewCuration = async (curation) => {
             const provider = new ethers.providers.Web3Provider(metamask)
             let contract = new ethers.Contract(CURATION_CONTRACT, abi, provider)
             contract = contract.connect(provider.getSigner())
-            const {curationId, endTime, token, amount, maxCount} = curation
-            const tx = await contract.newTask(curationId, endTime, token, amount, 30, maxCount)
+            const {curationId, endtime, token, amount, maxCount} = curation
+
+            console.log(123, curation);
+            const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, 30, maxCount)
             await waitForTx(provider, tx.hash)
-            resolve()
+            resolve(tx.hash)
         }catch(e) {
             console.log('create new curation fail:', e);
             reject(errCode.TRANSACTION_FAIL)

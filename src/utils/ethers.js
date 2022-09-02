@@ -52,6 +52,7 @@ export const generateBrainKey = (key) => {
               trx = await provider.getTransactionReceipt(hash)
           }
           if (trx.status !== 0) {
+            console.log('tx passed');
               resolve()
           }else{
               console.log('tx fail status:', trx.status);

@@ -28,7 +28,7 @@
                   popper-class="c-date-popper"
                   prefix-icon="none"
                   clear-icon="none"
-                  v-model="form.endTime"
+                  v-model="form.endtime"
                   type="datetime"
                   placeholder="End time"
                   :disabled-date="disabledDate"
@@ -251,7 +251,7 @@ export default {
       loading: false,
       form: {
         title: '',
-        endTime: '',
+        endtime: '',
         isLimit: false,
         maxCount: '',
         description: '',
@@ -287,7 +287,7 @@ export default {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
     },
     checkCreateData() {
-      if (!this.form.title || !this.form.endTime || !this.form.description) {
+      if (!this.form.title || !this.form.endtime || !this.form.description) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -350,16 +350,7 @@ export default {
           return;
         }
         this.$store.commit('curation/saveDraft', this.form);
-        // // curationId, creatorETH, content, token, amount, maxCount, endtime
-        // await newCuration({
-        //   curationId: randomCurationId(),
-        //   creatorETH: this.account,
-        //   content: this.form.description,
-        //   token: this.form.token,
-        //   amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
-        //   maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
-        //   endtime: new Date(this.form.endtime).getTime()
-        // })
+        
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
@@ -373,24 +364,26 @@ export default {
     async createCuration() {
       try{
         this.loading = true
+        ethers.utils.bigNumberify
+        
         const curation = {
           curationId: randomCurationId(),
           creatorETH: this.account,
           content: this.form.title + '\n' + this.form.description,
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
-          endtime: new Date(this.form.endtime).getTime(),
+          endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
           token: this.selectedToken.address
         }
 
         this.curation = curation
 
-        this.currentStep = 3;
-        return;
+        // this.currentStep = 3;
+        // return;
         // write in contract
-        await creteNewCuration(curation);
+        const hash = await creteNewCuration(curation);
         // post to backend
-        await newCuration(curation);
+        await newCuration({...curation, amount: curation.amount.toString(), transHash: hash});
         this.$store.commit('curation/saveDraft', null);
         this.currentStep = 3;
       } catch (e) {
@@ -428,6 +421,8 @@ export default {
     await this.updateToken()
     if (ethers.utils.isAddress(this.form.token)) {
       this.selectedToken = this.customToken
+    }else {
+      this.selectedToken = this.tokenList[0]
     }
   },
 }
