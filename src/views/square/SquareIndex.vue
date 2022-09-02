@@ -201,6 +201,7 @@ export default {
         }
       } catch (e) {
         console.log(555, e);
+        this.listFinished = true
         showError(501)
       } finally {
         this.listLoading = false

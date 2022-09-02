@@ -11,11 +11,14 @@
       <span>{{$t('common.approve')}}</span>
     </button>
     <button v-else class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
-      @click="$emit('createCuration')">
+      :disabled="creating"
+      @click="creating=true;$emit('createCuration')">
+      <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="creating"></c-spinner>
       <span>{{$t('common.confirm')}}</span>
     </button>
-    <div class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem"
-         @click="$emit('close')">{{$t('curation.backToEdit')}}</div>
+    <button class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem"
+        :disable="creating || approving"
+         @click="creating=false;approving=fals;$emit('close')">{{$t('curation.backToEdit')}}</button>
   </div>
 </template>
 
@@ -63,6 +66,7 @@ export default {
       this.approvement = res
     })
   },
+  
 }
 </script>
 
