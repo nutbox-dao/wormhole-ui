@@ -172,7 +172,7 @@
       </div>
     </div>
     <!-- post tweet -->
-    <div class="mt-1.5rem">
+    <div v-else class="mt-1.5rem">
       <div class="flex justify-center items-center mb-1rem">
         <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem"
              src="~@/assets/icon-success-green.svg" alt="">
@@ -350,7 +350,7 @@ export default {
           return;
         }
         this.$store.commit('curation/saveDraft', this.form);
-        
+
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
@@ -365,7 +365,7 @@ export default {
       try{
         this.loading = true
         ethers.utils.bigNumberify
-        
+
         const curation = {
           curationId: randomCurationId(),
           creatorETH: this.account,
