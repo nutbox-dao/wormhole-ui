@@ -172,7 +172,7 @@
       </div>
     </div>
     <!-- post tweet -->
-    <div v-else class="mt-1.5rem">
+    <div class="mt-1.5rem">
       <div class="flex justify-center items-center mb-1rem">
         <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem"
              src="~@/assets/icon-success-green.svg" alt="">
@@ -181,7 +181,7 @@
       <div v-loading="loading"
            class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
         <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
-        <div class="bg-black/40 rounded-1rem h-min-10rem p-1rem relative">
+        <div class="bg-black/40 rounded-1rem min-h-10rem p-1rem relative">
           <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
             <span class="text-text8F whitespace-pre-line">{{curation.content + '#iweb3\n'}}</span>
             <span class="text-primaryColor whitespace-pre-line">
