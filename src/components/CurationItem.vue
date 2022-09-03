@@ -17,7 +17,7 @@
       <div class="overflow-x-hidden 2xl:ml-5.1rem md:mr-0 sm:ml-3.9rem text-left relative sm:-mt-3">
         <div class="xl:max-w-27rem pb-12px">
           <div class="font-600">{{title}}</div>
-          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem">
+          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">
             {{content}}
           </div>
         </div>
