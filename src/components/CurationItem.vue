@@ -27,7 +27,7 @@
                  class="w-32px h-32px xl:w-1.6rem xl:h-1.6rem rounded-full -ml-10px border-1 border-blockBg"
                  @error="replaceEmptyImg"
                  :src="i" alt="">
-            <span class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
+            <span v-show="curation.totalCount - curation.curatorProfile.length > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center border-1 border-blockBg bg-primaryColor
                     font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
           </div>
@@ -45,6 +45,7 @@
 <script>
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { parseTimestamp } from '@/utils/helper'
+import { mapGetters } from "vuex";
 
 export default {
   name: "CurationItem",
@@ -55,11 +56,11 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['getAccountInfo']),
     profileImg() {
       return this.curation.profileImg
     },
     endtime() {
-      console.log(23566, this.curation);
       if (this.curation.curationStatus === 0){
         return parseTimestamp(this.curation.endtime * 1000)
       }else if(this.curation.curationStatus === 1) {
@@ -80,7 +81,9 @@ export default {
       e.target.src = emptyAvatar;
     },
     gotoUserPage() {
-
+      if (!this.curation || this.curation.twitterUsername !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + this.curation.twitterUsername})
+      }
     }
   }
 }

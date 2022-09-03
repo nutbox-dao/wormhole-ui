@@ -48,7 +48,7 @@
             <CurationItem v-for="curation of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
                           :curation="curation"
-                          @click="$router.push('/curation-detail/0')"/>
+                          @click="$router.push('/curation-detail/' + curation.curationId)"/>
           </van-pull-refresh>
         </div>
       </div>
@@ -108,6 +108,7 @@ export default {
     changeSubIndex(index) {
       this.listFinished = false
       this.subActiveTagIndex = index
+      this.onRefresh()
     },
     async onLoad() {
       try{
@@ -158,8 +159,8 @@ export default {
         }else if(this.subActiveTagIndex === 2) {
           mutationStr = 'saveCloseList'
         }
-        this.$store.commit('curation/'+mutationStr, curations)
-        if (curations.length < 12) {
+        this.$store.commit('curation/'+mutationStr, curations ?? [])
+        if (!curations || curations.length < 12) {
           this.listFinished = true
         }else {
           this.listFinished = false
