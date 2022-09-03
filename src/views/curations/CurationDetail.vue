@@ -142,6 +142,9 @@
 
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
+import { mapState, mapGetters } from "vuex";
+import { getCurationById, getCurationParticipant } from "@/api/api";
+
 export default {
   name: "CurationDetail",
   components: {TweetAttendTip},
@@ -152,9 +155,35 @@ export default {
       isExpand: false,
       loading1: true,
       loading2: true,
-      loading3: true
+      loading3: true,
+      loading: false,
+      participant: []
     }
-  }
+  },
+  computed: {
+    ...mapState('curation', ['detailCuration']),
+    ...mapGetters(['getAccountInfo'])
+  },
+  mounted () {
+    const id = this.$route.params.id;
+    const account = this.getAccountInfo
+
+    if (this.detailCuration && this.detailCuration.curationId === id) {
+
+    }else {
+      this.$store.commit('curation/saveDetailCuration', null)
+      this.loading = true
+      getCurationById(id, account?.twitterId).then(res => {
+        if (res) {
+          this.loading = false
+          this.$store.commit('curation/saveDetailCuration', res)
+        }
+      })
+      getCurationParticipant(id).then(res => {
+        this.participant = res ?? []
+      })
+    }
+  },
 }
 </script>
 
