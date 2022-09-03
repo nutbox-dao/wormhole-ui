@@ -153,3 +153,9 @@ html.dark {
 .c-input-date .el-input__prefix {
   display: none;
 }
+.rounded-15px .el-loading-mask {
+  border-radius: 15px;
+}
+.rounded-12px .el-loading-mask {
+  border-radius: 12px;
+}

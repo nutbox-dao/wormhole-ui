@@ -9,7 +9,7 @@
     </div>
     <div class="container mx-auto max-w-50rem pb-2rem px-15px">
       <div class="grid grid-cols-3 gap-1.5rem">
-        <div class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
+        <div v-loading="loading1" class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
           <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
             <div class="c-text-black text-1.5rem sm:text-24px">
               Retweet a post to earn USDTs
@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="col-span-3 xl:col-span-1">
-          <div class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem">
+          <div v-loading="loading2" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
             <div class="flex justify-between items-center">
               <span>Reward</span>
               <div class="flex items-center">
@@ -94,7 +94,7 @@
             </div>
             <div class="text-primaryColor text-12px 2xl:text-0.6rem">Rewards on Ethereum</div>
           </div>
-          <div class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left">
+          <div v-loading="loading3" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
             <div class="text-primaryColor mb-10px">#1  Submissions  12</div>
             <div class="flex items-center py-6px" v-for="i of 3" :key="i">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
@@ -114,7 +114,7 @@
                    gradient-btn-shadow h-2.7rem px-1rem
                    rounded-full c-text-black text-1.2rem
                    xl:relative xl:bottom-0 xl:w-full
-                   absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                   fixed bottom-2rem left-1/2 transform -translate-x-1/2 z-2001"
                     @click="modalVisible=true">
               Attend Curation
             </button>
@@ -149,7 +149,10 @@ export default {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
-      isExpand: false
+      isExpand: false,
+      loading1: true,
+      loading2: true,
+      loading3: true
     }
   }
 }
