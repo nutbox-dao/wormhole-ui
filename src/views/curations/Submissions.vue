@@ -8,29 +8,42 @@
       </div>
     </div>
     <div class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px mb-2rem py-2rem">
-      <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30"
-           v-for="i of 10" :key="i">
-        <div class="flex items-center">
-          <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
-               src="~@/assets/icon-default-avatar.svg" alt="">
-          <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-            <div>shiney.eth </div>
-            <div class="text-color8B">about 1 hour ago </div>
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+                        loading-text="Loading"
+                        pulling-text="Pull to refresh data"
+                        loosing-text="Release to refresh">
+        <van-list :loading="loading"
+                  :finished="finished"
+                  :immediate-check="false"
+                  :loosing-text="$t('common.pullRefresh')"
+                  :loading-text="$t('common.loading')"
+                  :finished-text="$t('common.noMore')"
+                  @load="onLoad">
+          <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30"
+               v-for="(item, i) of list" :key="i">
+            <div class="flex items-center">
+              <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
+                   src="~@/assets/icon-default-avatar.svg" alt="">
+              <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
+                <div>shiney.eth </div>
+                <div class="text-color8B">about 1 hour ago </div>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">0.02ETH </span>
+              <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
+                   src="~@/assets/icon-question-white.svg" alt="">
+            </div>
           </div>
-        </div>
-        <div class="flex items-center">
-          <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">0.02ETH </span>
-          <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
-               src="~@/assets/icon-question-white.svg" alt="">
-        </div>
-      </div>
-      <button class="flex items-center justify-center gradient-btn gradient-btn-shadow
+        </van-list>
+      </van-pull-refresh>
+    </div>
+    <button class="flex items-center justify-center gradient-btn gradient-btn-shadow
                      h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                      absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-              @click="modalVisible=true">
-        Confirm Reward
-      </button>
-    </div>
+            @click="modalVisible=true">
+      Confirm Reward
+    </button>
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                :close-on-click-overlay="false"
                v-model:show="modalVisible"
@@ -60,7 +73,33 @@ export default {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
-      connectLoading: false
+      connectLoading: false,
+      refreshing: false,
+      loading: false,
+      finished: false,
+      list: []
+    }
+  },
+  mounted() {
+    this.onLoad()
+  },
+  methods: {
+    onRefresh() {
+      setTimeout(() => {
+        this.refreshing = false
+      }, 2000)
+    },
+    onLoad() {
+      this.loading = true
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1);
+        }
+        this.loading = false;
+        if (this.list.length >= 40) {
+          this.finished = true;
+        }
+      }, 1000);
     }
   }
 }
