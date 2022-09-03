@@ -7,7 +7,8 @@ export default {
         draft: Cookie.get('curation-draft'),
         ongoingList: [],
         endList: [],
-        closeList: []
+        closeList: [],
+        detailCuration: {}
     },
     mutations: {
         saveDraft: (state, draft) => {
@@ -26,8 +27,11 @@ export default {
         saveEndList: (state, endList) => {
             state.endList = endList
         },
-        closeList: (state, closeList) => {
+        saveCloseList: (state, closeList) => {
             state.closeList = closeList
+        },
+        saveDetailCuration: (state, detailCuration) => {
+            state.detailCuration = detailCuration
         }
     },
     getters: {

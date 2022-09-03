@@ -48,7 +48,7 @@
             <CurationItem v-for="curation of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
                           :curation="curation"
-                          @click="$router.push('/curation-detail/' + curation.curationId)"/>
+                          @click="gotoDetail(curation)"/>
           </van-pull-refresh>
         </div>
       </div>
@@ -182,6 +182,10 @@ export default {
     onCreate() {
       this.modalVisible = false
       this.$router.push('/create-curation')
+    },
+    gotoDetail(curation) {
+      this.$store.commit('curation/saveDetailCuration', curation);
+      this.$router.push('/curation-detail/' + curation.curationId);
     }
   },
   mounted () {
