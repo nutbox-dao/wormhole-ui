@@ -169,7 +169,7 @@ export default {
               ${url}
             </span>`)
       }
-      return content
+      return content.replace('\n', '</br>')
     }
   },
   methods: {
