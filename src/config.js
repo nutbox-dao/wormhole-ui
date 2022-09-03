@@ -183,10 +183,6 @@ export const REPUTATION_NFT_ID = 1;
 
 export const CURATION_CONTRACT = '0xaB8598eCD8F2D500477d8CBc2966C8e652B795a2'
 
-export const ERR_CODE = {
-    501: "Server error"
-}
-
 export const Multi_Config = {
     rpcUrl: RPC_NODE,
     multicallAddress: MultiAddress,

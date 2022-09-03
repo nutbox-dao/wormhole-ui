@@ -60,7 +60,13 @@ export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
 
 export const updateCurationCreateStatus = async (curationId, status) =>
-    post(BACKEND_API_URL + 'curation/updateCurationCreateStatus', {curationId, status})
+    post(BACKEND_API_URL + '/curation/updateCurationCreateStatus', {curationId, status})
+
+export const getRefreshCurations = async (curationStatus) =>
+    get(BACKEND_API_URL + '/curation/getRefreshCurations', {curationStatus})
+
+export const getMoreCurations = async (curationStatus, createdTime) =>
+    get(BACKEND_API_URL + '/curation/getMoreCurations', {curationStatus, createdTime})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {

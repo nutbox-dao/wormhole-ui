@@ -45,8 +45,9 @@
                             :loading-text="$t('common.loading')"
                             :pulling-text="$t('common.pullRefresh')"
                             :loosing-text="$t('common.loosingRefresh')">
-            <CurationItem v-for="i of 5" :key="i"
+            <CurationItem v-for="curation of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
+                          :curation="curation"
                           @click="$router.push('/curation-detail/0')"/>
           </van-pull-refresh>
         </div>
@@ -72,7 +73,9 @@
 <script>
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+import { getRefreshCurations, getMoreCurations } from '@/api/api'
+import { showError } from '@/utils/notify'
 
 export default {
   name: "CurationsIndex",
@@ -84,22 +87,89 @@ export default {
       refreshing: false,
       subTagList: ['Ongoing', 'Ended', 'Completed'],
       subActiveTagIndex: 0,
-      curationsList: [1],
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
     }
   },
   computed: {
-    ...mapGetters('curation', ['getDraft'])
+    ...mapGetters('curation', ['getDraft']),
+    ...mapState('curation', ['ongoingList', 'endList', 'closeList']),
+    curationsList() {
+      if (this.subActiveTagIndex === 0) {
+        return this.ongoingList
+      }else if(this.subActiveTagIndex === 1) {
+        return this.endList
+      }else if(this.subActiveTagIndex === 2) {
+        return this.closeList
+      }
+    }
   },
   methods: {
     changeSubIndex(index) {
+      this.listFinished = false
       this.subActiveTagIndex = index
     },
-    onLoad() {
+    async onLoad() {
+      try{
+        let curations;
+        if (this.subActiveTagIndex === 0) {
+          curations = this.ongoingList
+        }else if(this.subActiveTagIndex === 1) {
+          curations = this.endList
+        }else if(this.subActiveTagIndex === 2) {
+          curations = this.closeList
+        }
+        if (!curations || curations.length === 0) {
+          this.listFinished = true
+          return;
+        }
+        const time = curations[curations.length - 1].createdTime
+        const moreCurations = await getMoreCurations(this.subActiveTagIndex, time)
+        if (moreCurations.length < 12) {
+          this.listFinished = true
+        }else {
+          this.listFinished = false
+        }
+        curations = curations.concat(moreCurations);
+        let mutationStr = ''
+        if (this.subActiveTagIndex === 0) {
+          mutationStr = 'saveOngoingList'
+        }else if(this.subActiveTagIndex === 1) {
+          mutationStr = 'saveEndList'
+        }else if(this.subActiveTagIndex === 2) {
+          mutationStr = 'saveCloseList'
+        }
+        this.$store.commit('curation/'+mutationStr, curations)
+      } catch(e) {
+        console.log('Get more curations fail:', e);
+        showError(501)
+      } finally {
+        this.listLoading = false
+      }
     },
-    onRefresh() {
-
+    async onRefresh() {
+      try{
+        const curations = await getRefreshCurations(this.subActiveTagIndex)
+        let mutationStr = ''
+        if (this.subActiveTagIndex === 0) {
+          mutationStr = 'saveOngoingList'
+        }else if(this.subActiveTagIndex === 1) {
+          mutationStr = 'saveEndList'
+        }else if(this.subActiveTagIndex === 2) {
+          mutationStr = 'saveCloseList'
+        }
+        this.$store.commit('curation/'+mutationStr, curations)
+        if (curations.length < 12) {
+          this.listFinished = true
+        }else {
+          this.listFinished = false
+        }
+      } catch(e) {
+        console.log('Refresh curations fail:', e);
+        showError(501)
+      } finally {
+        this.refreshing = false
+      }
     },
     createCurations() {
       if (this.getDraft) {
@@ -112,7 +182,10 @@ export default {
       this.modalVisible = false
       this.$router.push('/create-curation')
     }
-  }
+  },
+  mounted () {
+    this.onRefresh();
+  },
 }
 </script>
 

@@ -137,7 +137,12 @@ export default {
     crateFail: "Crate curation fail",
     createdOk: 'Create Curation Success!',
     startCuration: 'Tweet and start curation',
-    moreDetail: 'more details'
+    moreDetail: 'more details',
+    end: "Ended",
+    complete: 'Complete'
+  },
+  err: {
+    serverErr: 'Server error'
   },
   common: {
     none: 'None',

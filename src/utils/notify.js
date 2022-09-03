@@ -1,5 +1,5 @@
 import { ElNotification } from 'element-plus'
-import { ERR_CODE } from '@/config'
+import $t from 'vue-i18n'
 
 export const notify = (options) => {
   return ElNotification({
@@ -11,10 +11,13 @@ export const notify = (options) => {
 }
 
 export const showError = (code) => {
-  const message = ERR_CODE[code]
+  let message ='';
+  if (code === 500 || code === 501) {
+    message = $t('err.serverErr')
+  }
   return ElNotification({
     title: 'Wormhole3',
-    duration: 3000,
+    duration: 5000,
     customClass: `c-notification c-notification-error`,
     message
   })

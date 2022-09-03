@@ -169,9 +169,24 @@ export function parseTimestamp(time) {
   let nowStamp = new Date().getTime() / 1000
   nowStamp = parseInt(nowStamp)
   timestamp = parseInt(timestamp)
-  const diff = nowStamp - timestamp;
+  let diff = nowStamp - timestamp;
   if (diff < 0) {
-    return getDateString(null, null, timestamp - nowStamp);
+    diff = timestamp - nowStamp
+    if (diff < 10) {
+      return 'Now'
+    }else if(diff < 60) {
+      return `${diff} seconds left`
+    }else if (diff < 3600) {
+      return `${Math.floor(diff / 60)} mins left`
+    }else if (diff < 3600 * 24) {
+      return `${Math.floor(diff / 3600)} hours left`
+    }else if (diff < 3600 * 24 * 30) {
+      return `${Math.floor(diff / 3600 / 24)} days left`
+    }else if (diff < 3600 * 24 * 60) {
+      return '1 month left'
+    }else {
+      return getDateString(null, null, timestamp - nowStamp)
+    }
   }else {
     if (diff < 10) {
       return 'Now'

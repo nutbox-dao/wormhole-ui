@@ -329,7 +329,7 @@ export default {
       this.customToken = {...res, address: this.form.token}
     },
     checkRewardData() {
-      if (!this.account || (this.form.maxCount <= 0 && this.form.isLimit) || !this.form.amount) {
+      if (!this.account || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
