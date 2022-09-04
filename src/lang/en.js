@@ -122,6 +122,7 @@ export default {
     maxCountTip: 'The top count of curators can earn reward',
     inputMaxCount: 'Enter max reward users',
     noLimited: 'No limited',
+    reward: "Reward",
     rewardsMethod: 'Reward Method',
     posw: "Proof Of Subjective Work(PoSW)",
     poswDes: 'If it is a PoSW curation, the reward will be issued to the participants according to the review. \nIf it is other quest, the rewards will be automatically.',
@@ -138,8 +139,12 @@ export default {
     createdOk: 'Create Curation Success!',
     startCuration: 'Tweet and start curation',
     moreDetail: 'more details',
+    ongoing: 'Ongoing',
     end: "Ended",
-    complete: 'Complete'
+    complete: 'Complete',
+    invalidStatus: 'Invalid',
+    curationDetail: 'Curation Detail',
+    viewAll: 'View All'
   },
   err: {
     serverErr: 'Server error'

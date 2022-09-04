@@ -4,7 +4,7 @@
       <div class="relative container mx-auto max-w-50rem
                   md:px-1rem px-15px flex items-center
                   md:justify-start justify-center h-2.8rem">
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">Curation Detail</div>
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('curation.curationDetail')}}</div>
       </div>
     </div>
     <div class="container mx-auto max-w-50rem pb-2rem px-15px">
@@ -12,44 +12,32 @@
         <div v-loading="loading1" class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
           <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
             <div class="c-text-black text-1.5rem sm:text-24px">
-              Retweet a post to earn USDTs
+             {{title}}
             </div>
             <div class="flex items-center flex-wrap gap-1rem mt-1rem">
             <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
-              Ongoing
+              {{status}}
             </span>
               <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
-              2022-08-12 20:30 ~ 2022-08-14 20:30
+              {{time}}
             </span>
             </div>
           </div>
           <div class="px-1.25rem pt-1rem">
             <div class="flex items-center">
               <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full "
-                   src="@/assets/icon-default-avatar.svg" alt="">
+                    @error="replaceEmptyImg"
+                   :src="detailCuration.profileImg" alt="">
               <div class="flex md:flex-col md:justify-center md:items-start">
-                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">Ian Yin </a>
-                <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@guazi123</span>
+                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration.twitterName}}</a>
+                <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration.twitterUsername}}</span>
               </div>
             </div>
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
-              <div class="font-600 text-1rem mb-0.6rem">Description</div>
+              <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div>
               <div class="text-14px 2xl:text-0.7rem leading-24px">
-                <div class="font-600">Rewards:</div>
-                <div class="text-color8B">
-                  At the end of the task, the reward will be distributed to the participants according to the task contribution. 100 ETH in total.
-                </div>
-                <div class="font-600 mt-1rem">Claim Quest (Choose one of the ways below):</div>
-                <div class="text-color8B">
-                  ✅ Tweet on Twitter <br>
-
-                  ✅  Quote Tweet on Twitter <br>
-                  <br>
-                  ①Visit the announcement quest tweet. <br>
-                  ②Quote Tweet on Twitter. <br>
-                  ③Tweet include hashtag and link below. <br>
-                  <br>
-                  Life3, Web3, Earn by Quest
+                <div class="text-color8B  whitespace-pre-line">
+                  {{content}}
                 </div>
               </div>
             </div>
@@ -76,9 +64,9 @@
           </div>
         </div>
         <div class="col-span-3 xl:col-span-1">
-          <div v-loading="loading2" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
+          <div v-loading="loading1" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
             <div class="flex justify-between items-center">
-              <span>Reward</span>
+              <span>{{$t('curation.reward')}}</span>
               <div class="flex items-center">
                 <span class="text-primaryColor font-500">PosW</span>
                 <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt="">
@@ -89,24 +77,25 @@
               <span>Token</span>
               <div class="flex items-center">
                 <img class="w-1.5rem mr-0.6rem" src="~@/assets/icon-eth-white.svg" alt="">
-                <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">100 ETH</span>
+                <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{detailCuration.amount ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : 'ETH'}} {{detailCuration.tokenSymbol}}</span>
               </div>
             </div>
             <div class="text-primaryColor text-12px 2xl:text-0.6rem">Rewards on Ethereum</div>
           </div>
-          <div v-loading="loading3" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
-            <div class="text-primaryColor mb-10px">#1  Submissions  12</div>
-            <div class="flex items-center py-6px" v-for="i of 3" :key="i">
+          <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
+            <div class="text-primaryColor mb-10px">Submissions  {{detailCuration.totalCount}}</div>
+            <div class="flex items-center py-6px" v-for="p of participant" :key="p.twitterUsername">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
+                   @error="replaceEmptyImg"
+                   :src="p.profileImg" alt="">
               <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-                <div>shiney.eth </div>
-                <div class="text-color8B">about 1 hour ago </div>
+                <div>{{p.twitterUsername}} </div>
+                <div class="text-color8B">{{createTime}}</div>
               </div>
             </div>
             <div class="text-right mt-0.6rem cursor-pointer text-12px 2xl:text-0.6rem"
                  @click="$router.push('/submissions/12')">
-              View All  >
+              {{$t('curation.viewAll')}}  >
             </div>
           </div>
           <div class="xl:mt-2rem px-6px">
@@ -143,7 +132,9 @@
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
-import { getCurationById, getCurationParticipant } from "@/api/api";
+import { getCurationById, getCurationParticipant, getWheatherUserJoinedCuration } from "@/api/api";
+import { getDateString, parseTimestamp } from '@/utils/helper'
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
 export default {
   name: "CurationDetail",
@@ -153,36 +144,91 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
       isExpand: false,
-      loading1: true,
-      loading2: true,
-      loading3: true,
+      loading1: false,
+      loading2: false,
       loading: false,
       participant: []
     }
   },
   computed: {
     ...mapState('curation', ['detailCuration']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    title() {
+      if (this.detailCuration && this.detailCuration.content) {
+        return this.detailCuration.content.split('\n')[0]
+      }else{
+        return '---'
+      }
+    },
+    content() {
+      if (this.detailCuration && this.detailCuration.content) {
+        return this.detailCuration.content.replace(this.title, '').trim()
+      }else{
+        return '---'
+      }
+    },
+    status() {
+      if (!this.detailCuration) return ''
+      const curationStatus = this.detailCuration.curationStatus;
+      const createStatus = this.detailCuration.createStatus;
+      if (createStatus === 0) {
+        return this.$t('curation.invalidStatus')
+      }else{
+        if (curationStatus === 0) {
+          return this.$t('curation.ongoing')
+        }else if(curationStatus === 1) {
+          return this.$t('curation.end')
+        } else if (curationStatus === 2) {
+          return this.$t('curation.complete')
+        }
+      }
+    },
+    time() {
+      if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
+      const local = new Date().getTimezoneOffset() / -60;
+      let start = new Date(this.detailCuration.createdTime);
+      let end = new Date(this.detailCuration.endtime * 1000)
+      console.log(255, start, end);
+      return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
+    },
+    createTime() {
+      if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
+      return parseTimestamp(this.detailCuration.createdTime)
+    }
+  },
+  methods: {
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
   },
   mounted () {
     const id = this.$route.params.id;
     const account = this.getAccountInfo
 
     if (this.detailCuration && this.detailCuration.curationId === id) {
-
+      getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
+        this.detailCuration.joined = res
+      })
     }else {
       this.$store.commit('curation/saveDetailCuration', null)
-      this.loading = true
+      this.loading1 = true
       getCurationById(id, account?.twitterId).then(res => {
+        console.log(11, id, account, res);
         if (res) {
-          this.loading = false
           this.$store.commit('curation/saveDetailCuration', res)
         }
-      })
-      getCurationParticipant(id).then(res => {
-        this.participant = res ?? []
+      }).finally(() => {
+        this.loading1 = false
       })
     }
+
+    this.loading2 = true
+      getCurationParticipant(id).then(res => {
+        console.log(22, res);
+        this.participant = res ?? []
+      }).catch(console.log).finally(() => {
+        this.loading2 = false
+      })
   },
 }
 </script>

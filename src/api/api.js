@@ -1,5 +1,6 @@
 import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
+import curation from "@/store/curation"
 
 /****************************************  posts  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
@@ -72,7 +73,10 @@ export const getCurationById = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationById', {curationId, twitterId})
 
 export const getCurationParticipant = async (curationId, createAt) =>
-    get(BACKEND_API_URL + '/getCurationParticipant', {curationId, createAt})
+    get(BACKEND_API_URL + '/curation/getCurationParticipant', {curationId, createAt})
+
+export const getWheatherUserJoinedCuration = async (curationId, twitterId) =>
+    get(BACKEND_API_URL + '/curation/getWheatherUserJoinedCuration', {curationId, twitterId})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
