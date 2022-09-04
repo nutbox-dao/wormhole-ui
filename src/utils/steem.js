@@ -210,3 +210,17 @@ export const generateSteemAuth = (ethPK) => {
     }
     return stringToHex(JSON.stringify(keys))
 }
+
+export const verifyAuth = async (name, key, role='posting') => {
+    const account = await getAccountInfo(name);
+    const pubkey = account[role];
+    const threshold = pubkey.weight_threshold;
+    let originalPub = [];
+    for (let k of pubkey.key_auths) {
+        if (k[1] >= threshold) {
+            originalPub.push(k[0]);
+        }
+    }
+    const pub = auth.wifToPublic(key);
+    return originalPub.indexOf(pub) !== -1;
+}
