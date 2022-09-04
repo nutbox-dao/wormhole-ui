@@ -98,15 +98,54 @@
               {{$t('curation.viewAll')}}  >
             </div>
           </div>
-          <div class="xl:mt-2rem px-6px">
-            <button class="flex items-center justify-center gradient-btn
-                   gradient-btn-shadow h-2.7rem px-1rem
-                   rounded-full c-text-black text-1.2rem
-                   xl:relative xl:bottom-0 xl:w-full
-                   fixed bottom-2rem left-1/2 transform -translate-x-1/2 z-2001"
-                    @click="modalVisible=true">
-              {{$t('curation.attendCuration')}}
-            </button>
+          <div class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
+                      fixed bottom-2rem left-0 right-0 z-2001
+                      sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
+                      flex sm:flex-col justify-between items-start sm:items-center">
+            <template v-if="btnStatus===0">
+              <div class="flex-1 w-full text-center">
+                <button class="flex items-center justify-center gradient-btn
+                   gradient-btn-shadow h-2.7rem px-1rem mx-auto
+                   rounded-full c-text-black text-1.2rem xl:w-full"
+                        @click="modalVisible=true">
+                  {{$t('curation.attendCuration')}}
+                </button>
+              </div>
+            </template>
+            <template v-if="btnStatus===1">
+              <button class="flex items-center justify-center gradient-btn xl:mb-10px
+                             gradient-btn-shadow h-2.7rem px-1rem
+                             rounded-full c-text-black text-1.2rem xl:w-full"
+                      disabled
+                      @click="modalVisible=true">
+                Attended
+              </button>
+              <div class="text-color8B c-text-black text-14px 2xl:text-1rem h-2.7rem flex items-center">
+                To be rewarded
+              </div>
+            </template>
+            <template v-if="btnStatus===2">
+              <div class="text-color8B c-text-black text-14px 2xl:text-1rem w-full">
+                Unattend Curation
+              </div>
+            </template>
+            <template v-if="btnStatus===3">
+              <button class="flex items-center justify-center gradient-btn
+                             gradient-btn-shadow h-2.7rem px-1rem
+                             rounded-full c-text-black text-1.2rem xl:w-full"
+                      disabled
+                      @click="modalVisible=true">
+                Attended
+              </button>
+              <div class="flex items-end justify-between flex-col sm:flex-row sm:items-center xl:w-full xl:mt-20px">
+                <span class="text-color8B c-text-black text-14px 2xl:text-0.75rem whitespace-nowrap">
+                  Claimed Reward (ETH)
+                </span>
+                <span class="c-text-black text-primaryColor text-24px leading-36px 2xl:text-1.2rem 2xl:leading-2rem ml-1rem">
+                  0.5
+                </span>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -147,7 +186,8 @@ export default {
       loading1: false,
       loading2: false,
       loading: false,
-      participant: []
+      participant: [],
+      btnStatus: 2
     }
   },
   computed: {
