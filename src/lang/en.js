@@ -144,7 +144,10 @@ export default {
     complete: 'Complete',
     invalidStatus: 'Invalid',
     curationDetail: 'Curation Detail',
-    viewAll: 'View All'
+    viewAll: 'View All',
+    rewardOnChain: 'Rewards on Blockchain',
+    curators: 'Curations',
+    attendCuration: 'Attend Curation'
   },
   err: {
     serverErr: 'Server error'

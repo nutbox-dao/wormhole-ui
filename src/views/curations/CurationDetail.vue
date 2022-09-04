@@ -42,7 +42,7 @@
               </div>
             </div>
           </div>
-          <div class="border-t-1 border-color8B/30 mt-3rem px-1.25rem">
+          <!-- <div class="border-t-1 border-color8B/30 mt-3rem px-1.25rem">
             <div class="gradient-border border-1 rounded-12px mt-1rem overflow-hidden expand-box
                         flex flex-col"
                  :class="isExpand?'active max-h-300px':'max-h-50px'">
@@ -61,7 +61,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="col-span-3 xl:col-span-1">
           <div v-loading="loading1" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
@@ -80,10 +80,10 @@
                 <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{detailCuration.amount ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : 'ETH'}} {{detailCuration.tokenSymbol}}</span>
               </div>
             </div>
-            <div class="text-primaryColor text-12px 2xl:text-0.6rem">Rewards on Ethereum</div>
+            <div class="text-primaryColor text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>
           </div>
           <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
-            <div class="text-primaryColor mb-10px">Submissions  {{detailCuration.totalCount}}</div>
+            <div class="text-primaryColor mb-10px">{{$t('curation.curators')}}  {{detailCuration.totalCount}}</div>
             <div class="flex items-center py-6px" v-for="p of participant" :key="p.twitterUsername">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                    @error="replaceEmptyImg"
@@ -105,7 +105,7 @@
                    xl:relative xl:bottom-0 xl:w-full
                    fixed bottom-2rem left-1/2 transform -translate-x-1/2 z-2001"
                     @click="modalVisible=true">
-              Attend Curation
+              {{$t('curation.attendCuration')}}
             </button>
           </div>
         </div>
