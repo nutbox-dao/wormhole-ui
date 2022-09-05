@@ -29,8 +29,9 @@
             <div class="flex items-center">
               <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full "
                     @error="replaceEmptyImg"
+                    @click="gotoUserPage"
                    :src="detailCuration && detailCuration.profileImg" alt="">
-              <div class="flex md:flex-col md:justify-center md:items-start">
+              <div class="flex md:flex-col md:justify-center md:items-start" @click="gotoUserPage">
                 <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
                 <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
               </div>
@@ -144,10 +145,10 @@
               </button>
               <div class="flex items-end justify-between flex-col sm:flex-row sm:items-center xl:w-full xl:mt-20px">
                 <span class="text-color8B c-text-black text-14px 2xl:text-0.75rem whitespace-nowrap">
-                  {{$t('curation.reward')}} (ETH)
+                  {{$t('curation.reward')}} ({{detailCuration ? detailCuration.tokenSymbol : ''}})
                 </span>
                 <span class="c-text-black text-primaryColor text-24px leading-36px 2xl:text-1.2rem 2xl:leading-2rem ml-1rem">
-                  0.5
+                  {{ detailCuration ? (detailCuration.myRewardAmount / (10 ** detailCuration.decimals)) : 0 }}
                 </span>
               </div>
             </template>
@@ -279,6 +280,12 @@ export default {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
+    gotoUserPage() {
+      console.log(23, this.detailCuration.twitterUsername);
+      if (!this.detailCuration || this.detailCuration.twitterUsername !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + this.detailCuration.twitterUsername})
+      }
+    }
   },
   mounted () {
     const id = this.$route.params.id;

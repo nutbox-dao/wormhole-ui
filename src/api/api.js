@@ -78,6 +78,12 @@ export const getCurationParticipant = async (curationId, createAt) =>
 export const getWheatherUserJoinedCuration = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getWheatherUserJoinedCuration', {curationId, twitterId})
 
+export const getMyJoinedCurations = async (twitterId, createdTime) =>
+    get(BACKEND_API_URL + '/curaiton/getMyJoinedCurations', {twitterId, createdTime})
+
+export const getMyCreatedCurations = async (twitterId, createdTime) => 
+    get(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})
+
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {
