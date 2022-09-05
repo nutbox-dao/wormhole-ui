@@ -147,7 +147,11 @@ export default {
     viewAll: 'View All',
     rewardOnChain: 'Rewards on Blockchain',
     curators: 'Curations',
-    attendCuration: 'Attend Curation'
+    attendCuration: 'Attend Curation',
+    attended: 'Attended',
+    toBeReward: 'To Be Rewarded',
+    unattend: 'Unattend Curation',
+    tweetToAttend: 'Tweet to attend'
   },
   err: {
     serverErr: 'Server error'

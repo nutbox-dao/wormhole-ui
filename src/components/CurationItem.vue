@@ -22,12 +22,12 @@
           </div>
         </div>
         <div class="flex justify-between items-center">
-          <div class="flex items-center ml-10px">
+          <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
             <img v-for="i of curation.curatorProfile" :key="i"
                  class="w-32px h-32px xl:w-1.6rem xl:h-1.6rem rounded-full -ml-10px border-1 border-blockBg"
                  @error="replaceEmptyImg"
                  :src="i" alt="">
-            <span v-show="curation.totalCount - curation.curatorProfile.length > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
+            <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center border-1 border-blockBg bg-primaryColor
                     font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
           </div>

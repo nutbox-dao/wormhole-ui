@@ -7,6 +7,7 @@
         <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('curation.curationDetail')}}</div>
       </div>
     </div>
+    <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px">
       <div class="grid grid-cols-3 gap-1.5rem">
         <div v-loading="loading1" class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
@@ -23,14 +24,15 @@
             </span>
             </div>
           </div>
+          <!-- curation info -->
           <div class="px-1.25rem pt-1rem">
             <div class="flex items-center">
               <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full "
                     @error="replaceEmptyImg"
-                   :src="detailCuration.profileImg" alt="">
+                   :src="detailCuration && detailCuration.profileImg" alt="">
               <div class="flex md:flex-col md:justify-center md:items-start">
-                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration.twitterName}}</a>
-                <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration.twitterUsername}}</span>
+                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
+                <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
               </div>
             </div>
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
@@ -63,6 +65,7 @@
             </div>
           </div> -->
         </div>
+        <!-- token -->
         <div class="col-span-3 xl:col-span-1">
           <div v-loading="loading1" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
             <div class="flex justify-between items-center">
@@ -76,15 +79,17 @@
             <div class="flex justify-between items-center mb-2rem">
               <span>Token</span>
               <div class="flex items-center">
-                <img class="w-1.5rem mr-0.6rem" src="~@/assets/icon-eth-white.svg" alt="">
-                <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{detailCuration.amount ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : 'ETH'}} {{detailCuration.tokenSymbol}}</span>
+                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem" :src="tokenIcon" alt="">
+                <img v-else class="w-1.5rem mr-0.6rem" src="~@/assets/icon-eth-white.svg" alt="">
+                <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>
               </div>
             </div>
             <div class="text-primaryColor text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>
           </div>
+          <!-- curators list -->
           <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
-            <div class="text-primaryColor mb-10px">{{$t('curation.curators')}}  {{detailCuration.totalCount}}</div>
-            <div class="flex items-center py-6px" v-for="p of participant" :key="p.twitterUsername">
+            <div class="text-primaryColor mb-10px">{{$t('curation.curators')}}  {{detailCuration && detailCuration.totalCount}}</div>
+            <div class="flex items-center py-6px" v-for="p of participant.slice(0, 10)" :key="p.twitterUsername">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                    @error="replaceEmptyImg"
                    :src="p.profileImg" alt="">
@@ -93,7 +98,7 @@
                 <div class="text-color8B">{{createTime}}</div>
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer text-12px 2xl:text-0.6rem"
+            <div v-if="participant.length >= 10" class="text-right mt-0.6rem cursor-pointer text-12px 2xl:text-0.6rem"
                  @click="$router.push('/submissions/12')">
               {{$t('curation.viewAll')}}  >
             </div>
@@ -118,15 +123,15 @@
                              rounded-full c-text-black text-1.2rem xl:w-full"
                       disabled
                       @click="modalVisible=true">
-                Attended
+                {{$t('curation.unattend')}}
               </button>
               <div class="text-color8B c-text-black text-14px 2xl:text-1rem h-2.7rem flex items-center">
-                To be rewarded
+                {{$t('curation.toBeReward')}}
               </div>
             </template>
             <template v-if="btnStatus===2">
               <div class="text-color8B c-text-black text-14px 2xl:text-1rem w-full">
-                Unattend Curation
+                {{$t('curation.unattend')}}
               </div>
             </template>
             <template v-if="btnStatus===3">
@@ -135,11 +140,11 @@
                              rounded-full c-text-black text-1.2rem xl:w-full"
                       disabled
                       @click="modalVisible=true">
-                Attended
+                      {{$t('curation.attended')}}
               </button>
               <div class="flex items-end justify-between flex-col sm:flex-row sm:items-center xl:w-full xl:mt-20px">
                 <span class="text-color8B c-text-black text-14px 2xl:text-0.75rem whitespace-nowrap">
-                  Claimed Reward (ETH)
+                  {{$t('curation.reward')}} (ETH)
                 </span>
                 <span class="c-text-black text-primaryColor text-24px leading-36px 2xl:text-1.2rem 2xl:leading-2rem ml-1rem">
                   0.5
@@ -161,6 +166,7 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
           <TweetAttendTip class="py-2rem md:py-0"
+                          :curation="detailCuration"
                           @close="modalVisible=false"/>
         </div>
       </div>
@@ -174,6 +180,7 @@ import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationParticipant, getWheatherUserJoinedCuration } from "@/api/api";
 import { getDateString, parseTimestamp } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import { ERC20List } from "@/config";
 
 export default {
   name: "CurationDetail",
@@ -186,8 +193,7 @@ export default {
       loading1: false,
       loading2: false,
       loading: false,
-      participant: [],
-      btnStatus: 2
+      participant: []
     }
   },
   computed: {
@@ -220,6 +226,39 @@ export default {
           return this.$t('curation.end')
         } else if (curationStatus === 2) {
           return this.$t('curation.complete')
+        }
+      }
+    },
+    tokenIcon() {
+      const token = this.detailCuration && this.detailCuration.token
+      if(!token) return 
+      for (let t of ERC20List) {
+        if(token === t.address) {
+          return t.icon
+        }
+      }
+      return 
+    },
+    btnStatus() {
+      if (!this.detailCuration || !this.detailCuration.content) return 1
+      const createStatus = this.detailCuration.createStatus;
+      const curationStatus = this.detailCuration.curationStatus;
+      const joined = this.detailCuration.joined;
+      if (createStatus === 0) {
+        return 1;
+      }else {
+        if (curationStatus === 0 && joined) {
+          return 1
+        }else if(curationStatus === 0 && !joined) {
+          return 0;
+        }else if(curationStatus === 1 && joined) {
+          return 1;
+        }else if (curationStatus === 1 && !joined) {
+          return 2;
+        }else if(curationStatus === 2 && joined) {
+          return 3;
+        }else if(curationStatus === 2 && !joined) {
+          return 2;
         }
       }
     },
