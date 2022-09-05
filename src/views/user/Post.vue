@@ -34,7 +34,7 @@
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
+    <div class="xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem w-full overflow-x-hidden">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"

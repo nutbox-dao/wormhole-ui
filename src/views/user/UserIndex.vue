@@ -34,6 +34,7 @@
             justify-between
             sm:flex-row sm:items-center
             flex-col
+            items-start
           "
             >
               <div class="text-left">

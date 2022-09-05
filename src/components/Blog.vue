@@ -74,6 +74,9 @@
              <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
             <span class="c-text-medium ml-2px">{{ value }}</span>
           </div>
+          <div class="text-white flex items-center cursor-pointer">
+            <img class="w-16px" src="~@/assets/icon-twitter-white.svg" alt="">
+          </div>
         </div>
       </div>
     </div>

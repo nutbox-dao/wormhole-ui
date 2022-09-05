@@ -3,12 +3,30 @@
     <div class="md:border-b-1 border-dividerColor mb-1rem">
       <div class="relative container mx-auto max-w-50rem
                   md:px-1rem px-15px flex items-center
-                  md:justify-start justify-center h-2.8rem">
+                  justify-between h-2.8rem">
         <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('curation.curationDetail')}}</div>
+        <el-popover :width="270" trigger="click" popper-class="c-popper" ref="copyUrlPopper">
+          <template #reference>
+            <button class="w-24px h-24px icon-share"></button>
+          </template>
+          <template #default>
+            <div class="gradient-border border-1 gradient-border-color3 rounded-8px
+                        flex items-center justify-center py-14px cursor-pointer"
+                 @click="$refs.copyUrlPopper.hide(), onCopy('copy msg ....')">
+              <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"
+                   src="~@/assets/icon-copy.svg" alt="">
+              <span class="text-15px 2xl:text-0.75rem leading-22px 2xl:leading-1.1rem font-600">
+                Copy Curation’s URL
+              </span>
+            </div>
+          </template>
+        </el-popover>
       </div>
     </div>
+    <el-alert title="Tips: Twitter users need to bind a wormhole3 account to attend the curation task."
+              type="warning" />
     <!-- title -->
-    <div class="container mx-auto max-w-50rem pb-2rem px-15px">
+    <div class="container mx-auto max-w-50rem pb-2rem px-15px mt-1rem">
       <div class="grid grid-cols-3 gap-1.5rem">
         <div v-loading="loading1" class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
           <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -90,6 +108,10 @@
           <!-- curators list -->
           <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
             <div class="text-primaryColor mb-10px">{{$t('curation.curators')}}  {{detailCuration && detailCuration.totalCount}}</div>
+            <div v-if="participant.length===0" class="flex flex-col justify-center items-center py-1rem">
+              <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
+              <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
+            </div>
             <div class="flex items-center py-6px" v-for="p of participant.slice(0, 10)" :key="p.twitterUsername">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                    @error="replaceEmptyImg"
@@ -182,6 +204,7 @@ import { getCurationById, getCurationParticipant, getWheatherUserJoinedCuration 
 import { getDateString, parseTimestamp } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
+import {onCopy} from "@/utils/tool";
 
 export default {
   name: "CurationDetail",
@@ -232,13 +255,13 @@ export default {
     },
     tokenIcon() {
       const token = this.detailCuration && this.detailCuration.token
-      if(!token) return 
+      if(!token) return
       for (let t of ERC20List) {
         if(token === t.address) {
           return t.icon
         }
       }
-      return 
+      return
     },
     btnStatus() {
       if (!this.detailCuration || !this.detailCuration.content) return 1
@@ -277,6 +300,7 @@ export default {
     }
   },
   methods: {
+    onCopy,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -323,5 +347,16 @@ export default {
 .expand-box {
   transition: max-height 500ms;
 }
-
+.icon-share {
+  background-image: url("~@/assets/icon-share-white.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  &:hover {
+    background-image: url("~@/assets/icon-share-primary.svg");
+  }
+  &:focus {
+    background-image: url("~@/assets/icon-share-primary.svg");
+  }
+}
 </style>
