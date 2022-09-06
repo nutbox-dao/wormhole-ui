@@ -87,7 +87,7 @@
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { getAccountInfo, getAccountRC, vestsToSteem, getSteemBalance } from '@/utils/steem'
+import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { login } from './utils/account';

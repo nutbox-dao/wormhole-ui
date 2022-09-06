@@ -151,7 +151,11 @@ export default {
     attended: 'Attended',
     toBeReward: 'To Be Rewarded',
     unattend: 'Unattend Curation',
-    tweetToAttend: 'Tweet to attend'
+    tweetToAttend: 'Tweet to attend',
+    notTweeted: 'Not Tweeted',
+    comfirmReward: 'Confirm Reward',
+    partiallyConfirmed: 'Partially Confirmed',
+    allConfirmed: 'All Confirmed'
   },
   err: {
     serverErr: 'Server error'

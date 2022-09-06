@@ -23,7 +23,7 @@
         </el-popover>
       </div>
     </div>
-    <el-alert title="Tips: Twitter users need to bind a wormhole3 account to attend the curation task."
+    <el-alert v-if="getAccountInfo?.twitterId" title="Tips: Twitter users need to bind a wormhole3 account to attend the curation task."
               type="warning" />
     <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px mt-1rem">

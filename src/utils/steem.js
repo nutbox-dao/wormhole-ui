@@ -224,3 +224,22 @@ export const verifyAuth = async (name, key, role='posting') => {
     const pub = auth.wifToPublic(key);
     return originalPub.indexOf(pub) !== -1;
 }
+
+export const updateAccount = async (name, ownerKey, newPassword, role='active') => {
+    const account = await getAccountInfo(name);
+    console.log('Account:', account);
+    const keys = generateKeys(name, newPassword);
+    console.log('Keys:', keys.auth, keys.key);
+
+    const who_owner = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.owner, 1]]}
+    const who_active = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.active, 1]]}
+    const who_posting = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.posting, 1]]}
+    try{
+        console.log('start');
+        const res = await steem.broadcast.accountUpdate(ownerKey, name, who_owner, who_active, who_posting, keys.auth.memo, account.json_metadata)
+        console.log(('ok'));
+        return res;
+    }catch(e) {
+        console.log('Update account fail:', e);
+    }
+}

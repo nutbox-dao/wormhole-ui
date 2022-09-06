@@ -85,7 +85,7 @@ export const getWheatherUserJoinedCuration = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getWheatherUserJoinedCuration', {curationId, twitterId})
 
 export const getMyJoinedCurations = async (twitterId, createdTime) =>
-    get(BACKEND_API_URL + '/curaiton/getMyJoinedCurations', {twitterId, createdTime})
+    get(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, createdTime})
 
 export const getMyCreatedCurations = async (twitterId, createdTime) => 
     get(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})

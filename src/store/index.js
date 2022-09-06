@@ -20,6 +20,8 @@ export default Vuex.createStore({
     prices: {},
     erc20Balances: {},
     posts: [],
+    joinedCurations: [],
+    createdCurations: [],
     transactions: [],
     vestsToSteem: 1
   },
@@ -94,6 +96,12 @@ export default Vuex.createStore({
     },
     savePosts: (state, posts) => {
       state.posts = posts
+    },
+    saveJoinedCurations: (state, joinedCurations) => {
+      state.joinedCurations = joinedCurations
+    },
+    saveCreatedCurations: (state, createdCurations) => {
+      state.createdCurations = createdCurations
     },
     saveTransactions: (state, transactions) => {
       state.transactions = transactions
