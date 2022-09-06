@@ -23,8 +23,16 @@
         </el-popover>
       </div>
     </div>
-    <el-alert v-if="getAccountInfo?.twitterId" title="Tips: Twitter users need to bind a wormhole3 account to attend the curation task."
-              type="warning" />
+    <el-alert type="warning" v-if="getAccountInfo?.twitterId">
+      <template #default>
+        <div class="flex ">
+          <div>
+            Tips: Twitter users need to bind a wormhole3 account to attend the curation task.
+          </div>
+          <button class="mx-3 underline">{{$t('common.registerNow')}}</button>
+        </div>
+      </template>
+    </el-alert>
     <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px mt-1rem">
       <div class="grid grid-cols-3 gap-1.5rem">

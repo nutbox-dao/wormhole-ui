@@ -177,6 +177,7 @@ export default {
     loosingRefresh: 'Release to refresh',
     loading: 'Loading...',
     serverError: 'Server Error',
-    get: 'GET'
+    get: 'GET',
+    registerNow: 'Goto Register'
   }
 }
