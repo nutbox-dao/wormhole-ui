@@ -74,7 +74,7 @@
              <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
             <span class="c-text-medium ml-2px">{{ value }}</span>
           </div>
-          <div class="text-white flex items-center cursor-pointer">
+          <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
             <img class="w-16px" src="~@/assets/icon-twitter-white.svg" alt="">
           </div>
         </div>
@@ -202,6 +202,10 @@ export default {
       if (!this.getAccountInfo || this.post.username !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.post.username})
       }
+    },
+    gotoTweet(e) {
+      e.stopPropagation();
+      window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||

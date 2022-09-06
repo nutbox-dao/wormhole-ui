@@ -75,6 +75,12 @@ export const getCurationById = async (curationId, twitterId) =>
 export const getCurationParticipant = async (curationId, createAt) =>
     get(BACKEND_API_URL + '/curation/getCurationParticipant', {curationId, createAt})
 
+/**
+ * fetch wheather user joined the cration
+ * @param {*} curationId 
+ * @param {*} twitterId 
+ * @returns the reward of user
+ */
 export const getWheatherUserJoinedCuration = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getWheatherUserJoinedCuration', {curationId, twitterId})
 
