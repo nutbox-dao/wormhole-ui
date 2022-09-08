@@ -180,27 +180,9 @@
       </div>
       <div v-loading="loading"
            class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
-        <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
-        <div class="bg-black/40 rounded-1rem min-h-10rem p-1rem relative">
-          <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
-            <span class="text-text8F whitespace-pre-line">{{curation.content + '#iweb3\n'}}</span>
-            <span class="text-primaryColor whitespace-pre-line">
-              {{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curation.curationId}}
-            </span>
-          </div>
-        </div>
-        <!-- <div class="italic text-12px text-left mt-6px leading-15px">
-          tips: Twitter content must include the #iweb3 hashtag and the curation short URL.
-        </div> -->
-        <div class="mt-1.5rem">
-          <button class="flex items-center justify-center rounded-full gradient-btn mr-0 ml-auto
-                  text-12px 2xl:text-0.9rem h-40px 2xl:h-2.2rem px-1rem"
-                  @click="onPost">
-            <img class="w-1rem h-1rem mr-0.4rem"
-                 src="~@/assets/icon-twitter-white.svg" alt=""/>
-            <span class="text-text8F">{{$t('postView.goTweet')}}</span>
-          </button>
-        </div>
+        <TweetAndStartCuration :curation-content="curation.content"
+                               :curation-id="curation.curationId"
+                               @onPost="onPost"/>
       </div>
     </div>
     <!-- create curation modal -->
@@ -239,10 +221,11 @@ import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/we
 import { CHAIN_ID, ERC20List } from "@/config";
 import { ethers } from 'ethers'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
+import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 
 export default {
   name: "CreateCuration",
-  components: {Steps, SendTokenTip, TwitterCompleteTip},
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',

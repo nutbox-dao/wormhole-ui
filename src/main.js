@@ -3,13 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './lang/index'
-import 'windi.css'
 import Spinner from "@/components/Spinner";
 import { List, PullRefresh, ImagePreview, Popup } from 'vant'
 import 'vant/es/image-preview/style';
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './style/el-custom.scss'
+import 'windi.css'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.component('c-spinner', Spinner)

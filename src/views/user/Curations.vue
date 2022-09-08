@@ -66,10 +66,17 @@
         <div v-if="position === 'bottom'"
              @click="modalVisible=false"
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
-        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
-          <TweetAttendTip class="py-2rem md:py-0"
-                          :curation="detailCuration"
-                          @close="modalVisible=false"/>
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar pt-1rem pb-2rem md:py-0">
+          <TweetAndStartCuration :curation-content="detailCuration.content"
+                                 :curation-id="detailCuration.curationId"
+                                 @onPost="onPost">
+            <template #title>
+              <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem
+                          text-left md:text-center w-full mb-1rem">
+                {{$t('curation.startCuration')}}
+              </div>
+            </template>
+          </TweetAndStartCuration>
         </div>
       </div>
     </van-popup>
@@ -80,11 +87,11 @@
 import CurationItem from "@/components/CurationItem";
 import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
-import TweetAttendTip from "@/components/TweetAttendTip";
+import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 
 export default {
   name: "Curations",
-  components: {CurationItem, TweetAttendTip},
+  components: {CurationItem, TweetAndStartCuration},
   data() {
     return {
       subTagList: ['Attended', 'Created'],
@@ -114,6 +121,9 @@ export default {
     this.onRefresh()
   },
   methods: {
+    onPost() {
+
+    },
     showTweetTip(curation) {
       this.detailCuration = curation
       this.modalVisible = true
