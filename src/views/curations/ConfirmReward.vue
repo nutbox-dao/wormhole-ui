@@ -97,6 +97,10 @@
         </div> -->
       </div>
     </div>
+    <el-dialog v-model="modalVisible" fullscreen
+               custom-class="c-dialog-fullscreen c-dialog-no-shadow">
+      <Submissions @close="modalVisible=false"></Submissions>
+    </el-dialog>
   </div>
 </template>
 
@@ -109,9 +113,11 @@ import { accountChanged, getAccounts } from '@/utils/web3/account'
 import { CHAIN_ID, errCode } from "@/config";
 import { parseTimestamp, formatAmount } from '@/utils/helper'
 import { notify, showError } from '@/utils/notify'
+import Submissions from "@/views/curations/Submissions";
 
 export default {
   name: "ConfirmReward",
+  components: {Submissions},
   computed: {
     ...mapState('curation', ['detailCuration']),
     ...mapGetters(['getAccountInfo']),
@@ -131,7 +137,8 @@ export default {
       pendingList: [],
       issuedList: [],
       loading: true,
-      claiming: false
+      claiming: false,
+      modalVisible: false
     }
   },
   methods: {
