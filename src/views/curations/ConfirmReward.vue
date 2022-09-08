@@ -99,7 +99,7 @@
     </div>
     <el-dialog v-model="modalVisible" fullscreen
                custom-class="c-dialog-fullscreen c-dialog-no-shadow">
-      <Submissions @close="modalVisible=false"></Submissions>
+      <Submissions :records="records" :state="state" @close="modalVisible=false"></Submissions>
     </el-dialog>
   </div>
 </template>
@@ -138,7 +138,9 @@ export default {
       issuedList: [],
       loading: true,
       claiming: false,
-      modalVisible: false
+      modalVisible: false,
+      records: [],
+      state: ''
     }
   },
   methods: {
@@ -198,8 +200,11 @@ export default {
       }
     },
     gotoList(list, state) {
-      this.$store.commit('curation/saveDetailRecords', list)
-      this.$router.push('/submissions/' + state)
+      this.state = state
+      this.records = list
+      this.modalVisible = true
+      // this.$store.commit('curation/saveDetailRecords', list)
+      // this.$router.push('/submissions/' + state)
     }
   },
   async mounted() {

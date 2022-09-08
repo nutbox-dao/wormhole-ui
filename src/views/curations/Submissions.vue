@@ -78,6 +78,16 @@ export default {
   computed: {
     ...mapState('curation', ['detailCuration', 'detailRecords'])
   },
+  props: {
+    records: {
+      type: Array,
+      default: []
+    },
+    state: {
+      type: String,
+      default: 'pending'
+    }
+  },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
