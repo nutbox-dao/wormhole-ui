@@ -66,6 +66,25 @@ html.dark {
     padding: 1.2rem;
   }
 }
+.el-dialog.c-dialog-fullscreen {
+  display: flex;
+  flex-direction: column;
+  .el-dialog__header {
+    padding: 0;
+  }
+  .el-dialog__headerbtn {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    height: 4rem;
+    width: 4rem;
+  }
+  .el-dialog__body {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+  }
+}
 
 .el-dialog.no-header {
   background: transparent;
