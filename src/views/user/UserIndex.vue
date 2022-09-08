@@ -85,7 +85,15 @@
                 >
                   {{ totalValue }}
                 </div>
-                <button
+                <button v-if="$route.name === 'profile-curations'"
+                        class="flex items-center justify-center
+                               gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                               rounded-full mt-0.5rem c-text-bold
+                               absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                        @click="$router.push('/create-curation')">
+                  {{$t('curationsView.createBtn')}}
+                </button>
+                <button v-else
                     class="text-0.8rem md:text-1rem whitespace-nowrap
                 flex
                 items-center
