@@ -24,27 +24,27 @@
           </div>
         </div>
       </div>
-      <div v-loading="loading1"
+      <div v-loading="loading"
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
           <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.pendingClaim')}}  {{lastId}}</div>
-          <div v-if="!loading1 && pendingList.length===0"
+          <div v-if="!loading && pendingList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
             <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
-          <template v-if="!loading1 && pendingList.length > 0">
-            <div class="flex justify-between items-center py-6px" v-for="i of pendingList" :key="i">
+          <template v-if="!loading && pendingList.length > 0">
+            <div class="flex justify-between items-center py-6px" v-for="record of pendingList" :key="record.id">
               <div class="flex items-center">
                 <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
-                     src="~@/assets/icon-default-avatar.svg" alt="">
+                     :src="record.profileImg" alt="">
                 <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-                  <div>shiney.eth </div>
-                  <div class="text-color8B">about 1 hour ago </div>
+                  <div>{{record.twitterUsername}} </div>
+                  <div class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
                 </div>
               </div>
               <div class="flex items-center">
-                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">0.02ETH </span>
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** record.decimals)) }} {{record.tokenSymbol}} </span>
                 <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
@@ -54,31 +54,34 @@
             </div>
           </template>
         </div>
-        <div class="bg-color8B/30 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center text-color8B font-600">
+        <button class="gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
+          @click="claim"
+          disabled
+        >
           {{$t('curation.claim')}}
-        </div>
+        </button>
       </div>
-      <div v-loading="loading2"
+      <div v-loading="loading"
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
           <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.claimed')}}  {{issuedRecords}}</div>
-          <div v-if="!loading2 && pendingList.length===0"
+          <div v-if="!loading && pendingList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
             <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
-          <template v-if="!loading2 && issuedList.length > 0">
-            <div class="flex justify-between items-center py-6px" v-for="i of issuedList" :key="i">
+          <template v-if="!loading && issuedList.length > 0">
+            <div class="flex justify-between items-center py-6px" v-for="record of issuedList" :key="record.id">
               <div class="flex items-center">
                 <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
-                     src="~@/assets/icon-default-avatar.svg" alt="">
+                     :src="record.profileImg" alt="">
                 <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-                  <div>shiney.eth </div>
-                  <div class="text-color8B">about 1 hour ago </div>
+                  <div>{{record.twitterUsername}} </div>
+                  <div class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
                 </div>
               </div>
               <div class="flex items-center">
-                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">0.02ETH </span>
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** record.decimals)) }} {{record.tokenSymbol}}</span>
                 <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
@@ -88,7 +91,7 @@
             </div>
           </template>
         </div>
-        <div class="gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600">
+        <div class="bg-color8B/30 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center text-color8B font-600">
           {{$t('curation.claimed')}}
         </div>
       </div>
@@ -103,6 +106,7 @@ import { mapState, mapGetters } from 'vuex'
 import { setupNetwork, chainChanged } from '@/utils/web3/web3'
 import { accountChanged, getAccounts } from '@/utils/web3/account'
 import { CHAIN_ID } from "@/config";
+import { parseTimestamp, formatAmount } from '@/utils/helper'
 
 export default {
   name: "ConfirmReward",
@@ -124,8 +128,7 @@ export default {
       lastId: 0,
       pendingList: [],
       issuedList: [],
-      loading1: true,
-      loading2: true
+      loading: true
     }
   },
   methods: {
@@ -141,6 +144,15 @@ export default {
         this.connectLoading = false
       }
     },
+    parseTimestamp(time) {
+      return parseTimestamp(time)
+    },
+    formatAmount(amount) {
+      return formatAmount(amount)
+    },
+    async claim(){
+      console.log(444);
+    }
   },
   async mounted() {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId){
@@ -153,12 +165,14 @@ export default {
       const info = await getCurationInfo(this.detailCuration.curationId)
       const lastId = parseInt(info.task.currentIndex);
       const totalCount = parseInt(info.userCount)
-      console.log(33, lastId, totalCount);
       this.totalRecords = totalCount;
       this.issuedRecords = totalCount - lastId;
       this.lastId = lastId
       const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, 0),
-                                                              getRefreshCurationRecord(this.detailCuration.curationId, lastId)]);
+                                                              getRefreshCurationRecord(this.detailCuration.curationId, lastId)])
+                                              .finally(() => {
+                                                this.loading = false
+                                              });
       console.log(235, pendingList, issuedList);
       this.pendingList = pendingList;
       this.issuedList = issuedList;
