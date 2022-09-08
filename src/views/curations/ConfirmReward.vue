@@ -15,8 +15,8 @@
         <div class="mb-6px">{{$t('common.connectMetamask')}}</div>
         <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
                     flex justify-center items-center cursor-pointer"
-             @click="connectLoading=true">
-          <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{$t('common.connectMetamask')}}</span>
+             @click="connectWallet">
+          <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : $t('common.connectMetamask')}}</span>
           <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
           <div v-if="connectLoading"
                class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
@@ -84,12 +84,21 @@
 import { getRefreshCurationRecord } from '@/api/api'
 import { getCurationInfo } from '@/utils/curation'
 import { mapState, mapGetters } from 'vuex'
+import { setupNetwork, chainChanged } from '@/utils/web3/web3'
+import { accountChanged, getAccounts } from '@/utils/web3/account'
+import { CHAIN_ID } from "@/config";
 
 export default {
   name: "ConfirmReward",
   computed: {
     ...mapState('curation', ['detailCuration']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('web3', ['account', 'chainId']),
+    showAccount() {
+      if (this.account && this.chainId === CHAIN_ID)
+        return true;
+      return false
+    },
   },
   data() {
     return {
@@ -101,21 +110,40 @@ export default {
       issuedList: []
     }
   },
+  methods: {
+    async connectWallet() {
+      this.connectLoading = true
+      try{
+        if (await setupNetwork()) {
+          await getAccounts(true);
+        }
+      } catch (e) {
+        notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
+      } finally {
+        this.connectLoading = false
+      }
+    },
+  },
   async mounted() {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId){
       this.$router.replace('/')
     }
+    chainChanged()
+    accountChanged()
     if (this.detailCuration && this.detailCuration.curationId) {
       console.log(43, this.detailCuration);
       const info = await getCurationInfo(this.detailCuration.curationId)
       const lastId = parseInt(info.task.currentIndex);
       const totalCount = parseInt(info.userCount)
+      console.log(33, lastId, totalCount);
       this.totalRecords = totalCount;
       this.issuedRecords = totalCount - lastId;
       this.lastId = lastId
-      [this.pendingList, this.issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, 0),
-      getRefreshCurationRecord(this.detailCuration.curationId, lastId)]);
-
+      const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, 0),
+                                                              getRefreshCurationRecord(this.detailCuration.curationId, lastId)]);
+      console.log(235, pendingList, issuedList);
+      this.pendingList = pendingList;
+      this.issuedList = issuedList;
     }
   }
 }
