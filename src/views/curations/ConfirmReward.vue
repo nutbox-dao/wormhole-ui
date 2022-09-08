@@ -98,7 +98,7 @@
       </div>
     </div>
     <el-dialog v-model="modalVisible" fullscreen
-               custom-class="c-dialog-fullscreen c-dialog-no-shadow">
+               custom-class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg">
       <Submissions :records="records" :state="state" @claim="claim" @close="modalVisible=false"></Submissions>
     </el-dialog>
   </div>
@@ -138,7 +138,7 @@ export default {
       issuedList: [],
       loading: true,
       claiming: false,
-      modalVisible: false,
+      modalVisible: true,
       records: [],
       state: ''
     }
