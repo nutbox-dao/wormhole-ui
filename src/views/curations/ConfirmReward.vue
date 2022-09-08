@@ -99,7 +99,7 @@
     </div>
     <el-dialog v-model="modalVisible" fullscreen
                custom-class="c-dialog-fullscreen c-dialog-no-shadow">
-      <Submissions :records="records" :state="state" @close="modalVisible=false"></Submissions>
+      <Submissions :records="records" :state="state" @claim="claim" @close="modalVisible=false"></Submissions>
     </el-dialog>
   </div>
 </template>
@@ -203,8 +203,6 @@ export default {
       this.state = state
       this.records = list
       this.modalVisible = true
-      // this.$store.commit('curation/saveDetailRecords', list)
-      // this.$router.push('/submissions/' + state)
     }
   },
   async mounted() {

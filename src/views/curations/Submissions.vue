@@ -25,7 +25,7 @@
                  v-for="record of (records ?? [])" :key="record.id">
               <div class="flex items-center">
                 <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
-                     src="~@/assets/icon-default-avatar.svg" alt="">
+                     :src="record.profileImg" alt="">
                 <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
                   <div>{{record.twitterUsername}} </div>
                   <div class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
@@ -40,11 +40,11 @@
           </van-list>
         </van-pull-refresh>
       </div>
-      <button class="flex items-center justify-center gradient-btn gradient-btn-shadow
+      <button v-if="state=='pending'" class="flex items-center justify-center gradient-btn gradient-btn-shadow
                      h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                      absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-              @click="modalVisible=true">
-        Confirm Reward
+              @click="$emit('claim')">
+        {{$t('curation.comfirmReward')}}
       </button>
     </div>
 
@@ -86,7 +86,7 @@ export default {
     },
     state: {
       type: String,
-      default: 'pending'
+      default: 'common'
     }
   },
   data() {
