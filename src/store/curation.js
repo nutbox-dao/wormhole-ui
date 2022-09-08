@@ -8,7 +8,8 @@ export default {
         ongoingList: [],
         endList: [],
         closeList: [],
-        detailCuration: {}
+        detailCuration: {},
+        detailRecords: []
     },
     mutations: {
         saveDraft: (state, draft) => {
@@ -32,6 +33,9 @@ export default {
         },
         saveDetailCuration: (state, detailCuration) => {
             state.detailCuration = detailCuration
+        },
+        saveDetailRecords: (state, detailRecords) => {
+            state.detailRecords = detailRecords
         }
     },
     getters: {
@@ -39,7 +43,6 @@ export default {
             let draft = state.draft;
             if (draft) {
                 return draft
-                return JSON.parse(draft)
             }
             return null;
         }

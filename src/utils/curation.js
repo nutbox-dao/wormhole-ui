@@ -4,6 +4,7 @@ import store from '@/store'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, RPC_NODE } from '@/config'
+import curation from '@/store/curation';
 
 const abi = [
     {
@@ -189,7 +190,7 @@ export const creteNewCuration = async (curation) => {
     })
 }
 
-export const getCurationInfo= async (curationId) => {
+export const getCurationInfo = async (curationId) => {
   try {
     curationId = ethers.BigNumber.from('0x' + curationId);
     const provider = new ethers.providers.JsonRpcProvider(RPC_NODE)
@@ -199,8 +200,21 @@ export const getCurationInfo= async (curationId) => {
   } catch (error) {
     console.log('Get curation info from chain fail:', error);
   }
+}
 
+export const claimReward = async (curationId) => {
+  try {
+    const metamask = await getEthWeb()
+    const provider = new ethers.providers.Web3Provider(metamask)
+    let contract = new ethers.Contract(CURATION_CONTRACT, abi, provider)
+    contract = contract.connect(provider.getSigner())
 
+    const tx = await contract.distribute(ethers.BigNumber.from('0x' + curationId), 300)
+    await waitForTx(provider, tx.hash);
+    
+  } catch(err) {
+
+  }
 }
 
 export const randomCurationId = () => {

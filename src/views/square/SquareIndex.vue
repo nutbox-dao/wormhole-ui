@@ -88,7 +88,7 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
-import { getTagAggregation, getPostsByTagTime, getPostsByTagValue, getPostByTrend } from '@/api/api';
+import { getTagAggregation, getUserFavTag, getPostsByTagTime, getPostsByTagValue, getPostByTrend } from '@/api/api';
 import { mapState, mapGetters } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
@@ -139,9 +139,23 @@ export default {
   },
   mounted() {
     getTagAggregation().then(tags => {
-      this.$store.commit('postsModule/saveTagsAggregation', tags)
-      this.onRefresh()
+      if (this.getAccountInfo && this.getAccountInfo.twitterId) {
+        getUserFavTag(this.getAccountInfo.twitterId).then(favTags => {
+          let newTags = {}
+          for (let t of favTags) {
+            newTags[t.tag] = tags[t.tag].c;
+          }
+          this.$store.commit('postsModule/saveTagsAggregation', {...newTags, ...tags})
+          this.onRefresh();
+        }).catch(e => {
+          console.log(3, e);
+        })
+      }else {
+        this.$store.commit('postsModule/saveTagsAggregation', tags)
+        this.onRefresh()
+      }
     })
+    
   },
   activated() {
     document.getElementById('square-index').scrollTo({top: this.scroll})
@@ -237,7 +251,6 @@ export default {
           // by tag and post value
           let posts = await getPostByTrend(tag);
           posts = await getPosts(posts)
-          console.log(235, posts);
           this.allPostsTagTrend[tag] = {
             pageNum: 1,
             posts

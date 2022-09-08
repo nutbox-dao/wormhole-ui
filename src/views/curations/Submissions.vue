@@ -65,10 +65,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import ConfirmRewardTip from "@/components/ConfirmRewardTip";
+
 export default {
   name: "Submissions",
   components: {ConfirmRewardTip},
+  computed: {
+    ...mapState('curation', ['detailCuration', 'detailRecords'])
+  },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -81,14 +86,10 @@ export default {
     }
   },
   mounted() {
+    
     this.onLoad()
   },
   methods: {
-    onRefresh() {
-      setTimeout(() => {
-        this.refreshing = false
-      }, 2000)
-    },
     onLoad() {
       this.loading = true
       setTimeout(() => {

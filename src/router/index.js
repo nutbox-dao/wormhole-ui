@@ -146,7 +146,7 @@ const routes = [
     component: () => import('@/views/curations/ConfirmReward'),
   },
   {
-    path: '/submissions/:id',
+    path: '/submissions/:state',
     name: 'submissions',
     component: () => import('@/views/curations/Submissions'),
   }

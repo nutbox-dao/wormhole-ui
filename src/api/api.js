@@ -2,7 +2,7 @@ import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 import curation from "@/store/curation"
 
-/****************************************  posts  ***********************************************/
+/****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
 
@@ -23,9 +23,6 @@ export const cacheKey = async (params) =>
 
 export const getTwitterAccount = async (username) =>
 getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
-
-export const getTagAggregation = async () =>
-    get(BACKEND_API_URL + '/twitter/tags')
 
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (username, pageSize, time, newPost) =>
@@ -50,6 +47,12 @@ export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
 
 export const getPostByTrend = async (tag, pageSize, pageNum) =>
     get(BACKEND_API_URL + '/twitter/getPostByTrend', {tag, pageSize, pageNum})
+
+export const getTagAggregation = async () =>
+    get(BACKEND_API_URL + '/twitter/tags')
+
+export const getUserFavTag = async (twitterId) => 
+    get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
 /****************************************  curation  ***********************************************/
 /**

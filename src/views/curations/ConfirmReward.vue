@@ -49,14 +49,14 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer" v-if="pendingList.length > 3" @click="$router.push('/submissions/500')">
+            <div class="text-right mt-0.6rem cursor-pointer" @click="gotoList(pendingList, 'pending')">
               {{$t('curation.viewAll')}}  >
             </div>
           </template>
         </div>
         <button class="w-full gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
           @click="claim"
-          disabled
+          :disabled="!showAccount || pendingList.length === 0"
         >
           {{$t('curation.claim')}}
         </button>
@@ -86,7 +86,7 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer" v-if="issuedList.length > 3">
+            <div class="text-right mt-0.6rem cursor-pointer" @click="gotoList(issuedList, 'issued')" v-if="issuedList.length > 3">
               {{$t('curation.viewAll')}}  >
             </div>
           </template>
@@ -152,17 +152,26 @@ export default {
     },
     async claim(){
       console.log(444);
+    },
+    gotoList(list, state) {
+      this.$store.commit('curation/saveDetailRecords', list)
+      this.$router.push('/submissions/' + state)
     }
   },
   async mounted() {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId){
       this.$router.replace('/')
     }
+    if (!this.detailCuration || !this.detailCuration.curationId) {
+      this.$router.go(-1)
+      return;
+    }
     chainChanged()
     accountChanged()
     if (this.detailCuration && this.detailCuration.curationId) {
       console.log(43, this.detailCuration);
       const info = await getCurationInfo(this.detailCuration.curationId)
+      console.log(662, info);
       const lastId = parseInt(info.task.currentIndex);
       const totalCount = parseInt(info.userCount)
       this.totalRecords = totalCount;
@@ -173,7 +182,6 @@ export default {
                                               .finally(() => {
                                                 this.loading = false
                                               });
-      console.log(235, pendingList, issuedList);
       this.pendingList = pendingList;
       this.issuedList = issuedList.filter(i => i.id < lastId);
     }
