@@ -4,6 +4,10 @@
 .gradient-line {
   background: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
 }
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 .gradient-btn {
   color: white;
   font-weight: bold;
