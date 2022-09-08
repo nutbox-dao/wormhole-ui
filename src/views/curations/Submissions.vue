@@ -4,7 +4,7 @@
       <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
                   flex items-center md:justify-start justify-center h-full">
         <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">
-          #1  Submissions  500
+          {{$t('curation.submissions')}}
         </div>
       </div>
     </div>
@@ -22,17 +22,17 @@
                     :finished-text="$t('common.noMore')"
                     @load="onLoad">
             <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30"
-                 v-for="(item, i) of list" :key="i">
+                 v-for="record of (records ?? [])" :key="record.id">
               <div class="flex items-center">
                 <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
                      src="~@/assets/icon-default-avatar.svg" alt="">
                 <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-                  <div>shiney.eth </div>
-                  <div class="text-color8B">about 1 hour ago </div>
+                  <div>{{record.twitterUsername}} </div>
+                  <div class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
                 </div>
               </div>
               <div class="flex items-center">
-                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">0.02ETH </span>
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** record.decimals)) }} {{ record.tokenSymbol }} </span>
                 <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
@@ -71,6 +71,7 @@
 <script>
 import { mapState } from "vuex";
 import ConfirmRewardTip from "@/components/ConfirmRewardTip";
+import { parseTimestamp, formatAmount } from "@/utils/helper";
 
 export default {
   name: "Submissions",
@@ -100,10 +101,12 @@ export default {
     }
   },
   mounted() {
-
+    console.log(113, this.records, this.state, this.detailCuration);
     this.onLoad()
   },
   methods: {
+    parseTimestamp,
+    formatAmount,
     onRefresh() {
 
     },

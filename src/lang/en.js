@@ -160,7 +160,8 @@ export default {
     claimRewardTip: 'Rewards can be issued up to 500 users at a time, and the system automatically divide into multiple groups for signature transfer.',
     pendingClaim: 'Pending Claim',
     claim: 'Claim',
-    claimed: 'Claimed'
+    claimed: 'Claimed',
+    submissions: 'Submissions'
   },
   err: {
     serverErr: 'Server error',
