@@ -163,7 +163,8 @@ export default {
     claimed: 'Claimed'
   },
   err: {
-    serverErr: 'Server error'
+    serverErr: 'Server error',
+    transErr: 'Transaction Fail'
   },
   common: {
     none: 'None',

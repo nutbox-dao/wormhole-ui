@@ -56,8 +56,9 @@
         </div>
         <button class="w-full gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
           @click="claim"
-          :disabled="!showAccount || pendingList.length === 0"
+          :disabled="!showAccount || pendingList.length === 0 || claiming"
         >
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="claiming"></c-spinner>
           {{$t('curation.claim')}}
         </button>
       </div>
@@ -101,12 +102,13 @@
 
 <script>
 import { getRefreshCurationRecord } from '@/api/api'
-import { getCurationInfo } from '@/utils/curation'
+import { getCurationInfo, claimReward } from '@/utils/curation'
 import { mapState, mapGetters } from 'vuex'
 import { setupNetwork, chainChanged } from '@/utils/web3/web3'
 import { accountChanged, getAccounts } from '@/utils/web3/account'
-import { CHAIN_ID } from "@/config";
+import { CHAIN_ID, errCode } from "@/config";
 import { parseTimestamp, formatAmount } from '@/utils/helper'
+import { notify, showError } from '@/utils/notify'
 
 export default {
   name: "ConfirmReward",
@@ -128,7 +130,8 @@ export default {
       lastId: 0,
       pendingList: [],
       issuedList: [],
-      loading: true
+      loading: true,
+      claiming: false
     }
   },
   methods: {
@@ -152,6 +155,40 @@ export default {
     },
     async claim(){
       console.log(444);
+      try{
+        this.claiming = true
+        await claimReward(this.detailCuration.curationId)
+        const info = await getCurationInfo(this.detailCuration.curationId)
+        const status = info.task.taskState;
+        const totalCount = parseInt(info.userCount);
+        const lastId = parseInt(info.task.currentIndex);
+        this.totalRecords = totalCount;
+        this.issuedRecords = totalCount - lastId;
+        this.lastId = lastId
+        if (status === 2) {
+          // finished
+          this.detailCuration.curationStatus = 2;
+        }
+        this.loading = true
+        // refresh issued list
+        if (this.issuedList.length > 0) {
+          // no need udpate
+        }else {
+          getRefreshCurationRecord(this.detailCuration.curationId, 0).then(issuedList=>{
+            this.issuedList = issuedList.filter(i => i.id < lastId);
+          })
+        }
+
+        // refresh pending list
+        getRefreshCurationRecord(this.detailCuration.curationId, lastId).then(pendingList=>{
+            this.pendingList = pendingList
+          })
+      } catch(e) {
+        showError(errCode.TRANSACTION_FAIL)
+      } finally {
+        this.loading = false
+        this.claiming = false
+      }
     },
     gotoList(list, state) {
       this.$store.commit('curation/saveDetailRecords', list)

@@ -32,6 +32,7 @@
                 partiallyConfirmed: 'Partially Confirmed',
                 allConfirmed: 'All Confirmed' -->
                 <button v-if="curation.createStatus===0"
+                     @click="showTweetTip"
                      class="px-13px py-5px rounded-full border-1 border-color8B text-color8B">
                   {{$t('curation.notTweeted')}}
                 </button>
