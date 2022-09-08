@@ -32,7 +32,7 @@
                 partiallyConfirmed: 'Partially Confirmed',
                 allConfirmed: 'All Confirmed' -->
                 <button v-if="curation.createStatus===0"
-                     @click="showTweetTip"
+                        @click.stop="showTweetTip(curation)"
                      class="px-13px py-5px rounded-full border-1 border-color8B text-color8B">
                   {{$t('curation.notTweeted')}}
                 </button>
@@ -57,6 +57,22 @@
         </van-list>
       </van-pull-refresh>
     </div>
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               v-model:show="modalVisible"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div v-if="position === 'bottom'"
+             @click="modalVisible=false"
+             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <TweetAttendTip class="py-2rem md:py-0"
+                          :curation="detailCuration"
+                          @close="modalVisible=false"/>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -64,10 +80,11 @@
 import CurationItem from "@/components/CurationItem";
 import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
+import TweetAttendTip from "@/components/TweetAttendTip";
 
 export default {
   name: "Curations",
-  components: {CurationItem},
+  components: {CurationItem, TweetAttendTip},
   data() {
     return {
       subTagList: ['Attended', 'Created'],
@@ -76,7 +93,10 @@ export default {
       loading: false,
       finished: false,
       pageSize: 10,
-      list: []
+      list: [],
+      position: document.body.clientWidth < 768?'bottom':'center',
+      modalVisible: false,
+      detailCuration: null
     }
   },
   computed: {
@@ -94,6 +114,10 @@ export default {
     this.onRefresh()
   },
   methods: {
+    showTweetTip(curation) {
+      this.detailCuration = curation
+      this.modalVisible = true
+    },
     changeSubIndex(index) {
       this.finished = true;
       this.subActiveTagIndex = index
