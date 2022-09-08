@@ -3,7 +3,7 @@ import { u8arryToHex } from './helper'
 import store from '@/store'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
-import { CURATION_CONTRACT, errCode } from '@/config'
+import { CURATION_CONTRACT, errCode, RPC_NODE } from '@/config'
 
 const abi = [
     {
@@ -188,6 +188,21 @@ export const creteNewCuration = async (curation) => {
         }
     })
 }
+
+export const getCurationInfo= async (curationId) => {
+  try {
+    curationId = ethers.BigNumber.from('0x' + curationId);
+    const provider = new ethers.providers.JsonRpcProvider(RPC_NODE)
+    let contract = new ethers.Contract(CURATION_CONTRACT, abi, provider)
+    const info = await contract.taskInfo(curationId);
+    return info;
+  } catch (error) {
+    console.log('Get curation info from chain fail:', error);
+  }
+
+
+}
+
 export const randomCurationId = () => {
     let id = ethers.utils.randomBytes(6)
     id = u8arryToHex(id);

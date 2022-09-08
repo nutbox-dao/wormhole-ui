@@ -155,7 +155,12 @@ export default {
     notTweeted: 'Not Tweeted',
     comfirmReward: 'Confirm Reward',
     partiallyConfirmed: 'Partially Confirmed',
-    allConfirmed: 'All Confirmed'
+    allConfirmed: 'All Confirmed',
+    claimReward: 'Claim Reward',
+    claimRewardTip: 'Rewards can be issued up to 500 users at a time, and the system automatically divide into multiple groups for signature transfer.',
+    pendingClaim: 'Pending Claim',
+    claim: 'Claim',
+    claimed: 'Claimed'
   },
   err: {
     serverErr: 'Server error'

@@ -48,6 +48,9 @@ export const getCommentsByPostid = async (postId) =>
 export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
     get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
 
+export const getPostByTrend = async (tag, pageSize, pageNum) =>
+    get(BACKEND_API_URL + '/twitter/getPostByTrend', {tag, pageSize, pageNum})
+
 /****************************************  curation  ***********************************************/
 /**
  * 
@@ -89,6 +92,9 @@ export const getMyJoinedCurations = async (twitterId, createdTime) =>
 
 export const getMyCreatedCurations = async (twitterId, createdTime) => 
     get(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})
+
+export const getRefreshCurationRecord = async (taskId, lastId) => 
+    get(BACKEND_API_URL + '/curation/getRefreshCurationRecord', {taskId, lastId})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {

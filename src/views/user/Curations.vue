@@ -42,7 +42,7 @@
                 </button>
                 <button v-else-if="curation.curationStatus === 1"
                         class="px-13px py-5px rounded-full border-1 border-white"
-                        @click="$router.push('/confirm-reward')">
+                        @click.stop="gotoReward(curation)">
                   {{$t('curation.comfirmReward')}}
                 </button>
                 <button v-else-if="curation.curationStatus===2"
@@ -121,7 +121,6 @@ export default {
         }else {
           this.$store.commit('saveCreatedCurations', curations)
         }
-        console.log(117, curations);
         if (curations.length < 12) {
           this.finished = true
         }else {
@@ -175,6 +174,10 @@ export default {
     gotoDetail(curation) {
       this.$store.commit('curation/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
+    },
+    gotoReward(curation) {
+      this.$store.commit('curation/saveDetailCuration', curation);
+      this.$router.push('/confirm-reward')
     }
   }
 }

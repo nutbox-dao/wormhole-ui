@@ -23,13 +23,13 @@
         </el-popover>
       </div>
     </div>
-    <el-alert type="warning" v-if="getAccountInfo?.twitterId">
+    <el-alert type="warning" v-if="!getAccountInfo?.twitterId">
       <template #default>
         <div class="flex ">
           <div>
             Tips: Twitter users need to bind a wormhole3 account to attend the curation task.
           </div>
-          <button class="mx-3 underline">{{$t('common.registerNow')}}</button>
+          <button class="mx-3 underline" @click="$router.push('/signup')">{{$t('common.registerNow')}}</button>
         </div>
       </template>
     </el-alert>
@@ -134,7 +134,21 @@
               {{$t('curation.viewAll')}}  >
             </div>
           </div>
-          <div class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
+          <!-- operate button -->
+          <div v-if="!getAccountInfo || !getAccountInfo.twitterId" class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
+                      fixed bottom-2rem left-0 right-0 z-2001
+                      sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
+                      flex sm:flex-col justify-between items-start sm:items-center">
+              <div class="flex-1 w-full text-center">
+                <button class="flex items-center justify-center gradient-btn
+                   gradient-btn-shadow h-2.7rem px-1rem mx-auto
+                   rounded-full c-text-black text-1.2rem xl:w-full"
+                        @click="$router.push('/login')">
+                  {{$t('signIn')}}
+                </button>
+              </div>      
+          </div>
+          <div v-else class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
                       fixed bottom-2rem left-0 right-0 z-2001
                       sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
                       flex sm:flex-col justify-between items-start sm:items-center">
@@ -299,7 +313,6 @@ export default {
       const local = new Date().getTimezoneOffset() / -60;
       let start = new Date(this.detailCuration.createdTime);
       let end = new Date(this.detailCuration.endtime * 1000)
-      console.log(255, start, end);
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
     },
     createTime() {
@@ -313,7 +326,6 @@ export default {
       e.target.src = emptyAvatar;
     },
     gotoUserPage() {
-      console.log(23, this.detailCuration.twitterUsername);
       if (!this.detailCuration || this.detailCuration.twitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.detailCuration.twitterUsername})
       }
@@ -331,7 +343,6 @@ export default {
       this.$store.commit('curation/saveDetailCuration', null)
       this.loading1 = true
       getCurationById(id, account?.twitterId).then(res => {
-        console.log(11, id, account, res);
         if (res) {
           this.$store.commit('curation/saveDetailCuration', res)
         }
@@ -342,7 +353,6 @@ export default {
 
     this.loading2 = true
       getCurationParticipant(id).then(res => {
-        console.log(22, res);
         this.participant = res ?? []
       }).catch(console.log).finally(() => {
         this.loading2 = false
