@@ -34,7 +34,7 @@
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
           <template v-if="!loading && pendingList.length > 0">
-            <div class="flex justify-between items-center py-6px" v-for="record of pendingList" :key="record.id">
+            <div class="flex justify-between items-center py-6px" v-for="record of pendingList.slice(0,3)" :key="record.id">
               <div class="flex items-center">
                 <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                      :src="record.profileImg" alt="">
@@ -49,12 +49,12 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer" @click="$router.push('/submissions/500')">
+            <div class="text-right mt-0.6rem cursor-pointer" v-if="pendingList.length > 3" @click="$router.push('/submissions/500')">
               {{$t('curation.viewAll')}}  >
             </div>
           </template>
         </div>
-        <button class="gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
+        <button class="w-full gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
           @click="claim"
           disabled
         >
@@ -65,13 +65,13 @@
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
           <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.claimed')}}  {{issuedRecords}}</div>
-          <div v-if="!loading && pendingList.length===0"
+          <div v-if="!loading && issuedList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
             <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
           <template v-if="!loading && issuedList.length > 0">
-            <div class="flex justify-between items-center py-6px" v-for="record of issuedList" :key="record.id">
+            <div class="flex justify-between items-center py-6px" v-for="record of issuedList.silce(0,3)" :key="record.id">
               <div class="flex items-center">
                 <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                      :src="record.profileImg" alt="">
@@ -86,14 +86,14 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer">
+            <div class="text-right mt-0.6rem cursor-pointer" v-if="issuedList.length > 3">
               {{$t('curation.viewAll')}}  >
             </div>
           </template>
         </div>
-        <div class="bg-color8B/30 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center text-color8B font-600">
+        <!-- <div class="bg-color8B/30 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center text-color8B font-600">
           {{$t('curation.claimed')}}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -168,14 +168,14 @@ export default {
       this.totalRecords = totalCount;
       this.issuedRecords = totalCount - lastId;
       this.lastId = lastId
-      const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, 0),
-                                                              getRefreshCurationRecord(this.detailCuration.curationId, lastId)])
+      const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, lastId),
+                                                              getRefreshCurationRecord(this.detailCuration.curationId, 0)])
                                               .finally(() => {
                                                 this.loading = false
                                               });
       console.log(235, pendingList, issuedList);
       this.pendingList = pendingList;
-      this.issuedList = issuedList;
+      this.issuedList = issuedList.filter(i => i.id < lastId);
     }
   }
 }
