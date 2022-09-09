@@ -103,8 +103,10 @@ export default {
   },
   curationsView: {
     p1: '参与策展获得FTs， NFTs和其他的奖励.',
+    t1: '提示：推特用户在参与虫洞策展活动之前，必须先注册虫洞账号，否则策展将无效。',
     createBtn: '创建策展',
-    createCuration: '创建策展'
+    createCuration: '创建策展',
+    shareCuration: '分享策展活动'
   },
   tips: {
     missingInput: "请填写完整信息.",

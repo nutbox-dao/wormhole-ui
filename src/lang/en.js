@@ -103,8 +103,10 @@ export default {
   },
   curationsView: {
     p1: 'Attend curation win FTs, NFTs or other prizes.',
+    t1: 'Tips: Twitter users need to bind a wormhole3 account to attend the curation task.',
     createBtn: 'Create a curation',
-    createCuration: 'Create Curation'
+    createCuration: 'Create Curation',
+    shareCuration: 'Share Curation'
   },
   tips: {
     missingInput: "Please complete all infos.",

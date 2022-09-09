@@ -12,11 +12,11 @@
           <template #default>
             <div class="gradient-border border-1 gradient-border-color3 rounded-8px
                         flex items-center justify-center py-14px cursor-pointer"
-                 @click="$refs.copyUrlPopper.hide(), onCopy('copy msg ....')">
+                 @click="$refs.copyUrlPopper.hide(), onCopy('https://test.wormhole3.io/#/curation-detail/' + detailCuration.curationId)">
               <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"
                    src="~@/assets/icon-copy.svg" alt="">
               <span class="text-15px 2xl:text-0.75rem leading-22px 2xl:leading-1.1rem font-600">
-                Copy Curation’s URL
+                {{$t('curationsView.shareCuration')}}
               </span>
             </div>
           </template>
@@ -27,7 +27,7 @@
       <template #default>
         <div class="flex ">
           <div>
-            Tips: Twitter users need to bind a wormhole3 account to attend the curation task.
+            {{$t('curationsView.t1')}}
           </div>
           <button class="mx-3 underline" @click="$router.push('/signup')">{{$t('common.registerNow')}}</button>
         </div>

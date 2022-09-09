@@ -7,7 +7,7 @@
       <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
         <span class="text-text8F whitespace-pre-line">{{curationContent + '#iweb3\n'}}</span>
         <span class="text-primaryColor whitespace-pre-line">
-              {{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curationId}}
+              {{ $t('curation.moreDetail') + ' => ' + 'https://test.wormhole3.io/#/curation-detail/' + curationId}}
             </span>
       </div>
     </div>
