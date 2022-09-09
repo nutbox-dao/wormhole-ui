@@ -5,7 +5,7 @@ import { errCode } from '@/config'
 export const notify = (options) => {
   return ElNotification({
     title: 'Wormhole3',
-    duration: options.duration || 3000,
+    duration: options.duration || 5000,
     customClass: `c-notification c-notification-${options.type || 'info'}`,
     ...options
   })

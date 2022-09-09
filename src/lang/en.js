@@ -109,6 +109,7 @@ export default {
   tips: {
     missingInput: "Please complete all infos.",
     textLengthOut: "Input text exceed max length.",
+    connectMetamaskFirst: 'Connect wallet first'
   },
   curation: {
     title: 'Title',
@@ -125,7 +126,7 @@ export default {
     reward: "Reward",
     rewardsMethod: 'Reward Method',
     posw: "Proof Of Subjective Work(PoSW)",
-    poswDes: 'If it is a PoSW curation, the reward will be issued to the participants according to the review. \nIf it is other quest, the rewards will be automatically.',
+    poswDes: 'If it is a PoSW curation, the reward will be issued to the participants according to the review. \nIf it is other method, the rewards will be automatically.',
     rewardsAmount: 'Rewards Amount',
     inputRewardsAmount: 'Enter amount of rewards',
     inputErc20: 'Enter ERC20 address or select one',
@@ -157,7 +158,7 @@ export default {
     partiallyConfirmed: 'Partially Confirmed',
     allConfirmed: 'All Confirmed',
     claimReward: 'Claim Reward',
-    claimRewardTip: 'Rewards can be issued up to 500 users at a time, and the system automatically divide into multiple groups for signature transfer.',
+    claimRewardTip: 'Rewards can be issued up to 300 users at a time, and the system automatically divide into multiple groups for signature transfer.',
     pendingClaim: 'Pending Claim',
     claim: 'Claim',
     claimed: 'Claimed',

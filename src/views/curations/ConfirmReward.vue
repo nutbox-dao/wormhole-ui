@@ -49,7 +49,7 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div>
-            <div class="text-right mt-0.6rem cursor-pointer" @click="gotoList(pendingList, 'pending')">
+            <div class="text-right mt-0.6rem cursor-pointer" v-if="pendingList.length > 3" @click="gotoList(pendingList, 'pending')">
               {{$t('curation.viewAll')}}  >
             </div>
           </template>
@@ -138,7 +138,7 @@ export default {
       issuedList: [],
       loading: true,
       claiming: false,
-      modalVisible: true,
+      modalVisible: false,
       records: [],
       state: ''
     }
@@ -164,6 +164,11 @@ export default {
     },
     async claim(){
       console.log(444);
+      if (!this.showAccount) {
+        notify({message: this.$t('tips.connectMetamaskFirst')})
+        return;
+      }
+      this.modalVisible = false
       try{
         this.claiming = true
         await claimReward(this.detailCuration.curationId)

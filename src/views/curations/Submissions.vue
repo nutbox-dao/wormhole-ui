@@ -43,11 +43,11 @@
       <button v-if="state=='pending'" class="flex items-center justify-center gradient-btn gradient-btn-shadow
                      h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                      absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-              @click="$emit('claim')">
+              @click="$emit('claim');">
         {{$t('curation.comfirmReward')}}
       </button>
     </div>
-
+    
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                :close-on-click-overlay="false"
                v-model:show="modalVisible"
@@ -72,6 +72,7 @@
 import { mapState } from "vuex";
 import ConfirmRewardTip from "@/components/ConfirmRewardTip";
 import { parseTimestamp, formatAmount } from "@/utils/helper";
+import { getRefreshCurationRecord } from '@/api/api'
 
 export default {
   name: "Submissions",
@@ -108,19 +109,20 @@ export default {
     parseTimestamp,
     formatAmount,
     onRefresh() {
-
+      this.refreshing = false
     },
     onLoad() {
       this.loading = true
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
+      getRefreshCurationRecord(this.detailCuration.curationId, this.records[this.records.length - 1].id).then(list=>{
+        if (list.length < 30) {
+          this.finished = true
+        }else {
+          this.finished = false
         }
-        this.loading = false;
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 1000);
+        this.records = this.records.concat(list)
+      }).finally(r => {
+        this.loading = false
+      })
     }
   }
 }

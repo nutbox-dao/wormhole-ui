@@ -148,6 +148,8 @@
                 </button>
               </div>      
           </div>
+          <div v-else-if="detailCuration.createStatus === 0">
+          </div>
           <div v-else class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
                       fixed bottom-2rem left-0 right-0 z-2001
                       sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
@@ -168,7 +170,7 @@
                              rounded-full c-text-black text-1.2rem xl:w-full"
                       disabled
                       @click="modalVisible=true">
-                {{$t('curation.unattend')}}
+                {{$t('curation.attended')}}
               </button>
               <div class="text-color8B c-text-black text-14px 2xl:text-1rem h-2.7rem flex items-center">
                 {{$t('curation.toBeReward')}}
