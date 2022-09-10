@@ -103,6 +103,7 @@ export default {
   },
   curationsView: {
     p1: 'Attend curation win FTs, NFTs or other prizes.',
+    p2: 'There\'s no created curations. Try to create one.',
     t1: 'Tips: Twitter users need to bind a wormhole3 account to attend the curation task.',
     createBtn: 'Create a curation',
     createCuration: 'Create Curation',

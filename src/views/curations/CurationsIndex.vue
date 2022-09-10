@@ -36,7 +36,7 @@
           <div v-else-if="curationsList && curationsList.length === 0" class="py-3rem bg-blockBg rounded-12px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-              {{$t('squareView.p2')}}
+              {{$t('curationsView.p2')}}
             </div>
           </div>
           <van-pull-refresh v-else
