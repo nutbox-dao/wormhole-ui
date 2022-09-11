@@ -48,8 +48,8 @@ export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
 // }
 
 export const ERC20List = [
-    {symbol: 'USDT', name: 'Tether USD', address: '0x0062fC7642E7BD9b4685901258207A6e22E23378', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
-    {symbol: 'USDC', name: 'USD Coin', address: '0x2fB98DCc527c1403F92c6Bed05a50725d3005636', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+    {symbol: 'USDT', name: 'Tether USD', address: '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
+    {symbol: 'USDC', name: 'USD Coin', address: '0x64544969ed7EBf5f083679233325356EbE738930', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
     // {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
 ]
 
