@@ -96,7 +96,7 @@ export default {
     a2: 'Please keep your key in a very security place, we dont keep them, so nobody can find them back if you lose them.',
     q3: 'Can I send crypto asset through twitter? How?',
     a3p1: 'Yes, you can send STEEM token at this phase, but can\'t send eth assets because of we don\'t keep your key.',
-    a3p2: `You can send STEEM to another one by send twitter: {'@'}wormhole_3 !send 1 STEEM to {'@'}another twitter account.`,
+    a3p2: `You can send STEEM to another one by send twitter: {'@'}wormhole_3 !send 1 STEEM to {'@'}another Steem account.`,
     q4: 'Can I sync my tweets to web3?',
     a4p1: 'Sure, your tweet will be stored in web3 for ever, it always belong to you.',
     a4p2: `You can send twitter to sync them like this: {'{content}'} #iweb3.`,
