@@ -55,7 +55,7 @@
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
                       flex justify-center items-center cursor-pointer"
                @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? account : $t('common.connectMetamask')}}</span>
+            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? showAccount : $t('common.connectMetamask')}}</span>
             <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
             <div v-if="connectLoading"
                  class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
@@ -261,7 +261,7 @@ export default {
     ...mapGetters(['getAccountInfo']),
     showAccount() {
       if (this.account && this.chainId === CHAIN_ID)
-        return true;
+        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);;
       return false
     },
   },

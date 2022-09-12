@@ -51,7 +51,7 @@
             </div>
           </div>
           <!-- curation info -->
-          <div class="px-1.25rem pt-1rem">
+          <div class="px-1.25rem pt-1rem" v-if="detailCuration">
             <div class="flex items-center">
               <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full "
                     @error="replaceEmptyImg"
@@ -93,7 +93,7 @@
           </div> -->
         </div>
         <!-- token -->
-        <div class="col-span-3 xl:col-span-1">
+        <div class="col-span-3 xl:col-span-1" v-if="detailCuration">
           <div v-loading="loading1" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
             <div class="flex justify-between items-center">
               <span>{{$t('curation.reward')}}</span>
