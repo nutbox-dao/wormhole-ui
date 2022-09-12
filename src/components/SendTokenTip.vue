@@ -52,7 +52,7 @@ export default {
       try{
         this.approving = true
         await approve(this.token.address, this.account, CURATION_CONTRACT)
-        this.approvedment = true
+        this.approvement = true
       } catch (e) {
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
       } finally {
