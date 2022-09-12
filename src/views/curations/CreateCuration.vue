@@ -366,7 +366,7 @@ export default {
         // write in contract
         const hash = await creteNewCuration(curation);
         // post to backend
-        await newCuration({...curation, amount: curation.amount.toString(), transHash: hash});
+        await newCuration({...curation, amount: curation.amount.toString(), transHash: hash, creatorTwitter: this.getAccountInfo.twitterId});
         this.$store.commit('curation/saveDraft', null);
         this.currentStep = 3;
       } catch (e) {
