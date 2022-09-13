@@ -60,7 +60,7 @@ export default {
   },
   mounted () {
     this.linkPreviewInfo = JSON.parse(this.pageInfo);
-    this.getImgSize(this.linkPreviewInfo.images[0])
+    if(this.linkPreviewInfo.images) this.getImgSize(this.linkPreviewInfo.images[0])
   },
 }
 </script>
