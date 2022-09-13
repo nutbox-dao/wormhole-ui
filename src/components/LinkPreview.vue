@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden xl:max-w-2/3"
+  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden lg:max-w-3/4"
        :class="imgPosition==='left'?'flex':''">
     <template v-if="imgPosition==='left'">
       <div class="flex-0.3 img-left-box">
