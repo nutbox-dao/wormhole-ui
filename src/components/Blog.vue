@@ -165,6 +165,7 @@ export default {
     },
     content() {
       let content = this.post.content.replace(this.reg, '');
+      content = content.replace('\n', '</br>')
       for (let url of this.urls){
         content = content.replace(url, `<span
                 data-url="${url}"
@@ -172,7 +173,7 @@ export default {
               ${url}
             </span>`)
       }
-      return content.replace('\n', '</br>')
+      return content
     }
   },
   methods: {
@@ -221,7 +222,7 @@ export default {
     },
   },
   mounted () {
-    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
     if (!this.post.content) return;
     const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)

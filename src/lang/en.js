@@ -118,7 +118,7 @@ export default {
     title: 'Title',
     inputTitle: 'Enter a curation title',
     schedule: 'Schedule',
-    startTimeTip: 'The default start time is the creation time.',
+    startTimeTip: 'The default start time is the creation time. Please select the end time.',
     description: 'Description',
     inputDes: "Enter the detail of your curation",
     connectWallet: "Connect Wallet",

@@ -118,7 +118,7 @@ export default {
     title: '标题',
     inputTitle: '请输入标题',
     schedule: '计划',
-    startTimeTip: '默认的开始时间为创建的时间。',
+    startTimeTip: '默认的开始时间为创建的时间。请选择活动结束的时间',
     description: '描述',
     inputDes: "请输入策展的详细内容",
     connectWallet: "连接钱包",
