@@ -44,7 +44,7 @@ export default {
       const img = new Image()
       img.src = imgUrl
       img.onload = () => {
-        if(img.width/img.height > 0.8 || img.height/img.width > 0.8) {
+        if(img.height/img.width > 0.8) {
           this.imgPosition = 'left'
         }
       }
