@@ -106,7 +106,7 @@ export default {
   mounted () {
     this.post = JSON.parse(this.retweetInfo)
 
-    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
     const urls = this.post.text.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
     this.allurls = urls
