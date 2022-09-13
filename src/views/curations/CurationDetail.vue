@@ -106,8 +106,8 @@
             <div class="flex justify-between items-center mb-2rem">
               <span>Token</span>
               <div class="flex items-center">
-                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem" :src="tokenIcon" alt="">
-                <img v-else class="w-1.5rem mr-0.6rem" src="~@/assets/icon-eth-white.svg" alt="">
+                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem rounded-full" :src="tokenIcon" alt="">
+                <img v-else class="w-1.5rem mr-0.6rem rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
                 <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>
               </div>
             </div>
@@ -134,19 +134,22 @@
                      src="~@/assets/icon-question-white.svg" alt="">
               </div>
             </div> -->
-            <div v-else class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30 cursor-pointer"
+            <div v-else class="flex justify-between items-center py-6px cursor-pointer"
                 @click="gotoUserPage(record.twitterUsername)"
                  v-for="record of (participant.slice(0, 10) ?? [])" :key="record.id">
-              <div class="flex items-center">
-                <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              <div class="flex items-center flex-1 overflow-hidden mr-8px">
+                <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
+                     @error="replaceEmptyImg"
                      :src="record.profileImg" alt="">
-                <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
-                  <div>{{record.twitterUsername}} </div>
+                <div class="flex-1 text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px truncate">
+                  <div class="w-full truncate">{{record.twitterUsername}}</div>
                   <div class="text-color8B">{{createTime(record)}}</div>
                 </div>
               </div>
               <div class="flex items-center" v-show="showReward">
-                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }} </span>
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem whitespace-nowrap">
+                  {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}
+                </span>
                 <!-- <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
                      src="~@/assets/icon-question-white.svg" alt=""> -->
               </div>
@@ -168,7 +171,7 @@
                         @click="$router.push('/login')">
                   {{$t('signIn')}}
                 </button>
-              </div>      
+              </div>
           </div>
           <div v-else-if="detailCuration.createStatus === 0">
           </div>
