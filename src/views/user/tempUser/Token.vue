@@ -55,7 +55,7 @@
             <el-tooltip>
               <template #content>
                 <div class="max-w-14rem text-white">
-                  tip content
+                  {{$t('common.whatsSteem')}}
                 </div>
               </template>
               <button>

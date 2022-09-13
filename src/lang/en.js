@@ -189,6 +189,7 @@ export default {
     loading: 'Loading...',
     serverError: 'Server Error',
     get: 'GET',
-    registerNow: 'Goto Register'
+    registerNow: 'Goto Register',
+    whatsSteem: 'Steem is a community-focused blockchain that creates an instant earning opportunity for the network’s users.'
   }
 }
