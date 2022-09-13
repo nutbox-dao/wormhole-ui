@@ -18,7 +18,7 @@
             <span class="text-color8B text-14px 2xl:text-1rem whitespace-nowrap">{{$t('postView.resourceCredits')}}</span>
             <el-tooltip>
               <template #content>
-                <div class="max-w-14rem">
+                <div class="max-w-14rem text-white">
                   {{$t('postView.p1')}}
                 </div>
               </template>
