@@ -1,6 +1,6 @@
 <template>
-  <div class="grid xl:grid-cols-3 md:gap-1rem pb-2rem">
-    <div class="xl:col-start-3 xl:col-end-4 border-1 border-dividerColor px-1rem rounded-12px xl:my-2rem md:mb-0 my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
+  <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem">
+    <div class="col-span-1 xl:col-start-3 xl:col-end-4 border-1 border-dividerColor px-1rem rounded-12px xl:my-2rem md:mb-0 my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
       <div class="text-1.2rem border-b-1 border-dividerColor px-1rem py-0.8rem flex items-center justify-between md:justify-center">
         <span class="c-text-black">{{$t('postView.socialToken')}}</span>
         <div class="md:hidden c-text-black flex-1 flex justify-end items-center">
@@ -34,7 +34,7 @@
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
+    <div class="col-span-1 xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"
