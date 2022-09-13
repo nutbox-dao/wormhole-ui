@@ -27,7 +27,7 @@
       <div v-loading="loading"
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
-          <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.pendingClaim')}}  {{lastId}}</div>
+          <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.pendingClaim')}}  {{totalRecords - lastId}}</div>
           <div v-if="!loading && pendingList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
             <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
@@ -45,8 +45,8 @@
               </div>
               <div class="flex items-center">
                 <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** record.decimals)) }} {{record.tokenSymbol}} </span>
-                <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
-                     src="~@/assets/icon-question-white.svg" alt="">
+                <!-- <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
+                     src="~@/assets/icon-question-white.svg" alt=""> -->
               </div>
             </div>
             <div class="text-right mt-0.6rem cursor-pointer" v-if="pendingList.length > 3" @click="gotoList(pendingList, 'pending')">
@@ -72,7 +72,7 @@
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
           <template v-if="!loading && issuedList.length > 0">
-            <div class="flex justify-between items-center py-6px" v-for="record of issuedList.silce(0,3)" :key="record.id">
+            <div class="flex justify-between items-center py-6px" v-for="record of issuedList.slice(0,3)" :key="record.id">
               <div class="flex items-center">
                 <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                      :src="record.profileImg" alt="">
@@ -177,7 +177,7 @@ export default {
         const totalCount = parseInt(info.userCount);
         const lastId = parseInt(info.task.currentIndex);
         this.totalRecords = totalCount;
-        this.issuedRecords = totalCount - lastId;
+        this.issuedRecords = lastId;
         this.lastId = lastId
         if (status === 2) {
           // finished
@@ -188,13 +188,13 @@ export default {
         if (this.issuedList.length > 0) {
           // no need udpate
         }else {
-          getRefreshCurationRecord(this.detailCuration.curationId, 0).then(issuedList=>{
-            this.issuedList = issuedList.filter(i => i.id < lastId);
+          getRefreshCurationRecord(this.detailCuration.curationId, 0, true).then(issuedList=>{
+            this.issuedList = issuedList.slice(0, lastId);
           })
         }
 
         // refresh pending list
-        getRefreshCurationRecord(this.detailCuration.curationId, lastId).then(pendingList=>{
+        getRefreshCurationRecord(this.detailCuration.curationId, lastId, true).then(pendingList=>{
             this.pendingList = pendingList
           })
       } catch(e) {
@@ -221,21 +221,19 @@ export default {
     chainChanged()
     accountChanged()
     if (this.detailCuration && this.detailCuration.curationId) {
-      console.log(43, this.detailCuration);
       const info = await getCurationInfo(this.detailCuration.curationId)
-      console.log(662, info);
       const lastId = parseInt(info.task.currentIndex);
       const totalCount = parseInt(info.userCount)
       this.totalRecords = totalCount;
-      this.issuedRecords = totalCount - lastId;
+      this.issuedRecords = lastId;
       this.lastId = lastId
-      const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, lastId),
-                                                              getRefreshCurationRecord(this.detailCuration.curationId, 0)])
+      const [pendingList, issuedList] = await Promise.all([getRefreshCurationRecord(this.detailCuration.curationId, lastId, true),
+                                                              getRefreshCurationRecord(this.detailCuration.curationId, 0, true)])
                                               .finally(() => {
                                                 this.loading = false
                                               });
       this.pendingList = pendingList;
-      this.issuedList = issuedList.filter(i => i.id < lastId);
+      this.issuedList = issuedList.slice(0, lastId);
     }
   }
 }

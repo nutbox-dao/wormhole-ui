@@ -32,9 +32,9 @@
                 </div>
               </div>
               <div class="flex items-center">
-                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** record.decimals)) }} {{ record.tokenSymbol }} </span>
-                <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
-                     src="~@/assets/icon-question-white.svg" alt="">
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }} </span>
+                <!-- <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
+                     src="~@/assets/icon-question-white.svg" alt=""> -->
               </div>
             </div>
           </van-list>
@@ -102,7 +102,6 @@ export default {
     }
   },
   mounted() {
-    console.log(113, this.records, this.state, this.detailCuration);
     this.onLoad()
   },
   methods: {
@@ -113,7 +112,7 @@ export default {
     },
     onLoad() {
       this.loading = true
-      getRefreshCurationRecord(this.detailCuration.curationId, this.records[this.records.length - 1].id).then(list=>{
+      getRefreshCurationRecord(this.detailCuration.curationId, this.records.length, this.state!=='common').then(list=>{
         if (list.length < 30) {
           this.finished = true
         }else {

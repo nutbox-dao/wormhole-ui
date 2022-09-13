@@ -53,9 +53,9 @@
           <!-- curation info -->
           <div class="px-1.25rem pt-1rem" v-if="detailCuration">
             <div class="flex items-center">
-              <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full "
+              <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                     @error="replaceEmptyImg"
-                    @click="gotoUserPage"
+                    @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                    :src="detailCuration && detailCuration.profileImg" alt="">
               <div class="flex md:flex-col md:justify-center md:items-start" @click="gotoUserPage">
                 <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
@@ -98,8 +98,8 @@
             <div class="flex justify-between items-center">
               <span>{{$t('curation.reward')}}</span>
               <div class="flex items-center">
-                <span class="text-primaryColor font-500">PosW</span>
-                <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt="">
+                <!-- <span class="text-primaryColor font-500">PosW</span>
+                <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt=""> -->
               </div>
             </div>
             <div class="w-full h-1px bg-white mt-0.8rem mb-1.6rem"></div>
@@ -120,17 +120,39 @@
               <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
               <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
             </div>
-            <div class="flex items-center py-6px" v-for="p of participant.slice(0, 10)" :key="p.twitterUsername">
+            <!-- <div class="flex items-center py-6px cursor-pointer" @click="gotoUserPage(p.twitterUsername)" v-for="p of participant.slice(0, 10)" :key="p.twitterUsername">
               <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
                    @error="replaceEmptyImg"
                    :src="p.profileImg" alt="">
               <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
                 <div>{{p.twitterUsername}} </div>
-                <div class="text-color8B">{{createTime}}</div>
+                <div class="text-color8B">{{createTime(p)}}</div>
+              </div>
+              <div class="flex items-center">
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(p.amount / (10 ** p.decimals)) }} {{ p.tokenSymbol }} </span>
+                <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
+                     src="~@/assets/icon-question-white.svg" alt="">
+              </div>
+            </div> -->
+            <div v-else class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30 cursor-pointer"
+                @click="gotoUserPage(record.twitterUsername)"
+                 v-for="record of (participant.slice(0, 10) ?? [])" :key="record.id">
+              <div class="flex items-center">
+                <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
+                     :src="record.profileImg" alt="">
+                <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
+                  <div>{{record.twitterUsername}} </div>
+                  <div class="text-color8B">{{createTime(record)}}</div>
+                </div>
+              </div>
+              <div class="flex items-center" v-show="showReward">
+                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem">{{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }} </span>
+                <!-- <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"
+                     src="~@/assets/icon-question-white.svg" alt=""> -->
               </div>
             </div>
-            <div v-if="participant.length >= 10" class="text-right mt-0.6rem cursor-pointer text-12px 2xl:text-0.6rem"
-                 @click="$router.push('/submissions/12')">
+            <div v-if="participant.length > 10" class="text-right mt-0.6rem cursor-pointer text-12px 2xl:text-0.6rem"
+                 @click="showSubmissions=true">
               {{$t('curation.viewAll')}}  >
             </div>
           </div>
@@ -218,6 +240,12 @@
         </div>
       </div>
     </van-popup>
+
+    <el-dialog v-model="showSubmissions" fullscreen
+               custom-class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg">
+      <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -225,18 +253,20 @@
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationParticipant, getWheatherUserJoinedCuration } from "@/api/api";
-import { getDateString, parseTimestamp } from '@/utils/helper'
+import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
 import {onCopy} from "@/utils/tool";
+import Submissions from "@/views/curations/Submissions";
 
 export default {
   name: "CurationDetail",
-  components: {TweetAttendTip},
+  components: {TweetAttendTip, Submissions},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
+      showSubmissions: false,
       isExpand: false,
       loading1: false,
       loading2: false,
@@ -276,6 +306,15 @@ export default {
           return this.$t('curation.complete')
         }
       }
+    },
+    showReward() {
+      if (!this.detailCuration) return false;
+      const curationStatus = this.detailCuration.curationStatus;
+      const createStatus = this.detailCuration.createStatus;
+      if (createStatus && curationStatus > 0) {
+        return true;
+      }
+      return false;
     },
     tokenIcon() {
       const token = this.detailCuration && this.detailCuration.token
@@ -317,21 +356,20 @@ export default {
       let end = new Date(this.detailCuration.endtime * 1000)
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
     },
-    createTime() {
-      if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
-      return parseTimestamp(this.detailCuration.createdTime)
-    }
   },
   methods: {
     onCopy,
+    formatAmount,
+    createTime(p) {
+      if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
+      return parseTimestamp(p.createAt)
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
-    gotoUserPage() {
-      if (!this.detailCuration || this.detailCuration.twitterUsername !== this.getAccountInfo.twitterUsername){
-        this.$router.push({path : '/account-info/@' + this.detailCuration.twitterUsername})
-      }
-    }
+    gotoUserPage(username) {
+        this.$router.push({path : '/account-info/@' + username})
+    },
   },
   mounted () {
     const id = this.$route.params.id;

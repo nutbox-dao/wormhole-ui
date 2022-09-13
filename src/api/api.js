@@ -96,8 +96,8 @@ export const getMyJoinedCurations = async (twitterId, createdTime) =>
 export const getMyCreatedCurations = async (twitterId, createdTime) => 
     get(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})
 
-export const getRefreshCurationRecord = async (taskId, lastId) => 
-    get(BACKEND_API_URL + '/curation/getRefreshCurationRecord', {taskId, lastId})
+export const getRefreshCurationRecord = async (taskId, lastId, isFeed=false) => 
+    get(BACKEND_API_URL + '/curation/getRefreshCurationRecord', {taskId, lastId, isFeed})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
