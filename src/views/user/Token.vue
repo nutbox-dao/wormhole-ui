@@ -50,7 +50,19 @@
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
             src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.3rem md:text-1rem">Steem</div>
+          <div class="flex items-center">
+            <div class="c-text-black text-1.3rem md:text-1rem">Steem</div>
+            <el-tooltip>
+              <template #content>
+                <div class="max-w-14rem text-white">
+                  tip content
+                </div>
+              </template>
+              <button>
+                <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+              </button>
+            </el-tooltip>
+          </div>
           <div class="text-color8B text-0.75rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
         </div>
       </div>
