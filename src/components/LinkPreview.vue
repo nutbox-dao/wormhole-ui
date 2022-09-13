@@ -7,7 +7,7 @@
       </div>
       <div class=" w-1px bg-color8B/30"></div>
     </template>
-    <img v-else class="" :src="linkPreviewInfo.images && linkPreviewInfo.images[0]" alt="">
+    <img v-else class="w-full object-cover" :src="linkPreviewInfo.images && linkPreviewInfo.images[0]" alt="">
     <div class="flex-1 px-1rem py-0.5rem text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B overflow-hidden">
       <div class="h-full flex flex-col justify-center">
         <div class="">{{getUrlHost(linkPreviewInfo.url)}}</div>
