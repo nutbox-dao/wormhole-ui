@@ -15,12 +15,12 @@
             </div>
             <template v-else>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-                <img class="h-2rem rounded-full" :src="profileImg" @error="replaceEmptyImg" alt="">
+                <img class="h-2rem rounded-full mx-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
-              <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
+              <!-- <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
                 <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
                 <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
-              </router-link>
+              </router-link> -->
             </template>
             <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
               <template #reference>
