@@ -261,6 +261,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
 import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
+import { getCurationInfo, claimReward } from '@/utils/curation'
 
 export default {
   name: "CurationDetail",
@@ -381,6 +382,10 @@ export default {
     if (this.detailCuration && this.detailCuration.curationId === id) {
       getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
         this.detailCuration.joined = res
+      })
+
+      getCurationInfo(this.detailCuration.curationId).then(res => {
+        console.log(62, res);
       })
     }else {
       this.$store.commit('curation/saveDetailCuration', null)

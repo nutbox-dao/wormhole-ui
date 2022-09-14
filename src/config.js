@@ -24,7 +24,7 @@ export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 // export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
 
 // bsc test
-export const RPC_NODE = 'https://bsctestapi.terminet.io/rpc'
+export const RPC_NODE = 'https://data-seed-prebsc-1-s1.binance.org:8545'
 export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
 export const CHAIN_NAME = 'BSC Testnet'
 export const CHAIN_ID = 97
