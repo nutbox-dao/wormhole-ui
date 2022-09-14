@@ -95,7 +95,7 @@
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                     v-model="form.maxCount"
-                     type="number" :placeholder="$t('curation.maxCountTip')">
+                     type="number" :placeholder="$t('curation.inputMaxCount')">
             </div>
             <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
               <el-switch v-model="form.isLimit" />
