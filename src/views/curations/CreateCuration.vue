@@ -12,10 +12,20 @@
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
-          <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
+          <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem"
-                  v-model="form.title"
-                   type="text" :placeholder="$t('curation.inputTitle')">
+                   v-model="form.title"
+                   type="text"
+                   :placeholder="$t('curation.inputTitle')">
+            <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
+              <template #reference>
+                <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+              </template>
+              <div class="h-310px lg:h-400px">
+                <EmojiPicker :options="{imgSrc:'/emoji/','locals': $i18n.locale==='zh'?'zh_CN':'en',}"
+                             @select="(e) =>selectEmoji(e,'title')" />
+              </div>
+            </el-popover>
           </div>
         </div>
         <div class="mt-1.8rem">
@@ -41,6 +51,20 @@
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
             <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>
+            <div class="py-2 border-t-1 border-color8B/30">
+              <el-popover ref="descEmojiPopover"
+                          placement="top"
+                          trigger="click" width="300"
+                          :teleported="false" :persistent="false">
+                <template #reference>
+                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+                </template>
+                <div class="h-310px lg:h-400px">
+                  <EmojiPicker :options="{imgSrc:'/emoji/','locals': $i18n.locale==='zh'?'zh_CN':'en',}"
+                               @select="(e) =>selectEmoji(e,'desc')" />
+                </div>
+              </el-popover>
+            </div>
           </div>
         </div>
         <div class="text-right mt-4rem">
@@ -66,6 +90,7 @@
         <!-- max count -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
+          <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
@@ -222,10 +247,11 @@ import { CHAIN_ID, ERC20List } from "@/config";
 import { ethers } from 'ethers'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
 
 export default {
   name: "CreateCuration",
-  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration},
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, EmojiPicker},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -266,6 +292,15 @@ export default {
     },
   },
   methods: {
+    selectEmoji(e, type) {
+      if(type==='title') {
+        this.form.title += e.i
+        this.$refs.titleEmojiPopover.hide()
+      } else if(type==='desc') {
+        this.form.description += e.i
+        this.$refs.descEmojiPopover.hide()
+      }
+    },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
     },

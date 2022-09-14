@@ -97,3 +97,29 @@ input::placeholder, textarea::placeholder {
   color: var(--color8B) !important;
   opacity: 0.7;
 }
+.emoji-picker {
+  padding: 0!important;
+  width: 18rem;
+}
+.emoji-body .emojis-wrap .emoji-block {
+  padding: 4px!important;
+}
+.emoji-body .group-name {
+  background-color: var(--blockBg) !important;
+}
+.emoji-spacing {
+  background-color: var(--color8B);
+  opacity: 0.3!important;
+}
+.emoji-group:last-child .emoji-spacing {
+  background-color: transparent!important;
+}
+.emoji-footer {
+  border-color: rgba(#8B949E, 0.3) !important;
+}
+div[contenteditable] {
+  outline: none;
+}
+.read-write-plaintext-only {
+  -webkit-user-modify: read-write-plaintext-only;
+}
