@@ -50,7 +50,12 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>
+<!--            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>-->
+            <div contenteditable
+                 class="desc-input p-1rem"
+                 ref="descContentRef"
+                 @focusout="descInput"
+                 v-html="form.description"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
                           placement="top"
@@ -293,13 +298,19 @@ export default {
   },
   methods: {
     selectEmoji(e, type) {
+      console.log(e)
       if(type==='title') {
         this.form.title += e.i
         this.$refs.titleEmojiPopover.hide()
       } else if(type==='desc') {
-        this.form.description += e.i
+        this.$refs.descContentRef.innerHTML += `<img class="inline-block w-20px h-20px mx-0.2rem" src="${e.imgSrc}" alt="${e.i}"/>`
+        this.form.description = this.$refs.descContentRef.innerHTML
         this.$refs.descEmojiPopover.hide()
       }
+      console.log(this.form.description)
+    },
+    descInput() {
+      this.form.description = this.$refs.descContentRef.innerHTML
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
