@@ -374,7 +374,7 @@ export default {
       try{
         this.loading = true
         const balance = await getERC20TokenBalance(this.selectedToken.address, this.account)
-        if (balance <= this.form.amount) {
+        if (balance < this.form.amount) {
           notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
           return;
         }
