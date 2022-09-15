@@ -16,21 +16,26 @@
       </div>
       <div class="overflow-x-hidden 2xl:ml-5.1rem md:mr-0 sm:ml-3.9rem text-left relative sm:-mt-3">
         <div class="xl:max-w-27rem pb-12px">
-          <div class="font-600">{{title}}</div>
-          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">
-            {{content}}
-          </div>
+          <div class="font-600" v-html="formatText(title)"></div>
+<!--          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">-->
+<!--            {{content}}-->
+<!--          </div>-->
+          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line"
+               v-html="formatText(content)"></div>
         </div>
         <div class="flex justify-between items-center">
           <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
             <img v-for="i of curation.curatorProfile" :key="i"
-                 class="w-32px h-32px xl:w-1.6rem xl:h-1.6rem rounded-full -ml-10px border-1 border-blockBg"
+                 class="w-32px h-32px min-w-32px min-h-32px
+                        xl:w-1.6rem xl:h-1.6rem xl:min-w-1.6rem xl:min-h-1.6rem
+                        rounded-full -ml-10px border-1 border-blockBg"
                  @error="replaceEmptyImg"
                  :src="i" alt="">
             <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center border-1 border-blockBg bg-primaryColor
                     font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
           </div>
+          <div v-else></div>
           <div class="flex items-center h-max">
             <div class="xl:absolute xl:top-1rem xl:right-0 bg-primaryColor/20 text-primaryColor px-13px py-5px
                  rounded-full c-text-black 2xl:text-0.75rem">{{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}</div>
@@ -77,6 +82,13 @@ export default {
     }
   },
   methods: {
+    formatText(str) {
+      const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
+      str = str.replace(regStr, (char) => {
+        return `<span class="c-emoji">${char}</span>`;
+      });
+      return str
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
