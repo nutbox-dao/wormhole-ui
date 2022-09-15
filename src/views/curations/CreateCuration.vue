@@ -52,7 +52,7 @@
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
 <!--            <textarea v-model="form.description" class="bg-transparent  w-full p-0.5rem" rows="12" :placeholder="$t('curation.inputDes')"/>-->
             <div contenteditable
-                 class="desc-input p-1rem"
+                 class="desc-input p-1rem min-h-6rem"
                  ref="descContentRef"
                  @focusout="descInput"
                  v-html="form.description"></div>
