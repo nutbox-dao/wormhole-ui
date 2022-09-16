@@ -64,9 +64,8 @@
             </div>
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
               <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div>
-              <div class="text-14px 2xl:text-0.7rem leading-24px">
-                <div class="text-color8B  whitespace-pre-line" v-html="formatEmojiText(content)">
-                </div>
+              <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line"
+                   v-html="formatEmojiText(content)">
               </div>
             </div>
           </div>

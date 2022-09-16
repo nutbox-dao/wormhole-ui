@@ -20,10 +20,11 @@
 <!--                   type="text"-->
 <!--                   :placeholder="$t('curation.inputTitle')">-->
             <div contenteditable
-                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap"
+                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem"
                  ref="titleRef"
                  @keydown="keydown"
                  @blur="getBlur('title')"
+                 @paste="onPaste"
                  v-html="formatEmojiText(form.title)"></div>
             <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
               <template #reference>
@@ -60,9 +61,10 @@
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
 <!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
             <div contenteditable
-                 class="desc-input p-1rem min-h-6rem whitespace-pre-line leading-26px"
+                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem"
                  ref="descContentRef"
                  @blur="getBlur('desc')"
+                 @paste="onPaste"
                  v-html="formatEmojiText(form.description)"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
@@ -323,6 +325,24 @@ export default {
         if(!this.descRange) return
         this.descRange.insertNode(newNode)
         this.$refs.descEmojiPopover.hide()
+      }
+    },
+    onPaste(e) {
+      e.preventDefault()
+      let text
+      let clp = e.clipboardData
+      if (clp === undefined || clp === null) {
+        text = window.clipboardData.getData('text') || ''
+        if (text !== "") {
+          let newNode = document.createElement('div')
+          newNode.innerHTML = text;
+          window.getSelection().getRangeAt(0).insertNode(newNode)
+        }
+      } else {
+        text = clp.getData('text/plain') || ''
+        if (text !== "") {
+          document.execCommand('insertText', false, text)
+        }
       }
     },
     keydown(e) {
