@@ -13,11 +13,19 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"
-                   ref="titleRef"
-                   v-model="form.title"
-                   type="text"
-                   :placeholder="$t('curation.inputTitle')">
+<!--            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"-->
+<!--                   ref="titleRef"-->
+<!--                   v-model="form.title"-->
+<!--                   @blur="getBlur('title')"-->
+<!--                   type="text"-->
+<!--                   :placeholder="$t('curation.inputTitle')">-->
+            <div contenteditable
+                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
+                 ref="titleRef"
+                 @keydown="keydown"
+                 @blur="getBlur('title')"
+                 @paste="onPaste"
+                 v-html="formatEmojiText(form.title)"></div>
             <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
               <template #reference>
                 <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
@@ -51,15 +59,13 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <textarea v-model="form.description"
-                      ref="descRef"
-                      class="bg-transparent w-full p-0.5rem c-input-emoji leading-20px"
-                      rows="8" :placeholder="$t('curation.inputDes')"/>
-<!--            <div contenteditable-->
-<!--                 class="desc-input p-1rem min-h-6rem"-->
-<!--                 ref="descContentRef"-->
-<!--                 @focusout="descInput"-->
-<!--                 v-html="descEditContent"></div>-->
+<!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
+            <div contenteditable
+                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
+                 ref="descContentRef"
+                 @blur="getBlur('desc')"
+                 @paste="onPaste"
+                 v-html="formatEmojiText(form.description)"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
                           placement="top"
@@ -120,7 +126,7 @@
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
               {{$t('curation.posw')}}
             </div>
-            <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1.2rem">
+            <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
               {{$t('curation.poswDes')}}
             </div>
           </div>
@@ -257,6 +263,7 @@ import { ethers } from 'ethers'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "CreateCuration",
@@ -287,7 +294,10 @@ export default {
         '0x871AD5aAA75C297EB22A6349871ce4588E3c0306',
         '0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0',
         '0x622A71842cb6f2f225bEDa38E0BdD85331573182'
-      ]
+      ],
+      descEditContent: '',
+      descRange: null,
+      titleRange: null
     }
   },
   computed: {
@@ -296,20 +306,81 @@ export default {
     ...mapGetters(['getAccountInfo']),
     showAccount() {
       if (this.account && this.chainId === CHAIN_ID)
-        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);;
+        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);
       return false
     },
   },
   methods: {
+    formatEmojiText,
     selectEmoji(e, type) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-20px h-20px mx-2px'
       if(type==='title') {
-        this.form.title = this.form.title.splice(this.$refs.titleRef.selectionStart, 0, e.i)
+        if(!this.titleRange) return
+        this.titleRange.insertNode(newNode)
         this.$refs.titleEmojiPopover.hide()
       } else if(type==='desc') {
-        console.log(this.$refs.descRef.selectionStart)
-        this.form.description = this.form.description.splice(this.$refs.descRef.selectionStart, 0, e.i)
+        if(!this.descRange) return
+        this.descRange.insertNode(newNode)
         this.$refs.descEmojiPopover.hide()
       }
+    },
+    onPaste(e) {
+      e.preventDefault()
+      let text
+      let clp = e.clipboardData
+      if (clp === undefined || clp === null) {
+        text = window.clipboardData.getData('text') || ''
+        if (text !== "") {
+          text = formatEmojiText(text)
+          let newNode = document.createElement('div')
+          newNode.innerHTML = text;
+          window.getSelection().getRangeAt(0).insertNode(newNode)
+        }
+      } else {
+        text = clp.getData('text/plain') || ''
+        if (text !== "") {
+          text = formatEmojiText(text)
+          document.execCommand('insertHtml', false, text)
+        }
+      }
+    },
+    keydown(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault()
+        return false
+      }
+    },
+    getBlur(type) {
+      const sel = window.getSelection();
+      if(type==='desc' && sel) this.descRange = sel.getRangeAt(0);
+      if(type==='title' && sel) this.titleRange = sel.getRangeAt(0);
+    },
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      for(let i of el.childNodes) {
+        if(i.nodeName==='#text') {
+          content += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          content += i.alt
+        }
+      }
+      return content
+      // this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
+      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
+      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
+      // for(let i of this.$refs.descContentRef.childNodes) {
+      //   if(i.nodeName==='#text') {
+      //     this.form.description += i.textContent
+      //   } else if(i.nodeName === 'IMG') {
+      //     this.form.description += i.alt
+      //   }
+      // }
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
@@ -333,6 +404,8 @@ export default {
       return true
     },
     onNext() {
+      this.form.title = this.formatElToTextContent(this.$refs.titleRef)
+      this.form.description = this.formatElToTextContent(this.$refs.descContentRef)
       if (!this.checkCreateData()) {
         return;
       }
