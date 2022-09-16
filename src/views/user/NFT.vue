@@ -13,7 +13,7 @@
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
              src="~@/assets/icon-nft.svg" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.3rem md:text-1rem">Twitter Reputaion NFT</div>
+          <div class="c-text-black text-1.3rem md:text-1rem">Twitter Reputation NFT</div>
           <div class="text-color8B text-0.8rem mt-0.5rem">from @wormhole3 official</div>
         </div>
       </div>
