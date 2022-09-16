@@ -24,7 +24,7 @@
           <div @click.stop="clickContent"
                 class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
             <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
-            <div v-else v-html="content"></div>
+            <div class="" v-else v-html="formatEmojiText(content)"></div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
@@ -99,6 +99,7 @@ import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "Blog",
@@ -177,6 +178,7 @@ export default {
     }
   },
   methods: {
+    formatEmojiText,
     clickContent(e) {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')

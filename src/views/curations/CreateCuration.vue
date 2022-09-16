@@ -13,13 +13,18 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"
-                   ref="titleRef"
-                   v-model="form.title"
-                   @focus="getBlur('title')"
-                   @blur="getBlur('title')"
-                   type="text"
-                   :placeholder="$t('curation.inputTitle')">
+<!--            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"-->
+<!--                   ref="titleRef"-->
+<!--                   v-model="form.title"-->
+<!--                   @blur="getBlur('title')"-->
+<!--                   type="text"-->
+<!--                   :placeholder="$t('curation.inputTitle')">-->
+            <div contenteditable
+                 class="bg-transparent w-full px-0.5rem"
+                 ref="titleRef"
+                 @keydown="keydown"
+                 @blur="getBlur('title')"
+                 v-html="formatEmojiText(form.title)"></div>
             <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
               <template #reference>
                 <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
@@ -53,15 +58,12 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <div class="whitespace-pre-line" v-html="formatText(form.description)"></div>
-<!--            <textarea v-model="form.description"-->
-<!--                      class="bg-transparent w-full p-0.5rem c-input-emoji leading-20px"-->
-<!--                      rows="8" :placeholder="$t('curation.inputDes')"/>-->
+<!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
             <div contenteditable
                  class="desc-input p-1rem min-h-6rem whitespace-pre-line leading-26px"
                  ref="descContentRef"
-                 @focus="getBlur('desc')"
-                 @blur="getBlur('desc')"></div>
+                 @blur="getBlur('desc')"
+                 v-html="formatEmojiText(form.description)"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
                           placement="top"
@@ -259,6 +261,7 @@ import { ethers } from 'ethers'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "CreateCuration",
@@ -301,36 +304,31 @@ export default {
     ...mapGetters(['getAccountInfo']),
     showAccount() {
       if (this.account && this.chainId === CHAIN_ID)
-        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);;
+        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);
       return false
     },
   },
   methods: {
-    formatText(str) {
-      const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
-      str = str.replace(regStr, (char) => {
-        let code = char.codePointAt(char).toString(16)
-        console.log('--char--', char, code)
-        if(code.length<4) code = code + '-20e3'
-        // return `<span class="c-emoji">${char}</span>`;
-        return `<img class="w-1.3rem h-1.3rem inline-block" src="/emoji/svg/${code}.svg" alt="${char}"/>`
-      });
-      return str
-    },
+    formatEmojiText,
     selectEmoji(e, type) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-20px h-20px mx-0.2rem'
       if(type==='title') {
-        this.form.title += e.i
-        // const newNode = document.createTextNode(e.i)
-        // this.titleRange.insertNode(newNode)
+        if(!this.titleRange) return
+        this.titleRange.insertNode(newNode)
         this.$refs.titleEmojiPopover.hide()
       } else if(type==='desc') {
-        if(!this.descRange) this.$refs.descContentRef.focus()
-        const newNode = document.createElement('img')
-        newNode.alt = e.i
-        newNode.src = e.imgSrc
-        newNode.className = 'inline-block w-20px h-20px mx-0.2rem'
+        if(!this.descRange) return
         this.descRange.insertNode(newNode)
         this.$refs.descEmojiPopover.hide()
+      }
+    },
+    keydown(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault()
+        return false
       }
     },
     getBlur(type) {
@@ -338,20 +336,29 @@ export default {
       if(type==='desc' && sel) this.descRange = sel.getRangeAt(0);
       if(type==='title' && sel) this.titleRange = sel.getRangeAt(0);
     },
-    getDescTextContent() {
-      this.form.description = ''
-      this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
-      this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
-      this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
-      for(let i of this.$refs.descContentRef.childNodes) {
-        console.log(i)
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      for(let i of el.childNodes) {
         if(i.nodeName==='#text') {
-          this.form.description += i.textContent
+          content += i.textContent
         } else if(i.nodeName === 'IMG') {
-          this.form.description += i.alt
+          content += i.alt
         }
       }
-      console.log(this.form.description)
+      return content
+      // this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
+      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
+      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
+      // for(let i of this.$refs.descContentRef.childNodes) {
+      //   if(i.nodeName==='#text') {
+      //     this.form.description += i.textContent
+      //   } else if(i.nodeName === 'IMG') {
+      //     this.form.description += i.alt
+      //   }
+      // }
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
@@ -375,6 +382,8 @@ export default {
       return true
     },
     onNext() {
+      this.form.title = this.formatElToTextContent(this.$refs.titleRef)
+      this.form.description = this.formatElToTextContent(this.$refs.descContentRef)
       if (!this.checkCreateData()) {
         return;
       }
