@@ -316,7 +316,7 @@ export default {
       const newNode = document.createElement('img')
       newNode.alt = e.i
       newNode.src = e.imgSrc
-      newNode.className = 'inline-block w-20px h-20px mx-0.2rem'
+      newNode.className = 'inline-block w-20px h-20px mx-2px'
       if(type==='title') {
         if(!this.titleRange) return
         this.titleRange.insertNode(newNode)
