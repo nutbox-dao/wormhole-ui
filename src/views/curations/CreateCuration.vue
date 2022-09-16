@@ -329,6 +329,12 @@ export default {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
+
+      if(new Date().getTime() >= new Date(this.form.endtime).getTime() + 60000) {
+        notify({message: this.$t('tips.wrongEndTime'), duration: 5000, type: 'error'})
+        return false
+      }
+
       if (this.form.title.length + this.form.description.length > 245) {
         console.log('length:', this.form.title.length + this.form.description.length);
         notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
@@ -371,6 +377,12 @@ export default {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
+
+      if(new Date().getTime() >= new Date(this.form.endtime).getTime() + 30000) {
+        notify({message: this.$t('tips.wrongEndTime'), duration: 5000, type: 'error'})
+        return false
+      }
+
       if (!this.showAccount) {
         notify({message: this.$t('common.connectMetamask'), duration: 5000, type: 'error'})
         return false

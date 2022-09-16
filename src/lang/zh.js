@@ -112,7 +112,8 @@ export default {
   tips: {
     missingInput: "请填写完整信息.",
     textLengthOut: "文本内容超过了限制.",
-    connectMetamaskFirst: '请先连接钱包'
+    connectMetamaskFirst: '请先连接钱包',
+    wrongEndTime: '您填写的结束时间已经过期了'
   },
   curation: {
     title: '标题',
