@@ -15,6 +15,8 @@
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"
                    v-model="form.title"
+                   @focus="getBlur('title')"
+                   @blur="getBlur('title')"
                    type="text"
                    :placeholder="$t('curation.inputTitle')">
             <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
@@ -50,14 +52,15 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
-            <textarea v-model="form.description"
-                      class="bg-transparent w-full p-0.5rem c-input-emoji leading-20px"
-                      rows="8" :placeholder="$t('curation.inputDes')"/>
-<!--            <div contenteditable-->
-<!--                 class="desc-input p-1rem min-h-6rem"-->
-<!--                 ref="descContentRef"-->
-<!--                 @focusout="descInput"-->
-<!--                 v-html="descEditContent"></div>-->
+            <div class="whitespace-pre-line" v-html="formatText(form.description)"></div>
+<!--            <textarea v-model="form.description"-->
+<!--                      class="bg-transparent w-full p-0.5rem c-input-emoji leading-20px"-->
+<!--                      rows="8" :placeholder="$t('curation.inputDes')"/>-->
+            <div contenteditable
+                 class="desc-input p-1rem min-h-6rem whitespace-pre-line leading-26px"
+                 ref="descContentRef"
+                 @focus="getBlur('desc')"
+                 @blur="getBlur('desc')"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
                           placement="top"
@@ -286,7 +289,9 @@ export default {
         '0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0',
         '0x622A71842cb6f2f225bEDa38E0BdD85331573182'
       ],
-      descEditContent: ''
+      descEditContent: '',
+      descRange: null,
+      titleRange: null
     }
   },
   computed: {
@@ -303,22 +308,48 @@ export default {
     formatText(str) {
       const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
       str = str.replace(regStr, (char) => {
-        return `<span class="c-emoji">${char}</span>`;
+        let code = char.codePointAt(char).toString(16)
+        console.log('--char--', char, code)
+        if(code.length<4) code = code + '-20e3'
+        // return `<span class="c-emoji">${char}</span>`;
+        return `<img class="w-1.3rem h-1.3rem inline-block" src="/emoji/svg/${code}.svg" alt="${char}"/>`
       });
       return str
     },
     selectEmoji(e, type) {
       if(type==='title') {
         this.form.title += e.i
+        // const newNode = document.createTextNode(e.i)
+        // this.titleRange.insertNode(newNode)
         this.$refs.titleEmojiPopover.hide()
       } else if(type==='desc') {
-        // this.$refs.descContentRef.innerHTML += `<img class="inline-block w-20px h-20px mx-0.2rem" src="${e.imgSrc}" alt="${e.i}"/>`
-        this.form.description += e.i
+        if(!this.descRange) this.$refs.descContentRef.focus()
+        const newNode = document.createElement('img')
+        newNode.alt = e.i
+        newNode.src = e.imgSrc
+        newNode.className = 'inline-block w-20px h-20px mx-0.2rem'
+        this.descRange.insertNode(newNode)
         this.$refs.descEmojiPopover.hide()
       }
     },
-    descInput() {
-      this.form.description = this.$refs.descContentRef.innerText
+    getBlur(type) {
+      const sel = window.getSelection();
+      if(type==='desc' && sel) this.descRange = sel.getRangeAt(0);
+      if(type==='title' && sel) this.titleRange = sel.getRangeAt(0);
+    },
+    getDescTextContent() {
+      this.form.description = ''
+      this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
+      this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
+      this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
+      for(let i of this.$refs.descContentRef.childNodes) {
+        console.log(i)
+        if(i.nodeName==='#text') {
+          this.form.description += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          this.form.description += i.alt
+        }
+      }
       console.log(this.form.description)
     },
     disabledDate(time) {
@@ -337,14 +368,15 @@ export default {
       return true
     },
     onNext() {
-      if (!this.checkCreateData()) {
-        return;
-      }
-      this.$store.commit('curation/saveDraft', this.form);
-      this.currentStep = 2
-      this.$nextTick(() => {
-        this.popperWidth = this.$refs.tokenPopper.clientWidth
-      })
+      this.getDescTextContent()
+      // if (!this.checkCreateData()) {
+      //   return;
+      // }
+      // this.$store.commit('curation/saveDraft', this.form);
+      // this.currentStep = 2
+      // this.$nextTick(() => {
+      //   this.popperWidth = this.$refs.tokenPopper.clientWidth
+      // })
     },
     async connectWallet() {
       this.connectLoading = true
