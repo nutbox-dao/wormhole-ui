@@ -20,7 +20,7 @@
 <!--                   type="text"-->
 <!--                   :placeholder="$t('curation.inputTitle')">-->
             <div contenteditable
-                 class="bg-transparent w-full px-0.5rem"
+                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap"
                  ref="titleRef"
                  @keydown="keydown"
                  @blur="getBlur('title')"
