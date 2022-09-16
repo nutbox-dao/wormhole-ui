@@ -112,7 +112,8 @@ export default {
   tips: {
     missingInput: "Please complete all infos.",
     textLengthOut: "Input text exceed max length.",
-    connectMetamaskFirst: 'Connect wallet first'
+    connectMetamaskFirst: 'Connect wallet first',
+    wrongEndTime: 'The end time you fill has passed'
   },
   curation: {
     title: 'Title',
