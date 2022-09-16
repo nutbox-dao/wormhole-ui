@@ -14,6 +14,7 @@
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"
+                   ref="titleRef"
                    v-model="form.title"
                    @focus="getBlur('title')"
                    @blur="getBlur('title')"
@@ -360,6 +361,12 @@ export default {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
+
+      if(new Date().getTime() >= new Date(this.form.endtime).getTime() + 60000) {
+        notify({message: this.$t('tips.wrongEndTime'), duration: 5000, type: 'error'})
+        return false
+      }
+
       if (this.form.title.length + this.form.description.length > 245) {
         console.log('length:', this.form.title.length + this.form.description.length);
         notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
@@ -368,15 +375,14 @@ export default {
       return true
     },
     onNext() {
-      this.getDescTextContent()
-      // if (!this.checkCreateData()) {
-      //   return;
-      // }
-      // this.$store.commit('curation/saveDraft', this.form);
-      // this.currentStep = 2
-      // this.$nextTick(() => {
-      //   this.popperWidth = this.$refs.tokenPopper.clientWidth
-      // })
+      if (!this.checkCreateData()) {
+        return;
+      }
+      this.$store.commit('curation/saveDraft', this.form);
+      this.currentStep = 2
+      this.$nextTick(() => {
+        this.popperWidth = this.$refs.tokenPopper.clientWidth
+      })
     },
     async connectWallet() {
       this.connectLoading = true
@@ -403,6 +409,12 @@ export default {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
+
+      if(new Date().getTime() >= new Date(this.form.endtime).getTime() + 30000) {
+        notify({message: this.$t('tips.wrongEndTime'), duration: 5000, type: 'error'})
+        return false
+      }
+
       if (!this.showAccount) {
         notify({message: this.$t('common.connectMetamask'), duration: 5000, type: 'error'})
         return false

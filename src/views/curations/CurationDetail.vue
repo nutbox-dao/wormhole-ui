@@ -65,8 +65,7 @@
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
               <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div>
               <div class="text-14px 2xl:text-0.7rem leading-24px">
-                <div class="text-color8B  whitespace-pre-line">
-                  {{content}}
+                <div class="text-color8B  whitespace-pre-line" v-html="formatEmojiText(content)">
                 </div>
               </div>
             </div>
@@ -262,6 +261,7 @@ import { ERC20List } from "@/config";
 import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
 import { getCurationInfo, claimReward } from '@/utils/curation'
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "CurationDetail",
@@ -362,6 +362,7 @@ export default {
     },
   },
   methods: {
+    formatEmojiText,
     onCopy,
     formatAmount,
     createTime(p) {
