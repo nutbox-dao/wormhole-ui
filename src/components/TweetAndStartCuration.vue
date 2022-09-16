@@ -5,7 +5,7 @@
     </slot>
     <div class="bg-black/40 rounded-1rem min-h-10rem p-1rem relative">
       <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
-        <span class="text-text8F whitespace-pre-line">{{curationContent + '#iweb3\n'}}</span>
+        <span class="text-text8F whitespace-pre-line" v-html="formatEmojiText(curationContent + '#iweb3\n')"></span>
         <span class="text-primaryColor whitespace-pre-line">
               {{ $t('curation.moreDetail') + ' => ' + 'https://test.wormhole3.io/#/curation-detail/' + curationId}}
             </span>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import {formatEmojiText} from "@/utils/tool";
 export default {
   name: "TweetAndStartCuration",
   props: {
@@ -38,6 +39,9 @@ export default {
       type: String,
       default: ''
     }
+  },
+  methods: {
+    formatEmojiText,
   }
 }
 </script>

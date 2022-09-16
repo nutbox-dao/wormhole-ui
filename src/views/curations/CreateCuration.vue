@@ -14,6 +14,7 @@
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"
+                   ref="titleRef"
                    v-model="form.title"
                    type="text"
                    :placeholder="$t('curation.inputTitle')">
@@ -51,6 +52,7 @@
           <div class="mb-6px">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
             <textarea v-model="form.description"
+                      ref="descRef"
                       class="bg-transparent w-full p-0.5rem c-input-emoji leading-20px"
                       rows="8" :placeholder="$t('curation.inputDes')"/>
 <!--            <div contenteditable-->
@@ -285,8 +287,7 @@ export default {
         '0x871AD5aAA75C297EB22A6349871ce4588E3c0306',
         '0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0',
         '0x622A71842cb6f2f225bEDa38E0BdD85331573182'
-      ],
-      descEditContent: ''
+      ]
     }
   },
   computed: {
@@ -300,26 +301,15 @@ export default {
     },
   },
   methods: {
-    formatText(str) {
-      const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
-      str = str.replace(regStr, (char) => {
-        return `<span class="c-emoji">${char}</span>`;
-      });
-      return str
-    },
     selectEmoji(e, type) {
       if(type==='title') {
-        this.form.title += e.i
+        this.form.title = this.form.title.splice(this.$refs.titleRef.selectionStart, 0, e.i)
         this.$refs.titleEmojiPopover.hide()
       } else if(type==='desc') {
-        // this.$refs.descContentRef.innerHTML += `<img class="inline-block w-20px h-20px mx-0.2rem" src="${e.imgSrc}" alt="${e.i}"/>`
-        this.form.description += e.i
+        console.log(this.$refs.descRef.selectionStart)
+        this.form.description = this.form.description.splice(this.$refs.descRef.selectionStart, 0, e.i)
         this.$refs.descEmojiPopover.hide()
       }
-    },
-    descInput() {
-      this.form.description = this.$refs.descContentRef.innerText
-      console.log(this.form.description)
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
