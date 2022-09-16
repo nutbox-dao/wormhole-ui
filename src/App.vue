@@ -265,10 +265,10 @@ html, body {
   flex-direction: column;
 }
 .c-emoji {
-  font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
 .c-input-emoji {
-  font-family: system-ui;
+  //font-family: system-ui;
 }
 .menu-icon {
   display: inline-block;
