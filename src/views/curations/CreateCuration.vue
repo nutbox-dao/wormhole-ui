@@ -334,6 +334,7 @@ export default {
       if (clp === undefined || clp === null) {
         text = window.clipboardData.getData('text') || ''
         if (text !== "") {
+          text = formatEmojiText(text)
           let newNode = document.createElement('div')
           newNode.innerHTML = text;
           window.getSelection().getRangeAt(0).insertNode(newNode)
@@ -341,7 +342,8 @@ export default {
       } else {
         text = clp.getData('text/plain') || ''
         if (text !== "") {
-          document.execCommand('insertText', false, text)
+          text = formatEmojiText(text)
+          document.execCommand('insertHtml', false, text)
         }
       }
     },
