@@ -20,7 +20,7 @@
 <!--          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">-->
 <!--            {{content}}-->
 <!--          </div>-->
-          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line"
+          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
                v-html="formatEmojiText(content)"></div>
         </div>
         <div class="flex justify-between items-center">

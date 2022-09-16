@@ -20,7 +20,7 @@
 <!--                   type="text"-->
 <!--                   :placeholder="$t('curation.inputTitle')">-->
             <div contenteditable
-                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem"
+                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
                  ref="titleRef"
                  @keydown="keydown"
                  @blur="getBlur('title')"
@@ -61,7 +61,7 @@
           <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
 <!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
             <div contenteditable
-                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem"
+                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
                  ref="descContentRef"
                  @blur="getBlur('desc')"
                  @paste="onPaste"
@@ -126,7 +126,7 @@
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
               {{$t('curation.posw')}}
             </div>
-            <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1.2rem">
+            <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
               {{$t('curation.poswDes')}}
             </div>
           </div>

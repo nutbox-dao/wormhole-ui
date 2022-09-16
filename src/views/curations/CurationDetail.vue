@@ -58,13 +58,13 @@
                     @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                    :src="detailCuration && detailCuration.profileImg" alt="">
               <div class="flex md:flex-col md:justify-center md:items-start" @click="gotoUserPage">
-                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1.2rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
+                <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
                 <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
               </div>
             </div>
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
               <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div>
-              <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line"
+              <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
                    v-html="formatEmojiText(content)">
               </div>
             </div>
