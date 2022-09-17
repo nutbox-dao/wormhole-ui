@@ -14,7 +14,7 @@
         <van-list :loading="loading"
                   :finished="finished"
                   :immediate-check="false"
-                  :finished-text="$t('common.noMore')"
+                  :finished-text="showingCurations.length>0?$t('common.noMore'):''"
                   :loosing-text="$t('common.pullRefresh')"
                   :loading-text="$t('common.loading')"
                   @load="onLoad">
