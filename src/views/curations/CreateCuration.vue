@@ -31,7 +31,11 @@
                 <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
               </template>
               <div class="h-310px lg:h-400px">
-                <EmojiPicker :options="{imgSrc:'/emoji/','locals': $i18n.locale==='zh'?'zh_CN':'en',}"
+                <EmojiPicker :options="{
+                                imgSrc:'/emoji/',
+                                locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                hasSkinTones:false,
+                                hasGroupIcons:false}"
                              @select="(e) =>selectEmoji(e,'title')" />
               </div>
             </el-popover>
@@ -75,7 +79,11 @@
                   <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
                 </template>
                 <div class="h-310px lg:h-400px">
-                  <EmojiPicker :options="{imgSrc:'/emoji/','locals': $i18n.locale==='zh'?'zh_CN':'en',}"
+                  <EmojiPicker :options="{
+                                imgSrc:'/emoji/',
+                                locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                hasSkinTones:false,
+                                hasGroupIcons:false}"
                                @select="(e) =>selectEmoji(e,'desc')" />
                 </div>
               </el-popover>
@@ -316,7 +324,7 @@ export default {
       const newNode = document.createElement('img')
       newNode.alt = e.i
       newNode.src = e.imgSrc
-      newNode.className = 'inline-block w-20px h-20px mx-2px'
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
       if(type==='title') {
         if(!this.titleRange) return
         this.titleRange.insertNode(newNode)
