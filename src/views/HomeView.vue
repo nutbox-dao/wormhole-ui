@@ -30,10 +30,7 @@
 </template>
 
 <script>
-import { getRegisterTicket } from '@/api/api'
 import Verify from "@/views/Verify";
-import { hexToString } from '@/utils/helper'
-import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { randomEthAccount } from '@/utils/ethers'
 import { notify } from "@/utils/notify";

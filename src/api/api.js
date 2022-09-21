@@ -12,9 +12,6 @@ export const readNft = async (twitterId) =>
 export const getNftReceivedState = async (twitterId) =>
     get(BACKEND_API_URL + '/users/nftReceiveState', {twitterId})
 
-export const getRegisterTicket = async (publicKey) =>
-    get(BACKEND_API_URL + '/register/getRegisterTicket', {publicKey})
-
 export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =>
     get(BACKEND_API_URL + '/transaction/byTwitterId', { twitterId, pageSize, time, newTrans })
 
@@ -65,9 +62,6 @@ export const getUserFavTag = async (twitterId) =>
  */
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
-
-export const updateCurationCreateStatus = async (curationId, status) =>
-    post(BACKEND_API_URL + '/curation/updateCurationCreateStatus', {curationId, status})
 
 export const getRefreshCurations = async (curationStatus) =>
     get(BACKEND_API_URL + '/curation/getRefreshCurations', {curationStatus})

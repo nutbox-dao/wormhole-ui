@@ -260,7 +260,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration, updateCurationCreateStatus } from '@/api/api'
+import { newCuration } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
 import { notify } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
