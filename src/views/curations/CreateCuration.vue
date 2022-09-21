@@ -132,10 +132,10 @@
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
-              {{$t('curation.posw')}}
+              {{$t('curation.autoMethod')}}
             </div>
             <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
-              {{$t('curation.poswDes')}}
+              {{$t('curation.autoMethodTip')}}
             </div>
           </div>
         </div>

@@ -131,6 +131,8 @@ export default {
     rewardsMethod: '奖励策略',
     posw: "主观工作证明(PoSW)",
     poswDes: '该方案会根据策展用户的策展贡献分数来分配奖励',
+    autoMethod: '自动分发',
+    autoMethodTip: '当您使用自动分发协议创建策展任务时，需要将ERC20代币暂存到wormhole3的智能合约中。该奖励最终会全部分发给参与策展的用户， 他们将利用自己的推特影响力来帮您传播您的推特内容。策展结束后，奖励将自动从合约分发给这些策展用户，奖励的分发比例参照他们的推特影响力，该值由策展人的推特声望值和转推推特的点赞情况进行计算。',
     rewardsAmount: '奖励数量',
     inputRewardsAmount: '请输入奖励数量',
     inputErc20: '输入ERC20地址或从列表选择',

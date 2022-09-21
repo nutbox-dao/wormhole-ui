@@ -211,6 +211,15 @@ export const generateSteemAuth = (ethPK) => {
     return stringToHex(JSON.stringify(keys))
 }
 
+export const fetchSteemAuth = async (ethPK, steemAccount) => {
+    const pass = generateBrainKey(ethPK)
+    const account = generateKeys('wormhole', pass);
+    if (await verifyAuth(steemAccount, account.key.posting.posting)) {
+        return account.key;
+    }
+    return null
+}
+
 export const verifyAuth = async (name, key, role='posting') => {
     const account = await getAccountInfo(name);
     const pubkey = account[role];
