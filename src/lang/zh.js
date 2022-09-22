@@ -186,6 +186,7 @@ export default {
     confirm: '确认',
     send: '发送',
     approve: '授权',
+    active: '激活',
     connectMetamask: '连接小狐狸',
     pullRefresh: '下拉刷新',
     loosingRefresh: '释放刷新',

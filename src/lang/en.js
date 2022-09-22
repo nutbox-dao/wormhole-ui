@@ -186,6 +186,7 @@ export default {
     confirm: 'Confirm',
     send: 'Send',
     approve: 'Approve',
+    active: 'Active',
     connectMetamask: 'Connect Metamask',
     pullRefresh: 'Pull to refresh data',
     loosingRefresh: 'Release to refresh',

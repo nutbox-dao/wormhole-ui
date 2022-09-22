@@ -1,126 +1,65 @@
 <template>
-  <div
-      id="user-index"
-    class="
-      overflow-x-hidden
-      h-full
-      flex flex-col
-      no-scroll-bar
-    "
-    ref="wrapper"
-  >
+  <div id="user-index" class="overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
     <template v-if="!loading">
       <div class="md:border-b-1 border-listBgBorder md:border-b-1 border-white/20">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
-                class="
-                w-6rem
-                h-6rem
-            md:w-4.8rem
-            md:h-4.8rem
-            mr-1.5rem
-            rounded-full
-            gradient-border
-            border-1px
-          "
+                class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
                 @error="replaceEmptyImg"
                 :src="profileImg"
-                alt=""
-            />
-            <div
-                class="
-            flex-1 flex
-            justify-between
-            sm:flex-row sm:items-center
-            flex-col
-            items-start
-          "
-            >
+                alt=""/>
+            <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
               <div class="text-left">
-                <div
-                    class="c-text-black text-1.6rem"
-                >
+                <div class="c-text-black text-1.6rem">
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
-                <div
-                    class="
-                text-text8F text-0.8rem
-                flex
-                mt-0.7rem
-                font-bold
-                sm:flex-row sm:items-center
-                flex-col
-              "
-                >
+                <div class="text-text8F text-0.8rem flex mt-0.7rem font-bold sm:flex-row sm:items-center flex-col">
                   <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem w-max flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
                     <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
-                  <div
-                      class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
-                      v-if="getAccountInfo && getAccountInfo.steemId"
-                  >
+                  <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
+                      v-if="getAccountInfo && getAccountInfo.steemId">
 <!--                    <img-->
 <!--                        class="w-0.8rem h-0.8rem mr-0.5rem"-->
 <!--                        src="~@/assets/icon-checked.svg"-->
 <!--                        alt=""-->
 <!--                    />-->
-                    <span class="hover" @click="gotoSteem"
-                    >#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span
-                    >
+                    <span class="hover" @click="gotoSteem">
+                      #{{ getAccountInfo ? getAccountInfo.steemId : "" }}
+                      </span>
                   </div>
                 </div>
               </div>
               <div class="flex flex-col sm:items-center">
                 <div
-                    class="
-
-                c-text-black
-                text-1.2rem
-                md:text-2rem
-                sm:mt-0
-                mt-0.8rem
-              "
-                >
+                    class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem">
                   {{ totalValue }}
                 </div>
-                <button v-if="$route.name === 'profile-curations'"
-                        class="flex items-center justify-center
-                               gradient-btn gradient-btn-shadow h-2.7rem px-1rem
-                               rounded-full mt-0.5rem c-text-bold
-                               absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-                        @click="$router.push('/create-curation')">
-                  {{$t('curationsView.createBtn')}}
-                </button>
-                <button v-else
-                    class="text-0.8rem md:text-1rem whitespace-nowrap
-                flex
-                items-center
-                justify-center
-                gradient-btn
-                gradient-btn-shadow
-                h-2.7rem
-                px-1rem
-                rounded-full
-                mt-0.5rem
-                c-text-bold
-                absolute
-                bottom-2rem
-                left-1/2
-                transform
-                -translate-x-1/2
-                z-2
-              "
-                    @click="tipDrawer = true"
-                >
-                  <img
-                      class="w-1.5rem h-1.5rem mr-0.5rem"
-                      src="~@/assets/icon-warning.svg"
-                      alt=""
-                  />
-                  {{$t('postView.tweetTip')}}
-                </button>
+                <template v-if="getAccountInfo && !getAccountInfo.isPending">
+                  <button v-if="$route.name === 'profile-curations'"
+                          class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                                rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                          @click="$router.push('/create-curation')">
+                    {{$t('curationsView.createBtn')}}
+                  </button>
+                  <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
+                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
+                      @click="tipDrawer = true">
+                    <img
+                        class="w-1.5rem h-1.5rem mr-0.5rem"
+                        src="~@/assets/icon-warning.svg"
+                        alt=""
+                    />
+                    {{$t('postView.tweetTip')}}
+                  </button>
+                </template>
+                <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                    rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
+                    @click="$router.push('/signup')">
+                    {{$t('common.active')}}
+                  </button>
               </div>
             </div>
           </div>
@@ -129,18 +68,15 @@
               <router-link
                   class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/post`"
-              >{{$t('profileView.socialAsset')}}</router-link
-              >
+              >{{$t('profileView.socialAsset')}}</router-link>
               <router-link
+                  v-if="getAccountInfo && !getAccountInfo.isPending"
                   class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
-                  :to="`/profile/${$route.params.user}/curations`"
-              >{{$t('profileView.curations')}}</router-link
-              >
+                  :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
               <router-link
                   class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
-              >{{$t('profileView.web3Wallet')}}</router-link
-              >
+              >{{$t('profileView.web3Wallet')}}</router-link>
             </div>
           </div>
         </div>
@@ -157,82 +93,32 @@
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
       <img src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <van-popup
-      class="c-tip-drawer 2xl:w-2/5"
-      v-model:show="tipDrawer"
-      :position="position"
-    >
-      <div
-        class="
-          modal-bg
-          w-full
-          md:min-w-560px
-          max-h-80vh
-          2xl:max-h-28rem
-          overflow-auto
-          flex flex-col
-          rounded-t-1.5rem
-          md:rounded-b-1.5rem
-          pt-1rem
-          md:p-1rem
-        "
-      >
+    <van-popup class="c-tip-drawer 2xl:w-2/5" v-model:show="tipDrawer" :position="position">
+      <div class="modal-bg w-full md:min-w-560px max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:p-1rem">
         <div
           v-if="position === 'bottom'"
           @click="modalVisible = false"
           class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"
         ></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-2rem text-left">
-          <div
-            class="
-              c-text-black
-              md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem
-              md:text-center
-              w-full
-            "
-          >
+          <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
             {{$t('postView.tweetTip')}}
           </div>
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             {{$t('postView.tip1')}}
           </div>
-          <div
-            class="
-              bg-black/40
-              rounded-1rem
-              h-min-8rem
-              p-1rem
-              relative
-            "
-          >
+          <div class=" bg-black/40 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-primaryColor">@wormhole_3 !send </span>
               <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button
-              @click="gotoSend"
-              class="
-                text-color8B
-                flex
-                items-center
-                justify-center
-                border-1px border-color8B
-                rounded-full
-                2xl:h-2.2rem
-                text-12px
-                2xl:text-0.9rem
-                h-28px
-                px-1rem
-                absolute
-                bottom-1rem
-                right-1rem
-              "
-            >
+              @click="gotoSend" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
+                2xl:h-2.2rem text-12px 2xl:text-0.9rem h-28px px-1rem absolute bottom-1rem right-1rem">
               <img
                 class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
-                alt=""
-              />
+                alt=""/>
               <span class="text-text8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
@@ -243,43 +129,19 @@
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             {{$t('postView.tip2')}}
           </div>
-          <div
-            class="
-              bg-black/40
-              rounded-1rem
-              h-min-8rem
-              p-1rem
-              relative
-            "
-          >
+          <div class="bg-black/40 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-text8F">{content} </span>
               <span class="text-primaryColor">#iweb3</span>
             </div>
             <button
               @click="gotoPost"
-              class="
-                text-color8B
-                flex
-                items-center
-                justify-center
-                border-1px border-color8B
-                rounded-full
-                2xl:h-2.2rem
-                text-12px
-                2xl:text-0.9rem
-                h-28px
-                px-1rem
-                absolute
-                bottom-1rem
-                right-1rem
-              "
-            >
+              class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
+                2xl:h-2.2rem text-12px 2xl:text-0.9rem h-28px px-1rem absolute bottom-1rem right-1rem">
               <img
                 class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
-                alt=""
-              />
+                alt=""/>
               <span class="text-text8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
@@ -322,7 +184,6 @@ import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
 import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { login, FetchingStatus } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS, TWITTER_POST_TAG } from "@/config";
@@ -441,7 +302,7 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
+      const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo;
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -451,7 +312,7 @@ export default {
           })
           .catch((err) => console.log("get steem balance fail:", err));
       } else {
-        this.$store.commit("saveSteemBalance", 0);
+        this.$store.commit("saveSteemBalance", steemAmount ?? 0);
       }
 
 
@@ -472,7 +333,7 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      const { steemId, ethAddress, web25ETH } = this.getAccountInfo;
+      const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo;
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -482,7 +343,7 @@ export default {
           })
           .catch((err) => console.log("get steem balance fail:", err));
       } else {
-        this.$store.commit("saveSteemBalance", 0);
+        this.$store.commit("saveSteemBalance", steemAmount ?? 0);
       }
 
 

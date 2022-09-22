@@ -92,16 +92,26 @@ export default {
   },
   async mounted () {
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+      if (this.getAccountInfo && this.getAccountInfo.isPending) {
+        break;
+      }
       await sleep(1)
     }
-
-    getAccountRC(this.getAccountInfo.steemId).then(rc => {
-      this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
-    }).catch()
+    if (this.getAccountInfo.steemId) {
+      getAccountRC(this.getAccountInfo.steemId).then(rc => {
+        this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+      }).catch()
+    }else {
+      this.$store.commit('saveRcPercent',100.00)
+    }
   },
   async activated() {
     // document.getElementById('user-index').scrollTo({top: this.scroll})
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+      if (this.getAccountInfo && this.getAccountInfo.isPending) {
+        this.refreshing = false
+        return;
+      }
       await sleep(1)
     }
     if(!this.posts || this.posts.length === 0) {

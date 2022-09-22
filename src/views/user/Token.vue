@@ -136,7 +136,7 @@ export default {
   async mounted () {
     this.monitor = setInterval(() => {
       if (this.getAccountInfo) {
-        const { steemId, ethAddress, web25ETH } = this.getAccountInfo
+        const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo
 
         if (steemId) {
           // get steem balance
@@ -146,7 +146,7 @@ export default {
             })
               .catch(err => console.log('get steem balance fail:', err))
         }else {
-          this.$store.commit('saveSteemBalance', 0)
+          this.$store.commit('saveSteemBalance', steemAmount ?? 0)
         }
 
         //get eth balances
