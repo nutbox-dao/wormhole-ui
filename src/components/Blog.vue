@@ -40,13 +40,13 @@
             </div>
             <template v-else>
               <div @click.stop="clickContent">
-                <div v-html="content.split('#web3_ac')[0]"></div>
+                <div v-html="content.split('#token2049')[0].replace('\n', '</br>')"></div>
               </div>
               <div>
-                <p>主办方：{{ post.acInfo.sponsor }}</p>
-                <p>开始时间：{{ post.acInfo.sdate }}</p>
-                <p>结束时间：{{ post.acInfo.edate }}</p>
-                <p>位置：<span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
+                <p>Sponsor: {{ post.acInfo.sponsor }}</p>
+                <p>Start: {{ post.acInfo.sdate }}</p>
+                <p>End: {{ post.acInfo.edate }}</p>
+                <p>Location: <span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
               </div>
             </template>
           </div>
@@ -112,8 +112,8 @@
     <el-dialog v-model="mapOptionsModalVisible" :append-to-body="true"
                custom-class="c-dialog c-dialog-md c-dialog-center">
       <div class="text-white py-1rem flex flex-col items-center" v-loading="mapLoading">
-        <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">高德地图</div>
-        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">百度地图</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div>
       </div>
     </el-dialog>
   </div>

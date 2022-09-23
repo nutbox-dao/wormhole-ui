@@ -94,16 +94,16 @@ export default {
       if (!p) return false
       console.log(5325, p)
       const content = p.content;
-      let ac = content.split('#web3_ac')
+      let ac = content.split('#token2049')
       if (ac.length > 1) {
         ac = ac[1]
-        let infos = ac.replace(/：/g, ':').replace(/位置/g, '坐标');
+        let infos = ac.replace(/：/g, ':').replace(/Location/g, 'Location');
         try {
-          const sponsor = infos.split('主办方:')[1].split('开始时间')[0]
-          const sdate = infos.split('开始时间:')[1].split('结束时间')[0]
-          const edate = infos.split('结束时间:')[1].split('地点')[0]
-          const place = infos.split('地点:')[1].split('坐标')[0]
-          const location = infos.split('坐标:')[1].match(/(\[)(\S*)(\])/)[2]
+          const sponsor = infos.split('Sponsor:')[1].split('Start')[0]
+          const sdate = infos.split('Start:')[1].split('End')[0]
+          const edate = infos.split('End:')[1].split('Place')[0]
+          const place = infos.split('Place:')[1].split('Location')[0]
+          const location = infos.split('Location:')[1].match(/(\[)(\S*)(\])/)[2]
           return {
             sponsor,
             sdate,
