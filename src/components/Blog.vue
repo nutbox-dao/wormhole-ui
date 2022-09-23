@@ -46,7 +46,7 @@
                 <p>Sponsor: {{ post.acInfo.sponsor }}</p>
                 <p>Start: {{ post.acInfo.sdate }}</p>
                 <p>End: {{ post.acInfo.edate }}</p>
-                <p>Location: <span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
+                <p>Place: <span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
               </div>
             </template>
           </div>
