@@ -127,7 +127,7 @@ export default {
         time = this.posts[0].postTime
       }
 
-      getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
+      getUsersPosts(this.getAccountInfo.twitterId, this.pageSize, time, true).then(async (res) => {
         const posts = await getPosts(res)
         this.$store.commit('savePosts', posts.concat(this.posts))
         this.refreshing = false
@@ -142,7 +142,7 @@ export default {
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.getAccountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
+        getUsersPosts(this.getAccountInfo.twitterId, this.pageSize, time, false).then(async (res) => {
          const posts = await getPosts(res)
           this.$store.commit('savePosts', this.posts.concat(posts))
           if (res.length < this.pageSize) {

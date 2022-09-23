@@ -23,6 +23,7 @@ export default Vuex.createStore({
     joinedCurations: [],
     createdCurations: [],
     transactions: [],
+    tips: [],
     vestsToSteem: 1
   },
   getters: {
@@ -105,6 +106,9 @@ export default Vuex.createStore({
     },
     saveTransactions: (state, transactions) => {
       state.transactions = transactions
+    },
+    saveTips: (state, tips) => {
+      state.tips = tips
     },
     saveVestsToSteem: (state, vestsToSteem) => {
       state.vestsToSteem = vestsToSteem

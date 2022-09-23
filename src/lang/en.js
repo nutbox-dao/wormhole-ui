@@ -79,11 +79,16 @@ export default {
   },
   transactionView: {
     recentTransaction: 'Recent transactions',
+    recentTip: 'Recent tips',
     viewBlockchain: 'View on blockchain',
     fail: 'Fail',
     waiting: 'Waiting...',
     receiveFrom: 'Receive from',
-    sendTo: 'Send to'
+    sendTo: 'Send to',
+    transTip: `This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
+    By depositing into this account, you are agreeing to our terms of service.`,
+    tipTip: `There has no tips records. You can tip asset to any twitter account, and invite your followers tip to your content.`,
+    returned: 'Returned'
   },
   aboutView: {
     q1: '1. How to generate a new address, do you keep the private key on platform?',

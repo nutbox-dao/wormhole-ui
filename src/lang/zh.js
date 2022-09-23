@@ -79,11 +79,15 @@ export default {
   },
   transactionView: {
     recentTransaction: '交易记录',
+    recentTip: '小费记录',
     viewBlockchain: '在区块链查看',
     fail: '失败',
     waiting: '等待...',
     receiveFrom: '来自',
-    sendTo: '发给'
+    sendTo: '发给',
+    transTip: `该功能还在测试阶段，请注意不要往web3账号转入过多的资金。`,
+    tipTip: `还没有小费记录，您可以使用!tip命令对任意的推特账号打赏小费，也可以邀请任何推特用户为您的创作打赏小费。`,
+    returned: '已返回'
   },
   aboutView: {
     q1: '1. How to generate a new address, do you keep the private key on platform?',

@@ -15,6 +15,9 @@ export const getNftReceivedState = async (twitterId) =>
 export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =>
     get(BACKEND_API_URL + '/transaction/byTwitterId', { twitterId, pageSize, time, newTrans })
 
+export const getUsersTips = async (twitterId, pageSize, time, newTips) =>
+    get(BACKEND_API_URL + '/transaction/tipsByTwitterId', { twitterId, pageSize, time, newTips })
+
 export const cacheKey = async (params) =>
     post(BACKEND_API_URL + '/register/cachePwd', params)
 
@@ -22,8 +25,8 @@ export const getTwitterAccount = async (username) =>
 getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
 
 /****************************************  posts  ***********************************************/
-export const getUsersPosts = async (username, pageSize, time, newPost) =>
-    get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {username, pageSize, time, newPost})
+export const getUsersPosts = async (twitterId, pageSize, time, newPost) =>
+    get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost})
 
 export const getPostById = async (postId) =>
     get(BACKEND_API_URL + '/twitter/getPostById', {postId})

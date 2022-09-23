@@ -100,6 +100,8 @@ export default {
           this.showRegistering = false
         }else {
           this.$store.commit('savePosts', [])
+          this.$store.commit('saveTransactions', [])
+          this.$store.commit('saveTips', [])
           this.$router.push('/profile/' + this.username + '/post')
         }
       } catch (e) {

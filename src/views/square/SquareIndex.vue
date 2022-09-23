@@ -143,7 +143,7 @@ export default {
         getUserFavTag(this.getAccountInfo.twitterId).then(favTags => {
           let newTags = {}
           for (let t of favTags) {
-            newTags[t.tag] = tags[t.tag].c;
+            newTags[t.tag] = tags[t.tag] ? tags[t.tag].c : t.c;
           }
           this.$store.commit('postsModule/saveTagsAggregation', {...newTags, ...tags})
           this.onRefresh();
