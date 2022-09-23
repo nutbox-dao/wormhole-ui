@@ -35,7 +35,7 @@
         </div>
 
 <!--       foreign page -->
-       <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
+       <LinkPreview @click.stop="clickLinkView()" class="cursor-pointer" v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
 <!--       retweet  -->
        <Repost v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
@@ -209,6 +209,12 @@ export default {
     gotoTweet(e) {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
+    clickLinkView() {
+      try{
+        const info = JSON.parse(this.post.pageInfo)
+        window.open(info.url, '__blank')
+      }catch(e) {}
     },
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||
