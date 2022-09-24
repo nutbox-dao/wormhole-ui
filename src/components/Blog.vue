@@ -112,8 +112,8 @@
     <el-dialog v-model="mapOptionsModalVisible" :append-to-body="true"
                custom-class="c-dialog c-dialog-md c-dialog-center">
       <div class="text-white py-1rem flex flex-col items-center" v-loading="mapLoading">
-        <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
-        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div>
+        <!-- <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div> -->
         <div class="p-1rem cursor-pointer" @click="gotoMap('google')">Google Map</div>
       </div>
     </el-dialog>
@@ -222,14 +222,15 @@ export default {
       this.mapOptionsModalVisible = true
       this.mapLoading = true
       const locations = this.post.acInfo.location.replace('，',',').split(',')
-      const res = await bMapToGMapLocations(locations.map(l => parseFloat(l).toFixed(6)).join(','))
+      // const res = await bMapToGMapLocations(locations.map(l => parseFloat(l).toFixed(6)).join(','))
       this.mapLoading = false
-      if(res.status ==='1') {
-        this.gdLocation = res.locations
-      }
+      // if(res.status ==='1') {
+      //   this.gdLocation = res.locations
+      // }
+      this.gdLocation = locations.join(',')
+      console.log(53, this.gdLocation);
     },
     gotoMap(type) {
-      console.log(745, this.baiduUrl);
       if(type==='gaode') window.open(`https://uri.amap.com/marker?position=${this.gdLocation}&src=uriapi&callnative=1&innersrc=uriapi`, '_blank')
       if(type==='baidu') window.open(this.baiduUrl, '__blank')
       if(type==='google') window.open(`https://www.google.com/maps/search/?api=1&query=${this.gdLocation}`, '__blank')

@@ -301,9 +301,6 @@ export default {
           const edate = infos.split('End:')[1].split('Place')[0]
           const place = infos.split('Place:')[1].split('Location')[0]
           let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ |]/g, '')
-          let l = location.split(',')
-          let [lat, lng] = l.map(p => parseFloat(p).toFixed(6))
-          location = `${lat},${lng}`
           return {
             sponsor,
             sdate,
