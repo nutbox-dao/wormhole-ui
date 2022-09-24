@@ -5,6 +5,8 @@ export default {
     namespaced: true,
     state: {
         draft: Cookie.get('curation-draft'),
+        // cache the new curations those not send to backend
+        newCurations: [],
         ongoingList: [],
         endList: [],
         closeList: [],
@@ -15,11 +17,20 @@ export default {
         saveDraft: (state, draft) => {
             if (draft) {
                 state.draft = draft;
-                const draftStr = JSON.stringify(draft)
-                Cookie.set('curation-draft', draftStr, '2d')
+                // const draftStr = JSON.stringify(draft)
+                Cookie.set('curation-draft', draft, '2d')
             }else {
                 state.draft = null;
                 Cookie.remove('curation-draft');
+            }
+        },
+        saveNewCurations: (state, newCurations) => {
+            if (newCurations) {
+                state.newCurations = newCurations;
+                Cookie.set('new-curations', newCurations, '30d')
+            }else {
+                state.newCurations = [];
+                Cookie.remove('new-curations')
             }
         },
         saveOngoingList: (state, ongoingList) => {
