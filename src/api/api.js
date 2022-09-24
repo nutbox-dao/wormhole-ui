@@ -1,7 +1,7 @@
 import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 
-/****************************************  posts  ***********************************************/
+/****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
 

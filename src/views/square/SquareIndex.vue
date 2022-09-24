@@ -29,7 +29,7 @@
               <span class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
               :class="currentTagIndex === -1?'text-white border-b-4px border-primaryColor':'text-color8B'"
               @click="onTagChange(-1)"
-              >Token2049</span>
+              >Activities</span>
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
                     :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-color8B'"
@@ -159,6 +159,12 @@ export default {
   },
   mounted() {
     getTagAggregation().then(tags => {
+      console.log(23, tags);
+      const t = tags['token2049']
+      tags = {
+        token2049: t ?? 1,
+        ...tags
+      }
       this.$store.commit('postsModule/saveTagsAggregation', tags)
       this.onRefresh()
     })
