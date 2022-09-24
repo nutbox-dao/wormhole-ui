@@ -114,6 +114,7 @@
       <div class="text-white py-1rem flex flex-col items-center" v-loading="mapLoading">
         <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
         <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('google')">Google Map</div>
       </div>
     </el-dialog>
   </div>
@@ -231,6 +232,7 @@ export default {
       console.log(745, this.baiduUrl);
       if(type==='gaode') window.open(`https://uri.amap.com/marker?position=${this.gdLocation}&src=uriapi&callnative=1&innersrc=uriapi`, '_blank')
       if(type==='baidu') window.open(this.baiduUrl, '__blank')
+      if(type==='google') window.open(`https://www.google.com/maps/search/?api=1&query=${this.gdLocation}`, '__blank')
       this.mapOptionsModalVisible = false
     },
     replaceEmptyImg(e) {
