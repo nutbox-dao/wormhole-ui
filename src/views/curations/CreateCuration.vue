@@ -260,7 +260,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration } from '@/api/api'
+import { newCuration, postErr } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
 import { notify } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
@@ -475,6 +475,7 @@ export default {
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
+        postErr('Curation', 'onSubmit', `${e}`)
         notify({message: this.$t('common.serverError'), duration: 5000, type: 'error'})
       } finally {
         this.loading = false
@@ -510,6 +511,7 @@ export default {
       } catch (e) {
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
+        postErr('Curation', 'create', `${e}`)
       } finally {
         this.loading = false
         this.modalVisible=false

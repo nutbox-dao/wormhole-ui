@@ -2,6 +2,9 @@ import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 import curation from "@/store/curation"
 
+export const postErr = async (module, title, error) =>
+    post(BACKEND_API_URL + '/sys/err', {module, title, error})
+    
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
