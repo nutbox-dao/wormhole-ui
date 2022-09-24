@@ -288,13 +288,16 @@ export default {
       let ac = content.split('#token2049')
       if (ac.length > 1) {
         ac = ac[1]
-        let infos = ac.replace(/：/g, ':').replace(/Location/g, 'Location');
+        let infos = ac.replace(/：/g, ':');
         try {
           const sponsor = infos.split('Sponsor:')[1].split('Start')[0]
           const sdate = infos.split('Start:')[1].split('End')[0]
           const edate = infos.split('End:')[1].split('Place')[0]
           const place = infos.split('Place:')[1].split('Location')[0]
-          const location = infos.split('Location:')[1].match(/(\[)(\S*)(\])/)[2]
+          let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ |]/g, '')
+          let l = location.split(',')
+          let [lat, lng] = l.map(p => parseFloat(p).toFixed(6))
+          location = `${lat},${lng}`
           return {
             sponsor,
             sdate,

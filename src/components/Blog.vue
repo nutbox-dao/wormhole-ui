@@ -184,8 +184,8 @@ export default {
       return formatPrice(value)
     },
     baiduUrl() {
-      const [lat, lng] = this.post.acInfo.location.replace('，',',').split(',')
-      const url = `https://api.map.baidu.com/marker?location=${lng},${lat}&title=活动位置&content=${this.post.acInfo.place}&output=html&src=webapp.baidu.openAPIdemo`
+      let [lat, lng] = this.post.acInfo.location.replace('，',',').split(',')
+      const url = `https://api.map.baidu.com/marker?location=${lat},${lng}&title=活动位置&content=${this.post.acInfo.place}&output=html&src=webapp.baidu.openAPIdemo`
       return url
     },
     location() {
@@ -221,13 +221,14 @@ export default {
       this.mapOptionsModalVisible = true
       this.mapLoading = true
       const locations = this.post.acInfo.location.replace('，',',').split(',')
-      const res = await bMapToGMapLocations(locations.join(','))
+      const res = await bMapToGMapLocations(locations.map(l => parseFloat(l).toFixed(6)).join(','))
       this.mapLoading = false
       if(res.status ==='1') {
         this.gdLocation = res.locations
       }
     },
     gotoMap(type) {
+      console.log(745, this.baiduUrl);
       if(type==='gaode') window.open(`https://uri.amap.com/marker?position=${this.gdLocation}&src=uriapi&callnative=1&innersrc=uriapi`, '_blank')
       if(type==='baidu') window.open(this.baiduUrl, '__blank')
       this.mapOptionsModalVisible = false
