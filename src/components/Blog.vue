@@ -40,7 +40,7 @@
             </div>
             <template v-else>
               <div @click.stop="clickContent">
-                <div v-html="content.split('#token2049')[0].replace('\n', '</br>')"></div>
+                <div v-html="content.split('#token2049')[0].replace('\n', '</br>').replace('#iweb3', '')"></div>
               </div>
               <div>
                 <p>Sponsor: {{ post.acInfo.sponsor }}</p>

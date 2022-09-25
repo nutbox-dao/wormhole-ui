@@ -141,11 +141,12 @@ export default {
           }
           if (activities.length === 0) return [];
 
-          const now = getDateString(new Date(), 480);
+          let now = getDateString(new Date(), 480);
+          now = new Date().getTime()
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
-          const pastAc = activities.filter(a => a.acInfo.sdate <= now)
-          const pendingAc = activities.filter(a => a.acInfo.sdate > now)
-          return pendingAc.concat(pastAc);
+          const pastAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() <= now)
+          const pendingAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() > now)
+          return pendingAc.concat(pastAc.reverse());
         }
         return this.getPostsByTag(this.tagList[this.currentTagIndex])
       }else if(this.subActiveTagIndex === 1) {
