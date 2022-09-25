@@ -55,3 +55,6 @@ export const bMapToGMapLocations = async (locations) => {
         coordsys: 'baidu'
     })
 }
+
+export const postErr = async (module, title, error) =>
+    post(BACKEND_API_URL + '/sys/err', {module, title, error})

@@ -92,7 +92,7 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
-import { getTagAggregation, getPostsByTagTime, getPostsByTagValue } from '@/api/api';
+import { getTagAggregation, getPostsByTagTime, getPostsByTagValue, postErr } from '@/api/api';
 import { mapState, mapGetters } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
@@ -301,7 +301,7 @@ export default {
           const sdate = infos.split('Start:')[1].split('End')[0]
           const edate = infos.split('End:')[1].split('Place')[0]
           const place = infos.split('Place:')[1].split('Location')[0]
-          let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ |]/g, '')
+          let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ ]+/g, '')
           return {
             sponsor,
             sdate,
@@ -310,6 +310,8 @@ export default {
             location
           }
         }catch(e) {
+          postErr('Token2049', 'Get activity fail', `${infos}
+          ${e}`)
           console.log('Get act info fail:', e);
           return false
         }
