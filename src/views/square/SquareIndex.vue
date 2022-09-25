@@ -310,8 +310,10 @@ export default {
             location
           }
         }catch(e) {
-          postErr('Token2049', 'Get activity fail', `${infos}
-          ${e}`)
+          try{
+            postErr('Token2049', 'Get activity fail', `${infos}
+            ${e}`)
+          }catch(e) {}
           console.log('Get act info fail:', e);
           return false
         }
