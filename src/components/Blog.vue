@@ -43,6 +43,9 @@
                 <div v-html="content.split('#token2049')[0].replace('\n', '</br>').replace('#iweb3', '')"></div>
               </div>
               <div>
+                <p>{{new Date(post.acInfo.sdate).getTime() }}</p>
+                <p>{{ new Date().getTime()}}</p>
+                <p>{{new Date(post.acInfo.sdate).getTime() > new Date().getTime()}}</p>
                 <p>Sponsor: {{ post.acInfo.sponsor }}</p>
                 <p>Start: {{ post.acInfo.sdate }}</p>
                 <p>End: {{ post.acInfo.edate }}</p>

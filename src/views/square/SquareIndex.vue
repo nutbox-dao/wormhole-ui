@@ -143,23 +143,21 @@ export default {
 
           let now = getDateString(new Date(), 480);
           now = new Date().getTime()
-          if (now < 20000000000) {
-            now = now * 1000
-          }
+          // if (now < 2000000000000) {
+          //   console.log(34, now);
+          //   now = now * 1000
+          // }
           
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
           const pastAc = activities.filter(a => {
-            alert('test1:' + new Date(a.acInfo.sdate).getTime() + ':' + now)
             return new Date(a.acInfo.sdate).getTime() <= now
           })
           const pendingAc = activities.filter(a => {
-            alert('test2:' + new Date(a.acInfo.sdate).getTime(), now)
             return new Date(a.acInfo.sdate).getTime() > now
           })
           if (pastAc.length === 0) alert(2);
           if (pendingAc.length === 0) alert(3);
           const result = pendingAc.concat(pastAc.reverse());
-          if (result.length ===0) alert(4)
           return result
         }
         return this.getPostsByTag(this.tagList[this.currentTagIndex])
