@@ -140,13 +140,14 @@ export default {
             }
           }
           if (activities.length === 0) return [];
-          alert('1:' + activities);
 
           let now = getDateString(new Date(), 480);
           now = new Date().getTime()
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
-          alert('2:' + JSON.stringify(activities, null, 4))
-          const pastAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() <= now)
+          const pastAc = activities.filter(a => {
+            alert('test:' + new Date(a.acInfo.sdate).getTime() + ':' + now)
+            return new Date(a.acInfo.sdate).getTime() <= now
+          })
           const pendingAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() > now)
           if (pastAc.length === 0) alert(2);
           if (pendingAc.length === 0) alert(3);
@@ -303,10 +304,10 @@ export default {
         ac = ac[1]
         let infos = ac.replace(/：/g, ':');
         try {
-          const sponsor = infos.split('Sponsor:')[1].split('Start')[0]
-          const sdate = infos.split('Start:')[1].split('End')[0]
-          const edate = infos.split('End:')[1].split('Place')[0]
-          const place = infos.split('Place:')[1].split('Location')[0]
+          const sponsor = infos.split('Sponsor:')[1].split('Start')[0].trim();
+          const sdate = infos.split('Start:')[1].split('End')[0].trim()
+          const edate = infos.split('End:')[1].split('Place')[0].trim()
+          const place = infos.split('Place:')[1].split('Location')[0].trim()
           let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ ]+/g, '')
           return {
             sponsor,
