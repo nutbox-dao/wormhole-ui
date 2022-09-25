@@ -140,13 +140,18 @@ export default {
             }
           }
           if (activities.length === 0) return [];
+          alert('1:' + activities);
 
           let now = getDateString(new Date(), 480);
           now = new Date().getTime()
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
           const pastAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() <= now)
           const pendingAc = activities.filter(a => new Date(a.acInfo.sdate).getTime() > now)
-          return pendingAc.concat(pastAc.reverse());
+          if (pastAc.length === 0) alert(2);
+          if (pendingAc.length === 0) alert(3);
+          const result = pendingAc.concat(pastAc.reverse());
+          if (result.length ===0) alert(4)
+          return result
         }
         return this.getPostsByTag(this.tagList[this.currentTagIndex])
       }else if(this.subActiveTagIndex === 1) {
@@ -310,10 +315,10 @@ export default {
             location
           }
         }catch(e) {
-          try{
-            postErr('Token2049', 'Get activity fail', `${infos}
-            ${e}`)
-          }catch(e) {}
+          // try{
+          //   postErr('Token2049', 'Get activity fail', `${infos}
+          //   ${e}`)
+          // }catch(e) {}
           console.log('Get act info fail:', e);
           return false
         }
@@ -327,3 +332,14 @@ export default {
 <style scoped>
 
 </style>
+
+
+Sponsor: Blockbeats &amp; Lighthouse Capital
+
+Start: 2022-09-26 18:30
+
+End: 2022-09-26 22:00
+
+Place: 12 Marina View Asia Square Tower, #2, Singapore 018961
+https://pbs.twimg.com/media/Fde4E2SVUAEyJ56.jpg
+            TypeError: undefined is not an object (evaluating 'e.split("Location:")[1].match')
