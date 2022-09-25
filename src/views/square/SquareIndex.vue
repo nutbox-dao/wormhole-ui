@@ -155,8 +155,6 @@ export default {
           const pendingAc = activities.filter(a => {
             return new Date(a.acInfo.sdate).getTime() > now
           })
-          if (pastAc.length === 0) alert(2);
-          if (pendingAc.length === 0) alert(3);
           const result = pendingAc.concat(pastAc.reverse());
           return result
         }
