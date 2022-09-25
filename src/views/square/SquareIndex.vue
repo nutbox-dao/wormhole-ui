@@ -146,10 +146,6 @@ export default {
           
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
           const pastAc = activities.filter(a => {
-            if (new Date(a.acInfo.sdate).getTime()){}
-            else {
-              alert('1:' + a.acInfo.sdate)
-            }
             return new Date(a.acInfo.sdate).getTime() <= now
           })
           const pendingAc = activities.filter(a => {
