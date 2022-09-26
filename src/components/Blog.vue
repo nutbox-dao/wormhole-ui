@@ -82,7 +82,7 @@
         <div class="flex gap-4rem mt-15px">
           <div class="text-white flex items-center">
             <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
-            <span class="c-text-medium ml-2px">{{ post.children }}</span>
+            <span class="c-text-medium ml-2px">{{ post.children ?? 0 }}</span>
           </div>
           <!-- <div class="text-text8F flex items-center">
             <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
@@ -92,7 +92,7 @@
             <svg width="18" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill="white" d="M10.0001 17.8349H9.98726C7.61951 17.7909 0.787598 11.6181 0.787598 5.77157C0.787598 2.9629 3.10218 0.49707 5.74035 0.49707C7.83951 0.49707 9.25118 1.9454 9.99918 2.99957C10.7453 1.94724 12.157 0.49707 14.2571 0.49707C16.8971 0.49707 19.2108 2.9629 19.2108 5.77249C19.2108 11.6172 12.3779 17.79 10.0102 17.8331H10.0001V17.8349Z"/>
             </svg>
-            <span class="c-text-medium ml-2px text-white">{{ post.votes }}</span>
+            <span class="c-text-medium ml-2px text-white">{{ post.votes ?? 0 }}</span>
           </div>
           <div class="text-white flex items-center">
              <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
@@ -243,6 +243,7 @@ export default {
       return parseTimestamp(time)
     },
     parseSBD(v) {
+      if (!v) return 0;
       return parseFloat(v.replace(' SBD', ''))
     },
     gotoSteem(e) {
