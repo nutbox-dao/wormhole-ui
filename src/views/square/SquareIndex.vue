@@ -29,7 +29,7 @@
               <span class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
               :class="currentTagIndex === -1?'text-white border-b-4px border-primaryColor':'text-color8B'"
               @click="onTagChange(-1)"
-              >Token2049</span>
+              >Activities</span>
               <span v-for="(tag, index) of tagList" :key="index"
                     class="whitespace-nowrap leading-3rem cursor-pointer hover:text-primaryColor transform hover:font-bold hover:scale-110"
                     :class="currentTagIndex===index?'text-white border-b-4px border-primaryColor':'text-color8B'"
@@ -92,7 +92,7 @@
 import Blog from "@/components/Blog";
 import Login from "@/views/Login";
 import PostTip from "@/views/post/PostTip";
-import { getTagAggregation, getPostsByTagTime, getPostsByTagValue } from '@/api/api';
+import { getTagAggregation, getPostsByTagTime, getPostsByTagValue, postErr } from '@/api/api';
 import { mapState, mapGetters } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import { getPosts } from '@/utils/steem'
@@ -141,11 +141,18 @@ export default {
           }
           if (activities.length === 0) return [];
 
-          const now = getDateString(new Date(), 480);
+          let now = getDateString(new Date(), 480);
+          now = new Date().getTime()
+          
           activities.sort((a,b) => new Date(a.acInfo.sdate).getTime() - new Date(b.acInfo.sdate).getTime())
-          const pastAc = activities.filter(a => a.acInfo.sdate <= now)
-          const pendingAc = activities.filter(a => a.acInfo.sdate > now)
-          return pendingAc.concat(pastAc);
+          const pastAc = activities.filter(a => {
+            return new Date(a.acInfo.sdate).getTime() <= now
+          })
+          const pendingAc = activities.filter(a => {
+            return new Date(a.acInfo.sdate).getTime() > now
+          })
+          const result = pendingAc.concat(pastAc.reverse());
+          return result
         }
         return this.getPostsByTag(this.tagList[this.currentTagIndex])
       }else if(this.subActiveTagIndex === 1) {
@@ -159,6 +166,12 @@ export default {
   },
   mounted() {
     getTagAggregation().then(tags => {
+      console.log(23, tags);
+      const t = tags['token2049']
+      tags = {
+        token2049: t ?? 1,
+        ...tags
+      }
       this.$store.commit('postsModule/saveTagsAggregation', tags)
       this.onRefresh()
     })
@@ -288,13 +301,13 @@ export default {
       let ac = content.split('#token2049')
       if (ac.length > 1) {
         ac = ac[1]
-        let infos = ac.replace(/：/g, ':').replace(/Location/g, 'Location');
+        let infos = ac.replace(/：/g, ':');
         try {
-          const sponsor = infos.split('Sponsor:')[1].split('Start')[0]
-          const sdate = infos.split('Start:')[1].split('End')[0]
-          const edate = infos.split('End:')[1].split('Place')[0]
-          const place = infos.split('Place:')[1].split('Location')[0]
-          const location = infos.split('Location:')[1].match(/(\[)(\S*)(\])/)[2]
+          const sponsor = infos.split('Sponsor:')[1].split('Start')[0].trim();
+          const sdate = infos.split('Start:')[1].split('End')[0].trim()
+          const edate = infos.split('End:')[1].split('Place')[0].trim()
+          const place = infos.split('Place:')[1].split('Location')[0].trim()
+          let location = infos.split('Location:')[1].match(/(\[)([0-9 .,\-]+)(\])/)[2].replace(/[ ]+/g, '')
           return {
             sponsor,
             sdate,
@@ -303,6 +316,10 @@ export default {
             location
           }
         }catch(e) {
+          // try{
+          //   postErr('Token2049', 'Get activity fail', `${infos}
+          //   ${e}`)
+          // }catch(e) {}
           console.log('Get act info fail:', e);
           return false
         }

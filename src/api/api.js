@@ -1,7 +1,7 @@
 import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 
-/****************************************  posts  ***********************************************/
+/****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})
 
@@ -55,3 +55,6 @@ export const bMapToGMapLocations = async (locations) => {
         coordsys: 'baidu'
     })
 }
+
+export const postErr = async (module, title, error) =>
+    post(BACKEND_API_URL + '/sys/err', {module, title, error})

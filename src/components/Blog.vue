@@ -40,13 +40,13 @@
             </div>
             <template v-else>
               <div @click.stop="clickContent">
-                <div v-html="content.split('#token2049')[0].replace('\n', '</br>')"></div>
+                <div v-html="content.split('#token2049')[0].replace('\n', '</br>').replace('#iweb3', '')"></div>
               </div>
               <div>
                 <p>Sponsor: {{ post.acInfo.sponsor }}</p>
                 <p>Start: {{ post.acInfo.sdate }}</p>
                 <p>End: {{ post.acInfo.edate }}</p>
-                <p>Location: <span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
+                <p>Place: <span class="underline text-blue-500" @click.stop="showMapOptions">{{ post.acInfo.place }}</span></p>
               </div>
             </template>
           </div>
@@ -112,8 +112,9 @@
     <el-dialog v-model="mapOptionsModalVisible" :append-to-body="true"
                custom-class="c-dialog c-dialog-md c-dialog-center">
       <div class="text-white py-1rem flex flex-col items-center" v-loading="mapLoading">
-        <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
-        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div>
+        <!-- <div class="p-1rem cursor-pointer" @click="gotoMap('gaode')">Gaode Map</div>
+        <div class="p-1rem cursor-pointer" @click="gotoMap('baidu')">Baidu Map</div> -->
+        <div class="p-1rem cursor-pointer" @click="gotoMap('google')">Google Map</div>
       </div>
     </el-dialog>
   </div>
@@ -184,8 +185,8 @@ export default {
       return formatPrice(value)
     },
     baiduUrl() {
-      const [lat, lng] = this.post.acInfo.location.replace('，',',').split(',')
-      const url = `https://api.map.baidu.com/marker?location=${lng},${lat}&title=活动位置&content=${this.post.acInfo.place}&output=html&src=webapp.baidu.openAPIdemo`
+      let [lat, lng] = this.post.acInfo.location.replace('，',',').split(',')
+      const url = `https://api.map.baidu.com/marker?location=${lat},${lng}&title=活动位置&content=${this.post.acInfo.place}&output=html&src=webapp.baidu.openAPIdemo`
       return url
     },
     location() {
@@ -221,15 +222,18 @@ export default {
       this.mapOptionsModalVisible = true
       this.mapLoading = true
       const locations = this.post.acInfo.location.replace('，',',').split(',')
-      const res = await bMapToGMapLocations(locations.join(','))
+      // const res = await bMapToGMapLocations(locations.map(l => parseFloat(l).toFixed(6)).join(','))
       this.mapLoading = false
-      if(res.status ==='1') {
-        this.gdLocation = res.locations
-      }
+      // if(res.status ==='1') {
+      //   this.gdLocation = res.locations
+      // }
+      this.gdLocation = locations.join(',')
+      console.log(53, this.gdLocation);
     },
     gotoMap(type) {
       if(type==='gaode') window.open(`https://uri.amap.com/marker?position=${this.gdLocation}&src=uriapi&callnative=1&innersrc=uriapi`, '_blank')
       if(type==='baidu') window.open(this.baiduUrl, '__blank')
+      if(type==='google') window.open(`https://www.google.com/maps/search/?api=1&query=${this.gdLocation}`, '__blank')
       this.mapOptionsModalVisible = false
     },
     replaceEmptyImg(e) {
