@@ -17,16 +17,16 @@
             </div>
             <template v-else>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-                <img class="h-2rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
+                <img class="h-1.6rem w-1.6rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
               <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
-                <img v-if="isActive" class="h-2rem mr-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
-                <i v-else class="h-2rem w-2rem mr-0.8rem icon-notification"></i>
+                <img v-if="isActive" class="h-1.6rem mr-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
+                <i v-else class="h-1.6rem w-1.6rem mr-0.8rem icon-notification"></i>
               </router-link>
             </template>
             <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
               <template #reference>
-                <i class="h-2rem w-2rem mr-0.8rem icon-language"></i>
+                <i class="h-1.6rem w-1.6rem mr-0.8rem icon-language"></i>
               </template>
               <template #default>
                 <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg light:(bg-white border-0 shadow-popper-tip) rounded-12px py-0.5rem">
@@ -36,7 +36,7 @@
               </template>
             </el-popover>
             <div class="relative">
-              <button class="bg-transparent h-2rem w-1.8rem flex items-center"
+              <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
                 <span class="menu-icon" :class="showMenu?'active':''"></span>
               </button>
@@ -308,7 +308,7 @@ export default {
   position: relative;
   &::before {
     left: 0;
-    top: -.6rem;
+    top: -.5rem;
     width: 100%;
     height: 2px;
     border-radius: 2px;
@@ -320,7 +320,7 @@ export default {
   }
   &::after {
     left: 0;
-    top: .6rem;
+    top: .5rem;
     width: 100%;
     height: 2px;
     border-radius: 2px;
@@ -372,12 +372,24 @@ export default {
   border: 1px solid var(--primary-custom);
   color: var(--primary-custom);
   &:hover {
-    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
+    background: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
     border-color: transparent;
     color: white;
   }
   &.router-link-active {
-    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
+    background: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
+    border-color: transparent;
+    color: white;
+  }
+}
+.light .link-btn {
+  border: 1px solid #6246EA;
+  color: #6246EA;
+  &:hover {
+    border-color: transparent;
+    color: white;
+  }
+  &.router-link-active {
     border-color: transparent;
     color: white;
   }

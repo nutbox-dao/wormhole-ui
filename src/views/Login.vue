@@ -11,7 +11,7 @@
           </div>
         </div>
         <div>
-          <input class="bg-inputBg h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
+          <input class="bg-inputBg light:bg-colorF1 gradient-border border-1 h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"

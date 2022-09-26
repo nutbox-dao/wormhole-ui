@@ -34,6 +34,9 @@ button:disabled {
     background-image: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
   }
 }
+.light .gradient-btn-outline {
+  box-shadow: 4px 1000px 4px #1A1E25 inset;
+}
 .gradient-bg {
   background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
   background-repeat: no-repeat;
