@@ -57,7 +57,7 @@
                     @error="replaceEmptyImg"
                     @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                    :src="detailCuration && detailCuration.profileImg" alt="">
-              <div class="flex md:flex-col md:justify-center md:items-start" @click="gotoUserPage">
+              <div class="flex md:flex-col md:justify-center md:items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
                 <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
                 <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
               </div>
