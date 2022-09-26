@@ -7,6 +7,7 @@ export default {
   aboutUs: '关于我们',
   discord: 'Discord',
   twitter: 'Twitter',
+  faucet: '水龙头',
   logout: '登出',
   signUpView: {
     t1: '激活您的web3账号',

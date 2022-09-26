@@ -7,6 +7,7 @@ export default {
   aboutUs: 'About Us',
   discord: 'Discord',
   twitter: 'Twitter',
+  faucet: 'Faucet',
   logout: 'Log out',
   signUpView: {
     t1: 'Activate web3 wallet',

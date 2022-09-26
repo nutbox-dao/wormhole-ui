@@ -26,6 +26,7 @@ import CurationsIndex from "@/views/curations/CurationsIndex";
 import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
+import FaucetView from "@/views/Faucet"
 
 const routes = [
   {
@@ -93,6 +94,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: AboutUsView,
+  },
+  {
+    path: '/faucet',
+    name: 'faucet',
+    component: FaucetView,
   },
   {
     path: '/profile/:user',

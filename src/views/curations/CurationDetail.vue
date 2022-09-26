@@ -217,7 +217,7 @@
                   {{$t('curation.reward')}} ({{detailCuration ? detailCuration.tokenSymbol : ''}})
                 </span>
                 <span class="c-text-black text-primaryColor text-24px leading-36px 2xl:text-1.2rem 2xl:leading-2rem ml-1rem">
-                  {{ detailCuration ? (detailCuration.myRewardAmount / (10 ** detailCuration.decimals)) : 0 }}
+                  {{ formatAmount(detailCuration ? ((detailCuration.joined ?? 0) / (10 ** (detailCuration.decimals ?? 18))) : 0) }}
                 </span>
               </div>
             </template>

@@ -60,6 +60,8 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
                   <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
+                  <!-- <router-link to="/faucet" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faucet')}}</router-link> -->
                   <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
                 </div>

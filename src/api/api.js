@@ -107,3 +107,7 @@ export const bMapToGMapLocations = async (locations) => {
         coordsys: 'baidu'
     })
 }
+
+
+export const getFaucet = async (address) =>
+    get(BACKEND_API_URL + '/faucet/usdt', {address})
