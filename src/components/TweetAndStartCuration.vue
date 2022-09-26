@@ -3,7 +3,7 @@
     <slot name="title">
       <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
     </slot>
-    <div class="bg-black/40 rounded-1rem min-h-10rem p-1rem relative">
+    <div class="bg-black/40 light:(bg-colorF1 border-1 border-colorE3) rounded-1rem min-h-10rem p-1rem relative">
       <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
         <span class="text-text8F whitespace-pre-line" v-html="formatEmojiText(curationContent + '#iweb3\n')"></span>
         <span class="text-primaryColor whitespace-pre-line">

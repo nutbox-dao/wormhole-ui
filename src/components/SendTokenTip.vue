@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="c-text-black text-1.6rem">{{$t('curation.create')}}</div>
-    <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B my-1.5rem">
+    <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
       {{$t('curation.createTip', {rewards: tokenInfo})}}
     </div>
     <button v-if="!approvement" class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
@@ -40,7 +40,7 @@ export default {
     return {
       tokenInfo: '',
       approvement: false,
-      approving: false, 
+      approving: false,
       creating: false
     }
   },
@@ -66,7 +66,7 @@ export default {
       this.approvement = res
     })
   },
-  
+
 }
 </script>
 

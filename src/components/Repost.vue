@@ -10,18 +10,18 @@
           <img class="w-2rem h-2rem md:mr-1rem mr-0.8rem rounded-full gradient-border border-2px" src="@/assets/icon-default-avatar.svg" v-else alt="">
           <div class="flex-1 flex flex-col items-start">
             <div class="flex items-center flex-wrap  text-0.8rem">
-              <a class="c-text-black text-left leading-1.1rem mr-3">{{ post.author.name }}</a>
+              <a class="c-text-black text-left leading-1.1rem mr-3 light:text-blueDark">{{ post.author.name }}</a>
               <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-              <span class="text-color8B">@{{ post.author.username }}</span>
+              <span class="text-color8B light:text-color7D">@{{ post.author.username }}</span>
             </div>
-            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color8B text-0.7rem leading-1.5rem">
+            <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color8B light:text-color7D text-0.7rem leading-1.5rem">
             {{ parseTimestamp(post.createdAt) }}
           </span>
           </div>
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-0.5rem">
-            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B">
+            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">

@@ -9,7 +9,7 @@
           <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('common.post')}}</div>
         </div>
       </div>
-      <div class="container mx-auto max-w-50rem pb-2rem md:px-1rem md:bg-blockBg rounded-12px">
+      <div class="container mx-auto max-w-50rem pb-2rem md:px-1rem md:bg-blockBg light:md:bg-white rounded-12px">
         <van-list :loading="listLoading"
                   :finished="listFinished"
                   :immediate-check="false"

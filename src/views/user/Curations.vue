@@ -1,10 +1,10 @@
 <template>
   <div class="pb-4rem w-full">
-    <div class="bg-blockBg md:py-1.5rem rounded-12px md:my-2rem my-1.5rem">
+    <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px md:my-2rem my-1.5rem">
       <div class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"
                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
-                    :class="subActiveTagIndex===index?'bg-primaryColor':'border-1 border-white/40 text-color84'"
+                    :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                     @click="changeSubIndex(index)">{{tag}}</span>
       </div>
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"

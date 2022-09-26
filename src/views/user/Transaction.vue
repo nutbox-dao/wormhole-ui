@@ -1,14 +1,14 @@
 <template>
   <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
-    <div class="px-1.5rem text-14px flex gap-1rem h-2rem md:h-1.6rem mb-1.2rem mt-1.2rem">
-            <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer text-15px"
-              :class="selectIndex===0?'bg-primaryColor':''"
-              @click="select(0)">{{$t('transactionView.recentTransaction')}}</div>
-            <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer text-15px"
-                :class="selectIndex===1?'bg-primaryColor':''"
-                @click="select(1)">{{$t('transactionView.recentTip')}}</div>
-          </div>
-    <div class="bg-blockBg rounded-1rem mt-2rem">
+    <div class="text-15px flex gap-1rem mt-1.2rem">
+      <div class="leading-27px whitespace-nowrap px-0.8rem rounded-full font-500 h-27px cursor-pointer"
+        :class="selectIndex===0?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+        @click="select(0)">{{$t('transactionView.recentTransaction')}}</div>
+      <div class="leading-27px whitespace-nowrap px-0.8rem rounded-full font-500 h-27px cursor-pointer"
+          :class="selectIndex===1?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+          @click="select(1)">{{$t('transactionView.recentTip')}}</div>
+    </div>
+    <div class="bg-blockBg light:bg-white rounded-1rem mt-1rem">
       <div v-if="showingList.length===0" class="py-4rem px-1.5rem">
         <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
         <div class="text-zinc-400 text-0.8rem leading-1.4rem">
@@ -37,8 +37,10 @@
                 <img v-else class="w-2.2rem"
                      src="~@/assets/icon-down-arrow.svg" alt="">
                 <div class="text-text8F flex flex-col items-start sm:ml-1rem ml-0.5rem">
-                  <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left text-color8B">
-                    <strong class="c-text-black text-white">{{ isReceive(item) ? $t('transactionView.receiveFrom') : $t('transactionView.sendTo') }}</strong> {{ getTargetAccount(item) }}
+                  <div class="text-1.1rem md:text-0.8rem leading-1.2rem text-left text-color8B light:text-color7D">
+                    <strong class="c-text-black text-white light:text-blueDark">
+                      {{ isReceive(item) ? $t('transactionView.receiveFrom') : $t('transactionView.sendTo') }}</strong>
+                    {{ getTargetAccount(item) }}
                   </div>
                   <div class="text-0.7rem mt-0.5rem text-color8B">{{ parseTime(item.postTime) }}</div>
                 </div>
@@ -52,7 +54,7 @@
             </div>
             <div class="text-right mt-1rem c-text-medium text-0.6rem">
               <a v-if="selectIndex === 0 ? item.sendResult===0 : item.tipResult === 0"
-                 class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem"
+                 class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem light:(text-blueDark bg-colorF2 border-colorE3 text-color7D)"
                  :href="chains[item.chainName].scan+'tx/'+item.hash" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
               <el-tooltip v-else-if="item.sendStatus!==0">
                 <template #content>{{failResult(item)}}</template>
@@ -122,9 +124,9 @@ export default {
             return 'Success'
           case 1:
             return 'Insufficient balance'
-          case 2: 
+          case 2:
             return 'Insufficient gas fee'
-          case 3: 
+          case 3:
             return 'Transaction fail'
           case 4:
             return 'Target account not exist'

@@ -7,7 +7,8 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem text-left">
+    <div class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white
+                rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem text-left">
       <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem">
         {{$t('curation.claimRewardTip')}}
       </div>
@@ -16,10 +17,14 @@
         <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
                     flex justify-center items-center cursor-pointer"
              @click="connectWallet">
-          <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? showAccount : $t('common.connectMetamask')}}</span>
+          <span class="font-600 text-15px 2xl:text-0.75rem
+                       light:bg-gradient-text-light
+                       gradient-text gradient-text-purple-white">
+            {{showAccount ? showAccount : $t('common.connectMetamask')}}
+          </span>
           <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
           <div v-if="connectLoading"
-               class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
+               class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
             <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
           </div>
         </div>
@@ -27,10 +32,10 @@
       <div v-loading="loading"
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
-          <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.pendingClaim')}}  {{totalRecords - lastId}}</div>
+          <div class="text-primaryColor light:text-color62 mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.pendingClaim')}}  {{totalRecords - lastId}}</div>
           <div v-if="!loading && pendingList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
-            <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
+            <div class="icon-list-no-data w-6rem h-4rem"></div>
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
           <template v-if="!loading && pendingList.length > 0">
@@ -54,7 +59,7 @@
             </div>
           </template>
         </div>
-        <button class="w-full gradient-bg gradient-bg-opacity-80 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
+        <button class="w-full text-white gradient-bg gradient-bg-color3 h-34px 2xl:h-1.7rem text-15px 2xl:text-0.75rem flex justify-center items-center font-600 cursor-pointer"
           @click="claim"
           :disabled="!showAccount || pendingList.length === 0 || claiming"
         >
@@ -65,10 +70,10 @@
       <div v-loading="loading"
            class="border-1 border-color8B/30 rounded-15px mt-1rem text-left mt-1.5rem overflow-hidden">
         <div class="px-1rem py-0.5rem min-h-7rem">
-          <div class="text-primaryColor mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.claimed')}}  {{issuedRecords}}</div>
+          <div class="text-primaryColor light:text-color62 mb-10px text-15px 2xl:text-0.75rem">{{$t('curation.claimed')}}  {{issuedRecords}}</div>
           <div v-if="!loading && issuedList.length===0"
                class="flex flex-col justify-center items-center py-1rem">
-            <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
+            <div class="icon-list-no-data w-6rem h-4rem"></div>
             <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
           </div>
           <template v-if="!loading && issuedList.length > 0">

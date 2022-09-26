@@ -10,7 +10,7 @@
         <div class="flex-1 flex justify-between items-center cursor-pointer" @click.stop="gotoUserPage()">
           <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.twitterUsername}}</a>
 <!--          <span class="text-primaryColor text-15px xl:text-0.75rem">2 days left</span>-->
-          <span class="text-orangeColor text-15px xl:text-0.75rem">{{endtime}}</span>
+          <span class="text-orangeColor light:text-color62 text-15px xl:text-0.75rem">{{endtime}}</span>
 <!--          <span class="text-greenColor text-15px xl:text-0.75rem">Completed</span>-->
         </div>
       </div>
@@ -20,7 +20,7 @@
 <!--          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">-->
 <!--            {{content}}-->
 <!--          </div>-->
-          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
+          <div class="text-color8B light:text-blueDark font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
                v-html="formatEmojiText(content)"></div>
         </div>
         <div class="flex justify-between items-center">
@@ -28,17 +28,23 @@
             <img v-for="i of curation.curatorProfile" :key="i"
                  class="w-32px h-32px min-w-32px min-h-32px
                         xl:w-1.6rem xl:h-1.6rem xl:min-w-1.6rem xl:min-h-1.6rem
-                        rounded-full -ml-10px border-1 border-blockBg"
+                        rounded-full -ml-10px border-1 border-blockBg light:border-white"
                  @error="replaceEmptyImg"
                  :src="i" alt="">
             <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
-                    rounded-full -ml-10px flex justify-center items-center border-1 border-blockBg bg-primaryColor
+                    rounded-full -ml-10px flex justify-center items-center
+                    border-1 border-blockBg bg-primaryColor
+                    light:(border-white bg-color62 text-white)
                     font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
           </div>
           <div v-else></div>
           <div class="flex items-center h-max">
-            <div class="xl:absolute xl:top-1rem xl:right-0 bg-primaryColor/20 text-primaryColor px-13px py-5px
-                 rounded-full c-text-black 2xl:text-0.75rem">{{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}</div>
+            <div class="xl:absolute xl:top-1rem xl:right-0
+                        bg-primaryColor/20 text-primaryColor
+                        light:(bg-colorF1 text-color62)
+                        px-13px py-5px rounded-full c-text-black 2xl:text-0.75rem">
+              {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
+            </div>
             <slot name="status"></slot>
           </div>
         </div>

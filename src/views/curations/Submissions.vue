@@ -3,13 +3,13 @@
     <div class="md:border-b-1 border-dividerColor h-4rem">
       <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
                   flex items-center md:justify-start justify-center h-full">
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem light:text-blueDark">
           {{$t('curation.submissions')}}
         </div>
       </div>
     </div>
     <div class="flex-1 overflow-auto py-1rem">
-      <div class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px mb-2rem py-2rem">
+      <div class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px mb-2rem py-2rem">
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                           loading-text="Loading"
                           pulling-text="Pull to refresh data"
@@ -47,7 +47,7 @@
         {{$t('curation.comfirmReward')}}
       </button>
     </div>
-    
+
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                :close-on-click-overlay="false"
                v-model:show="modalVisible"

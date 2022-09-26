@@ -6,13 +6,15 @@
       </div>
     </div>
     <div v-if="currentStep<=2" v-loading="loading"
-         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
+         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
       <Steps :total-step="2" :current-step="currentStep"/>
       <!-- set up -->
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
-          <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+          <div class="bg-black border-1 border-color8B/30
+                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
 <!--            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"-->
 <!--                   ref="titleRef"-->
 <!--                   v-model="form.title"-->
@@ -34,8 +36,7 @@
                 <EmojiPicker :options="{
                                 imgSrc:'/emoji/',
                                 locals: $i18n.locale==='zh'?'zh_CN':'en',
-                                hasSkinTones:false,
-                                hasGroupIcons:false}"
+                                hasSkinTones:false}"
                              @select="(e) =>selectEmoji(e,'title')" />
               </div>
             </el-popover>
@@ -44,7 +45,9 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.schedule')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
-          <div class="relative border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem flex items-center">
+          <div class="relative border-1 bg-black border-1 border-color8B/30
+                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex items-center">
             <div class="flex-1">
               <el-date-picker
                   class="c-input-date"
@@ -62,7 +65,9 @@
         </div>
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.description')}}</div>
-          <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px">
+          <div class="border-1 bg-black border-1 border-color8B/30
+                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      rounded-12px">
 <!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
             <div contenteditable
                  class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
@@ -102,10 +107,14 @@
           <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
                       flex justify-center items-center cursor-pointer"
                @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem gradient-text gradient-text-purple-white">{{showAccount ? showAccount : $t('common.connectMetamask')}}</span>
+            <span class="font-600 text-15px 2xl:text-0.75rem
+                         light:bg-gradient-text-light
+                         gradient-text gradient-text-purple-white">
+              {{showAccount ? showAccount : $t('common.connectMetamask')}}
+            </span>
             <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
             <div v-if="connectLoading"
-                 class="absolute bg-black/70 w-full h-full rounded-12px flex justify-center items-center">
+                 class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
               <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
             </div>
           </div>
@@ -115,7 +124,9 @@
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
-            <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
+            <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30
+                        light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                        rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                     v-model="form.maxCount"
                      type="number" :placeholder="$t('curation.inputMaxCount')">
@@ -131,10 +142,10 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
-            <div class="gradient-text gradient-text-purple-white font-600 text-15px 2xl:text-0.75rem">
+            <div class="text-primaryColor light:text-color62 font-600 text-15px 2xl:text-0.75rem">
               {{$t('curation.autoMethod')}}
             </div>
-            <div class="mt-1rem text-color8B text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
+            <div class="mt-1rem text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
               {{$t('curation.autoMethodTip')}}
             </div>
           </div>
@@ -144,14 +155,18 @@
           <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
-                 class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
+                 class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30
+                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                        rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                       v-model="form.amount"
                      type="number" :placeholder="$t('curation.inputRewardsAmount')">
             </div>
             <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
-              <div class="border-1 bg-black border-1 border-color8B/30 rounded-12px h-40px 2xl:h-2rem">
-                <el-popover popper-class="c-popper" :width="popperWidth" trigger="click" ref="elPopover">
+              <div class="border-1 bg-black border-1 border-color8B/30
+                          light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                          rounded-12px h-40px 2xl:h-2rem">
+                <el-popover popper-class="c-popper" placement="top" :width="popperWidth" trigger="click" ref="elPopover">
                   <template #reference>
                     <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
                       <div class="flex items-center">
@@ -163,10 +178,13 @@
                     </div>
                   </template>
                   <template #default>
-                    <div class="border-1 border-color8B/30 bg-blockBg rounded-12px py-10px overflow-x-hidden">
+                    <div class="border-1 border-color8B/30 bg-blockBg
+                                light:(bg-white border-colorE3) hover:border-primaryColor
+                                rounded-12px py-10px overflow-x-hidden">
                       <div class="px-10px mb-10px">
                         <div class="w-full border-1 bg-black border-1 border-color8B/30
-                             rounded-12px h-40px 2xl:h-2rem">
+                                    light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                                    rounded-12px h-40px 2xl:h-2rem">
                           <input class="bg-transparent h-full w-full px-0.5rem"
                                 v-model="form.token"
                                 @input="updateToken"
@@ -175,9 +193,10 @@
                       </div>
                       <div v-if="customToken"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30">
+                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                         <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B overflow-x-hidden" @click="selectedToken = customToken;$refs.elPopover.hide()">
+                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
+                             @click="selectedToken = customToken;$refs.elPopover.hide()">
                           <span class="text-15px">{{customToken.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
@@ -187,9 +206,9 @@
                       <div v-for="token of tokenList" :key="token.address"
                             @click="selectedToken=token;$refs.elPopover.hide()"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30">
+                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                         <img class="h-34px mr-15px rounded-full" :src="token.icon" alt="">
-                        <div class="flex-1 flex flex-col text-color8B overflow-x-hidden">
+                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
                           <span class="text-15px">{{token.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{token.address}}
@@ -227,7 +246,9 @@
         <span class="text-greenColor text-15px font-500 ml-10px">{{$t('curation.createdOk')}}</span>
       </div>
       <div v-loading="loading"
-           class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
+           class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg
+                  light:(bg-white border-colorE3) hover:border-primaryColor
+                  rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
         <TweetAndStartCuration :curation-content="curation.content"
                                :curation-id="curation.curationId"
                                @onPost="onPost"/>
@@ -236,6 +257,7 @@
     <!-- create curation modal -->
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
+               :close-on-click-overlay="false"
                :position="position">
       <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col

@@ -1,7 +1,7 @@
 <template>
   <div id="user-index" class="overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
     <template v-if="!loading">
-      <div class="md:border-b-1 border-listBgBorder md:border-b-1 border-white/20">
+      <div class="border-b-0 md:border-b-1 md:border-color84/30">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
@@ -11,11 +11,16 @@
                 alt=""/>
             <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
               <div class="text-left">
-                <div class="c-text-black text-1.6rem">
+                <div class="c-text-black text-1.6rem light:text-blueDark">
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
                 <div class="text-text8F text-0.8rem flex mt-0.7rem font-bold sm:flex-row sm:items-center flex-col">
-                  <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem w-max flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                  <div @click="gotoTwitter"
+                       class="cursor-pointer mr-0.5rem w-max flex items-center
+                              text-color8B light:text-color7D
+                              bg-white/10 light:bg-colorF2
+                              light:border-1 light:border-colorE3
+                              rounded-full h-1.8rem md:1rem px-0.5rem">
                     <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
@@ -33,8 +38,7 @@
                 </div>
               </div>
               <div class="flex flex-col sm:items-center">
-                <div
-                    class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem">
+                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">
                   {{ totalValue }}
                 </div>
                 <template v-if="getAccountInfo && !getAccountInfo.isPending">
@@ -45,7 +49,7 @@
                     {{$t('curationsView.createBtn')}}
                   </button>
                   <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
-                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
+                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                       @click="tipDrawer = true">
                     <img
                         class="w-1.5rem h-1.5rem mr-0.5rem"
@@ -63,25 +67,25 @@
               </div>
             </div>
           </div>
-          <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
+          <div class="bg-blockBg light:(bg-white md:bg-transparent) md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
-                  class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
+                  class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/post`"
               >{{$t('profileView.socialAsset')}}</router-link>
               <router-link
                   v-if="getAccountInfo && !getAccountInfo.isPending"
-                  class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
+                  class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
               <router-link
-                  class="flex-1 py-0.5rem px-1rem border-b-2 md:border-b-4px border-dividerColor text-color8B"
+                  class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/wallet`"
               >{{$t('profileView.web3Wallet')}}</router-link>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+      <div class="bg-blockBg light:(bg-white md:bg-transparent) md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -101,16 +105,16 @@
           class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"
         ></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-2rem text-left">
-          <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
+          <div class="c-text-black my-2rem md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
             {{$t('postView.tweetTip')}}
           </div>
-          <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
+          <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem light:text-color46">
             {{$t('postView.tip1')}}
           </div>
-          <div class=" bg-black/40 rounded-1rem h-min-8rem p-1rem relative">
+          <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
-              <span class="text-primaryColor">@wormhole_3 !send </span>
-              <span class="text-text8F">{0.5 STEEM} to {@vitalik}</span>
+              <span class="text-primaryColor light:text-color62">@wormhole_3 !send </span>
+              <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button
               @click="gotoSend" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
@@ -119,19 +123,19 @@
                 class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
                 alt=""/>
-              <span class="text-text8F">{{$t('postView.goTweet')}}</span>
+              <span class="text-color8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
-          <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
+          <div class="text-white light:text-color7D text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
             {{$t('postView.tips')}}:<br />{{$t('postView.p2')}}<br />
             {{$t('postView.p3')}}
           </div>
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             {{$t('postView.tip2')}}
           </div>
-          <div class="bg-black/40 rounded-1rem h-min-8rem p-1rem relative">
+          <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
-              <span class="text-text8F">{content} </span>
+              <span class="text-color8F">{content} </span>
               <span class="text-primaryColor">#iweb3</span>
             </div>
             <button
@@ -142,10 +146,10 @@
                 class="w-1rem h-1rem mr-0.4rem"
                 src="~@/assets/icon-twitter.svg"
                 alt=""/>
-              <span class="text-text8F">{{$t('postView.goTweet')}}</span>
+              <span class="text-color8F">{{$t('postView.goTweet')}}</span>
             </button>
           </div>
-          <div class="text-white text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
+          <div class="text-white light:text-color7D text-12px 2xl:text-0.8rem 2x:leading-1rem mt-0.5rem italic text-left">
             {{$t('postView.tips')}}: <br />
             {{$t('postView.p2')}}
           </div>
@@ -359,27 +363,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.router-link-active {
-  box-sizing: border-box;
-  color: white;
-  position: relative;
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(93.84deg, #9120EE 0%, #AE88FE 181.77%);
-    border-radius: 1px;
-    bottom: -5px;
-    left: 0;
-  }
+.dark .router-link-active, .light .router-link-active {
+  background-image: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3rem;
+  background-position: center bottom;
 }
-@media (max-width: 768px) {
-  .router-link-active {
-    &::after {
-      height: 2px;
-      bottom: -2px;
-    }
-  }
+.dark a{
+  background-image: linear-gradient(#8483914D, #8483914D);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3rem;
+  background-position: center bottom;
+  color: #8B949E;
+}
+.dark .router-link-active {
+  color: white;
+}
+.light a {
+  color: #7D7F88;
+}
+.light .router-link-active {
+  color: #1A1E25;
 }
 </style>

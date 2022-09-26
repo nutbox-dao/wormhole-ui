@@ -1,7 +1,9 @@
 <template>
   <el-config-provider :locale="elLocal[$i18n.locale]">
-    <div id="app" @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
-      <div class="py-1rem border-b-1 border-headerBorder">
+    <div id="app"
+         class="bg-primaryBg light:bg-primaryBgLight"
+         @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
+      <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
           <button @click="goBack">
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
@@ -15,33 +17,32 @@
             </div>
             <template v-else>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-                <img class="h-2rem rounded-full mx-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
+                <img class="h-2rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
               <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
-                <img v-if="isActive" class="h-2rem mx-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
-                <img v-else class="h-2rem mx-0.8rem" src="~@/assets/icon-notification.svg" alt="">
+                <img v-if="isActive" class="h-2rem mr-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
+                <i v-else class="h-2rem w-2rem mr-0.8rem icon-notification"></i>
               </router-link>
             </template>
             <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
               <template #reference>
-                <img class="h-2rem mr-0.8rem" src="~@/assets/icon-language.svg" alt="">
+                <i class="h-2rem w-2rem mr-0.8rem icon-language"></i>
               </template>
               <template #default>
-                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg rounded-12px py-0.5rem text-white">
+                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg light:(bg-white border-0 shadow-popper-tip) rounded-12px py-0.5rem">
                   <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
                   <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
                 </div>
               </template>
             </el-popover>
-
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.8rem flex items-center"
                       @click.stop="showMenu=!showMenu">
                 <span class="menu-icon" :class="showMenu?'active':''"></span>
               </button>
               <div class="menu-box w-13.5rem xl:w-11rem z-99"
-                   :class="showMenu?'active':''">
-                <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg rounded-12px w-full h-full flex flex-col justify-between font-400 text-15px xl:text-1rem">
+                   :class="showMenu?'active shadow-popper-tip':''">
+                <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg light:(bg-white border-0 shadow-popper-tip) rounded-12px w-full h-full flex flex-col justify-between font-400 text-15px xl:text-1rem">
                   <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
                   <template v-if="!getAccountInfo">
@@ -64,6 +65,14 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faucet')}}</router-link> -->
                   <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
+                  <div class="flex border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
+                    <div class="flex-1 h-2rem p-0.4rem cursor-pointer"
+                         :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
+                         @click="changeTheme">Dark</div>
+                    <div class="flex-1 h-2rem p-0.4rem cursor-pointer"
+                         :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
+                         @click="changeTheme">Light</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -106,7 +115,8 @@ export default {
       showMenu: false,
       elLocal: {
         'zh': zhCn
-      }
+      },
+      isDark: false
     }
   },
   computed: {
@@ -173,10 +183,16 @@ export default {
       this.$refs.langRef.hide()
       i18n.global.locale = lang
       localStorage.setItem('language', lang)
+    },
+    changeTheme() {
+      this.isDark = !this.isDark
+      localStorage.setItem('theme', this.isDark?'dark':'light')
+      document.documentElement.className=this.isDark?'dark':'light'
     }
-
   },
   async mounted() {
+    this.isDark = !(localStorage.getItem('theme') === 'light')
+    document.documentElement.className=this.isDark?'dark':'light'
     vestsToSteem(1).then(res => {
       this.$store.commit('saveVestsToSteem', res)
     }).catch(e => {
@@ -233,6 +249,7 @@ export default {
 
 :root {
   --primary-bg: #0D1117;
+  --primary-bg-light: #F7F7F9;
   --primary-custom: #AE88FE;
   --secondary-custom: #7C3AED;
   --gradient-primary-color1: #AE88FE;
@@ -241,23 +258,30 @@ export default {
   --blockBg: #161B22;
   --color8B: #8B949E;
   --iconColor: #848391;
+  --iconColorLight: #1A1E25;
   --outlineBtnBg: #1C1A50;
   --van-popup-background-color: transparent!important;
   --el-mask-color: rgba(0,0,0, 0.5) !important;
 }
+@import "style/icon";
 @import "style/responsive";
 @import "style/common";
-//@import "style/el-custom";
-html, body {
+.dark,html {
   background-color: var(--primary-bg);
 }
+.light,html {
+  background-color: var(--primary-bg-light);
+}
+.light body {
+  background-color: var(--primary-bg-light);
+}
+
 #app {
   font-family:PoppinsRegular, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #fff;
-  background-color: var(--primary-bg);
   position: absolute;
   top: 0;
   left: 0;
@@ -265,6 +289,9 @@ html, body {
   bottom: 0;
   display: flex;
   flex-direction: column;
+}
+.light #app {
+  color: #1A1E25;
 }
 .c-emoji {
   //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
@@ -315,6 +342,15 @@ html, body {
       transform: rotate(-45deg);
       background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
     }
+  }
+}
+.light .menu-icon {
+  background: var(--iconColorLight);
+  &::before {
+    background: var(--iconColorLight);
+  }
+  &::after {
+    background: var(--iconColorLight);
   }
 }
 .menu-box {

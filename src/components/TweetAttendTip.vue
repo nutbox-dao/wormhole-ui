@@ -3,7 +3,7 @@
     <PostTip>
       <template #title>{{$t('curation.tweetToAttend')}}</template>
       <template #content>
-        <div class="bg-color0E p-1rem mt-1rem mb-2rem rounded-15px">
+        <div class="bg-color0E light:(bg-white border-1 border-colorE3) p-1rem mt-1rem mb-2rem rounded-15px">
           <div class="flex ">
             <img class="w-1rem h-1rem md:w-2rem md:h-2rem mr-0.8rem rounded-full "
                 @error="replaceEmptyImg"
@@ -18,10 +18,12 @@
         </div>
       </template>
       <template #btn>
-        <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
-          <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
-          <span class="text-color8B" @click="goTweet">{{$t('postView.goTweet')}}</span>
-        </button>
+        <div class="pt-1rem">
+          <button class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full h-28px 2xl:h-2.2rem text-12px 2xl:text-0.9rem px-1rem absolute bottom-1rem right-1rem">
+            <img class="w-1rem h-1rem mr-0.4rem" src="~@/assets/icon-twitter.svg" alt="">
+            <span class="text-color8B" @click="goTweet">{{$t('postView.goTweet')}}</span>
+          </button>
+        </div>
       </template>
     </PostTip>
   </div>

@@ -3,6 +3,16 @@ html.dark {
   --el-bg-color-overlay: var(--blockBg);
   --el-text-color-primary: #303133;
 }
+html.light {
+  --el-color-primary: var(--secondary-custom);
+  --el-bg-color-overlay: white;
+  --el-text-color-primary: white;
+  --el-overlay-color-lighter: rgba(225, 225, 225, 0.4);
+  --el-mask-color: rgba(225, 225, 225, 0.5) !important;
+  --el-input-text-color: #1A1E25;
+  --el-text-color-regular: #1A1E25;
+  --el-notification-content-color: #1A1E25;
+}
 
 .el-dialog.c-dialog {
   width: 90%;
@@ -99,16 +109,15 @@ html.dark {
   background-color: var(--primary-bg);
   border: 1px solid rgba(132, 131, 145, 0.3);
   background-origin: border-box;
-  box-shadow: 0 0 20px 8px rgba(#AE88FE, 0.4);
+  box-shadow: 0 0 10px 2px rgba(#AE88FE, 0.4);
   box-sizing: border-box;
   .el-notification__closeBtn {
-    color: white;
     font-weight: bold;
     font-size: 20px;
   }
 }
-.c-notification .el-notification__content {
-  color: white;
+.light .c-notification.el-notification{
+  background-color: var(--primary-bg-light);
 }
 .c-notification .el-notification__title {
   color: var(--primary-custom);
@@ -136,14 +145,21 @@ html.dark {
 .c-progress .el-progress-bar__outer {
   background-color: #333333;
 }
+.light .c-progress .el-progress-bar__outer {
+  background-color: #6246EA;
+}
 .c-progress .el-progress-bar__inner {
   background-color: var(--gradient-primary-color1);
   background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
 }
+.light .c-progress .el-progress-bar__inner {
+  background-color: #6246EA;
+  background-image: linear-gradient(93.5deg, #7B01DF 0%, #4900E3 122.7%);
+}
 .c-progress .el-progress-bar__innerText {
   color: #1B1B1B;
 }
-.c-popper.el-popper.is-light {
+.c-popper.el-popper {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -157,9 +173,6 @@ html.dark {
 }
 .c-input-date.el-input {
   width: 100% !important;
-}
-.c-input-date .el-input__inner {
-  color: white;
 }
 .c-input-date .el-input__wrapper {
   background: transparent;

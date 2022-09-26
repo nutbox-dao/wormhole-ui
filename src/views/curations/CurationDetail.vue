@@ -13,8 +13,7 @@
             <div class="gradient-border border-1 gradient-border-color3 rounded-8px
                         flex items-center justify-center py-14px cursor-pointer"
                  @click="$refs.copyUrlPopper.hide(), onCopy('https://test.wormhole3.io/#/curation-detail/' + detailCuration.curationId)">
-              <img class="w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"
-                   src="~@/assets/icon-copy.svg" alt="">
+              <i class="icon-copy w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"></i>
               <span class="text-15px 2xl:text-0.75rem leading-22px 2xl:leading-1.1rem font-600">
                 {{$t('curationsView.shareCuration')}}
               </span>
@@ -36,7 +35,10 @@
     <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px mt-1rem">
       <div class="grid grid-cols-3 gap-1.5rem">
-        <div v-loading="loading1" class="col-span-3 xl:col-span-2 bg-blockBg rounded-15px py-1.5rem text-left">
+        <div v-loading="loading1"
+             class="col-span-3 xl:col-span-2 bg-blockBg h-min
+                    light:(bg-white border-1 border-colorE3)
+                    rounded-15px py-1.5rem text-left">
           <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
             <div class="c-text-black text-1.5rem sm:text-24px">
              {{title}}
@@ -59,12 +61,12 @@
                    :src="detailCuration && detailCuration.profileImg" alt="">
               <div class="flex md:flex-col md:justify-center md:items-start" @click="gotoUserPage">
                 <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
-                <span class="text-15px 2xl:text-0.75rem text-color8B leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
+                <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
               </div>
             </div>
             <div class="ml-3.4rem md:ml-80px mt-1.2rem">
               <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div>
-              <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
+              <div class="text-color8B light:text-color7D font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
                    v-html="formatEmojiText(content)">
               </div>
             </div>
@@ -92,9 +94,9 @@
         </div>
         <!-- token -->
         <div class="col-span-3 xl:col-span-1" v-if="detailCuration">
-          <div v-loading="loading1" class="gradient-bg gradient-bg-opacity-80 rounded-15px py-0.5rem px-1.5rem min-h-4rem">
+          <div v-loading="loading1" class="gradient-bg gradient-bg-color3 rounded-15px py-0.5rem px-1.5rem min-h-4rem light:shadow-popper-tip">
             <div class="flex justify-between items-center">
-              <span>{{$t('curation.reward')}}</span>
+              <span class="text-colorF7">{{$t('curation.reward')}}</span>
               <div class="flex items-center">
                 <!-- <span class="text-primaryColor font-500">PosW</span>
                 <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt=""> -->
@@ -102,20 +104,20 @@
             </div>
             <div class="w-full h-1px bg-white mt-0.8rem mb-1.6rem"></div>
             <div class="flex justify-between items-center mb-2rem">
-              <span>Token</span>
+              <span class="text-colorF7">Token</span>
               <div class="flex items-center">
                 <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem rounded-full" :src="tokenIcon" alt="">
                 <img v-else class="w-1.5rem mr-0.6rem rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
-                <span class="font-700 gradient-text gradient-text-purple-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>
+                <span class="font-700 text-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>
               </div>
             </div>
-            <div class="text-primaryColor text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>
+            <div class="text-colorE0/80 text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>
           </div>
           <!-- curators list -->
           <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">
-            <div class="text-primaryColor mb-10px">{{$t('curation.curators')}}  {{detailCuration && detailCuration.totalCount}}</div>
+            <div class="text-primaryColor light:text-color62 mb-10px">{{$t('curation.curators')}}  {{detailCuration && detailCuration.totalCount}}</div>
             <div v-if="participant.length===0" class="flex flex-col justify-center items-center py-1rem">
-              <img class="w-6rem" src="~@/assets/no-data.svg" alt="">
+              <div class="icon-list-no-data w-6rem h-4rem"></div>
               <div class="text-color84/30 font-600">{{$t('common.none')}}</div>
             </div>
             <!-- <div class="flex items-center py-6px cursor-pointer" @click="gotoUserPage(p.twitterUsername)" v-for="p of participant.slice(0, 10)" :key="p.twitterUsername">
@@ -243,7 +245,7 @@
     </van-popup>
 
     <el-dialog v-model="showSubmissions" fullscreen
-               custom-class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg">
+               custom-class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
       <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
     </el-dialog>
 
@@ -421,6 +423,15 @@ export default {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  &:hover {
+    background-image: url("~@/assets/icon-share-primary.svg");
+  }
+  &:focus {
+    background-image: url("~@/assets/icon-share-primary.svg");
+  }
+}
+.light .icon-share {
+  background-image: url("~@/assets/icon-share-light.svg");
   &:hover {
     background-image: url("~@/assets/icon-share-primary.svg");
   }
