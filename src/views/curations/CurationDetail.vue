@@ -393,6 +393,9 @@ export default {
       getCurationById(id, account?.twitterId).then(res => {
         if (res) {
           this.$store.commit('curation/saveDetailCuration', res)
+          getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
+            this.detailCuration.joined = res
+          })
         }
       }).finally(() => {
         this.loading1 = false
