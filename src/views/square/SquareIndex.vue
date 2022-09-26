@@ -110,7 +110,14 @@ export default {
       list: [],
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
-      scroll: 0
+      scroll: 0,
+      ignoreList: [
+        '1574317732337659905',
+        '1574316643013996545',
+        '1574315801603018752',
+        '1574356331653308416',
+        '1574356509428809729'
+      ]
     }
   },
   computed: {
@@ -132,7 +139,7 @@ export default {
           let activities = []
           for(let post of posts) {
             const acInfo = this.activityInfo(post)
-            if (acInfo) {
+            if (acInfo && this.ignoreList.indexOf(post.postId) === -1) {
               activities.push({
                 ...post,
                 acInfo
