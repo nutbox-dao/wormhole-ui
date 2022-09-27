@@ -42,14 +42,18 @@
               </button>
               <div class="menu-box w-13.5rem xl:w-11rem z-99"
                    :class="showMenu?'active shadow-popper-tip':''">
-                <div class="p-0.5rem border-1 border-listBgBorder bg-blockBg light:(bg-white border-0 shadow-popper-tip) rounded-12px w-full h-full flex flex-col justify-between font-400 text-15px xl:text-1rem">
+                <div class="p-0.5rem border-1 border-listBgBorder
+                            bg-blockBg light:(bg-white border-0 shadow-popper-tip)
+                            rounded-12px w-full h-full
+                            flex flex-col justify-between
+                            font-400 text-15px leading-24px xl:text-0.75rem">
                   <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
                   <template v-if="!getAccountInfo">
                     <router-link to="/login" @click="showMenu=false"
                                  class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>
                     <router-link to="/signup" @click="showMenu=false"
-                                 class="md:hidden block min-h-35px flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>
+                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>
                   </template>
                   <router-link to="/square" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('square')}}</router-link>
@@ -63,14 +67,17 @@
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
                   <!-- <router-link to="/faucet" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faucet')}}</router-link> -->
-                  <div @click="onCopy('https://test.wormhole3.io/#/signup/' + getAccountInfo.twitterId)" v-if="getAccountInfo && getAccountInfo.twitterUsername"  class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
-                  <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
+                  <div @click="onCopy('https://test.wormhole3.io/#/signup/' + getAccountInfo.twitterId)"
+                       v-if="getAccountInfo && getAccountInfo.twitterUsername"
+                       class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
+                  <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup"
+                               @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
-                  <div class="flex border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
-                    <div class="flex-1 h-2rem p-0.4rem cursor-pointer"
+                  <div class="flex items-center border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
+                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
                          @click="changeTheme">Dark</div>
-                    <div class="flex-1 h-2rem p-0.4rem cursor-pointer"
+                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
                          @click="changeTheme">Light</div>
                   </div>
@@ -354,6 +361,14 @@ export default {
   }
   &::after {
     background: var(--iconColorLight);
+  }
+  &.active {
+    &::before{
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
+    }
+    &::after {
+      background-image:linear-gradient(to left, var(--gradient-primary-color1), var(--gradient-primary-color2));
+    }
   }
 }
 .menu-box {

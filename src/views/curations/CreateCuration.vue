@@ -104,7 +104,7 @@
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:2.5rem
+          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:h-2.5rem
                       flex justify-center items-center cursor-pointer"
                @click="connectWallet">
             <span class="font-600 text-15px 2xl:text-0.75rem
@@ -117,6 +117,21 @@
                  class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
               <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
             </div>
+          </div>
+        </div>
+        <div class="mt-2rem">
+          <button class="w-full h-40px 2xl:h-2rem relative
+                         bg-color84/30 light:bg-color7D
+                         text-white rounded-12px border-1 border-color8B/70">
+            Receive Test Token
+<!--            loading-->
+<!--            <i class="absolute top-0 bg-black/70 light:bg-white/40 w-full h-full-->
+<!--                      rounded-12px flex justify-center items-center">-->
+<!--              <img class="w-2rem" src="~@/assets/loading-points.svg" alt="">-->
+<!--            </i>-->
+          </button>
+          <div class="text-12px leading-24px 2xl:(text-0.6rem leading-0.9rem) mt-5px">
+            Description Description Description Description Description Description
           </div>
         </div>
         <!-- max count -->

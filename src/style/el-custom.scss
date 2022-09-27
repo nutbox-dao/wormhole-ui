@@ -77,6 +77,11 @@ html.light {
     padding: 1.2rem;
   }
 }
+.light .el-dialog.c-dialog {
+  background: white;
+  box-shadow: 0px 15px 41px rgba(36, 3, 84, 0.2);
+  border: none;
+}
 .el-dialog.c-dialog-fullscreen {
   display: flex;
   flex-direction: column;

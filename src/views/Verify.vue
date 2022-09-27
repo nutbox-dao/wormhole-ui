@@ -1,21 +1,25 @@
 <template>
   <div class="w-full h-full overflow-auto">
     <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
-      <div class="text-white" v-if="!showRegisterModal">
-        <div class=" keep-all c-text-black text-2rem max-w-30rem mx-auto mb-2rem">
+      <div class="text-white light:text-blueDark" v-if="!showRegisterModal">
+        <div class=" keep-all c-text-black text-2rem leading-2.8rem max-w-30rem mx-auto mb-2rem">
           {{$t('verifyView.p1')}}
         </div>
-        <div class="flex items-center bg-inputBg py-1rem lg:px-6rem px-2rem max-w-50rem mx-auto rounded-12px c-text-bold text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
+        <div class="flex items-center bg-inputBg
+                    light:(bg-colorF2 border-1) gradient-border
+                    py-1rem lg:px-6rem px-2rem
+                    max-w-50rem mx-auto rounded-12px c-text-bold
+                    text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
           {{ ethAccount.privateKey }}
           <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                @click="onCopy(ethAccount.privateKey)"
-               src="~@/assets/icon-copy.svg" alt="">
+               src="~@/assets/icon-copy-primary.svg" alt="">
         </div>
-        <div class="flex justify-center max-w-41rem mx-auto">
+        <div class="flex justify-center max-w-41rem mx-auto light:(bg-color62/10 p-1rem text-color62 rounded-12px)">
 <!--          <div class="leading-1.5rem flex item-center mr-1rem">-->
 <!--            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">-->
 <!--          </div>-->
-          <div class="max-w keep-all text-color8B text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
+          <div class="max-w keep-all text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
             {{$t('verifyView.p2')}}
           </div>
         </div>
@@ -25,20 +29,27 @@
             Ok, I saved it.
           </div>
         </div> -->
-        <button class="c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full text-1rem mt-1.25rem"
+        <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                 @click="importModal = true">
           {{$t('verifyView.btn1')}}
         </button>
       </div>
-      <div class="text-white" v-else>
-        <div class="keep-all c-text-black text-2rem max-w-20rem mx-auto sm:max-w-30rem sm:mx-auto mb-2.3rem leading-2.9rem text-left sm:text-center">
+      <div class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto" v-else>
+        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
           <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
           {{$t('verifyView.p4')}}
         </div>
-        <span>{{$t('ref.refereeCode')}}</span>
-        <input type="text" v-model="newReferee" :placeholder="$t('ref.inputReferee')">
-        <span>{{$t('ref.refDes')}}</span>
-        <button class="flex items-center justify-center c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full w-full max-w-12rem mb-2.3rem text-1rem mt-1.25rem"
+        <span style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
+        <input class="bg-inputBg light:bg-colorF1 gradient-border border-1
+                      h-3.6rem w-full rounded-full
+                      px-1.6rem outline-none text-1.2rem"
+               type="text"
+               v-model="newReferee"
+               :placeholder="$t('ref.inputReferee')">
+        <span style="word-break: break-word">{{$t('ref.refDes')}}</span>
+        <button class="flex items-center justify-center c-text-black gradient-btn
+                       h-3.6rem w-full rounded-full
+                       w-full mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
           {{$t('verifyView.btn2')}}
@@ -58,11 +69,11 @@
       </div>
     </div>
     <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
-               custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg rounded-12px">
-      <div class="w-full gradient-border gradient-border-color3 border-2px rounded-12px">
+               custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg">
+      <div class="w-full gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden">
         <div class="import-box text-center">
           <div class="px-3rem pt-2.3rem pb-1.6rem">
-            <div class="c-text-black text-1.4rem text-white">
+            <div class="c-text-black text-1.4rem text-white light:text-blueDark">
               {{$t('verifyView.p7')}}
             </div>
             <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
@@ -74,12 +85,12 @@
             </div>
             <div class="flex justify-center items-start mt-1.5rem max-w-41rem mx-auto">
               <el-checkbox v-model="checked"  class="c-checkbox"/>
-              <div class="flex-1 text-0.9rem font-bold text-white text-left ml-8px" style="word-break: break-word">
+              <div class="flex-1 text-0.9rem font-bold text-white light:text-blueDark text-left ml-8px" style="word-break: break-word">
                 {{$t('verifyView.p8')}}
               </div>
             </div>
           </div>
-          <div class="bg-black py-1.6rem rounded-b-12px">
+          <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
                     :disabled="!checked"
                     @click="importModal=false;showRegisterModal=true">
