@@ -108,6 +108,12 @@ export const bMapToGMapLocations = async (locations) => {
     })
 }
 
-
+/****************************************  faucet  ***********************************************/
 export const getFaucet = async (address) =>
     get(BACKEND_API_URL + '/faucet/usdt', {address})
+
+export const applyAirdrop = async (twitterId) =>
+    post(BACKEND_API_URL + '/faucet/apply', {twitterId})
+
+export const getDropRecord = async (twitterId) =>
+    get(BACKEND_API_URL + '/faucet/record', {twitterId})

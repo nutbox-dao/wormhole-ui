@@ -35,6 +35,9 @@
           <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
           {{$t('verifyView.p4')}}
         </div>
+        <span>{{$t('ref.refereeCode')}}</span>
+        <input type="text" v-model="newReferee" :placeholder="$t('ref.inputReferee')">
+        <span>{{$t('ref.refDes')}}</span>
         <button class="flex items-center justify-center c-text-black gradient-btn h-2.8rem px-1.5rem mx-auto rounded-full w-full max-w-12rem mb-2.3rem text-1rem mt-1.25rem"
                 @click="attachKeyToServer" :disabled="attachServer">
           <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
@@ -105,13 +108,18 @@ export default {
       type: Object,
       default: {}
     },
+    referee: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
       checked: false,
       attachServer: false,
       showRegisterModal: false,
-      importModal: false
+      importModal: false,
+      newReferee: ''
     }
   },
   methods: {
@@ -121,6 +129,14 @@ export default {
     },
     async attachKeyToServer() {
       try{
+        if (this.newReferee.length > 0) {
+          if (this.newReferee.trim().match(/^[0-9]+$/)) {
+
+          }else {
+            this.showNotify(this.$t('ref.wrongReferee'), 5000, 'error')
+            return;
+          }
+        }
         this.attachServer = true
         const pair = createKeypair()
         const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
@@ -129,7 +145,7 @@ export default {
           pwd,
           publicKey: pair.publicKey
         })
-        this.$emit('send')
+        this.$emit('send', this.newReferee.trim())
       } catch (e) {
         this.showNotify('Pre bind account fail', 5000, 'error')
       } finally {
@@ -138,6 +154,7 @@ export default {
     }
   },
   mounted () {
+    this.newReferee = this.referee
     this.showRegisterModal = false
   },
 }

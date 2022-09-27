@@ -63,6 +63,7 @@
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
                   <!-- <router-link to="/faucet" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faucet')}}</router-link> -->
+                  <div @click="onCopy('https://test.wormhole3.io/#/signup/' + getAccountInfo.twitterId)" v-if="getAccountInfo && getAccountInfo.twitterUsername"  class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
                   <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
                   <div class="flex border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
@@ -99,6 +100,7 @@ import axios from 'axios'
 import { sleep } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
+import { onCopy } from "@/utils/tool";
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { login } from './utils/account';
@@ -179,6 +181,7 @@ export default {
       //   this.$router.push('/')
       // }
     },
+    onCopy,
     onSelectLang(lang) {
       this.$refs.langRef.hide()
       i18n.global.locale = lang

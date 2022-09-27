@@ -24,7 +24,8 @@ export default Vuex.createStore({
     createdCurations: [],
     transactions: [],
     tips: [],
-    vestsToSteem: 1
+    vestsToSteem: 1,
+    referee: '',
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -112,6 +113,9 @@ export default Vuex.createStore({
     },
     saveVestsToSteem: (state, vestsToSteem) => {
       state.vestsToSteem = vestsToSteem
+    },
+    saveReferee: (state, referee) => {
+      state.referee = referee
     }
   },
   modules: {

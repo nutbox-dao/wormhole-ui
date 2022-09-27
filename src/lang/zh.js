@@ -120,6 +120,14 @@ export default {
     connectMetamaskFirst: '请先连接钱包',
     wrongEndTime: '您填写的结束时间已经过期了'
   },
+  ref: {
+    referre: '推荐',
+    refereeCode: '推荐码',
+    inputReferee: "请输入推荐码",
+    refDes: "推荐码由已注册的虫洞用户生成。",
+    wrongReferee: '推荐码错误',
+    copied: "已复制推荐链接"
+  },
   curation: {
     title: '标题',
     inputTitle: '请输入标题',

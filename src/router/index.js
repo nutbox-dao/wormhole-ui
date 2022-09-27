@@ -71,7 +71,7 @@ const routes = [
     component: VerifyView,
   },
   {
-    path: '/signup',
+    path: '/signup/:referee?',
     name: 'signup',
     component: HomeView
   },

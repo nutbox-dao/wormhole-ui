@@ -121,6 +121,14 @@ export default {
     connectMetamaskFirst: 'Connect wallet first',
     wrongEndTime: 'The end time you fill has passed'
   },
+  ref: {
+    referre: 'Referre',
+    refereeCode: 'Referral code',
+    inputReferee: "Input referral code",
+    refDes: "This code is from your referrer who is already a wormhole3 user.",
+    wrongReferee: "Wrong referral code",
+    copied: "Copied referre link!"
+  },
   curation: {
     title: 'Title',
     inputTitle: 'Enter a curation title',
@@ -191,6 +199,7 @@ export default {
     submit: 'Submit',
     confirm: 'Confirm',
     send: 'Send',
+    option: 'Option',
     approve: 'Approve',
     active: 'Active',
     connectMetamask: 'Connect Metamask',
