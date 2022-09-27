@@ -1,6 +1,6 @@
 <template>
   <div class="pb-2rem">
-    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
+    <!-- <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
@@ -13,9 +13,9 @@
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.ETH[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
+    <!-- <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.BNB" v-for="erc20 of Object.keys(erc20Balances.BNB)" :key="erc20 + 'eth'">
       <div class="flex items-center">
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
@@ -28,7 +28,7 @@
       <div class="flex flex-col items-end justify-end">
         <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
-    </div>
+    </div> -->
 
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'eth'">
@@ -36,7 +36,7 @@
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.3rem md:text-1rem light:text-blueDark">{{names[erc20]}}(Polygon)</div>
+          <div class="c-text-black text-1.3rem md:text-1rem light:text-blueDark">{{names[erc20]}}</div>
           <div class="text-color8B light:text-color7D text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
         </div>
       </div>
