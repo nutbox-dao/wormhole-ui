@@ -128,16 +128,19 @@
             </div>
           </div>
         </div>
-        <button class="w-full h-40px 2xl:h-2rem relative mt-0.6rem
+        <div class="relative mt-0.6rem">
+          <button class="w-full h-40px 2xl:h-2rem
                          bg-color84/30 light:bg-color7D
                          text-white rounded-12px border-1 border-color8B/70"
-                         :disabled="receiving">
+                  :disabled="receiving">
             {{$t('airdrop.applyBtn')}}
-            <i v-show="receiving" class="absolute top-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-              <img class="w-2rem" src="~@/assets/loading-points.svg" alt="">
-              </i>
           </button>
-        <!-- max count -->
+          <div v-show="receiving" class="absolute top-0 left-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px">
+            <div class="w-full h-full flex flex-col justify-center items-center">
+              <el-progress class="w-9/10" :percentage="50"  :indeterminate="true" />
+            </div>
+          </div>
+        </div>
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
