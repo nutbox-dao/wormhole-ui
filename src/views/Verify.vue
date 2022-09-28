@@ -42,7 +42,7 @@
         <span style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
         <input class="bg-inputBg light:bg-colorF1 gradient-border border-1
                       h-3.6rem w-full rounded-full
-                      px-1.6rem outline-none text-1.2rem"
+                      px-1.6rem outline-none text-1.2rem mt-0.6rem mb-0.6rem"
                type="text"
                v-model="newReferee"
                :placeholder="$t('ref.inputReferee')">

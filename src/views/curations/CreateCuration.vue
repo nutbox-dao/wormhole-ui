@@ -122,16 +122,15 @@
         <div class="mt-2rem">
           <button class="w-full h-40px 2xl:h-2rem relative
                          bg-color84/30 light:bg-color7D
-                         text-white rounded-12px border-1 border-color8B/70">
-            Receive Test Token
-<!--            loading-->
-<!--            <i class="absolute top-0 bg-black/70 light:bg-white/40 w-full h-full-->
-<!--                      rounded-12px flex justify-center items-center">-->
-<!--              <img class="w-2rem" src="~@/assets/loading-points.svg" alt="">-->
-<!--            </i>-->
+                         text-white rounded-12px border-1 border-color8B/70"
+                         :disabled="receiving">
+            {{$t('airdrop.applyBtn')}}
+            <i v-show="receiving" class="absolute top-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
+              <img class="w-2rem" src="~@/assets/loading-points.svg" alt="">
+              </i>
           </button>
-          <div class="text-12px leading-24px 2xl:(text-0.6rem leading-0.9rem) mt-5px">
-            Description Description Description Description Description Description
+          <div class="text-12px leading-24px 2xl:(text-0.6rem leading-0.9rem) mt-5px" style="white-space: pre-line;">
+            {{$t('airdrop.t1', {address: getAccountInfo.ethAddress})}}
           </div>
         </div>
         <!-- max count -->

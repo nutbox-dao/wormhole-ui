@@ -34,7 +34,7 @@
         {{$t('signInView.p4')}}<br>
         {{$t('signInView.p5')}}<br>
         <div class="mx-auto">
-          <img src="~@/assets/loading.gif" alt="" class="w-25 mx-auto mt-2rem">
+          <img src="~@/assets/profile-loading.gif" alt="" class="w-25 mx-auto mt-2rem">
         </div>
       </div>
     </el-dialog>

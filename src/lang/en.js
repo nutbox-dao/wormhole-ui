@@ -124,10 +124,14 @@ export default {
   ref: {
     referre: 'Referre',
     refereeCode: 'Referral code',
-    inputReferee: "Input referral code",
+    inputReferee: "Input referral code(Optional)",
     refDes: "This code is from your referrer who is already a wormhole3 user.",
     wrongReferee: "Wrong referral code",
     copied: "Copied referre link!"
+  },
+  airdrop: {
+    applyBtn: "Receive Test Token",
+    t1: `very wormhole3 user can get some test coin on Polygon blockchain include 0.2 MATIC(only once per user) and 10 test USDT(This is test coin diffrient with common USDT). \nThe receive process may cost you a long time, please be pationt.\nNotice: the airdrop will send to your web3 id which you registered in wormhole3, the address is: {address}.`
   },
   curation: {
     title: 'Title',
