@@ -30,7 +30,7 @@
                     @click="changeSubIndex(index)">{{tag}}</span>
           </div>
           <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!curationsList || curationsList.length === 0)">
-            <img class="w-10rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
           </div>
           <div v-else-if="curationsList && curationsList.length === 0" class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>

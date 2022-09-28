@@ -95,7 +95,7 @@
       </div>
     </template>
     <div class="c-text-black text-1.8rem mb-3rem" v-else>
-      <img class="w-10rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <van-popup class="c-tip-drawer 2xl:w-2/5" v-model:show="tipDrawer" :position="position">
       <div class="modal-bg w-full md:min-w-560px max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:p-1rem">
@@ -164,7 +164,7 @@
         {{$t('postView.p4')}}<br />
         {{$t('postView.p5')}}<br />
         <div class="mx-auto">
-          <img class="w-10rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
         </div>
       </div>
     </el-dialog>
