@@ -34,9 +34,7 @@ export default {
   },
   methods: {
     prefixInteger(num, length) {
-      var i = (num + "").length; 
-      while(i++ < length) num = "0" + num; 
-      return num; 
+      return num.toString().padStart(length, '0')
     }
   },
 }

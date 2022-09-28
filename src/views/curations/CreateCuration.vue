@@ -134,17 +134,12 @@
                          text-white rounded-12px border-1 border-color8B/70"
                          @click="getTestToken"
                   :disabled="receiving">
-            <span class="absolute z-0 left-0 top-0 h-full bg-primaryColor block" :style="{width: '50%'}"></span>
+            <span class="absolute z-0 left-0 top-0 h-full gradient-bg bradient-bg-color3 block" :style="{width: progress + '%'}"></span>
             <span class="flex justify-center items-center relative">
               {{$t('airdrop.applyBtn')}}
               <c-spinner v-show="receiving" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
             </span>
           </button>
-          <div v-show="receiving" class="absolute top-0 left-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px">
-            <div class="w-full h-full flex flex-col justify-center items-center">
-              <el-progress class="w-9/10" :percentage="progress"  :indeterminate="true" />
-            </div>
-          </div>
         </div>
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
@@ -356,7 +351,8 @@ export default {
       descEditContent: '',
       descRange: null,
       titleRange: null,
-      progress: 0
+      progress: 0,
+      progressing: false
     }
   },
   computed: {
@@ -447,20 +443,45 @@ export default {
     async getTestToken(){
       this.receiving = true
       try{
-        while(this.progress <= 100) {
-          this.progress += 2;
-          await sleep(0.5)
-        }
+        this.updateProgress(0, 20)
         await applyAirdrop(this.getAccountInfo.twitterId)
+        await sleep(5);
+        let record = await getDropRecord(this.getAccountInfo.twitterId);
+        this.updateProgress(20, 40)
+        await sleep(1)
+        this.updateProgress(40, 60)
+        await sleep(7)
+        this.updateProgress(60, 80) 
+        await sleep(3)
       } catch (e) {
-        
+        console.log(920, e);
       } finally {
+        await this.updateProgress(0, 0, true)
         this.receiving = false
         this.progress = 0;
       }
     },
-    async updateProgress() {
-      
+    async updateProgress(start, end, isFinnal) {
+      if (isFinnal) {
+        while(this.progress < 100) {
+          this.progress += 1;
+          await sleep(0.01);
+        }
+      }else {
+        this.progressing = true;
+        await sleep(0.1);
+        this.progressing = false;
+        if (this.progress < start) {
+          while(this.progress < start && !this.progressing) {
+            this.progress += 1;
+            await sleep(0.05);
+          }
+        }
+        while(this.progress < end && !this.progressing) {
+            this.progress += 0.1;
+            await sleep(0.03)
+          }
+      }
     },
     checkCreateData() {
       if (!this.form.title || !this.form.endtime || !this.form.description) {
