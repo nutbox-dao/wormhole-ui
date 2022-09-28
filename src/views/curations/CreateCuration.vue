@@ -124,8 +124,10 @@
           <div class="mb-6px">{{$t('airdrop.testToken')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="mt-0.6rem mb-0.6rem text-color8B light:text-color7D text-12px whitespace-pre-line leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
-              {{$t('airdrop.t1', {address: getAccountInfo.ethAddress})}}
+              {{$t('airdrop.t1')}}
             </div>
+
+            <div class="mb-6px">{{getAccountInfo.ethAddress}}</div>
           </div>
         </div>
         <div class="relative mt-0.6rem">
@@ -305,7 +307,7 @@ import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
 import { newCuration, postErr, applyAirdrop, getDropRecord } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
-import { notify } from "@/utils/notify";
+import { notify, showError } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
 import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
@@ -444,17 +446,71 @@ export default {
       this.receiving = true
       try{
         this.updateProgress(0, 20)
-        await applyAirdrop(this.getAccountInfo.twitterId)
+        // await applyAirdrop(this.getAccountInfo.twitterId)
         await sleep(5);
         let record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
         this.updateProgress(20, 40)
-        await sleep(1)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
         this.updateProgress(40, 60)
-        await sleep(7)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
         this.updateProgress(60, 80) 
-        await sleep(3)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(80, 85)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(85, 90)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(90, 93)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(93, 95)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(95, 97)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        await sleep(3);
+        this.updateProgress(97, 99)
+        record = await getDropRecord(this.getAccountInfo.twitterId);
+        if (record && record.dropped) {
+          return;
+        }
+        // please wait
+        notify({message: this.$t('airdrop.wait'), type: 'info'})
       } catch (e) {
         console.log(920, e);
+        showError(501)
       } finally {
         await this.updateProgress(0, 0, true)
         this.receiving = false

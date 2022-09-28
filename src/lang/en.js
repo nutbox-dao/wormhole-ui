@@ -132,6 +132,7 @@ export default {
   airdrop: {
     testToken: 'Test Token',
     applyBtn: "Receive Test Token",
+    wait: 'Sorry, there are many people in the queue, please try again later',
     t1: `Every wormhole3 user can get some test coin on Polygon blockchain include 0.2 MATIC(only once per user) and 10 test USDT(This is test coin diffrient with common USDT). \nThe receive process may cost you a long time, please be pationt.\nNotice: the airdrop will send to your web3 id which you registered in wormhole3.\nThe address is: {address}.`
   },
   curation: {
