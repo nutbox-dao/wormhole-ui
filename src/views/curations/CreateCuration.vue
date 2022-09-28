@@ -119,8 +119,16 @@
             </div>
           </div>
         </div>
-        <div class="mt-2rem">
-          <button class="w-full h-40px 2xl:h-2rem relative
+        <!-- test token -->
+        <div class="mt-1.8rem">
+          <div class="mb-6px">{{$t('airdrop.testToken')}}</div>
+          <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
+            <div class="mt-0.6rem mb-0.6rem text-color8B light:text-color7D text-12px whitespace-pre-line leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
+              {{$t('airdrop.t1', {address: getAccountInfo.ethAddress})}}
+            </div>
+          </div>
+        </div>
+        <button class="w-full h-40px 2xl:h-2rem relative mt-0.6rem
                          bg-color84/30 light:bg-color7D
                          text-white rounded-12px border-1 border-color8B/70"
                          :disabled="receiving">
@@ -129,10 +137,6 @@
               <img class="w-2rem" src="~@/assets/loading-points.svg" alt="">
               </i>
           </button>
-          <div class="text-12px leading-24px 2xl:(text-0.6rem leading-0.9rem) mt-5px" style="white-space: pre-line;">
-            {{$t('airdrop.t1', {address: getAccountInfo.ethAddress})}}
-          </div>
-        </div>
         <!-- max count -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
