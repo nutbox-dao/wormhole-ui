@@ -44,21 +44,21 @@
                     :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                     @click="changeSubIndex(index)">{{tag}}</span>
             </div>
-            <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+            <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!currentPosts || currentPosts.length === 0)">
+              <img class="w-10rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+            </div>
+            <div v-else-if="!listLoading && currentPosts && currentPosts.length === 0" class="py-3rem bg-blockBg light:bg-transparent rounded-12px">
+              <div class="c-text-black text-zinc-700 light:text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
+              <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
+                {{$t('squareView.p2')}}
+              </div>
+            </div>
+            <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh"
                               :loading-text="$t('common.loading')"
                               :pulling-text="$t('common.pullRefresh')"
                               :loosing-text="$t('common.loosingRefresh')"
             >
-              <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!currentPosts || currentPosts.length === 0)">
-<!--                <img src="~@/assets/profile-loading.gif" alt="" />-->
-              </div>
-              <div v-else-if="!listLoading && currentPosts && currentPosts.length === 0" class="py-3rem bg-blockBg light:bg-transparent rounded-12px">
-                <div class="c-text-black text-zinc-700 light:text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
-                <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-                  {{$t('squareView.p2')}}
-                </div>
-              </div>
-              <div v-else class="" v-for="p of currentPosts" :key="p.postId">
+              <div class="" v-for="p of currentPosts" :key="p.postId">
                 <Blog @click="gotoDetail(p)"
                       :post="p" class="bg-blockBg light:bg-white sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0"/>
               </div>

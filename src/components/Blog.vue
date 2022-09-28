@@ -24,7 +24,7 @@
           <div @click.stop="clickContent"
                 class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B light:text-color46">
             <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
-            <div class="" v-else v-html="formatEmojiText(content)"></div>
+            <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
@@ -220,7 +220,7 @@ export default {
         const info = JSON.parse(this.post.retweetInfo);
         window.open(`https://twitter.com/${info.author.username}/status/${info.id}`)
       } catch (error) {
-        
+
       }
     },
     viewImg(index) {

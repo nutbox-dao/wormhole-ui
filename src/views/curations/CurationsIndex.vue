@@ -29,20 +29,21 @@
                     :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                     @click="changeSubIndex(index)">{{tag}}</span>
           </div>
-          <van-pull-refresh v-model="refreshing"
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!curationsList || curationsList.length === 0)">
+            <img class="w-10rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
+          <div v-else-if="curationsList && curationsList.length === 0" class="py-3rem bg-blockBg light:bg-white rounded-12px">
+            <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
+            <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
+              {{$t('curationsView.p2')}}
+            </div>
+          </div>
+          <van-pull-refresh v-else
+                            v-model="refreshing"
                             @refresh="onRefresh"
                             :loading-text="$t('common.loading')"
                             :pulling-text="$t('common.pullRefresh')"
                             :loosing-text="$t('common.loosingRefresh')">
-            <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!curationsList || curationsList.length === 0)">
-<!--              <img src="~@/assets/profile-loading.gif" alt="" />-->
-            </div>
-            <div v-else-if="curationsList && curationsList.length === 0" class="py-3rem bg-blockBg light:bg-white rounded-12px">
-              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
-              <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-                {{$t('curationsView.p2')}}
-              </div>
-            </div>
             <CurationItem v-for="curation of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
                           :curation="curation"
