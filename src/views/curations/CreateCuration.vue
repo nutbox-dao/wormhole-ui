@@ -132,12 +132,13 @@
           <button class="w-full h-40px 2xl:h-2rem
                          bg-color84/30 light:bg-color7D
                          text-white rounded-12px border-1 border-color8B/70"
+                         @click="getTestToken"
                   :disabled="receiving">
             {{$t('airdrop.applyBtn')}}
           </button>
           <div v-show="receiving" class="absolute top-0 left-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px">
             <div class="w-full h-full flex flex-col justify-center items-center">
-              <el-progress class="w-9/10" :percentage="50"  :indeterminate="true" />
+              <el-progress class="w-9/10" :percentage="progress"  :indeterminate="true" />
             </div>
           </div>
         </div>
@@ -303,7 +304,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration, postErr } from '@/api/api'
+import { newCuration, postErr, applyAirdrop, getDropRecord } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
 import { notify } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
@@ -311,6 +312,7 @@ import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
 import { CHAIN_ID, ERC20List } from "@/config";
 import { ethers } from 'ethers'
+import { sleep } from '@/utils/helper'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
@@ -325,6 +327,7 @@ export default {
       currentStep: 1,
       connectLoading: false,
       loading: false,
+      receiving: false,
       form: {
         title: '',
         endtime: '',
@@ -348,7 +351,8 @@ export default {
       ],
       descEditContent: '',
       descRange: null,
-      titleRange: null
+      titleRange: null,
+      progress: 0
     }
   },
   computed: {
@@ -435,6 +439,24 @@ export default {
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
+    },
+    async getTestToken(){
+      this.receiving = true
+      try{
+        while(this.progress <= 100) {
+          this.progress += 2;
+          await sleep(0.5)
+        }
+        await applyAirdrop(this.getAccountInfo.twitterId)
+      } catch (e) {
+        
+      } finally {
+        this.receiving = false
+        this.progress = 0;
+      }
+    },
+    async updateProgress() {
+      
     },
     checkCreateData() {
       if (!this.form.title || !this.form.endtime || !this.form.description) {
