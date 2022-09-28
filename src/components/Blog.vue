@@ -165,7 +165,7 @@ export default {
     },
     content() {
       let content = this.post.content.replace(this.reg, '');
-      content = content.replace('\n', '</br>')
+      // content = content.replace('\n', '</br>')
       for (let url of this.urls){
         content = content.replace(url, `<span
                 data-url="${url}"
