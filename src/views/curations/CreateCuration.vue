@@ -129,17 +129,16 @@
           </div>
         </div>
         <div class="relative mt-0.6rem">
-          <button class="w-full h-40px 2xl:h-2rem
+          <button class="w-full h-40px 2xl:h-2rem relative overflow-hidden
                          bg-color84/30 light:bg-color7D
                          text-white rounded-12px border-1 border-color8B/70"
                   :disabled="receiving">
-            {{$t('airdrop.applyBtn')}}
+            <span class="absolute z-0 left-0 top-0 h-full bg-primaryColor block" :style="{width: '50%'}"></span>
+            <span class="flex justify-center items-center relative">
+              {{$t('airdrop.applyBtn')}}
+              <c-spinner v-show="receiving" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
+            </span>
           </button>
-          <div v-show="receiving" class="absolute top-0 left-0 bg-black/70 light:bg-white/40 w-full h-full rounded-12px">
-            <div class="w-full h-full flex flex-col justify-center items-center">
-              <el-progress class="w-9/10" :percentage="50"  :indeterminate="true" />
-            </div>
-          </div>
         </div>
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
@@ -594,6 +593,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.receive-btn {
+  background-image: linear-gradient(to right, var(--primary-custom), var(--primary-custom));
+  background-repeat: no-repeat;
+}
 </style>
