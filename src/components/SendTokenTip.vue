@@ -2,7 +2,7 @@
   <div>
     <div class="c-text-black text-1.6rem">{{$t('curation.create')}}</div>
     <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
-      {{$t('curation.createTip', {rewards: tokenInfo, amount})}}
+      {{$t('curation.createTip', {rewards:  this.amount + ' ' + this.token.symbol})}}
     </div>
     <button v-if="!approvement" class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
             @click="approve"
