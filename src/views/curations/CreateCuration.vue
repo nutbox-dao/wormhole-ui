@@ -227,7 +227,7 @@
                         </div>
                       </div>
                       <div v-for="token of tokenList" :key="token.address"
-                            @click="selectedToken=token;$refs.elPopover.hide()"
+                            @click="updateSelectBalance(token);selectedToken=token;$refs.elPopover.hide()"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                         <img class="h-34px mr-15px rounded-full" :src="token.icon" alt="">
@@ -247,8 +247,8 @@
         </div>
         <div class="mt-1.8rem w-full h-1px bg-color8B/30"></div>
         <div class="mt-1.8rem text-right font-400">
-          <div>{{$t('curation.totalAmount')}} ({{selectedToken.symbol}})</div>
-          <div class="mt-0.6rem text-24px 2xl:text-1.2rem">{{ form.amount }}</div>
+          <div>{{$t('common.balance')}} ({{selectedToken.symbol}})</div>
+          <div class="mt-0.6rem text-24px 2xl:text-1.2rem">{{ formatAmount(selectBalance) }}</div>
         </div>
         <!-- submit -->
         <div class="mt-1.8rem flex justify-between text-15px">
@@ -290,7 +290,8 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
-                     :token="{amount: form.amount, symbol: selectedToken.symbol, address: selectedToken.address}"
+                     :token="selectedToken"
+                     :amount="form.amount"
                      @createCuration="createCuration"
                      @confirmComplete="onComplete"
                      @close="modalVisible=false"></component>
@@ -313,7 +314,7 @@ import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
 import { CHAIN_ID, ERC20List } from "@/config";
 import { ethers } from 'ethers'
-import { sleep } from '@/utils/helper'
+import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
@@ -354,7 +355,8 @@ export default {
       descRange: null,
       titleRange: null,
       progress: 0,
-      progressing: false
+      progressing: false,
+      selectBalance: 0
     }
   },
   computed: {
@@ -367,8 +369,14 @@ export default {
       return false
     },
   },
+  watch: {
+    account(newValue, oldValue) {
+      this.updateSelectBalance(this.selectedToken, newValue)
+    }
+  },
   methods: {
     formatEmojiText,
+    formatAmount,
     selectEmoji(e, type) {
       const newNode = document.createElement('img')
       newNode.alt = e.i
@@ -517,6 +525,7 @@ export default {
         showError(501)
       } finally {
         await this.updateProgress(0, 0, true)
+        await this.updateSelectBalance(this.selectedToken)
         this.receiving = false
         this.progress = 0;
       }
@@ -592,6 +601,11 @@ export default {
       }
       const res = await getTokenInfo(this.form.token)
       this.customToken = {...res, address: this.form.token}
+      this.updateSelectBalance(this.customToken)
+    },
+    async updateSelectBalance(token) {
+      this.selectBalance = await getERC20TokenBalance(token.address, this.account)
+      
     },
     checkRewardData() {
       if (!this.account || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
@@ -697,6 +711,7 @@ export default {
     }else {
       this.selectedToken = this.tokenList[0]
     }
+    this.updateSelectBalance(this.selectedToken)
   },
 }
 </script>

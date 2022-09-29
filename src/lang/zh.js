@@ -213,6 +213,7 @@ export default {
     loading: '加载中...',
     serverError: '服务端错误',
     get: '获取',
+    balance: '余额',
     registerNow: '现在注册',
     whatsSteem: 'Steem是一条基于社区的公链，并为内容创造者提供了公平的收益权'
   }

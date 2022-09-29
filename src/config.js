@@ -7,8 +7,8 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-// export const BACKEND_API_URL = 'http://localhost:3100'
+// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+export const BACKEND_API_URL = 'http://localhost:3100'
 
 // bsc net
 // export const RPC_NODE = 'https://bsc-dataseed.binance.org'
@@ -195,11 +195,11 @@ export const EVM_CHAINS = {
   };
 
 // reputation NFT configs
-export const REPUTATION_NFT = '0xBbCf128A39c0cA8a6355F3cD1EF75aaa657B16B2'
+export const REPUTATION_NFT = '0x383870Ae4E834155192cEce2fb5B0528CE0790E9'
 export const REPUTATION_NFT_RPC = RPC_NODE
 export const REPUTATION_NFT_ID = 1;
 
-export const CURATION_CONTRACT = '0xBD9A7D0abAB3FfB42685CC0F73c2C2Ac1a59b74B'
+export const CURATION_CONTRACT = '0x89c6b801802bcD16ddCe515933753405eBCbed86'
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,
