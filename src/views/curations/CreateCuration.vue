@@ -278,7 +278,7 @@
       </div>
     </div>
     <!-- create curation modal -->
-    <van-popup class="c-tip-drawer 2xl:w-2/5"
+    <van-popup v-if="modalVisible" class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :close-on-click-overlay="false"
                :position="position">

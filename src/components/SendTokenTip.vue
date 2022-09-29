@@ -70,7 +70,6 @@ export default {
       this.approvement = res
     })
   },
-
 }
 </script>
 
