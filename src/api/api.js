@@ -1,6 +1,7 @@
 import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 import curation from "@/store/curation"
+import { sleep } from "@/utils/helper"
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
@@ -115,5 +116,11 @@ export const getFaucet = async (address) =>
 export const applyAirdrop = async (twitterId) =>
     post(BACKEND_API_URL + '/faucet/apply', {twitterId})
 
-export const getDropRecord = async (twitterId) =>
-    get(BACKEND_API_URL + '/faucet/record', {twitterId})
+export const getDropRecord = async (twitterId) => 
+{
+    await sleep(2)
+    return {
+        dropped: false
+    }
+}
+    // get(BACKEND_API_URL + '/faucet/record', {twitterId})
