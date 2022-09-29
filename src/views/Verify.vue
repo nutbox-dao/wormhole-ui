@@ -30,7 +30,7 @@
           </div>
         </div> -->
         <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-                @click="importModal = true">
+          @click="importModal=true">
           {{$t('verifyView.btn1')}}
         </button>
       </div>
@@ -50,8 +50,7 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                        h-3.6rem w-full rounded-full
                        w-full mb-2.3rem text-1rem mt-1.25rem"
-                @click="attachKeyToServer" :disabled="attachServer">
-          <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachServer"></c-spinner>
+                @click="send">
           {{$t('verifyView.btn2')}}
         </button>
 
@@ -92,9 +91,9 @@
           </div>
           <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
-                    :disabled="!checked"
-                    @click="importModal=false;showRegisterModal=true">
+                    @click="attachKeyToServer" :disabled="!checked || attachingServer">
               {{$t('verifyView.btn3')}}
+              <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachingServer"></c-spinner>
             </button>
           </div>
         </div>
@@ -111,6 +110,7 @@ import { SendPwdServerPubKey } from '@/config'
 import { notify } from "@/utils/notify";
 import { onCopy } from "@/utils/tool";
 import { generateSteemAuth } from '@/utils/steem'
+import { sleep } from '@/utils/helper'
 
 export default {
   name: "Verify",
@@ -127,7 +127,7 @@ export default {
   data() {
     return {
       checked: false,
-      attachServer: false,
+      attachingServer: false,
       showRegisterModal: false,
       importModal: false,
       newReferee: ''
@@ -140,6 +140,25 @@ export default {
     },
     async attachKeyToServer() {
       try{
+        this.attachingServer = true
+        const pair = createKeypair()
+        const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
+        await cacheKey({
+          ethAddress: this.ethAccount.ethAddress,
+          pwd,
+          publicKey: pair.publicKey
+        })
+        this.importModal=false;
+        this.showRegisterModal=true
+      } catch (e) {
+        console.log(25, e);
+        this.showNotify('Pre bind account fail', 5000, 'error')
+      } finally {
+        this.attachingServer = false
+      }
+    },
+    async send() {
+      try{
         if (this.newReferee.length > 0) {
           if (this.newReferee.trim().match(/^[0-9]+$/)) {
 
@@ -148,24 +167,15 @@ export default {
             return;
           }
         }
-        this.attachServer = true
-        const pair = createKeypair()
-        const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
-        await cacheKey({
-          ethAddress: this.ethAccount.ethAddress,
-          pwd,
-          publicKey: pair.publicKey
-        })
         this.$emit('send', this.newReferee.trim())
       } catch (e) {
-        this.showNotify('Pre bind account fail', 5000, 'error')
+       
       } finally {
-        this.attachServer = false
       }
     }
   },
   mounted () {
-    this.newReferee = this.referee
+    this.newReferee = this.referee ?? ''
     this.showRegisterModal = false
   },
 }
