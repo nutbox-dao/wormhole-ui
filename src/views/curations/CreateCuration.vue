@@ -444,7 +444,11 @@ export default {
       this.receiving = true
       try{
         this.updateProgress(0, 20)
-        await applyAirdrop(this.getAccountInfo.twitterId)
+        const res = await applyAirdrop(this.getAccountInfo.twitterId)
+        if (!res || res.code !== 0) {
+
+          return;
+        }
         await sleep(5);
         let record = await getDropRecord(this.getAccountInfo.twitterId);
         this.updateProgress(20, 40)
