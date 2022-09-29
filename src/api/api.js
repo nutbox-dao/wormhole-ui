@@ -117,10 +117,4 @@ export const applyAirdrop = async (twitterId) =>
     post(BACKEND_API_URL + '/faucet/apply', {twitterId})
 
 export const getDropRecord = async (twitterId) => 
-{
-    await sleep(2)
-    return {
-        dropped: false
-    }
-}
-    // get(BACKEND_API_URL + '/faucet/record', {twitterId})
+    get(BACKEND_API_URL + '/faucet/record', {twitterId})

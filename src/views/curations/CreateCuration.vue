@@ -127,7 +127,7 @@
               {{$t('airdrop.t1')}}
             </div>
 
-            <div class="mb-6px">{{getAccountInfo.ethAddress}}</div>
+            <div class="mb-6px" :class="account == getAccountInfo.ethAddress ? '' : 'text-red-500'">{{getAccountInfo.ethAddress}}</div>
           </div>
         </div>
         <div class="relative mt-0.6rem">
@@ -448,7 +448,7 @@ export default {
         this.updateProgress(0, 20)
         const res = await applyAirdrop(this.getAccountInfo.twitterId)
         if (!res || res.code !== 0) {
-
+          notify({message:this.$t('airdrop.wrongId')})
           return;
         }
         await sleep(5);
