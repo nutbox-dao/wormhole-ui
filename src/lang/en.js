@@ -58,14 +58,16 @@ export default {
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{@steem_account}\'} with a steem username.',
     tweetTip: 'Tweet action tips',
-    tip1: '1. Transfer STEEM/SBD to a steem account',
-    tip2: '2. Add a post to web3',
+    tip1: '1. Add a post to web3',
+    tip2: '2. Tip STEEM/SBD to a twitter account',
+    tip3: "3. Transfer STEEM/SBD to a steem account",
     p4: 'Your account is in the process of registration',
     p5: 'Please wait for a moment',
     p6: 'You havn\'t send twitter yet',
     p7: 'You havn\'t post any content to wormhole3, Please try to start from Twitter by wormhole3.',
     p8: 'This service is still in Beta. Please be careful and do not deposit anything more than you can lose.\n' +
-      '              By depositing into this account, you are agreeing to our terms of service.'
+      '              By depositing into this account, you are agreeing to our terms of service.',
+    p9: 'You can replace {\'{@twitter_account}\'} with a twitter username.'
   },
   profileView: {
     socialAsset: 'Social assets',
