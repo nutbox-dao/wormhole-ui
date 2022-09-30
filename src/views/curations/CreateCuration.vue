@@ -462,61 +462,28 @@ export default {
         await sleep(5);
         let record = await getDropRecord(this.getAccountInfo.twitterId);
         if (record && record.dropped) {
+          notify({message: this.$t('airdrop.received'), type:'success'})
           return;
         }
-        await sleep(3);
-        this.updateProgress(20, 40)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(40, 60)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(60, 80) 
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(80, 85)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(85, 90)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(90, 93)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(93, 95)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(95, 97)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
-        }
-        await sleep(3);
-        this.updateProgress(97, 99)
-        record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          return;
+        const step = [
+          [20, 40],
+          [40, 60],
+          [60, 80],
+          [80, 85],
+          [85, 90],
+          [90, 93],
+          [93, 95],
+          [95, 97],
+          [97, 99]
+        ]
+        for (let s of step) {
+          await sleep(3);
+          this.updateProgress(s[0], s[1])
+          record = await getDropRecord(this.getAccountInfo.twitterId);
+          if (record && record.dropped) {
+            notify({message: this.$t('airdrop.received'), type:'success'})
+            return;
+          }
         }
         // please wait
         notify({message: this.$t('airdrop.wait'), type: 'info'})
