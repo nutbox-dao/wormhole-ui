@@ -12,7 +12,7 @@
           <template #default>
             <div class="gradient-border border-1 gradient-border-color3 rounded-8px
                         flex items-center justify-center py-14px cursor-pointer"
-                 @click="$refs.copyUrlPopper.hide(), onCopy('https://test.wormhole3.io/#/curation-detail/' + detailCuration.curationId)">
+                 @click="$refs.copyUrlPopper.hide(), onCopy('https://alpha.wormhole3.io/#/curation-detail/' + detailCuration.curationId)">
               <i class="icon-copy w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"></i>
               <span class="text-15px 2xl:text-0.75rem leading-22px 2xl:leading-1.1rem font-600">
                 {{$t('curationsView.shareCuration')}}
