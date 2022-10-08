@@ -124,12 +124,12 @@ export default {
     wrongEndTime: 'The end time you fill has passed'
   },
   ref: {
-    referre: 'Referre',
+    referre: 'Referrer',
     refereeCode: 'Referral code',
     inputReferee: "Input referral code(Optional)",
     refDes: "This code is from your referrer who is already a wormhole3 user.",
     wrongReferee: "Wrong referral code",
-    copied: "Copied referre link!"
+    copied: "Copied referrer link!"
   },
   airdrop: {
     testToken: 'Test Token',
