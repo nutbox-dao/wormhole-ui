@@ -140,7 +140,7 @@
               <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button
-              @click="gotoSend"
+              @click="gotoTip"
               class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
                 2xl:h-2.2rem text-12px 2xl:text-0.9rem h-28px px-1rem absolute bottom-1rem right-1rem">
               <img
@@ -164,7 +164,7 @@
               <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button
-              @click="gotoTip" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
+              @click="gotoSend" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
                 2xl:h-2.2rem text-12px 2xl:text-0.9rem h-28px px-1rem absolute bottom-1rem right-1rem">
               <img
                 class="w-1rem h-1rem mr-0.4rem"

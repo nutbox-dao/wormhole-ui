@@ -68,7 +68,7 @@ export default {
     },
     sendTwitter(referee) {
       this.$store.commit('saveEthAddress', this.ethAddress)
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress + (referee.length > 0 ? ` ${referee}` : '') + '%0a(Powerd by https://test.wormhole3.io)', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress + (referee.length > 0 ? ` ${referee}` : '') + '%0a(Powerd by https://alpha.wormhole3.io)', '__blank')
     },
   },
   async mounted() {
