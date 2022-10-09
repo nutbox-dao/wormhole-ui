@@ -31,7 +31,7 @@
     </div> -->
 
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
-         v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
+         v-if="!getAccountInfo.isPending && erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
       <div class="flex items-center">
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
@@ -134,7 +134,6 @@ export default {
     }
   },
   async mounted () {
-    this.monitor = setInterval(() => {
       if (this.getAccountInfo) {
         const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo
 
@@ -154,11 +153,7 @@ export default {
           getTokenBalance(ethAddress)
         }
       }
-    }, 15000)
-  },
-  beforeDestroy () {
-     window.clearInterval(this.monitor);
-  },
+  }
 }
 </script>
 

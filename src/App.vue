@@ -170,7 +170,8 @@ export default {
         usdt: 1,
         usdc: 1,
         busd: 1,
-        't-usdt': 0
+        't-usdt': 0,
+        'test-u': 0
       }
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)

@@ -55,7 +55,7 @@
             <div class="text-right mt-1rem c-text-medium text-0.6rem">
               <a v-if="selectIndex === 0 ? item.sendResult===0 : item.tipResult === 0"
                  class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem light:(text-blueDark bg-colorF2 border-colorE3 text-color7D)"
-                 :href="chains[item.chainName].scan+'tx/'+item.hash" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
+                 :href="chains[item.chainName] ? chains[item.chainName].scan : '' +'tx/'+item.hash" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
               <el-tooltip v-else-if="item.sendStatus!==0">
                 <template #content>{{failResult(item)}}</template>
                 <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">{{$t('transactionView.fail')}}</button>

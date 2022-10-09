@@ -50,10 +50,24 @@
                   @load="onLoad">
 
           <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg rounded-12px">
-            <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
-            <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-              {{$t('postView.p7')}}
+            <div v-if="getAccountInfo && getAccountInfo.isPending">
+              <div class="text-zinc-400 text-0.8rem leading-1.4rem">
+                {{$t('postView.p10')}}
+              </div>
+              <div class="flex items-center justify-center mt-2rem">
+                <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                    rounded-full mt-0.5rem c-text-bold bottom-2rem left-1/2 transform-translate-x-1/2 z-2 w-8rem"
+                    @click="$router.push('/signup')">
+                    {{$t('common.active')}}
+                </button>
+              </div>
             </div>
+            <template v-else>
+              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
+              <div class="text-zinc-400 text-0.8rem leading-1.4rem">
+                {{$t('postView.p7')}}
+              </div>
+            </template>
           </div>
           <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">

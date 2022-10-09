@@ -651,10 +651,10 @@ export default {
     onPost() {
       // transfer text to uri
       const content = this.curation.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + this.curation.curationId
-      if (content.length > 280) {
-        notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
-        return;
-      }
+      // if (content.length > 280) {
+      //   notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
+      //   return;
+      // }
 
       let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
       window.open(url, '__blank')

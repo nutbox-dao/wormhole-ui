@@ -67,7 +67,8 @@ export default {
     p7: 'You havn\'t post any content to wormhole3, Please try to start from Twitter by wormhole3.',
     p8: 'This service is still in Beta. Please be careful and do not deposit anything more than you can lose.\n' +
       '              By depositing into this account, you are agreeing to our terms of service.',
-    p9: 'You can replace {\'{@twitter_account}\'} with a twitter username.'
+    p9: 'You can replace {\'{@twitter_account}\'} with a twitter username.',
+    p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets."
   },
   profileView: {
     socialAsset: 'Social assets',
@@ -169,7 +170,7 @@ export default {
     crateFail: "Create curation fail",
     createdOk: 'Create Curation Success!',
     startCuration: 'Tweet and start curation',
-    moreDetail: 'more details',
+    moreDetail: 'FYI',
     ongoing: 'Ongoing',
     end: "Ended",
     complete: 'Complete',

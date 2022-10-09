@@ -235,7 +235,7 @@ export default {
     ]),
     ...mapGetters(["getAccountInfo"]),
     totalValue() {
-      if (this.erc20Balances && this.erc20Balances.MATIC) {
+      if (this.steemBalance) {
         let t = 0;
         // eth
         //  t += this.erc20Balances['ETH'].ETH * this.prices['eth']
@@ -250,9 +250,11 @@ export default {
         //   t += this.erc20Balances.BNB[erc20] * this.prices[erc20.toLowerCase()];
         // }
         //  // polygon
-        for (let erc20 in this.erc20Balances["MATIC"]) {
-          t +=
-            this.erc20Balances.MATIC[erc20] * (this.prices[erc20.toLowerCase()] ?? 0);
+        if(!this.getAccountInfo.isPending) {
+          for (let erc20 in this.erc20Balances["MATIC"]) {
+            t +=
+              this.erc20Balances.MATIC[erc20] * (this.prices[erc20.toLowerCase()] ?? 0);
+          }
         }
         return formatPrice(t);
       }
@@ -377,7 +379,6 @@ export default {
       } else {
         this.$store.commit("saveSteemBalance", steemAmount ?? 0);
       }
-
 
       //get eth balances
       if (ethAddress) {
