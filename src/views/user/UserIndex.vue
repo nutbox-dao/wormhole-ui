@@ -161,7 +161,7 @@
           <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-primaryColor light:text-color62">@wormhole_3 !send </span>
-              <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
+              <span class="text-color8F">{0.5 STEEM} to {wormhole3}</span>
             </div>
             <button
               @click="gotoSend" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
