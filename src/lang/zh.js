@@ -56,7 +56,7 @@ export default {
     goTweet: '去发推',
     tips: '提示',
     p2: '将 {\'{***}\'} 替换成您的发布内容。',
-    p3: '将 {\'{@steem_account}\'} 替换成真实的Steem账号',
+    p3: '将 {\'{wormhole3}\'} 替换成真实的Steem账号',
     tweetTip: '推特小贴士',
     tip1: '1. 发布内容到区块链。',
     tip2: '2. 将 STEEM/SBD 打赏给其他Twitter账号。',
@@ -66,7 +66,7 @@ export default {
     p6: '您还没有发推',
     p7: '您还没有发布任何内容到虫洞，请尝试开启您的web3之旅吧。',
     p8: '该服务仍在测试阶段，请不要转入不能承受的损失的金额到账户中',
-    p9: '将 {\'{@twitter_account}\'} 替换成真实的Twitter账号',
+    p9: '将 {\'{@vitalik}\'} 替换成真实的Twitter账号',
     p10: '您还没有注册虫洞账号，请激活虫洞账号，以获取属于您的加密资产。'
   },
   profileView: {
