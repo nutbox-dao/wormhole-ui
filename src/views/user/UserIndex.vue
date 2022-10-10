@@ -250,7 +250,7 @@ export default {
         //   t += this.erc20Balances.BNB[erc20] * this.prices[erc20.toLowerCase()];
         // }
         //  // polygon
-        if(!this.getAccountInfo.isPending) {
+        if(this.getAccountInfo && !this.getAccountInfo.isPending) {
           for (let erc20 in this.erc20Balances["MATIC"]) {
             t +=
               this.erc20Balances.MATIC[erc20] * (this.prices[erc20.toLowerCase()] ?? 0);

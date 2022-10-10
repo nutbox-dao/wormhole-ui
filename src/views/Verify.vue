@@ -39,14 +39,14 @@
           <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
           {{$t('verifyView.p4')}}
         </div>
-        <span style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
-        <input class="bg-inputBg light:bg-colorF1 gradient-border border-1
+        <span v-show="false" style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
+        <input v-show="false" class="bg-inputBg light:bg-colorF1 gradient-border border-1
                       h-3.6rem w-full rounded-full
                       px-1.6rem outline-none text-1.2rem mt-0.6rem mb-0.6rem"
                type="text"
                v-model="newReferee"
                :placeholder="$t('ref.inputReferee')">
-        <span style="word-break: break-word">{{$t('ref.refDes')}}</span>
+        <span v-show="false" style="word-break: break-word">{{$t('ref.refDes')}}</span>
         <button class="flex items-center justify-center c-text-black gradient-btn
                        h-3.6rem w-full rounded-full
                        w-full mb-2.3rem text-1rem mt-1.25rem"
