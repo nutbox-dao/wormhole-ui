@@ -8,15 +8,26 @@
 <!--      </div>-->
 <!--    </div>-->
     <div>
-      <div v-if="reputation > 0" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-           @click="modalVisible=true">
-        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-             src="~@/assets/icon-nft.svg" alt="">
-        <div class="text-left ml-1rem">
-          <div class="c-text-black text-1rem light:text-blueDark">Twitter Reputation NFT</div>
-          <div class="text-color8B light:text-color7D text-0.8rem mt-0.5rem">from @wormhole3 official</div>
+      <template  v-if="reputation > 0 || showingStellarTreks.length > 0">
+        <div class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+            @click="modalVisible=true">
+          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              src="~@/assets/icon-nft.svg" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1rem light:text-blueDark">Twitter Reputation NFT</div>
+            <div class="text-color8B light:text-color7D text-0.8rem mt-0.5rem">from @wormhole3 official</div>
+          </div>
         </div>
-      </div>
+        <div v-for="st of showingStellarTreks" :key="st.name" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+            @click="showTrek(st.image)">
+          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              :src="st.image" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1rem light:text-blueDark">{{st.name}}</div>
+            <div class="text-color8B light:text-color7D text-0.8rem mt-0.5rem">{{st.description}}</div>
+          </div>
+        </div>
+      </template>
       <div class="mt-2rem" v-else>
         <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
@@ -25,11 +36,17 @@
                custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
+    <el-dialog v-model="showTrekImage" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <img :src="showingTrekImage" alt="">
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
+import { STELLAR_TREK_NFT } from '@/config'
+import { getStellarTreks } from '@/utils/asset'
+
 export default {
   name: "NFT",
   components: {GetNft},
@@ -50,8 +67,30 @@ export default {
   data() {
     return {
       dataList: [],
-      modalVisible: false
+      modalVisible: false,
+      showingStellarTreks: [],
+      showingTrekImage: '',
+      showTrekImage: false
     }
+  },
+  methods: {
+    showTrek(url) {
+      this.showingTrekImage = url
+      this.showTrekImage = true
+    }
+  },
+  mounted () {
+    getStellarTreks(this.accountInfo?.ethAddress).then(res => {
+      let sts = []
+      if (res && Object.keys(res).length > 0) {
+        for (let id in res) {
+          sts.push(STELLAR_TREK_NFT[id])
+        }
+      }
+      this.showingStellarTreks = sts
+    }).catch(e => {
+      console.log(3908, e);
+    })
   }
 }
 </script>

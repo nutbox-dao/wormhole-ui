@@ -102,6 +102,8 @@ export default {
           this.$store.commit('savePosts', [])
           this.$store.commit('saveTransactions', [])
           this.$store.commit('saveTips', [])
+          this.$store.commit('saveERC20Balances', {})
+          this.$store.commit('saveStellarTreks', {})
           this.$router.push('/profile/' + this.username + '/post')
         }
       } catch (e) {

@@ -77,6 +77,7 @@ export default {
     this.$store.commit('saveTransactions', [])
     this.$store.commit('saveTips', [])
     this.$store.commit('saveERC20Balances', {})
+    this.$store.commit('saveStellarTreks', {})
     const referee = this.$route.params
     if (referee.referee && referee.referee.length > 0) {
       this.referee = referee.referee

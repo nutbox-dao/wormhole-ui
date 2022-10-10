@@ -1,5 +1,5 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS } from "@/config";
+import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT } from "@/config";
 import store from '@/store'
 import { ethers } from 'ethers'
 import { getEthWeb } from "./web3/web3";
@@ -203,4 +203,31 @@ export async function approve(token, account, spender) {
 
     const tx = await contract.approve(spender, ethers.constants.MaxUint256);
     await waitForTx(provider, tx.hash)
+}
+
+export async function getStellarTreks(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let ids = [21,22,23,24,25,26]
+    let call = ids.map(id => ({
+        target: REPUTATION_NFT,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            address,
+            id
+        ],
+        returns: [
+            [id-21, val => parseInt(val)]
+        ]
+    }));
+    const res = await aggregate(call, Multi_Config);
+    const infos = res.results.transformed;
+    let balances = {}
+    for (let b in infos) {
+        if (infos[b] > 0) {
+            balances[b] = infos[b]
+        }
+    }
+    return balances
 }

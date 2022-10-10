@@ -215,3 +215,36 @@ export const IgnoreAuthor = [
     'greattranslatcn',
     'democretard'
 ]
+
+export const STELLAR_TREK_NFT = [
+    {
+        name: "Tweet on chain",
+        description: "Tweet with #iweb3, #StellarTrek and #postonchain hashtags; Go to the Wormhole3 square page and screenshot this linked post and tweet again with @Wormhole3.",
+        image: "https://gateway.nutbox.app/ipfs/QmcuJyKGuSfSh7SQgKhvympxUPQmix4mwKzymBJ68w21Su"
+    },
+    {
+        name: "Tip on Twitter",
+        description: "Tip your friends who have also registered Wormhole3 with a tweet with the hashtags #iweb3 #StellarTrek and #Wormhole3Tips",
+        image: "https://gateway.nutbox.app/ipfs/QmXJ7PA1QoY4tVNEwSAQ24sgB9t8y4yAZd7y1q2rGMYTFd"
+    },
+    {
+        name: "Show off your Twitter Reputation NFT",
+        description: "After successfully registering Wormhole3，view your Wormhole3 Twitter Reputation NFT and post a screenshot of @wormhole3 with the hashtag #iweb3 #StellarTrek and #Wormhole3NFT",
+        image: "https://gateway.nutbox.app/ipfs/Qme5HKeFGq2FshSUcp2EpmjE154tfrGdWciXydK98oMQ67"
+    },
+    {
+        name: "Get upvotes",
+        description: "Send a tweet that you think is awesome and ask your friends to like it with @wormhole3. Wormhole3 officials will like it in turn, and you can check the revenue from the likes on Wormhole3's page. Tweet a screenshot of the revenue from the tweet with the hashtag #iweb3 #StellarTrek#getupvotes",
+        image: "https://gateway.nutbox.app/ipfs/QmYtYPSuFBFfHsR9AejQfRDbRDCeebkaEagEVG4r3Drwvj"
+    },
+    {
+        name: "Tagverse",
+        description: "Every Stellar Treker can build your own or desired hashtag to build your on-chain community. Create your own hashtag and tweet it as #tag [explanation of tag] @Wormhole3 with the hashtag #iweb3 #StellarTrek #tagverse",
+        image: "https://gateway.nutbox.app/ipfs/QmVgNBvePgRzyBN91zDBnA3JNWqPqrHQ5L9spnswLjyP7j"
+    },
+    {
+        name: "Show off your assets",
+        description: "After the user participated in some StellarTrek activities and project side ecological activities, he/she got some NFTS and tokens, and tweeted the FT and NFT assets with the hashtag #iweb3 #StellarTrek#Wormhole3Assets",
+        image: "https://gateway.nutbox.app/ipfs/QmY2Zu8zNWyCQqwKTRwysnRYjinuimv7vaUyiF5V7L4jfZ"
+    }
+]
