@@ -89,11 +89,11 @@
               </div>
             </div>
           </div>
-          <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px">
-            <button class="gradient-btn gradient-btn-purple h-2.7rem w-12rem rounded-full"
+          <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px flex justify-center items-center">
+            <button class="gradient-btn gradient-btn-purple h-2.7rem w-14rem rounded-full flex justify-center items-center"
                     @click="attachKeyToServer" :disabled="!checked || attachingServer">
               {{$t('verifyView.btn3')}}
-              <c-spinner class="w-2.4rem h-2.4rem ml-1rem" v-show="attachingServer"></c-spinner>
+              <c-spinner class="w-1.6rem h-1.6rem ml-1rem" v-show="attachingServer"></c-spinner>
             </button>
           </div>
         </div>
