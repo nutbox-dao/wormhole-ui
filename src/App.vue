@@ -167,6 +167,7 @@ export default {
         steem: res[3],
         uni: res[4],
         matic: res[5],
+        wmatic: res[5],
         usdt: 1,
         usdc: 1,
         busd: 1,

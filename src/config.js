@@ -62,9 +62,10 @@ export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
 
 // polygon
 export const ERC20List = [
-    {symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
+    {symbol: 'WMATIC', name: 'Wrapped Matic', address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'},
     {symbol: 'USDT', name: 'Tether USD', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6, icon: 'https://cdn.wherein.mobi/wormhole3/logo/usdt.png'},
     {symbol: 'USDC', name: 'USD Coin', address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+    {symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
     // {symbol: 'UNI', name: "Uniswap", address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', decimals: 18, icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png'}
 ]
 
@@ -76,7 +77,8 @@ export const TokenIcon = {
     'USDC': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png',
     'UNI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png',
     'BUSD': 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png',
-    'MATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
+    'MATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
+    'WMATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
 }
 
 export const TokenName = {
@@ -148,9 +150,10 @@ export const EVM_CHAINS = {
             decimals: 18
         },
         assets: {
-            "TEST-U":{symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
+            WMATIC: {symbol: 'WMATIC', name: 'Wrapped Matic', address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'},
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6, icon: 'https://cdn.wherein.mobi/wormhole3/logo/usdt.png'},
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            "TEST-U":{symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
         },
         Multi_Config: {
             rpcUrl: 'https://polygon-rpc.com',
