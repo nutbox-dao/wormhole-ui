@@ -384,11 +384,10 @@ export default {
     if (this.detailCuration && this.detailCuration.curationId === id) {
       getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
         this.detailCuration.joined = res
-      })
+      }).catch()
 
       getCurationInfo(this.detailCuration.curationId).then(res => {
-        console.log(62, res);
-      })
+      }).catch()
     }else {
       this.$store.commit('curation/saveDetailCuration', null)
       this.loading1 = true
@@ -405,11 +404,11 @@ export default {
     }
 
     this.loading2 = true
-      getCurationParticipant(id).then(res => {
-        this.participant = res ?? []
-      }).catch(console.log).finally(() => {
-        this.loading2 = false
-      })
+    getCurationParticipant(id).then(res => {
+      this.participant = res ?? []
+    }).catch(console.log).finally(() => {
+      this.loading2 = false
+    })
   },
 }
 </script>
