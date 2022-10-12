@@ -81,6 +81,14 @@ html.light {
   background: white;
   box-shadow: 0px 15px 41px rgba(36, 3, 84, 0.2);
   border: none;
+  &-no-bg {
+    background: none;
+    border:none;
+    backdrop-filter: none;
+  }
+  &-no-shadow {
+    box-shadow: none;
+  }
 }
 .el-dialog.c-dialog-fullscreen {
   display: flex;
