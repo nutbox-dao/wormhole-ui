@@ -88,6 +88,7 @@ import CurationItem from "@/components/CurationItem";
 import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
+import { CURATION_SHORT_URL } from '@/config'
 
 export default {
   name: "Curations",
@@ -123,7 +124,7 @@ export default {
   methods: {
     onPost() {
        // transfer text to uri
-       const content = this.detailCuration.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + this.detailCuration.curationId
+       const content = this.detailCuration.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + CURATION_SHORT_URL + this.detailCuration.curationId
       // if (content.length > 280) {
       //   notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
       //   return;

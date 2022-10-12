@@ -140,7 +140,7 @@
               <c-spinner v-show="receiving" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
             </span>
           </button>
-        </div>
+        </div>  -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
@@ -158,7 +158,7 @@
                     :class="form.isLimit?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
-        </div>  -->
+        </div>
         <!-- posw des -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
@@ -310,7 +310,7 @@ import { notify, showError } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
 import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
-import { CHAIN_ID, ERC20List } from "@/config";
+import { CHAIN_ID, ERC20List, CURATION_SHORT_URL } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
@@ -333,7 +333,7 @@ export default {
       form: {
         title: '',
         endtime: '',
-        isLimit: false,
+        isLimit: true,
         maxCount: '',
         description: '',
         token: '',
@@ -649,7 +649,7 @@ export default {
     },
     onPost() {
       // transfer text to uri
-      const content = this.curation.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + this.curation.curationId
+      const content = this.curation.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + CURATION_SHORT_URL + this.curation.curationId
       // if (content.length > 280) {
       //   notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
       //   return;

@@ -7,7 +7,7 @@
       <div class="text-left break-all text-14px leading-22px 2xl:text-0.8rem 2xl:leading-1.2rem">
         <span class="text-text8F whitespace-pre-line" v-html="formatEmojiText(curationContent + '#iweb3\n')"></span>
         <span class="text-primaryColor whitespace-pre-line">
-              {{ $t('curation.moreDetail') + ' => ' + 'https://alpha.wormhole3.io/#/curation-detail/' + curationId}}
+              {{ $t('curation.moreDetail') + ' => ' + CURATION_SHORT_URL + curationId}}
             </span>
       </div>
     </div>
@@ -28,6 +28,7 @@
 
 <script>
 import {formatEmojiText} from "@/utils/tool";
+import { CURATION_SHORT_URL } from '@/config'
 export default {
   name: "TweetAndStartCuration",
   props: {
@@ -38,6 +39,11 @@ export default {
     curationId: {
       type: String,
       default: ''
+    }
+  },
+  data() {
+    return {
+      CURATION_SHORT_URL: CURATION_SHORT_URL
     }
   },
   methods: {
