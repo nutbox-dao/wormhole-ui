@@ -82,3 +82,21 @@
   @extend .icon;
   background-image: url("~@/assets/no-data-light.svg");
 }
+
+.icon-theme-light {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-light-primary.svg");
+}
+.light .icon-theme-light {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-light-white.svg");
+}
+
+.icon-theme-dark {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-dark-white.svg");
+}
+.light .icon-theme-dark {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-dark-primary.svg");
+}

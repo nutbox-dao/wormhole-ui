@@ -75,11 +75,15 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
                   <div class="flex items-center border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
                     <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
-                         :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
-                         @click="changeTheme">Dark</div>
-                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
-                         @click="changeTheme">Light</div>
+                         @click="changeTheme">
+                      <i class="h-1.4rem w-1.4rem icon-theme-light"></i>
+                    </div>
+                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
+                         :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
+                         @click="changeTheme">
+                      <i class="h-1.4rem w-1.4rem icon-theme-dark"></i>
+                    </div>
                   </div>
                 </div>
               </div>
