@@ -172,6 +172,7 @@ export default {
         uni: res[4],
         matic: res[5],
         wmatic: res[5],
+        dai: 1,
         usdt: 1,
         usdc: 1,
         busd: 1,

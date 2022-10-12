@@ -10,17 +10,12 @@
       <Steps :total-step="2" :current-step="currentStep"/>
       <!-- set up -->
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="mt-1.8rem">
+        <!-- title -->
+        <!-- <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-<!--            <input class="bg-transparent h-full w-full px-0.5rem c-input-emoji"-->
-<!--                   ref="titleRef"-->
-<!--                   v-model="form.title"-->
-<!--                   @blur="getBlur('title')"-->
-<!--                   type="text"-->
-<!--                   :placeholder="$t('curation.inputTitle')">-->
             <div contenteditable
                  class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
                  ref="titleRef"
@@ -41,34 +36,14 @@
               </div>
             </el-popover>
           </div>
-        </div>
+        </div> -->
+        <!-- content -->
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.schedule')}}</div>
-          <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
-          <div class="relative border-1 bg-black border-1 border-color8B/30
-                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center">
-            <div class="flex-1">
-              <el-date-picker
-                  class="c-input-date"
-                  popper-class="c-date-popper"
-                  prefix-icon="none"
-                  clear-icon="none"
-                  v-model="form.endtime"
-                  type="datetime"
-                  placeholder="End time"
-                  :disabled-date="disabledDate"
-              />
-            </div>
-            <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
-          </div>
-        </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.description')}}</div>
+          <div class="mb-6px">{{$t('curation.descriptionTitle')}}</div>
+          <div class="mb-6px text-primaryColor italic">{{$t('curation.description')}}</div>
           <div class="border-1 bg-black border-1 border-color8B/30
                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                       rounded-12px">
-<!--            <div class="whitespace-pre-line" v-html="formatEmojiText(form.description)"></div>-->
             <div contenteditable
                  class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
                  ref="descContentRef"
@@ -95,7 +70,29 @@
             </div>
           </div>
         </div>
-        <div class="text-right mt-4rem">
+        <!-- schedule -->
+        <div class="mt-1.8rem">
+          <div class="mb-6px">{{$t('curation.schedule')}}</div>
+          <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
+          <div class="relative border-1 bg-black border-1 border-color8B/30
+                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex items-center">
+            <div class="flex-1">
+              <el-date-picker
+                  class="c-input-date"
+                  popper-class="c-date-popper"
+                  prefix-icon="none"
+                  clear-icon="none"
+                  v-model="form.endtime"
+                  type="datetime"
+                  placeholder="End time"
+                  :disabled-date="disabledDate"
+              />
+            </div>
+            <img class="absolute right-0.8rem" src="~@/assets/icon-date.svg" alt="">
+          </div>
+        </div>
+        <div class="text-right mt-2rem">
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem  gradient-btn"
                   @click="onNext">{{$t('common.next')}}</button>
         </div>
@@ -120,7 +117,8 @@
           </div>
         </div>
         <!-- test token -->
-        <div class="mt-1.8rem">
+
+        <!-- <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('airdrop.testToken')}}</div>
           <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
             <div class="mt-0.6rem mb-0.6rem text-color8B light:text-color7D text-12px whitespace-pre-line leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
@@ -160,7 +158,7 @@
                     :class="form.isLimit?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
-        </div>
+        </div>  -->
         <!-- posw des -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
@@ -330,6 +328,8 @@ export default {
       connectLoading: false,
       loading: false,
       receiving: false,
+      // we cancel title from 2022/10/12
+      // get the first line of description as title
       form: {
         title: '',
         endtime: '',
@@ -520,7 +520,7 @@ export default {
       }
     },
     checkCreateData() {
-      if (!this.form.title || !this.form.endtime || !this.form.description) {
+      if (!this.form.endtime || !this.form.description) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -530,7 +530,7 @@ export default {
         return false
       }
 
-      if (this.form.title.length + this.form.description.length > 245) {
+      if (this.form.title.length + this.form.description.length > 270) {
         console.log('length:', this.form.title.length + this.form.description.length);
         notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
         return false
@@ -538,7 +538,6 @@ export default {
       return true
     },
     onNext() {
-      this.form.title = this.formatElToTextContent(this.$refs.titleRef)
       this.form.description = this.formatElToTextContent(this.$refs.descContentRef)
       if (!this.checkCreateData()) {
         return;
@@ -622,7 +621,7 @@ export default {
         const curation = {
           curationId: randomCurationId(),
           creatorETH: this.account,
-          content: this.form.title + '\n' + this.form.description,
+          content: this.form.description,
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
