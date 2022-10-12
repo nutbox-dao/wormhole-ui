@@ -64,7 +64,7 @@ export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
 
 // polygon
 export const ERC20List = [
-    {symbol: 'MATIC', name: 'Matic Token', address: '0x0000000000000000000000000000000000001010', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'},
+    // {symbol: 'MATIC', name: 'Matic Token', address: '0x0000000000000000000000000000000000001010', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'},
     {symbol: 'WMATIC', name: 'Wrapped Matic', address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'},
     {symbol: 'USDT', name: 'Tether USD', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6, icon: 'https://cdn.wherein.mobi/wormhole3/logo/usdt.png'},
     {symbol: 'USDC', name: 'USD Coin', address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
