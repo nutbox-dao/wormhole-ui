@@ -38,10 +38,30 @@
           </div>
         </div> -->
         <!-- content -->
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.descriptionTitle')}}</div>
-          <div class="mb-6px text-primaryColor italic">{{$t('curation.description')}}</div>
-          <div class="border-1 bg-black border-1 border-color8B/30
+        <div class="mt-1.8rem relative">
+          <div class="mb-6px flex items-center">
+            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>
+            <el-popover placement="bottom"
+                        popper-class="c-popper"
+                        width="100%"
+                        trigger="click">
+              <template #reference>
+                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-primary.svg" alt="">
+              </template>
+              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"
+                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">
+                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
+                  <div class="bg-black light:bg-white p-14px">
+                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem
+                            text-color7D light:text-blueDark">
+                      {{$t('curation.description')}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </el-popover>
+          </div>
+          <div class="border-1 bg-black/40 border-1 border-color8B/30
                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                       rounded-12px">
             <div contenteditable
@@ -74,7 +94,7 @@
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.schedule')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
-          <div class="relative border-1 bg-black border-1 border-color8B/30
+          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center">
             <div class="flex-1">
@@ -101,18 +121,20 @@
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px h-50px 2xl:h-2.5rem
+          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
+            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
                       flex justify-center items-center cursor-pointer"
-               @click="connectWallet">
+                 @click="connectWallet">
             <span class="font-600 text-15px 2xl:text-0.75rem
                          light:bg-gradient-text-light
                          gradient-text gradient-text-purple-white">
               {{showAccount ? showAccount : $t('common.connectMetamask')}}
             </span>
-            <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-            <div v-if="connectLoading"
-                 class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-              <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
+              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
+              <div v-if="connectLoading"
+                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
+                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -145,7 +167,7 @@
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
-            <div class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30
+            <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                         light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                         rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
@@ -176,7 +198,7 @@
           <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
-                 class="w-full sm:w-4/7 border-1 bg-black border-1 border-color8B/30
+                 class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                        light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                         rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
@@ -184,7 +206,7 @@
                      type="number" :placeholder="$t('curation.inputRewardsAmount')">
             </div>
             <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
-              <div class="border-1 bg-black border-1 border-color8B/30
+              <div class="border-1 bg-black/40 border-1 border-color8B/30
                           light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                           rounded-12px h-40px 2xl:h-2rem">
                 <el-popover popper-class="c-popper" placement="top" :width="popperWidth" trigger="click" ref="elPopover">
@@ -203,7 +225,7 @@
                                 light:(bg-white border-colorE3) hover:border-primaryColor
                                 rounded-12px py-10px overflow-x-hidden">
                       <div class="px-10px mb-10px">
-                        <div class="w-full border-1 bg-black border-1 border-color8B/30
+                        <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                                     light:(bg-colorF2 border-colorE3) hover:border-primaryColor
                                     rounded-12px h-40px 2xl:h-2rem">
                           <input class="bg-transparent h-full w-full px-0.5rem"
@@ -250,7 +272,7 @@
         </div>
         <!-- submit -->
         <div class="mt-1.8rem flex justify-between text-15px">
-          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white"
+          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white light:border-color7D light:text-color7D"
                   @click="currentStep=1">{{$t('common.preview')}}</button>
           <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
                   @click="onSubmit">
@@ -571,7 +593,7 @@ export default {
     },
     async updateSelectBalance(token) {
       this.selectBalance = await getERC20TokenBalance(token.address, this.account)
-      
+
     },
     checkRewardData() {
       if (!this.account || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {

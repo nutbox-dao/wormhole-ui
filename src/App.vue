@@ -43,7 +43,7 @@
               <div class="menu-box w-13.5rem xl:w-11rem z-99"
                    :class="showMenu?'active shadow-popper-tip':''">
                 <div class="p-0.5rem border-1 border-listBgBorder
-                            bg-blockBg light:(bg-white border-0 shadow-popper-tip)
+                            bg-blockBg light:bg-white light:border-0 light:shadow-popper-tip
                             rounded-12px w-full h-full
                             flex flex-col justify-between
                             font-400 text-15px leading-24px xl:text-0.75rem">
@@ -76,12 +76,12 @@
                   <div class="flex items-center border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
                     <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
-                         @click="changeTheme">
+                         @click="changeTheme(false)">
                       <i class="h-1.4rem w-1.4rem icon-theme-light"></i>
                     </div>
                     <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
-                         @click="changeTheme">
+                         @click="changeTheme(true)">
                       <i class="h-1.4rem w-1.4rem icon-theme-dark"></i>
                     </div>
                   </div>
@@ -202,7 +202,8 @@ export default {
       i18n.global.locale = lang
       localStorage.setItem('language', lang)
     },
-    changeTheme() {
+    changeTheme(status) {
+      if(status === this.isDark) return
       this.isDark = !this.isDark
       localStorage.setItem('theme', this.isDark?'dark':'light')
       document.documentElement.className=this.isDark?'dark':'light'
