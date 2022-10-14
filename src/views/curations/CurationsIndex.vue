@@ -25,6 +25,7 @@
              :class="curationsList && curationsList.length>0?'md:p-1rem':''">
           <div class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"
+                    v-show="index!==1"
                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
                     :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                     @click="changeSubIndex(index)">{{tag}}</span>

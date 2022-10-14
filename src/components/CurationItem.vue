@@ -78,6 +78,7 @@ export default {
       }else if(this.curation.curationStatus === 1) {
         return this.$t('curation.end')
       }else {
+        return ''
         return this.$t('curation.complete')
       }
     },
