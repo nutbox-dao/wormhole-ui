@@ -86,7 +86,7 @@ export default {
       return this.curation.content.split('\n')[0]
     },
     content() {
-      return this.curation.content.replace(this.title, '').trim()
+      return this.curation.content
     }
   },
   methods: {
