@@ -6,7 +6,7 @@
           {{$t('verifyView.p1')}}
         </div>
         <div class="flex items-center bg-inputBg
-                    light:(bg-colorF2 border-1) gradient-border
+                    light:bg-colorF2 light:border-1 gradient-border
                     py-1rem lg:px-6rem px-2rem
                     max-w-50rem mx-auto rounded-12px c-text-bold
                     text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
@@ -15,7 +15,8 @@
                @click="onCopy(ethAccount.privateKey)"
                src="~@/assets/icon-copy-primary.svg" alt="">
         </div>
-        <div class="flex justify-center max-w-41rem mx-auto light:(bg-color62/10 p-1rem text-color62 rounded-12px)">
+        <div class="flex justify-center max-w-41rem mx-auto
+                    light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
 <!--          <div class="leading-1.5rem flex item-center mr-1rem">-->
 <!--            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">-->
 <!--          </div>-->
@@ -169,7 +170,7 @@ export default {
         }
         this.$emit('send', this.newReferee.trim())
       } catch (e) {
-       
+
       } finally {
       }
     }

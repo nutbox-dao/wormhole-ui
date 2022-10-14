@@ -21,7 +21,7 @@
         <div class="text-color8B light:text-color7D mt-10px text-left leading-20px">{{$t('curationsView.p1')}}</div>
       </div>
       <div class="sm:mt-1rem sm:px-1rem">
-        <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg light:(sm:bg-white) rounded-12px"
+        <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg light:sm:bg-white rounded-12px"
              :class="curationsList && curationsList.length>0?'md:p-1rem':''">
           <div class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
               <span v-for="(tag, index) of subTagList" :key="index"

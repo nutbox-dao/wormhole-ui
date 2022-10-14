@@ -19,10 +19,10 @@
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <router-link :to="`/profile/${$route.params.user}/wallet`"
                      class="px-0.8rem flex items-center rounded-full
-                     border-1 border-white/20 text-15px light:(bg-colorF2 text-color7D)">{{$t('common.token')}}</router-link>
+                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.token')}}</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
                      class="px-0.8rem flex items-center rounded-full
-                     border-1 border-white/20 text-15px light:(bg-colorF2 text-color7D)">{{$t('common.nft')}}</router-link>
+                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.nft')}}</router-link>
       </div>
       <router-view></router-view>
     </div>

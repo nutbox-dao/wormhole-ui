@@ -3,7 +3,7 @@
     <PostTip>
       <template #title>{{$t('curation.tweetToAttend')}}</template>
       <template #content>
-        <div class="bg-color0E light:(bg-white border-1 border-colorE3) p-1rem mt-1rem mb-2rem rounded-15px">
+        <div class="bg-color0E light:bg-white light:border-1 light:border-colorE3 p-1rem mt-1rem mb-2rem rounded-15px">
           <div class="flex ">
             <img class="w-1rem h-1rem md:w-2rem md:h-2rem mr-0.8rem rounded-full "
                 @error="replaceEmptyImg"

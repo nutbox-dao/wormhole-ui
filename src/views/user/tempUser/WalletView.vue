@@ -15,7 +15,7 @@
            @click="copy(accountInfo.ethAddress)"></i>
       </div>
     </div>
-    <div class="bg-blockBg light:(bg-white border-1 border-black/16) md:py-1.5rem rounded-12px">
+    <div class="bg-blockBg light:bg-white light:border-1 light:border-black/16 md:py-1.5rem rounded-12px">
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <div class="px-0.8rem flex items-center rounded-full border-1 border-white/20 cursor-pointer text-15px"
              :class="selectIndex===0?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"

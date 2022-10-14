@@ -67,7 +67,7 @@
               </div>
             </div>
           </div>
-          <div class="bg-blockBg light:(bg-white md:bg-transparent) md:bg-transparent rounded-t-1rem mt-1rem">
+          <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
                   class="flex-1 py-0.5rem px-1rem text-color8B"
@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-blockBg light:(bg-white md:bg-transparent) md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+      <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -112,7 +112,7 @@
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem light:text-color46">
             {{$t('postView.tip1')}}
           </div>
-          <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
+          <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-color8F">{content} </span>
               <span class="text-primaryColor">#iweb3</span>
@@ -134,7 +134,7 @@
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem">
             {{$t('postView.tip2')}}
           </div>
-          <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
+          <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-primaryColor light:text-color62">@wormhole_3 !tip </span>
               <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
@@ -158,7 +158,7 @@
           <div class="text-15px leading-24px 2xl:text-0.9rem 2xl:leading-1.2rem c-text-black mt-1rem light:text-color46">
             {{$t('postView.tip3')}}
           </div>
-          <div class="bg-black/40 light:(bg-colorF2 border-1 border-colorE3) rounded-1rem h-min-8rem p-1rem relative">
+          <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-primaryColor light:text-color62">@wormhole_3 !send </span>
               <span class="text-color8F">{0.5 STEEM} to {wormhole3}</span>

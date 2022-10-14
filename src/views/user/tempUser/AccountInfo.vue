@@ -75,7 +75,7 @@
                 </div>
               </div>
             </div>
-            <div class="bg-blockBg light:(bg-white md:bg-transparent) md:bg-transparent rounded-t-1rem mt-1rem">
+            <div class="bg-blockBg light:bg-white light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
               <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
                 <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
                       :class="selectIndex===0?'active-tab light:text-blueDark':'inactive-tab light:text-color7D'"

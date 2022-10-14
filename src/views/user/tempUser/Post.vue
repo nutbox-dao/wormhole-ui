@@ -1,12 +1,12 @@
 <template>
   <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem">
     <div class="col-span-1 xl:col-start-3 xl:col-end-4
-                light:(bg-social-token-box bg-no-repeat bg-cover)
+                light:bg-social-token-box light:bg-no-repeat light:bg-cover
                 border-1 border-dividerColor
-                px-1rem rounded-12px xl:my-2rem md:(mb-0 mx-0) my-1.5rem
+                px-1rem rounded-12px xl:my-2rem md:mb-0 md:mx-0 my-1.5rem
                 h-min overflow-hidden mx-1.5rem">
       <div class="text-1.2rem border-b-1 border-color84/30 light:border-colorE0/80 py-0.8rem flex items-center justify-between md:justify-center">
-        <span class="text-center font-900 xl:(text-left font-500 w-full) light:text-colorE0/80 text-15px">{{$t('postView.socialToken')}}</span>
+        <span class="text-center font-900 xl:text-left xl:font-500 xl:w-full light:text-colorE0/80 text-15px">{{$t('postView.socialToken')}}</span>
         <div class="md:hidden flex-1 flex justify-end items-center">
           <span class="text-colorB5 light:text-colorE0/80 mr-1rem whitespace-nowrap">{{ steemBalance }} STEEM</span>
           <span class="text-white c-text-black">{{ steemValue}} </span>

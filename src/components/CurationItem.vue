@@ -34,14 +34,14 @@
             <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center
                     border-1 border-blockBg bg-primaryColor
-                    light:(border-white bg-color62 text-white)
+                    light:border-white light:bg-color62 light:text-white
                     font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
           </div>
           <div v-else></div>
           <div class="flex items-center h-max">
             <div class="xl:absolute xl:top-1rem xl:right-0
                         bg-primaryColor/20 text-primaryColor
-                        light:(bg-colorF1 text-color62)
+                        light:bg-colorF1 light:text-color62
                         px-13px py-5px rounded-full c-text-black 2xl:text-0.75rem">
               {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
             </div>

@@ -29,7 +29,8 @@
                 <i class="h-1.6rem w-1.6rem mr-0.8rem icon-language"></i>
               </template>
               <template #default>
-                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg light:(bg-white border-0 shadow-popper-tip) rounded-12px py-0.5rem">
+                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg
+                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">
                   <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
                   <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
                 </div>

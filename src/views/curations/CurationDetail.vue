@@ -37,7 +37,7 @@
       <div class="grid grid-cols-3 gap-1.5rem">
         <div v-loading="loading1"
              class="col-span-3 xl:col-span-2 bg-blockBg h-min
-                    light:(bg-white border-1 border-colorE3)
+                    light:bg-white light:border-1 light:border-colorE3
                     rounded-15px py-1.5rem text-left">
           <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
             <div class="c-text-black text-1.5rem sm:text-24px">

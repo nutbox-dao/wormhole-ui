@@ -14,7 +14,7 @@
         <!-- <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.title')}}</div>
           <div class="bg-black border-1 border-color8B/30
-                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <div contenteditable
                  class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
@@ -62,7 +62,7 @@
             </el-popover>
           </div>
           <div class="border-1 bg-black/40 border-1 border-color8B/30
-                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px">
             <div contenteditable
                  class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
@@ -95,7 +95,7 @@
           <div class="mb-6px">{{$t('curation.schedule')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center">
             <div class="flex-1">
               <el-date-picker
@@ -168,7 +168,7 @@
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                        light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                        light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                         rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                     v-model="form.maxCount"
@@ -199,7 +199,7 @@
           <div class="flex items-center flex-col sm:flex-row">
             <div ref="tokenPopper"
                  class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                       light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                         rounded-12px h-40px 2xl:h-2rem">
               <input class="bg-transparent h-full w-full px-0.5rem"
                       v-model="form.amount"
@@ -207,7 +207,7 @@
             </div>
             <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
               <div class="border-1 bg-black/40 border-1 border-color8B/30
-                          light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                          light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                           rounded-12px h-40px 2xl:h-2rem">
                 <el-popover popper-class="c-popper" placement="top" :width="popperWidth" trigger="click" ref="elPopover">
                   <template #reference>
@@ -222,11 +222,11 @@
                   </template>
                   <template #default>
                     <div class="border-1 border-color8B/30 bg-blockBg
-                                light:(bg-white border-colorE3) hover:border-primaryColor
+                                light:bg-white light:border-colorE3 hover:border-primaryColor
                                 rounded-12px py-10px overflow-x-hidden">
                       <div class="px-10px mb-10px">
                         <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                                    light:(bg-colorF2 border-colorE3) hover:border-primaryColor
+                                    light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                                     rounded-12px h-40px 2xl:h-2rem">
                           <input class="bg-transparent h-full w-full px-0.5rem"
                                 v-model="form.token"
@@ -290,7 +290,7 @@
       </div>
       <div v-loading="loading"
            class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg
-                  light:(bg-white border-colorE3) hover:border-primaryColor
+                  light:bg-white light:border-colorE3 hover:border-primaryColor
                   rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
         <TweetAndStartCuration :curation-content="curation.content"
                                :curation-id="curation.curationId"
