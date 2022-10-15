@@ -166,7 +166,7 @@ export default {
           time = this.transactions[0].postTime
         }
         getUsersTransaction(this.getAccountInfo.twitterId, this.pageSize, time, true).then(res => {
-          this.$store.commit('saveTransactions', res.concat(this.transactions))
+          this.$store.commit('saveTransactions', res)
           this.refreshing = false
         }).catch(e => {
           console.log(3, e);
@@ -177,7 +177,7 @@ export default {
           time = this.tips[0].postTime
         }
         getUsersTips(this.getAccountInfo.twitterId, this.pageSize, time, true).then(res => {
-          this.$store.commit('saveTips', res.concat(this.tips))
+          this.$store.commit('saveTips', res)
           this.refreshing = false
         }).catch(e => {
           console.log(33, e);
