@@ -22,7 +22,7 @@
                     :finished-text="$t('common.noMore')"
                     @load="onLoad">
             <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30"
-                 v-for="record of (records ?? [])" :key="record.id">
+                 v-for="record of (list ?? [])" :key="record.id">
               <div class="flex items-center">
                 <img class="w-40px h-40px 2xl:w-2rem 2xl:h-2rem rounded-full"
                      :src="record.profileImg" alt="">
@@ -103,6 +103,7 @@ export default {
   },
   mounted() {
     this.onLoad()
+    // this.list = this.records
   },
   methods: {
     parseTimestamp,
@@ -112,13 +113,13 @@ export default {
     },
     onLoad() {
       this.loading = true
-      getRefreshCurationRecord(this.detailCuration.curationId, this.records.length, this.state!=='common').then(list=>{
+      getRefreshCurationRecord(this.detailCuration.curationId, this.list.length, 0).then(list=>{
         if (list.length < 30) {
           this.finished = true
         }else {
           this.finished = false
         }
-        this.records = this.records.concat(list)
+        this.list = this.list.concat(list)
       }).finally(r => {
         this.loading = false
       })
