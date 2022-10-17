@@ -291,7 +291,7 @@ export default {
     },
     content() {
       if (this.detailCuration && this.detailCuration.content) {
-        return this.detailCuration.content.replace(this.title, '').trim()
+        return this.detailCuration.content
       }else{
         return '---'
       }
