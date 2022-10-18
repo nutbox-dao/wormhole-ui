@@ -11,7 +11,9 @@ export default {
         endList: [],
         closeList: [],
         detailCuration: {},
-        detailRecords: []
+        detailRecords: [],
+        // cache the created curation which not push to backend
+        pendingTweetCuration: Cookie.get('pending-cache-curation')
     },
     mutations: {
         saveDraft: (state, draft) => {
@@ -47,6 +49,15 @@ export default {
         },
         saveDetailRecords: (state, detailRecords) => {
             state.detailRecords = detailRecords
+        },
+        savePendingTweetCuration: (state, pendingTweetCuration) => {
+            if (pendingTweetCuration) {
+                Cookie.set('pending-cache-curation', pendingTweetCuration, '30d')
+                state.pendingTweetCuration = pendingTweetCuration
+            }else {
+                state.pendingTweetCuration = {};
+                Cookie.remove('pending-cache-curation')
+            }
         }
     },
     getters: {
@@ -54,6 +65,13 @@ export default {
             let draft = state.draft;
             if (draft) {
                 return draft
+            }
+            return null;
+        },
+        getPendingTweetCuration: (state) => {
+            let pendingTweetCuration = state.pendingTweetCuration;
+            if (pendingTweetCuration) {
+                return pendingTweetCuration;
             }
             return null;
         }

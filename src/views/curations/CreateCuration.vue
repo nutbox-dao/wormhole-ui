@@ -383,7 +383,7 @@ export default {
   },
   computed: {
     ...mapState('web3', ['account', 'chainId']),
-    ...mapGetters('curation', ['getDraft']),
+    ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     showAccount() {
       if (this.account && this.chainId === CHAIN_ID)
@@ -656,10 +656,13 @@ export default {
         // return;
         // write in contract
         const hash = await creteNewCuration(curation);
+        const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, creatorTwitter: this.getAccountInfo.twitterId};
+        this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
         // post to backend
-        await newCuration({...curation, amount: curation.amount.toString(), transHash: hash, creatorTwitter: this.getAccountInfo.twitterId});
+        await newCuration(pendingCuration);
         this.$store.commit('curation/saveDraft', null);
         this.currentStep = 3;
+        this.$store.commit('curation/savePendingTweetCuration', null)
       } catch (e) {
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
@@ -700,6 +703,20 @@ export default {
       this.selectedToken = this.tokenList[0]
     }
     this.updateSelectBalance(this.selectedToken)
+
+    const pendingCuration = this.getPendingTweetCuration;
+    if (pendingCuration && pendingCuration.transHash) {
+      try {
+        await newCuration(pendingCuration);
+        this.curation = pendingCuration
+        this.currentStep = 3;
+        this.$store.commit('curation/saveDraft', null);
+        this.$store.commit('curation/savePendingTweetCuration', null)
+      }catch (err) {
+        console.log('upload curation to server fail:', err);
+        
+      }
+    }
   },
 }
 </script>
