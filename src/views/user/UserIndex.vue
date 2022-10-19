@@ -41,8 +41,8 @@
                 <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">
                   {{ totalValue }}
                 </div>
-                <template v-if="getAccountInfo && !getAccountInfo.isPending">
-                  <button v-if="$route.name === 'profile-curations'"
+                <template v-if="getAccountInfo && (getAccountInfo.source === 1 || getAccountInfo.source ===3)">
+                  <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                           @click="$router.push('/create-curation')">
@@ -56,7 +56,7 @@
                         src="~@/assets/icon-warning.svg"
                         alt=""
                     />
-                    {{$t('postView.tweetTip')}}
+                    {{ (getAccountInfo.source === 3 && getAccountInfo.isRegistry === 0) ? $t('common.active') : $t('postView.tweetTip')}}
                   </button>
                 </template>
                 <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
@@ -74,7 +74,7 @@
                   :to="`/profile/${$route.params.user}/post`"
               >{{$t('profileView.socialAsset')}}</router-link>
               <router-link
-                  v-if="getAccountInfo && !getAccountInfo.isPending"
+                  v-if="getAccountInfo && (getAccountInfo.source === 1 || getAccountInfo.source === 3)"
                   class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
               <router-link
