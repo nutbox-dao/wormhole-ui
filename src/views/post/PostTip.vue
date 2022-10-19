@@ -36,7 +36,7 @@
     </div>
     <div class="bg-black/40 light:bg-colorF1 light:border-1 light:border-colorE3 rounded-1rem min-h-8rem p-1rem mt-0.8rem relative">
       <div class="text-left break-all 2xl:text-0.8rem text-14px">
-        <span class="text-text8F">{content}</span>
+        <span class="text-text8F">{tweet content}</span>
         <span class="text-primaryColor light:text-color62"> #iweb3</span>
         <slot name="content"></slot>
       </div>
