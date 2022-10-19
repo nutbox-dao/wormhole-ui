@@ -67,7 +67,7 @@
                         src="~@/assets/icon-warning.svg"
                         alt=""
                     />
-                    {{ $t('postView.tweetTip')}}
+                    {{ (getAccountInfo.source === 3 && getAccountInfo.isRegistry === 0) ? $t('common.active') : $t('postView.tweetTip')}}
                   </button>
                 </template>
                 <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
