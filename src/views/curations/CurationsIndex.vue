@@ -12,10 +12,15 @@
             <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
             <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-black relative whitespace-nowrap light:text-black">{{$t('curations')}}</span>
           </div>
-          <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
+          <button v-if="getAccountInfo && getAccountInfo.isRegistry === 1" class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
                     absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                   @click="createCurations">
             {{$t('curationsView.createBtn')}}
+          </button>
+          <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem rounded-full c-text-black text-1.2rem
+                    absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                  @click="$router.push('/signup')">
+            {{$t('common.active')}}
           </button>
         </div>
         <div class="text-color8B light:text-color7D mt-10px text-left leading-20px">{{$t('curationsView.p1')}}</div>
@@ -93,6 +98,7 @@ export default {
   },
   computed: {
     ...mapGetters('curation', ['getDraft']),
+    ...mapGetters(['getAccountInfo']),
     ...mapState('curation', ['ongoingList', 'endList', 'closeList']),
     curationsList() {
       if (this.subActiveTagIndex === 0) {
