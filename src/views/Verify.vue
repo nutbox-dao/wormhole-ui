@@ -142,8 +142,9 @@ export default {
     async attachKeyToServer() {
       try{
         this.attachingServer = true
-        const pair = createKeypair()
+        const pair = await createKeypair()
         const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
+        console.log(235, this.ethAccount.ethAddress);
         await cacheKey({
           ethAddress: this.ethAccount.ethAddress,
           pwd,

@@ -37,6 +37,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="flex flex-col sm:items-center">
                 <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">
                   {{ totalValue }}
@@ -48,6 +49,16 @@
                           @click="$router.push('/create-curation')">
                     {{$t('curationsView.createBtn')}}
                   </button>
+                  <button v-else-if="getAccountInfo.source === 3 && getAccountInfo.isRegistry === 0" class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
+                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                      @click="$router.push('/signup')">
+                      <img
+                          class="w-1.5rem h-1.5rem mr-0.5rem"
+                          src="~@/assets/icon-warning.svg"
+                          alt=""
+                      />
+                      {{$t('common.active')}}
+                  </button>
                   <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
                             h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                       @click="tipDrawer = true">
@@ -56,7 +67,7 @@
                         src="~@/assets/icon-warning.svg"
                         alt=""
                     />
-                    {{ (getAccountInfo.source === 3 && getAccountInfo.isRegistry === 0) ? $t('common.active') : $t('postView.tweetTip')}}
+                    {{ $t('postView.tweetTip')}}
                   </button>
                 </template>
                 <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
@@ -67,6 +78,7 @@
               </div>
             </div>
           </div>
+          
           <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
