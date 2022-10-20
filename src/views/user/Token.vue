@@ -139,21 +139,21 @@ export default {
 
         if (!isRegistry) {
           getUserTokensFromCuration(twitterId).then(res => {
-            const {tokens, amount} = res;
+            const {tokens, amounts} = res;
             const tempTokens = Object.values(EVM_CHAINS.MATIC.assets);
             let showingBalance = {MATIC: {}}
             for (let j = 0; j < tempTokens.length; j++) {
               for (let i = 0; i < tokens.length; i++) {
                 if (tokens[i] === tempTokens[j].address) {
-                  showingBalance.MATIC[tempTokens[j].symbol] = amount[i].toString() / (10 ** tempTokens[j].decimals);
+                  showingBalance.MATIC[tempTokens[j].symbol] = amounts[i].toString() / (10 ** tempTokens[j].decimals);
                   break;
                 }
               }
-              showingBalance.MATIC[tempTokens[j].symbol] = 0
+              showingBalance.MATIC[tempTokens[j].symbol] = showingBalance.MATIC[tempTokens[j].symbol] ?? 0
             }
             this.$store.commit('saveERC20Balances', showingBalance)
           }).catch(e => {
-
+            console.log(6878, e);
           })
         }
 
