@@ -139,7 +139,7 @@ export default {
 
         if (!isRegistry) {
           getUserTokensFromCuration(twitterId).then(res => {
-            const {tokens, amount} = res;
+            const {tokens, amounts} = res;
             const tempTokens = Object.values(EVM_CHAINS.MATIC.assets);
             let showingBalance = {MATIC: {}}
             for (let j = 0; j < tempTokens.length; j++) {
