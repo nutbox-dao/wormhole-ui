@@ -72,7 +72,6 @@
                  v-html="formatEmojiText(form.description)"></div>
             <div class="py-2 border-t-1 border-color8B/30">
               <el-popover ref="descEmojiPopover"
-                          placement="top"
                           trigger="click" width="300"
                           :teleported="false" :persistent="false">
                 <template #reference>
@@ -714,7 +713,7 @@ export default {
         this.$store.commit('curation/savePendingTweetCuration', null)
       }catch (err) {
         console.log('upload curation to server fail:', err);
-        
+
       }
     }
   },
