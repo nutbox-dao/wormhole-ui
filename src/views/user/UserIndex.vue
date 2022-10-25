@@ -247,8 +247,8 @@ export default {
     ]),
     ...mapGetters(["getAccountInfo"]),
     totalValue() {
+      let t = 0;
       if (this.steemBalance) {
-        let t = 0;
         // eth
         //  t += this.erc20Balances['ETH'].ETH * this.prices['eth']
         // for (let erc20 in this.erc20Balances["ETH"]) {
@@ -262,14 +262,13 @@ export default {
         //   t += this.erc20Balances.BNB[erc20] * this.prices[erc20.toLowerCase()];
         // }
         //  // polygon
-        if(this.getAccountInfo && !this.getAccountInfo.isPending) {
-          for (let erc20 in this.erc20Balances["MATIC"]) {
-            t +=
-              this.erc20Balances.MATIC[erc20] * (this.prices[erc20.toLowerCase()] ?? 0);
-          }
-        }
-        return formatPrice(t);
       }
+      if(this.getAccountInfo && this.erc20Balances["MATIC"]) {
+        for (let erc20 in this.erc20Balances["MATIC"]) {
+          t += this.erc20Balances.MATIC[erc20] * (this.prices[erc20.toLowerCase()] ?? 0);
+        }
+      }
+      return formatPrice(t ?? 0);
       return "$0.00";
     },
     profileImg() {
