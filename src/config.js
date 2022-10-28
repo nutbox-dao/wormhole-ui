@@ -257,5 +257,10 @@ export const STELLAR_TREK_NFT = [
         name: "Show off your assets",
         description: "After the user participated in some StellarTrek activities and project side ecological activities, he/she got some NFTS and tokens, and tweeted the FT and NFT assets with the hashtag #iweb3 #StellarTrek#Wormhole3Assets",
         image: "https://gateway.nutbox.app/ipfs/QmY2Zu8zNWyCQqwKTRwysnRYjinuimv7vaUyiF5V7L4jfZ"
+    },
+    {
+        name: 'Twitter Space Attendance',
+        description: "Join Twitter Space hosted by Wormhole3 official, earn the NFT according to the rules of each Twitter Space.",
+        image: "https://gateway.nutbox.app/ipfs/QmUK3RvGfS5iqAsbvzfyDvQZc24SCSq7PsUt7AGmqPsg1N"
     }
 ]
