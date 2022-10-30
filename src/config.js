@@ -7,9 +7,9 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 // export const BACKEND_API_URL = 'http://localhost:3100'
-export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 
@@ -211,8 +211,8 @@ export const REPUTATION_NFT = '0x383870Ae4E834155192cEce2fb5B0528CE0790E9'
 export const REPUTATION_NFT_RPC = RPC_NODE
 export const REPUTATION_NFT_ID = 1;
 
-export const CURATION_CONTRACT = '0x5D166D160a86A198c8634f9F9A22b8b6aE13ca18'
-export const CURATION_FUND_CONTRACT = '0x21975Ddd770DCf76480c5Bd045F0919C5E239c36';
+export const CURATION_CONTRACT = '0x4C524F03Bdf073A0a064Cd20c0bD9330c0FEab93'
+export const CURATION_FUND_CONTRACT = '0x525B88B649F5c8AD225122F8fe6e9304e9d54000';
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,
