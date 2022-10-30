@@ -31,7 +31,7 @@
     </div> -->
 
     <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
-         v-if="!getAccountInfo.isPending && erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
+         v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
       <div class="flex items-center">
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
              :src="icons[erc20]" alt="">
@@ -77,8 +77,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
-import { getTokenBalance } from '@/utils/asset'
-import { TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
+import { getTokenBalance, getUserTokensFromCuration } from '@/utils/asset'
+import { TWITTER_MONITOR_RULE, TokenIcon, TokenName, EVM_CHAINS } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
@@ -135,7 +135,27 @@ export default {
   },
   async mounted () {
       if (this.getAccountInfo) {
-        const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo
+        const { steemId, ethAddress, web25ETH, steemAmount, isRegistry, twitterId } = this.getAccountInfo
+
+        if (!isRegistry) {
+          getUserTokensFromCuration(twitterId).then(res => {
+            const {tokens, amounts} = res;
+            const tempTokens = Object.values(EVM_CHAINS.MATIC.assets);
+            let showingBalance = {MATIC: {}}
+            for (let j = 0; j < tempTokens.length; j++) {
+              for (let i = 0; i < tokens.length; i++) {
+                if (tokens[i] === tempTokens[j].address) {
+                  showingBalance.MATIC[tempTokens[j].symbol] = amounts[i].toString() / (10 ** tempTokens[j].decimals);
+                  break;
+                }
+              }
+              showingBalance.MATIC[tempTokens[j].symbol] = showingBalance.MATIC[tempTokens[j].symbol] ?? 0
+            }
+            this.$store.commit('saveERC20Balances', showingBalance)
+          }).catch(e => {
+            console.log(6878, e);
+          })
+        }
 
         if (steemId) {
           // get steem balance

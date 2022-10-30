@@ -313,7 +313,7 @@
                      :amount="form.amount"
                      @createCuration="createCuration"
                      @confirmComplete="onComplete"
-                     @close="modalVisible=false"></component>
+                     @close="modalVisible=false;loading=false"></component>
         </div>
       </div>
     </van-popup>
