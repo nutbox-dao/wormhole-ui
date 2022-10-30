@@ -83,7 +83,12 @@ export default {
       }
     },
     title() {
-      return this.curation.content.split('\n')[0]
+      const t = this.curation.content.split('\n')[0]
+      if (t.length > 30) {
+        return t.slice(0, 30) 
+      }else {
+        return t
+      }
     },
     content() {
       return this.curation.content
