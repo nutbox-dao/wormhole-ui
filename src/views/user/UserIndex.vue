@@ -86,7 +86,7 @@
                   :to="`/profile/${$route.params.user}/post`"
               >{{$t('profileView.socialAsset')}}</router-link>
               <router-link
-                  v-if="getAccountInfo && (getAccountInfo.source === 1 || getAccountInfo.source === 3)"
+                  v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                   class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
               <router-link

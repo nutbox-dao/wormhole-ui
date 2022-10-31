@@ -1,5 +1,5 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT } from "@/config";
+import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT } from "@/config";
 import store from '@/store'
 import { ethers } from 'ethers'
 import { getEthWeb } from "./web3/web3";
@@ -209,7 +209,7 @@ export async function getStellarTreks(address) {
     if (!ethers.utils.isAddress(address)) {
         return;
     }
-    let ids = [21,22,23,24,25,26]
+    let ids = STELLAR_TREK_NFT.map((s, i) => i + 21)
     let call = ids.map(id => ({
         target: REPUTATION_NFT,
         call: [

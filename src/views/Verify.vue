@@ -105,7 +105,7 @@
 
 <script>
 import { cacheKey } from '@/api/api'
-import { generateBrainKey } from '@/utils/ethers'
+import { generateBrainKey, randomWallet } from '@/utils/ethers'
 import { box, createKeypair } from '@/utils/tweet-nacl'
 import { SendPwdServerPubKey } from '@/config'
 import { notify } from "@/utils/notify";

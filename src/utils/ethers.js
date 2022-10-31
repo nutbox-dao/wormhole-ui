@@ -65,6 +65,21 @@ export const generateBrainKey = (key) => {
   })
 }
 
+export const randomWallet = async () => {
+  return new Promise(async (resolve) => {
+    try {
+      const wallet = ethers.Wallet.createRandom();
+      const nemonic = wallet.mnemonic;
+      const privateKey = wallet.privateKey;
+      const address = await wallet.getAddress();
+      resolve({nemonic, privateKey, address})
+    } catch (error) {
+      console.log('generate random nemonic fail');
+      resolve(false)
+    }
+  })
+}
+
 const balanceAbi = [{
     "inputs": [
       {
