@@ -162,7 +162,7 @@ export const EVM_CHAINS = {
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6, icon: 'https://cdn.wherein.mobi/wormhole3/logo/usdt.png'},
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
             DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063', decimals: 18, icon: 'https://polygonscan.com/token/images/mcdDai_32.png'},
-            "TEST-U":{symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
+            // "TEST-U":{symbol: 'TEST-U', name: 'TEST USDT', address: '0x4cF89A27A27425d81C49c0B345e58A18De8A7273', decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png'},
         },
         Multi_Config: {
             rpcUrl: 'https://polygon-rpc.com',
