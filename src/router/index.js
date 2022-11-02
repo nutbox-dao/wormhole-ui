@@ -76,7 +76,7 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/login',
+    path: '/login/:id?',
     name: 'login',
     component: LoginView,
   },
