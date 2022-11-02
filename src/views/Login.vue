@@ -51,6 +51,8 @@ import { login, FetchingStatus } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
+import { twitterLogin, twitterAuth } from '@/api/api'
+import Cookie from 'vue-cookies'
 
 export default {
   name: "Login",
@@ -65,6 +67,11 @@ export default {
   },
   mounted() {
     this.isLoginPage = (this.$route.name==='login')
+    const code = this.$route.params.id;
+    if (code) {
+      Cookie.set('twitter-loginCode', code, '300s');
+      window.close();
+    }
   },
   computed: {
     ...mapState(['ethAddress', 'accountInfo']),
@@ -76,6 +83,23 @@ export default {
       notify({message, duration, type})
     },
     async login() {
+      this.loging = true
+      const res = await twitterAuth();
+      console.log(235, res);
+      window.open(res, 'newwindow', 'height=600,width=600,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+      let loginCode = Cookie.get('twitter-loginCode');
+      let tryTimes = 0
+      while((!loginCode || loginCode.length === 0) && tryTimes < 50) {
+        await sleep(1);
+        loginCode = Cookie.get('twitter-loginCode');
+        tryTimes++;
+      }
+      console.log(333, loginCode)
+      Cookie.remove('twitter-loginCode')
+      const userInfo = await twitterLogin(loginCode);
+      console.log(443, userInfo)
+      this.loging = false
+      return;
       try{
         if (this.username.length < 3) {
           this.showNotify('Please enter twitter username')

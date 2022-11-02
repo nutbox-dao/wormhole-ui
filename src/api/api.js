@@ -5,6 +5,13 @@ import { sleep } from "@/utils/helper"
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
+
+/****************************************  auth  ***********************************************/
+export const twitterAuth = async() => 
+    get(BACKEND_API_URL + '/auth/login')
+
+export const twitterLogin = async(code) =>
+    get(BACKEND_API_URL + '/users/login', {code})
     
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
