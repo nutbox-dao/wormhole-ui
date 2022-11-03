@@ -1,10 +1,23 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import { BEARER_TOKEN } from '@/config'
+import store from '@/store'
 
 axiosRetry(axios, { retries: 5 });
 
 axios.defaults.timeout = 30000;
+
+axios.interceptors.request.use(
+  config => {
+    if (store.getters.getAccountInfo && store.getters.getAccountInfo.accessToken) {
+      config.headers['AccessToken'] = store.getters.getAccountInfo.accessToken;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 export function get(url, params) {
   return new Promise((resolve, reject) => {
