@@ -122,7 +122,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Post from './Post'
 import WalletView  from "./WalletView";
 import PostDetail from "./PostDetail";
-import { getUserInfo, FetchingStatus } from "@/utils/account";
+import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS, TWITTER_POST_TAG } from "@/config";

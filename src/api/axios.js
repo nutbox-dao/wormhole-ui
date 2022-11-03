@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import { BEARER_TOKEN } from '@/config'
-import store from '@/store'
+import { BEARER_TOKEN } from '@/config';
+import store from '@/store';
 
 axiosRetry(axios, { retries: 5 });
 

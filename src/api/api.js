@@ -15,6 +15,9 @@ export const twitterLogin = async(code) =>
 
 export const twitterRefreshAccessToken = async (twitterId) => 
     post(BACKEND_API_URL + '/auth/refresh', {twitterId})
+
+export const logout = async (twitterId) => 
+    get(BACKEND_API_URL + '/auth/logout', {twitterId})
     
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
@@ -37,6 +40,9 @@ export const cacheKey = async (params) =>
 
 export const getTwitterAccount = async (username) =>
 getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld')
+
+export const getProfile = async (twitterId) =>
+    post(BACKEND_API_URL + '/users/profile', {twitterId})
 
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, pageSize, time, newPost) =>

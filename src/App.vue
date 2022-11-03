@@ -71,9 +71,11 @@
                   <div @click="onCopy('https://alpha.wormhole3.io/#/signup/' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
-                  <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername" to="/signup"
-                               @click="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('logout')}}</router-link>
+                  <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
+                      class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor"
+                      @click="signout">
+                    {{$t('logout')}}
+                  </div>
                   <div class="flex items-center border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
                     <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
                          :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
@@ -115,11 +117,12 @@ import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { onCopy } from "@/utils/tool";
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
-import { login } from './utils/account';
+import { logout } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import { getProfile } from '@/api/api'
 
 export default {
   components: {NFTAnimation, ElConfigProvider},
@@ -141,6 +144,7 @@ export default {
     },
     profileImg() {
       if (!this.getAccountInfo) return "";
+      console.log(22222, this.getAccountInfo.profileImg);
       if (this.getAccountInfo.profileImg) {
         return this.getAccountInfo.profileImg.replace("normal", "400x400");
       } else {
@@ -208,19 +212,26 @@ export default {
       this.isDark = !this.isDark
       localStorage.setItem('theme', this.isDark?'dark':'light')
       document.documentElement.className=this.isDark?'dark':'light'
+    },
+    signout() {
+      logout(this.getAccountInfo.twitterId).then(res => {
+        console.log(6767, this.getAccountInfo);
+      });
+      this.showMenu = false
     }
   },
   async mounted() {
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
-    vestsToSteem(1).then(res => {
-      this.$store.commit('saveVestsToSteem', res)
-    }).catch(e => {
-      console.log('Get vest to steem fail:', e);
-    })
+    // to do
+    // vestsToSteem(1).then(res => {
+    //   this.$store.commit('saveVestsToSteem', res)
+    // }).catch(e => {
+    //   console.log('Get vest to steem fail:', e);
+    // })
 
     if (this.getAccountInfo) {
-      const { steemId, ethAddress, web25ETH, twitterUsername } = this.getAccountInfo;
+      const { steemId, ethAddress, web25ETH, twitterUsername, twitterId } = this.getAccountInfo;
 
       if (steemId) {
         // get steem balance
@@ -238,19 +249,30 @@ export default {
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
-
-      login(twitterUsername)
+      
+      getProfile(twitterId).then(res => {
+        console.log(64, res);
+        if (res && res.code === 3) {
+          let account = res.account;
+          this.$store.commit('saveAccountInfo', account)
+          return;
+        }
+        logout();
+      }).catch(e => {
+        logout();
+        console.log('get profile fail:', e);
+      }) 
     }
 
-
-    while(true) {
-      try{
-        await this.monitorPrices()
-      }catch(e) {
-        console.log('get commen price fail:', e)
-      }
-      await sleep(15)
-    }
+    // to do
+    // while(true) {
+    //   try{
+    //     await this.monitorPrices()
+    //   }catch(e) {
+    //     console.log('get commen price fail:', e)
+    //   }
+    //   await sleep(15)
+    // }
   },
 }
 </script>
