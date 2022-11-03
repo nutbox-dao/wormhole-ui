@@ -9,7 +9,7 @@ import curation from './curation'
 export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
-    accountInfo: Cookie.get('accountInfo'),
+    accountInfo: localStorage.getItem('accountInfo'),
     monitorNftInserval: {},
     hasReceivedNft: true,
     steemBalance: 0,
@@ -44,6 +44,9 @@ export default Vuex.createStore({
         }
         return JSON.parse(acc)
       }else {
+        const accInfo = localStorage.getItem('accountInfo')
+        if (accInfo)
+          return JSON.parse(accInfo)
         return null
       }
     }
@@ -59,14 +62,15 @@ export default Vuex.createStore({
     saveAccountInfo: (state, accountInfo) => {
       if (!accountInfo || Object.keys(accountInfo).length === 0) {
         state.accountInfo = null;
-        state.posts = []
-        try{
-          clearInterval(state.monitorNftInserval)
-        }catch(e){}
-        Cookie.remove('accountInfo')
+        // to do
+        // try{
+        //   clearInterval(state.monitorNftInserval)
+        // }catch(e){}
+        localStorage.removeItem('accountInfo')
       }else {
         state.accountInfo = JSON.stringify(accountInfo);
-        Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d')
+        // Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d');
+        localStorage.setItem('accountInfo', JSON.stringify(accountInfo))
       }
       
     },

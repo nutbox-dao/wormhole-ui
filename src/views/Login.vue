@@ -10,11 +10,7 @@
             {{$t('signInView.p1')}}
           </div>
         </div>
-        <div>
-          <input class="bg-inputBg light:bg-colorF1 gradient-border border-1 h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
-                 type="text" placeholder="@Hello_web3" v-model="username">
-        </div>
-        <button @click="login" :disable="loging || username.length < 3"
+        <button @click="login" :disable="loging"
                 class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           <span>{{$t('signIn')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
@@ -50,7 +46,7 @@
 </template>
 
 <script>
-import { login, FetchingStatus } from '@/utils/account'
+import { FetchingStatus } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
@@ -61,7 +57,6 @@ export default {
   name: "Login",
   data() {
     return {
-      username: '',
       loging: false,
       showRegistering: false,
       showNotSendTwitter: false,
@@ -86,23 +81,29 @@ export default {
       notify({message, duration, type})
     },
     async login() {
-      this.loging = true
-      const res = await twitterAuth();
-      console.log(235, res);
-      window.open(res, 'newwindow', 'height=600,width=600,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
-      let loginCode = Cookie.get('twitter-loginCode');
-      let tryTimes = 0
-      while((!loginCode || loginCode.length === 0) && tryTimes < 50) {
-        await sleep(1);
-        loginCode = Cookie.get('twitter-loginCode');
-        tryTimes++;
+      try {
+        this.loging = true
+        const res = await twitterAuth();
+        window.open(res, 'newwindow', 'height=600,width=600,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+        let loginCode = Cookie.get('twitter-loginCode');
+        let tryTimes = 0
+        while((!loginCode || loginCode.length === 0) && tryTimes < 50) {
+          await sleep(1);
+          loginCode = Cookie.get('twitter-loginCode');
+          tryTimes++;
+        }
+        Cookie.remove('twitter-loginCode')
+        const userInfo = await twitterLogin(loginCode);
+        if (userInfo.code === 0) {
+          // not registry
+        }else {
+          this.$store.commit('saveAccountInfo', userInfo.account)
+        }
+      }catch(e) {
+
+      }finally {
+        this.loging = false
       }
-      console.log(333, loginCode)
-      Cookie.remove('twitter-loginCode')
-      const userInfo = await twitterLogin(loginCode);
-      this.$store.commit('saveAccountInfo', userInfo.account)
-      console.log(443, userInfo)
-      this.loging = false
       return;
       try{
         if (this.username.length < 3) {
@@ -144,9 +145,9 @@ export default {
     },
     async refreshToken () {
       const acc = this.$store.getters.getAccountInfo;
+      console.log(773, acc);
       const token = await twitterRefreshAccessToken(acc.twitterId);
       this.$store.commit('saveAccountInfo', {...acc, ...token})
-      console.log(2 , token);
     }
   },
 }

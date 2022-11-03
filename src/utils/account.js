@@ -1,4 +1,4 @@
-import { getUserInfo as gui, getNftReceivedState, readNft } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, readNft, logout as lo } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 
@@ -117,6 +117,25 @@ export const getUserInfo = async (username) => {
             resolve(account.account)
         }else {
             reject(500)
+        }
+    })
+}
+
+export const logout = async (twitterId) => {
+    return new Promise(async (resolve, reject) => {
+        try{
+            lo(twitterId);
+            
+            store.commit('saveAccountInfo', {})
+            store.commit('savePosts', [])
+            store.commit('saveTransactions', [])
+            store.commit('saveTips', [])
+            store.commit('saveERC20Balances', {})
+            store.commit('saveStellarTreks', {})
+            resolve()
+        } catch (e) {
+            console.log('Log out fail:', e);
+            resolve(false);
         }
     })
 }
