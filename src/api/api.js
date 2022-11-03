@@ -12,6 +12,9 @@ export const twitterAuth = async() =>
 
 export const twitterLogin = async(code) =>
     get(BACKEND_API_URL + '/users/login', {code})
+
+export const twitterRefreshAccessToken = async (twitterId) => 
+    post(BACKEND_API_URL + '/auth/refresh', {twitterId})
     
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>

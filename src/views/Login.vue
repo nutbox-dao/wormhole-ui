@@ -19,6 +19,9 @@
           <span>{{$t('signIn')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>
+        <button @click="refreshToken">
+          Refresh
+        </button>
         <div class="text-0.9rem font-bold mt-1.5rem">
           {{$t('signInView.p2')}}
         </div>
@@ -51,7 +54,7 @@ import { login, FetchingStatus } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
-import { twitterLogin, twitterAuth } from '@/api/api'
+import { twitterLogin, twitterAuth, twitterRefreshAccessToken } from '@/api/api'
 import Cookie from 'vue-cookies'
 
 export default {
@@ -97,6 +100,7 @@ export default {
       console.log(333, loginCode)
       Cookie.remove('twitter-loginCode')
       const userInfo = await twitterLogin(loginCode);
+      this.$store.commit('saveAccountInfo', userInfo.account)
       console.log(443, userInfo)
       this.loging = false
       return;
@@ -137,6 +141,12 @@ export default {
         this.loging = false
         this.$store.commit('saveEthAddress', null)
       }
+    },
+    async refreshToken () {
+      const acc = this.$store.getters.getAccountInfo;
+      const token = await twitterRefreshAccessToken(acc.twitterId);
+      this.$store.commit('saveAccountInfo', {...acc, ...token})
+      console.log(2 , token);
     }
   },
 }
