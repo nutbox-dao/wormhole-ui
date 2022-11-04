@@ -27,7 +27,20 @@ export default {
     p6: 'Log in here',
     p7: 'Are you sure saved the important key?',
     p8: 'I know that if I do not save the private key, no one can retrieve my account',
-    btn3: 'yes，I\'m sure'
+    btn3: 'yes，I\'m sure',
+    p9: 'One last step!',
+    p10: 'Let’s try post your first Web3 tweet!',
+    btn4: '☝️ One-Click Post',
+    btn5: 'skip'
+  },
+  metamaskView: {
+    p1: 'Please comfirm you will be signed up with the following address',
+    p2: 'If you would like to use other address, please go to metamask to change to a different address.',
+    address: 'Address',
+    btn1: 'Confirm',
+    p3: 'Welcome back!',
+    p4: 'has already signed up with twitter account {account}. \n Continue signing in as {account} ?',
+    btn3: 'Back'
   },
   signInView: {
     p1: 'Please enter your twitter username.',

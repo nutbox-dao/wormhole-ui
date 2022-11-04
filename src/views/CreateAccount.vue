@@ -1,7 +1,8 @@
 <template>
   <div class="w-full h-full overflow-auto">
     <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
-      <div class="text-white light:text-blueDark" v-if="!showRegisterModal">
+      <div v-if="step===0"
+           class="text-white light:text-blueDark">
         <div class=" keep-all c-text-black text-2rem leading-2.8rem max-w-30rem mx-auto mb-2rem">
           {{$t('verifyView.p1')}}
         </div>
@@ -35,7 +36,8 @@
           {{$t('verifyView.btn1')}}
         </button>
       </div>
-      <div class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto" v-else>
+      <div v-if="step===1"
+           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
         <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
           <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
           {{$t('verifyView.p4')}}
@@ -51,7 +53,7 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                        h-3.6rem w-full rounded-full
                        w-full mb-2.3rem text-1rem mt-1.25rem"
-                @click="send">
+                @click="step=2">
           {{$t('verifyView.btn2')}}
         </button>
 
@@ -66,6 +68,44 @@
 <!--            {{$t('verifyView.p6')}}-->
 <!--          </div>-->
 <!--        </router-link>-->
+      </div>
+      <div v-if="step===2"
+           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
+        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
+          <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
+          {{$t('verifyView.p10')}}
+        </div>
+        <span v-show="false" style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
+        <input v-show="false" class="bg-inputBg light:bg-colorF1 gradient-border border-1
+                      h-3.6rem w-full rounded-full
+                      px-1.6rem outline-none text-1.2rem mt-0.6rem mb-0.6rem"
+               type="text"
+               v-model="newReferee"
+               :placeholder="$t('ref.inputReferee')">
+        <span v-show="false" style="word-break: break-word">{{$t('ref.refDes')}}</span>
+        <button class="flex items-center justify-center c-text-black gradient-btn
+                       h-3.6rem w-full rounded-full
+                       w-full mb-1.3rem text-1rem mt-1.25rem"
+                @click="send">
+          {{$t('verifyView.btn4')}}
+        </button>
+        <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
+                       w-full mb-2.3rem text-1rem"
+                @click="$emit('skip')">
+          {{$t('verifyView.btn5')}}
+        </button>
+
+        <!--        <div class="flex justify-center max-w-41rem mx-auto">-->
+        <!--          <div class="max-w keep-all text-left">-->
+        <!--            {{$t('verifyView.p5')}}-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <!--        <router-link to="/login">-->
+        <!--          <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">-->
+        <!--            {{$t('verifyView.p6')}}-->
+        <!--          </div>-->
+        <!--        </router-link>-->
       </div>
     </div>
     <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
@@ -114,7 +154,7 @@ import { generateSteemAuth } from '@/utils/steem'
 import { sleep } from '@/utils/helper'
 
 export default {
-  name: "Verify",
+  name: "CreateAccount",
   props: {
     ethAccount: {
       type: Object,
@@ -129,7 +169,7 @@ export default {
     return {
       checked: false,
       attachingServer: false,
-      showRegisterModal: false,
+      step: 0,
       importModal: false,
       newReferee: ''
     }
@@ -152,7 +192,7 @@ export default {
         //   publicKey: pair.publicKey
         // })
         this.importModal=false;
-        this.showRegisterModal=true
+        this.step=1
       } catch (e) {
         console.log(25, e);
         this.showNotify('Pre bind account fail', 5000, 'error')
@@ -179,7 +219,6 @@ export default {
   },
   mounted () {
     this.newReferee = this.referee ?? ''
-    this.showRegisterModal = false
     randomWallet()
   },
 }

@@ -1,7 +1,7 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import VerifyView from '@/views/Verify'
+import VerifyView from '@/views/CreateAccount'
 import LoginView from '@/views/Login'
 import LoginCodeView from '@/views/LoginCode'
 import FAQView from '@/views/FAQ'

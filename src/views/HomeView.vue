@@ -24,13 +24,13 @@
     <!--  Verify modal -->
     <el-dialog :destroy-on-close="true" v-model="showPrivateKey"
                custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></Verify>
+      <CreateAccount :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></CreateAccount>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Verify from "@/views/Verify";
+import CreateAccount from "@/views/CreateAccount";
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { randomEthAccount } from '@/utils/ethers'
 import { notify } from "@/utils/notify";
@@ -38,7 +38,7 @@ import { notify } from "@/utils/notify";
 export default {
   name: 'HomeView',
   components: {
-    Verify
+    CreateAccount
   },
   data: () => {
     return {
