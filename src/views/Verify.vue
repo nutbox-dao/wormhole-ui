@@ -55,17 +55,17 @@
           {{$t('verifyView.btn2')}}
         </button>
 
-        <div class="flex justify-center max-w-41rem mx-auto">
-          <div class="max-w keep-all text-left">
-            {{$t('verifyView.p5')}}
-          </div>
-        </div>
+<!--        <div class="flex justify-center max-w-41rem mx-auto">-->
+<!--          <div class="max-w keep-all text-left">-->
+<!--            {{$t('verifyView.p5')}}-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <router-link to="/login">
-          <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">
-            {{$t('verifyView.p6')}}
-          </div>
-        </router-link>
+<!--        <router-link to="/login">-->
+<!--          <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">-->
+<!--            {{$t('verifyView.p6')}}-->
+<!--          </div>-->
+<!--        </router-link>-->
       </div>
     </div>
     <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
@@ -141,16 +141,16 @@ export default {
     },
     async attachKeyToServer() {
       try{
-        this.attachingServer = true
-        await sleep(0.1)
-        const pair = await createKeypair()
-        const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
-        console.log(235, this.ethAccount.ethAddress);
-        await cacheKey({
-          ethAddress: this.ethAccount.ethAddress,
-          pwd,
-          publicKey: pair.publicKey
-        })
+        // this.attachingServer = true
+        // await sleep(0.1)
+        // const pair = await createKeypair()
+        // const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
+        // console.log(235, this.ethAccount.ethAddress);
+        // await cacheKey({
+        //   ethAddress: this.ethAccount.ethAddress,
+        //   pwd,
+        //   publicKey: pair.publicKey
+        // })
         this.importModal=false;
         this.showRegisterModal=true
       } catch (e) {
