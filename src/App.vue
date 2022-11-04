@@ -10,10 +10,10 @@
           </button>
           <div class="flex items-center">
             <div class="hidden md:flex" v-if="!getAccountInfo">
-              <router-link to="/login"
-                           class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signIn')}}</router-link>
-              <router-link to="/signup"
-                           class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">{{$t('signUp')}}</router-link>
+              <button @click="showLogin=true"
+                  class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">
+                  {{$t('signIn')}}
+              </button>
             </div>
             <template v-else>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
@@ -105,6 +105,11 @@
       <el-dialog custom-class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
         <NFTAnimation/>
       </el-dialog>
+
+      <el-dialog :destroy-on-close="true" v-model="showLogin"
+                custom-class="c-dialog c-dialog-lg c-dialog-center">
+        <Login @close="showLogin=false"/>
+      </el-dialog>
     </div>
   </el-config-provider>
 </template>
@@ -117,15 +122,16 @@ import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { onCopy } from "@/utils/tool";
 import { getTokenBalance } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
-import { logout } from './utils/account';
+import { logout, isTokenExpired } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile } from '@/api/api'
+import Login from '@/views/Login.vue'
 
 export default {
-  components: {NFTAnimation, ElConfigProvider},
+  components: {NFTAnimation, ElConfigProvider, Login},
   data: () => {
     return {
       pubKey: '',
@@ -221,6 +227,7 @@ export default {
     }
   },
   async mounted() {
+    isTokenExpired()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { FetchingStatus } from '@/utils/account'
+import { FetchingStatus, isTokenExpired } from '@/utils/account'
 import { mapState, mapGetters } from 'vuex'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
@@ -51,7 +51,7 @@ export default {
     }
   },
   mounted() {
-    randomWallet()
+    isTokenExpired()
     this.isLoginPage = (this.$route.name==='login')
     const code = this.$route.params.id;
     if (code) {
@@ -86,51 +86,15 @@ export default {
           // not registry
         }else {
           this.$store.commit('saveAccountInfo', userInfo.account)
+          this.$emit('close')
         }
       }catch(e) {
-
+        // login error
       }finally {
         this.loging = false
       }
-      return;
-      try{
-        if (this.username.length < 3) {
-          this.showNotify('Please enter twitter username')
-          return;
-        }
-        this.loging = true
-        const username = this.username.startsWith('@') ? this.username.substring(1) : this.username
-        let result = await login(username, this.ethAddress, async (status) => {
-          if (status === FetchingStatus.MATCH_TICKETS) {
-          } else if(status === FetchingStatus.REGISTERING) {
-            this.showRegistering = true
-          } else if(status === FetchingStatus.NOT_SEND_TWITTER) {
-            this.showNotSendTwitter = true
-          }
-        })
-
-        if (!result) {
-          console.log('Not exsit');
-          this.showNotify('This twitter account is not binded.', 5000, 'error')
-          await sleep(5)
-          this.showNotSendTwitter = false
-          this.showRegistering = false
-        }else {
-          this.$store.commit('savePosts', [])
-          this.$store.commit('saveTransactions', [])
-          this.$store.commit('saveTips', [])
-          this.$store.commit('saveERC20Balances', {})
-          this.$store.commit('saveStellarTreks', {})
-          this.$router.push('/profile/' + this.username + '/post')
-        }
-      } catch (e) {
-        this.showNotify('Server error', 5000, 'error')
-        console.log('Get twitter account fail:', e);
-      } finally {
-        this.loging = false
-        this.$store.commit('saveEthAddress', null)
-      }
     },
+
     async refreshToken () {
       const acc = this.$store.getters.getAccountInfo;
       console.log(773, acc);
