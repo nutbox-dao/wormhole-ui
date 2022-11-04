@@ -1,6 +1,7 @@
 import { getUserInfo as gui, getNftReceivedState, readNft, logout as lo } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
+import { auth, Client } from 'twitter-api-sdk'
 
 /**
  * Fetch account info from backend
@@ -125,7 +126,7 @@ export const logout = async (twitterId) => {
     return new Promise(async (resolve, reject) => {
         try{
             lo(twitterId);
-            
+
             store.commit('saveAccountInfo', {})
             store.commit('savePosts', [])
             store.commit('saveTransactions', [])
@@ -138,4 +139,25 @@ export const logout = async (twitterId) => {
             resolve(false);
         }
     })
+}
+
+export const refreshToken = async () => {
+    const acc = store.getters.getAccountInfo;
+    if (acc && acc.twitterId) {
+        const token = await twitterRefreshAccessToken(acc.twitterId);
+        this.$store.commit('saveAccountInfo', {...acc, ...token})
+    }
+  }
+
+export const isTokenExpired = async () => {
+    const acc = store.getters.getAccountInfo;
+    if (acc && acc.expiresAt) {
+        const timestamp = new Date().getTime();
+        if (acc.expiresAt - timestamp < 10000) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+    return false
 }
