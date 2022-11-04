@@ -44,6 +44,9 @@ getTwitterApi('/twitter/2/users/by/username/' + username + '?user.fields=created
 export const getProfile = async (twitterId) =>
     post(BACKEND_API_URL + '/users/profile', {twitterId})
 
+export const getUserByEth = async (ethAddress) =>
+    get(BACKEND_API_URL + '/users/getUserByEth', {ethAddress})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, pageSize, time, newPost) =>
     get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost})

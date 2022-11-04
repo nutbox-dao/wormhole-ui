@@ -21,18 +21,20 @@
           {{$t('signInView.p3')}}
         </div>
         or
-        <button @click="refreshToken"
+        <button @click="connectMetamask" :disabled="connecting"
           class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           connect metamask
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
         </button>
       </div>
       <div v-else>
         <CreateAccount v-if="authStep==='create'"
-                       :ethAccount="accountInfo" :referee="referee"
+                       :ethAccount="walletAddress" :referee="referee"
                        @skip="$emit('close')"
                        @send="sendTwitter($event)"></CreateAccount>
         <MetaMaskAccount v-if="authStep==='metamask'"
-                         :address="'0x00000000000'"
+                         :address="walletAddress"
+                         @back="authStep='select'"
                          @skip="$emit('close')"/>
       </div>
     </div>
@@ -50,6 +52,7 @@ import {generateBrainKey, randomEthAccount, randomWallet} from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
 import MetaMaskAccount from "@/views/MetaMaskAccount";
 import {TWITTER_MONITOR_RULE} from "@/config";
+import { connectMetamask } from '@/utils/web3/web3'
 
 export default {
   name: "Login",
@@ -60,11 +63,13 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       isLoginPage: false,
+      connecting: false,
       authStep: 'select',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
       accountInfo: {},
+      walletAddress: '',
       referee: ''
     }
   },
@@ -114,10 +119,11 @@ export default {
           tryTimes++;
         }
         Cookie.remove('twitter-loginCode')
-        const userInfo = await twitterLogin(loginCode);
         if (userInfo.code === 0) {
           // not registry
-        }else {
+          this.showNotify(this.$t('tip.notRegister'), 5000, 'info')
+
+        }else if (userInfo.code === 3) { // log in
           this.$store.commit('saveAccountInfo', userInfo.account)
           this.$emit('close')
         }
@@ -127,13 +133,19 @@ export default {
         this.loging = false
       }
     },
-
-    async refreshToken () {
-      this.authStep = 'metamask'
-      // const acc = this.$store.getters.getAccountInfo;
-      // console.log(773, acc);
-      // const token = await twitterRefreshAccessToken(acc.twitterId);
-      // this.$store.commit('saveAccountInfo', {...acc, ...token})
+    async connectMetamask() {
+      try {
+        this.connecting = true
+        const acc = await connectMetamask();
+        this.walletAddress = acc[0]
+        this.authStep = 'metamask'
+        console.log(6, acc)
+      }catch(e) {
+        console.log(554, e);
+        this.showNotify()
+      }finally{
+        this.connecting = false
+      }
     }
   },
 }

@@ -106,7 +106,7 @@
         <NFTAnimation/>
       </el-dialog>
 
-      <el-dialog :destroy-on-close="true" v-model="showLogin" :close-on-click-modal="false"
+      <el-dialog :destroy-on-close="true" v-model="showLogin" :close-on-click-modal="true"
                 custom-class="c-dialog c-dialog-lg c-dialog-center">
         <Login class="py-2rem" @close="showLogin=false"/>
       </el-dialog>

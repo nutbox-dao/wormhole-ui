@@ -9,6 +9,7 @@ import {
   BLOCK_CHAIN_BROWER
 } from '@/config'
 import store from '@/store'
+import { ethers } from 'ethers'
 
 /**
  * Add bsc to metamask
@@ -70,6 +71,13 @@ export const checkNetwork = async () => {
   }
 }
 
+export const signMessage = async (message) => {
+  const metamask = await getEthWeb()
+  const provider = new ethers.providers.Web3Provider(metamask)
+  const signer = provider.getSigner();
+  return await signer.signMessage(message)
+}
+
 /**
  * Get metamask eth
  */
@@ -97,9 +105,10 @@ export const getEthWeb = async () => {
  */
 export const connectMetamask = async () => {
   const metamask = await getEthWeb()
-  await metamask.request({
+  const accounts = await metamask.request({
     method: 'eth_requestAccounts'
   });
+  return accounts
 }
 
 /**
