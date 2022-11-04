@@ -13,6 +13,11 @@ export const BACKEND_API_URL = 'http://localhost:3100'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 
+export const SignUpMessage = JSON.stringify({
+    project: 'wormhole3',
+    method: 'create steem account'
+}, null, 4)
+
 // bsc net
 // export const RPC_NODE = 'https://bsc-dataseed.binance.org'
 // export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"

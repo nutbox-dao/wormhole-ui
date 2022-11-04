@@ -94,18 +94,6 @@
                 @click="$emit('skip')">
           {{$t('verifyView.btn5')}}
         </button>
-
-        <!--        <div class="flex justify-center max-w-41rem mx-auto">-->
-        <!--          <div class="max-w keep-all text-left">-->
-        <!--            {{$t('verifyView.p5')}}-->
-        <!--          </div>-->
-        <!--        </div>-->
-
-        <!--        <router-link to="/login">-->
-        <!--          <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">-->
-        <!--            {{$t('verifyView.p6')}}-->
-        <!--          </div>-->
-        <!--        </router-link>-->
       </div>
     </div>
     <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
@@ -219,7 +207,6 @@ export default {
   },
   mounted () {
     this.newReferee = this.referee ?? ''
-    randomWallet()
   },
 }
 </script>

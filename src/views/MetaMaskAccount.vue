@@ -2,54 +2,30 @@
   <div class="w-full h-full overflow-auto">
     <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
       <template v-if="step===0">
-        <div v-if="isRegister"
+        <div
              class="text-white light:text-blueDark">
           <div class=" keep-all c-text-black text-2rem leading-2.8rem max-w-30rem mx-auto mb-2rem">
-            {{$t('metamaskView.p3')}}
+            {{ isRegister ? $t('metamaskView.p3') : $t('metamaskView.p1') }}
           </div>
-          <div class="text-left font-bold">{{$t('metamaskView.address')}}</div>
+          <div v-if="isRegister" class="text-left font-bold">{{$t('metamaskView.address')}}</div>
           <div class="flex items-center bg-inputBg
                     light:bg-colorF2 light:border-1 gradient-border
                     py-1rem lg:px-6rem px-2rem
                     max-w-50rem mx-auto rounded-12px c-text-bold
                     text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
-            {{ address }}
+            {{ account }}
           </div>
           <div class="flex justify-center max-w-41rem mx-auto
                     light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
             <div class="max-w keep-all text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
-              {{$t('metamaskView.p4', {account: '@pipi'})}}
+              {{isRegister ? $t('metamaskView.p4', {account: '@' + username}) : $t('metamaskView.p2')}}
             </div>
           </div>
           <button class="c-text-black w-full gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-                  @click="step=2">
-            {{$t('verifyView.btn2')}}
-          </button>
-          <button class="c-text-black w-full border-1 border-primaryColor h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem">
-            {{$t('metamaskView.btn3')}}
-          </button>
-        </div>
-        <div v-else
-             class="text-white light:text-blueDark">
-          <div class=" keep-all c-text-black text-1rem leading-1.8rem max-w-30rem mx-auto mb-2rem">
-            {{$t('metamaskView.p1')}}
-          </div>
-          <div class="flex items-center bg-inputBg
-                    light:bg-colorF2 light:border-1 gradient-border
-                    py-1rem lg:px-6rem px-2rem
-                    max-w-50rem mx-auto rounded-12px c-text-bold
-                    text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
-            {{ address }}
-          </div>
-          <div class="flex justify-center max-w-41rem mx-auto
-                    light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
-            <div class="max-w keep-all text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
-              {{$t('metamaskView.p2')}}
-            </div>
-          </div>
-          <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-                  @click="step=1">
+                  @click="confirm"
+                  :disabled="isCheckingAddress || isSigning">
             {{$t('metamaskView.btn1')}}
+            <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isCheckingAddress || isSigning"></c-spinner>
           </button>
         </div>
       </template>
@@ -90,6 +66,15 @@
 
 <script>
 import { onCopy } from "@/utils/tool";
+import { getUserByEth, cacheKey } from '@/api/api'
+import { mapState } from 'vuex'
+import { accountChanged } from '@/utils/web3/account'
+import { signMessage } from '@/utils/web3/web3'
+import { SignUpMessage, SendPwdServerPubKey } from '@/config'
+import { ethers } from 'ethers'
+import { bytesToHex } from '@/utils/code'
+import { generateSteemAuth } from '@/utils/steem'
+import { box, createKeypair } from '@/utils/tweet-nacl'
 
 export default {
   name: "MetaMaskAccount",
@@ -102,15 +87,75 @@ export default {
   data() {
     return {
       isRegister: true,
-      step: 0
+      step: 0,
+      isCheckingAddress: false,
+      username: '',
+      isSigning: false
+    }
+  },
+  computed: {
+    ...mapState('web3', ['account'])
+  },
+  watch: {
+    account(newValue, oldValue) {
+      if (!this.isCheckingAddress)
+        this.checkoutAccount()
     }
   },
   methods: {
     onCopy,
     async send() {
+    },
+    async confirm() {
+      if(this.isRegister){
+        this.$emit('back')
+      }else {
+        try{
+          this.isSigning = true
+          const sig = await signMessage(SignUpMessage)
+          const salt = bytesToHex(ethers.utils.randomBytes(4))
+          const pair = await createKeypair()
+          const pwd = box(generateSteemAuth(sig.substring(2) + salt), SendPwdServerPubKey, pair.privateKey)
+          await cacheKey({
+            ethAddress: this.account,
+            pwd,
+            publicKey: pair.publicKey,
+            type: 'metamask'
+          })
+          this.step = 1
+        } catch (e) {
+          console.log('sign message fail:', e);
+        } finally {
+          this.isSigning = false
+        }
+      }
+    },
+    async checkoutAccount() {
+      try {
+        this.isCheckingAddress = true
+        const account = await getUserByEth(this.account);
+        console.log(343, account);
+        if (account && account.code === 3){
+          // registred
+          this.username = account.account.twitterUsername
+          this.isRegister = true;
+        }else {
+          // not registred
+          this.username = ''
+          this.isRegister = false
+        }
+        
+      } catch(e) {
+
+      } finally {
+        this.isCheckingAddress = false
+      }
     }
   },
-  mounted () {
+  async mounted () {
+    this.$store.commit('web3/saveAccount', this.address)
+    this.checkoutAccount();
+    accountChanged()
   },
 }
 </script>

@@ -39,7 +39,7 @@ export default {
     address: 'Address',
     btn1: 'Confirm',
     p3: 'Welcome back!',
-    p4: 'has already signed up with twitter account {account}. \n Continue signing in as {account} ?',
+    p4: 'has already signed up with twitter account {account}. \n Continue signing in as {account}?',
     btn3: 'Back'
   },
   signInView: {
@@ -48,7 +48,7 @@ export default {
     p3: 'Create an account',
     p4: 'Your account is in the process of registration',
     p5: 'Please wait for a moment',
-    p6: 'You havn\'t send twitter yet',
+    p6: 'You havn\'t send twitter yet'
   },
   squareView: {
     p1: 'Post twitter content on chain and earn rewards',
