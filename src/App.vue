@@ -106,9 +106,9 @@
         <NFTAnimation/>
       </el-dialog>
 
-      <el-dialog :destroy-on-close="true" v-model="showLogin"
+      <el-dialog :destroy-on-close="true" v-model="showLogin" :close-on-click-modal="false"
                 custom-class="c-dialog c-dialog-lg c-dialog-center">
-        <Login @close="showLogin=false"/>
+        <Login class="py-2rem" @close="showLogin=false"/>
       </el-dialog>
     </div>
   </el-config-provider>
@@ -139,7 +139,8 @@ export default {
       elLocal: {
         'zh': zhCn
       },
-      isDark: false
+      isDark: false,
+      showLogin: true
     }
   },
   computed: {
@@ -258,7 +259,7 @@ export default {
       if (ethAddress) {
         getTokenBalance(ethAddress);
       }
-      
+
       getProfile(twitterId).then(res => {
         console.log(64, res);
         if (res && res.code === 3) {
@@ -270,7 +271,7 @@ export default {
       }).catch(e => {
         logout();
         console.log('get profile fail:', e);
-      }) 
+      })
     }
 
     // to do
