@@ -180,6 +180,7 @@ export default {
   mounted () {
     this.newReferee = this.referee ?? ''
     this.showRegisterModal = false
+    randomWallet()
   },
 }
 </script>

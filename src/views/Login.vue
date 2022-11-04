@@ -6,42 +6,28 @@
           <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
             {{$t('signIn')}}
           </div>
-          <div class="text-0.9rem text-color8B leading-1.2rem mt-0.5rem mb-1.5rem">
-            {{$t('signInView.p1')}}
-          </div>
         </div>
         <button @click="login" :disable="loging"
                 class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           <span>{{$t('signIn')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>
-        <button @click="refreshToken">
-          Refresh
-        </button>
-        <div class="text-0.9rem font-bold mt-1.5rem">
-          {{$t('signInView.p2')}}
+
+        <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
+          {{$t('signUp')}}
         </div>
         <router-link to="/signup">
-          <div class="underline c-text-black text-0.9rem leading-1.5rem mt-0.5rem">
+          <div class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
             {{$t('signInView.p3')}}
           </div>
         </router-link>
+        or
+        <button @click="refreshToken"
+          class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
+          connect metamask
+        </button>
       </div>
     </div>
-    <el-dialog v-model="showRegistering" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        {{$t('signInView.p4')}}<br>
-        {{$t('signInView.p5')}}<br>
-        <div class="mx-auto">
-          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-        </div>
-      </div>
-    </el-dialog>
-    <el-dialog v-model="showNotSendTwitter" custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
-        {{$t('signInView.p6')}}
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -52,6 +38,7 @@ import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
 import { twitterLogin, twitterAuth, twitterRefreshAccessToken } from '@/api/api'
 import Cookie from 'vue-cookies'
+import { generateBrainKey, randomWallet } from '@/utils/ethers'
 
 export default {
   name: "Login",
@@ -64,6 +51,7 @@ export default {
     }
   },
   mounted() {
+    randomWallet()
     this.isLoginPage = (this.$route.name==='login')
     const code = this.$route.params.id;
     if (code) {
