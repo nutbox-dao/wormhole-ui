@@ -9,7 +9,7 @@
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
           </button>
           <div class="flex items-center">
-            <div class="hidden md:flex" v-if="!getAccountInfo">
+            <div class="md:flex" v-if="!getAccountInfo">
               <button @click="showLogin=true"
                   class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">
                   {{$t('signIn')}}
@@ -50,12 +50,12 @@
                             font-400 text-15px leading-24px xl:text-0.75rem">
                   <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
-                  <template v-if="!getAccountInfo">
-                    <router-link to="/login" @click="showMenu=false"
-                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>
-                    <router-link to="/signup" @click="showMenu=false"
-                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>
-                  </template>
+<!--                  <template v-if="!getAccountInfo">-->
+<!--                    <router-link to="/login" @click="showMenu=false"-->
+<!--                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>-->
+<!--                    <router-link to="/signup" @click="showMenu=false"-->
+<!--                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>-->
+<!--                  </template>-->
                   <router-link to="/square" @click="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('square')}}</router-link>
                   <router-link to="/curations" @click="showMenu=false"
@@ -140,7 +140,7 @@ export default {
         'zh': zhCn
       },
       isDark: false,
-      showLogin: true
+      showLogin: false
     }
   },
   computed: {

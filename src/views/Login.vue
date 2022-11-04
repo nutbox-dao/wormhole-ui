@@ -1,6 +1,6 @@
 <template>
   <div class="login-view">
-    <div class="container max-w-425px mx-auto" :class="isLoginPage?'px-2rem':''">
+    <div class="container  mx-auto" :class="isLoginPage?'px-2rem':''">
       <div v-if="authStep==='select'" :class="isLoginPage?'mt-10vh':''">
         <div :class="isLoginPage?'sm:text-center text-left':'text-center'">
           <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
@@ -27,9 +27,13 @@
         </button>
       </div>
       <div v-else>
-        <div v-if="authStep==='create'">
-          <Verify :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></Verify>
-        </div>
+        <CreateAccount v-if="authStep==='create'"
+                       :ethAccount="accountInfo" :referee="referee"
+                       @skip="$emit('close')"
+                       @send="sendTwitter($event)"></CreateAccount>
+        <MetaMaskAccount v-if="authStep==='metamask'"
+                         :address="'0x00000000000'"
+                         @skip="$emit('close')"/>
       </div>
     </div>
   </div>
@@ -43,12 +47,13 @@ import { sleep } from '@/utils/helper'
 import { twitterLogin, twitterAuth, twitterRefreshAccessToken } from '@/api/api'
 import Cookie from 'vue-cookies'
 import {generateBrainKey, randomEthAccount, randomWallet} from '@/utils/ethers'
-import Verify from "@/views/Verify";
+import CreateAccount from "@/views/CreateAccount";
+import MetaMaskAccount from "@/views/MetaMaskAccount";
 import {TWITTER_MONITOR_RULE} from "@/config";
 
 export default {
   name: "Login",
-  components: {Verify},
+  components: {CreateAccount, MetaMaskAccount},
   data() {
     return {
       loging: false,
@@ -124,10 +129,11 @@ export default {
     },
 
     async refreshToken () {
-      const acc = this.$store.getters.getAccountInfo;
-      console.log(773, acc);
-      const token = await twitterRefreshAccessToken(acc.twitterId);
-      this.$store.commit('saveAccountInfo', {...acc, ...token})
+      this.authStep = 'metamask'
+      // const acc = this.$store.getters.getAccountInfo;
+      // console.log(773, acc);
+      // const token = await twitterRefreshAccessToken(acc.twitterId);
+      // this.$store.commit('saveAccountInfo', {...acc, ...token})
     }
   },
 }
