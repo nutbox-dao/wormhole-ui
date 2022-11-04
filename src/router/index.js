@@ -3,6 +3,7 @@ import * as VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import VerifyView from '@/views/Verify'
 import LoginView from '@/views/Login'
+import LoginCodeView from '@/views/LoginCode'
 import FAQView from '@/views/FAQ'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
@@ -76,9 +77,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/login/:id?',
-    name: 'login',
-    component: LoginView,
+    path: '/logincode/:code',
+    name: 'login-code',
+    component: LoginCodeView
   },
   {
     path: '/account-info/:user',

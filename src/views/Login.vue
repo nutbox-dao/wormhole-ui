@@ -66,11 +66,6 @@ export default {
   mounted() {
     isTokenExpired()
     this.isLoginPage = (this.$route.name==='login')
-    const code = this.$route.params.id;
-    if (code) {
-      Cookie.set('twitter-loginCode', code, '300s');
-      window.close();
-    }
   },
   computed: {
     // ...mapState(['ethAddress', 'accountInfo']),
