@@ -196,7 +196,8 @@ export default {
   },
   err: {
     serverErr: '服务端错误',
-    transErr: '交易失败'
+    transErr: '交易失败',
+    loginErr: '登录失败'
   },
   common: {
     none: '没有',

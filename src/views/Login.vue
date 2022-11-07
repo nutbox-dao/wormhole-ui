@@ -1,7 +1,7 @@
 <template>
   <div class="login-view">
     <div class="container  mx-auto" :class="isLoginPage?'px-2rem':''">
-      <div v-if="authStep==='select'" :class="isLoginPage?'mt-10vh':''">
+      <div v-if="authStep==='login'" :class="isLoginPage?'mt-10vh':''">
         <div :class="isLoginPage?'sm:text-center text-left':'text-center'">
           <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
             {{$t('signIn')}}
@@ -12,12 +12,13 @@
           <span>{{$t('signIn')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
         </button>
-
+      </div>
+      <div v-else-if="authStep === 'select'" :class="isLoginPage?'mt-10vh':''">
         <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
           {{$t('signUp')}}
         </div>
         <div class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center"
-             @click="fetchKey">
+            @click="fetchKey">
           {{$t('signInView.p3')}}
         </div>
         or
@@ -53,6 +54,7 @@ import CreateAccount from "@/views/CreateAccount";
 import MetaMaskAccount from "@/views/MetaMaskAccount";
 import {TWITTER_MONITOR_RULE} from "@/config";
 import { connectMetamask } from '@/utils/web3/web3'
+import { ethers } from 'ethers'
 
 export default {
   name: "Login",
@@ -64,7 +66,7 @@ export default {
       showNotSendTwitter: false,
       isLoginPage: false,
       connecting: false,
-      authStep: 'select',
+      authStep: 'login',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
@@ -82,7 +84,6 @@ export default {
     // ...mapGetters(['getPrivateKey'])
   },
   methods: {
-    // 右上角提示信息框
     showNotify(message, duration, type) {
       notify({message, duration, type})
     },
@@ -119,16 +120,24 @@ export default {
           tryTimes++;
         }
         Cookie.remove('twitter-loginCode')
+        if (loginCode === 'fail'){
+          this.showNotify(this.$t('err.loginErr'), 5000, 'error')
+          return;
+        }
+        const userInfo = await twitterLogin(loginCode)
         if (userInfo.code === 0) {
           // not registry
-          this.showNotify(this.$t('tip.notRegister'), 5000, 'info')
-
+          // store auth info
+          console.log('not register')
+          Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+          this.authStep = 'select';
         }else if (userInfo.code === 3) { // log in
           this.$store.commit('saveAccountInfo', userInfo.account)
           this.$emit('close')
         }
       }catch(e) {
         // login error
+        this.showNotify(e, 5000, 'error')
       }finally {
         this.loging = false
       }
@@ -137,12 +146,12 @@ export default {
       try {
         this.connecting = true
         const acc = await connectMetamask();
-        this.walletAddress = acc[0]
+        this.walletAddress = ethers.utils.getAddress(acc[0])
         this.authStep = 'metamask'
         console.log(6, acc)
       }catch(e) {
         console.log(554, e);
-        this.showNotify()
+        this.showNotify(e, 5000, 'error')
       }finally{
         this.connecting = false
       }

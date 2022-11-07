@@ -15,7 +15,7 @@ export const CURATION_SHORT_URL = 'https://wh3.io/'
 
 export const SignUpMessage = JSON.stringify({
     project: 'wormhole3',
-    method: 'create steem account'
+    method: 'create account'
 }, null, 4)
 
 // bsc net
