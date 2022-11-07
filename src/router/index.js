@@ -35,20 +35,10 @@ const routes = [
     redirect: '/square',
   },
   {
-    path: '/square',
+    path: '/square/:referee?',
     name: 'square',
     component: SquareIndex,
     meta: {keepAlive: true}
-  },
-  {
-    path: '/square/tag/:tag',
-    name: 'tag',
-    component: TagView,
-  },
-  {
-    path: '/square/topics',
-    name: 'topics',
-    component: TopicsView,
   },
   {
     path: '/curations',
@@ -72,12 +62,7 @@ const routes = [
     component: VerifyView,
   },
   {
-    path: '/signup/:referee?',
-    name: 'signup',
-    component: HomeView
-  },
-  {
-    path: '/logincode/:code',
+    path: '/logincode/:code?',
     name: 'login-code',
     component: LoginCodeView
   },

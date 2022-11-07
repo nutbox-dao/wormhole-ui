@@ -16,11 +16,14 @@ export default {
   },
   mounted () {
     const code = this.$route.params.code;
-    console.log(325, this.$route.params);
     if (code) {
         this.info = 'Login Success'
-      Cookie.set('twitter-loginCode', code, '300s');
-      window.close();
+        Cookie.set('twitter-loginCode', code, '300s');
+        window.close();
+    }else {
+        // login fail
+        Cookie.set('twitter-loginCode', 'fail', '300s');
+        window.close();
     };
     this.info = 'Wrong login code'
   },

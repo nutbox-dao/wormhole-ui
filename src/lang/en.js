@@ -135,7 +135,8 @@ export default {
     missingInput: "Please complete all infos.",
     textLengthOut: "Input text exceed max length.",
     connectMetamaskFirst: 'Connect wallet first',
-    wrongEndTime: 'The end time you fill has passed'
+    wrongEndTime: 'The end time you fill has passed',
+    dismatchAddress: 'Dismatch addres'
   },
   ref: {
     referre: 'Referrer',
@@ -211,7 +212,8 @@ export default {
   },
   err: {
     serverErr: 'Server error',
-    transErr: 'Transaction Fail'
+    transErr: 'Transaction Fail',
+    loginErr: 'Login fail'
   },
   common: {
     none: 'None',

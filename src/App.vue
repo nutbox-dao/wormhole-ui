@@ -230,7 +230,12 @@ export default {
     }
   },
   async mounted() {
-    isTokenExpired()
+    const referee = this.$route.params.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+      this.showLogin = true;
+    }
+    
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do

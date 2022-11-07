@@ -38,7 +38,7 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                        h-3.6rem w-full rounded-full
                        w-full mb-2.3rem text-1rem mt-1.25rem"
-                @click="step=2">
+                @click="signup">
           {{$t('verifyView.btn2')}}
         </button>
       </div>
@@ -66,7 +66,7 @@
 
 <script>
 import { onCopy } from "@/utils/tool";
-import { getUserByEth, cacheKey } from '@/api/api'
+import { getUserByEth, register, signUp } from '@/api/api'
 import { mapState } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
@@ -75,6 +75,8 @@ import { ethers } from 'ethers'
 import { bytesToHex } from '@/utils/code'
 import { generateSteemAuth } from '@/utils/steem'
 import { box, createKeypair } from '@/utils/tweet-nacl'
+import { notify } from "@/utils/notify";
+import Cookie from 'vue-cookies'
 
 export default {
   name: "MetaMaskAccount",
@@ -90,11 +92,15 @@ export default {
       step: 0,
       isCheckingAddress: false,
       username: '',
-      isSigning: false
+      isSigning: false,
+      pwd: '',
+      sendPubKey: '',
+      salt: ""
     }
   },
   computed: {
-    ...mapState('web3', ['account'])
+    ...mapState('web3', ['account']),
+    ...mapState(['referee'])
   },
   watch: {
     account(newValue, oldValue) {
@@ -106,22 +112,32 @@ export default {
     onCopy,
     async send() {
     },
+    showNotify(message, duration, type) {
+      notify({message, duration, type})
+    },
     async confirm() {
       if(this.isRegister){
         this.$emit('back')
       }else {
         try{
           this.isSigning = true
-          const sig = await signMessage(SignUpMessage)
+          const sig = await signMessage(SignUpMessage, this.account)
+          if (!sig) {
+            this.showNotify(this.$t('tips.dismatchAddress'), 5000, 'error')
+            return;
+          }
           const salt = bytesToHex(ethers.utils.randomBytes(4))
           const pair = await createKeypair()
-          const pwd = box(generateSteemAuth(sig.substring(2) + salt), SendPwdServerPubKey, pair.privateKey)
-          await cacheKey({
-            ethAddress: this.account,
-            pwd,
-            publicKey: pair.publicKey,
-            type: 'metamask'
-          })
+          const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
+          // await cacheKey({
+          //   ethAddress: this.account,
+          //   pwd,
+          //   publicKey: pair.publicKey,
+          //   type: 'metamask'
+          // })
+          this.pwd = pwd,
+          this.salt = salt
+          this.sendPubKey = pair.publicKey
           this.step = 1
         } catch (e) {
           console.log('sign message fail:', e);
@@ -149,6 +165,37 @@ export default {
 
       } finally {
         this.isCheckingAddress = false
+      }
+    },
+    async signup() {
+      let loginInfo = Cookie.get('account-auth-info');
+      loginInfo = JSON.parse(loginInfo);
+      Cookie.remove('account-auth-info');
+      if (loginInfo) {
+        try {
+          const { accessToken, twitterId } = loginInfo;
+          let params = {
+            accessToken,
+            twitterId,
+            referee: this.referee,
+            sendPubKey: this.sendPubKey,
+            pwd: this.pwd,
+            ethAddress: this.account,
+            isMetamask: 1,
+            salt
+          }
+          await register(params);
+          // checkout register progress
+          const res = await check({accessToken, twitterId})
+          if (res && res.code === 3) {
+            this.$store.commit('saveAccountInfo', res.account)
+            // signup success
+          }
+        }catch(e) {
+          
+        }
+      }else {
+
       }
     }
   },
