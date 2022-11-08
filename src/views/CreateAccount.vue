@@ -11,90 +11,55 @@
                     py-1rem lg:px-6rem px-2rem
                     max-w-50rem mx-auto rounded-12px c-text-bold
                     text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
-          {{ ethAccount.privateKey }}
+          {{ wallet && wallet.nemonic }}
           <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
-               @click="onCopy(ethAccount.privateKey)"
+               @click="onCopy(wallet.nemonic)"
                src="~@/assets/icon-copy-primary.svg" alt="">
         </div>
         <div class="flex justify-center max-w-41rem mx-auto
                     light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
-<!--          <div class="leading-1.5rem flex item-center mr-1rem">-->
-<!--            <img class="w-1.1rem h-1.1rem min-w-1.1rem my-0.2rem" src="~@/assets/icon-warning.svg" alt="">-->
-<!--          </div>-->
           <div class="max-w keep-all text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
             {{$t('verifyView.p2')}}
           </div>
         </div>
-        <!-- <div class="flex justify-start items-center mt-1.5rem max-w-41rem mx-auto">
-          <el-checkbox v-model="checked" size="lg" class="c-checkbox" />
-          <div class="c-text-black text-1.5rem leading-1.5rem underline ml-1rem cursor-pointer" @click="checked=true">
-            Ok, I saved it.
-          </div>
-        </div> -->
         <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
           @click="importModal=true">
           {{$t('verifyView.btn1')}}
         </button>
       </div>
-      <div v-if="step===1"
-           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
-          <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
-          {{$t('verifyView.p4')}}
-        </div>
-        <span v-show="false" style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
-        <input v-show="false" class="bg-inputBg light:bg-colorF1 gradient-border border-1
-                      h-3.6rem w-full rounded-full
-                      px-1.6rem outline-none text-1.2rem mt-0.6rem mb-0.6rem"
-               type="text"
-               v-model="newReferee"
-               :placeholder="$t('ref.inputReferee')">
-        <span v-show="false" style="word-break: break-word">{{$t('ref.refDes')}}</span>
-        <button class="flex items-center justify-center c-text-black gradient-btn
-                       h-3.6rem w-full rounded-full
-                       w-full mb-2.3rem text-1rem mt-1.25rem"
-                @click="step=2">
-          {{$t('verifyView.btn2')}}
-        </button>
-
-<!--        <div class="flex justify-center max-w-41rem mx-auto">-->
-<!--          <div class="max-w keep-all text-left">-->
-<!--            {{$t('verifyView.p5')}}-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <router-link to="/login">-->
-<!--          <div class="c-text-black text-15px leading-24px 2xl:text-1rem 2xl:leading-1.5rem underline">-->
-<!--            {{$t('verifyView.p6')}}-->
-<!--          </div>-->
-<!--        </router-link>-->
+    </div>
+    <div v-if="step===1"
+          class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
+      <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
+        <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
+        {{$t('verifyView.p4')}}
       </div>
-      <div v-if="step===2"
-           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
-          <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
-          {{$t('verifyView.p10')}}
-        </div>
-        <span v-show="false" style="word-break: break-word">{{$t('ref.refereeCode')}}</span>
-        <input v-show="false" class="bg-inputBg light:bg-colorF1 gradient-border border-1
+      <button class="flex items-center justify-center c-text-black gradient-btn
                       h-3.6rem w-full rounded-full
-                      px-1.6rem outline-none text-1.2rem mt-0.6rem mb-0.6rem"
-               type="text"
-               v-model="newReferee"
-               :placeholder="$t('ref.inputReferee')">
-        <span v-show="false" style="word-break: break-word">{{$t('ref.refDes')}}</span>
-        <button class="flex items-center justify-center c-text-black gradient-btn
-                       h-3.6rem w-full rounded-full
-                       w-full mb-1.3rem text-1rem mt-1.25rem"
-                @click="send">
-          {{$t('verifyView.btn4')}}
-        </button>
-        <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
-                       w-full mb-2.3rem text-1rem"
-                @click="$emit('skip')">
-          {{$t('verifyView.btn5')}}
-        </button>
+                      w-full mb-2.3rem text-1rem mt-1.25rem"
+              :disabled="isSigningup"
+              @click="signup">
+        {{$t('verifyView.btn2')}}
+        <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
+      </button>
+    </div>
+    <div v-if="step===2"
+          class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
+      <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
+        <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
+        {{$t('verifyView.p10')}}
       </div>
+      <button class="flex items-center justify-center c-text-black gradient-btn
+                      h-3.6rem w-full rounded-full
+                      w-full mb-1.3rem text-1rem mt-1.25rem"
+              @click="send">
+        {{$t('verifyView.btn4')}}
+      </button>
+      <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
+                      w-full mb-2.3rem text-1rem"
+              @click="$emit('skip')">
+        {{$t('verifyView.btn5')}}
+      </button>
     </div>
     <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
                custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg">
@@ -107,7 +72,7 @@
             <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
               <div class="key-box">
                 <div class="gradient-text max-w-25rem mx-auto py-15px px-20px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
-                  {{ ethAccount.privateKey }}
+                  {{ wallet && wallet.nemonic }}
                 </div>
               </div>
             </div>
@@ -120,9 +85,8 @@
           </div>
           <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px flex justify-center items-center">
             <button class="gradient-btn gradient-btn-purple h-2.7rem w-14rem rounded-full flex justify-center items-center"
-                    @click="attachKeyToServer" :disabled="!checked || attachingServer">
+                    @click="step=1;importModal=false">
               {{$t('verifyView.btn3')}}
-              <c-spinner class="w-1.6rem h-1.6rem ml-1rem" v-show="attachingServer"></c-spinner>
             </button>
           </div>
         </div>
@@ -132,14 +96,15 @@
 </template>
 
 <script>
-import { cacheKey } from '@/api/api'
-import { generateBrainKey, randomWallet } from '@/utils/ethers'
+import { register, check } from '@/api/api'
+import { randomWallet } from '@/utils/ethers'
 import { box, createKeypair } from '@/utils/tweet-nacl'
 import { SendPwdServerPubKey } from '@/config'
 import { notify } from "@/utils/notify";
 import { onCopy } from "@/utils/tool";
 import { generateSteemAuth } from '@/utils/steem'
-import { sleep } from '@/utils/helper'
+import Cookie from 'vue-cookies'
+import { mapState } from 'vuex'
 
 export default {
   name: "CreateAccount",
@@ -147,66 +112,71 @@ export default {
     ethAccount: {
       type: Object,
       default: {}
-    },
-    referee: {
-      type: String,
-      default: ''
     }
   },
   data() {
     return {
       checked: false,
-      attachingServer: false,
       step: 0,
       importModal: false,
-      newReferee: ''
+      wallet: {},
+      isSigningup: false
     }
+  },
+  computed: {
+    ...mapState(['referee'])
   },
   methods: {
     onCopy,
     showNotify(message, duration, type) {
         notify({message, duration, type})
     },
-    async attachKeyToServer() {
-      try{
-        // this.attachingServer = true
-        // await sleep(0.1)
-        // const pair = await createKeypair()
-        // const pwd = box(generateSteemAuth(this.ethAccount.privateKey), SendPwdServerPubKey, pair.privateKey)
-        // console.log(235, this.ethAccount.ethAddress);
-        // await cacheKey({
-        //   ethAddress: this.ethAccount.ethAddress,
-        //   pwd,
-        //   publicKey: pair.publicKey
-        // })
-        this.importModal=false;
-        this.step=1
-      } catch (e) {
-        console.log(25, e);
-        this.showNotify('Pre bind account fail', 5000, 'error')
-      } finally {
-        this.attachingServer = false
+    async signup() {
+      console.log('signup');
+      this.isSigningup = true
+      let loginInfo = Cookie.get('account-auth-info');
+      Cookie.remove('account-auth-info');
+      if (loginInfo) {
+        try {
+          const pair = await createKeypair()
+          const pwd = box(generateSteemAuth(this.wallet.privateKey), SendPwdServerPubKey, pair.privateKey)
+          const { accessToken, twitterId } = loginInfo;
+          let params = {
+            accessToken,
+            twitterId,
+            referee: this.referee,
+            sendPubKey: pair.publicKey,
+            pwd,
+            ethAddress: this.wallet.address,
+            isMetamask: 0
+          }
+          await register(params);
+          // checkout register progress
+          const res = await check({accessToken, twitterId})
+          if (res && res.code === 3) {
+            this.$store.commit('saveAccountInfo', res.account)
+            // signup success
+            this.step = 2;
+          }
+        }catch(e) {
+          console.log(532, e);
+        }finally {
+          this.isSigningup = false
+        }
+      }else {
+        // not authed
+        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        this.step = 0
+        this.$emit('back');
       }
     },
-    async send() {
-      try{
-        if (this.newReferee.length > 0) {
-          if (this.newReferee.trim().match(/^[0-9]+$/)) {
-
-          }else {
-            this.showNotify(this.$t('ref.wrongReferee'), 5000, 'error')
-            return;
-          }
-        }
-        this.$emit('send', this.newReferee.trim())
-      } catch (e) {
-
-      } finally {
-      }
+    send() {
+      // go to send twitter
+      this.$emit('skip')
     }
   },
   mounted () {
-    this.newReferee = this.referee ?? ''
+    randomWallet().then(res => this.wallet = res)
   },
 }
 </script>

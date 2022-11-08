@@ -30,8 +30,8 @@
       </div>
       <div v-else>
         <CreateAccount v-if="authStep==='create'"
-                       :ethAccount="walletAddress" :referee="referee"
                        @skip="$emit('close')"
+                       @back="authStep='login'"
                        @send="sendTwitter($event)"></CreateAccount>
         <MetaMaskAccount v-if="authStep==='metamask'"
                          :address="walletAddress"
