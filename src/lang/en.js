@@ -14,7 +14,8 @@ export default {
     t2: 'and Sign up',
     btn1: 'Activate Your Wallet',
     p1: 'Already verified yourself ?',
-    p2: 'Log in here'
+    p2: 'Log in here',
+    notAuth: 'Auth expired, please re-auth.'
   },
   verifyView: {
     p1: 'Below is the password to your new wallet:',

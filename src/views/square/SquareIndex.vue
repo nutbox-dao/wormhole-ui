@@ -136,7 +136,10 @@ export default {
     }
   },
   mounted() {
-
+    const referee = this.$route.params.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
   },
   activated() {
     document.getElementById('square-index').scrollTo({top: this.scroll})

@@ -19,9 +19,6 @@ export const twitterRefreshAccessToken = async (twitterId) =>
 export const logout = async (twitterId) => 
     get(BACKEND_API_URL + '/auth/logout', {twitterId})
 
-export const signUp = async () => 
-    get(BACKEND_API_URL + '/auth/signup', {})
-
 export const register = async (params) => 
     post(BACKEND_API_URL + '/register', params)
 

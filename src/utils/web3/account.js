@@ -1,7 +1,6 @@
 import { getEthWeb } from './web3.js'
 import store from '@/store'
 import { ethers } from 'ethers'
-import { getNonce as gn } from '@/api/api'
 import { sleep } from '../helper.js'
 import { CHAIN_ID } from '@/config.js'
 
@@ -44,21 +43,6 @@ export const accountChanged = async (refresh) => {
         refresh();
     })
 }
-
-/**
- * Get User's nonce
- * @param {*} update
- */
- export const getNonce = async (update = false) => {
-    let nonce = store.state.web3.nonce;
-    const account = await getAccounts();
-    if (!update && nonce) {
-      return nonce;
-    }
-    nonce = await gn(account);
-    store.commit("web3/saveNonce", nonce);
-    return nonce;
-  };
 
   /**
  * Sining message
