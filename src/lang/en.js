@@ -23,7 +23,7 @@ export default {
     btn1: 'Ok, I saved it.',
     p3: 'Great,',
     p4: 'now let\'s verify your Twitter handle',
-    btn2: 'Go to bind',
+    btn2: 'Verify',
     p5: 'After you\'ve tweeted the bind message',
     p6: 'Log in here',
     p7: 'Are you sure saved the important key?',
