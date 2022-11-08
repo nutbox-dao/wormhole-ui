@@ -151,7 +151,6 @@ export default {
     },
     profileImg() {
       if (!this.getAccountInfo) return "";
-      console.log(22222, this.getAccountInfo.profileImg);
       if (this.getAccountInfo.profileImg) {
         return this.getAccountInfo.profileImg.replace("normal", "400x400");
       } else {
@@ -222,18 +221,11 @@ export default {
     },
     signout() {
       logout(this.getAccountInfo.twitterId).then(res => {
-        console.log(6767, this.getAccountInfo);
       });
       this.showMenu = false
     }
   },
   async mounted() {
-    const referee = this.$route.params.referee;
-    if (referee) {
-      this.$store.commit('saveReferee', referee);
-      this.showLogin = true;
-    }
-    
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do

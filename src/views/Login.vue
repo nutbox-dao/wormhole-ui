@@ -35,7 +35,7 @@
                        @send="sendTwitter($event)"></CreateAccount>
         <MetaMaskAccount v-if="authStep==='metamask'"
                          :address="walletAddress"
-                         @back="authStep='select'"
+                         @back="authStep='login'"
                          @skip="$emit('close')"/>
       </div>
     </div>

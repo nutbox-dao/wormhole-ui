@@ -38,8 +38,10 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                        h-3.6rem w-full rounded-full
                        w-full mb-2.3rem text-1rem mt-1.25rem"
+                :disabled="isSigningup"
                 @click="signup">
           {{$t('verifyView.btn2')}}
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
         </button>
       </div>
       <div v-if="step===2"
@@ -66,7 +68,7 @@
 
 <script>
 import { onCopy } from "@/utils/tool";
-import { getUserByEth, register, signUp } from '@/api/api'
+import { getUserByEth, register, check } from '@/api/api'
 import { mapState } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
@@ -93,6 +95,7 @@ export default {
       isCheckingAddress: false,
       username: '',
       isSigning: false,
+      isSigningup: false,
       pwd: '',
       sendPubKey: '',
       salt: ""
@@ -150,7 +153,6 @@ export default {
       try {
         this.isCheckingAddress = true
         const account = await getUserByEth(this.account);
-        console.log(343, account);
         if (account && account.code === 3){
           // registred
           this.username = account.account.twitterUsername
@@ -168,11 +170,12 @@ export default {
       }
     },
     async signup() {
+      console.log('signup');
       let loginInfo = Cookie.get('account-auth-info');
-      loginInfo = JSON.parse(loginInfo);
       Cookie.remove('account-auth-info');
       if (loginInfo) {
         try {
+          this.isSigningup = true
           const { accessToken, twitterId } = loginInfo;
           let params = {
             accessToken,
@@ -182,7 +185,7 @@ export default {
             pwd: this.pwd,
             ethAddress: this.account,
             isMetamask: 1,
-            salt
+            salt: this.salt
           }
           await register(params);
           // checkout register progress
@@ -190,12 +193,18 @@ export default {
           if (res && res.code === 3) {
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
+            this.step = 2;
           }
         }catch(e) {
-          
+          console.log(532, e);
+        }finally {
+          this.isSigningup = false
         }
       }else {
-
+        // not authed
+        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        this.step = 0
+        this.$emit('back');
       }
     }
   },

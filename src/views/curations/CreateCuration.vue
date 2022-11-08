@@ -637,7 +637,6 @@ export default {
     async createCuration() {
       try{
         this.loading = true
-        ethers.utils.bigNumberify
 
         const curation = {
           curationId: randomCurationId(),
