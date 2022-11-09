@@ -106,9 +106,35 @@
         <NFTAnimation/>
       </el-dialog>
 
-      <el-dialog :destroy-on-close="true" v-model="showLogin" :close-on-click-modal="true"
+      <el-dialog :destroy-on-close="true" v-model="showLogin"
+                 :close-on-click-modal="false"
                 custom-class="c-dialog c-dialog-lg c-dialog-center">
-        <Login class="py-2rem" @close="showLogin=false"/>
+        <div class="relative min-h-20rem">
+          <div class="bg-black/10 w-1.4rem h-1.4rem rounded-full m-1rem flex justify-center items-center">
+            <img class="w-1.2rem"
+                 @click="closeLoginTipVisible=true"
+                 src="~@/assets/icon-close-white.svg" alt="">
+          </div>
+          <img class="h-2rem mx-auto" src="~@/assets/logo.svg" alt="">
+          <Login class="p-2rem" @close="showLogin=false"/>
+          <div v-if="closeLoginTipVisible"
+               class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-1rem px-1/10
+                      bg-block light:bg-white w-7/10 border-1 border-primaryColor rounded-8px">
+            <div>{{$t('signUpView.quitTip')}}</div>
+            <div>
+              <button class="c-text-black gradient-btn h-3.6rem w-full border-1 border-primaryColor rounded-full
+                      w-full mb-1rem text-1rem"
+                      @click="closeLoginTipVisible=false">
+                {{$t('signUpView.cancel')}}
+              </button>
+              <button class="c-text-black gradient-btn h-3.6rem w-full border-1 border-primaryColor rounded-full
+                      w-full text-1rem"
+                      @click="closeLoginTipVisible=false, showLogin=false">
+                {{$t('signUpView.close')}}
+              </button>
+            </div>
+          </div>
+        </div>
       </el-dialog>
     </div>
   </el-config-provider>
@@ -140,7 +166,8 @@ export default {
         'zh': zhCn
       },
       isDark: false,
-      showLogin: false
+      showLogin: false,
+      closeLoginTipVisible: false
     }
   },
   computed: {

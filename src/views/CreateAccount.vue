@@ -23,75 +23,79 @@
           </div>
         </div>
         <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-          @click="importModal=true">
-          {{$t('verifyView.btn1')}}
+          @click="step=1">
+          {{$t('verifyView.saveBtn')}}
+        </button>
+      </div>
+      <div v-if="step===1" class="">
+        <div class="px-3rem pt-2.3rem pb-1.6rem">
+          <div class="c-text-black text-1.4rem text-white light:text-blueDark">
+            {{$t('verifyView.p7')}}
+          </div>
+          <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
+            <div class="key-box">
+              <div class="gradient-text max-w-25rem mx-auto py-15px px-20px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
+                {{ wallet && wallet.nemonic }}
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-center items-start mt-1.5rem max-w-41rem mx-auto">
+            <el-checkbox v-model="checked"  class="c-checkbox"/>
+            <div class="flex-1 text-0.9rem font-bold text-white light:text-blueDark text-left ml-8px" style="word-break: break-word">
+              {{$t('verifyView.p8')}}
+            </div>
+          </div>
+        </div>
+        <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
+          <button class="gradient-btn gradient-btn-purple h-2.7rem w-14rem rounded-full flex justify-center items-center"
+                  @click="step=2">
+            {{$t('verifyView.sureBtn')}}
+          </button>
+        </div>
+      </div>
+      <div v-if="step===2"
+           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
+        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left  whitespace-pre-line">
+          <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br>
+          {{$t('verifyView.p4')}}
+        </div>
+        <template v-if="authError">
+          <div class="text-redColor text-left">Error</div>
+          <button class="flex items-center justify-center c-text-black gradient-btn
+                      h-3.6rem w-full rounded-full
+                      w-full mb-2.3rem text-1rem mt-1.25rem"
+                  @click="$emit('back')">
+            {{$t('verifyView.back')}}
+          </button>
+        </template>
+        <button v-else class="flex items-center justify-center c-text-black gradient-btn
+                      h-3.6rem w-full rounded-full
+                      w-full mb-2.3rem text-1rem mt-1.25rem"
+                :disabled="isSigningup"
+                @click="signup">
+          {{isSigningup?$t('verifyView.verifying'):$t('verifyView.verify')}}
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
+        </button>
+      </div>
+      <div v-if="step===3"
+           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
+        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
+          <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
+          {{$t('verifyView.p10')}}
+        </div>
+        <button class="flex items-center justify-center c-text-black gradient-btn
+                      h-3.6rem w-full rounded-full
+                      w-full mb-1.3rem text-1rem mt-1.25rem"
+                @click="send">
+          {{$t('verifyView.postBtn')}}
+        </button>
+        <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
+                      w-full mb-2.3rem text-1rem"
+                @click="$emit('skip')">
+          {{$t('verifyView.skip')}}
         </button>
       </div>
     </div>
-    <div v-if="step===1"
-          class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-      <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
-        <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br class="sm:hidden">
-        {{$t('verifyView.p4')}}
-      </div>
-      <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem w-full rounded-full
-                      w-full mb-2.3rem text-1rem mt-1.25rem"
-              :disabled="isSigningup"
-              @click="signup">
-        {{$t('verifyView.btn2')}}
-        <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
-      </button>
-    </div>
-    <div v-if="step===2"
-          class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-      <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
-        <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
-        {{$t('verifyView.p10')}}
-      </div>
-      <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem w-full rounded-full
-                      w-full mb-1.3rem text-1rem mt-1.25rem"
-              @click="send">
-        {{$t('verifyView.btn4')}}
-      </button>
-      <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
-                      w-full mb-2.3rem text-1rem"
-              @click="$emit('skip')">
-        {{$t('verifyView.btn5')}}
-      </button>
-    </div>
-    <el-dialog :destroy-on-close="true" :append-to-body="true" v-model="importModal"
-               custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg">
-      <div class="w-full gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden">
-        <div class="import-box text-center">
-          <div class="px-3rem pt-2.3rem pb-1.6rem">
-            <div class="c-text-black text-1.4rem text-white light:text-blueDark">
-              {{$t('verifyView.p7')}}
-            </div>
-            <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
-              <div class="key-box">
-                <div class="gradient-text max-w-25rem mx-auto py-15px px-20px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
-                  {{ wallet && wallet.nemonic }}
-                </div>
-              </div>
-            </div>
-            <div class="flex justify-center items-start mt-1.5rem max-w-41rem mx-auto">
-              <el-checkbox v-model="checked"  class="c-checkbox"/>
-              <div class="flex-1 text-0.9rem font-bold text-white light:text-blueDark text-left ml-8px" style="word-break: break-word">
-                {{$t('verifyView.p8')}}
-              </div>
-            </div>
-          </div>
-          <div class="bg-black light:bg-color62/30 py-1.6rem rounded-b-12px flex justify-center items-center">
-            <button class="gradient-btn gradient-btn-purple h-2.7rem w-14rem rounded-full flex justify-center items-center"
-                    @click="step=1;importModal=false">
-              {{$t('verifyView.btn3')}}
-            </button>
-          </div>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -124,7 +128,8 @@ export default {
       checked: false,
       step: 0,
       importModal: false,
-      isSigningup: false
+      isSigningup: false,
+      authError: false
     }
   },
   computed: {
@@ -173,9 +178,10 @@ export default {
         }
       }else {
         // not authed
-        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
-        this.step = 0
-        this.$emit('back');
+        // this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        // this.step = 0
+        // this.$emit('back');
+        this.authError = true
       }
     },
     send() {

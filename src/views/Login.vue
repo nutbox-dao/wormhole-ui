@@ -2,26 +2,33 @@
   <div class="login-view">
     <div class="container  mx-auto" :class="isLoginPage?'px-2rem':''">
       <div v-if="authStep==='login'" :class="isLoginPage?'mt-10vh':''">
-        <div :class="isLoginPage?'sm:text-center text-left':'text-center'">
-          <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
-            {{$t('signIn')}}
-          </div>
+        <div style="word-break: break-word">{{$t('signInView.p1')}}</div>
+        <div class="pt-1rem">
+          <img class="w-3rem mx-auto cursor-pointer"
+               @click="login"
+               src="~@/assets/icon-twitter-blue.svg" alt="">
         </div>
-        <button @click="login" :disable="loging"
-                class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
-          <span>{{$t('signIn')}}</span>
-          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
-        </button>
+<!--        <button @click="login" :disable="loging"-->
+<!--                class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">-->
+<!--          <span>{{$t('signIn')}}</span>-->
+<!--          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>-->
+<!--        </button>-->
       </div>
       <div v-else-if="authStep === 'select'" :class="isLoginPage?'mt-10vh':''">
-        <div class="c-text-black text-2rem max-w-30rem mx-auto leading-2.6rem">
-          {{$t('signUp')}}
+        <div class="flex items-center">
+          <div class="bg-black/10 w-3rem h-3rem rounded-full mr-0.5rem"></div>
+          <div class="flex flex-col items-start">
+            <span class="font-bold">Pipi</span>
+            <span>@twitterId</span>
+          </div>
         </div>
+        <div class="font-bold text-left mt-0.5rem mb-1rem">{{$t('signUpView.p1')}}</div>
+        <div class="text-left text-black/40">{{$t('signUpView.p2')}}</div>
         <button class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center"
             @click="authStep = 'create'">
-          {{$t('signInView.p3')}}
+          {{$t('signUpView.createAccount')}}
         </button>
-        or
+        <div>{{$t('signUpView.or')}}</div>
         <button @click="connectMetamask" :disabled="connecting"
           class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
           connect metamask

@@ -10,41 +10,44 @@ export default {
   faucet: 'Faucet',
   logout: 'Log out',
   signUpView: {
-    t1: 'Activate web3 wallet',
-    t2: 'and Sign up',
-    btn1: 'Activate Your Wallet',
-    p1: 'Already verified yourself ?',
-    p2: 'Log in here',
-    notAuth: 'Auth expired, please re-auth.'
+    p1: 'has not yet registered',
+    p2: 'Sign up and...',
+    createAccount: 'Let us create a new wallet for you',
+    or: 'Or',
+    quitTip: 'Are you sure to quit?\n' +
+      'All the information will be discarded.',
+    cancel: 'Cancel',
+    close: 'Close'
   },
   verifyView: {
     p1: 'Below is the password to your new wallet:',
     p2: 'Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.',
-    btn1: 'Ok, I saved it.',
     p3: 'Great,',
-    p4: 'now let\'s verify your Twitter handle',
-    btn2: 'Verify',
+    p4: 'We will check your Twitter Account status. \n Please wait a moment.',
     p5: 'After you\'ve tweeted the bind message',
     p6: 'Log in here',
     p7: 'Are you sure saved the important key?',
     p8: 'I know that if I do not save the private key, no one can retrieve my account',
-    btn3: 'yes，I\'m sure',
     p9: 'One last step!',
     p10: 'Let’s try post your first Web3 tweet!',
-    btn4: '☝️ One-Click Post',
-    btn5: 'skip'
+    saveBtn: 'Ok, I saved it.',
+    sureBtn: 'Yes，I\'m sure',
+    postBtn: '☝️ One-Click Post',
+    skip: 'Skip',
+    verify: 'Verify',
+    verifying: 'Verifying...',
+    back: 'Back'
   },
   metamaskView: {
-    p1: 'Please comfirm you will be signed up with the following address',
-    p2: 'If you would like to use other address, please go to metamask to change to a different address.',
+    p1: 'Please confirm your address',
+    p2: 'Not happy with this address? \n Go to MetaMask and change to a different address.',
+    p3: '⚠️ Current address has already be signed up with twitter account {account}. \n Please go back and sign in via {account}',
     address: 'Address',
-    btn1: 'Confirm',
-    p3: 'Welcome back!',
-    p4: 'has already signed up with twitter account {account}. \n Continue signing in as {account}?',
-    btn3: 'Back'
+    confirm: 'Confirm',
+    back: 'Back'
   },
   signInView: {
-    p1: 'Please enter your twitter username.',
+    p1: 'Please click the Twitter icon and authorize your Twitter account to sign in',
     p2: 'Haven\'t signed up yet ?',
     p3: 'Create an account',
     p4: 'Your account is in the process of registration',
