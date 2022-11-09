@@ -86,6 +86,10 @@ export default {
     address: {
       type: String,
       default: ''
+    },
+    pair: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -130,14 +134,12 @@ export default {
             return;
           }
           const salt = bytesToHex(ethers.utils.randomBytes(4))
-          const pair = await createKeypair()
+          let pair = this.pair;
+            await sleep(0.6);
+          if (!pair.privateKey) {
+            pair = await createKeypair();
+          }
           const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
-          // await cacheKey({
-          //   ethAddress: this.account,
-          //   pwd,
-          //   publicKey: pair.publicKey,
-          //   type: 'metamask'
-          // })
           this.pwd = pwd,
           this.salt = salt
           this.sendPubKey = pair.publicKey

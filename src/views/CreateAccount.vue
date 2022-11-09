@@ -105,11 +105,16 @@ import { onCopy } from "@/utils/tool";
 import { generateSteemAuth } from '@/utils/steem'
 import Cookie from 'vue-cookies'
 import { mapState } from 'vuex'
+import { sleep } from '@/utils/helper'
 
 export default {
   name: "CreateAccount",
   props: {
-    ethAccount: {
+    wallet: {
+      type: Object,
+      default: {}
+    },
+    pair: {
       type: Object,
       default: {}
     }
@@ -119,7 +124,6 @@ export default {
       checked: false,
       step: 0,
       importModal: false,
-      wallet: {},
       isSigningup: false
     }
   },
@@ -138,7 +142,11 @@ export default {
       Cookie.remove('account-auth-info');
       if (loginInfo) {
         try {
-          const pair = await createKeypair()
+          let pair = this.pair
+          await sleep(0.6);
+          if (!pair && !pair.privateKey) {
+            pair = await createKeypair();
+          }
           const pwd = box(generateSteemAuth(this.wallet.privateKey), SendPwdServerPubKey, pair.privateKey)
           const { accessToken, twitterId } = loginInfo;
           let params = {
@@ -175,8 +183,12 @@ export default {
       this.$emit('skip')
     }
   },
-  mounted () {
-    randomWallet().then(res => this.wallet = res)
+  async mounted () {
+    console.log(4,this.pair);
+    if (!this.wallet && !this.wallet.address) {
+      await sleep(0.6);
+      randomWallet().then(wallet => this.wallet = wallet)
+    }
   },
 }
 </script>
