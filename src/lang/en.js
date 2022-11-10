@@ -42,7 +42,7 @@ export default {
   metamaskView: {
     p1: 'Please confirm your address',
     p2: 'Not happy with this address? \n Go to MetaMask and change to a different address.',
-    p3: '⚠️ Current address has already be signed up with twitter account {account}. \n Please go back and sign in via {account}',
+    p3: '⚠️ Current address has already be signed up with twitter account {account}. \n Please go back and sign in via {account} or change another account in metamask.',
     address: 'Address',
     confirm: 'Confirm',
     back: 'Back'

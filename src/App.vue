@@ -156,6 +156,7 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile } from '@/api/api'
 import Login from '@/views/Login.vue'
+import { getTweetById } from '@/utils/twitter'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -259,6 +260,7 @@ export default {
     }
   },
   async mounted() {
+    getTweetById()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do
