@@ -16,7 +16,6 @@
           </div>
           <template v-if="isRegister">
             <div class="max-w-41rem mx-auto light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
-              <div class="whitespace-pre-line mb-1rem">{{$t('metamaskView.p2')}}</div>
               <div class="max-w whitespace-pre-line text-center text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
                 {{$t('metamaskView.p3', {account: '@' + username})}}
               </div>
