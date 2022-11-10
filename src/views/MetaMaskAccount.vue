@@ -102,6 +102,7 @@ import { generateSteemAuth } from '@/utils/steem'
 import { box, createKeypair } from '@/utils/tweet-nacl'
 import { notify } from "@/utils/notify";
 import Cookie from 'vue-cookies'
+import  { sleep } from '@/utils/helper'
 
 export default {
   name: "MetaMaskAccount",
@@ -228,9 +229,9 @@ export default {
         }
       }else {
         // not authed
-        // this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
-        // this.step = 0
-        // this.$emit('back');
+        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        this.step = 0
+        this.$emit('back');
         this.authError = true
       }
     }

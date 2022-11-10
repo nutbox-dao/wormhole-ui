@@ -61,11 +61,12 @@ import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
 import { twitterLogin, twitterAuth } from '@/api/api'
 import Cookie from 'vue-cookies'
-import { randomWallet, ethers } from '@/utils/ethers'
+import { randomWallet } from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
 import MetaMaskAccount from "@/views/MetaMaskAccount";
 import { connectMetamask } from '@/utils/web3/web3'
 import { createKeypair } from '@/utils/tweet-nacl'
+import { ethers } from 'ethers'
 
 export default {
   name: "Login",
@@ -105,7 +106,7 @@ export default {
       try {
         this.loging = true
         const res = await twitterAuth();
-        window.open(res, 'newwindow', 'height=600,width=600,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+        window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
         let loginCode = Cookie.get('twitter-loginCode');
         let tryTimes = 0
         await sleep(1)
