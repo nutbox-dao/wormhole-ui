@@ -146,6 +146,8 @@ export const refreshToken = async () => {
     if (acc && acc.twitterId) {
         const token = await twitterRefreshAccessToken(acc.twitterId);
         this.$store.commit('saveAccountInfo', {...acc, ...token})
+    } else {
+        throw 'Not login'
     }
   }
 
