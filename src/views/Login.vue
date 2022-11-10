@@ -3,23 +3,26 @@
     <div class="container  mx-auto" :class="isLoginPage?'px-2rem':''">
       <div v-if="authStep==='login'" :class="isLoginPage?'mt-10vh':''">
         <div style="word-break: break-word">{{$t('signInView.p1')}}</div>
-        <div class="pt-1rem">
+        <!-- <div class="pt-1rem">
           <img class="w-3rem mx-auto cursor-pointer"
                @click="login"
                src="~@/assets/icon-twitter-blue.svg" alt="">
-        </div>
-<!--        <button @click="login" :disable="loging"-->
-<!--                class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">-->
-<!--          <span>{{$t('signIn')}}</span>-->
-<!--          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>-->
-<!--        </button>-->
+        </div> -->
+       <button @click="login" :disable="loging"
+               class="c-text-black gradient-btn h-3.6rem w-full rounded-full text-1rem mt-1.25rem flex justify-center items-center">
+              <img class="w-2rem mr-1rem cursor-pointer"
+               @click="login"
+               src="~@/assets/icon-twitter-blue.svg" alt="">
+               <span>{{$t('signInWithTwitter')}}</span>
+         <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
+       </button>
       </div>
       <div v-else-if="authStep === 'select'" :class="isLoginPage?'mt-10vh':''">
         <div class="flex items-center">
-          <div class="bg-black/10 w-3rem h-3rem rounded-full mr-0.5rem"></div>
+          <img :src="pendingAccount.profileImg" class="bg-black/10 w-3rem h-3rem rounded-full mr-0.5rem"/>
           <div class="flex flex-col items-start">
-            <span class="font-bold">Pipi</span>
-            <span>@twitterId</span>
+            <span class="font-bold">{{pendingAccount.twitterName}}</span>
+            <span>@{{pendingAccount.twitterUsername}}</span>
           </div>
         </div>
         <div class="font-bold text-left mt-0.5rem mb-1rem">{{$t('signUpView.p1')}}</div>
@@ -82,7 +85,8 @@ export default {
       walletAddress: '',
       referee: '',
       wallet: {},
-      pair: {}
+      pair: {},
+      pendingAccount: {}
     }
   },
   mounted() {
@@ -123,6 +127,7 @@ export default {
           // store auth info
           console.log('not register')
           Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+          this.pendingAccount = userInfo.account
           this.authStep = 'select';
         }else if (userInfo.code === 3) { // log in
           this.$store.commit('saveAccountInfo', userInfo.account)
