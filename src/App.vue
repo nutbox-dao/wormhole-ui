@@ -107,7 +107,8 @@
       </el-dialog>
 
       <el-dialog :destroy-on-close="true" v-model="showLogin"
-                 :close-on-click-modal="false"
+                 :close-on-click-modal="true"
+                 :before-close="beforeCloseLogin"
                 custom-class="c-dialog c-dialog-lg c-dialog-center">
         <div class="relative min-h-20rem">
           <div class="bg-black/10 w-1.4rem h-1.4rem rounded-full m-1rem flex justify-center items-center">
@@ -119,7 +120,7 @@
           <Login class="p-2rem" @close="showLogin=false"/>
           <div v-if="closeLoginTipVisible"
                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-1rem px-1/10
-                      bg-block light:bg-white w-7/10 border-1 border-primaryColor rounded-8px">
+                      bg-blockBg light:bg-white w-7/10 border-1 border-primaryColor rounded-8px">
             <div>{{$t('signUpView.quitTip')}}</div>
             <div>
               <button class="c-text-black gradient-btn h-3.6rem w-full border-1 border-primaryColor rounded-full
@@ -191,6 +192,9 @@ export default {
   methods: {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
+    },
+    beforeCloseLogin(done) {
+      this.closeLoginTipVisible = true
     },
     async monitorPrices() {
       let res = await Promise.all([
