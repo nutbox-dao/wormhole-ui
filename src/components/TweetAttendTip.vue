@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     goTweet() {
-      const url = `https://twitter.com/intent/tweet?text=tweet contentD%20%23iweb3&url=https://twitter.com/${this.curation.twitterUsername}/status/${this.curation.tweetId}`
+      const url = `https://twitter.com/intent/tweet?text=tweet content%20%23iweb3&url=https://twitter.com/${this.curation.twitterUsername}/status/${this.curation.tweetId}`
 
       window.open(url, '__blank')
     },

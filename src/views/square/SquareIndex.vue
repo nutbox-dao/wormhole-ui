@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       subTagList: ['Trend', 'New', 'Value'],
-      subActiveTagIndex: 0,
+      subActiveTagIndex: 1,
       listLoading: true,
       listFinished: false,
       refreshing: false,
