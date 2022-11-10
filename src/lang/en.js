@@ -1,5 +1,6 @@
 export default {
   signIn: 'Sign In',
+  signInWithTwitter: 'Sign in with twitter',
   signUp: 'Sign Up',
   square: 'Square',
   curations: 'Curations',
