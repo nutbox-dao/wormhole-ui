@@ -1,18 +1,21 @@
 import { Client } from 'twitter-api-sdk'
 import store from '@/store'
 import { refreshToken } from '@/utils/account'
+import { getTweetsById as gtbi, userFollowing as uf, userLike as ul } from '@/api/api'
 
 async function checkAccessToken() {
-    return process.env.VUE_APP_BEARER_TOKEN;
     let acc = store.getters.getAccountInfo;
     if (acc && acc.accessToken) {
         const { expiresAt } = acc;
         if (expiresAt - new Date().getTime() < 600000) {
             // refresh token 
             try {
+                console.log(1);
                 await refreshToken();
+                console.log(2);
                 acc = store.getters.getAccountInfo;
             }catch(e) {
+                console.log(234, e);
                 throw 'log out';
             }
         }
@@ -23,34 +26,39 @@ async function checkAccessToken() {
     }
 }
 
-export const getTweetById = async (tweetId) => {
-    console.log(1);
-    const accessToken = await checkAccessToken();
-    console.log(2);
-    const client = new Client(accessToken);
-    console.log(3);
-    const tweet = await client.tweets.findTweetById('1590465906039091201');
-    const dd = await client.users.usersIdFollow('sdf', {
-        target_user_id: ''
-    })
-    // like a tweet
-    // client.tweets.usersIdLike('adff', {
-    //     tweet_id: ''
-    // })
+export const getTweetsById = async (tweetIds) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId
+    const tweets = await gtbi(twitterId, tweetIds)
+    console.log(11, tweets);
+    return tweets;
+}
 
-    // // wheather user liked tweet
-    // client.tweets.usersIdLikedTweets('2355', {
+/**
+ * check if user followed the author
+ * @param {*} authorId 
+ */
+export const userFollowing = async (authorId) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId
+    const f = await uf(twitterId, authorId)
+    console.log(222, f);
+    return f;
+}
 
-    // })
+export const userLike = async (tweetId) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId;
+    const r = await ul(twitterId, tweetId);
+    console.log('like result', r);
+    if (r && r.liked) {
+        return true
+    }
+    return false
+}
 
-    // // wheather user follow someone
-    // client.users.usersIdFollowing('23455', {
-    //     max_results: 23,
-    //     "user.fields": ['created_at'],
-    //     "tweet.fields": ['author_id'],
-    //     pagination_token: '',
-        
-    // }, '45'
-    // )
-    console.log(234, tweet, dd);
+export const userLiking = async (tweetId) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId;
+    
 }

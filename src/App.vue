@@ -254,7 +254,6 @@ export default {
     }
   },
   async mounted() {
-    getTweetById()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do
