@@ -23,7 +23,7 @@
                 </div>
               </template>
               <button>
-                <img class="w-14px 2xl:w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                <img class="w-14px 2xl:w-1.2rem ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
               </button>
             </el-tooltip>
           </div>

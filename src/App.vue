@@ -100,30 +100,32 @@
       <el-dialog :destroy-on-close="true" v-model="showLogin"
                  :close-on-click-modal="true"
                  :before-close="beforeCloseLogin"
-                 class="c-dialog c-dialog-lg c-dialog-center">
+                 class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
         <div class="relative min-h-20rem">
-          <div class="bg-black/10 w-1.4rem h-1.4rem rounded-full m-1rem flex justify-center items-center">
-            <img class="w-1.2rem"
-                 @click="closeLoginTipVisible=true"
-                 src="~@/assets/icon-close-white.svg" alt="">
-          </div>test
-          <img class="h-2rem mx-auto" src="~@/assets/logo.svg" alt="">
-          <Login class="p-2rem" @close="showLogin=false"/>
-          <div v-if="closeLoginTipVisible"
-               class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-1rem px-1/10
-                      bg-blockBg light:bg-white w-7/10 border-1 border-primaryColor rounded-8px">
-            <div>{{$t('signUpView.quitTip')}}</div>
-            <div>
-              <button class="c-text-black gradient-btn h-3.6rem w-full border-1 border-primaryColor rounded-full
+          <div class="w-max p-1rem ml-auto mr-0" @click="closeLoginTipVisible=true">
+            <svg t="1641368990016" class="icon w-1.2rem h-1.2rem" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="13420" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64">
+              <path :fill="isDark?'#848391':'#000'" d="M902.741 816.213l-306.005-307.2L894.72 205.056c18.859-18.859 18.859-49.323 0-68.181s-36.01-18.859-54.87 0L532.396 444.416 226.048 136.875c-18.859-18.859-49.323-18.859-68.181 0s-18.859 49.322 0 68.181L464.81 512 157.952 818.944c-18.859 18.859-18.859 49.323 0 68.181s49.323 18.859 68.181 0l303.787-309.93 309.93 309.93c18.86 18.859 44.033 16.128 62.806-2.645s18.944-49.408 0.085-68.267z" p-id="13421"></path>
+            </svg>
+          </div>
+          <Login class="px-2rem pb-2rem" @close="showLogin=false"/>
+          <div v-show="closeLoginTipVisible"
+               class="absolute top-0 left-0 w-full h-full bg-primaryBg light:bg-white rounded-8px">
+            <div class="bg-glass w-full h-full flex flex-col justify-center px-2rem">
+              <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+                {{$t('signUpView.quitTip')}}
+              </div>
+              <div class="md:mt-2rem">
+                <button class="c-text-black gradient-btn h-3.6rem w-full rounded-full
                       w-full mb-1rem text-1rem"
-                      @click="closeLoginTipVisible=false">
-                {{$t('signUpView.cancel')}}
-              </button>
-              <button class="c-text-black gradient-btn h-3.6rem w-full border-1 border-primaryColor rounded-full
+                        @click="closeLoginTipVisible=false">
+                  {{$t('signUpView.cancel')}}
+                </button>
+                <button class="c-text-black bg-color84 h-3.6rem w-full rounded-full
                       w-full text-1rem"
-                      @click="closeLoginTipVisible=false, showLogin=false">
-                {{$t('signUpView.close')}}
-              </button>
+                        @click="closeLoginTipVisible=false, showLogin=false">
+                  {{$t('signUpView.close')}}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,99 +1,111 @@
 <template>
   <div class="w-full h-full overflow-auto">
-    <div class="lg:p-3rem p-2rem max-w-40rem mx-auto">
-      <div v-if="step===0"
-           class="text-white light:text-blueDark">
-        <div class=" keep-all c-text-black text-2rem leading-2.8rem max-w-30rem mx-auto mb-2rem">
-          {{$t('verifyView.p1')}}
-        </div>
-        <div class="flex items-center bg-inputBg
-                    light:bg-colorF2 light:border-1 gradient-border
-                    py-1rem lg:px-6rem px-2rem
-                    max-w-50rem mx-auto rounded-12px c-text-bold
-                    text-1rem lg:leading-2rem leading-1.6rem mb-2rem">
-          {{ wallet && wallet.nemonic }}
-          <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
-               @click="onCopy(wallet.nemonic)"
-               src="~@/assets/icon-copy-primary.svg" alt="">
-        </div>
-        <div class="flex justify-center max-w-41rem mx-auto
+    <div class="mx-auto text-white light:text-blueDark">
+      <div v-if="step===1">
+        <template v-if="!showSaveKey">
+          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
+            {{$t('verifyView.p1')}}
+          </div>
+          <div class="flex items-center bg-inputBg border-2 gradient-border gradient-border-color3
+                    light:bg-colorF2 light:border-1 gradient-border text-left
+                    py-1rem px-2rem rounded-12px c-text-black
+                    text-1rem lg:leading-2rem leading-1.6rem mb-0.8rem"
+               style="word-spacing: 1rem; word-break: break-word">
+            {{ wallet && wallet.nemonic }}
+            <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
+                 @click="onCopy(wallet.nemonic)"
+                 src="~@/assets/icon-copy-primary.svg" alt="">
+          </div>
+          <div class="flex justify-center max-w-41rem mx-auto
                     light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
-          <div class="max-w keep-all text-left text-12px leading-20px md:text-0.9rem md:leading-1.2rem">
-            {{$t('verifyView.p2')}}
-          </div>
-        </div>
-        <button class="c-text-black gradient-btn h-2.8rem px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
-          @click="step=1">
-          {{$t('verifyView.saveBtn')}}
-        </button>
-      </div>
-      <div v-if="step===1" class="">
-        <div class="px-3rem pt-2.3rem pb-1.6rem">
-          <div class="c-text-black text-1.4rem text-white light:text-blueDark">
-            {{$t('verifyView.p7')}}
-          </div>
-          <div class="gradient-border gradient-border-color3 border-2px rounded-12px overflow-hidden my-1.2rem">
-            <div class="key-box">
-              <div class="gradient-text max-w-25rem mx-auto py-15px px-20px font-bold text-center text-14px leading-26px md:text-1rem md:leading-1.3rem">
-                {{ wallet && wallet.nemonic }}
-              </div>
+            <div class="max-w keep-all text-left leading-24px text-color8B">
+              {{$t('verifyView.p2')}}
             </div>
           </div>
-          <div class="flex justify-center items-start mt-1.5rem max-w-41rem mx-auto">
+          <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem mt-1.25rem"
+                  @click="showSaveKey=true">
+            {{$t('verifyView.saveBtn')}}
+          </button>
+        </template>
+        <template v-else>
+          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
+            {{$t('verifyView.p7')}}
+          </div>
+          <div class="key-box flex items-center border-2 border-color84/30
+                    light:bg-colorF2 text-left
+                    py-1rem px-2rem rounded-12px c-text-black
+                    text-1rem lg:leading-2rem leading-1.6rem mb-0.8rem"
+               style="word-spacing: 1rem; word-break: break-word">
+            {{ wallet && wallet.nemonic }}
+            <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
+                 @click="onCopy(wallet.nemonic)"
+                 src="~@/assets/icon-copy.svg" alt="">
+          </div>
+          <div class="flex justify-center items-start mx-auto">
             <el-checkbox v-model="checked"  class="c-checkbox"/>
-            <div class="flex-1 text-0.9rem font-bold text-white light:text-blueDark text-left ml-8px" style="word-break: break-word">
+            <div class="flex-1 text-0.9rem leading-1.2rem text-color8B light:text-blueDark text-left ml-8px" style="word-break: break-word">
               {{$t('verifyView.p8')}}
             </div>
           </div>
-        </div>
-        <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
-          <button class="gradient-btn gradient-btn-purple h-2.7rem w-14rem rounded-full flex justify-center items-center"
-                  @click="step=2">
-            {{$t('verifyView.sureBtn')}}
-          </button>
-        </div>
+          <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
+            <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
+                    @click="step=2">
+              {{$t('verifyView.sureBtn')}}
+            </button>
+          </div>
+        </template>
       </div>
-      <div v-if="step===2"
-           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left  whitespace-pre-line">
-          <span class="text-primaryColor ">{{$t('verifyView.p3')}}</span> <br>
-          {{$t('verifyView.p4')}}
-        </div>
+      <div v-if="step===2">
         <template v-if="authError">
-          <div class="text-redColor text-left">Error</div>
+          <div class="min-h-13rem">
+            <img class="w-5rem h-5rem mx-auto" src="~@/assets/icon-error-red.svg" alt="">
+            <div class="text-redColor text-center font-700 mt-1rem">Error!</div>
+          </div>
           <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem w-full rounded-full
+                      h-3.6rem max-h-65px w-full rounded-full
                       w-full mb-2.3rem text-1rem mt-1.25rem"
                   @click="$emit('back')">
             {{$t('verifyView.back')}}
           </button>
         </template>
-        <button v-else class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem w-full rounded-full
-                      w-full mb-2.3rem text-1rem mt-1.25rem"
-                :disabled="isSigningup"
-                @click="signup">
-          {{isSigningup?$t('verifyView.verifying'):$t('verifyView.verify')}}
-          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
-        </button>
+        <template v-else>
+          <img class="w-5rem mx-auto mb-2rem" src="~@/assets/icon-record.svg" alt="">
+          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+            {{$t('verifyView.p3')}}
+          </div>
+          <button class="flex items-center justify-center c-text-black gradient-btn gradient-btn-disabled-grey
+                         h-3.6rem max-h-65px w-full rounded-full
+                         w-full mb-2.3rem text-1rem mt-1.25rem"
+                  :disabled="isSigningup"
+                  @click="signup">
+            {{isSigningup?$t('verifyView.verifying'):$t('verifyView.verify')}}
+            <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
+          </button>
+        </template>
       </div>
-      <div v-if="step===3"
-           class="text-white light:text-blueDark max-w-20rem mx-auto sm:max-w-25rem sm:mx-auto">
-        <div class="keep-all c-text-black text-2rem mb-1rem leading-2.9rem text-left sm:text-center">
-          <span class="text-primaryColor ">{{$t('verifyView.p9')}}</span> <br class="sm:hidden">
+      <div v-if="step===3">
+        <img class="w-5rem h-5rem mx-auto mb-2rem" src="~@/assets/icon-success-login.svg" alt="">
+        <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
+          {{$t('verifyView.p9')}}
+        </div>
+        <div class="keep-all gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
           {{$t('verifyView.p10')}}
         </div>
         <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem w-full rounded-full
-                      w-full mb-1.3rem text-1rem mt-1.25rem"
+                      h-3.6rem max-h-65px w-full rounded-full
+                      w-full text-1rem mt-1.25rem"
                 @click="send">
           {{$t('verifyView.postBtn')}}
         </button>
-        <button class="c-text-black h-3.6rem w-full border-1 border-primaryColor rounded-full
-                      w-full mb-2.3rem text-1rem"
+        <button class="text-1rem text-color8B underline mt-1rem"
                 @click="$emit('skip')">
           {{$t('verifyView.skip')}}
         </button>
+      </div>
+      <div class="flex justify-center mt-1.5rem">
+        <span class="w-10px h-10px block rounded-full mx-10px"
+              :class="step>=i?'bg-color62':'bg-color84/30'"
+              v-for="i of [1, 2, 3]" :key="i"></span>
       </div>
     </div>
   </div>
@@ -126,8 +138,8 @@ export default {
   data() {
     return {
       checked: false,
-      step: 0,
-      importModal: false,
+      step: 1,
+      showSaveKey: false,
       isSigningup: false,
       authError: false
     }
@@ -206,16 +218,7 @@ export default {
 .keep-all {
   word-break: keep-all;
 }
-.import-box {
-  background-image: url("~@/assets/modal-bg2.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  .key-box {
-    background: linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%);
-    .gradient-text {
-      background-image: linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%);
-    }
-  }
+.key-box {
+  background: linear-gradient(94.28deg, rgba(129, 45, 226, 0.3) 0%, rgba(58, 73, 249, 0.3) 100%);
 }
 </style>

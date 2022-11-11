@@ -11,23 +11,24 @@ export default {
   faucet: 'Faucet',
   logout: 'Log out',
   signUpView: {
-    p1: 'has not yet registered',
+    p1: 'You has not yet registered.',
     p2: 'Sign up and...',
-    createAccount: 'Let us create a new wallet for you',
+    createAccount: 'Create a new wallet',
     or: 'Or',
+    metamask: 'Continue with MetaMask',
     quitTip: 'Are you sure to quit?\n' +
       'All the information will be discarded.',
     cancel: 'Cancel',
     close: 'Close'
   },
   verifyView: {
-    p1: 'Below is the password to your new wallet:',
-    p2: 'Please save this private key in a very secure location. We will never keep this key, so if you dont save it, nobody can find back this account.',
-    p3: 'Great,',
+    p1: 'We have generated your \n mnemonic phrase',
+    p2: 'Please save this private key in a very secure location.We will never keep this key,so if you dont save it, nobody can find back this account.',
+    p3: 'Great!\n We will check your Twitter Account status. Please wait a moment...',
     p4: 'We will check your Twitter Account status. \n Please wait a moment.',
     p5: 'After you\'ve tweeted the bind message',
     p6: 'Log in here',
-    p7: 'Are you sure saved the important key?',
+    p7: 'Are you sure saved the \n important key?',
     p8: 'I know that if I do not save the private key, no one can retrieve my account',
     p9: 'One last step!',
     p10: 'Let’s try post your first Web3 tweet!',
@@ -42,13 +43,14 @@ export default {
   metamaskView: {
     p1: 'Please confirm your address',
     p2: 'Not happy with this address? \n Go to MetaMask and change to a different address.',
-    p3: '⚠️ Current address has already be signed up with twitter account {account}. \n Please go back and sign in via {account} or change another account in metamask.',
+    p3: '️Current address has already be signed up with twitter account {account}. Please go back and sign in via {account} or change another account in metamask.',
     address: 'Address',
     confirm: 'Confirm',
     back: 'Back'
   },
   signInView: {
-    p1: 'Please click the Twitter icon and authorize your Twitter account to sign in',
+    join: 'Join with one click',
+    p1: 'Please authorize your Twitter account to sign in.',
     p2: 'Haven\'t signed up yet ?',
     p3: 'Create an account',
     p4: 'Your account is in the process of registration',
