@@ -2,7 +2,7 @@
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-primaryBgLight"
-         @click="showMenu=false" :class="$route.name==='signup'?'signup-bg':''">
+         @click="showMenu=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
           <button @click="goBack">
@@ -15,15 +15,6 @@
                   {{$t('signIn')}}
               </button>
             </div>
-            <template v-else>
-              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-                <img class="h-1.6rem w-1.6rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
-              </router-link>
-              <router-link :to="`/transaction/@${getAccountInfo.twitterUsername}`" v-slot="{isActive}">
-                <img v-if="isActive" class="h-1.6rem mr-0.8rem" src="~@/assets/icon-notification-primary.svg" alt="">
-                <i v-else class="h-1.6rem w-1.6rem mr-0.8rem icon-notification"></i>
-              </router-link>
-            </template>
             <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
               <template #reference>
                 <i class="h-1.6rem w-1.6rem mr-0.8rem icon-language"></i>
@@ -102,20 +93,20 @@
           <component :is="Component" v-if="!$route.meta.keepAlive"/>
         </router-view>
       </div>
-      <el-dialog custom-class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
+      <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
         <NFTAnimation/>
       </el-dialog>
 
       <el-dialog :destroy-on-close="true" v-model="showLogin"
                  :close-on-click-modal="true"
                  :before-close="beforeCloseLogin"
-                custom-class="c-dialog c-dialog-lg c-dialog-center">
+                 class="c-dialog c-dialog-lg c-dialog-center">
         <div class="relative min-h-20rem">
           <div class="bg-black/10 w-1.4rem h-1.4rem rounded-full m-1rem flex justify-center items-center">
             <img class="w-1.2rem"
                  @click="closeLoginTipVisible=true"
                  src="~@/assets/icon-close-white.svg" alt="">
-          </div>
+          </div>test
           <img class="h-2rem mx-auto" src="~@/assets/logo.svg" alt="">
           <Login class="p-2rem" @close="showLogin=false"/>
           <div v-if="closeLoginTipVisible"
@@ -157,6 +148,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
+import {showError} from "@/utils/notify";
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
