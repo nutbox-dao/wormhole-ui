@@ -3,6 +3,7 @@ import store from '@/store'
 import { refreshToken } from '@/utils/account'
 
 async function checkAccessToken() {
+    return process.env.VUE_APP_BEARER_TOKEN;
     let acc = store.getters.getAccountInfo;
     if (acc && acc.accessToken) {
         const { expiresAt } = acc;
@@ -33,23 +34,23 @@ export const getTweetById = async (tweetId) => {
         target_user_id: ''
     })
     // like a tweet
-    client.tweets.usersIdLike('adff', {
-        tweet_id: ''
-    })
+    // client.tweets.usersIdLike('adff', {
+    //     tweet_id: ''
+    // })
 
-    // wheather user liked tweet
-    client.tweets.usersIdLikedTweets('2355', {
+    // // wheather user liked tweet
+    // client.tweets.usersIdLikedTweets('2355', {
 
-    })
+    // })
 
-    // wheather user follow someone
-    client.users.usersIdFollowing('23455', {
-        max_results: 23,
-        "user.fields": ['created_at'],
-        "tweet.fields": ['author_id'],
-        pagination_token: '',
+    // // wheather user follow someone
+    // client.users.usersIdFollowing('23455', {
+    //     max_results: 23,
+    //     "user.fields": ['created_at'],
+    //     "tweet.fields": ['author_id'],
+    //     pagination_token: '',
         
-    }, '45',
-    )
+    // }, '45'
+    // )
     console.log(234, tweet, dd);
 }
