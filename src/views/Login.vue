@@ -102,7 +102,6 @@ export default {
     }
   },
   mounted() {
-    isTokenExpired()
     this.isLoginPage = (this.$route.name==='login')
   },
   computed: {
