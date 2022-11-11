@@ -46,7 +46,7 @@
                         width="100%"
                         trigger="click">
               <template #reference>
-                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">
               </template>
               <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"
                    style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">
