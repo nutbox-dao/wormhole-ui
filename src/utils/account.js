@@ -1,4 +1,4 @@
-import { getUserInfo as gui, getNftReceivedState, readNft, logout as lo } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, readNft, logout as lo, twitterRefreshAccessToken } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 import { auth, Client } from 'twitter-api-sdk'
@@ -145,7 +145,7 @@ export const refreshToken = async () => {
     const acc = store.getters.getAccountInfo;
     if (acc && acc.twitterId) {
         const token = await twitterRefreshAccessToken(acc.twitterId);
-        this.$store.commit('saveAccountInfo', {...acc, ...token})
+        store.commit('saveAccountInfo', {...acc, ...token})
     } else {
         throw 'Not login'
     }

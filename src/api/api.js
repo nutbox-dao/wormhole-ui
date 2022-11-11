@@ -134,6 +134,16 @@ export const bMapToGMapLocations = async (locations) => {
     })
 }
 
+/****************************************  twitter api  ***********************************************/
+export const getTweetsById = async (twitterId, tweetIds) => 
+    post(BACKEND_API_URL + '/twitter-api/getTweetsById', {twitterId, tweetIds})
+
+export const userFollowing = async (twitterId, authorId) => 
+    post(BACKEND_API_URL + '/twitter-api/userFollowing', {twitterId, authorId})
+    
+export const userLike = async (twitterId, tweetId) => 
+    post(BACKEND_API_URL + '/twitter-api/userLike', {twitterId, tweetId})
+
 /****************************************  faucet  ***********************************************/
 export const getFaucet = async (address) =>
     get(BACKEND_API_URL + '/faucet/usdt', {address})

@@ -156,7 +156,7 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile } from '@/api/api'
 import Login from '@/views/Login.vue'
-import { getTweetById } from '@/utils/twitter'
+import { userLike } from '@/utils/twitter'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -229,6 +229,9 @@ export default {
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
     gotoTwitter(){
+
+      userLike('1590709166515310593')
+      return;
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     goBack() {
@@ -258,7 +261,6 @@ export default {
     }
   },
   async mounted() {
-    getTweetById()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
     // to do
