@@ -51,7 +51,8 @@ export default defineConfig({
         'social-token-box': 'linear-gradient(106.4deg, #AE88FE -6.5%, #923CFF 33.17%, #923CFF 69.85%, #00B2FF 136.44%)',
         'gradient-text-light': 'linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%)',
         'purple-text': 'linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%)',
-        'gradient-btn-purple': 'linear-gradient(96.99deg, rgba(174, 136, 254, 0.1) -31.47%, rgba(146, 60, 255, 0.1) 55.23%, rgba(0, 178, 255, 0.1) 147.53%)'
+        'gradient-btn-purple': 'linear-gradient(96.99deg, rgba(174, 136, 254, 0.1) -31.47%, rgba(146, 60, 255, 0.1) 55.23%, rgba(0, 178, 255, 0.1) 147.53%)',
+        'glass': 'linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%)'
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)'

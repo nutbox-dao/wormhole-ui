@@ -19,9 +19,8 @@ html.light {
   max-height: 90%;
   overflow: hidden;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
-  border: 1px solid rgba(132, 131, 145, 0.3);
-  backdrop-filter: blur(20px);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   &-no-bg {
@@ -141,7 +140,7 @@ html.light {
 }
 .c-checkbox.el-checkbox {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 .c-img-dialog.el-dialog {
   background-color: transparent;
