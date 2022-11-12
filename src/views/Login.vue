@@ -2,7 +2,7 @@
   <div class="login-view">
     <div class="" :class="isLoginPage?'px-2rem':''">
       <div v-if="authStep==='login'" :class="isLoginPage?'mt-10vh':''">
-        <div class="text-1.4rem leading-2.3rem c-text-black gradient-text gradient-text-purple-white mx-auto mb-2.3rem">
+        <div class="text-1.6rem leading-2.3rem c-text-black gradient-text bg-purple-white light:bg-text-color17 mx-auto mb-2.3rem">
           {{$t('signInView.join')}}
         </div>
        <button @click="login" :disable="loging"
@@ -13,7 +13,7 @@
                <span>{{$t('signInWithTwitter')}}</span>
          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
        </button>
-        <div class="text-color8B mt-1rem" style="word-break: break-word">{{$t('signInView.p1')}}</div>
+        <div class="text-color8B mt-1rem text-1rem lg:text-0.75rem leading-1.2rem" style="word-break: break-word">{{$t('signInView.p1')}}</div>
       </div>
       <div v-else-if="authStep === 'select'" :class="isLoginPage?'mt-10vh':''">
         <div class="flex justify-center items-center">
@@ -24,12 +24,12 @@
                class="bg-black/10 w-3rem h-3rem 2xl:w-50px 2xl:h-50px rounded-full mr-0.5rem"/>
           <div class="flex flex-col items-start">
             <span class="c-text-black text-1.2rem 2xl:text-24px leading-1.8rem 2xl:leading-36px text-white light:text-color46">
-              {{pendingAccount.twitterName || 'Username'}}
+              {{pendingAccount.twitterName}}
             </span>
             <span class="text-color8B light:text-color7D">@{{pendingAccount.twitterUsername}}</span>
           </div>
         </div>
-        <div class="c-text-black break-word text-1.6rem leading-2.3rem gradient-text gradient-text-purple-white mx-auto mt-1.4rem mb-1rem">
+        <div class="c-text-black break-word text-1.4rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
           {{$t('signUpView.p1')}}
         </div>
         <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
@@ -37,14 +37,14 @@
           {{$t('signUpView.createAccount')}}
         </button>
         <div class="flex justify-center items-center mt-1.5rem ">
-          <span class="w-10rem h-1px bg-color8B/30 block"></span>
-          <span class="mx-1rem text-color8B/30 xl:text-0.8rem">{{$t('signUpView.or')}}</span>
-          <span class="w-10rem h-1px bg-color8B/30 block"></span>
+          <span class="w-10rem h-1px bg-color8B/30 light:bg-colorD6 block"></span>
+          <span class="mx-1rem text-color8B/30 light:text-color7D xl:text-0.8rem">{{$t('signUpView.or')}}</span>
+          <span class="w-10rem h-1px bg-color8B/30 light:bg-colorD6 block"></span>
         </div>
         <button @click="connectMetamask" :disabled="connecting"
           class="h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center">
           <img class="w-1.7rem mr-1rem" src="~@/assets/icon-metamask.png" alt="">
-          <span class="text-color8B underline font-bold">{{$t('signUpView.metamask')}}</span>
+          <span class="text-color8B light:text-color7D underline font-bold">{{$t('signUpView.metamask')}}</span>
           <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
         </button>
       </div>

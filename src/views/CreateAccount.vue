@@ -3,24 +3,23 @@
     <div class="mx-auto text-white light:text-blueDark">
       <div v-if="step===1">
         <template v-if="!showSaveKey">
-          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
+          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
             {{$t('verifyView.p1')}}
           </div>
-          <div class="flex items-center bg-inputBg border-2 gradient-border gradient-border-color3
-                    light:bg-colorF2 light:border-1 gradient-border text-left
-                    py-1rem px-2rem rounded-12px c-text-black
+          <div class="flex items-center bg-inputBg border-2 border-color62
+                    light:bg-colorF2
+                    py-0.5rem px-1rem lg:px-2rem rounded-12px c-text-black
                     text-1rem lg:leading-2rem leading-1.6rem mb-0.8rem"
                style="word-spacing: 1rem; word-break: break-word">
-            {{ wallet && wallet.nemonic }}
+            <div class="flex-1 grid grid-cols-4 gap-x-0.5rem" v-if="wallet && wallet.nemonic">
+              <span class="col-span-1 text-left" v-for="(word, i) of wallet.nemonic.split(' ')" :key="i">{{word}}</span>
+            </div>
             <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                  @click="onCopy(wallet.nemonic)"
                  src="~@/assets/icon-copy-primary.svg" alt="">
           </div>
-          <div class="flex justify-center max-w-41rem mx-auto
-                    light:bg-color62/10 light:p-1rem light:text-color62 light:rounded-12px">
-            <div class="max-w keep-all text-left leading-24px text-color8B">
-              {{$t('verifyView.p2')}}
-            </div>
+          <div class="max-w keep-all text-left text-0.9rem lg:text-0.75rem leading-1.2rem text-color8B light:text-color6F">
+            {{$t('verifyView.p2')}}
           </div>
           <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem mt-1.25rem"
                   @click="showSaveKey=true">
@@ -28,21 +27,23 @@
           </button>
         </template>
         <template v-else>
-          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
+          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
             {{$t('verifyView.p7')}}
           </div>
           <div class="key-box flex items-center border-2 border-color84/30
-                    light:bg-colorF2 text-left
-                    py-1rem px-2rem rounded-12px c-text-black
+                    light:bg-gradient-input light:text-white light:border-color62
+                    py-0.5rem px-2rem rounded-12px c-text-black
                     text-1rem lg:leading-2rem leading-1.6rem mb-0.8rem"
                style="word-spacing: 1rem; word-break: break-word">
-            {{ wallet && wallet.nemonic }}
+            <div class="flex-1 grid grid-cols-4 gap-x-0.5rem" v-if="wallet && wallet.nemonic">
+              <span class="col-span-1 text-left" v-for="(word, i) of wallet.nemonic.split(' ')" :key="i">{{word}}</span>
+            </div>
             <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                  @click="onCopy(wallet.nemonic)"
                  src="~@/assets/icon-copy.svg" alt="">
           </div>
           <div class="flex justify-center items-start mx-auto">
-            <el-checkbox v-model="checked"  class="c-checkbox"/>
+            <el-checkbox v-model="checked"  class="c-checkbox z-0"/>
             <div class="flex-1 text-0.9rem leading-1.2rem text-color8B light:text-blueDark text-left ml-8px" style="word-break: break-word">
               {{$t('verifyView.p8')}}
             </div>
@@ -70,7 +71,7 @@
         </template>
         <template v-else>
           <img class="w-5rem mx-auto mb-2rem" src="~@/assets/icon-record.svg" alt="">
-          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
             {{$t('verifyView.p3')}}
           </div>
           <button class="flex items-center justify-center c-text-black gradient-btn gradient-btn-disabled-grey
@@ -85,10 +86,10 @@
       </div>
       <div v-if="step===3">
         <img class="w-5rem h-5rem mx-auto mb-2rem" src="~@/assets/icon-success-login.svg" alt="">
-        <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
+        <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
           {{$t('verifyView.p9')}}
         </div>
-        <div class="keep-all gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+        <div class="keep-all gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
           {{$t('verifyView.p10')}}
         </div>
         <button class="flex items-center justify-center c-text-black gradient-btn
