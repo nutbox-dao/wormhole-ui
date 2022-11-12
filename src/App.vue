@@ -39,8 +39,8 @@
                             rounded-12px w-full h-full
                             flex flex-col justify-between
                             font-400 text-15px leading-24px xl:text-0.75rem">
-                  <!-- <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link> -->
+                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
+                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
 <!--                  <template v-if="!getAccountInfo">-->
 <!--                    <router-link to="/login" @click="showMenu=false"-->
 <!--                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>-->
@@ -57,8 +57,6 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
                   <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
-                  <!-- <router-link to="/faucet" @click="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faucet')}}</router-link> -->
                   <div @click="onCopy('https://alpha.wormhole3.io/#/signup/' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
