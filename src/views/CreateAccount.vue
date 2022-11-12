@@ -181,7 +181,7 @@ export default {
           if (res && res.code === 3) {
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
-            this.step = 2;
+            this.step = 3;
           }
         }catch(e) {
           console.log(532, e);
