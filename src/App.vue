@@ -161,7 +161,7 @@ export default {
         'zh': zhCn
       },
       isDark: false,
-      showLogin: true,
+      showLogin: false,
       closeLoginTipVisible: false
     }
   },
