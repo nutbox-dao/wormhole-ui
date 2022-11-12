@@ -2,7 +2,7 @@
   <div class="w-full h-full overflow-auto">
     <div class="mx-auto text-white light:text-blueDark">
       <div v-if="step===1">
-        <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1.7rem">
+        <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1.7rem">
           {{$t('metamaskView.p1')}}
         </div>
         <div class="flex items-center bg-primaryBg
@@ -11,14 +11,12 @@
                     max-w-50rem mx-auto rounded-12px c-text-bold
                     text-1rem lg:leading-2rem leading-1.6rem mb-1rem">
           {{ account }}
-          <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
-               @click="onCopy(account)"
-               src="~@/assets/icon-copy.svg" alt="">
+          <i class="w-1.3rem h-1.3rem ml-1rem cursor-pointer icon-copy" @click="onCopy(account)"></i>
         </div>
         <template v-if="isRegister">
           <div class="flex items-start mb-2rem">
             <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
-            <div class="whitespace-pre-line text-left text-color8B font-bold text-0.8rem leading-1.3rem"
+            <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
                  style="word-break: break-word"
                  v-html="$t('metamaskView.p3', {account: `<strong class='text-color62 c-text-black'>@${username || 'Pipi'}</strong>`})">
             </div>
@@ -29,7 +27,7 @@
           </button>
         </template>
         <template v-else>
-          <div class="whitespace-pre-line mb-1rem text-color8B text-left">
+          <div class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
             {{$t('metamaskView.p2')}}
           </div>
           <button class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
@@ -38,7 +36,8 @@
             {{$t('metamaskView.confirm')}}
             <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isCheckingAddress || isSigning"></c-spinner>
           </button>
-          <button class="c-text-black w-full bg-color84 h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
+          <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white
+                         w-full h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                   @click="$emit('back')">
             {{$t('metamaskView.back')}}
           </button>
@@ -59,7 +58,7 @@
         </template>
         <template v-else>
           <img class="w-5rem mx-auto mb-2rem" src="~@/assets/icon-record.svg" alt="">
-          <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
             {{$t('verifyView.p3')}}
           </div>
           <button class="flex items-center justify-center c-text-black gradient-btn gradient-btn-disabled-grey
@@ -74,10 +73,10 @@
       </div>
       <div v-if="step===3">
         <img class="w-5rem h-5rem mx-auto mb-2rem" src="~@/assets/icon-success-login.svg" alt="">
-        <div class="keep-all c-text-black gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
+        <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
           {{$t('verifyView.p9')}}
         </div>
-        <div class="keep-all gradient-text gradient-text-purple-white whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
+        <div class="keep-all gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
           {{$t('verifyView.p10')}}
         </div>
         <button class="flex items-center justify-center c-text-black gradient-btn

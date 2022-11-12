@@ -90,6 +90,9 @@ button:disabled {
   &-purple-white {
     background-image: linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%);
   }
+  &-light {
+    background-image: linear-gradient(99.51deg, #170F49 9.03%, #170F49 89.53%);
+  }
 }
 .hover {
   cursor: pointer;
