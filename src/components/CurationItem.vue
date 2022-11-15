@@ -7,48 +7,53 @@
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
         <img class="w-2.5rem h-2.5rem 2xl:w-3.6rem 2xl:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full " src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex justify-between items-center cursor-pointer" @click.stop="gotoUserPage()">
-          <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.twitterUsername}}</a>
-<!--          <span class="text-primaryColor text-15px xl:text-0.75rem">2 days left</span>-->
-          <span class="text-orangeColor light:text-color62 text-15px xl:text-0.75rem">{{endtime}}</span>
-<!--          <span class="text-greenColor text-15px xl:text-0.75rem">Completed</span>-->
-        </div>
-      </div>
-      <div class="overflow-x-hidden 2xl:ml-5.1rem md:mr-0 sm:ml-3.9rem text-left relative sm:-mt-3">
-        <div class="xl:max-w-27rem pb-12px">
-          <div class="font-600" v-html="formatEmojiText(title)"></div>
-<!--          <div class="text-color8B font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1.2rem whitespace-pre-line">-->
-<!--            {{content}}-->
-<!--          </div>-->
-          <div class="text-color8B light:text-blueDark font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"
-               v-html="formatEmojiText(content)"></div>
-        </div>
-        <div class="flex justify-between items-center">
-          <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
-            <img v-for="i of curation.curatorProfile" :key="i"
-                 class="w-32px h-32px min-w-32px min-h-32px
-                        xl:w-1.6rem xl:h-1.6rem xl:min-w-1.6rem xl:min-h-1.6rem
-                        rounded-full -ml-10px border-1 border-blockBg light:border-white"
-                 @error="replaceEmptyImg"
-                 :src="i" alt="">
-            <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0" class="w-32px h-32px min-w-32px min-h-32px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
-                    rounded-full -ml-10px flex justify-center items-center
-                    border-1 border-blockBg bg-primaryColor
-                    light:border-white light:bg-color62 light:text-white
-                    font-600 text-12px">+{{curation.totalCount - curation.curatorProfile.length}}</span>
-          </div>
-          <div v-else></div>
-          <div class="flex items-center h-max">
-            <div class="xl:absolute xl:top-1rem xl:right-0
-                        bg-primaryColor/20 text-primaryColor
-                        light:bg-colorF1 light:text-color62
-                        px-13px py-5px rounded-full c-text-black 2xl:text-0.75rem">
-              {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
+        <div class="flex-1 flex justify-between items-center">
+          <div class="flex items-center">
+            <div class="flex flex-col justify-between items-start cursor-pointer" @click.stop="gotoUserPage()">
+              <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.twitterUsername}}</a>
+              <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>
             </div>
-            <slot name="status"></slot>
+            <div class="border-1 border-color7D text-color7D px-10px rounded-full ml-1rem">{{contentTag}}</div>
+          </div>
+          <div class="font-bold text-color62">
+            {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
           </div>
         </div>
       </div>
+      <div v-if="contentType==='tweet'"
+           class="max-h-15rem overflow-hidden relative py-10px rounded-15px">
+        <Blog :post="testData[0]"
+              class="bg-blockBg light:bg-white rounded-15px
+                     sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
+          <template #bottom-btn-bar><div></div></template>
+        </Blog>
+        <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
+          view more >
+        </div>
+      </div>
+      <div v-if="contentType==='space'"
+           class="h-15rem overflow-hidden relative py-10px">
+        <Space class="rounded-15px h-full"/>
+      </div>
+      <div class="flex gap-4rem mt-15px">
+        <div v-if="contentTag==='replay'" class="text-white flex items-center">
+          <i class="w-18px h-18px icon-msg"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
+        </div>
+        <div v-if="contentTag==='forward'" class="text-white flex items-center">
+          <i class="w-18px h-18px icon-forward"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
+        </div>
+        <div class="flex items-center">
+          <i class="w-18px h-18px icon-like"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
+        </div>
+        <div class="flex items-center">
+          <i class="w-18px h-18px icon-follow"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D"></span>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -58,14 +63,28 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { parseTimestamp } from '@/utils/helper'
 import { mapGetters } from "vuex";
 import {formatEmojiText} from "@/utils/tool";
+import Blog from "@/components/Blog";
+import Space from "@/components/Space";
+import {testData} from "@/views/square/test-data";
 
 export default {
   name: "CurationItem",
+  components: {Blog, Space},
   props: {
+    contentType: {
+      type: String,
+      default: 'tweet'
+    },
     curation: {
       type: Object,
       default: {}
     },
+  },
+  data () {
+    return {
+      testData,
+      contentTag: 'replay'
+    }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
@@ -85,7 +104,7 @@ export default {
     title() {
       const t = this.curation.content.split('\n')[0]
       if (t.length > 30) {
-        return t.slice(0, 30) 
+        return t.slice(0, 30)
       }else {
         return t
       }

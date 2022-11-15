@@ -50,9 +50,10 @@
                             :loading-text="$t('common.loading')"
                             :pulling-text="$t('common.pullRefresh')"
                             :loosing-text="$t('common.loosingRefresh')">
-            <CurationItem v-for="curation of curationsList" :key="curation.curationId"
+            <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
                           :curation="curation"
+                          :content-type="index%2===0?'tweet':'space'"
                           @click="gotoDetail(curation)"/>
           </van-pull-refresh>
         </div>

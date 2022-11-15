@@ -58,6 +58,24 @@
   background-image: url("~@/assets/icon-coin-light.svg");
 }
 
+.icon-forward {
+  @extend .icon;
+  background-image: url("~@/assets/icon-forward.svg");
+}
+.light .icon-forward {
+  @extend .icon;
+  background-image: url("~@/assets/icon-forward-light.svg");
+}
+
+.icon-follow {
+  @extend .icon;
+  background-image: url("~@/assets/icon-follow.svg");
+}
+.light .icon-follow {
+  @extend .icon;
+  background-image: url("~@/assets/icon-follow-light.svg");
+}
+
 .icon-twitter {
   @extend .icon;
   background-image: url("~@/assets/icon-twitter-white.svg");

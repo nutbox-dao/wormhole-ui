@@ -23,7 +23,7 @@
     </div>
     <!--  Verify modal -->
     <el-dialog :destroy-on-close="true" v-model="showPrivateKey"
-               custom-class="c-dialog c-dialog-lg c-dialog-center">
+               class="c-dialog c-dialog-lg c-dialog-center">
       <CreateAccount :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></CreateAccount>
     </el-dialog>
   </div>

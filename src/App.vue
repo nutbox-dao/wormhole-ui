@@ -109,7 +109,7 @@
           <div v-show="closeLoginTipVisible"
                class="absolute top-0 left-0 w-full h-full bg-primaryBg light:bg-white rounded-8px">
             <div class="w-full h-full flex flex-col justify-center px-2rem" :class="isDark?'bg-glass':'bg-white'">
-              <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17
+              <div class="break-word c-text-black gradient-text bg-purple-white light:bg-text-color17
                           whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
                 {{$t('signUpView.quitTip')}}
               </div>

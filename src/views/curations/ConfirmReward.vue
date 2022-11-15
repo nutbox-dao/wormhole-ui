@@ -103,7 +103,7 @@
       </div>
     </div>
     <el-dialog v-model="modalVisible" fullscreen
-               custom-class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg">
+               class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg">
       <Submissions :records="records" :state="state" @claim="claim" @close="modalVisible=false"></Submissions>
     </el-dialog>
   </div>
