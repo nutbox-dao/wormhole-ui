@@ -78,7 +78,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
@@ -194,7 +194,7 @@
     </van-popup>
     <el-dialog
       v-model="showRegistering"
-      custom-class="c-dialog c-dialog-lg c-dialog-center"
+      class="c-dialog c-dialog-lg c-dialog-center"
     >
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
         {{$t('postView.p4')}}<br />
@@ -206,7 +206,7 @@
     </el-dialog>
     <el-dialog
       v-model="showNotSendTwitter"
-      custom-class="c-dialog c-dialog-lg c-dialog-center"
+      class="c-dialog c-dialog-lg c-dialog-center"
     >
       <div class="text-white verify-view lg:p-3rem px-1rem py-2rem text-2rem">
         {{$t('postView.p6')}}

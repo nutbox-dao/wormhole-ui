@@ -43,10 +43,10 @@
         <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
     </div>
-    <el-dialog v-model="modalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
-    <el-dialog v-model="showTrekImage" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+    <el-dialog v-model="showTrekImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <img :src="showingTrekImage" alt="">
     </el-dialog>
   </div>

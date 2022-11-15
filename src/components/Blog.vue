@@ -56,30 +56,32 @@
           <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
           <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
         </div>
-        <div class="flex gap-4rem mt-15px">
-          <div class="text-white flex items-center">
-            <i class="w-18px h-18px icon-msg"></i>
-            <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
+        <slot name="bottom-btn-bar">
+          <div class="flex gap-4rem mt-15px">
+            <div class="text-white flex items-center">
+              <i class="w-18px h-18px icon-msg"></i>
+              <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
+            </div>
+            <!-- <div class="text-text8F flex items-center">
+              <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
+              <span class="c-text-medium ml-2px">61</span>
+            </div> -->
+            <div class="flex items-center">
+              <i class="w-18px h-18px icon-like"></i>
+              <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
+            </div>
+            <div class="text-white flex items-center">
+              <i class="w-18px h-18px icon-coin"></i>
+              <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
+            </div>
+            <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
+              <i class="w-18px h-18px icon-twitter"></i>
+            </div>
           </div>
-          <!-- <div class="text-text8F flex items-center">
-            <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
-            <span class="c-text-medium ml-2px">61</span>
-          </div> -->
-          <div class="flex items-center">
-            <i class="w-18px h-18px icon-like"></i>
-            <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
-          </div>
-          <div class="text-white flex items-center">
-            <i class="w-18px h-18px icon-coin"></i>
-            <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
-          </div>
-          <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
-            <i class="w-18px h-18px icon-twitter"></i>
-          </div>
-        </div>
+        </slot>
       </div>
     </div>
-    <el-dialog custom-class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
+    <el-dialog class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
       <el-carousel height="70vh" indicator-position="none" :autoplay="false" :initial-index="imgIndex">
         <el-carousel-item v-for="item in imgurls" :key="item">
           <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
@@ -192,7 +194,8 @@ export default {
       return parseTimestamp(time)
     },
     parseSBD(v) {
-      return parseFloat(v.replace(' SBD', ''))
+      // return parseFloat(v.replace(' SBD', ''))
+      return 0
     },
     gotoSteem(e) {
       if (this.isDetail) {

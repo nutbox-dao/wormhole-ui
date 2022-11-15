@@ -206,3 +206,36 @@ html.light {
 .el-alert {
   border-radius: 0;
 }
+.no-border-collapse .el-collapse-item__header,
+.no-border-collapse .el-collapse-item__wrap {
+  border: none;
+}
+.no-border-collapse .el-collapse-item__arrow {
+  color: white;
+}
+.light .no-border-collapse .el-collapse-item__arrow {
+  color: #1A1E25;
+}
+.el-collapse-item__content {
+  padding-bottom: 0;
+}
+
+.el-collapse-item__header {
+  height: fit-content;
+  align-items: flex-start;
+  min-height: 48px;
+}
+.el-collapse-item__arrow {
+  min-height: 48px;
+}
+.speaker-collapse .el-collapse-item__header .header-avatar {
+  height: 6.5rem;
+  overflow: hidden;
+  transition: height 300ms;
+}
+.speaker-collapse .el-collapse-item__header.is-active .header-avatar {
+  height: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  transition: height 300ms;
+}
