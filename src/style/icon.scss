@@ -118,3 +118,13 @@
   @extend .icon;
   background-image: url("~@/assets/icon-theme-dark-primary.svg");
 }
+
+.icon-close {
+  @extend .icon;
+  background-image: url("~@/assets/icon-close.svg");
+}
+.light .icon-close {
+  @extend .icon;
+  background-image: url("~@/assets/icon-close-light.svg");
+}
+

@@ -396,7 +396,7 @@ export default {
         getTokenBalance(ethAddress);
       }
     } else {
-      this.$router.replace('/')
+      // this.$router.replace('/')
     }
   },
 };

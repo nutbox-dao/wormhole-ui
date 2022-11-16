@@ -22,7 +22,8 @@
             <img class="w-2.5rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
             <span>Supermonday</span>
           </div>
-          <button class="border-1 border-color62 px-1rem rounded-full text-color62">Tip</button>
+          <button class="border-1 border-color62 px-1rem rounded-full text-color62"
+                  @click="$emit('showTip')">Tip</button>
         </div>
         <div class="text-1.2rem c-text-black my-6px">Speaker</div>
         <div class="flex justify-between items-center" v-for="i of list" :key="i">
@@ -30,7 +31,8 @@
             <img class="w-2.5rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
             <span>Supermonday</span>
           </div>
-          <button class="border-1 border-color62 px-1rem rounded-full text-color62">Tip</button>
+          <button class="border-1 border-color62 px-1rem rounded-full text-color62"
+                  @click="$emit('showTip')">Tip</button>
         </div>
       </div>
     </el-collapse-item>
