@@ -53,7 +53,6 @@
 <script>
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 

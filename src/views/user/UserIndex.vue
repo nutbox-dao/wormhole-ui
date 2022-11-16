@@ -222,7 +222,7 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, EVM_CHAINS, TWITTER_POST_TAG } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -298,7 +298,7 @@ export default {
     },
     gotoSteem() {
       window.open(
-        EVM_CHAINS.STEEM.scan + "@" + this.getAccountInfo.steemId,
+        SteemScan + "@" + this.getAccountInfo.steemId,
         "__blank"
       );
     },
