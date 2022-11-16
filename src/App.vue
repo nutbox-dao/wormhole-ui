@@ -96,14 +96,13 @@
       </el-dialog>
 
       <el-dialog :destroy-on-close="true" v-model="showLogin"
+                 :show-close="false"
                  :close-on-click-modal="true"
                  :before-close="beforeCloseLogin"
                  class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
         <div class="relative min-h-20rem">
           <div class="w-max p-1rem ml-auto mr-0" @click="closeLoginTipVisible=true">
-            <svg t="1641368990016" class="icon w-1.2rem h-1.2rem" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="13420" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64">
-              <path :fill="isDark?'#848391':'#170F49'" d="M902.741 816.213l-306.005-307.2L894.72 205.056c18.859-18.859 18.859-49.323 0-68.181s-36.01-18.859-54.87 0L532.396 444.416 226.048 136.875c-18.859-18.859-49.323-18.859-68.181 0s-18.859 49.322 0 68.181L464.81 512 157.952 818.944c-18.859 18.859-18.859 49.323 0 68.181s49.323 18.859 68.181 0l303.787-309.93 309.93 309.93c18.86 18.859 44.033 16.128 62.806-2.645s18.944-49.408 0.085-68.267z" p-id="13421"></path>
-            </svg>
+            <i class="w-1.2rem h-1.2rem icon-close"></i>
           </div>
           <Login class="px-2rem pb-2rem" @close="showLogin=false"/>
           <div v-show="closeLoginTipVisible"
