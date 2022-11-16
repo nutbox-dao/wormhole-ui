@@ -88,12 +88,26 @@ export const getUserFavTag = async (twitterId) =>
  * 
  * @param {*} curation: 
  * {
- *  curationId, creatorTwitter, creatorETH, content, token, amount, maxCount, endtime
+ *  twitterId, curationId, creatorTwitter, creatorETH, content, token, amount, maxCount, endtime, transHash, chainId, tasks
  * } 
  * @returns 
  */
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
+
+/**
+ * 
+ * @param {*} curation 
+ * {
+ * twitterId, curationId, creatorETH, content, token, amount, maxCount, endtime, transHash,
+            tweetId, authorId, chainId, curationType, tasks, spaceId, hostIds, speakerIds, title,
+            startedAt, scheduledStart, endedAt, creatorId, tweetContent, 
+            retweetInfo, retweetId, pageInfo, createdAt
+ * }
+ * @returns 
+ */
+export const newCurationWithTweet = async (curation) => 
+    post(BACKEND_API_URL + '/curation/newCurationWithTweet', curation)
 
 export const getRefreshCurations = async (curationStatus) =>
     get(BACKEND_API_URL + '/curation/getRefreshCurations', {curationStatus})
@@ -137,6 +151,12 @@ export const bMapToGMapLocations = async (locations) => {
 /****************************************  twitter api  ***********************************************/
 export const getTweetsById = async (twitterId, tweetIds) => 
     post(BACKEND_API_URL + '/twitter-api/getTweetsById', {twitterId, tweetIds})
+
+export const getTweetById = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/twitter-api/getTweetById', {twitterId, tweetId})
+
+export const getSapceBySpaceId = async (twitterId, spaceId) =>
+    post(BACKEND_API_URL + '/twitter-api/getSpaceInfo', {twitterId, spaceId})
 
 export const userFollowing = async (twitterId, authorId) => 
     post(BACKEND_API_URL + '/twitter-api/userFollowing', {twitterId, authorId})

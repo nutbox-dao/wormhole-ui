@@ -89,7 +89,11 @@ export const TokenIcon = {
     'BUSD': 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png',
     'MATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
     'WMATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
-    'DAI': 'https://polygonscan.com/token/images/mcdDai_32.png'
+    'DAI': 'https://polygonscan.com/token/images/mcdDai_32.png',
+    'FRAX': '',
+    'NEAR': '',
+    'AURORA': '',
+    'GLMR': ''
 }
 
 export const TokenName = {
@@ -102,7 +106,11 @@ export const TokenName = {
     'MATIC': 'Polygon',
     'TEST-U': 'TEST USDT',
     'WMATIC': 'Wrapped Matic',
-    'DAI': 'Dai Stablecoin'
+    'DAI': 'Dai Stablecoin',
+    'FRAX': 'Frax',
+    'NEAR': 'Near',
+    'AURORA': 'Aurora',
+    'GLMR': 'GLMR'
 }
 
 /**
@@ -130,28 +138,28 @@ export const EVM_CHAINS = {
     //         interval: 3000,
     //     }
     // },
-    // BNB: {
-    //     rpc:'https://bsc-dataseed.binance.org',
-    //     scan: 'https://bscscan.com/',
-    //     id: 56,
-    //     main: {
-    //         name: 'BNB',
-    //         symbol: 'BNB',
-    //         icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
-    //         decimals: 18
-    //     },
-    //     assets: {
-    //         // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    //         BUSD: {symbol: 'BUSD', name: 'BSC-USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
-    //         USDT: {symbol: 'USDT', name: 'Tether USD', address: '0x55d398326f99059fF775485246999027B3197955', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
-    //         USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
-    //     },
-    //     Multi_Config: {
-    //         rpcUrl: 'https://bsc-dataseed.binance.org',
-    //         multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
-    //         interval: 3000,
-    //     }
-    // },
+    BNB: {
+        rpc:'https://bsc-dataseed.binance.org',
+        scan: 'https://bscscan.com/',
+        id: 56,
+        main: {
+            name: 'BNB',
+            symbol: 'BNB',
+            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+            decimals: 18
+        },
+        assets: {
+            // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+            BUSD: {symbol: 'BUSD', name: 'BSC-USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
+            USDT: {symbol: 'USDT', name: 'Tether USD', address: '0x55d398326f99059fF775485246999027B3197955', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
+            USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+        },
+        Multi_Config: {
+            rpcUrl: 'https://bsc-dataseed.binance.org',
+            multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
+            interval: 3000,
+        }
+    },
     MATIC: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
@@ -175,11 +183,52 @@ export const EVM_CHAINS = {
             interval: 3000,
         }
     },
-    STEEM: {
-        rpc: '',
-        scan: 'https://ecosynthesizer.com/steem/'
+    AURARO: {
+        rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
+        scan: 'https://aurorascan.dev/',
+        id: 1313161554,
+        main: {
+            name: 'Ethereum',
+            symbol: 'ETH',
+            decimals: 18,
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/aurora-dev.jpg'
+        },
+        assets: {
+            FRAX: {name: 'Frax',symbol: 'FRAX',dicimals: 18,address: '0xE4B9e004389d91e4134a28F19BD833cBA1d994B6'},
+            AURORA: {name: 'Aurora',symbol: 'AURORA',dicimals: 18,address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79'},
+            NEAR: { name: 'NEAR',symbol: 'NEAR',decimals: 24,address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d'}
+        },
+        Multi_Config: {
+            rpcUrl: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
+            multicallAddress: '0x930e8aB7b759BFFb2c73c276608b9CCF52Bb5c1e',
+            interval: 3000
+        }
+    },
+    MOONBEAM: {
+        rpc: 'https://rpc.api.moonbeam.network',
+        scan: 'https://moonbeam.moonscan.io/',
+        id: 1284,
+        main: {
+            name: '',
+            symbol: 'GLMR',
+            decimals: 18,
+            icon: ''
+        },
+        assets: {
+          USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
+          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},  
+          DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
+          DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
+        },
+        Multi_Config: {
+            rpcUrl: 'https://rpc.api.moonbeam.network',
+            multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
+            interval: 3000
+        }
     }
 }
+
+export const SteemScan = 'https://ecosynthesizer.com/steem/'
 
 /**
  * ERROR CODE DEFINE

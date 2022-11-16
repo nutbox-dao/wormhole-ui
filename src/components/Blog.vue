@@ -95,7 +95,7 @@
 <script>
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS, IgnoreAuthor } from '@/config'
+import { SteemScan, IgnoreAuthor } from '@/config'
 import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
@@ -200,7 +200,7 @@ export default {
     gotoSteem(e) {
       if (this.isDetail) {
         e.stopPropagation();
-        window.open(`${EVM_CHAINS.STEEM.scan}@${this.post.steemId}/${this.post.postId}`, '__blank')
+        window.open(`${SteemScan}@${this.post.steemId}/${this.post.postId}`, '__blank')
       }
     },
     gotoUserPage() {
