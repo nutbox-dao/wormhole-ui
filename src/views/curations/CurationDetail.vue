@@ -85,16 +85,21 @@
             <el-collapse class="border-0 no-border-collapse pb-0">
               <el-collapse-item name="">
                 <template #title>
-                  <div class="text-white light:text-blueDark px-1.25rem font-bold
+                  <el-carousel class="w-full" height="48px" direction="vertical" :autoplay="false" indicator-position="none">
+                    <el-carousel-item v-for="item in 4" :key="item">
+                      <div class="text-white light:text-blueDark px-1.25rem font-bold
                               flex-1 flex justify-between items-center truncate">
-                    <div class="flex-1 truncate flex items-center">
-                      <i class="w-18px h-18px icon-coin mr-10px"></i>
-                      <span class="flex-1 truncate">
-                      ijooo tiped 44 STEEM to @superfactory
-                    </span>
-                    </div>
-                    <span class="block ml-10px">10s</span>
-                  </div>
+                        <div class="flex-1 truncate flex items-center">
+                          <i class="w-18px h-18px icon-coin mr-10px"></i>
+                          <span class="flex-1 truncate">
+                            {{item}} ijooo tiped 44 STEEM to @superfactory
+                          </span>
+                        </div>
+                        <span class="block ml-10px">10s</span>
+                      </div>
+                    </el-carousel-item>
+                  </el-carousel>
+
                 </template>
                 <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
                   <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center"
@@ -125,7 +130,7 @@
           </div>
           <template v-if="contentType==='space'">
             <div class="xl:hidden bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-              <SpeakerCollapse/>
+              <SpeakerCollapse @showTip="speakerTipVisible=true"/>
             </div>
             <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
               <el-collapse class="border-0 no-border-collapse pb-0">
@@ -406,7 +411,17 @@
                class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
       <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
     </el-dialog>
-
+    <el-dialog v-model="speakerTipVisible"
+               :show-close="false"
+               :destroy-on-close="true"
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <div class="relative">
+        <div class="w-max p-1rem ml-auto mr-0" @click="speakerTipVisible=false">
+          <i class="w-1.2rem h-1.2rem icon-close"></i>
+        </div>
+        <SpeakerTipModal/>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -425,11 +440,12 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import CurationItem from "@/components/CurationItem";
 import SpeakerCollapse from "@/components/SpeakerCollapse";
+import SpeakerTipModal from "@/components/SpeakerTipModal";
 import {testData} from "@/views/square/test-data";
 
 export default {
   name: "CurationDetail",
-  components: {TweetAttendTip, Submissions, Blog, Space, CurationItem, SpeakerCollapse},
+  components: {TweetAttendTip, Submissions, Blog, Space, CurationItem, SpeakerCollapse, SpeakerTipModal},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -441,7 +457,7 @@ export default {
       loading: false,
       participant: [],
       contentType: 'space',
-      speakerCollapse: false,
+      speakerTipVisible: false,
       testData
     }
   },
