@@ -83,6 +83,9 @@ export const getTagAggregation = async () =>
 export const getUserFavTag = async (twitterId) => 
     get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
+export const userTweet = async (tweet) =>
+    post(BACKEND_API_URL + '/twitter/tweet', tweet)
+
 /****************************************  curation  ***********************************************/
 /**
  * 
@@ -138,6 +141,16 @@ export const getMyCreatedCurations = async (twitterId, createdTime) =>
 
 export const getRefreshCurationRecord = async (taskId, lastId, isFeed=false) => 
     get(BACKEND_API_URL + '/curation/getRefreshCurationRecord', {taskId, lastId, isFeed})
+
+/****************************************  tip  ***********************************************/
+export const tipEVM = async (tip) =>
+    post(BACKEND_API_URL + '/tip/tip', {tip})
+
+export const getAllTipsOfCuration = async (curationId) => 
+    get(BACKEND_API_URL + '/tip/tipsByCurationId', {curationId})
+
+export const getTopTipsOfCuration = async (curationId) => 
+    get(BACKEND_API_URL + '/tip/topTipsByCurationId', {curationId})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {

@@ -145,7 +145,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile } from '@/api/api'
+import { getProfile, userTweet } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { userLike } from '@/utils/twitter'
 
@@ -220,8 +220,10 @@ export default {
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
     gotoTwitter(){
-
-      userLike('1590709166515310593')
+      const twitterId = this.$store.getters.getAccountInfo.twitterId;
+      userTweet({twitterId, text: 'Test', cardUri: 'https://alpha.wormhole3.io'}).then(res => {
+        console.log(44444, res)
+      })
       return;
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
