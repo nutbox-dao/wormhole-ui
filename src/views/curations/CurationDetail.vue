@@ -422,6 +422,17 @@
         <SpeakerTipModal/>
       </div>
     </el-dialog>
+    <el-dialog v-model="createPopUpVisible"
+               :show-close="false"
+               :destroy-on-close="true"
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <div class="relative">
+        <div class="w-max p-1rem ml-auto mr-0" @click="createPopUpVisible=false">
+          <i class="w-1.2rem h-1.2rem icon-close"></i>
+        </div>
+        <CreatePopUpModal/>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -441,11 +452,16 @@ import Space from "@/components/Space";
 import CurationItem from "@/components/CurationItem";
 import SpeakerCollapse from "@/components/SpeakerCollapse";
 import SpeakerTipModal from "@/components/SpeakerTipModal";
+import CreatePopUpModal from "@/components/CreatePopUpModal";
 import {testData} from "@/views/square/test-data";
 
 export default {
   name: "CurationDetail",
-  components: {TweetAttendTip, Submissions, Blog, Space, CurationItem, SpeakerCollapse, SpeakerTipModal},
+  components: {
+    TweetAttendTip, Submissions, Blog, Space,
+    CurationItem, SpeakerCollapse, SpeakerTipModal,
+    CreatePopUpModal
+  },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -457,7 +473,8 @@ export default {
       loading: false,
       participant: [],
       contentType: 'space',
-      speakerTipVisible: false,
+      speakerTipVisible: true,
+      createPopUpVisible: false,
       testData
     }
   },
