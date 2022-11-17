@@ -239,3 +239,9 @@ html.light {
   overflow: hidden;
   transition: height 300ms;
 }
+.el-select .el-input .el-input__wrapper {
+  box-shadow: none!important;
+}
+.el-select .el-input.is-focus .el-input__wrapper {
+  box-shadow: none!important;
+}
