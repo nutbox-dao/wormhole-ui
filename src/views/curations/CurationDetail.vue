@@ -473,7 +473,7 @@ export default {
       loading: false,
       participant: [],
       contentType: 'space',
-      speakerTipVisible: true,
+      speakerTipVisible: false,
       createPopUpVisible: false,
       testData
     }
