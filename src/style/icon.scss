@@ -128,3 +128,12 @@
   background-image: url("~@/assets/icon-close-light.svg");
 }
 
+.icon-wallet {
+  @extend .icon;
+  background-image: url("~@/assets/icon-wallet.svg");
+}
+.light .icon-wallet {
+  @extend .icon;
+  background-image: url("~@/assets/icon-wallet-light.svg");
+}
+

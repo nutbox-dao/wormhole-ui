@@ -8,6 +8,8 @@ export default {
   aboutUs: 'About Us',
   discord: 'Discord',
   twitter: 'Twitter',
+  referral: 'Referral',
+  language: 'Language',
   faucet: 'Faucet',
   logout: 'Log out',
   signUpView: {
