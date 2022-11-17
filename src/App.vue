@@ -138,7 +138,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile } from '@/api/api'
+import { getProfile, userTweet } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
 import {showError} from "@/utils/notify";
