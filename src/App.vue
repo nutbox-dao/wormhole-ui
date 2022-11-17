@@ -15,48 +15,41 @@
                   {{$t('signIn')}}
               </button>
             </div>
-            <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef">
-              <template #reference>
-                <i class="h-1.6rem w-1.6rem mr-0.8rem icon-language"></i>
-              </template>
-              <template #default>
-                <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg
-                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">
-                  <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
-                  <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
-                </div>
-              </template>
-            </el-popover>
+            <i v-if="getAccountInfo && getAccountInfo.twitterUsername"
+               class="h-1.8rem w-1.8rem mr-0.8rem icon-wallet"></i>
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
                 <span class="menu-icon" :class="showMenu?'active':''"></span>
               </button>
-              <div class="menu-box w-13.5rem xl:w-11rem z-99"
+              <div class="menu-box w-13.5rem xl:w-11rem z-99" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">
                 <div class="p-0.5rem border-1 border-listBgBorder
                             bg-blockBg light:bg-white light:border-0 light:shadow-popper-tip
                             rounded-12px w-full h-full
                             flex flex-col justify-between
                             font-400 text-15px leading-24px xl:text-0.75rem">
-                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click="showMenu=false"
+                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click.stop="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
-<!--                  <template v-if="!getAccountInfo">-->
-<!--                    <router-link to="/login" @click="showMenu=false"-->
-<!--                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signIn')}}</router-link>-->
-<!--                    <router-link to="/signup" @click="showMenu=false"-->
-<!--                                 class="md:hidden block flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('signUp')}}</router-link>-->
-<!--                  </template>-->
-                  <router-link to="/square" @click="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('square')}}</router-link>
-                  <router-link to="/curations" @click="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('curations')}}</router-link>
-                  <router-link to="/faq" @click="showMenu=false"
+                  <router-link to="/faq" @click.stop="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faq')}}</router-link>
-                  <router-link to="/about" @click="showMenu=false"
+                  <router-link to="/about" @click.stop="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
                   <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
+                  <div @click="showMenu=false" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('referral')}}</div>
+                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">
+                    <template #reference>
+                      <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>
+                    </template>
+                    <template #default>
+                      <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg
+                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">
+                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
+                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
+                      </div>
+                    </template>
+                  </el-popover>
                   <div @click="onCopy('https://alpha.wormhole3.io/#/signup/' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
@@ -218,6 +211,7 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     gotoDC() {
+      this.showMenu=false
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
     gotoTwitter(){
@@ -238,6 +232,7 @@ export default {
       this.$refs.langRef.hide()
       i18n.global.locale = lang
       localStorage.setItem('language', lang)
+      this.showMenu = false
     },
     changeTheme(status) {
       if(status === this.isDark) return

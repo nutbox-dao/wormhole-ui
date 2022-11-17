@@ -32,7 +32,7 @@ import FaucetView from "@/views/Faucet"
 const routes = [
   {
     path: '/',
-    redirect: '/square',
+    redirect: '/curations',
   },
   {
     path: '/square/:referee?',
