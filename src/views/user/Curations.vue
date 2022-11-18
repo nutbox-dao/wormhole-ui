@@ -1,11 +1,25 @@
 <template>
   <div class="pb-4rem w-full">
     <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px md:my-2rem my-1.5rem">
-      <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1" class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
-              <span v-for="(tag, index) of subTagList" :key="index"
-                    class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
-                    :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
-                    @click="changeSubIndex(index)">{{tag}}</span>
+      <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
+           class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex">
+        <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
+          <span v-for="(tag, index) of subTagList" :key="index"
+                class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
+                :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+                @click="changeSubIndex(index)">{{tag}}</span>
+        </div>
+        <div>
+          <div class="border-1 bg-black/40 border-1 border-color8B/30 w-10rem
+                  flex items-center justify-between
+                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                  rounded-12px h-30px">
+            <el-select v-model="filterKey" class="w-full" size="large">
+              <el-option label="Latest" value="latest"></el-option>
+              <el-option label="Attend time" value="attendTime"></el-option>
+            </el-select>
+          </div>
+        </div>
       </div>
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         :loading-text="$t('common.loading')"
@@ -104,7 +118,8 @@ export default {
       list: [],
       position: document.body.clientWidth < 768?'bottom':'center',
       modalVisible: false,
-      detailCuration: null
+      detailCuration: null,
+      filterKey: 'latest'
     }
   },
   computed: {

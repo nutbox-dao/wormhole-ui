@@ -37,6 +37,17 @@
             </el-popover>
           </div>
         </div> -->
+        <div class="mt-1.8rem relative">
+          <div class="mb-6px">{{$t('curation.category')}}</div>
+          <div class="bg-black border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+            <el-select v-model="form.category" class="w-full" size="large">
+              <el-option label="Tweet" value="tweet"></el-option>
+              <el-option label="Space" value="space"></el-option>
+            </el-select>
+          </div>
+        </div>
         <!-- content -->
         <div class="mt-1.8rem relative">
           <div class="mb-6px flex items-center">
@@ -358,7 +369,8 @@ export default {
         maxCount: '',
         description: '',
         token: '',
-        amount: ''
+        amount: '',
+        category: ''
       },
       selectedToken: {},
       tokenList: ERC20List,
