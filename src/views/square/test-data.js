@@ -11,3 +11,19 @@ export const testData = [{
   "pageInfo": null,
   "location": "null"
 }]
+
+export const testAccount = {
+  "twitterId": "1412585243085844481",
+  "twitterName": "terry3t.eth",
+  "twitterUsername": "terry3t1",
+  "steemId": "terry3t",
+  "ethAddress": "0x3B4C370c5AD863a8262184Bbb9b9C162DFB997b9",
+  "web25ETH": "0x64697c992c1794a1e7Be813682341e02Db7BB92F",
+  "profileImg": "https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_normal.jpg",
+  "reputation": 54,
+  "hasReceivedNft": 1,
+  "hasMintedRP": 1,
+  "bindSteem": 1,
+  "isRegistry": 1,
+  "source": 1
+}

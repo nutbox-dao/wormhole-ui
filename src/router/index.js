@@ -87,27 +87,27 @@ const routes = [
     component: FaucetView,
   },
   {
+    path: '/profile/:user/wallet',
+    name: 'wallet',
+    component: WalletView,
+    children: [
+      {
+        path: '',
+        name: 'token',
+        component: UserTokenView
+      },
+      {
+        path: 'nft',
+        name: 'nft',
+        component: UserNftView
+      },
+    ]
+  },
+  {
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
     children: [
-      {
-        path: '/profile/:user/wallet',
-        name: 'wallet',
-        component: WalletView,
-        children: [
-          {
-            path: '',
-            name: 'token',
-            component: UserTokenView
-          },
-          {
-            path: 'nft',
-            name: 'nft',
-            component: UserNftView
-          },
-        ]
-      },
       {
         path: '/profile/:user/post',
         name: 'post',
