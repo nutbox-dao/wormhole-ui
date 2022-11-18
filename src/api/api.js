@@ -53,6 +53,9 @@ export const getProfile = async (twitterId) =>
 export const getUserByEth = async (ethAddress) =>
     get(BACKEND_API_URL + '/users/getUserByEth', {ethAddress})
 
+export const getUserByIds = async (twitterIds) => 
+    get(BACKEND_API_URL + '/users/byTwitterIds', {twitterIds})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, pageSize, time, newPost) =>
     get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost})
@@ -83,34 +86,19 @@ export const getTagAggregation = async () =>
 export const getUserFavTag = async (twitterId) => 
     get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
-export const userTweet = async (tweet) =>
-    post(BACKEND_API_URL + '/twitter/tweet', tweet)
-
 /****************************************  curation  ***********************************************/
-/**
- * 
- * @param {*} curation: 
- * {
- *  twitterId, curationId, creatorTwitter, creatorETH, content, token, amount, maxCount, endtime, transHash, chainId, tasks
- * } 
- * @returns 
- */
+
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
 
-/**
- * 
- * @param {*} curation 
- * {
- * twitterId, curationId, creatorETH, content, token, amount, maxCount, endtime, transHash,
-            tweetId, authorId, chainId, curationType, tasks, spaceId, hostIds, speakerIds, title,
-            startedAt, scheduledStart, endedAt, creatorId, tweetContent, 
-            retweetInfo, retweetId, pageInfo, createdAt
- * }
- * @returns 
- */
 export const newCurationWithTweet = async (curation) => 
     post(BACKEND_API_URL + '/curation/newCurationWithTweet', curation)
+
+export const likeCuration = async (twitterId, tweetId, curationId) =>
+    post(BACKEND_API_URL + '/curation/likeCuration', {twitterId, tweetId, curationId})
+
+export const followCuration = async (twitterId, authorId, curationId) =>
+    post(BACKEND_API_URL + '/curation/followCuration', {twitterId, authorId, curationId})
 
 export const getRefreshCurations = async (curationStatus) =>
     get(BACKEND_API_URL + '/curation/getRefreshCurations', {curationStatus})
@@ -176,6 +164,9 @@ export const userFollowing = async (twitterId, authorId) =>
     
 export const userLike = async (twitterId, tweetId) => 
     post(BACKEND_API_URL + '/twitter-api/userLike', {twitterId, tweetId})
+
+export const userTweet = async (twitterId, text) =>
+    post(BACKEND_API_URL + '/twitter-api/tweet', {twitterId, text})
 
 /****************************************  faucet  ***********************************************/
 export const getFaucet = async (address) =>

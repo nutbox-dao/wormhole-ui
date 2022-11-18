@@ -1,7 +1,8 @@
 import { Client } from 'twitter-api-sdk'
 import store from '@/store'
 import { refreshToken } from '@/utils/account'
-import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf, userLike as ul, getSapceBySpaceId } from '@/api/api'
+import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf, userLike as ul, getSapceBySpaceId,
+    userTweet as ut } from '@/api/api'
 
 async function checkAccessToken() {
     let acc = store.getters.getAccountInfo;
@@ -71,8 +72,11 @@ export const userLike = async (tweetId) => {
     return false
 }
 
-export const userLiking = async (tweetId) => {
+export const userTweet = async (text) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
-    
+    const r = await ut(twitterId, text)
+    if(r) {
+        return r.id
+    }
 }
