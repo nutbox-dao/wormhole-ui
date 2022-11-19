@@ -100,10 +100,10 @@
                  :before-close="beforeCloseLogin"
                  class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
         <div class="relative min-h-20rem">
-          <div class="w-max p-1rem ml-auto mr-0" @click="closeLoginTipVisible=true">
+          <div class="w-max p-1rem ml-auto mr-0" @click="beforeCloseLogin">
             <i class="w-1.2rem h-1.2rem icon-close"></i>
           </div>
-          <Login class="px-2rem pb-2rem" @close="showLogin=false"/>
+          <Login class="px-2rem pb-2rem" ref="loginRef" @close="showLogin=false"/>
           <div v-show="closeLoginTipVisible"
                class="absolute top-0 left-0 w-full h-full bg-primaryBg light:bg-white rounded-8px">
             <div class="w-full h-full flex flex-col justify-center px-2rem" :class="isDark?'bg-glass':'bg-white'">
@@ -185,7 +185,8 @@ export default {
       e.target.src = emptyAvatar;
     },
     beforeCloseLogin(done) {
-      this.closeLoginTipVisible = true
+      if(this.$refs.loginRef.authStep === 'login') this.showLogin = false
+      else this.closeLoginTipVisible = true
     },
     async monitorPrices() {
       let res = await Promise.all([

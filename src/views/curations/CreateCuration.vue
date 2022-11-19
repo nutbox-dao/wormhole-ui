@@ -38,7 +38,7 @@
           </div>
         </div> -->
         <div class="mt-1.8rem relative">
-          <div class="mb-6px">{{$t('curation.category')}}</div>
+          <div class="mb-6px c-text-black">{{$t('curation.category')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
@@ -48,58 +48,179 @@
             </el-select>
           </div>
         </div>
-        <!-- content -->
         <div class="mt-1.8rem relative">
-          <div class="mb-6px flex items-center">
-            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>
-            <el-popover placement="bottom"
-                        popper-class="c-popper"
-                        width="100%"
-                        trigger="click">
-              <template #reference>
-                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">
-              </template>
-              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"
-                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">
-                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-                  <div class="bg-black light:bg-white p-14px">
-                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem
-                            text-color7D light:text-blueDark">
-                      {{$t('curation.description')}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-popover>
-          </div>
-          <div class="border-1 bg-black/40 border-1 border-color8B/30
+          <div class="mb-6px c-text-black">{{$t('curation.relatedContent')}}</div>
+          <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px">
-            <div contenteditable
-                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
-                 ref="descContentRef"
-                 @blur="getBlur('desc')"
-                 @paste="onPaste"
-                 v-html="formatEmojiText(form.description)"></div>
-            <div class="py-2 border-t-1 border-color8B/30">
-              <el-popover ref="descEmojiPopover"
-                          trigger="click" width="300"
-                          :teleported="false" :persistent="false">
-                <template #reference>
-                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
-                </template>
-                <div class="h-310px lg:h-400px">
-                  <EmojiPicker :options="{
-                                imgSrc:'/emoji/',
-                                locals: $i18n.locale==='zh'?'zh_CN':'en',
-                                hasSkinTones:false,
-                                hasGroupIcons:false}"
-                               @select="(e) =>selectEmoji(e,'desc')" />
-                </div>
-              </el-popover>
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+            <input class="bg-transparent h-full w-full px-0.5rem"
+                   v-model="form.link"
+                   type="number" :placeholder="$t('curation.pasteLink')">
+            <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
+                    @click="linkIsVerified=true">{{$t('curation.verify')}}</button>
+          </div>
+        </div>
+        <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
+          <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
+          <div class="max-h-15rem overflow-hidden relative rounded-15px">
+            <Blog :post="testData[0]"
+                  class="bg-blockBg light:bg-white rounded-15px
+                       border-1 border-listBgBorder mb-1rem md:mb-0">
+              <template #bottom-btn-bar><div></div></template>
+            </Blog>
+            <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
+              view more >
+            </div>
+          </div>
+
+        </div>
+        <div class="mt-1.8rem" v-if="form.category==='space' && linkIsVerified">
+          <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
+          <div class="h-15rem overflow-hidden relative">
+            <Space class="bg-blockBg light:bg-white rounded-15px h-full
+                        border-1 border-listBgBorder mb-1rem md:mb-0"/>
+          </div>
+        </div>
+        <div class="mt-1.8rem" v-if="form.category==='space'">
+          <div class="mb-6px c-text-black">{{$t('curation.details')}}</div>
+<!--          Host-->
+          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.host')}}</div>
+          <div v-if="form.host.name" class="flex items-center"
+               @click="showAddSpeakerModal('host','edit')">
+            <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+            <div class="ml-10px">
+              <div class="mb-6px">{{form.host.name}}</div>
+              <div>{{form.host.title}}</div>
+            </div>
+          </div>
+          <div v-else @click="showAddSpeakerModal('host','add')"
+               class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
+                      bg-color7D rounded-15px flex justify-center items-center">
+            +
+          </div>
+<!--          Co-Host-->
+          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.coHosts')}}({{$t('curation.optional')}})</div>
+          <div class="flex flex-wrap">
+            <div class="flex items-center mr-10px relative"
+                 v-for="(coHost, index) of form.coHost" :key="index"
+                 @click="showAddSpeakerModal('coHost','edit', index)">
+              <div class="absolute -top-5px -left-5px bg-white/20 rounded-full p-3px"
+                   @click.stop="deleteSpeaker('speaker', index)">
+                <i class="icon-close w-1.2rem h-1.2rem"></i>
+              </div>
+              <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+              <div class="ml-10px">
+                <div class="mb-6px">{{coHost.name}}</div>
+                <div>{{coHost.title}}</div>
+              </div>
+            </div>
+            <div @click="showAddSpeakerModal('coHost','add')"
+                 class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
+                      bg-color7D rounded-15px flex justify-center items-center">
+              +
+            </div>
+          </div>
+<!--          Speakers-->
+          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.speakers')}}({{$t('curation.optional')}})</div>
+          <div class="flex flex-wrap">
+            <div class="flex items-center mr-10px relative"
+                 v-for="(speaker, index) of form.speakers" :key="index"
+                 @click="showAddSpeakerModal('speaker','edit', index)">
+              <div class="absolute -top-5px -left-5px bg-white/20 rounded-full p-3px"
+                   @click.stop="deleteSpeaker('speaker', index)">
+                <i class="icon-close w-1.2rem h-1.2rem"></i>
+              </div>
+              <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+              <div class="ml-10px">
+                <div class="mb-6px">{{speaker.name}}</div>
+                <div>{{speaker.title}}</div>
+              </div>
+            </div>
+            <div @click="showAddSpeakerModal('speaker','add')"
+                 class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
+                      bg-color7D rounded-15px flex justify-center items-center">
+              +
             </div>
           </div>
         </div>
+
+        <div class="mt-1.8rem relative">
+          <div class="mb-6px c-text-black">{{$t('curation.requirements')}}</div>
+          <div class="bg-black border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3
+                      rounded-12px overflow-hidden">
+            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
+                 :class="requirementsOptions[0].value?'bg-primaryColor':''"
+                 @click="requirementsOptions[0].value=!requirementsOptions[0].value">
+              <span>Quote</span>
+              <span>Required*</span>
+            </div>
+            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
+                 :class="requirementsOptions[1].value?'bg-primaryColor':''"
+                 @click="requirementsOptions[1].value=!requirementsOptions[1].value">
+              <span>Follow</span>
+              <span>@elonmusk</span>
+            </div>
+            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
+                 :class="requirementsOptions[2].value?'bg-primaryColor':''"
+                 @click="requirementsOptions[2].value=!requirementsOptions[2].value">
+              <span>Like</span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+        <!-- content -->
+<!--        <div class="mt-1.8rem relative">-->
+<!--          <div class="mb-6px flex items-center">-->
+<!--            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>-->
+<!--            <el-popover placement="bottom"-->
+<!--                        popper-class="c-popper"-->
+<!--                        width="100%"-->
+<!--                        trigger="click">-->
+<!--              <template #reference>-->
+<!--                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">-->
+<!--              </template>-->
+<!--              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"-->
+<!--                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">-->
+<!--                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">-->
+<!--                  <div class="bg-black light:bg-white p-14px">-->
+<!--                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem-->
+<!--                            text-color7D light:text-blueDark">-->
+<!--                      {{$t('curation.description')}}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </el-popover>-->
+<!--          </div>-->
+<!--          <div class="border-1 bg-black/40 border-1 border-color8B/30-->
+<!--                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor-->
+<!--                      rounded-12px">-->
+<!--            <div contenteditable-->
+<!--                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"-->
+<!--                 ref="descContentRef"-->
+<!--                 @blur="getBlur('desc')"-->
+<!--                 @paste="onPaste"-->
+<!--                 v-html="formatEmojiText(form.description)"></div>-->
+<!--            <div class="py-2 border-t-1 border-color8B/30">-->
+<!--              <el-popover ref="descEmojiPopover"-->
+<!--                          trigger="click" width="300"-->
+<!--                          :teleported="false" :persistent="false">-->
+<!--                <template #reference>-->
+<!--                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">-->
+<!--                </template>-->
+<!--                <div class="h-310px lg:h-400px">-->
+<!--                  <EmojiPicker :options="{-->
+<!--                                imgSrc:'/emoji/',-->
+<!--                                locals: $i18n.locale==='zh'?'zh_CN':'en',-->
+<!--                                hasSkinTones:false,-->
+<!--                                hasGroupIcons:false}"-->
+<!--                               @select="(e) =>selectEmoji(e,'desc')" />-->
+<!--                </div>-->
+<!--              </el-popover>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <!-- schedule -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.schedule')}}</div>
@@ -328,6 +449,17 @@
         </div>
       </div>
     </van-popup>
+    <el-dialog v-model="addSpeakerVisible"
+               destroy-on-close
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <AddSpeakerModal class="p-2rem"
+                       :speaker-type="addSpeakerType"
+                       :speaker-data="addSpeakerData"
+                       @close="addSpeakerVisible=false"
+                       @confirm="onConfirmSpeaker"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -349,10 +481,14 @@ import { randomCurationId, creteNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText} from "@/utils/tool";
+import Blog from "@/components/Blog";
+import Space from "@/components/Space";
+import AddSpeakerModal from "@/components/AddSpeakerModal";
+import {testData} from "@/views/square/test-data";
 
 export default {
   name: "CreateCuration",
-  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, EmojiPicker},
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, EmojiPicker, Blog, Space, AddSpeakerModal},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -370,8 +506,24 @@ export default {
         description: '',
         token: '',
         amount: '',
-        category: ''
+        category: 'space',
+        link: '',
+        host: {},
+        coHost: [],
+        speakers: [],
+        requirements: []
       },
+      addSpeakerVisible: false,
+      addSpeakerType: 'host',
+      operateType: 'add',
+      addSpeakerData: {avatar: '', name: '', title: ''},
+      editSpeakerIndex: 0,
+      requirementsOptions: [
+        {type: 'quote', value: true},
+        {type: 'follow', value: false},
+        {type: 'like', value: true},
+      ],
+      linkIsVerified: false,
       selectedToken: {},
       tokenList: ERC20List,
       modalVisible: false,
@@ -389,7 +541,8 @@ export default {
       titleRange: null,
       progress: 0,
       progressing: false,
-      selectBalance: 0
+      selectBalance: 0,
+      testData
     }
   },
   computed: {
@@ -410,6 +563,34 @@ export default {
   methods: {
     formatEmojiText,
     formatAmount,
+    showAddSpeakerModal(speakerType, operateType, index=0) {
+      this.addSpeakerType = speakerType
+      this.operateType = operateType
+      this.editSpeakerIndex = index
+      if(operateType==='add') {
+        this.addSpeakerData = {}
+      } else {
+        if(this.addSpeakerType === 'host') this.addSpeakerData = this.form.host
+        if(this.addSpeakerType === 'coHost') this.addSpeakerData = this.form.coHost[index]
+        if(this.addSpeakerType === 'speaker') this.addSpeakerData = this.form.speakers[index]
+      }
+      this.addSpeakerVisible = true
+    },
+    onConfirmSpeaker() {
+      if(this.addSpeakerType === 'host') this.form.host = this.addSpeakerData
+      if(this.operateType==='add') {
+        if(this.addSpeakerType === 'coHost') this.form.coHost.push(this.addSpeakerData)
+        if(this.addSpeakerType === 'speaker') this.form.speakers.push(this.addSpeakerData)
+      } else {
+        if(this.addSpeakerType === 'coHost') this.form.coHost[this.editSpeakerIndex] = this.addSpeakerData
+        if(this.addSpeakerType === 'speaker') this.form.speakers[this.editSpeakerIndex] = this.addSpeakerData
+      }
+      this.addSpeakerVisible = false
+    },
+    deleteSpeaker(speakerType, index) {
+      if(this.addSpeakerType === 'coHost') this.form.coHost.splice(index, 1)
+      if(this.addSpeakerType === 'speaker') this.form.speakers.splice(index, 1)
+    },
     selectEmoji(e, type) {
       const newNode = document.createElement('img')
       newNode.alt = e.i

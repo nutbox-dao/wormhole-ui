@@ -223,7 +223,19 @@ export default {
     claim: 'Claim',
     claimed: 'Claimed',
     submissions: 'Submissions',
-    category: 'Category'
+    category: 'Category',
+    relatedContent: 'Related Content',
+    pasteLink: 'Paste the tweet link here',
+    verify: 'Verify',
+    preview: 'Preview',
+    requirements: 'Requirements',
+    details: 'Details',
+    host: 'Host',
+    coHost: 'Co-Host',
+    speaker: 'Speaker',
+    coHosts: 'Co-Hosts',
+    speakers: 'Speakers',
+    optional: 'Optional'
   },
   err: {
     serverErr: 'Server error',
