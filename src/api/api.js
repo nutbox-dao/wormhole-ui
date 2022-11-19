@@ -100,11 +100,8 @@ export const likeCuration = async (twitterId, tweetId, curationId) =>
 export const followCuration = async (twitterId, authorId, curationId) =>
     post(BACKEND_API_URL + '/curation/followCuration', {twitterId, authorId, curationId})
 
-export const getRefreshCurations = async (curationStatus) =>
-    get(BACKEND_API_URL + '/curation/getRefreshCurations', {curationStatus})
-
-export const getMoreCurations = async (curationStatus, createdTime) =>
-    get(BACKEND_API_URL + '/curation/getMoreCurations', {curationStatus, createdTime})
+export const getCurations = async (status, createTime, twitterId) =>
+    get(BACKEND_API_URL + '/curation/getCurations', {status, createTime, twitterId})
 
 export const getCurationById = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationById', {curationId, twitterId})
@@ -112,23 +109,17 @@ export const getCurationById = async (curationId, twitterId) =>
 export const getCurationParticipant = async (curationId, createAt) =>
     get(BACKEND_API_URL + '/curation/getCurationParticipant', {curationId, createAt})
 
-/**
- * fetch wheather user joined the cration
- * @param {*} curationId 
- * @param {*} twitterId 
- * @returns the reward of user
- */
-export const getWheatherUserJoinedCuration = async (curationId, twitterId) =>
-    get(BACKEND_API_URL + '/curation/getWheatherUserJoinedCuration', {curationId, twitterId})
-
 export const getMyJoinedCurations = async (twitterId, createdTime) =>
-    get(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, createdTime})
+    post(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, createdTime})
 
 export const getMyCreatedCurations = async (twitterId, createdTime) => 
     get(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})
 
-export const getRefreshCurationRecord = async (taskId, lastId, isFeed=false) => 
-    get(BACKEND_API_URL + '/curation/getRefreshCurationRecord', {taskId, lastId, isFeed})
+export const getCurationsOfTweet = async (tweetId) =>
+    get(BACKEND_API_URL + '/curation/getCurationsOfTweet', {tweetId})
+
+export const getCurationRecord = async (curationId, createAt, isFeed) =>
+    get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
 
 /****************************************  tip  ***********************************************/
 export const tipEVM = async (tip) =>
