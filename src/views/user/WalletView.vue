@@ -1,5 +1,24 @@
 <template>
   <div class="pb-4rem md:max-w-600px lg:max-w-35rem mx-auto">
+    <div class="px-1rem pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem">
+      <div class="w-min relative ">
+        <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
+        <span class="text-2rem leading-2.5rem md:text-2.4rem md:leading-3rem c-text-black
+                     relative whitespace-nowrap light:text-black">
+          {{$t('myWallet')}}
+        </span>
+      </div>
+    </div>
+    <div class="border-1 border-color8B/30 rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0 text-left">
+      <div class="gradient-bg gradient-bg-color3 px-1rem py-0.8rem c-text-black text-white text-1.4rem">
+        <div class="mb-1rem">{{$t('walletView.totalBalance')}}</div>
+        <div>$77.89 USD</div>
+      </div>
+      <div class="px-1rem py-0.8rem flex items-center">
+        <i class="w-2rem h-2rem icon-notification"></i>
+        <span>{{$t('walletView.tipHistory')}} -></span>
+      </div>
+    </div>
     <div v-if="getAccountInfo && getAccountInfo.ethAddress" class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
         <span class="c-text-black text-white">{{$t('profileView.ethWallet')}}</span>

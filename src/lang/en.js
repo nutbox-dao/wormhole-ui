@@ -12,6 +12,7 @@ export default {
   language: 'Language',
   faucet: 'Faucet',
   logout: 'Log out',
+  myWallet: 'My wallet',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
@@ -99,6 +100,10 @@ export default {
     getNftP1: 'A NFT that shows your social influence on Twitter',
     people: 'People',
     curations: 'Curations'
+  },
+  walletView: {
+    totalBalance: 'Total balance',
+    tipHistory: 'Tip History'
   },
   token: {
     noNft: "You havn't got any NFTs.",
@@ -217,7 +222,8 @@ export default {
     pendingClaim: 'Pending Claim',
     claim: 'Claim',
     claimed: 'Claimed',
-    submissions: 'Submissions'
+    submissions: 'Submissions',
+    category: 'Category'
   },
   err: {
     serverErr: 'Server error',

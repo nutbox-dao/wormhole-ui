@@ -15,9 +15,14 @@
                   {{$t('signIn')}}
               </button>
             </div>
-            <img :src="getAccountInfo && getAccountInfo.profileImg" alt="">
-            <i v-if="getAccountInfo && getAccountInfo.twitterUsername"
-               class="h-1.8rem w-1.8rem mr-0.8rem icon-wallet"></i>
+            <template v-else>
+              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/curations`">
+                <img class="h-1.6rem w-1.6rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
+              </router-link>
+              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
+                <i class="h-1.8rem w-1.8rem mr-0.8rem icon-wallet"></i>
+              </router-link>
+            </template>
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">

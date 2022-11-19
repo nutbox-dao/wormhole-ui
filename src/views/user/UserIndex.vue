@@ -82,17 +82,13 @@
           <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
             <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
               <router-link
-                  class="flex-1 py-0.5rem px-1rem text-color8B"
-                  :to="`/profile/${$route.params.user}/post`"
-              >{{$t('profileView.socialAsset')}}</router-link>
-              <router-link
                   v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                   class="flex-1 py-0.5rem px-1rem text-color8B"
                   :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
               <router-link
                   class="flex-1 py-0.5rem px-1rem text-color8B"
-                  :to="`/profile/${$route.params.user}/wallet`"
-              >{{$t('profileView.web3Wallet')}}</router-link>
+                  :to="`/profile/${$route.params.user}/post`"
+              >{{$t('profileView.socialAsset')}}</router-link>
             </div>
           </div>
         </div>
@@ -396,7 +392,7 @@ export default {
         getTokenBalance(ethAddress);
       }
     } else {
-      // this.$router.replace('/')
+      this.$router.replace('/')
     }
   },
 };
