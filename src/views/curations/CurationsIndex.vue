@@ -80,7 +80,7 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getRefreshCurations, getMoreCurations } from '@/api/api'
+import { getCurations } from '@/api/api'
 import { showError } from '@/utils/notify'
 
 export default {
@@ -133,7 +133,7 @@ export default {
           return;
         }
         const time = curations[curations.length - 1].createdTime
-        const moreCurations = await getMoreCurations(this.subActiveTagIndex, time)
+        const moreCurations = await getCurations(this.subActiveTagIndex, time, this.getAccountInfo?.twitterId)
         if (moreCurations.length < 12) {
           this.listFinished = true
         }else {
@@ -159,7 +159,7 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try{
-        const curations = await getRefreshCurations(this.subActiveTagIndex)
+        const curations = await getCurations(this.subActiveTagIndex, null, this.getAccountInfo?.twitterId)
         let mutationStr = ''
         if (this.subActiveTagIndex === 0) {
           mutationStr = 'saveOngoingList'

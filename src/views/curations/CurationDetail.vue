@@ -439,7 +439,7 @@
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
-import { getCurationById, getCurationParticipant, getWheatherUserJoinedCuration } from "@/api/api";
+import { getCurationById, getCurationParticipant } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
@@ -581,10 +581,6 @@ export default {
     const account = this.getAccountInfo
 
     if (this.detailCuration && this.detailCuration.curationId === id) {
-      getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
-        this.detailCuration.joined = res
-      }).catch()
-
       getCurationInfo(this.detailCuration.curationId).then(res => {
       }).catch()
     }else {
@@ -593,9 +589,6 @@ export default {
       getCurationById(id, account?.twitterId).then(res => {
         if (res) {
           this.$store.commit('curation/saveDetailCuration', res)
-          getWheatherUserJoinedCuration(this.detailCuration.curationId, account?.twitterId).then(res=> {
-            this.detailCuration.joined = res
-          })
         }
       }).finally(() => {
         this.loading1 = false
