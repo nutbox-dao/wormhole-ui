@@ -117,17 +117,15 @@
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative"
-               :class="verifyingLink?'hover:border-color8B/30':''">
+               :class="checkingTweetLink?'hover:border-color8B/30':''">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
-                   :disabled="verifyingLink"
+                   :disabled="checkingTweetLink"
                    :placeholder="$t('curation.pasteLink')">
-            <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-                    @click="checkLink">{{$t('curation.verify')}}</button>
             <button class="text-color62 c-text-black mx-15px whitespace-nowrap flex items-center"
-                    :disabled="verifyingLink"
+                    :disabled="checkingTweetLink"
                     @click="checkLink">
-              <span v-if="!verifyingLink">{{$t('curation.verify')}}</span>
+              <span v-if="!checkingTweetLink">{{$t('curation.verify')}}</span>
               <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
             </button>
           </div>
@@ -526,7 +524,6 @@ export default {
         isFollow: false,
         isLike: false
       },
-      verifyingLink: true,
       addSpeakerVisible: false,
       addSpeakerType: 'host',
       operateType: 'add',
