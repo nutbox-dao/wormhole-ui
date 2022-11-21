@@ -9,6 +9,7 @@
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
           <input class="bg-transparent h-full w-full px-0.5rem"
                  v-model="formData.name"
+                 :disabled="loading"
                  placeholder="@username">
         </div>
         <div class="bg-black border-1 border-color8B/30 mt-8px
@@ -16,12 +17,17 @@
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
           <input class="bg-transparent h-full w-full px-0.5rem"
                  v-model="formData.title"
+                 :disabled="loading"
                  placeholder="Title">
         </div>
       </div>
     </div>
-    <button class="gradient-btn w-full h-3.6rem rounded-full mt-3rem"
-            @click="$emit('confirm')">Confirm</button>
+    <button class="gradient-btn w-full h-3.6rem rounded-full mt-3rem flex items-center justify-center"
+            :disabled="loading"
+            @click="$emit('confirm')">
+      <span>Confirm</span>
+      <c-spinner v-show="loading" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
+    </button>
   </div>
 </template>
 
@@ -50,7 +56,8 @@ export default {
         avatar: '',
         name: '',
         title: ''
-      }
+      },
+      loading: true
     }
   },
   mounted() {
