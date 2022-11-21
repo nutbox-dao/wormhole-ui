@@ -106,17 +106,22 @@
         <!-- preview tweet -->
         <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
-          <div class="max-h-15rem overflow-hidden relative rounded-15px">
+          <div class="overflow-hidden relative rounded-15px h-collapse"
+               :class="expandPreview?'':'max-h-15rem'">
             <Blog :post="postData"
                   class="bg-blockBg light:bg-white rounded-15px
-                       border-1 border-listBgBorder mb-1rem md:mb-0">
+                       border-1 border-listBgBorder"
+                  :class="expandPreview?'pb-30px':''">
               <template #bottom-btn-bar><div></div></template>
             </Blog>
-            <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
-              view more >
-            </div>
+            <button @click.stop="expandPreview=!expandPreview"
+                 class="absolute bg-color62/70 text-white bottom-0 left-0 w-full h-30px flex
+                 items-center justify-center text-center">
+              <span v-if="!expandPreview">view more ></span>
+              <img v-else class="w-1.2rem transform rotate-180"
+                   src="~@/assets/icon-arrow.svg" alt="">
+            </button>
           </div>
-
         </div>
         <!-- preview space -->
         <div class="mt-1.8rem" v-if="form.category==='space' && linkIsVerified">
@@ -259,26 +264,6 @@
       <!-- reward -->
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
-                      flex justify-center items-center cursor-pointer"
-                 @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem
-                         light:bg-gradient-text-light
-                         gradient-text gradient-text-purple-white">
-              {{showAccount ? showAccount : $t('common.connectMetamask')}}
-            </span>
-              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-              <div v-if="connectLoading"
-                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
@@ -296,15 +281,45 @@
             </div>
           </div>
         </div>
-        <!-- posw des -->
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
-          <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
-            <div class="text-primaryColor light:text-color62 font-600 text-15px 2xl:text-0.75rem">
-              {{$t('curation.autoMethod')}}
-            </div>
-            <div class="mt-1rem text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
-              {{$t('curation.autoMethodTip')}}
+          <div class="mb-6px">{{$t('curation.chain')}}</div>
+          <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                  flex items-center justify-between
+                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                  rounded-12px h-40px 2xl:h-2rem">
+            <el-select v-model="form.chain" class="w-full" size="large">
+              <el-option label="Steem" value="steem"></el-option>
+              <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
+              <div class="flex justify-between items-center px-1.5rem ">
+                <span class="c-text-black">Other</span>
+                <span class="text-color8B">Only available for registered Wormhole3 users</span>
+              </div>
+              <el-option
+                  v-for="item in chainOptions"
+                  :disabled="false"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+              />
+            </el-select>
+          </div>
+        </div>
+        <div class="mt-1.8rem" v-if="form.chain!=='steem'">
+          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
+          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
+            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
+                      flex justify-center items-center cursor-pointer"
+                 @click="connectWallet">
+            <span class="font-600 text-15px 2xl:text-0.75rem
+                         light:bg-gradient-text-light
+                         gradient-text gradient-text-purple-white">
+              {{showAccount ? showAccount : $t('common.connectMetamask')}}
+            </span>
+              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
+              <div v-if="connectLoading"
+                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
+                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -380,10 +395,21 @@
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem w-full h-1px bg-color8B/30"></div>
-        <div class="mt-1.8rem text-right font-400">
-          <div>{{$t('common.balance')}} ({{selectedToken.symbol}})</div>
-          <div class="mt-0.6rem text-24px 2xl:text-1.2rem">{{ formatAmount(selectBalance) }}</div>
+        <div class="mt-0.4rem text-right font-400 flex justify-end items-center">
+          <div>{{$t('common.balance')}}: </div>
+          <div class="font-bold ml-5px">{{ formatAmount(selectBalance) }}</div>
+        </div>
+        <!-- posw des -->
+        <div class="mt-1.8rem">
+          <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
+          <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
+            <div class="text-primaryColor light:text-color62 font-600 text-15px 2xl:text-0.75rem">
+              {{$t('curation.autoMethod')}}
+            </div>
+            <div class="mt-1rem text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
+              {{$t('curation.autoMethodTip')}}
+            </div>
+          </div>
         </div>
         <!-- submit -->
         <div class="mt-1.8rem flex justify-between text-15px">
@@ -493,7 +519,7 @@ export default {
         description: '',
         token: '',
         amount: '',
-        category: 'space',
+        category: 'tweet',
         createType: 'related',
         link: '',
         host: {},
@@ -533,7 +559,13 @@ export default {
       postData: {},
       space: {},
       author: {},
-      TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)'
+      TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)',
+      chainOptions: [
+        {label: 'Ethereum', value: 'ethereum'},
+        {label: 'BSC', value: 'bsc'},
+        {label: 'Polygon', value: 'polygon'},
+      ],
+      expandPreview: false
     }
   },
   computed: {

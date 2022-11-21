@@ -241,7 +241,8 @@ export default {
     select: 'Select',
     required: 'Required',
     follow: 'Follow',
-    like: 'Like'
+    like: 'Like',
+    chain: 'Chain'
   },
   err: {
     serverErr: 'Server error',
