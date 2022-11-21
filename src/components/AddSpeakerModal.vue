@@ -7,13 +7,19 @@
       <div class="flex-1 ml-1rem">
         <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative"
+             :class="isChecking?'hover:border-color8B/30':''">
           <input class="bg-transparent h-full w-full px-0.5rem"
                  v-model="formData.username"
+                 :disabled="isChecking"
                  @input="checkedUser = false;formData.avatar = null;formData.name = ''"
                  placeholder="@username">
           <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-            @click="checkUser">{{$t('curation.verify')}}</button>
+                  :disabled="isChecking"
+                  @click="checkUser">
+            <span v-if="!isChecking">{{$t('curation.verify')}}</span>
+            <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+          </button>
         </div>
         <div class="bg-black border-1 border-color8B/30 mt-8px
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
@@ -49,7 +55,8 @@ export default {
         username: ''
       },
       isChecking: false,
-      checkedUser: false
+      checkedUser: false,
+      loading: false
     }
   },
   methods: {

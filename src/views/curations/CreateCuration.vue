@@ -117,7 +117,7 @@
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative"
-               :class="verifyingLink?'hover:border-color8B/30':''">
+               :class="checkingTweetLink?'hover:border-color8B/30':''">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
                    type="text" :placeholder="$t('curation.pasteLink')">
@@ -525,7 +525,6 @@ export default {
         isFollow: false,
         isLike: false
       },
-      verifyingLink: true,
       addSpeakerVisible: false,
       addSpeakerType: 'host',
       operateType: 'add',
