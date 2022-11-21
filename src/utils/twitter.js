@@ -1,7 +1,8 @@
 import { Client } from 'twitter-api-sdk'
 import store from '@/store'
-import { refreshToken } from '@/utils/account'
-import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf, userLike as ul, getSapceBySpaceId,
+import { refreshToken, logout } from '@/utils/account'
+import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf,
+     userLike as ul, getSapceBySpaceId, getUserInfoFromTwitter as guibu,
     userTweet as ut } from '@/api/api'
 
 async function checkAccessToken() {
@@ -23,6 +24,7 @@ async function checkAccessToken() {
         return acc.accessToken
     }else {
         // need auth again
+        await logout();
         throw 'log out';
     }
 }
@@ -31,7 +33,6 @@ export const getTweetsById = async (tweetIds) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId
     const tweets = await gtbi(twitterId, tweetIds)
-    console.log(11, tweets);
     return tweets;
 }
 
@@ -47,6 +48,13 @@ export const getSpaceById = async (spaceId) => {
     const twitterId = store.getters.getAccountInfo.twitterId;
     const space = await getSapceBySpaceId(twitterId, spaceId);
     return space;
+}
+
+export const getUserInfoByUserId = async (userid) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId;
+    const user = await guibu(twitterId, userid);
+    return user;
 }
 
 /**

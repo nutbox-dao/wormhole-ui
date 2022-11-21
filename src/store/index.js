@@ -26,7 +26,8 @@ export default Vuex.createStore({
     tips: [],
     vestsToSteem: 1,
     referee: '',
-    stellarTreks: {}
+    stellarTreks: {},
+    showLogin: false
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -124,6 +125,9 @@ export default Vuex.createStore({
     },
     saveStellarTreks: (state, stellarTreks) => {
       state.stellarTreks = stellarTreks
+    },
+    saveShowLogin: (state, showLogin) => {
+      state.showLogin = showLogin
     }
   },
   modules: {

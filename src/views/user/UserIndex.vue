@@ -42,22 +42,12 @@
                 <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">
                   {{ totalValue }}
                 </div>
-                <template v-if="getAccountInfo && (getAccountInfo.source === 1 || getAccountInfo.source ===3)">
+                <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
                   <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
                           @click="$router.push('/create-curation')">
                     {{$t('curationsView.createBtn')}}
-                  </button>
-                  <button v-else-if="getAccountInfo.source === 3 && getAccountInfo.isRegistry === 0" class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
-                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-                      @click="$router.push('/signup')">
-                      <img
-                          class="w-1.5rem h-1.5rem mr-0.5rem"
-                          src="~@/assets/icon-warning.svg"
-                          alt=""
-                      />
-                      {{$t('common.active')}}
                   </button>
                   <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
                             h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
@@ -72,7 +62,7 @@
                 </template>
                 <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
                     rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
-                    @click="$router.push('/signup')">
+                    @click="$store.commit('saveShowLogin', true)">
                     {{$t('common.active')}}
                   </button>
               </div>
