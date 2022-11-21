@@ -10,33 +10,6 @@
       <Steps :total-step="2" :current-step="currentStep"/>
       <!-- set up -->
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
-        <!-- title -->
-        <!-- <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.title')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <div contenteditable
-                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
-                 ref="titleRef"
-                 @keydown="keydown"
-                 @blur="getBlur('title')"
-                 @paste="onPaste"
-                 v-html="formatEmojiText(form.title)"></div>
-            <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
-              <template #reference>
-                <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
-              </template>
-              <div class="h-310px lg:h-400px">
-                <EmojiPicker :options="{
-                                imgSrc:'/emoji/',
-                                locals: $i18n.locale==='zh'?'zh_CN':'en',
-                                hasSkinTones:false}"
-                             @select="(e) =>selectEmoji(e,'title')" />
-              </div>
-            </el-popover>
-          </div>
-        </div> -->
         <div class="mt-1.8rem relative">
           <div class="mb-6px c-text-black">{{$t('curation.category')}}</div>
           <div class="bg-black border-1 border-color8B/30
@@ -48,7 +21,7 @@
             </el-select>
           </div>
         </div>
-        <div class="mt-1.8rem relative">
+        <div class="mt-1.8rem relative" v-if="form.category==='tweet'">
           <div class="mb-6px c-text-black">{{$t('curation.select')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
@@ -112,23 +85,29 @@
           </div>
         </div>
         <!-- related link -->
-        <div class="mt-1.8rem relative" v-if="form.createType === 'related'">
+        <div class="mt-1.8rem relative" v-if="form.category==='space'|| form.createType === 'related'">
           <div class="mb-6px c-text-black">{{$t('curation.relatedContent')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative"
+               :class="checkingTweetLink?'hover:border-color8B/30':''">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
+                   :disabled="checkingTweetLink"
                    :placeholder="$t('curation.pasteLink')">
-            <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-                    @click="checkLink">{{$t('curation.verify')}}</button>
+            <button class="text-color62 c-text-black mx-15px whitespace-nowrap flex items-center"
+                    :disabled="checkingTweetLink"
+                    @click="checkLink">
+              <span v-if="!checkingTweetLink">{{$t('curation.verify')}}</span>
+              <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+            </button>
           </div>
         </div>
         <!-- preview tweet -->
         <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
           <div class="max-h-15rem overflow-hidden relative rounded-15px">
-            <Blog :post="testData[0]"
+            <Blog :post="postData"
                   class="bg-blockBg light:bg-white rounded-15px
                        border-1 border-listBgBorder mb-1rem md:mb-0">
               <template #bottom-btn-bar><div></div></template>
@@ -221,48 +200,33 @@
           <div class="mb-6px c-text-black">{{$t('curation.requirements')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative">
-            <el-select v-model="form.mandatoryTask" class="w-full text-white" size="large">
-              <el-option label="Quote" value="quote"></el-option>
-              <el-option label="Reply" value="reply"></el-option>
-            </el-select>
-            <div class="text-color62 px-10px">{{$t('curation.required')}}*</div>
-          </div>
-          <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3
-                      rounded-12px min-h-40px 2xl:min-h-2rem relative"
-               :class="form.isFollow?'pb-10px':''"
-               @click="form.isFollow=!form.isFollow">
-            <div class="flex justify-between items-center h-40px 2xl:h-2rem">
-              <span>{{$t('curation.follow')}}</span>
-              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                    :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+                      rounded-12px overflow-hidden">
+            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5 border-color62 bg-white"></span>
+              <div class="flex-1 flex justify-between items-center pl-8px">
+                <el-select v-model="form.mandatoryTask"
+                           class="w-1/3 text-white rounded-8px bg-blockBg" size="small">
+                  <el-option label="Quote" value="quote"></el-option>
+                  <el-option label="Reply" value="reply"></el-option>
+                </el-select>
+                <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
+              </div>
             </div>
-            <template v-if="form.isFollow">
-              <div class="flex flex-wrap items-center">
-                <span v-for="item of form.followList" :key="item"
-                      class="bg-color62 py-4px px-8px rounded-4px mx-10px my-5px">{{item}}</span>
+            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px hover:bg-blockBg cursor-pointer"
+                 @click="form.isFollow=!form.isFollow">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                   :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+              <div class="flex-1 flex justify-between items-center pl-15px">
+                <span>{{$t('curation.follow')}}</span>
+                <span>@username</span>
               </div>
-              <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px min-h-40px 2xl:min-h-2rem relative">
-                <div class="flex items-center w-full" @click.stop>
-                  <input class="bg-transparent h-40px 2xl:h-2rem w-full"
-                         v-model="followName"
-                         placeholder="@username">
-                  <button class="px-10px py-5px border-1 border-color62 text-color62 rounded-full"
-                          @click.stop="form.followList.push(followName)">Add</button>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative"
-               @click="form.isLike=!form.isLike">
-            <span>{{$t('curation.like')}}</span>
-            <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                  :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+            </div>
+            <div class="h-40px 2xl:h-2rem flex items-center relative px-15px hover:bg-blockBg cursor-pointer"
+                 @click="form.isLike=!form.isLike">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                    :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+              <span class="pl-15px">{{$t('curation.like')}}</span>
+            </div>
           </div>
         </div>
         <!-- schedule -->
@@ -313,7 +277,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
@@ -507,7 +471,7 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import AddSpeakerModal from "@/components/AddSpeakerModal";
 import {testData} from "@/views/square/test-data";
-import { dataToEsm } from "@rollup/pluginutils";
+import { parseTweet } from '@/utils/twitter-tool'
 
 export default {
   name: "CreateCuration",
@@ -530,14 +494,13 @@ export default {
         token: '',
         amount: '',
         category: 'space',
-        createType: 'new',
+        createType: 'related',
         link: '',
         host: {},
         coHost: [],
         speakers: [],
         mandatoryTask: 'quote',
         isFollow: false,
-        followList: [],
         isLike: false
       },
       addSpeakerVisible: false,
@@ -569,7 +532,7 @@ export default {
       testData,
       postData: {},
       space: {},
-      TweetLinRex: 'https://twitter.com/[a-zA_Z0-9\_]+/status/([0-9]+)'
+      TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)'
     }
   },
   computed: {
@@ -600,13 +563,11 @@ export default {
       try{
         this.checkingTweetLink = true;
         const tweet = await getTweetById(match[1]);
-        console.log(235, tweet);
         if (tweet.data) {
           if (this.form.category === 'space') {
             const spaceId = getSpaceIdFromUrls(tweet.data.entities.urls)
             const space = await getSpaceById(spaceId);
             if (space?.includes?.users) {
-              console.log(66, space);
               let author;
               for (let u of space.includes.users) {
                 if (u.id === space.data.creator_id) {
@@ -624,9 +585,11 @@ export default {
             }
             this.linkIsVerified = true;
           }else {
-            this.postData = {}
+            this.postData = parseTweet(tweet)
             this.linkIsVerified = true;
           }
+        }else {
+          notify({message: this.$t('err.wrongTweetLink'), type: 'error', duration: 3000});
         }
       } catch (e) {
         if (e === 'log out') {
@@ -635,7 +598,7 @@ export default {
       } finally {
         this.checkingTweetLink = false;
       }
-    },  
+    },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
       this.operateType = operateType
@@ -650,7 +613,6 @@ export default {
       }
     },
     onConfirmSpeaker(data) {
-      console.log(666, data);
       if (!data) {
         this.addSpeakerVisible = false;
         return;
