@@ -32,12 +32,12 @@ import FaucetView from "@/views/Faucet"
 const routes = [
   {
     path: '/',
-    redirect: '/curations',
+    redirect: '/square',
   },
   {
     path: '/square/:referee?',
     name: 'square',
-    component: SquareIndex,
+    component: CurationsIndex,
     meta: {keepAlive: true}
   },
   {

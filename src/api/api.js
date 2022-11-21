@@ -159,6 +159,10 @@ export const userLike = async (twitterId, tweetId) =>
 export const userTweet = async (twitterId, text) =>
     post(BACKEND_API_URL + '/twitter-api/tweet', {twitterId, text})
 
+// userId can be twitter_id or username
+export const getUserInfoFromTwitter = async (twitterId, userId) => 
+    post(BACKEND_API_URL + '/twitter-api/getUserInfo', {twitterId, userId})
+
 /****************************************  faucet  ***********************************************/
 export const getFaucet = async (address) =>
     get(BACKEND_API_URL + '/faucet/usdt', {address})

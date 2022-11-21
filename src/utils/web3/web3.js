@@ -6,7 +6,8 @@ import {
   RPC_NODE,
   CHAIN_NAME,
   MainToken,
-  BLOCK_CHAIN_BROWER
+  BLOCK_CHAIN_BROWER,
+  EVM_CHAINS
 } from '@/config'
 import store from '@/store'
 import { ethers } from 'ethers'
@@ -15,18 +16,18 @@ import { ethers } from 'ethers'
  * Add bsc to metamask
  * @returns 
  */
-export const setupNetwork = async () => {
+export const setupNetwork = async (chainName) => {
   await connectMetamask();
+  const { id, rpc, scan, main } = EVM_CHAINS[chainName]
   const eth = await getEthWeb()
-  const chainId = parseInt(CHAIN_ID)
   try {
     const res = await eth.request({
       method: 'wallet_switchEthereumChain',
       params: [{
-        chainId: `0x${chainId.toString(16)}`
+        id: `0x${id.toString(16)}`
       }],
     })
-    store.commit('web3/saveChainId', parseInt(chainId))
+    // store.commit('web3/saveChainId', parseInt(id))
     return true
   } catch (error) {
     if (error.code === 4001) return;
@@ -34,40 +35,20 @@ export const setupNetwork = async () => {
       await eth.request({
         method: 'wallet_addEthereumChain',
         params: [{
-          chainId: `0x${chainId.toString(16)}`,
-          chainName: CHAIN_NAME,
-          rpcUrls:[RPC_NODE],
-          nativeCurrency: MainToken,
-          blockExplorerUrls: [BLOCK_CHAIN_BROWER]
+          chainId: `0x${id.toString(16)}`,
+          chainName,
+          rpcUrls:[rpc],
+          nativeCurrency: main,
+          blockExplorerUrls: [scan]
         }],
       })
-      store.commit('web3/saveChainId', parseInt(chainId))
+      // store.commit('web3/saveChainId', parseInt(id))
       return true
     }catch(error){
       console.log(43256, error);
       store.commit('web3/saveAccount', null)
       return false
     }
-  }
-}
-
-export const checkNetwork = async () => {
-  const eth = await getEthWeb()
-  const chainId = parseInt(CHAIN_ID)
-  if (!eth) {
-    store.commit('web3/saveAccount', null)
-    store.commit('saveMetamaskConnected', false)
-  }
-  while(!eth.networkVersion) {
-    await sleep(0.3)
-  }
-  if (parseInt(eth.networkVersion) == chainId) {
-    store.commit('web3/saveChainId', chainId)
-    store.commit('saveMetamaskConnected', true)
-  }else {
-    store.commit('web3/saveChainId', parseInt(eth.networkVersion))
-    store.commit('web3/saveAccount', null)
-    store.commit('saveMetamaskConnected', false)
   }
 }
 

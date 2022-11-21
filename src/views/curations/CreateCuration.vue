@@ -55,9 +55,9 @@
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
-                   type="number" :placeholder="$t('curation.pasteLink')">
+                   type="text" :placeholder="$t('curation.pasteLink')">
             <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-                    @click="linkIsVerified=true">{{$t('curation.verify')}}</button>
+                    @click="checkLink">{{$t('curation.verify')}}</button>
           </div>
         </div>
         <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
@@ -78,7 +78,8 @@
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
           <div class="h-15rem overflow-hidden relative">
             <Space class="bg-blockBg light:bg-white rounded-15px h-full
-                        border-1 border-listBgBorder mb-1rem md:mb-0"/>
+                        border-1 border-listBgBorder mb-1rem md:mb-0"
+                    :space="space"/>
           </div>
         </div>
         <div class="mt-1.8rem" v-if="form.category==='space'">
@@ -269,31 +270,7 @@
             </div>
           </div>
         </div>
-        <!-- test token -->
-
-        <!-- <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('airdrop.testToken')}}</div>
-          <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
-            <div class="mt-0.6rem mb-0.6rem text-color8B light:text-color7D text-12px whitespace-pre-line leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
-              {{$t('airdrop.t1')}}
-            </div>
-
-            <div class="mb-6px" :class="account == getAccountInfo.ethAddress ? '' : 'text-red-500'">{{getAccountInfo.ethAddress}}</div>
-          </div>
-        </div>
-        <div class="relative mt-0.6rem">
-          <button class="w-full h-40px 2xl:h-2rem relative overflow-hidden
-                         bg-color84/30 light:bg-color7D
-                         text-white rounded-12px border-1 border-color8B/70"
-                         @click="getTestToken"
-                  :disabled="receiving">
-            <span class="absolute z-0 left-0 top-0 h-full gradient-bg bradient-bg-color3 block" :style="{width: progress + '%'}"></span>
-            <span class="flex justify-center items-center relative">
-              {{$t('airdrop.applyBtn')}}
-              <c-spinner v-show="receiving" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
-            </span>
-          </button>
-        </div>  -->
+        
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
@@ -469,9 +446,11 @@ import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
 import { newCuration, postErr, applyAirdrop, getDropRecord } from '@/api/api'
+import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
+import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
-import { setupNetwork, chainChanged, lockStatusChanged, checkNetwork } from '@/utils/web3/web3'
+import { setupNetwork, chainChanged, lockStatusChanged } from '@/utils/web3/web3'
 import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
 import { CHAIN_ID, ERC20List, CURATION_SHORT_URL } from "@/config";
@@ -524,6 +503,7 @@ export default {
         {type: 'like', value: true},
       ],
       linkIsVerified: false,
+      checkingTweetLink: false,
       selectedToken: {},
       tokenList: ERC20List,
       modalVisible: false,
@@ -542,7 +522,10 @@ export default {
       progress: 0,
       progressing: false,
       selectBalance: 0,
-      testData
+      testData,
+      postData: {},
+      space: {},
+      TweetLinRex: 'https://twitter.com/[a-zA_Z0-9\_]+/status/([0-9]+)'
     }
   },
   computed: {
@@ -563,6 +546,52 @@ export default {
   methods: {
     formatEmojiText,
     formatAmount,
+    async checkLink() {
+      const link = this.form.link;
+      const match = link.match(this.TweetLinRex);
+      if (!match) {
+        notify({message: this.$t('err.wrongTweetLink'), type: 'error', duration: 3000});
+        return;
+      }
+      try{
+        this.checkingTweetLink = true;
+        const tweet = await getTweetById(match[1]);
+        console.log(235, tweet);
+        if (tweet.data) {
+          if (this.form.category === 'space') {
+            const spaceId = getSpaceIdFromUrls(tweet.data.entities.urls)
+            const space = await getSpaceById(spaceId);
+            if (space?.includes?.users) {
+              console.log(66, space);
+              let author;
+              for (let u of space.includes.users) {
+                if (u.id === space.data.creator_id) {
+                  author = u
+                  break;
+                }
+              }
+              this.space = {
+                authorName: author.name,
+                authorUsername: author.username,
+                authorProfileImg: author.profile_image_url,
+                spaceTitle: space.data.title,
+                spaceState: space.data.state
+              }
+            }
+            this.linkIsVerified = true;
+          }else {
+            this.postData = {}
+            this.linkIsVerified = true;
+          }
+        }
+      } catch (e) {
+        if (e === 'log out') {
+          this.$route.replace('/square')
+        }
+      } finally {
+        this.checkingTweetLink = false;
+      }
+    },  
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
       this.operateType = operateType
@@ -663,53 +692,6 @@ export default {
     },
     disabledDate(time) {
       return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
-    },
-    async getTestToken(){
-      this.receiving = true
-      try{
-        this.updateProgress(0, 20)
-        const res = await applyAirdrop(this.getAccountInfo.twitterId)
-        if (!res || res.code !== 0) {
-          notify({message:this.$t('airdrop.wrongId')})
-          return;
-        }
-        await sleep(5);
-        let record = await getDropRecord(this.getAccountInfo.twitterId);
-        if (record && record.dropped) {
-          notify({message: this.$t('airdrop.received'), type:'success'})
-          return;
-        }
-        const step = [
-          [20, 40],
-          [40, 60],
-          [60, 80],
-          [80, 85],
-          [85, 90],
-          [90, 93],
-          [93, 95],
-          [95, 97],
-          [97, 99]
-        ]
-        for (let s of step) {
-          await sleep(3);
-          this.updateProgress(s[0], s[1])
-          record = await getDropRecord(this.getAccountInfo.twitterId);
-          if (record && record.dropped) {
-            notify({message: this.$t('airdrop.received'), type:'success'})
-            return;
-          }
-        }
-        // please wait
-        notify({message: this.$t('airdrop.wait'), type: 'info'})
-      } catch (e) {
-        console.log(920, e);
-        showError(501)
-      } finally {
-        await this.updateProgress(0, 0, true)
-        await this.updateSelectBalance(this.selectedToken)
-        this.receiving = false
-        this.progress = 0;
-      }
     },
     async updateProgress(start, end, isFinnal) {
       if (isFinnal) {
