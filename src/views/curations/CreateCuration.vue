@@ -205,7 +205,7 @@
               <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
               <div class="ml-10px">
                 <div class="mb-6px">{{speaker.name}}</div>
-                <div>{{speaker.title}}</div>
+                <div>@{{speaker.username}}</div>
               </div>
             </div>
             <div @click="showAddSpeakerModal('speaker','add')"
@@ -646,7 +646,7 @@ export default {
       } else {
         if(this.addSpeakerType === 'host') this.fomr.host = {}
         if(this.addSpeakerType === 'coHost') this.form.coHost.splice(index, 1)
-        if(this.addSpeakerType === 'speaker') this.form.speakers.splice(indes, 1)
+        if(this.addSpeakerType === 'speaker') this.form.speakers.splice(index, 1)
       }
     },
     onConfirmSpeaker(data) {
