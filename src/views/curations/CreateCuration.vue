@@ -240,7 +240,7 @@
                    :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
               <div class="flex-1 flex justify-between items-center pl-15px">
                 <span>{{$t('curation.follow')}}</span>
-                <span>@username</span>
+                <span>@{{author.username}}</span>
               </div>
             </div>
             <div class="h-40px 2xl:h-2rem flex items-center relative px-15px hover:bg-blockBg cursor-pointer"
@@ -253,7 +253,7 @@
         </div>
         <!-- schedule -->
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.schedule')}}</div>
+          <div class="mb-6px">{{$t('curation.endTime')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
@@ -554,7 +554,12 @@ export default {
       testData,
       postData: {},
       space: {},
+<<<<<<< HEAD
       TweetLinRex: 'https://twitter.com/[a-zA_Z0-9\_]+/status/([0-9]+)'
+=======
+      author: {},
+      TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)'
+>>>>>>> 69d50c0 (udpate)
     }
   },
   computed: {
@@ -604,12 +609,23 @@ export default {
                 authorUsername: author.username,
                 authorProfileImg: author.profile_image_url,
                 spaceTitle: space.data.title,
-                spaceState: space.data.state
+                spaceState: space.data.state,
+                scheduledStart: space.data.scheduled_start
               }
+              this.form.host = {
+                ...author,
+                avatar: author.profile_image_url.replace('normal', '200x200')
+              }
+              this.author = author
             }
             this.linkIsVerified = true;
           }else {
+<<<<<<< HEAD
             this.postData = {}
+=======
+            this.postData = parseTweet(tweet)
+            this.author = this.postData;
+>>>>>>> 69d50c0 (udpate)
             this.linkIsVerified = true;
           }
         }
@@ -701,18 +717,20 @@ export default {
       if(type==='title' && sel) this.titleRange = sel.getRangeAt(0);
     },
     formatElToTextContent(el) {
-      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
-      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
-      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
-      let content = ''
-      for(let i of el.childNodes) {
-        if(i.nodeName==='#text') {
-          content += i.textContent
-        } else if(i.nodeName === 'IMG') {
-          content += i.alt
+      if (this.form.category === 'tweet' && this.form.createType==='new') {
+        el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+        el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+        el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+        let content = ''
+        for(let i of el.childNodes) {
+          if(i.nodeName==='#text') {
+            content += i.textContent
+          } else if(i.nodeName === 'IMG') {
+            content += i.alt
+          }
         }
+        return content
       }
-      return content
       // this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
       // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
       // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
@@ -725,7 +743,12 @@ export default {
       // }
     },
     disabledDate(time) {
-      return time.getTime() + 86400000 < Date.now() || time.getTime() > Date.now() + 86400000*7
+      let date = Date.now();
+      if (this.form.category === 'space' && this.space && this.space.scheduledStart) {
+        const startTime = this.space.scheduledStart;
+        date = new Date(startTime).getTime();
+      }
+      return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
     },
     async updateProgress(start, end, isFinnal) {
       if (isFinnal) {
@@ -750,20 +773,29 @@ export default {
       }
     },
     checkCreateData() {
-      if (!this.form.endtime || !this.form.description) {
-        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
-        return false
-      }
-
-      if(new Date().getTime() >= new Date(this.form.endtime).getTime() + 60000) {
-        notify({message: this.$t('tips.wrongEndTime'), duration: 5000, type: 'error'})
-        return false
-      }
-
-      if (this.form.title.length + this.form.description.length > 270) {
-        console.log('length:', this.form.title.length + this.form.description.length);
-        notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
-        return false
+      if(this.form.category === 'tweet' && this.form.createType==='new') {
+        if (!this.form.description) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
+        if (this.form.description.length > 280) {
+          console.log('length:', this.form.description.length);
+          notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
+          return false
+        }
+      }else {
+        if (!this.form.link || !this.form.endtime) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
+        if (this.form.category === 'tweet' && !this.postData) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
+        if (this.form.category === 'space' && !this.space) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
       }
       return true
     },
