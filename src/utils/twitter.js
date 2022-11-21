@@ -12,9 +12,7 @@ async function checkAccessToken() {
         if (expiresAt - new Date().getTime() < 600000) {
             // refresh token 
             try {
-                console.log(1);
                 await refreshToken();
-                console.log(2);
                 acc = store.getters.getAccountInfo;
             }catch(e) {
                 console.log(234, e);
