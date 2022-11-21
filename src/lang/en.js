@@ -173,6 +173,7 @@ export default {
     title: 'Title',
     inputTitle: 'Enter a curation title',
     schedule: 'Schedule',
+    endTime: 'End time',
     startTimeTip: 'The default start time is the creation time. Please select the end time.',
     descriptionTitle: 'Input tweet content',
     description: 'This content is for the tweet you want to promote. After successfully creating the curation reward pool, we provide a Go tweet button, so that you can easily publish tweets to activate the curation. We will add some necessary tags and links in the generated tweet. Please do not delete these contents and post them, otherwise the curator will not be activated',
