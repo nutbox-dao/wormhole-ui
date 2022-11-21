@@ -25,7 +25,7 @@
       </div>
     </div>
     <button class="gradient-btn w-full h-3.6rem rounded-full mt-3rem"
-            @click="$emit('confirm')">Confirm</button>
+            @click="confirm">Confirm</button>
   </div>
 </template>
 
@@ -81,6 +81,13 @@ export default {
         } finally {
           this.isChecking = false
         }
+      }
+    },
+    confirm() {
+      if (this.checkedUser) {
+        this.$emit('confirm', this.formData)
+      }else {
+        this.$emit('confirm')
       }
     }
   },

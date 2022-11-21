@@ -155,10 +155,11 @@
           <div class="mb-6px c-text-black mt-1rem">{{$t('curation.host')}}</div>
           <div v-if="form.host.name" class="flex items-center"
                @click="showAddSpeakerModal('host','edit')">
-            <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+            <img v-if="form.host.avatar" class="w-4rem h-4rem rounded-2rem" :src="form.host.avatar" alt="">
+            <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
             <div class="ml-10px">
               <div class="mb-6px">{{form.host.name}}</div>
-              <div>{{form.host.title}}</div>
+              <div>@{{form.host.username}}</div>
             </div>
           </div>
           <div v-else @click="showAddSpeakerModal('host','add')"
@@ -176,13 +177,15 @@
                    @click.stop="deleteSpeaker('speaker', index)">
                 <i class="icon-close w-1.2rem h-1.2rem"></i>
               </div>
-              <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+              <img v-if="coHost.avatar" class="w-4rem h-4rem rounded-2rem" :src="coHost.avatar" alt="">
+              <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
               <div class="ml-10px">
                 <div class="mb-6px">{{coHost.name}}</div>
-                <div>{{coHost.title}}</div>
+                <div>@{{coHost.username}}</div>
               </div>
             </div>
             <div @click="showAddSpeakerModal('coHost','add')"
+                v-show="form.coHost.length < 3"
                  class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
                       bg-color7D rounded-15px flex justify-center items-center">
               +
@@ -198,13 +201,15 @@
                    @click.stop="deleteSpeaker('speaker', index)">
                 <i class="icon-close w-1.2rem h-1.2rem"></i>
               </div>
-              <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
+              <img v-if="speaker.avatar" class="w-4rem h-4rem rounded-2rem" :src="speaker.avatar" alt="">
+              <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
               <div class="ml-10px">
                 <div class="mb-6px">{{speaker.name}}</div>
                 <div>{{speaker.title}}</div>
               </div>
             </div>
             <div @click="showAddSpeakerModal('speaker','add')"
+                v-show="form.speakers.length < 10"
                  class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
                       bg-color7D rounded-15px flex justify-center items-center">
               +
@@ -502,6 +507,7 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import AddSpeakerModal from "@/components/AddSpeakerModal";
 import {testData} from "@/views/square/test-data";
+import { dataToEsm } from "@rollup/pluginutils";
 
 export default {
   name: "CreateCuration",
@@ -636,25 +642,30 @@ export default {
       this.editSpeakerIndex = index
       if(operateType==='add') {
         this.addSpeakerData = {}
+        this.addSpeakerVisible = true
       } else {
-        if(this.addSpeakerType === 'host') this.addSpeakerData = this.form.host
-        if(this.addSpeakerType === 'coHost') this.addSpeakerData = this.form.coHost[index]
-        if(this.addSpeakerType === 'speaker') this.addSpeakerData = this.form.speakers[index]
+        if(this.addSpeakerType === 'host') this.fomr.host = {}
+        if(this.addSpeakerType === 'coHost') this.form.coHost.splice(index, 1)
+        if(this.addSpeakerType === 'speaker') this.form.speakers.splice(indes, 1)
       }
-      this.addSpeakerVisible = true
     },
-    onConfirmSpeaker() {
-      if(this.addSpeakerType === 'host') this.form.host = this.addSpeakerData
+    onConfirmSpeaker(data) {
+      console.log(666, data);
+      if (!data) {
+        this.addSpeakerVisible = false;
+        return;
+      }
+      if(this.addSpeakerType === 'host') this.form.host = data
       if(this.operateType==='add') {
-        if(this.addSpeakerType === 'coHost') this.form.coHost.push(this.addSpeakerData)
-        if(this.addSpeakerType === 'speaker') this.form.speakers.push(this.addSpeakerData)
+        if(this.addSpeakerType === 'coHost') this.form.coHost.push(data)
+        if(this.addSpeakerType === 'speaker') this.form.speakers.push(data)
       } else {
-        if(this.addSpeakerType === 'coHost') this.form.coHost[this.editSpeakerIndex] = this.addSpeakerData
-        if(this.addSpeakerType === 'speaker') this.form.speakers[this.editSpeakerIndex] = this.addSpeakerData
+        // if(this.addSpeakerType === 'coHost') this.form.coHost[this.editSpeakerIndex] = data
+        // if(this.addSpeakerType === 'speaker') this.form.speakers[this.editSpeakerIndex] = data
       }
       this.addSpeakerVisible = false
     },
-    deleteSpeaker(speakerType, index) {
+    deleteSpeaker(addSpeakerType, index) {
       if(this.addSpeakerType === 'coHost') this.form.coHost.splice(index, 1)
       if(this.addSpeakerType === 'speaker') this.form.speakers.splice(index, 1)
     },
