@@ -634,7 +634,7 @@ export default {
       } catch (e) {
         console.log('Fetch data from twitter fail:', e);
         if (e === 'log out') {
-          this.$route.replace('/square')
+          this.$router.replace('/square')
         }
       } finally {
         this.checkingTweetLink = false;

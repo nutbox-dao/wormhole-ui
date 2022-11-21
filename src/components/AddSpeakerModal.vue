@@ -87,7 +87,7 @@ export default {
           }
         } catch (e) {
           if (e === 'log out') {
-            this.$route.replace('/square')
+            this.$router.replace('/square')
           }
         } finally {
           this.isChecking = false
