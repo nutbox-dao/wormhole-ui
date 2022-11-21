@@ -107,7 +107,7 @@
         <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
           <div class="max-h-15rem overflow-hidden relative rounded-15px">
-            <Blog :post="postData"
+            <Blog :post="form.postData"
                   class="bg-blockBg light:bg-white rounded-15px
                        border-1 border-listBgBorder mb-1rem md:mb-0">
               <template #bottom-btn-bar><div></div></template>
@@ -124,7 +124,7 @@
           <div class="h-15rem overflow-hidden relative">
             <Space class="bg-blockBg light:bg-white rounded-15px h-full
                         border-1 border-listBgBorder mb-1rem md:mb-0"
-                    :space="space"/>
+                    :space="form.space"/>
           </div>
         </div>
         <!-- edit speaker -->
@@ -218,7 +218,7 @@
                    :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
               <div class="flex-1 flex justify-between items-center pl-15px">
                 <span>{{$t('curation.follow')}}</span>
-                <span>@{{author.username}}</span>
+                <span>@{{form.author.username}}</span>
               </div>
             </div>
             <div class="h-40px 2xl:h-2rem flex items-center relative px-15px hover:bg-blockBg cursor-pointer"
@@ -501,7 +501,10 @@ export default {
         speakers: [],
         mandatoryTask: 'quote',
         isFollow: false,
-        isLike: false
+        isLike: false,
+        postData: {},
+        space: {},
+        author: {}
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -530,9 +533,6 @@ export default {
       progressing: false,
       selectBalance: 0,
       testData,
-      postData: {},
-      space: {},
-      author: {},
       TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)'
     }
   },
@@ -576,7 +576,7 @@ export default {
                   break;
                 }
               }
-              this.space = {
+              this.form.space = {
                 authorName: author.name,
                 authorUsername: author.username,
                 authorProfileImg: author.profile_image_url,
@@ -588,18 +588,19 @@ export default {
                 ...author,
                 avatar: author.profile_image_url.replace('normal', '200x200')
               }
-              this.author = author
+              this.form.author = author
             }
             this.linkIsVerified = true;
           }else {
-            this.postData = parseTweet(tweet)
-            this.author = this.postData;
+            this.form.postData = parseTweet(tweet)
+            this.form.author = this.form.postData;
             this.linkIsVerified = true;
           }
         }else {
           notify({message: this.$t('err.wrongTweetLink'), type: 'error', duration: 3000});
         }
       } catch (e) {
+        console.log('Fetch data from twitter fail:', e);
         if (e === 'log out') {
           this.$route.replace('/square')
         }
@@ -713,8 +714,8 @@ export default {
     },
     disabledDate(time) {
       let date = Date.now();
-      if (this.form.category === 'space' && this.space && this.space.scheduledStart) {
-        const startTime = this.space.scheduledStart;
+      if (this.form.category === 'space' && this.form.space && this.form.space.scheduledStart) {
+        const startTime = this.form.space.scheduledStart;
         date = new Date(startTime).getTime();
       }
       return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
@@ -757,11 +758,11 @@ export default {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
-        if (this.form.category === 'tweet' && !this.postData) {
+        if (this.form.category === 'tweet' && !this.form.postData) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
-        if (this.form.category === 'space' && !this.space) {
+        if (this.form.category === 'space' && !this.form.space) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
@@ -901,6 +902,7 @@ export default {
   async mounted () {
     if (this.getDraft) {
       this.form = this.getDraft
+      this.linkIsVerified = true;
     }
     chainChanged()
     accountChanged()
