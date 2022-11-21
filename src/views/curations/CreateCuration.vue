@@ -48,7 +48,7 @@
             </el-select>
           </div>
         </div>
-        <div class="mt-1.8rem relative">
+        <div class="mt-1.8rem relative" v-if="form.category==='tweet'">
           <div class="mb-6px c-text-black">{{$t('curation.select')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
@@ -112,11 +112,12 @@
           </div>
         </div>
         <!-- related link -->
-        <div class="mt-1.8rem relative" v-if="form.createType === 'related'">
+        <div class="mt-1.8rem relative" v-if="form.category==='space'|| form.createType === 'related'">
           <div class="mb-6px c-text-black">{{$t('curation.relatedContent')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative"
+               :class="verifyingLink?'hover:border-color8B/30':''">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
                    type="text" :placeholder="$t('curation.pasteLink')">
@@ -221,48 +222,33 @@
           <div class="mb-6px c-text-black">{{$t('curation.requirements')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative">
-            <el-select v-model="form.mandatoryTask" class="w-full text-white" size="large">
-              <el-option label="Quote" value="quote"></el-option>
-              <el-option label="Reply" value="reply"></el-option>
-            </el-select>
-            <div class="text-color62 px-10px">{{$t('curation.required')}}*</div>
-          </div>
-          <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3
-                      rounded-12px min-h-40px 2xl:min-h-2rem relative"
-               :class="form.isFollow?'pb-10px':''"
-               @click="form.isFollow=!form.isFollow">
-            <div class="flex justify-between items-center h-40px 2xl:h-2rem">
-              <span>{{$t('curation.follow')}}</span>
-              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                    :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+                      rounded-12px overflow-hidden">
+            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5 border-color62 bg-white"></span>
+              <div class="flex-1 flex justify-between items-center pl-8px">
+                <el-select v-model="form.mandatoryTask"
+                           class="w-1/3 text-white rounded-8px bg-blockBg" size="small">
+                  <el-option label="Quote" value="quote"></el-option>
+                  <el-option label="Reply" value="reply"></el-option>
+                </el-select>
+                <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
+              </div>
             </div>
-            <template v-if="form.isFollow">
-              <div class="flex flex-wrap items-center">
-                <span v-for="item of form.followList" :key="item"
-                      class="bg-color62 py-4px px-8px rounded-4px mx-10px my-5px">{{item}}</span>
+            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px hover:bg-blockBg cursor-pointer"
+                 @click="form.isFollow=!form.isFollow">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                   :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+              <div class="flex-1 flex justify-between items-center pl-15px">
+                <span>{{$t('curation.follow')}}</span>
+                <span>@username</span>
               </div>
-              <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px min-h-40px 2xl:min-h-2rem relative">
-                <div class="flex items-center w-full" @click.stop>
-                  <input class="bg-transparent h-40px 2xl:h-2rem w-full"
-                         v-model="followName"
-                         placeholder="@username">
-                  <button class="px-10px py-5px border-1 border-color62 text-color62 rounded-full"
-                          @click.stop="form.followList.push(followName)">Add</button>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div class="bg-black border-1 border-color8B/30 px-15px
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative"
-               @click="form.isLike=!form.isLike">
-            <span>{{$t('curation.like')}}</span>
-            <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                  :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+            </div>
+            <div class="h-40px 2xl:h-2rem flex items-center relative px-15px hover:bg-blockBg cursor-pointer"
+                 @click="form.isLike=!form.isLike">
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                    :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
+              <span class="pl-15px">{{$t('curation.like')}}</span>
+            </div>
           </div>
         </div>
         <!-- schedule -->
@@ -537,9 +523,9 @@ export default {
         speakers: [],
         mandatoryTask: 'quote',
         isFollow: false,
-        followList: [],
         isLike: false
       },
+      verifyingLink: true,
       addSpeakerVisible: false,
       addSpeakerType: 'host',
       operateType: 'add',
