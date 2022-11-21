@@ -235,7 +235,11 @@ export default {
     speaker: 'Speaker',
     coHosts: 'Co-Hosts',
     speakers: 'Speakers',
-    optional: 'Optional'
+    optional: 'Optional',
+    select: 'Select',
+    required: 'Required',
+    follow: 'Follow',
+    like: 'Like'
   },
   err: {
     serverErr: 'Server error',

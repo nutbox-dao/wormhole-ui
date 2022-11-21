@@ -49,17 +49,82 @@
           </div>
         </div>
         <div class="mt-1.8rem relative">
+          <div class="mb-6px c-text-black">{{$t('curation.select')}}</div>
+          <div class="bg-black border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
+            <el-select v-model="form.createType" class="w-full" size="large">
+              <el-option label="Create New" value="new"></el-option>
+              <el-option label="Related" value="related"></el-option>
+            </el-select>
+          </div>
+        </div>
+        <!-- create new content -->
+        <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
+          <div class="mb-6px flex items-center">
+            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>
+            <el-popover placement="bottom"
+                        popper-class="c-popper"
+                        width="100%"
+                        trigger="click">
+              <template #reference>
+                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">
+              </template>
+              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"
+                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">
+                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
+                  <div class="bg-black light:bg-white p-14px">
+                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem
+                            text-color7D light:text-blueDark">
+                      {{$t('curation.description')}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </el-popover>
+          </div>
+          <div class="border-1 bg-black/40 border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px">
+            <div contenteditable
+                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
+                 ref="descContentRef"
+                 @blur="getBlur('desc')"
+                 @paste="onPaste"
+                 v-html="formatEmojiText(form.description)"></div>
+            <div class="py-2 border-t-1 border-color8B/30">
+              <el-popover ref="descEmojiPopover"
+                          trigger="click" width="300"
+                          :teleported="false" :persistent="false">
+                <template #reference>
+                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+                </template>
+                <div class="h-310px lg:h-400px">
+                  <EmojiPicker :options="{
+                                imgSrc:'/emoji/',
+                                locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                hasSkinTones:false,
+                                hasGroupIcons:false}"
+                               @select="(e) =>selectEmoji(e,'desc')" />
+                </div>
+              </el-popover>
+            </div>
+          </div>
+        </div>
+        <!-- related link -->
+        <div class="mt-1.8rem relative" v-if="form.createType === 'related'">
           <div class="mb-6px c-text-black">{{$t('curation.relatedContent')}}</div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-12px h-40px 2xl:h-2rem flex items-center relative">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
-                   type="number" :placeholder="$t('curation.pasteLink')">
+                   :placeholder="$t('curation.pasteLink')">
             <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
                     @click="linkIsVerified=true">{{$t('curation.verify')}}</button>
           </div>
         </div>
+        <!-- preview tweet -->
         <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
           <div class="max-h-15rem overflow-hidden relative rounded-15px">
@@ -74,6 +139,7 @@
           </div>
 
         </div>
+        <!-- preview space -->
         <div class="mt-1.8rem" v-if="form.category==='space' && linkIsVerified">
           <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
           <div class="h-15rem overflow-hidden relative">
@@ -81,9 +147,10 @@
                         border-1 border-listBgBorder mb-1rem md:mb-0"/>
           </div>
         </div>
+        <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
           <div class="mb-6px c-text-black">{{$t('curation.details')}}</div>
-<!--          Host-->
+          <!-- Host-->
           <div class="mb-6px c-text-black mt-1rem">{{$t('curation.host')}}</div>
           <div v-if="form.host.name" class="flex items-center"
                @click="showAddSpeakerModal('host','edit')">
@@ -98,7 +165,7 @@
                       bg-color7D rounded-15px flex justify-center items-center">
             +
           </div>
-<!--          Co-Host-->
+          <!-- Co-Host-->
           <div class="mb-6px c-text-black mt-1rem">{{$t('curation.coHosts')}}({{$t('curation.optional')}})</div>
           <div class="flex flex-wrap">
             <div class="flex items-center mr-10px relative"
@@ -120,7 +187,7 @@
               +
             </div>
           </div>
-<!--          Speakers-->
+          <!-- Speakers-->
           <div class="mb-6px c-text-black mt-1rem">{{$t('curation.speakers')}}({{$t('curation.optional')}})</div>
           <div class="flex flex-wrap">
             <div class="flex items-center mr-10px relative"
@@ -143,84 +210,55 @@
             </div>
           </div>
         </div>
-
+        <!-- requirements -->
         <div class="mt-1.8rem relative">
           <div class="mb-6px c-text-black">{{$t('curation.requirements')}}</div>
           <div class="bg-black border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative">
+            <el-select v-model="form.mandatoryTask" class="w-full text-white" size="large">
+              <el-option label="Quote" value="quote"></el-option>
+              <el-option label="Reply" value="reply"></el-option>
+            </el-select>
+            <div class="text-color62 px-10px">{{$t('curation.required')}}*</div>
+          </div>
+          <div class="bg-black border-1 border-color8B/30 px-15px
                       light:bg-colorF2 light:border-colorE3
-                      rounded-12px overflow-hidden">
-            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
-                 :class="requirementsOptions[0].value?'bg-primaryColor':''"
-                 @click="requirementsOptions[0].value=!requirementsOptions[0].value">
-              <span>Quote</span>
-              <span>Required*</span>
+                      rounded-12px min-h-40px 2xl:min-h-2rem relative"
+               :class="form.isFollow?'pb-10px':''"
+               @click="form.isFollow=!form.isFollow">
+            <div class="flex justify-between items-center h-40px 2xl:h-2rem">
+              <span>{{$t('curation.follow')}}</span>
+              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                    :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
             </div>
-            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
-                 :class="requirementsOptions[1].value?'bg-primaryColor':''"
-                 @click="requirementsOptions[1].value=!requirementsOptions[1].value">
-              <span>Follow</span>
-              <span>@elonmusk</span>
-            </div>
-            <div class="flex justify-between items-center px-1rem py-0.6rem cursor-pointer"
-                 :class="requirementsOptions[2].value?'bg-primaryColor':''"
-                 @click="requirementsOptions[2].value=!requirementsOptions[2].value">
-              <span>Like</span>
-              <span></span>
-            </div>
+            <template v-if="form.isFollow">
+              <div class="flex flex-wrap items-center">
+                <span v-for="item of form.followList" :key="item"
+                      class="bg-color62 py-4px px-8px rounded-4px mx-10px my-5px">{{item}}</span>
+              </div>
+              <div class="bg-black border-1 border-color8B/30 px-15px
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px min-h-40px 2xl:min-h-2rem relative">
+                <div class="flex items-center w-full" @click.stop>
+                  <input class="bg-transparent h-40px 2xl:h-2rem w-full"
+                         v-model="followName"
+                         placeholder="@username">
+                  <button class="px-10px py-5px border-1 border-color62 text-color62 rounded-full"
+                          @click.stop="form.followList.push(followName)">Add</button>
+                </div>
+              </div>
+            </template>
+          </div>
+          <div class="bg-black border-1 border-color8B/30 px-15px
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-12px h-40px 2xl:h-2rem flex justify-between items-center relative"
+               @click="form.isLike=!form.isLike">
+            <span>{{$t('curation.like')}}</span>
+            <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
+                  :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
           </div>
         </div>
-        <!-- content -->
-<!--        <div class="mt-1.8rem relative">-->
-<!--          <div class="mb-6px flex items-center">-->
-<!--            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>-->
-<!--            <el-popover placement="bottom"-->
-<!--                        popper-class="c-popper"-->
-<!--                        width="100%"-->
-<!--                        trigger="click">-->
-<!--              <template #reference>-->
-<!--                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">-->
-<!--              </template>-->
-<!--              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"-->
-<!--                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">-->
-<!--                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">-->
-<!--                  <div class="bg-black light:bg-white p-14px">-->
-<!--                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem-->
-<!--                            text-color7D light:text-blueDark">-->
-<!--                      {{$t('curation.description')}}-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </el-popover>-->
-<!--          </div>-->
-<!--          <div class="border-1 bg-black/40 border-1 border-color8B/30-->
-<!--                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor-->
-<!--                      rounded-12px">-->
-<!--            <div contenteditable-->
-<!--                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"-->
-<!--                 ref="descContentRef"-->
-<!--                 @blur="getBlur('desc')"-->
-<!--                 @paste="onPaste"-->
-<!--                 v-html="formatEmojiText(form.description)"></div>-->
-<!--            <div class="py-2 border-t-1 border-color8B/30">-->
-<!--              <el-popover ref="descEmojiPopover"-->
-<!--                          trigger="click" width="300"-->
-<!--                          :teleported="false" :persistent="false">-->
-<!--                <template #reference>-->
-<!--                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">-->
-<!--                </template>-->
-<!--                <div class="h-310px lg:h-400px">-->
-<!--                  <EmojiPicker :options="{-->
-<!--                                imgSrc:'/emoji/',-->
-<!--                                locals: $i18n.locale==='zh'?'zh_CN':'en',-->
-<!--                                hasSkinTones:false,-->
-<!--                                hasGroupIcons:false}"-->
-<!--                               @select="(e) =>selectEmoji(e,'desc')" />-->
-<!--                </div>-->
-<!--              </el-popover>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
         <!-- schedule -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.schedule')}}</div>
@@ -507,22 +545,22 @@ export default {
         token: '',
         amount: '',
         category: 'space',
+        createType: 'new',
         link: '',
         host: {},
         coHost: [],
         speakers: [],
-        requirements: []
+        mandatoryTask: 'quote',
+        isFollow: false,
+        followList: [],
+        isLike: false
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
       operateType: 'add',
       addSpeakerData: {avatar: '', name: '', title: ''},
       editSpeakerIndex: 0,
-      requirementsOptions: [
-        {type: 'quote', value: true},
-        {type: 'follow', value: false},
-        {type: 'like', value: true},
-      ],
+      followName: '',
       linkIsVerified: false,
       selectedToken: {},
       tokenList: ERC20List,
