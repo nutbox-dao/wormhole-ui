@@ -1,7 +1,7 @@
 <template>
   <div class="py-1rem px-1.5rem sm:rounded-1rem bg-inputBg flex flex-col justify-between">
     <div class="flex ">
-      <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem
+      <img v-if="space.authorProfileImg" class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem
                   sm:mr-1.4rem mr-0.8rem rounded-full gradient-border"
            :src="space.authorProfileImg.replace('normal', '200x200')" alt="">
       <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">

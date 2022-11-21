@@ -6,7 +6,7 @@
               :loading-text="$t('common.loading')"
               :finished-text="curationsList.length!==0?$t('common.noMore'):''"
               @load="onLoad">
-      <div class="px-1rem pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem">
+      <!-- <div class="px-1rem pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem">
         <div class="flex sm:items-center sm:justify-between">
           <div class="w-min relative ">
             <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>
@@ -24,7 +24,7 @@
           </button>
         </div>
         <div class="text-color8B light:text-color7D mt-10px text-left leading-20px">{{$t('curationsView.p1')}}</div>
-      </div>
+      </div> -->
       <div class="sm:mt-1rem sm:px-1rem">
         <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg light:sm:bg-white rounded-12px"
              :class="curationsList && curationsList.length>0?'md:p-1rem':''">
@@ -53,13 +53,13 @@
             <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
                           class="cursor-pointer"
                           :curation="curation"
-                          :content-type="index%2===0?'tweet':'space'"
+                          :content-type="curation.curationType === 1?'tweet':'space'"
                           @click="gotoDetail(curation)"/>
           </van-pull-refresh>
         </div>
       </div>
     </van-list>
-    <van-popup class="c-tip-drawer 2xl:w-2/5"
+    <!-- <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
       <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem md:px-4rem">
@@ -72,7 +72,7 @@
                         @close="modalVisible=false"/>
         </div>
       </div>
-    </van-popup>
+    </van-popup> -->
   </div>
 </template>
 
@@ -159,7 +159,9 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try{
-        const curations = await getCurations(this.subActiveTagIndex, null, this.getAccountInfo?.twitterId)
+        let curations = await getCurations(this.subActiveTagIndex, null, this.getAccountInfo?.twitterId)
+        curations = curations.curations;
+        console.log(64, curations);
         let mutationStr = ''
         if (this.subActiveTagIndex === 0) {
           mutationStr = 'saveOngoingList'
@@ -180,17 +182,6 @@ export default {
       } finally {
         this.refreshing = false
       }
-    },
-    createCurations() {
-      if (this.getDraft) {
-        this.modalVisible = true
-      } else{
-        this.onCreate()
-      }
-    },
-    onCreate() {
-      this.modalVisible = false
-      this.$router.push('/create-curation')
     },
     gotoDetail(curation) {
       this.$store.commit('curation/saveDetailCuration', curation);

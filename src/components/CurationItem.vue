@@ -10,7 +10,7 @@
         <div class="flex-1 flex justify-between items-center">
           <div class="flex items-center">
             <div class="flex flex-col justify-between items-start cursor-pointer" @click.stop="gotoUserPage()">
-              <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.twitterUsername}}</a>
+              <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}}</a>
               <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>
             </div>
             <div class="border-1 border-color7D text-color7D px-10px rounded-full ml-1rem">{{contentTag}}</div>
@@ -22,7 +22,7 @@
       </div>
       <div v-if="contentType==='tweet'"
            class="max-h-15rem overflow-hidden relative py-10px rounded-15px">
-        <Blog :post="testData[0]"
+        <Blog :post="curation"
               class="bg-blockBg light:bg-white rounded-15px
                      sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
           <template #bottom-btn-bar><div></div></template>
@@ -89,7 +89,7 @@ export default {
   computed: {
     ...mapGetters(['getAccountInfo']),
     profileImg() {
-      return this.curation.profileImg
+      return this.curation.creatorProfileImg
     },
     endtime() {
       if (this.curation.curationStatus === 0){
