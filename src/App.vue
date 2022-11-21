@@ -10,7 +10,7 @@
           </button>
           <div class="flex items-center">
             <div class="md:flex" v-if="!getAccountInfo">
-              <button @click="showLogin=true"
+              <button @click="login"
                   class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">
                   {{$t('signIn')}}
               </button>
@@ -103,7 +103,7 @@
           <div class="w-max p-1rem ml-auto mr-0" @click="beforeCloseLogin">
             <i class="w-1.2rem h-1.2rem icon-close"></i>
           </div>
-          <Login class="px-2rem pb-2rem" ref="loginRef" @close="showLogin=false"/>
+          <Login class="px-2rem pb-2rem" ref="loginRef" @close="$store.commit('saveShowLogin', false)"/>
           <div v-show="closeLoginTipVisible"
                class="absolute top-0 left-0 w-full h-full bg-primaryBg light:bg-white rounded-8px">
             <div class="w-full h-full flex flex-col justify-center px-2rem" :class="isDark?'bg-glass':'bg-white'">
@@ -119,7 +119,7 @@
                 </button>
                 <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white h-3.6rem w-full rounded-full
                       w-full text-1rem"
-                        @click="closeLoginTipVisible=false, showLogin=false">
+                        @click="closeLoginTipVisible=false, $store.commit('saveShowLogin', false)">
                   {{$t('signUpView.close')}}
                 </button>
               </div>
@@ -158,12 +158,11 @@ export default {
         'zh': zhCn
       },
       isDark: false,
-      showLogin: false,
       closeLoginTipVisible: false
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
       return !this.hasReceivedNft
@@ -185,9 +184,12 @@ export default {
       e.target.src = emptyAvatar;
     },
     beforeCloseLogin(done) {
-      if(this.$refs.loginRef.authStep === 'login') this.showLogin = false
+      if(this.$refs.loginRef.authStep === 'login') this.$store.commit('saveShowLogin', false)
       else this.closeLoginTipVisible = true
     },
+    login() {
+      this.$store.commit('saveShowLogin', true)
+    },  
     async monitorPrices() {
       let res = await Promise.all([
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT'),
@@ -295,7 +297,9 @@ export default {
         }
         logout();
       }).catch(e => {
-        logout();
+        if (e === 401) {
+          logout();
+        }
         console.log('get profile fail:', e);
       })
     }

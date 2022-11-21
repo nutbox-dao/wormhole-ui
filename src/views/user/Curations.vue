@@ -9,7 +9,7 @@
                 :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                 @click="changeSubIndex(index)">{{tag}}</span>
         </div>
-        <div>
+        <!-- <div>
           <div class="border-1 bg-black/40 border-1 border-color8B/30 w-10rem
                   flex items-center justify-between
                   light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
@@ -19,7 +19,7 @@
               <el-option label="Attend time" value="attendTime"></el-option>
             </el-select>
           </div>
-        </div>
+        </div> -->
       </div>
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         :loading-text="$t('common.loading')"
@@ -162,14 +162,12 @@ export default {
       this.finished = true;
       this.refreshing = true;
       try{
-        let curations;
+        let curations = [];
         let m;
         const twitterId = this.getAccountInfo.twitterId;
         if (this.subActiveTagIndex === 0) {
-          curations = this.joinedCurations;
           m = getMyJoinedCurations;
         }else {
-          curations = this.createdCuration;
           m = getMyCreatedCurations;
         }
         const newCuration = await m(twitterId);
@@ -181,7 +179,7 @@ export default {
         }else {
           this.$store.commit('saveCreatedCurations', curations)
         }
-        if (curations.length < 12) {
+        if (!curations || curations.length < 12) {
           this.finished = true
         }else {
           this.finished = false

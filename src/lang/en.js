@@ -150,7 +150,8 @@ export default {
     textLengthOut: "Input text exceed max length.",
     connectMetamaskFirst: 'Connect wallet first',
     wrongEndTime: 'The end time you fill has passed',
-    dismatchAddress: 'Dismatch addres'
+    dismatchAddress: 'Dismatch addres',
+    userNotExist: 'User not exist.'
   },
   ref: {
     referre: 'Referrer',
@@ -244,7 +245,8 @@ export default {
   err: {
     serverErr: 'Server error',
     transErr: 'Transaction Fail',
-    loginErr: 'Login fail'
+    loginErr: 'Login fail',
+    wrongTweetLink: 'Please input correct tweet link'
   },
   common: {
     none: 'None',
