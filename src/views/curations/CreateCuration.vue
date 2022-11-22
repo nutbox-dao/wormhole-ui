@@ -492,7 +492,7 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
-                     :token="selectedToken"
+                     :token="form.token"
                      :amount="form.amount"
                      :chainName="form.chain"
                      :address="form.address"
@@ -601,7 +601,7 @@ export default {
       titleRange: null,
       progress: 0,
       progressing: false,
-      selectBalance: 0,
+      selectedBalance: 0,
       testData,
       postData: {},
       space: {},
@@ -891,6 +891,9 @@ export default {
       this.selectBalance = await getERC20TokenBalance(token.address, this.account)
 
     },
+    selectBalance(balance) {
+      this.selectedBalance = balance
+    },  
     checkRewardData() {
       if (!this.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
@@ -910,10 +913,12 @@ export default {
       return true
     },
     async onSubmit() {
+      console.log(26, this.form.chain, this.form.token, this.form.amount,this.form.address, this.selectedBalance);
+      return 
       if(!this.checkRewardData()) return;
       try{
         this.loading = true
-        if (this.form.amount === 0 || this.selectBalance < this.form.amount) {
+        if (this.form.amount === 0 || this.selectedBalance < this.form.amount) {
           notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
           return;
         }
@@ -941,7 +946,7 @@ export default {
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
-          token: this.selectedToken.address
+          token: this.form.address
         }
 
         this.curation = curation

@@ -8,8 +8,10 @@
                   rounded-12px h-40px 2xl:h-2rem">
         <el-select v-model="selectedChainName" class="w-full" size="large"
                    @change="connectWallet(selectedChainName)">
-          <el-option label="Steem" value="steem"></el-option>
-          <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
+          <template v-if="showsteem">
+            <el-option label="Steem" value="steem"></el-option>
+            <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
+          </template>
           <el-option
               v-for="item of Object.keys(EVM_CHAINS)"
               :disabled="false"
@@ -39,6 +41,9 @@
           </div>
         </button>
       </div>
+    </div>
+    <div v-else>
+      {{ getAccountInfo.steemId }}
     </div>
     <div class="mt-1.8rem">
       <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
@@ -93,9 +98,10 @@
                   <div v-if="customToken"
                        class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                    <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
+                    <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
+                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
                     <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                         @click="updateSelectBalance(customToken);selectedToken = customToken;$refs.elPopover.hide()">
+                         @click="selectedToken = customToken;$refs.elPopover.hide()">
                       <span class="text-15px">{{customToken.symbol}}</span>
                       <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
@@ -103,7 +109,7 @@
                     </div>
                   </div>
                   <div v-for="token of tokenList" :key="token.address"
-                       @click="updateSelectBalance(token);selectedToken=token;$refs.elPopover.hide()"
+                       @click="selectedToken=token;$refs.elPopover.hide()"
                        class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                     <img class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
@@ -139,6 +145,8 @@ import {TokenIcon} from "@/config";
 import {formatAddress} from "@/utils/tool";
 import {formatAmount} from "@/utils/helper";
 import {ethers} from "ethers";
+import { mapGetters } from 'vuex'
+import { getSteemBalance } from '@/utils/steem'
 
 export default {
   name: "ChainOptions",
@@ -154,6 +162,14 @@ export default {
     token: {
       type: String,
       default: ''
+    },
+    amount: {
+      type: Number,
+      default: 0
+    },
+    showsteem: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -174,21 +190,29 @@ export default {
     this.selectedChainName = this.chain
     this.walletAddress = this.address
     this.searchToken = this.token
+    if (this.showsteem) {
+      this.connectWallet('steem')
+    }
     accountChanged(address => {
       if (this.selectedChainName) {
         this.walletAddress = address
-        this.updateSelectBalance(this.selectedToken)
       }else {
         this.walletAddress = null
       }
     })
   },
   watch: {
-    selectedChainName(val) {
-      if(!val) this.selectedToken = {}, this.selectBalance = 0
+    walletAddress(val) {
+      this.$emit('addressChange', val);
+      this.updateSelectBalance()
+    },
+    selectedToken(val) {
+      this.$emit('tokenChagne', val);
+      this.updateSelectBalance()
     }
   },
   computed: {
+    ...mapGetters(['getAccountInfo']),
     tokenList() {
       return this.selectedChainName && this.selectedChainName!=='steem'?
           Object.values(this.EVM_CHAINS[this.selectedChainName].assets):[]
@@ -203,31 +227,45 @@ export default {
       })
     },
     async connectWallet(chain) {
-      this.$emit('chainChange', chain)
-      if(chain==='steem') return
+      if(chain==='steem') {
+        this.$emit('chainChange', chain)
+        this.selectBalance = (await getSteemBalance(this.getAccountInfo.steemId)).steemBalance;
+        this.$emit('changeBalance', this.selectBalance)
+        return
+      }
       this.connectLoading = true
       try{
         const connected = await setupNetwork(chain)
         if (connected) {
+          this.$emit('chainChange', chain)
+          this.selectedChainName = chain;
           this.walletAddress = await getAccounts(true);
           this.selectedToken = Object.values(EVM_CHAINS[chain].assets)[0];
-          await this.updateSelectBalance(this.selectedToken)
+          this.customToken = null;
         }else {
+          this.$emit('chainChange', null)
           this.selectedChainName = null;
           this.walletAddress = null;
+          this.selectedToken = {}
         }
       } catch (e) {
+        this.$emit('chainChange', null)
         this.selectedChainName = null
         this.walletAddress = null
+        this.selectedToken = {}
         notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
       } finally {
         this.connectLoading = false
       }
     },
-    async updateSelectBalance(token) {
-      if (!token) return;
-      this.selectBalance = await getERC20TokenBalance(this.selectedChainName, token.address, this.walletAddress)
-      this.$emit('tokenChange', this.selectedToken)
+    async updateSelectBalance() {
+      if (!this.selectedToken || !this.selectedChainName || !this.walletAddress) {
+        this.selectBalance = 0
+        this.$emit('balanceChange', 0)
+        return
+      };
+      this.selectBalance = await getERC20TokenBalance(this.selectedChainName, this.selectedToken.address, this.walletAddress)
+      this.$emit('balanceChange', this.selectBalance)
     },
     async updateToken() {
       if (!ethers.utils.isAddress(this.searchToken)) {
@@ -236,10 +274,8 @@ export default {
       }
       try {
         const res = await getTokenInfo(this.selectedChainName, this.searchToken)
-        console.log(53, res);
         this.customToken = {...res, address: this.searchToken}
         this.selectedToken = this.customToken
-        await this.updateSelectBalance(this.customToken)
       }catch(e) {
         console.log(63, e);
       }
