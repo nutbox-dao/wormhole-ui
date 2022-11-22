@@ -337,7 +337,7 @@
                   <template #reference>
                     <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
                       <div class="flex items-center">
-                        <img v-if="selectedToken.address" class="h-22px mr-15px rounded-full" :src="TokenIcon[selectedToken.symbol]" alt="">
+                        <img v-if="TokenIcon[selectedToken.symbol]" class="h-22px mr-15px rounded-full" :src="TokenIcon[selectedToken.symbol]" alt="">
                         <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
                         <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                       </div>
@@ -363,7 +363,7 @@
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                         <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
                         <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                             @click="selectedToken = customToken;$refs.elPopover.hide()">
+                             @click="updateSelectBalance(customToken);selectedToken = customToken;$refs.elPopover.hide()">
                           <span class="text-15px">{{customToken.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
@@ -845,9 +845,15 @@ export default {
         this.customToken = null;
         return;
       }
-      const res = await getTokenInfo(this.form.token)
-      this.customToken = {...res, address: this.form.token}
-      this.updateSelectBalance(this.customToken)
+      try {
+        const res = await getTokenInfo(this.form.chain, this.form.token)
+        console.log(53, res);
+        this.customToken = {...res, address: this.form.token}
+        this.selectedToken = this.customToken
+        this.updateSelectBalance(this.customToken)
+      }catch(e) {
+        console.log(63, e);
+      }
     },
     async updateSelectBalance(token) {
       if (!token) return;
@@ -955,17 +961,18 @@ export default {
     accountChanged(address => {
       if (this.form.chain) {
         this.form.address = address
+        this.updateSelectBalance(this.selectedToken)
       }else {
         this.form.address = null
       }
     })
     await this.updateToken()
-    if (ethers.utils.isAddress(this.form.token)) {
-      this.selectedToken = this.customToken
-    }else {
-      this.selectedToken = this.tokenList[0]
-    }
-    this.updateSelectBalance(this.selectedToken)
+    // if (ethers.utils.isAddress(this.form.token)) {
+    //   this.selectedToken = this.customToken
+    // }else {
+    //   this.selectedToken = this.tokenList[0]
+    // }
+    // this.updateSelectBalance(this.selectedToken)
 
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
