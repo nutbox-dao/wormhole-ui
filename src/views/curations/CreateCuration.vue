@@ -512,6 +512,7 @@ export default {
                 }
               }
               this.form.space = {
+                spaceId,
                 authorName: author.name,
                 authorUsername: author.username,
                 authorProfileImg: author.profile_image_url,
@@ -754,7 +755,7 @@ export default {
       return true
     },
     async onSubmit() {
-      console.log(26, this.form.chain, this.form.token, this.form.amount,this.form.address, this.selectedBalance);
+      console.log(26, JSON.stringify(this.form));
       return 
       if(!this.checkRewardData()) return;
       try{
