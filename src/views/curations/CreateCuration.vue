@@ -287,15 +287,7 @@
                   flex items-center justify-between
                   light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                   rounded-12px h-40px 2xl:h-2rem">
-            <el-select v-model="form.chain" class="w-full" size="large" @change="selectChain(form.chain)">
-              <el-option
-                  v-for="item of Object.keys(EVM_CHAINS)"
-                  :disabled="false"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-              />
-            </el-select>
+            <AssetsOptions v-model="form.chain" @onChange="selectChain(form.chain)"></AssetsOptions>
           </div>
         </div>
         <div class="mt-1.8rem" v-if="form.chain!=='steem'">
@@ -492,14 +484,16 @@ import Space from "@/components/Space";
 import AddSpeakerModal from "@/components/AddSpeakerModal";
 import {testData} from "@/views/square/test-data";
 import { parseTweet } from '@/utils/twitter-tool'
+import AssetsOptions from "@/components/AssetsOptions";
 
 export default {
   name: "CreateCuration",
-  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, EmojiPicker, Blog, Space, AddSpeakerModal},
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
+    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      currentStep: 1,
+      currentStep: 2,
       connectLoading: false,
       loading: false,
       receiving: false,
@@ -556,11 +550,6 @@ export default {
       TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)',
       EVM_CHAINS,
       TokenIcon,
-      chainOptions: [
-        {label: 'Ethereum', value: 'ethereum'},
-        {label: 'BSC', value: 'bsc'},
-        {label: 'Polygon', value: 'polygon'},
-      ],
       expandPreview: false
     }
   },
