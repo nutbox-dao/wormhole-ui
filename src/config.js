@@ -182,7 +182,9 @@ export const EVM_CHAINS = {
             rpcUrl: 'https://polygon-rpc.com',
             multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
             interval: 3000,
-        }
+        },
+        curation: '0x4C524F03Bdf073A0a064Cd20c0bD9330c0FEab93',
+        popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
     Aurora: {
         rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',

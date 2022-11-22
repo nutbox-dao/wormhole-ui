@@ -1,4 +1,3 @@
-import { Client } from 'twitter-api-sdk'
 import store from '@/store'
 import { refreshToken, logout } from '@/utils/account'
 import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf,

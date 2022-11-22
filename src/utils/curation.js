@@ -5,6 +5,8 @@ import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, RPC_NODE } from '@/config'
 import curation from '@/store/curation';
+import { refreshToken, logout } from '@/utils/account'
+import { newCuration as nc, newCurationWithTweet as ncwt } from '@/api/api'
 
 const abi = [
     {
@@ -221,4 +223,54 @@ export const randomCurationId = () => {
     let id = ethers.utils.randomBytes(6)
     id = u8arryToHex(id);
     return id;
+}
+
+/**
+ * 
+ * @param {*} curation {twitterId, curationId, creatorETH, content, token, amount, maxCount, endtime, transHash,
+ * tweetId, authorId, chainId, curationType, tasks, spaceId, hostIds, speakerIds, title,
+ * startedAt, scheduledStart, endedAt, tweetContent, endTime,retweetInfo, retweetId, pageInfo, createdAt}
+ * @returns 
+ */
+export const newCurationWithTweet = async (curation) => {
+  await checkAccessToken();
+  const tweets = await ncwt(curation)
+  return tweets;
+}
+
+/**
+ * 
+ * @param {*} curation {twitterId, curationId, creatorETH, content, token, amount, maxCount, endtime, transHash, chainId, tasks}
+ * @returns 
+ */
+export const newCuration = async (curation) => {
+  await checkAccessToken();
+  const tweets = await nc(curation)
+  return tweets;
+}
+
+async function checkAccessToken() {
+  let acc = store.getters.getAccountInfo;
+  if (acc && acc.accessToken) {
+      const { expiresAt } = acc;
+      if (expiresAt - new Date().getTime() < 600000) {
+          // refresh token 
+          try {
+              await refreshToken();
+              acc = store.getters.getAccountInfo;
+          }catch(e) {
+            if (e === 401){
+              console.log(234, e);
+              throw 'log out';
+            }else {
+              throw 'refresh token error'
+            }
+          }
+      }
+      return acc.accessToken
+  }else {
+      // need auth again
+      await logout();
+      throw 'log out';
+  }
 }

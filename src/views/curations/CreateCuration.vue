@@ -439,6 +439,8 @@
           <component :is="modalComponent"
                      :token="selectedToken"
                      :amount="form.amount"
+                     :chainName="form.chain"
+                     :address="form.address"
                      @createCuration="createCuration"
                      @confirmComplete="onComplete"
                      @close="modalVisible=false;loading=false"></component>
@@ -464,7 +466,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration, postErr } from '@/api/api'
+import { postErr } from '@/api/api'
 import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
@@ -475,7 +477,7 @@ import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/we
 import { CHAIN_ID, ERC20List, CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
-import { randomCurationId, creteNewCuration } from '@/utils/curation'
+import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText} from "@/utils/tool";
@@ -870,8 +872,7 @@ export default {
       if(!this.checkRewardData()) return;
       try{
         this.loading = true
-        const balance = await getERC20TokenBalance(this.selectedToken.address, this.account)
-        if (balance < this.form.amount) {
+        if (this.form.amount === 0 || this.selectBalance < this.form.amount) {
           notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
           return;
         }
@@ -955,7 +956,7 @@ export default {
         this.form.address = null
       }
     })
-    await this.updateToken()
+    // await this.updateToken()
     // if (ethers.utils.isAddress(this.form.token)) {
     //   this.selectedToken = this.customToken
     // }else {
