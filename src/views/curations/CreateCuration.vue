@@ -281,110 +281,17 @@
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.chain')}}</div>
-          <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-40px 2xl:h-2rem">
-            <AssetsOptions v-model="form.chain" @onChange="selectChain(form.chain)"></AssetsOptions>
-          </div>
-        </div>
-        <div class="mt-1.8rem" v-if="form.chain!=='steem'">
-          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
-                      flex justify-center items-center cursor-pointer"
-                 @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem
-                         light:bg-gradient-text-light
-                         gradient-text gradient-text-purple-white">
-              {{showAccount ? showAccount : $t('common.connectMetamask')}}
-            </span>
-              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-              <div v-if="connectLoading"
-                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- token -->
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
-          <div class="flex items-center flex-col sm:flex-row">
-            <div ref="tokenPopper"
-                 class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                        rounded-12px h-40px 2xl:h-2rem">
-              <input class="bg-transparent h-full w-full px-0.5rem"
-                      v-model="form.amount"
-                     type="number" :placeholder="$t('curation.inputRewardsAmount')">
-            </div>
-            <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
-              <div class="border-1 bg-black/40 border-1 border-color8B/30
-                          light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                          rounded-12px h-40px 2xl:h-2rem">
-                <el-popover popper-class="c-popper" placement="top" :width="popperWidth" trigger="click" ref="elPopover">
-                  <template #reference>
-                    <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
-                      <div class="flex items-center">
-                        <img v-if="TokenIcon[selectedToken.symbol]" class="h-22px mr-15px rounded-full" :src="TokenIcon[selectedToken.symbol]" alt="">
-                        <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
-                        <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
-                      </div>
-                      <img class="w-1rem" src="~@/assets/icon-select-arrow.svg" alt="">
-                    </div>
-                  </template>
-                  <template #default>
-                    <div class="border-1 border-color8B/30 bg-blockBg
-                                light:bg-white light:border-colorE3 hover:border-primaryColor
-                                rounded-12px py-10px overflow-x-hidden">
-                      <div class="px-10px mb-10px">
-                        <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                                    light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                                    rounded-12px h-40px 2xl:h-2rem">
-                          <input class="bg-transparent h-full w-full px-0.5rem"
-                                v-model="form.token"
-                                @input="updateToken"
-                                 type="text" :placeholder="$t('curation.inputErc20')">
-                        </div>
-                      </div>
-                      <div v-if="customToken"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                             @click="updateSelectBalance(customToken);selectedToken = customToken;$refs.elPopover.hide()">
-                          <span class="text-15px">{{customToken.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {{customToken.address}}
-                          </span>
-                        </div>
-                      </div>
-                      <div v-for="token of tokenList" :key="token.address"
-                            @click="updateSelectBalance(token);selectedToken=token;$refs.elPopover.hide()"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                          <span class="text-15px">{{token.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {{token.address}}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </el-popover>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-0.4rem text-right font-400 flex justify-end items-center">
-          <div>{{$t('common.balance')}}: </div>
-          <div class="font-bold ml-5px">{{ formatAmount(selectBalance) }}</div>
-        </div>
+        <AssetsOptions :chain="form.chain"
+                       :address="form.address"
+                       :token="form.token"
+                       @chainChange="selectChain"
+                       @tokenChagne="selectToken">
+          <template #amount>
+            <input class="bg-transparent h-full w-full px-0.5rem"
+                   v-model="form.amount"
+                   type="number" :placeholder="$t('curation.inputRewardsAmount')">
+          </template>
+        </AssetsOptions>
         <!-- posw des -->
         <div class="mt-1.8rem">
           <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
@@ -493,7 +400,7 @@ export default {
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      currentStep: 1,
+      currentStep: 2,
       connectLoading: false,
       loading: false,
       receiving: false,
@@ -806,7 +713,10 @@ export default {
       })
     },
     selectChain(chain){
-      this.connectWallet(chain)
+      this.form.chain = chain
+    },
+    selectToken(token) {
+      this.selectedToken = token
     },
     async connectWallet(chain) {
       this.connectLoading = true
