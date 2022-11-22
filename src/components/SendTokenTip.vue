@@ -57,8 +57,8 @@ export default {
     async approve() {
       try{
         this.approving = true
-        await approve(this.chainName, this.token.address, this.address, EVM_CHAINS[this.chainName].curation)
-        this.approvement = true
+        const res = await approve(this.token.address, this.address, EVM_CHAINS[this.chainName].curation)
+        this.approvement = res
       } catch (e) {
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
       } finally {
