@@ -20,15 +20,24 @@
           </div>
         </div>
       </div>
-      <div v-if="contentType==='tweet'"
-           class="max-h-15rem overflow-hidden relative py-10px rounded-15px">
-        <Blog :post="curation"
-              class="bg-blockBg light:bg-white rounded-15px
+      <div v-if="contentType==='tweet'">
+        <div class="overflow-hidden relative rounded-15px my-10px sm:border-1 sm:border-listBgBorder/10"
+             :class="enableFold && !isFold?'max-h-200px':''">
+          <div ref="blogRef">
+            <Blog :post="curation"
+                  class="bg-blockBg light:bg-white rounded-15px blog-item
                      sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
-          <template #bottom-btn-bar><div></div></template>
-        </Blog>
-        <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
-          view more >
+              <template #bottom-btn-bar><div></div></template>
+            </Blog>
+          </div>
+          <button v-if="enableFold"
+                  @click.stop="isFold=!isFold"
+                  class="absolute bg-color62/70 text-white bottom-0 left-0 w-full h-30px flex
+                 items-center justify-center text-center">
+            <span v-if="!isFold">view more ></span>
+            <img v-else class="w-1.2rem transform rotate-180"
+                 src="~@/assets/icon-arrow.svg" alt="">
+          </button>
         </div>
       </div>
       <div v-if="contentType==='space'"
@@ -83,7 +92,9 @@ export default {
   data () {
     return {
       testData,
-      contentTag: 'replay'
+      contentTag: 'replay',
+      enableFold: true,
+      isFold: false
     }
   },
   computed: {
@@ -123,6 +134,9 @@ export default {
         this.$router.push({path : '/account-info/@' + this.curation.twitterUsername})
       }
     }
+  },
+  mounted() {
+    this.enableFold = this.$refs.blogRef.clientHeight > 200
   }
 }
 </script>
