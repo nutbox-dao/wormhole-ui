@@ -284,8 +284,13 @@
         <AssetsOptions :chain="form.chain"
                        :address="form.address"
                        :token="form.token"
+                       :amount="form.amount"
+                       :showsteem="false"
                        @chainChange="selectChain"
-                       @tokenChagne="selectToken">
+                       @tokenChagne="selectToken"
+                       @addressChange="selectAddress"
+                       @amountChange="selectAmount"
+                       @balanceChange="selectBalance">
           <template #amount>
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.amount"
@@ -344,7 +349,7 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
-                     :token="selectedToken"
+                     :token="form.token"
                      :amount="form.amount"
                      :chainName="form.chain"
                      :address="form.address"
@@ -454,7 +459,7 @@ export default {
       titleRange: null,
       progress: 0,
       progressing: false,
-      selectBalance: 0,
+      selectedBalance: 0,
       testData,
       TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)',
       EVM_CHAINS,
@@ -476,7 +481,7 @@ export default {
         return Object.values(this.EVM_CHAINS[this.form.chain].assets)
       }else {
         this.selectedToken = {};
-        this.selectBalance = 0;
+        this.selectedBalance = 0;
         return []
       }
     }
@@ -709,7 +714,7 @@ export default {
       this.form.chain = null;
       this.form.address = null;
       this.selectedToken = {};
-      this.selectBalance = 0;
+      this.selectedBalance = 0;
       this.$nextTick(() => {
         this.popperWidth = this.$refs.tokenPopper.clientWidth
       })
@@ -717,49 +722,19 @@ export default {
     selectChain(chain){
       this.form.chain = chain
     },
+    selectAddress(address) {
+      this.form.address = address
+    },
     selectToken(token) {
-      this.selectedToken = token
+      this.selectedToken = token;
+      this.form.token = token.address;
     },
-    async connectWallet(chain) {
-      this.connectLoading = true
-      try{
-        const connected = await setupNetwork(chain)
-        if (connected) {
-          const account = await getAccounts(true);
-          this.form.address = account;
-          this.selectedToken = Object.values(EVM_CHAINS[chain].assets)[0];
-          this.updateSelectBalance(this.selectedToken)
-        }else {
-          this.form.chain = null;
-          this.form.address = null;
-        }
-      } catch (e) {
-        this.form.chain = null
-        this.form.address = null
-        notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
-      } finally {
-        this.connectLoading = false
-      }
+    selectAmount(amount) {
+      this.form.amount = amount
     },
-    async updateToken() {
-      if (!ethers.utils.isAddress(this.form.token)) {
-        this.customToken = null;
-        return;
-      }
-      try {
-        const res = await getTokenInfo(this.form.chain, this.form.token)
-        console.log(53, res);
-        this.customToken = {...res, address: this.form.token}
-        this.selectedToken = this.customToken
-        this.updateSelectBalance(this.customToken)
-      }catch(e) {
-        console.log(63, e);
-      }
-    },
-    async updateSelectBalance(token) {
-      if (!token) return;
-      this.selectBalance = await getERC20TokenBalance(this.form.chain, token.address, this.form.address)
-    },
+    selectBalance(balance) {
+      this.selectedBalance = balance
+    },  
     checkRewardData() {
       if (!this.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
@@ -779,10 +754,12 @@ export default {
       return true
     },
     async onSubmit() {
+      console.log(26, this.form.chain, this.form.token, this.form.amount,this.form.address, this.selectedBalance);
+      return 
       if(!this.checkRewardData()) return;
       try{
         this.loading = true
-        if (this.form.amount === 0 || this.selectBalance < this.form.amount) {
+        if (this.form.amount === 0 || this.selectedBalance < this.form.amount) {
           notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
           return;
         }
@@ -810,7 +787,7 @@ export default {
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
-          token: this.selectedToken.address
+          token: this.form.address
         }
 
         this.curation = curation
@@ -858,21 +835,6 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
-    accountChanged(address => {
-      if (this.form.chain) {
-        this.form.address = address
-        this.updateSelectBalance(this.selectedToken)
-      }else {
-        this.form.address = null
-      }
-    })
-    // await this.updateToken()
-    // if (ethers.utils.isAddress(this.form.token)) {
-    //   this.selectedToken = this.customToken
-    // }else {
-    //   this.selectedToken = this.tokenList[0]
-    // }
-    // this.updateSelectBalance(this.selectedToken)
 
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
