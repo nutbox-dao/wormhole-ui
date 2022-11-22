@@ -287,19 +287,13 @@
                   flex items-center justify-between
                   light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                   rounded-12px h-40px 2xl:h-2rem">
-            <el-select v-model="form.chain" class="w-full" size="large">
-              <el-option label="Steem" value="steem"></el-option>
-              <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
-              <div class="flex justify-between items-center px-1.5rem ">
-                <span class="c-text-black">Other</span>
-                <span class="text-color8B">Only available for registered Wormhole3 users</span>
-              </div>
+            <el-select v-model="form.chain" class="w-full" size="large" @change="selectChain(form.chain)">
               <el-option
-                  v-for="item in chainOptions"
+                  v-for="item of Object.keys(EVM_CHAINS)"
                   :disabled="false"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item"
+                  :label="item"
+                  :value="item"
               />
             </el-select>
           </div>
@@ -343,7 +337,7 @@
                   <template #reference>
                     <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
                       <div class="flex items-center">
-                        <img v-if="selectedToken.icon" class="h-22px mr-15px rounded-full" :src="selectedToken.icon" alt="">
+                        <img v-if="selectedToken.address" class="h-22px mr-15px rounded-full" :src="TokenIcon[selectedToken.symbol]" alt="">
                         <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
                         <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                       </div>
@@ -380,7 +374,7 @@
                             @click="updateSelectBalance(token);selectedToken=token;$refs.elPopover.hide()"
                            class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img class="h-34px mr-15px rounded-full" :src="token.icon" alt="">
+                        <img class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
                         <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
                           <span class="text-15px">{{token.symbol}}</span>
                           <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
@@ -478,7 +472,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration, postErr, applyAirdrop, getDropRecord } from '@/api/api'
+import { newCuration, postErr } from '@/api/api'
 import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
@@ -486,7 +480,7 @@ import { notify, showError } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged } from '@/utils/web3/web3'
 import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
-import { CHAIN_ID, ERC20List, CURATION_SHORT_URL } from "@/config";
+import { CHAIN_ID, ERC20List, CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration } from '@/utils/curation'
@@ -530,7 +524,8 @@ export default {
         isLike: false,
         postData: {},
         space: {},
-        author: {}
+        author: {},
+        address: null
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -541,7 +536,6 @@ export default {
       linkIsVerified: false,
       checkingTweetLink: false,
       selectedToken: {},
-      tokenList: ERC20List,
       modalVisible: false,
       modalComponent: markRaw(SendTokenTip),
       popperWidth: 200,
@@ -560,6 +554,8 @@ export default {
       selectBalance: 0,
       testData,
       TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)',
+      EVM_CHAINS,
+      TokenIcon,
       chainOptions: [
         {label: 'Ethereum', value: 'ethereum'},
         {label: 'BSC', value: 'bsc'},
@@ -573,14 +569,18 @@ export default {
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     showAccount() {
-      if (this.account && this.chainId === CHAIN_ID)
-        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);
+      if (this.form.address)
+        return this.form.address.slice(0, 12) + '...' + this.form.address.slice(this.form.address.length - 12, this.form.address.length);
       return false
     },
-  },
-  watch: {
-    account(newValue, oldValue) {
-      this.updateSelectBalance(this.selectedToken, newValue)
+    tokenList() {
+      if (this.form.chain) {
+        return Object.values(this.EVM_CHAINS[this.form.chain].assets)
+      }else {
+        this.selectedToken = {};
+        this.selectBalance = 0;
+        return []
+      }
     }
   },
   methods: {
@@ -808,17 +808,33 @@ export default {
       }
       this.$store.commit('curation/saveDraft', this.form);
       this.currentStep = 2
+      this.form.chain = null;
+      this.form.address = null;
+      this.selectedToken = {};
+      this.selectBalance = 0;
       this.$nextTick(() => {
         this.popperWidth = this.$refs.tokenPopper.clientWidth
       })
     },
-    async connectWallet() {
+    selectChain(chain){
+      this.connectWallet(chain)
+    },
+    async connectWallet(chain) {
       this.connectLoading = true
       try{
-        if (await setupNetwork()) {
-          await getAccounts(true);
+        const connected = await setupNetwork(chain)
+        if (connected) {
+          const account = await getAccounts(true);
+          this.form.address = account;
+          this.selectedToken = Object.values(EVM_CHAINS[chain].assets)[0];
+          this.updateSelectBalance(this.selectedToken)
+        }else {
+          this.form.chain = null;
+          this.form.address = null;
         }
       } catch (e) {
+        this.form.chain = null
+        this.form.address = null
         notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
       } finally {
         this.connectLoading = false
@@ -834,8 +850,8 @@ export default {
       this.updateSelectBalance(this.customToken)
     },
     async updateSelectBalance(token) {
-      this.selectBalance = await getERC20TokenBalance(token.address, this.account)
-
+      if (!token) return;
+      this.selectBalance = await getERC20TokenBalance(this.form.chain, token.address, this.form.address)
     },
     checkRewardData() {
       if (!this.account || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
@@ -936,8 +952,13 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
-    chainChanged()
-    accountChanged()
+    accountChanged(address => {
+      if (this.form.chain) {
+        this.form.address = address
+      }else {
+        this.form.address = null
+      }
+    })
     await this.updateToken()
     if (ethers.utils.isAddress(this.form.token)) {
       this.selectedToken = this.customToken

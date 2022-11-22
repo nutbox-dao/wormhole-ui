@@ -69,7 +69,7 @@ async function multicallBalances(address, chain) {
     return balances
 }
 
-export async function getTokenInfo(token) {
+export async function getTokenInfo(chainName, token) {
     if (!ethers.utils.isAddress(token)){
         return null
     }
@@ -102,12 +102,12 @@ export async function getTokenInfo(token) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
     return infos
 }
 
-export async function getERC20TokenBalance(token, account) {
+export async function getERC20TokenBalance(chainName, token, account) {
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account)){
         return null
     }
@@ -132,7 +132,7 @@ export async function getERC20TokenBalance(token, account) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls,  EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
     return infos.balance.toString() / (10 ** infos.decimals)
 }

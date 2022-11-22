@@ -138,7 +138,7 @@ export const EVM_CHAINS = {
     //         interval: 3000,
     //     }
     // },
-    BNB: {
+    'BNB-Chain': {
         rpc:'https://bsc-dataseed.binance.org',
         scan: 'https://bscscan.com/',
         id: 56,
@@ -160,7 +160,7 @@ export const EVM_CHAINS = {
             interval: 3000,
         }
     },
-    MATIC: {
+    Polygon: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
         id: 137,
@@ -183,7 +183,7 @@ export const EVM_CHAINS = {
             interval: 3000,
         }
     },
-    AURARO: {
+    Aurora: {
         rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
         scan: 'https://aurorascan.dev/',
         id: 1313161554,
@@ -204,7 +204,7 @@ export const EVM_CHAINS = {
             interval: 3000
         }
     },
-    MOONBEAM: {
+    Moonbeam: {
         rpc: 'https://rpc.api.moonbeam.network',
         scan: 'https://moonbeam.moonscan.io/',
         id: 1284,
