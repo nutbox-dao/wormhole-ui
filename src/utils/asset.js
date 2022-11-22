@@ -138,7 +138,7 @@ export async function getERC20TokenBalance(chainName, token, account) {
     return infos.balance.toString() / (10 ** infos.decimals)
 }
 
-export async function getApprovement(token, account, spender) {
+export async function getApprovement(chainName, token, account, spender) {
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
         return null
     }
@@ -164,7 +164,7 @@ export async function getApprovement(token, account, spender) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
     return infos.allowance.toString() / (10 ** infos.decimals) > 1e12
 }

@@ -32,7 +32,6 @@
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.8",
     "vue3-twemoji-picker-final": "^0.0.15",
-    "twitter-api-sdk": "latest",
     "vuex": "^4.0.2",
     "yarn": "^1.22.15"
   },

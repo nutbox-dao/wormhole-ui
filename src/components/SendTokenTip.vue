@@ -24,13 +24,18 @@
 
 <script>
 import  {getApprovement, approve} from '@/utils/asset'
-import { CURATION_CONTRACT } from '@/config'
-import { mapState } from 'vuex'
+import { EVM_CHAINS } from '@/config'
 import { notify } from "@/utils/notify";
 
 export default {
   name: "SendTokenTip",
   props: {
+    chainName: {
+      type: String
+    },
+    address: {
+      type: String
+    },
     token: {
       type: Object,
       default: {}
@@ -48,14 +53,11 @@ export default {
       creating: false
     }
   },
-  computed: {
-    ...mapState('web3', ['account']),
-  },
   methods: {
     async approve() {
       try{
         this.approving = true
-        await approve(this.token.address, this.account, CURATION_CONTRACT)
+        await approve(this.chainName, this.token.address, this.address, EVM_CHAINS[this.chainName].curation)
         this.approvement = true
       } catch (e) {
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
@@ -65,9 +67,15 @@ export default {
     }
   },
   mounted () {
+    if (!this.chainName) {
+      this.$emit('close')
+    }
     this.tokenInfo = this.amount + ' ' + this.token.symbol;
-    getApprovement(this.token.address, this.account, CURATION_CONTRACT).then(res => {
+    getApprovement(this.chainName, this.token.address, this.address, EVM_CHAINS[this.chainName].curation).then(res => {
+      console.log(66, res);
       this.approvement = res
+    }).catch(e=>{
+      console.log('get approve fail:',e);
     })
   },
 }
