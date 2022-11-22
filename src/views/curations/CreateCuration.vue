@@ -542,11 +542,12 @@ import { dataToEsm } from "@rollup/pluginutils";
 
 export default {
   name: "CreateCuration",
-  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, EmojiPicker, Blog, Space, AddSpeakerModal},
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
+    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      currentStep: 1,
+      currentStep: 2,
       connectLoading: false,
       loading: false,
       receiving: false,
