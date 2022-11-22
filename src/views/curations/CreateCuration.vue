@@ -892,7 +892,7 @@ export default {
 
     },
     checkRewardData() {
-      if (!this.account || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
+      if (!this.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -936,7 +936,7 @@ export default {
 
         const curation = {
           curationId: randomCurationId(),
-          creatorETH: this.account,
+          creatorETH: this.form.address,
           content: this.form.description,
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,

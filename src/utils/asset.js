@@ -204,6 +204,7 @@ export async function approve(token, account, spender) {
 
     const tx = await contract.approve(spender, ethers.constants.MaxUint256);
     await waitForTx(provider, tx.hash)
+    return true;
 }
 
 export async function getStellarTreks(address) {
