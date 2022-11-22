@@ -39,3 +39,8 @@ export function formatEmojiText(str) {
   });
   return str
 }
+
+export function formatAddress (val, start = 6, end = 6) {
+  if (!val || val === '' || val.length < 12) return val
+  return `${val.substring(0, start)}...${val.substring(val.length - end)}`
+}
