@@ -24,7 +24,7 @@ export const setupNetwork = async (chainName) => {
     const res = await eth.request({
       method: 'wallet_switchEthereumChain',
       params: [{
-        id: `0x${id.toString(16)}`
+        chainId: `0x${id.toString(16)}`
       }],
     })
     // store.commit('web3/saveChainId', parseInt(id))
@@ -32,7 +32,7 @@ export const setupNetwork = async (chainName) => {
   } catch (error) {
     if (error.code === 4001) return;
     try{
-      await eth.request({
+      const n = await eth.request({
         method: 'wallet_addEthereumChain',
         params: [{
           chainId: `0x${id.toString(16)}`,
