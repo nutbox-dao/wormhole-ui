@@ -38,9 +38,9 @@ export const accountChanged = async (refresh) => {
     const metamask = await getEthWeb()
     metamask.on('accountsChanged', (accounts) => {
         console.log('Changed accounts', accounts);
-        store.commit('web3/saveAccount', ethers.utils.getAddress(accounts[0]))
+        // store.commit('web3/saveAccount', ethers.utils.getAddress(accounts[0]))
         if (refresh)
-        refresh();
+            refresh(accounts[0]);
     })
 }
 
