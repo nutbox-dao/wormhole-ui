@@ -493,7 +493,7 @@ export default {
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      currentStep: 2,
+      currentStep: 1,
       connectLoading: false,
       loading: false,
       receiving: false,
