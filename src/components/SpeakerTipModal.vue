@@ -80,7 +80,7 @@ export default {
   name: "SpeakerTipModal",
   data() {
     return {
-      step: 2,
+      step: 1,
       popUpData: {
         chain: '',
         amount: 0,
