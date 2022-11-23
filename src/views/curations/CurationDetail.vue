@@ -59,8 +59,8 @@
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                      :src="detailCuration && detailCuration.profileImg" alt="">
                 <div class="flex md:flex-col md:justify-center md:items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
-                  <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.twitterName}}</a>
-                  <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.twitterUsername}}</span>
+                  <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
+                  <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
               </div>
               <!--            <div class="ml-3.4rem md:ml-80px mt-1.2rem">-->
@@ -70,12 +70,12 @@
               <!--              </div>-->
               <!--            </div>-->
               <template v-if="contentType==='tweet'">
-                <Blog :post="testData[0]">
+                <Blog :post="detailCuration">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
               <template v-if="contentType==='space'">
-                <Space class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
+                <Space :space="detailCuration" class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
               </template>
             </div>
           </div>
@@ -439,13 +439,12 @@
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
-import { getCurationById, getCurationParticipant } from "@/api/api";
+import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords, getUserByIds, getSpaceInfoById } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
 import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
-import { getCurationInfo, claimReward } from '@/utils/curation'
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
@@ -470,12 +469,18 @@ export default {
       isExpand: false,
       loading1: false,
       loading2: false,
+      loading3: false,
+      loading4: false,
+      loading5: false,
       loading: false,
       participant: [],
+      space: {},
+      popups: [],
       contentType: 'space',
       speakerTipVisible: false,
       createPopUpVisible: false,
-      testData
+      testData,
+      updateInterval: null
     }
   },
   computed: {
@@ -575,33 +580,77 @@ export default {
     gotoUserPage(username) {
         this.$router.push({path : '/account-info/@' + username})
     },
+    updateCurationInfos() {
+      if (this.detailCuration && this.detailCuration.curationId) {
+        const id = this.detailCuration.curationId;
+        // update curation paricipant info
+        getCurationRecord(id).then(res => {
+          console.log('participant', res);
+          this.participant = res ?? []
+        }).catch(console.log).finally(() => {
+          this.loading2 = false
+        })
+
+        // update popup info
+        popupsOfCuration().then(res => {
+          console.log('popups', res);
+          this.popups = res
+        }).catch(console.log).finally(() => {
+          this.loading3 = false
+        })
+
+        // update tip info
+
+
+        // update space host profile
+        if (this.detailCuration.spaceId) {
+          getSpaceInfoById(this.detailCuration.spaceId).then(res => {
+            console.log('space', res);
+            this.space = res
+          }).finally(() => {
+            this.loading5 = false;
+          })
+        }else {
+          this.loading5 = false
+        }
+      }
+    }
   },
   mounted () {
     const id = this.$route.params.id;
     const account = this.getAccountInfo
+    console.log(64, this.detailCuration);
 
     if (this.detailCuration && this.detailCuration.curationId === id) {
-      getCurationInfo(this.detailCuration.curationId).then(res => {
-      }).catch()
+      this.updateCurationInfos()
     }else {
       this.$store.commit('curation/saveDetailCuration', null)
       this.loading1 = true
-      getCurationById(id, account?.twitterId).then(res => {
-        if (res) {
-          this.$store.commit('curation/saveDetailCuration', res)
-        }
-      }).finally(() => {
-        this.loading1 = false
-      })
     }
-
-    this.loading2 = true
-    getCurationParticipant(id).then(res => {
-      this.participant = res ?? []
-    }).catch(console.log).finally(() => {
-      this.loading2 = false
+    getCurationById(id, account?.twitterId).then(res => {
+      console.log(4, res);
+      if (res) {
+        this.updateCurationInfos()
+        this.$store.commit('curation/saveDetailCuration', res)
+      }
+    }).finally(() => {
+      this.loading1 = false
     })
+      this.loading2 = true
+      this.loading3 = true
+      this.loading4 = true
+      this.loading5 = true
+
+    this.updateInterval = setInterval(this.updateCurationInfos, 15000);
   },
+  beforeUnmount () {
+    console.log(6436);
+    clearInterval(this.updateInterval)
+  },
+  unmounted() {
+    console.log(888);
+    clearInterval(this.updateInterval)
+  }
 }
 </script>
 

@@ -106,9 +106,6 @@ export const getCurations = async (status, createTime, twitterId) =>
 export const getCurationById = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationById', {curationId, twitterId})
 
-export const getCurationParticipant = async (curationId, createAt) =>
-    get(BACKEND_API_URL + '/curation/getCurationParticipant', {curationId, createAt})
-
 export const getMyJoinedCurations = async (twitterId, createdTime) =>
     post(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, createdTime})
 
@@ -120,6 +117,20 @@ export const getCurationsOfTweet = async (tweetId) =>
 
 export const getCurationRecord = async (curationId, createAt, isFeed) =>
     get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
+
+/****************************************  popup  ***********************************************/
+export const popupsOfCuration = async (twitterId, curationId) =>
+    get(BACKEND_API_URL + '/popup/popupsOfCuration', {twitterId, curationId})
+
+export const popupRecords = async (tweetId, rowIndex) =>
+    get(BACKEND_API_URL + '/popup/popupRecords', {tweetId, rowIndex})
+
+export const newPopup = async (popup) =>
+    post(BACKEND_API_URL + '/popup/newPopup', popup)
+
+/****************************************  space  ***********************************************/
+export const getSpaceInfoById = async (spaceId) =>
+    get(BACKEND_API_URL + '/space/bySpaceId', {spaceId})
 
 /****************************************  tip  ***********************************************/
 export const tipEVM = async (tip) =>
