@@ -82,56 +82,31 @@
           <div v-if="contentType==='space'"
                class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
                     rounded-15px text-left mt-1rem">
-            <el-collapse class="border-0 no-border-collapse pb-0">
-              <el-collapse-item name="">
-                <template #title>
-                  <el-carousel class="w-full" height="48px" direction="vertical" :autoplay="false" indicator-position="none">
-                    <el-carousel-item v-for="item in 4" :key="item">
-                      <div class="text-white light:text-blueDark px-1.25rem font-bold
-                              flex-1 flex justify-between items-center truncate">
-                        <div class="flex-1 truncate flex items-center">
-                          <i class="w-18px h-18px icon-coin mr-10px"></i>
-                          <span class="flex-1 truncate">
-                            {{item}} ijooo tiped 44 STEEM to @superfactory
-                          </span>
-                        </div>
-                        <span class="block ml-10px">10s</span>
-                      </div>
-                    </el-carousel-item>
-                  </el-carousel>
-
-                </template>
-                <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center"
-                       v-for="i of 3" :key="i">
-                    <div class="flex items-center">
-                      <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-                      <span>username</span>
-                    </div>
-                    <span>144 STEEM</span>
-                  </div>
+            <div class="text-white light:text-blueDark px-1.25rem font-bold h-4rem
+                              flex-1 flex justify-between items-center truncate"
+                 @click="speakerTipVisible=true">
+              <div class="flex-1 truncate flex items-center">
+                <i class="w-18px h-18px icon-coin mr-10px"></i>
+                <span class="flex-1 truncate">
+                  ijooo tiped 44 STEEM to @superfactory
+                </span>
+              </div>
+              <div v-if="taskIsOver"
+                   class="ml-10px border-1 border-color62 h-2rem min-w-4rem flex items-center justify-center
+                          leading-18px rounded-full px-3px">Top3</div>
+            </div>
+            <template v-if="taskIsOver">
+              <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center"
+                   v-for="i of 3" :key="i">
+                <div class="flex items-center">
+                  <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                  <span>username</span>
                 </div>
-              </el-collapse-item>
-            </el-collapse>
-          </div>
-          <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-            <div>
-              <div class="font-bold">📝 Description</div>
-              <div>Our first giveaway event, come and grab your airdrop</div>
-            </div>
-            <div class="flex justify-between items-center py-1rem">
-              <span>🎁 Prize</span>
-              <span>100 USDT</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>📅 Expiration</span>
-              <span>1 DAY 27 MIN 05 S</span>
-            </div>
+                <span>144 STEEM</span>
+              </div>
+            </template>
           </div>
           <template v-if="contentType==='space'">
-            <div class="xl:hidden bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-              <SpeakerCollapse @showTip="speakerTipVisible=true"/>
-            </div>
             <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
               <el-collapse class="border-0 no-border-collapse pb-0">
                 <el-collapse-item name="">
@@ -165,14 +140,14 @@
                           <span class="text-redColor font-bold min-w-4rem">Ened</span>
                           <div class="">
                             <div>Reply on Tweet -></div>
-                            <div class="flex">
-                              <div class="opacity-70 mr-10px">My prize: 8.3     SIL</div>
-                              <div class="opacity-50">all 323 participants >></div>
+                            <div class="flex flex-wrap">
+                              <div class="opacity-70 mr-10px whitespace-nowrap">My prize: 8.3     SIL</div>
+                              <div class="opacity-50 whitespace-nowrap">all 323 participants >></div>
                             </div>
                           </div>
                         </div>
                       </template>
-                      <div class="flex items-center">
+                      <div class="flex whitespace-nowrap items-center justify-end min-w-1/3">
                         <img class="border-1 border-color-62 rounded-full w-1.6rem"
                              src="~@/assets/icon-eth-white.svg" alt="">
                         <span>100 USDT</span>
@@ -201,6 +176,25 @@
               </el-collapse-item>
             </el-collapse>
           </div>
+          <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
+            <div>
+              <div class="font-bold">📝 Description</div>
+              <div>Our first giveaway event, come and grab your airdrop</div>
+            </div>
+            <div class="flex justify-between items-center py-1rem">
+              <span>🎁 Prize</span>
+              <span>100 USDT</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>📅 Expiration</span>
+              <span>1 DAY 27 MIN 05 S</span>
+            </div>
+          </div>
+          <template v-if="contentType==='space'">
+            <div class="xl:hidden bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
+              <SpeakerCollapse @showTip="speakerTipVisible=true"/>
+            </div>
+          </template>
           <!-- Related Curations web -->
           <div class="hidden xl:block py-1rem rounded-15px mt-1rem" v-if="detailCuration && detailCuration.name">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
@@ -481,7 +475,8 @@ export default {
       createPopUpVisible: false,
       testData,
       updateInterval: null,
-      relatedCurations: []
+      relatedCurations: [],
+      taskIsOver: false
     }
   },
   computed: {
