@@ -467,11 +467,11 @@ export default {
       modalVisible: false,
       showSubmissions: false,
       isExpand: false,
-      loading1: false,
-      loading2: false,
-      loading3: false,
-      loading4: false,
-      loading5: false,
+      loading1: false, // curation total
+      loading2: false, // particpant
+      loading3: false, // popups
+      loading4: false, // tips
+      loading5: false, // space info
       loading: false,
       participant: [],
       space: {},
@@ -619,7 +619,6 @@ export default {
   mounted () {
     const id = this.$route.params.id;
     const account = this.getAccountInfo
-    console.log(64, this.detailCuration);
 
     if (this.detailCuration && this.detailCuration.curationId === id) {
       this.updateCurationInfos()
@@ -628,7 +627,7 @@ export default {
       this.loading1 = true
     }
     getCurationById(id, account?.twitterId).then(res => {
-      console.log(4, res);
+      console.log('curation detail: ', res);
       if (res) {
         this.updateCurationInfos()
         this.$store.commit('curation/saveDetailCuration', res)
@@ -644,11 +643,9 @@ export default {
     this.updateInterval = setInterval(this.updateCurationInfos, 15000);
   },
   beforeUnmount () {
-    console.log(6436);
     clearInterval(this.updateInterval)
   },
   unmounted() {
-    console.log(888);
     clearInterval(this.updateInterval)
   }
 }
