@@ -81,10 +81,6 @@ export default {
   name: "CurationItem",
   components: {Blog, Space},
   props: {
-    contentType: {
-      type: String,
-      default: 'tweet'
-    },
     curation: {
       type: Object,
       default: {}
@@ -162,7 +158,7 @@ export default {
     }
   },
   mounted() {
-    this.enableFold = this.$refs.blogRef.clientHeight > 200
+    this.enableFold = this.$refs.blogRef?.clientHeight > 200
   }
 }
 </script>

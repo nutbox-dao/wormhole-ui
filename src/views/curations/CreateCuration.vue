@@ -978,6 +978,11 @@ export default {
         }else {
           pendingCuration = {
             ...curation,
+            ...this.form.space,
+            authorId: this.form.postData.twitterId,
+            authorName: this.form.postData.name,
+            authorUsername: this.form.postData.username,
+            authorProfile: this.form.postData.profileImg,
             amount: curation.amount.toString(),
             twitterId: this.getAccountInfo.twitterId,
             transHash,
@@ -985,7 +990,6 @@ export default {
             chainId: EVM_CHAINS[this.form.chain].id,
             curationType: this.form.category === 'tweet' ? 1 : 2,
             tasks,
-            ...this.form.space,
             hostIds: this.form.host.id ? [this.form.host.id].concat(this.form.coHost ? this.form.coHost.map(h => h.id) : []) : [],
             speakerIds: this.form.speakers ? this.form.speakers.map(s => s.id) : [],
             tweetContent: this.form.postData?.content,
@@ -1009,6 +1013,9 @@ export default {
           this.$router.go('/square')
         }
       } catch (e) {
+        if (e === 'log out') {
+          this.$route.replace('/')
+        }
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
         // postErr('Curation', 'create', `${e}`)
@@ -1032,10 +1039,11 @@ export default {
     },
     onComplete() {
       this.$store.commit('curation/saveDraft', null)
-      this.$router.replace('/curations')
+      this.$router.go(-1)
     }
   },
   async mounted () {
+    this.$router.replace('/')
     if (this.getDraft) {
       this.form = this.getDraft
       this.linkIsVerified = true;
@@ -1065,6 +1073,9 @@ export default {
         this.$store.commit('curation/saveDraft', null);
         this.$store.commit('curation/savePendingTweetCuration', null)
       }catch (err) {
+        if (err === 'log out') {
+           this.$router.replace('/')
+        }
         console.log('upload curation to server fail:', err);
 
       }
