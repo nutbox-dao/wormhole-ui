@@ -374,11 +374,11 @@
             </template>
           </div>
           <!-- Related Curations mobile -->
-          <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="detailCuration && detailCuration.name">
+          <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
             <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                 v-for="i of 3" :key="i">
-              <CurationItem :curation="detailCuration"
+                 v-for="rc of relatedCurations" :key="rc.curationId">
+              <CurationItem :curation="rc"
                             class="bg-blockBg light:bg-white rounded-15px
                                    sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
               </CurationItem>
@@ -439,7 +439,7 @@
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
-import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords, getUserByIds, getSpaceInfoById } from "@/api/api";
+import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords, getSpaceInfoById, getCurationsOfTweet } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
@@ -480,7 +480,8 @@ export default {
       speakerTipVisible: false,
       createPopUpVisible: false,
       testData,
-      updateInterval: null
+      updateInterval: null,
+      relatedCurations: []
     }
   },
   computed: {
@@ -630,6 +631,9 @@ export default {
       console.log('curation detail: ', res);
       if (res) {
         this.updateCurationInfos()
+        getCurationsOfTweet(res.tweetId).then(res => {
+          this.relatedCurations = res ?? []
+        })
         this.$store.commit('curation/saveDetailCuration', res)
       }
     }).finally(() => {
