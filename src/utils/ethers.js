@@ -56,6 +56,7 @@ export const generateBrainKey = (key) => {
               resolve()
           }else{
               console.log('tx fail status:', trx.status);
+              console.log('tx fail status:', trx);
               reject(errCode.TRANSACTION_FAIL)
           }
       }catch(err) {

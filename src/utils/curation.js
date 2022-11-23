@@ -3,7 +3,7 @@ import { u8arryToHex } from './helper'
 import store from '@/store'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
-import { CURATION_CONTRACT, errCode, RPC_NODE } from '@/config'
+import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import curation from '@/store/curation';
 import { refreshToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt } from '@/api/api'
@@ -165,23 +165,22 @@ const abi = [
   /**
    * 
    * @param {*} curation
-   * uint256 id,
-        uint256 endTime,
+   *    uint256 curationId,
+        uint256 endtime,
         address token,
         uint256 amount,
         uint256 topCount,
         uint256 maxCount 
    */
-export const creteNewCuration = async (curation) => {
+export const creteNewCuration = async (chainName, curation) => {
     return new Promise(async (resolve, reject) => {
         try{
+            const curationContract = EVM_CHAINS[chainName].curation
             const metamask = await getEthWeb()
             const provider = new ethers.providers.Web3Provider(metamask)
-            let contract = new ethers.Contract(CURATION_CONTRACT, abi, provider)
+            let contract = new ethers.Contract(curationContract, abi, provider)
             contract = contract.connect(provider.getSigner())
             const {curationId, endtime, token, amount, maxCount} = curation
-
-            console.log(123, curation);
             const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, 30, maxCount)
             await waitForTx(provider, tx.hash)
             resolve(tx.hash)
@@ -192,11 +191,12 @@ export const creteNewCuration = async (curation) => {
     })
 }
 
-export const getCurationInfo = async (curationId) => {
+export const getCurationInfo = async (chainName, curationId) => {
   try {
+    const curationContract = EVM_CHAINS[chainName].curation
     curationId = ethers.BigNumber.from('0x' + curationId);
     const provider = new ethers.providers.JsonRpcProvider(RPC_NODE)
-    let contract = new ethers.Contract(CURATION_CONTRACT, abi, provider)
+    let contract = new ethers.Contract(curationContract, abi, provider)
     const info = await contract.taskInfo(curationId);
     return info;
   } catch (error) {

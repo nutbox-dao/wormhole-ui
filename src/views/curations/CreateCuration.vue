@@ -349,7 +349,7 @@
              class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
-                     :token="form.token"
+                     :token="selectedToken"
                      :amount="form.amount"
                      :chainName="form.chain"
                      :address="form.address"
@@ -407,7 +407,7 @@ export default {
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      currentStep: 2,
+      currentStep: 1,
       connectLoading: false,
       loading: false,
       receiving: false,
@@ -418,6 +418,7 @@ export default {
         endtime: '',
         isLimit: true,
         maxCount: '',
+        tweetId: '',
         description: '',
         token: '',
         amount: '',
@@ -489,6 +490,7 @@ export default {
   methods: {
     formatEmojiText,
     formatAmount,
+
     async checkLink() {
       const link = this.form.link;
       const match = link.match(this.TweetLinRex);
@@ -500,6 +502,8 @@ export default {
         this.checkingTweetLink = true;
         const tweet = await getTweetById(match[1]);
         if (tweet.data) {
+          this.form.tweetId = tweet.data.id
+          this.form.postData = parseTweet(tweet)
           if (this.form.category === 'space') {
             const spaceId = getSpaceIdFromUrls(tweet.data.entities.urls)
             const space = await getSpaceById(spaceId);
@@ -518,7 +522,9 @@ export default {
                 authorProfileImg: author.profile_image_url,
                 spaceTitle: space.data.title,
                 spaceState: space.data.state,
-                scheduledStart: space.data.scheduled_start
+                scheduledStart: space.data.scheduled_start,
+                startedAt: space.data.started_at,
+                authorId: author.id
               }
               this.form.host = {
                 ...author,
@@ -528,7 +534,6 @@ export default {
             }
             this.linkIsVerified = true;
           }else {
-            this.form.postData = parseTweet(tweet)
             this.form.author = this.form.postData;
             this.linkIsVerified = true;
           }
@@ -558,7 +563,7 @@ export default {
       }
     },
     onConfirmSpeaker(data) {
-      if (!data) {
+      if (!data || !data.id) {
         this.addSpeakerVisible = false;
         return;
       }
@@ -737,7 +742,7 @@ export default {
       this.selectedBalance = balance
     },  
     checkRewardData() {
-      if (!this.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
+      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -756,7 +761,6 @@ export default {
     },
     async onSubmit() {
       console.log(26, JSON.stringify(this.form));
-      return 
       if(!this.checkRewardData()) return;
       try{
         this.loading = true
@@ -764,7 +768,6 @@ export default {
           notify({message: this.$t('curation.insuffientBalance'), duration: 5000, type: 'error'})
           return;
         }
-        this.$store.commit('curation/saveDraft', this.form);
 
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
@@ -788,26 +791,68 @@ export default {
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
-          token: this.form.address
+          token: this.form.token
         }
 
-        this.curation = curation
+        let pendingCuration;
 
         // this.currentStep = 3;
         // return;
         // write in contract
-        const hash = await creteNewCuration(curation);
-        const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
+        const transHash = await creteNewCuration(this.form.chain, curation);
+        let tasks = this.form.mandatoryTask === 'quote' ? 1 : 2;
+        tasks = tasks | (this.form.isLike ? 4 : 0);
+        tasks = tasks | (this.form.isFollow ? 8 : 0);
+
+        if (this.form.category === 'tweet' && this.form.createType === 'new') {
+          // create new tweet
+          pendingCuration = {
+            ...curation,
+            amount: curation.amount.toString(),
+            twitterId: this.getAccountInfo.twitterId,
+            transHash,
+            authorId:this.form.author.id,
+            chainId: EVM_CHAINS[this.form.chain].id,
+            tasks,
+            content: 'test'
+          }
+        }else {
+          pendingCuration = {
+            ...curation,
+            amount: curation.amount.toString(),
+            twitterId: this.getAccountInfo.twitterId,
+            transHash,
+            tweetId: this.form.tweetId,
+            chainId: EVM_CHAINS[this.form.chain].id,
+            curationType: this.form.category === 'tweet' ? 1 : 2,
+            tasks,
+            ...this.form.space,
+            hostIds: this.form.host.id ? [this.form.host.id].concat(this.form.coHost ? this.form.coHost.map(h => h.id) : []) : [],
+            speakerIds: this.form.speakers ? this.form.speakers.map(s => s.id) : [],
+            tweetContent: this.form.postData?.content,
+            content: 'test',
+            tags: this.form.postData?.tags,
+          }
+        }
+
+        // const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
         this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
-        // post to backend
-        await newCuration(pendingCuration);
         this.$store.commit('curation/saveDraft', null);
-        this.currentStep = 3;
-        this.$store.commit('curation/savePendingTweetCuration', null)
+        // post to backend
+        if (this.form.category === 'tweet' && this.form.createType === 'new') {
+          await newCuration(pendingCuration);
+          this.curation = pendingCuration
+          this.currentStep = 3;
+          this.$store.commit('curation/savePendingTweetCuration', null)
+        }else {
+          await newCurationWithTweet(pendingCuration);
+          this.$store.commit('curation/savePendingTweetCuration', null)
+          this.$router.go('/square')
+        }
       } catch (e) {
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
-        postErr('Curation', 'create', `${e}`)
+        // postErr('Curation', 'create', `${e}`)
       } finally {
         this.loading = false
         this.modalVisible=false
@@ -838,11 +883,17 @@ export default {
     }
 
     const pendingCuration = this.getPendingTweetCuration;
+    console.log(643, pendingCuration);
     if (pendingCuration && pendingCuration.transHash) {
       try {
-        await newCuration(pendingCuration);
-        this.curation = pendingCuration
-        this.currentStep = 3;
+        if (this.form.category === 'tweet' && this.form.createType === 'new') {
+          await newCuration(pendingCuration);
+          this.curation = pendingCuration
+          this.currentStep = 3;
+        }else {
+          await newCurationWithTweet(pendingCuration);
+        }
+        console.log('Sended the last curation');
         this.$store.commit('curation/saveDraft', null);
         this.$store.commit('curation/savePendingTweetCuration', null)
       }catch (err) {

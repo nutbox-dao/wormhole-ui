@@ -71,6 +71,7 @@ export default {
       this.$emit('close')
     }
     this.tokenInfo = this.amount + ' ' + this.token.symbol;
+    
     getApprovement(this.chainName, this.token.address, this.address, EVM_CHAINS[this.chainName].curation).then(res => {
       console.log(66, res);
       this.approvement = res

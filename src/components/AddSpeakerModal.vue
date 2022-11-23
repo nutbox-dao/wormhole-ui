@@ -77,6 +77,7 @@ export default {
           console.log(253, user)
           if (user.data) {
             this.formData = {
+              id: user.data.id,
               avatar: user.data.profile_image_url.replace('normal', '200x200'),
               name: user.data.name,
               username: user.data.username

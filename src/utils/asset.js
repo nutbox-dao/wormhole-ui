@@ -138,6 +138,7 @@ export async function getERC20TokenBalance(chainName, token, account) {
 }
 
 export async function getApprovement(chainName, token, account, spender) {
+    console.log(236, token, account, spender);
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
         return null
     }

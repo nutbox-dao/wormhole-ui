@@ -44,9 +44,9 @@ export function getTags(tweet) {
             tags.push(tweet.data.entities.hashtags[i].tag);
         }
         if (tags.length > 0) return [...new Set(tags)];// JSON.stringify(tags);
-        return null;
+        return ["iweb3"];
     }
-    return null;
+    return ["iweb3"];
 }
 
 /**
