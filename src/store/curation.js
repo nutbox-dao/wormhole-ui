@@ -4,35 +4,24 @@ import Cookie from 'vue-cookies'
 export default {
     namespaced: true,
     state: {
-        draft: Cookie.get('curation-draft'),
-        // cache the new curations those not send to backend
-        newCurations: [],
+        draft: localStorage.getItem('curation-draft'),
         ongoingList: [],
         endList: [],
         closeList: [],
         detailCuration: {},
         detailRecords: [],
         // cache the created curation which not push to backend
-        pendingTweetCuration: Cookie.get('pending-cache-curation')
+        pendingTweetCuration: localStorage.getItem('pending-cache-curation')
     },
     mutations: {
         saveDraft: (state, draft) => {
-            if (draft) {
-                state.draft = draft;
+            if (draft && Object.keys(draft).length > 0) {
+                state.draft = JSON.stringify(draft);
                 // const draftStr = JSON.stringify(draft)
-                Cookie.set('curation-draft', draft, '2d')
+                localStorage.setItem('curation-draft', state.draft)
             }else {
                 state.draft = null;
-                Cookie.remove('curation-draft');
-            }
-        },
-        saveNewCurations: (state, newCurations) => {
-            if (newCurations) {
-                state.newCurations = newCurations;
-                Cookie.set('new-curations', newCurations, '30d')
-            }else {
-                state.newCurations = [];
-                Cookie.remove('new-curations')
+                localStorage.removeItem('curation-draft');
             }
         },
         saveOngoingList: (state, ongoingList) => {
@@ -51,12 +40,12 @@ export default {
             state.detailRecords = detailRecords
         },
         savePendingTweetCuration: (state, pendingTweetCuration) => {
-            if (pendingTweetCuration) {
-                Cookie.set('pending-cache-curation', pendingTweetCuration, '30d')
-                state.pendingTweetCuration = pendingTweetCuration
+            if (pendingTweetCuration && Object.keys(pendingTweetCuration).length > 0) {
+                state.pendingTweetCuration = JSON.stringify(pendingTweetCuration)
+                localStorage.setItem('pending-cache-curation', state.pendingTweetCuration)
             }else {
-                state.pendingTweetCuration = {};
-                Cookie.remove('pending-cache-curation')
+                state.pendingTweetCuration = null;
+                localStorage.removeItem('pending-cache-curation')
             }
         }
     },
@@ -64,16 +53,30 @@ export default {
         getDraft: (state) => {
             let draft = state.draft;
             if (draft) {
-                return draft
+                if (typeof(draft) === 'string') {
+                    return JSON.parse(draft)
+                }
+                return draft;
+            }else {
+                draft = localStorage.getItem('curation-draft')
+                if (draft)
+                return JSON.parse(draft)
+                return null
             }
-            return null;
         },
         getPendingTweetCuration: (state) => {
             let pendingTweetCuration = state.pendingTweetCuration;
             if (pendingTweetCuration) {
+                if (typeof(pendingTweetCuration) === 'string') {
+                    return JSON.parse(pendingTweetCuration)
+                }
                 return pendingTweetCuration;
+            }else {
+                pendingTweetCuration = localStorage.getItem('pending-cache-curation')
+                if (pendingTweetCuration)
+                return JSON.parse(pendingTweetCuration)
+                return null
             }
-            return null;
         }
     }
 }

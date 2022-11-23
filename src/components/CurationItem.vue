@@ -14,6 +14,7 @@
               <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>
             </div>
             <div class="border-1 border-color7D text-color7D px-10px rounded-full ml-1rem">{{contentTag}}</div>
+            <div class="border-1 border-color7D text-color7D px-10px rounded-full ml-1rem">{{contentType}}</div>
           </div>
           <div class="font-bold text-color62">
             {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
@@ -42,24 +43,24 @@
       </div>
       <div v-if="contentType==='space'"
            class="h-15rem overflow-hidden relative py-10px">
-        <Space class="rounded-15px h-full"/>
+        <Space :space="curation" class="rounded-15px h-full"/>
       </div>
       <div class="flex gap-4rem mt-15px">
         <div v-if="contentTag==='replay'" class="text-white flex items-center">
           <i class="w-18px h-18px icon-msg"></i>
-          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
         </div>
-        <div v-if="contentTag==='forward'" class="text-white flex items-center">
+        <div v-if="contentTag==='quote'" class="text-white flex items-center">
           <i class="w-18px h-18px icon-forward"></i>
-          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
         </div>
-        <div class="flex items-center">
+        <div v-if="(curation.tasks & 4) === 4" class="flex items-center"
+          :disabled="isLiking"
+          @click="like">
           <i class="w-18px h-18px icon-like"></i>
-          <span class="ml-2px font-700 text-white light:text-color7D">0</span>
         </div>
-        <div class="flex items-center">
+        <div v-if="(curation.tasks & 8) === 8" class="flex items-center"
+          :disabled="isFollowing"
+          @click="follow">
           <i class="w-18px h-18px icon-follow"></i>
-          <span class="ml-2px font-700 text-white light:text-color7D"></span>
         </div>
       </div>
 
@@ -92,9 +93,10 @@ export default {
   data () {
     return {
       testData,
-      contentTag: 'replay',
       enableFold: true,
-      isFold: false
+      isFold: false,
+      isLiking: false,
+      isFollowing: false
     }
   },
   computed: {
@@ -102,6 +104,12 @@ export default {
     profileImg() {
       return this.curation.creatorProfileImg
     },
+    contentType() {
+      return this.curation.curationType === 1 ? 'tweet' : 'space'
+    },
+    contentTag() {
+      return (this.curation.tasks & 1 === 1) ? 'quote' : 'replay'
+    },  
     endtime() {
       if (this.curation.curationStatus === 0){
         return parseTimestamp(this.curation.endtime * 1000)
@@ -132,6 +140,24 @@ export default {
     gotoUserPage() {
       if (!this.curation || this.curation.twitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.twitterUsername})
+      }
+    },
+    async like() {
+      try{
+        this.isLiking = true
+      } catch (e) {
+        
+      } finally {
+        this.isLiking = false
+      }
+    },
+    async follow() {
+      try{
+        this.isFollowing = true
+      } catch (e) {
+        
+      } finally {
+        this.isFollowing = false
       }
     }
   },
