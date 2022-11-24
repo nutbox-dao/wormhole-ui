@@ -63,7 +63,7 @@
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       flex items-center px-15px
                       rounded-12px h-40px 2xl:h-2rem">
-            <img class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
+            <img class="h-22px mr-15px rounded-full" src="~@/assets/steem.png" alt="">
             <span class="text-color8B text-15px">Steem</span>
           </div>
           <button v-else class="w-full border-1 bg-black/40 border-1 border-color8B/30
