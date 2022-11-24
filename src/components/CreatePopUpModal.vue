@@ -11,49 +11,25 @@
                 light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                 rounded-12px h-40px 2xl:h-2rem">
       <input class="bg-transparent h-full w-full px-0.5rem"
-             v-model="popUpData.maxReward"
+             v-model="form.maxReward"
              type="number"
              placeholder="">
       <span class="whitespace-nowrap px-10px">limited 100</span>
     </div>
-    <div class="flex justify-between items-center mt-2rem">
-      <span class="c-text-black">Chain</span>
-    </div>
-    <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-40px 2xl:h-2rem">
-      <el-select v-model="popUpData.chain" class="w-full" size="large">
-        <el-option
-            v-for="item in chainOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
-      </el-select>
-    </div>
-    <div class="flex justify-between items-center mt-2rem">
-      <span class="c-text-black">Amount</span>
-    </div>
-    <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-40px 2xl:h-2rem">
-      <input class="bg-transparent h-full w-full px-0.5rem flex-1"
-             v-model="popUpData.maxReward"
-             type="number"
-             placeholder="">
-      <div class="h-20px 2xl:h-1.5rem w-1px bg-color7D"></div>
-      <el-select v-model="popUpData.token" class="w-1/5" size="large">
-        <el-option
-            v-for="item in tokenOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
-      </el-select>
-    </div>
-    <div class="text-right">Balance: 65.32 BUSD ($700.92 USD)</div>
+    <AssetsOptions :chain="form.chain"
+                   :address="form.address"
+                   :token="form.token"
+                   :showsteem="false"
+                   @chainChange="selectChain"
+                   @tokenChagne="selectToken"
+                   @addressChange="selectAddress"
+                   @balanceChange="selectBalance">
+      <template #amount>
+        <input class="bg-transparent h-full w-full px-0.5rem"
+               v-model="form.amount"
+               type="number" :placeholder="$t('curation.inputRewardsAmount')">
+      </template>
+    </AssetsOptions>
     <div class="text-center mt-2rem">
       <button class="gradient-btn h-3.6rem w-1/3 rounded-full">Send</button>
     </div>
@@ -61,23 +37,38 @@
 </template>
 
 <script>
+import AssetsOptions from "@/components/AssetsOptions";
 export default {
   name: "CreatePopUpModal",
+  components: {AssetsOptions},
   data() {
     return {
       stepType: 'createContent',
-      popUpData: {
+      form: {
         maxReward: 10,
-        chain: 'ethereum',
-        token: 'eth',
+        chain: '',
+        address: '',
+        token: '',
         amount: 0
       },
-      chainOptions: [
-          {label: 'Ethereum', value: 'ethereum'},
-          {label: 'BSC', value: 'bsc'}
-      ],
-      tokenOptions: [{label: 'Eth', value: 'eth'}]
+      selectedToken: {},
+      selectedBalance: ''
     }
+  },
+  methods: {
+    selectChain(chain){
+      this.form.chain = chain
+    },
+    selectAddress(address) {
+      this.form.address = address
+    },
+    selectToken(token) {
+      this.selectedToken = token;
+      this.form.token = token.address;
+    },
+    selectBalance(balance) {
+      this.selectedBalance = balance
+    },
   }
 }
 </script>

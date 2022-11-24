@@ -111,11 +111,28 @@
               <el-collapse class="border-0 no-border-collapse pb-0">
                 <el-collapse-item name="">
                   <template #title>
-                    <div class="flex-1">
-                      <div class="text-white light:text-blueDark px-1.25rem font-bold
+                    <div class="px-1.25rem pb-1rem w-full">
+                      <div class="flex-1">
+                        <div class="text-white light:text-blueDark font-bold
                               flex-1 flex justify-between items-center truncate">
-                        🎉    Pop-Ups
+                          🎉    Pop-Ups
+                        </div>
                       </div>
+                      <div class="flex justify-between items-center leading-2rem mb-0.5rem" v-for="i of 2" :key="i">
+                        <div class="flex-1 flex items-center">
+                          <div class="text-color8B font-bold min-w-4rem">04:38</div>
+                          <div class="text-white">Reply on Tweet -></div>
+                        </div>
+                        <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
+                          <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
+                               src="~@/assets/icon-eth-white.svg" alt="">
+                          <span>100 USDT</span>
+                        </div>
+                      </div>
+                      <button class="bg-color62 w-full rounded-15px h-2.5rem leading-2rem text-white"
+                              @click.stop="createPopUpVisible=true">
+                        Click to add
+                      </button>
                     </div>
                   </template>
                   <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
@@ -153,7 +170,6 @@
                         <span>100 USDT</span>
                       </div>
                     </div>
-                    <button class="bg-color62 w-full rounded-15px h-2.5rem">Click to add</button>
                   </div>
                 </el-collapse-item>
               </el-collapse>
