@@ -8,9 +8,10 @@
             👧🏻 Speakers
           </div>
           <div class="flex flex-wrap px-1.25rem pb-1rem gap-1rem overflow-hidden header-avatar">
-            <div v-for="i of list" :key="i" class="w-4rem">
-              <img class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
-              <div class="w-4rem text-color8B mt-0.5rem leading-1rem truncate">Supermonday</div>
+            <div v-for="u of allUsers" :key="'host' + u.twitterId" class="w-4rem">
+              <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
+              <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+              <div class="w-4rem text-color8B mt-0.5rem leading-1rem truncate">{{u.name}}</div>
             </div>
           </div>
         </div>
@@ -19,17 +20,24 @@
         <div class="text-1.2rem c-text-black my-6px">Host</div>
         <div class="flex justify-between items-center">
           <div class="flex items-center py-5px">
-            <img class="w-2.5rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span>Supermonday</span>
+            <img v-if="host.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(host.profileImg)" alt="">
+            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+            <span>{{host.name}}</span>
+          </div>
+          <div class="flex items-center py-5px" v-for="u of coHosts" :key="'co' + u.twitterId">
+            <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
+            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+            <span>{{u.name}}</span>
           </div>
           <button class="border-1 border-color62 px-1rem rounded-full text-color62"
                   @click="$emit('showTip')">Tip</button>
         </div>
         <div class="text-1.2rem c-text-black my-6px">Speaker</div>
-        <div class="flex justify-between items-center" v-for="i of list" :key="i">
+        <div class="flex justify-between items-center" v-for="u of speakers" :key="'speaker' + u.twitterId">
           <div class="flex items-center py-5px">
-            <img class="w-2.5rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span>Supermonday</span>
+            <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
+            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+            <span>{{u.name}}</span>
           </div>
           <button class="border-1 border-color62 px-1rem rounded-full text-color62"
                   @click="$emit('showTip')">Tip</button>
@@ -43,13 +51,32 @@
 export default {
   name: "SpeakerCollapse",
   props: {
-    list: {
-      type: Array,
-      default: () => {
-        return [1, 2, 3, 4]
-      }
+    space: {
+      type: Object,
+      default: {}
     }
-  }
+  },
+  data() {
+    return {
+      allUsers: [],
+      host: {},
+      coHosts: [],
+      speakers: []
+    }
+  },
+  methods: {
+    avatar(url) {
+      return url.replace('normal', '200x200')
+    }
+  },
+  mounted () {
+    if (this.space.hosts && this.space.hosts.length > 0) {
+      this.host = this.space.hosts.find(h => h.twitterId === this.space.creatorId)
+      this.coHosts = this.space.hosts.filter(h => h.twitterId !== this.space.creatorId);
+      this.speakers = this.space.speakers ?? [];
+      this.allUsers = [this.host].concat(this.coHosts).concat(this.speakers)
+    };
+  },
 }
 </script>
 
