@@ -5,12 +5,12 @@
       <div>You can send tips directly to any twitter account, regardless he/she has a wallet or not</div>
       <div class="c-text-black mt-2rem">Host</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center">
+        <div class="flex items-center" @click="tip(host)">
           <img v-if="host.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(host.profileImg)" alt="">
           <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
           <span>{{host.name}}</span>
         </div>
-        <div class="flex items-center" v-for="u of coHosts" :key="i" @click="step=2">
+        <div class="flex items-center" v-for="u of coHosts" :key="i" @click="tip(u)">
           <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
           <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
           <span>{{u.name}}</span>
@@ -18,7 +18,7 @@
       </div>
       <div class="c-text-black mt-2rem">Speakers</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center" v-for="s of speakers" :key="s" @click="step=2">
+        <div class="flex items-center" v-for="s of speakers" :key="s" @click="tip(s)">
           <img v-if="s.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(s.profileImg)" alt="">
           <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
           <span>{{s.name}}</span>
@@ -26,10 +26,10 @@
       </div>
     </template>
     <template v-if="step===2">
-      <AssetsOptions :chain="form.chain"
-                     :address="form.address"
-                     :token="form.token"
-                     :showsteem="false"
+      <div>To @{{tipToUser.username}}</div>
+      <AssetsOptions :chain="'steem'"
+                     :showEvm="!!tipToUser.ethAddress"
+                     :showsteem="true"
                      @chainChange="selectChain"
                      @tokenChagne="selectToken"
                      @addressChange="selectAddress"
@@ -44,8 +44,10 @@
         <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" @click="step=1">
           back
         </button>
-        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem">
-          Tweet and Send
+        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" 
+          @click="send"
+          :disabled="form.amount>selectedBalance || form.amount === 0">
+          Send
         </button>
       </div>
     </template>
@@ -53,7 +55,13 @@
 </template>
 
 <script>
+import { EVM_CHAINS, TWITTER_MONITOR_RULE } from '@/config'
 import AssetsOptions from "@/components/AssetsOptions";
+import { mapGetters } from "vuex";
+import { sendTokenToUser } from '@/utils/asset'
+import { tipEVM } from '@/utils/curation'
+import { ethers } from 'ethers';
+
 export default {
   name: "SpeakerTipModal",
   props: {
@@ -61,6 +69,17 @@ export default {
       type: Object,
       default: {}
     },
+    // Parent tweet id, need to comment to this tweet if chose tip steem
+    parentTweetId: {
+      type: String
+    }
+  },
+  components: {
+    AssetsOptions,
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['getPendingTip']),
   },
   data() {
     return {
@@ -74,6 +93,7 @@ export default {
         token: '',
         amount: 0
       },
+      tipToUser: {},
       selectedToken: {},
       selectedBalance: ''
     }
@@ -88,8 +108,17 @@ export default {
       this.host = this.space.hosts.find(h => h.twitterId === this.space.creatorId)
       this.coHosts = this.space.hosts.filter(h => h.twitterId !== this.space.creatorId);
       this.speakers = this.space.speakers;
-      console.log(3, this.speakers, this.space.speakers);
     };
+
+    const pendingTip = this.getPendingTip;
+    console.log(72, pendingTip);
+    if (pendingTip) {
+      tipEVM(pendingTip).then(res => {
+        this.$store.commit('curation/savePendingTip', null)
+      }).catch(e => {
+        console.log('upload cache tip fail:', e);
+      })
+    }
   },
 }
 </script>

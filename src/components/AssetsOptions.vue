@@ -11,10 +11,13 @@
           <template v-if="showsteem">
             <el-option label="Steem" value="steem"></el-option>
             <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
+            <div v-if="!showEvm" class="">
+              The target twitter user not register wormhole3
+            </div>
           </template>
           <el-option
               v-for="item of Object.keys(EVM_CHAINS)"
-              :disabled="false"
+              :disabled="!showEvm"
               :key="item"
               :label="item"
               :value="item"
@@ -55,7 +58,7 @@
           <slot name="amount"></slot>
         </div>
         <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
-          <div v-if="chain==='steem'"
+          <div v-if="selectedChainName==='steem'"
                class="w-full border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       flex items-center px-15px
@@ -155,6 +158,10 @@ export default {
       type: String,
       default: ''
     },
+    showEvm: {
+      type: Boolean,
+      default: true
+    },  
     address: {
       type: String,
       default: ''
@@ -230,7 +237,7 @@ export default {
       if(chain==='steem') {
         this.$emit('chainChange', chain)
         this.selectBalance = (await getSteemBalance(this.getAccountInfo.steemId)).steemBalance;
-        this.$emit('changeBalance', this.selectBalance)
+        this.$emit('balanceChange', this.selectBalance)
         return
       }
       this.connectLoading = true

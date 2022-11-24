@@ -429,7 +429,7 @@
         <div class="w-max p-1rem ml-auto mr-0" @click="speakerTipVisible=false">
           <i class="w-1.2rem h-1.2rem icon-close"></i>
         </div>
-        <SpeakerTipModal :space="space"/>
+        <SpeakerTipModal :space="space" :parentTweetId="detailCuration.tweetId" @close="speakerTipVisible=false"/>
       </div>
     </el-dialog>
     <el-dialog v-model="createPopUpVisible"
