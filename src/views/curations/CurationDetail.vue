@@ -91,7 +91,7 @@
                   ijooo tiped 44 STEEM to @superfactory
                 </span>
               </div>
-              <div v-if="taskIsOver"
+              <div
                    class="ml-10px border-1 border-color62 h-2rem min-w-4rem flex items-center justify-center
                           leading-18px rounded-full px-3px">Top3</div>
             </div>
@@ -192,7 +192,7 @@
           </div>
           <template v-if="contentType==='space'">
             <div class="xl:hidden bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-              <SpeakerCollapse @showTip="speakerTipVisible=true"/>
+              <SpeakerCollapse :space="space" @showTip="speakerTipVisible=true"/>
             </div>
           </template>
           <!-- Related Curations web -->
@@ -413,7 +413,7 @@
         <div class="w-max p-1rem ml-auto mr-0" @click="speakerTipVisible=false">
           <i class="w-1.2rem h-1.2rem icon-close"></i>
         </div>
-        <SpeakerTipModal/>
+        <SpeakerTipModal :space="space"/>
       </div>
     </el-dialog>
     <el-dialog v-model="createPopUpVisible"
@@ -433,7 +433,8 @@
 <script>
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
-import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords, getSpaceInfoById, getCurationsOfTweet } from "@/api/api";
+import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
+   getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List } from "@/config";
@@ -470,6 +471,8 @@ export default {
       participant: [],
       space: {},
       popups: [],
+      tips: [],
+      topTips: [],
       contentType: 'space',
       speakerTipVisible: false,
       createPopUpVisible: false,
@@ -588,7 +591,7 @@ export default {
         })
 
         // update popup info
-        popupsOfCuration().then(res => {
+        popupsOfCuration(id).then(res => {
           console.log('popups', res);
           this.popups = res
         }).catch(console.log).finally(() => {
@@ -596,7 +599,10 @@ export default {
         })
 
         // update tip info
-
+        getAllTipsOfCuration(id).then(res => {
+          console.log('tips:', res);
+          this.tips = res
+        })
 
         // update space host profile
         if (this.detailCuration.spaceId) {
@@ -625,11 +631,11 @@ export default {
     getCurationById(id, account?.twitterId).then(res => {
       console.log('curation detail: ', res);
       if (res) {
-        this.updateCurationInfos()
         getCurationsOfTweet(res.tweetId).then(res => {
           this.relatedCurations = res ?? []
         })
         this.$store.commit('curation/saveDetailCuration', res)
+        this.updateCurationInfos()
       }
     }).finally(() => {
       this.loading1 = false

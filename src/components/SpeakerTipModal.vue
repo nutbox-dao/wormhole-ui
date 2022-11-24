@@ -5,16 +5,23 @@
       <div>You can send tips directly to any twitter account, regardless he/she has a wallet or not</div>
       <div class="c-text-black mt-2rem">Host</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center" v-for="i of 2" :key="i" @click="step=2">
-          <img class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-          <span>name</span>
+        <div class="flex items-center">
+          <img v-if="host.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(host.profileImg)" alt="">
+          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+          <span>{{host.name}}</span>
+        </div>
+        <div class="flex items-center" v-for="u of coHosts" :key="i" @click="step=2">
+          <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
+          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+          <span>{{u.name}}</span>
         </div>
       </div>
       <div class="c-text-black mt-2rem">Speakers</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center" v-for="i of 4" :key="i" @click="step=2">
-          <img class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-          <span>name</span>
+        <div class="flex items-center" v-for="s of speakers" :key="s" @click="step=2">
+          <img v-if="s.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(s.profileImg)" alt="">
+          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+          <span>{{s.name}}</span>
         </div>
       </div>
     </template>
@@ -78,9 +85,18 @@
 <script>
 export default {
   name: "SpeakerTipModal",
+  props: {
+    space: {
+      type: Object,
+      default: {}
+    },
+  },
   data() {
     return {
       step: 1,
+      host: {},
+      coHosts: [],
+      speakers:[],
       popUpData: {
         chain: '',
         amount: 0,
@@ -95,7 +111,20 @@ export default {
           {label: 'Steem', value: 'steem'}
       ]
     }
-  }
+  },
+  methods: {
+    avatar(url) {
+      return url.replace('normal', '200x200')
+    }
+  },
+  mounted () {
+    if (this.space.hosts && this.space.hosts.length > 0) {
+      this.host = this.space.hosts.find(h => h.twitterId === this.space.creatorId)
+      this.coHosts = this.space.hosts.filter(h => h.twitterId !== this.space.creatorId);
+      this.speakers = this.space.speakers;
+      console.log(3, this.speakers, this.space.speakers);
+    };
+  },
 }
 </script>
 
