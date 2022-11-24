@@ -63,12 +63,6 @@
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
               </div>
-              <!--            <div class="ml-3.4rem md:ml-80px mt-1.2rem">-->
-              <!--              &lt;!&ndash; <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div> &ndash;&gt;-->
-              <!--              <div class="text-color8B light:text-color7D font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"-->
-              <!--                   v-html="formatEmojiText(content)">-->
-              <!--              </div>-->
-              <!--            </div>-->
               <template v-if="contentType==='tweet'">
                 <Blog :post="detailCuration">
                   <template #bottom-btn-bar><div></div></template>
@@ -180,17 +174,36 @@
             <el-collapse class="border-0 no-border-collapse pb-0">
               <el-collapse-item name="">
                 <template #title>
-                  <div class="flex-1 text-white light:text-blueDark px-1.25rem font-bold text-color62">
-                    <span>Requirments</span>
+                  <div class="flex-1 flex justify-between items-center text-white
+                              light:text-blueDark px-1.25rem font-bold">
+                    <div>
+                      <span class="c-text-black mr-6px">0/3</span>
+                      <span>Quote to Earn</span>
+                    </div>
+                    <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
+                      <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
+                           src="~@/assets/icon-eth-white.svg" alt="">
+                      <span>100 USDT</span>
+                    </div>
                   </div>
                 </template>
                 <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isQuote?'icon-checked':'icon-msg'"></i>
+                    <span>Click to Quote</span>
+                  </div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isLike?'icon-checked':'icon-like'"></i>
+                    <span>Like (or Verify your Like)</span>
+                  </div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isFollow?'icon-checked':'icon-follow'"></i>
+                    <span>Follow @user (or Verify your Follow)</span>
+                  </div>
                 </div>
               </el-collapse-item>
             </el-collapse>
+
           </div>
           <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
             <div>
@@ -492,7 +505,10 @@ export default {
       testData,
       updateInterval: null,
       relatedCurations: [],
-      taskIsOver: false
+      taskIsOver: false,
+      isQuote: false,
+      isLike: false,
+      isFollow:false
     }
   },
   computed: {
