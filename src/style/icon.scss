@@ -137,3 +137,7 @@
   background-image: url("~@/assets/icon-wallet-light.svg");
 }
 
+.icon-checked {
+  @extend .icon;
+  background-image: url("~@/assets/icon-success-green.svg");
+}
