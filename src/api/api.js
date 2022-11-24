@@ -134,7 +134,7 @@ export const getSpaceInfoById = async (spaceId) =>
 
 /****************************************  tip  ***********************************************/
 export const tipEVM = async (tip) =>
-    post(BACKEND_API_URL + '/tip/tip', {tip})
+    post(BACKEND_API_URL + '/tip/tip', tip)
 
 export const getAllTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/tipsByCurationId', {curationId})
