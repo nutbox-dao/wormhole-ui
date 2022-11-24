@@ -884,7 +884,6 @@ export default {
     }
   },
   async mounted () {
-    this.$router.replace('/')
     if (this.getDraft) {
       this.form = this.getDraft
       this.linkIsVerified = true;

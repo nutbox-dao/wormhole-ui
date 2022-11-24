@@ -6,7 +6,7 @@ import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import curation from '@/store/curation';
 import { refreshToken, logout } from '@/utils/account'
-import { newCuration as nc, newCurationWithTweet as ncwt } from '@/api/api'
+import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te } from '@/api/api'
 
 const abi = [
     {
@@ -247,6 +247,12 @@ export const newCuration = async (curation) => {
   await checkAccessToken();
   const tweets = await nc(curation)
   return tweets;
+}
+
+export const tipEVM = async (tip) => {
+  await checkAccessToken();
+  const result = await te(tip)
+  return result;
 }
 
 async function checkAccessToken() {

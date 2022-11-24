@@ -11,7 +11,9 @@ export default {
         detailCuration: {},
         detailRecords: [],
         // cache the created curation which not push to backend
-        pendingTweetCuration: localStorage.getItem('pending-cache-curation')
+        pendingTweetCuration: localStorage.getItem('pending-cache-curation'),
+        pendingTip: localStorage.getItem('pending-cache-tip'),
+        pendingPopup: localStorage.getItem('pending-cache-popup')
     },
     mutations: {
         saveDraft: (state, draft) => {
@@ -47,6 +49,24 @@ export default {
                 state.pendingTweetCuration = null;
                 localStorage.removeItem('pending-cache-curation')
             }
+        },
+        savePendingTip: (state, pendingTip) => {
+            if (pendingTip && Object.keys(pendingTip).length > 0) {
+                state.pendingTip = JSON.stringify(pendingTip)
+                localStorage.setItem('pending-cache-tip', state.pendingTip)
+            }else {
+                state.pendingTip = null;
+                localStorage.removeItem('pending-cache-tip')
+            }
+        },
+        savePendingPopup: (state, pendingPopup) => {
+            if (pendingPopup && Object.keys(pendingPopup).length > 0) {
+                state.pendingPopup = JSON.stringify(pendingPopup)
+                localStorage.setItem('pending-cache-popup', state.pendingPopup)
+            }else {
+                state.pendingPopup = null;
+                localStorage.removeItem('pending-cache-popup')
+            }
         }
     },
     getters: {
@@ -75,6 +95,34 @@ export default {
                 pendingTweetCuration = localStorage.getItem('pending-cache-curation')
                 if (pendingTweetCuration)
                 return JSON.parse(pendingTweetCuration)
+                return null
+            }
+        },
+        getPendingTip: (state) => {
+            let pendingTip = state.pendingTip;
+            if (pendingTip) {
+                if (typeof(pendingTip) === 'string') {
+                    return JSON.parse(pendingTip)
+                }
+                return pendingTip;
+            }else {
+                pendingTip = localStorage.getItem('pending-cache-tip')
+                if (pendingTip)
+                    return JSON.parse(pendingTip)
+                return null
+            }
+        },
+        getPendingPopup: (state) => {
+            let pendingPopup = state.pendingPopup;
+            if (pendingPopup) {
+                if (typeof(pendingPopup) === 'string') {
+                    return JSON.parse(pendingPopup)
+                }
+                return pendingPopup;
+            }else {
+                pendingPopup = localStorage.getItem('pending-cache-popup')
+                if (pendingPopup)
+                return JSON.parse(pendingPopup)
                 return null
             }
         }

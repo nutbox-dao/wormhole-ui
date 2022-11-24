@@ -138,7 +138,6 @@ export async function getERC20TokenBalance(chainName, token, account) {
 }
 
 export async function getApprovement(chainName, token, account, spender) {
-    console.log(236, token, account, spender);
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
         return null
     }
@@ -205,6 +204,42 @@ export async function approve(token, account, spender) {
     const tx = await contract.approve(spender, ethers.constants.MaxUint256);
     await waitForTx(provider, tx.hash)
     return true;
+}
+
+export async function sendTokenToUser(token, amount, to) {
+    console.log(35, token, amount, to);
+    const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }]
+    const metamask = await getEthWeb()
+    const provider = new ethers.providers.Web3Provider(metamask);
+    let contract = new ethers.Contract(token.address, abi, provider);
+    contract = contract.connect(provider.getSigner())
+
+    const tx = await contract.transfer(to, ethers.utils.parseUnits(amount.toString(), token.decimals));
+    await waitForTx(provider, tx.hash);
+    return tx.hash;
 }
 
 export async function getStellarTreks(address) {
