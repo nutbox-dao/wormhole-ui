@@ -75,12 +75,12 @@
                 </Blog>
               </template>
               <template v-if="contentType==='space'">
-                <Space :space="detailCuration" class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
+                <Space :space="space" class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
               </template>
             </div>
           </div>
-          <div v-if="contentType==='space'"
-               class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
+          <!-- tips -->
+          <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
                     rounded-15px text-left mt-1rem">
             <div class="text-white light:text-blueDark px-1.25rem font-bold h-4rem
                               flex-1 flex justify-between items-center truncate"
@@ -106,7 +106,8 @@
               </div>
             </template>
           </div>
-          <template v-if="contentType==='space'">
+          <!-- popups -->
+          <template v-if="contentType==='space' && space.spaceState > 1">
             <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
               <el-collapse class="border-0 no-border-collapse pb-0">
                 <el-collapse-item name="">
@@ -317,71 +318,6 @@
                      src="~@/assets/icon-question-white.svg" alt=""> -->
               </div>
             </div>
-          </div>
-          <!-- operate button -->
-          <div v-if="!getAccountInfo || !getAccountInfo.twitterId" class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
-                      fixed bottom-2rem left-0 right-0 z-2001
-                      sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
-                      flex sm:flex-col justify-between items-start sm:items-center">
-              <div class="flex-1 w-full text-center">
-                <button class="flex items-center justify-center gradient-btn
-                   gradient-btn-shadow h-2.7rem px-1rem mx-auto
-                   rounded-full c-text-black text-1.2rem xl:w-full"
-                        @click="$router.push('/login')">
-                  {{$t('signIn')}}
-                </button>
-              </div>
-          </div>
-          <div v-else-if="detailCuration.createStatus === 0">
-          </div>
-          <div v-else class="xl:mt-2rem px-6px xl:relative xl:bottom-0 xl:w-full
-                      fixed bottom-2rem left-0 right-0 z-2001
-                      sm:inset-x-auto sm:left-1/2 sm:transform sm:-translate-x-1/2
-                      flex sm:flex-col justify-between items-start sm:items-center">
-            <template v-if="btnStatus===0">
-              <div class="flex-1 w-full text-center">
-                <button class="flex items-center justify-center gradient-btn
-                   gradient-btn-shadow h-2.7rem px-1rem mx-auto
-                   rounded-full c-text-black text-1.2rem xl:w-full"
-                        @click="modalVisible=true">
-                  {{$t('curation.attendCuration')}}
-                </button>
-              </div>
-            </template>
-            <template v-if="btnStatus===1">
-              <button class="flex items-center justify-center gradient-btn xl:mb-10px
-                             gradient-btn-shadow h-2.7rem px-1rem
-                             rounded-full c-text-black text-1.2rem xl:w-full"
-                      disabled
-                      @click="modalVisible=true">
-                {{$t('curation.attended')}}
-              </button>
-              <div class="text-color8B c-text-black text-14px 2xl:text-1rem h-2.7rem flex items-center">
-                {{$t('curation.toBeReward')}}
-              </div>
-            </template>
-            <template v-if="btnStatus===2">
-              <div class="text-color8B c-text-black text-14px 2xl:text-1rem w-full">
-                {{$t('curation.unattend')}}
-              </div>
-            </template>
-            <template v-if="btnStatus===3">
-              <button class="flex items-center justify-center gradient-btn
-                             gradient-btn-shadow h-2.7rem px-1rem
-                             rounded-full c-text-black text-1.2rem xl:w-full"
-                      disabled
-                      @click="modalVisible=true">
-                      {{$t('curation.attended')}}
-              </button>
-              <div class="flex items-end justify-between flex-col sm:flex-row sm:items-center xl:w-full xl:mt-20px">
-                <span class="text-color8B c-text-black text-14px 2xl:text-0.75rem whitespace-nowrap">
-                  {{$t('curation.reward')}} ({{detailCuration ? detailCuration.tokenSymbol : ''}})
-                </span>
-                <span class="c-text-black text-primaryColor text-24px leading-36px 2xl:text-1.2rem 2xl:leading-2rem ml-1rem">
-                  {{ formatAmount(detailCuration ? ((detailCuration.joined ?? 0) / (10 ** (detailCuration.decimals ?? 18))) : 0) }}
-                </span>
-              </div>
-            </template>
           </div>
           <!-- Related Curations mobile -->
           <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
