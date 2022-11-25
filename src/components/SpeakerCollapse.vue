@@ -76,7 +76,6 @@ export default {
       this.speakers = this.space.speakers ?? [];
       this.allUsers = [this.host].concat(this.coHosts).concat(this.speakers)
     };
-    console.log(2, this.allUsers, this.coHosts, this.space.hosts);
   },
 }
 </script>

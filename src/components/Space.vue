@@ -12,7 +12,8 @@
       </div>
     </div>
     <div class="text-left font-bold text-1.2rem">{{ space.spaceTitle }}</div>
-    <button class="bg-color62/30 h-2.5rem w-full rounded-full font-bold">{{ stateMap[space.spaceState] }}</button>
+    <button class="bg-color62/30 h-2.5rem w-full rounded-full font-bold"
+      @click="gotoSpace">{{ stateMap[space.spaceState] }}</button>
   </div>
 </template>
 
@@ -38,6 +39,9 @@ export default {
   methods: {
     gotoUserPage() {
     },
+    gotoSpace () {
+      window.open('https://twitter.com/i/spaces/' + this.space.spaceId)
+    }
   }
 }
 </script>
