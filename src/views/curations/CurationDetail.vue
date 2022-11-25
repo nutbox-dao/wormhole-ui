@@ -63,12 +63,6 @@
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
               </div>
-              <!--            <div class="ml-3.4rem md:ml-80px mt-1.2rem">-->
-              <!--              &lt;!&ndash; <div class="font-600 text-1rem mb-0.6rem">{{$t('curation.description')}}</div> &ndash;&gt;-->
-              <!--              <div class="text-color8B light:text-color7D font-400 text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem whitespace-pre-line"-->
-              <!--                   v-html="formatEmojiText(content)">-->
-              <!--              </div>-->
-              <!--            </div>-->
               <template v-if="contentType==='tweet'">
                 <Blog :post="detailCuration">
                   <template #bottom-btn-bar><div></div></template>
@@ -82,29 +76,34 @@
           <!-- tips -->
           <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
                     rounded-15px text-left mt-1rem">
-            <div class="text-white light:text-blueDark px-1.25rem font-bold h-4rem
+            <el-collapse class="border-0 no-border-collapse pb-0">
+              <el-collapse-item name="tip">
+                <template #title>
+                  <div class="text-white light:text-blueDark px-1.25rem font-bold
                               flex-1 flex justify-between items-center truncate"
-                 @click="speakerTipVisible=true">
-              <div class="flex-1 truncate flex items-center">
-                <i class="w-18px h-18px icon-coin mr-10px"></i>
-                <span class="flex-1 truncate">
-                  ijooo tiped 44 STEEM to @superfactory
-                </span>
-              </div>
-              <div
-                   class="ml-10px border-1 border-color62 h-2rem min-w-4rem flex items-center justify-center
-                          leading-18px rounded-full px-3px">Top3</div>
-            </div>
-            <template v-if="taskIsOver">
-              <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center"
-                   v-for="i of 3" :key="i">
-                <div class="flex items-center">
-                  <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-                  <span>username</span>
+                       @click.stop="speakerTipVisible=true">
+                    <el-carousel class="w-full"
+                                 height="48px" indicator-position="none" :loop="false"
+                                 direction="vertical" :autoplay="true"
+                                 :interval="1000">
+                      <el-carousel-item v-for="item in 12" :key="item">
+                        <div>{{item}}</div>
+                      </el-carousel-item>
+                    </el-carousel>
+                    <div class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
+                              leading-18px rounded-full px-3px">Top3</div>
+                  </div>
+                </template>
+                <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
+                     v-for="i of 3" :key="i">
+                  <div class="flex items-center">
+                    <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                    <span>username</span>
+                  </div>
+                  <span>144 STEEM</span>
                 </div>
-                <span>144 STEEM</span>
-              </div>
-            </template>
+              </el-collapse-item>
+            </el-collapse>
           </div>
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
@@ -181,17 +180,46 @@
             <el-collapse class="border-0 no-border-collapse pb-0">
               <el-collapse-item name="">
                 <template #title>
-                  <div class="flex-1 text-white light:text-blueDark px-1.25rem font-bold text-color62">
-                    <span>Requirments</span>
+                  <div class="flex-1 flex justify-between items-center text-white
+                              light:text-blueDark px-1.25rem font-bold">
+                    <div>
+                      <span class="c-text-black mr-6px">0/3</span>
+                      <span>Quote to Earn</span>
+                    </div>
+                    <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
+                      <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
+                           src="~@/assets/icon-eth-white.svg" alt="">
+                      <span>100 USDT</span>
+                    </div>
                   </div>
                 </template>
                 <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30">Quote this tweet</div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isQuote?'icon-checked':'icon-msg'"></i>
+                    <span>Click to Quote</span>
+                  </div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isLike?'icon-checked':'icon-like'"></i>
+                    <span>Like (or Verify your Like)</span>
+                  </div>
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isFollow?'icon-checked':'icon-follow'"></i>
+                    <span>Follow @user (or Verify your Follow)</span>
+                  </div>
                 </div>
               </el-collapse-item>
             </el-collapse>
+            <div class="w-full h-1px bg-color8B/30"></div>
+            <div class="flex items-center justify-between px-1.25rem py-1rem">
+              <span>💃🏼 Participants</span>
+              <div class="flex items-center">
+                <div class="-ml-7px" v-for="i of 4" :key="i">
+                  <img class="w-1.6rem"
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+                </div>
+                <button class="ml-10px" @click="showSubmissions=true">All participants >></button>
+              </div>
+            </div>
           </div>
           <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
             <div>
@@ -431,7 +459,10 @@ export default {
       testData,
       updateInterval: null,
       relatedCurations: [],
-      taskIsOver: false
+      taskIsOver: false,
+      isQuote: false,
+      isLike: false,
+      isFollow:false
     }
   },
   computed: {

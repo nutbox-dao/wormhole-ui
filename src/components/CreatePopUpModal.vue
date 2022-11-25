@@ -23,7 +23,8 @@
                    @chainChange="selectChain"
                    @tokenChagne="selectToken"
                    @addressChange="selectAddress"
-                   @balanceChange="selectBalance">
+                   @balanceChange="selectBalance"
+                   @selectGift="selectGift">
       <template #amount>
         <input class="bg-transparent h-full w-full px-0.5rem"
                v-model="form.amount"
@@ -69,6 +70,9 @@ export default {
     selectBalance(balance) {
       this.selectedBalance = balance
     },
+    selectGift(amount) {
+      this.form.amount = amount
+    }
   }
 }
 </script>
