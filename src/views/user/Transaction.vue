@@ -38,7 +38,7 @@
               </div>
               <div class="flex flex-col items-end">
                 <div class="c-text-black text-0.8rem leading-1.2rem whitespace-nowrap">
-                  {{ isReceive(item) ? '+' : '-' }} {{ item.amount }} {{ item.asset }}
+                  {{ isReceive(item) ? '+' : '-' }} {{ formatAmount(item) }} {{ item.symbol }}
                 </div>
                 <div class="c-text-medium text-0.7rem mt-0.5rem text-color8B">{{ getValue(item) }}</div>
               </div>
@@ -117,12 +117,16 @@ export default {
       }
     },  
     getValue(trans) {
-      const amount = parseFloat(trans.amount)
+      const amount = parseFloat(this.formatAmount(trans))
       const symbol = trans.symbol.toLowerCase()
       return '$' + formatAmount(amount * this.prices[symbol])
     },
-    formatAmount(a) {
-      return formatAmount(a)
+    formatAmount(trans) {
+      if (trans.chainName === 'STEEM')
+        return formatAmount(trans.amount)
+      const { token, decimals, symbol } = trans;
+      const amount = trans.amount / (10 ** decimals);
+      return formatAmount(amount)
     },
     getTargetAccount(trans) {
       if (this.isReceive(trans)){
@@ -150,7 +154,6 @@ export default {
             pageSize: this.pageSize,
             time,
             newTips: true}).then(res => {
-        console.log(53, res);
         this.$store.commit('saveTips', res)
         this.refreshing = false
       }).catch(e => {
