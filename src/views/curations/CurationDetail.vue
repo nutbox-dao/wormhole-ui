@@ -82,14 +82,19 @@
                   <div class="text-white light:text-blueDark px-1.25rem font-bold
                               flex-1 flex justify-between items-center truncate"
                        @click.stop="speakerTipVisible=true">
-                    <el-carousel class="w-full"
-                                 height="48px" indicator-position="none" :loop="false"
+                    <el-carousel v-if="tips && tips.length>0"
+                                 class="w-full"
+                                 height="48px" indicator-position="none" :loop="true"
                                  direction="vertical" :autoplay="true"
-                                 :interval="1000">
-                      <el-carousel-item v-for="item in 12" :key="item">
-                        <div>{{item}}</div>
+                                 :interval="2500">
+                      <el-carousel-item v-for="item in tips" :key="item">
+                        <div>{{tipStr(item)}}</div>
                       </el-carousel-item>
                     </el-carousel>
+
+                    <span v-else>
+                      {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
+                    </span>
                     <div class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
                               leading-18px rounded-full px-3px">Top3</div>
                   </div>
@@ -417,7 +422,7 @@ import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { ERC20List } from "@/config";
+import { ERC20List, EVM_CHAINS } from "@/config";
 import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
 import {formatEmojiText} from "@/utils/tool";
@@ -562,6 +567,20 @@ export default {
     gotoUserPage(username) {
         this.$router.push({path : '/account-info/@' + username})
     },
+    tipStr(tip) {
+      if (tip.chainName === 'STEEM') {
+        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}`
+      }else {
+        let chainName;
+        for (let chain in EVM_CHAINS) {
+          if (EVM_CHAINS[chain].id === parseInt(tip.chainName)) {
+            chainName = chain;
+            break;
+          }
+        }
+        return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
+      }
+    },  
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
         const id = this.detailCuration.curationId;
