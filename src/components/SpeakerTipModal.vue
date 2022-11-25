@@ -33,7 +33,8 @@
                      @chainChange="selectChain"
                      @tokenChagne="selectToken"
                      @addressChange="selectAddress"
-                     @balanceChange="selectBalance">
+                     @balanceChange="selectBalance"
+                     @selectGift="selectGift">
         <template #amount>
           <input class="bg-transparent h-full w-full px-0.5rem"
                  v-model="form.amount"
@@ -44,7 +45,7 @@
         <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" @click="step=1">
           back
         </button>
-        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" 
+        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem"
           @click="send"
           :disabled="form.amount>selectedBalance || form.amount === 0">
           Send
@@ -116,6 +117,9 @@ export default {
       console.log(6, balance);
       this.selectedBalance = balance
     },
+    selectGift(amount) {
+      this.form.amount = amount
+    },
     tip(user) {
       this.tipToUser = user;
       this.step = 2;
@@ -136,7 +140,7 @@ export default {
             token: this.form.token,
             symbol: this.selectedToken.symbol,
             decimals: this.selectedToken.decimals,
-            amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(), 
+            amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
             parentTweetId: this.parentTweetId
           }
           console.log(235, tip);
