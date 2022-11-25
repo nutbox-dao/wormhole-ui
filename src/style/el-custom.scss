@@ -245,3 +245,6 @@ html.light {
 .el-select .el-input.is-focus .el-input__wrapper {
   box-shadow: none!important;
 }
+.collapse-no-arrow .el-collapse-item__arrow{
+  display: none;
+}

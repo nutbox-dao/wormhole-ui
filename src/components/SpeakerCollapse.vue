@@ -1,6 +1,6 @@
 <template>
   <el-collapse class="border-0 no-border-collapse pb-0 speaker-collapse">
-    <el-collapse-item name="">
+    <el-collapse-item name="" :class="allUsers.length<5?'collapse-no-arrow':''" :disabled="allUsers.length<5">
       <template #title>
         <div class="flex-1">
           <div class="text-white light:text-blueDark px-1.25rem font-bold
@@ -8,7 +8,7 @@
             👧🏻 Speakers
           </div>
           <div class="flex flex-wrap px-1.25rem pb-1rem gap-1rem overflow-hidden header-avatar">
-            <div v-for="u of allUsers" :key="'host' + u.twitterId" class="w-4rem">
+            <div v-for="u of allUsers" :key="'host' + u.twitterId" class="w-4rem" @click.stop="$emit('showTip')">
               <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
               <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
               <div class="w-4rem text-color8B mt-0.5rem leading-1rem truncate">{{u.name}}</div>

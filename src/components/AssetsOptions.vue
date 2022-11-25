@@ -54,8 +54,35 @@
         <div ref="tokenPopper"
              class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                        light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                        rounded-12px h-40px 2xl:h-2rem">
+                        rounded-12px h-40px 2xl:h-2rem flex items-center">
+          <img v-if="selectedGift.giftUrl"
+               class="h-30px 2xl:h-1.6rem ml-10px"
+               src="~@/assets/icon-like.svg" alt="">
           <slot name="amount"></slot>
+          <el-popover v-if="chain==='steem'"
+                      popper-class="c-popper" placement="top-end" width="250"
+                      trigger="click" ref="giftPopover">
+            <template #reference>
+              <div class="px-10px">
+                <img class="w-2.5rem cursor-pointer" src="~@/assets/icon-emoji.svg" alt="">
+              </div>
+            </template>
+            <template #default>
+              <div class="border-1 border-color8B/30 bg-blockBg
+                          light:bg-white light:border-colorE3
+                          rounded-12px p-10px flex flex-wrap
+                          gap-y-0.5rem gap-x-2rem max-h-11rem overflow-auto">
+                <div class="flex flex-col justify-center items-center"
+                     v-for="i of 7" :key="i" @click="selectGift({giftUrl: '', value: 100})">
+                  <img class="h-4rem" src="~@/assets/icon-like.svg" alt="">
+                  <div class="flex items-center">
+                    <img class="w-1rem h-1rem min-w-1rem mr-5px" src="~@/assets/steem.png" alt="">
+                    <span class="whitespace-nowrap">1000</span>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </el-popover>
         </div>
         <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
           <div v-if="selectedChainName==='steem'"
@@ -161,7 +188,7 @@ export default {
     showEvm: {
       type: Boolean,
       default: true
-    },  
+    },
     address: {
       type: String,
       default: ''
@@ -190,7 +217,8 @@ export default {
       selectedToken: {},
       selectBalance: 0,
       customToken: null,
-      searchToken: ''
+      searchToken: '',
+      selectedGift: {}
     }
   },
   mounted() {
@@ -287,6 +315,11 @@ export default {
         console.log(63, e);
       }
     },
+    selectGift(gift) {
+      this.$refs.giftPopover.hide()
+      this.selectedGift = gift
+      this.$emit('selectGift', gift.value)
+    }
   }
 }
 </script>

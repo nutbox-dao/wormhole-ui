@@ -33,7 +33,8 @@
                      @chainChange="selectChain"
                      @tokenChagne="selectToken"
                      @addressChange="selectAddress"
-                     @balanceChange="selectBalance">
+                     @balanceChange="selectBalance"
+                     @selectGift="selectGift">
         <template #amount>
           <input class="bg-transparent h-full w-full px-0.5rem"
                  v-model="form.amount"
@@ -44,7 +45,7 @@
         <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" @click="step=1">
           back
         </button>
-        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" 
+        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem"
           @click="send"
           :disabled="form.amount>selectedBalance || form.amount === 0">
           Send

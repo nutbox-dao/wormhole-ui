@@ -76,29 +76,34 @@
           <!-- tips -->
           <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
                     rounded-15px text-left mt-1rem">
-            <div class="text-white light:text-blueDark px-1.25rem font-bold h-4rem
+            <el-collapse class="border-0 no-border-collapse pb-0">
+              <el-collapse-item name="tip">
+                <template #title>
+                  <div class="text-white light:text-blueDark px-1.25rem font-bold
                               flex-1 flex justify-between items-center truncate"
-                 @click="speakerTipVisible=true">
-              <div class="flex-1 truncate flex items-center">
-                <i class="w-18px h-18px icon-coin mr-10px"></i>
-                <span class="flex-1 truncate">
-                  ijooo tiped 44 STEEM to @superfactory
-                </span>
-              </div>
-              <div
-                   class="ml-10px border-1 border-color62 h-2rem min-w-4rem flex items-center justify-center
-                          leading-18px rounded-full px-3px">Top3</div>
-            </div>
-            <template v-if="taskIsOver">
-              <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center"
-                   v-for="i of 3" :key="i">
-                <div class="flex items-center">
-                  <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-                  <span>username</span>
+                       @click.stop="speakerTipVisible=true">
+                    <el-carousel class="w-full"
+                                 height="48px" indicator-position="none" :loop="false"
+                                 direction="vertical" :autoplay="true"
+                                 :interval="1000">
+                      <el-carousel-item v-for="item in 12" :key="item">
+                        <div>{{item}}</div>
+                      </el-carousel-item>
+                    </el-carousel>
+                    <div class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
+                              leading-18px rounded-full px-3px">Top3</div>
+                  </div>
+                </template>
+                <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
+                     v-for="i of 3" :key="i">
+                  <div class="flex items-center">
+                    <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                    <span>username</span>
+                  </div>
+                  <span>144 STEEM</span>
                 </div>
-                <span>144 STEEM</span>
-              </div>
-            </template>
+              </el-collapse-item>
+            </el-collapse>
           </div>
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
@@ -204,7 +209,17 @@
                 </div>
               </el-collapse-item>
             </el-collapse>
-
+            <div class="w-full h-1px bg-color8B/30"></div>
+            <div class="flex items-center justify-between px-1.25rem py-1rem">
+              <span>💃🏼 Participants</span>
+              <div class="flex items-center">
+                <div class="-ml-7px" v-for="i of 4" :key="i">
+                  <img class="w-1.6rem"
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+                </div>
+                <button class="ml-10px" @click="showSubmissions=true">All participants >></button>
+              </div>
+            </div>
           </div>
           <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
             <div>
