@@ -1,4 +1,4 @@
-import { getUserInfo as gui, getNftReceivedState, readNft, logout as lo, twitterRefreshAccessToken } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, getUsersTips as gut, logout as lo, twitterRefreshAccessToken } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 import { auth, Client } from 'twitter-api-sdk'
@@ -141,6 +141,12 @@ export const logout = async (twitterId) => {
     })
 }
 
+export const getUsersTips = async (params) => {
+    await checkAccessToken();
+    const tips = await gut(params)
+    return tips;
+}
+
 export const refreshToken = async () => {
     const acc = store.getters.getAccountInfo;
     if (acc && acc.twitterId) {
@@ -162,4 +168,26 @@ export const isTokenExpired = async () => {
         }
     }
     return false
+}
+
+export async function checkAccessToken() {
+    let acc = store.getters.getAccountInfo;
+    if (acc && acc.accessToken) {
+        const { expiresAt } = acc;
+        if (expiresAt - new Date().getTime() < 600000) {
+            // refresh token 
+            try {
+                await refreshToken();
+                acc = store.getters.getAccountInfo;
+            }catch(e) {
+                console.log(234, e);
+                throw 'log out';
+            }
+        }
+        return acc.accessToken
+    }else {
+        // need auth again
+        await logout();
+        throw 'log out';
+    }
 }

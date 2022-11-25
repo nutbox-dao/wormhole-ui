@@ -889,7 +889,6 @@ export default {
       this.linkIsVerified = true;
     }
     const pendingCuration = this.getPendingTweetCuration;
-    console.log(643, pendingCuration);
     if (pendingCuration && pendingCuration.transHash) {
       try {
         if (this.form.category === 'tweet' && this.form.createType === 'new') {

@@ -1,11 +1,9 @@
 import { ethers } from  'ethers'
 import { u8arryToHex } from './helper'
-import store from '@/store'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
-import curation from '@/store/curation';
-import { refreshToken, logout } from '@/utils/account'
+import { checkAccessToken } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te } from '@/api/api'
 
 const abi = [
@@ -253,30 +251,4 @@ export const tipEVM = async (tip) => {
   await checkAccessToken();
   const result = await te(tip)
   return result;
-}
-
-async function checkAccessToken() {
-  let acc = store.getters.getAccountInfo;
-  if (acc && acc.accessToken) {
-      const { expiresAt } = acc;
-      if (expiresAt - new Date().getTime() < 600000) {
-          // refresh token 
-          try {
-              await refreshToken();
-              acc = store.getters.getAccountInfo;
-          }catch(e) {
-            if (e === 401){
-              console.log(234, e);
-              throw 'log out';
-            }else {
-              throw 'refresh token error'
-            }
-          }
-      }
-      return acc.accessToken
-  }else {
-      // need auth again
-      await logout();
-      throw 'log out';
-  }
 }

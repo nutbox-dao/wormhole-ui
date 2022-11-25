@@ -9,19 +9,11 @@
         </span>
       </div>
     </div>
-    <div class="border-1 border-color8B/30 rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0 text-left">
-      <div class="gradient-bg gradient-bg-color3 px-1rem py-0.8rem c-text-black text-white text-1.4rem">
-        <div class="mb-1rem">{{$t('walletView.totalBalance')}}</div>
-        <div>$77.89 USD</div>
-      </div>
-      <div class="px-1rem py-0.8rem flex items-center">
-        <i class="w-2rem h-2rem icon-notification"></i>
-        <span>{{$t('walletView.tipHistory')}} -></span>
-      </div>
-    </div>
     <div v-if="getAccountInfo && getAccountInfo.ethAddress" class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
-      <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
+      <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center cursor-pointer"
+        @click="$router.push('/transaction/' + getAccountInfo.twitterId)">
         <span class="c-text-black text-white">{{$t('profileView.ethWallet')}}</span>
+        <i class="w-2rem h-2rem icon-notification"></i>
         <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
@@ -38,10 +30,10 @@
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <router-link :to="`/profile/${$route.params.user}/wallet`"
                      class="px-0.8rem flex items-center rounded-full
-                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.token')}}</router-link>
-        <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                     class="px-0.8rem flex items-center rounded-full
                      border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.nft')}}</router-link>
+        <router-link :to="`/profile/${$route.params.user}/wallet/token`"
+                     class="px-0.8rem flex items-center rounded-full
+                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.token')}}</router-link>
       </div>
       <router-view></router-view>
     </div>
