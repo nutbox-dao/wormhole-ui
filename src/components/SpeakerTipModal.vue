@@ -143,7 +143,6 @@ export default {
             amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
             parentTweetId: this.parentTweetId
           }
-          console.log(235, tip);
           this.$store.commit('curation/savePendingTip', tip)
           await tipEVM(tip);
           this.$store.commit('curation/savePendingTip', null)
@@ -162,12 +161,12 @@ export default {
     };
 
     const pendingTip = this.getPendingTip;
-    console.log(72, pendingTip);
     if (pendingTip) {
       tipEVM(pendingTip).then(res => {
         this.$store.commit('curation/savePendingTip', null)
       }).catch(e => {
         console.log('upload cache tip fail:', e);
+      }).finally(() => {
       })
     }
   },
