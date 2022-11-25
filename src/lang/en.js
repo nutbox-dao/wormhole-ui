@@ -242,7 +242,9 @@ export default {
     required: 'Required',
     follow: 'Follow',
     like: 'Like',
-    chain: 'Chain'
+    chain: 'Chain',
+    tipToUser: "Tip asset to @{user}",
+    tipToSpeaker: "Tip asset to speakers"
   },
   err: {
     serverErr: 'Server error',
