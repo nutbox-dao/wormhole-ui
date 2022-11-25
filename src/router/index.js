@@ -93,13 +93,13 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'token',
-        component: UserTokenView
-      },
-      {
-        path: 'nft',
         name: 'nft',
         component: UserNftView
+      },
+      {
+        path: 'token',
+        name: 'token',
+        component: UserTokenView
       },
     ]
   },

@@ -2,20 +2,11 @@
   <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-1rem pb-2rem">
     <div class="text-15px flex gap-1rem mt-1.2rem">
       <div class="leading-27px whitespace-nowrap px-0.8rem rounded-full font-500 h-27px cursor-pointer"
-        :class="selectIndex===0?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
-        @click="select(0)">{{$t('transactionView.recentTransaction')}}</div>
-      <div class="leading-27px whitespace-nowrap px-0.8rem rounded-full font-500 h-27px cursor-pointer"
-          :class="selectIndex===1?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
-          @click="select(1)">{{$t('transactionView.recentTip')}}</div>
+          :class="selectIndex===0?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+          >{{$t('transactionView.recentTip')}}</div>
     </div>
     <div class="bg-blockBg light:bg-white rounded-1rem mt-1rem">
-      <div v-if="showingList.length===0" class="py-4rem px-1.5rem">
-        <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
-        <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-          {{ selectIndex === 0 ? $t('transactionView.transTip') : $t('transactionView.tipTip') }}
-        </div>
-      </div>
-      <van-pull-refresh v-else v-model="refreshing" @refresh="onRefresh"
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                 loading-text="Loading"
                 pulling-text="Pull to refresh data"
                 loosing-text="Release to refresh">
@@ -53,10 +44,10 @@
               </div>
             </div>
             <div class="text-right mt-1rem c-text-medium text-0.6rem">
-              <a v-if="selectIndex === 0 ? item.sendResult===0 : item.tipResult === 0"
+              <a v-if="item.tipResult === 0"
                  class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem
                         light:text-blueDark light:bg-colorF2 light:border-colorE3 light:text-color7D"
-                 :href="chains[item.chainName] ? chains[item.chainName].scan : '' +'tx/'+item.hash" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
+                 :href="hashLink(item)" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>
               <el-tooltip v-else-if="item.sendStatus!==0">
                 <template #content>{{failResult(item)}}</template>
                 <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">{{$t('transactionView.fail')}}</button>
@@ -71,11 +62,11 @@
 </template>
 
 <script>
-import { getUsersTransaction, getUsersTips } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS, SteemScan } from '@/config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
+import { getUsersTips } from '@/utils/account'
 
 export default {
   name: "Transaction",
@@ -85,7 +76,7 @@ export default {
       loading: false,
       finished: false,
       selectIndex: 0,
-      pageSize: 10,
+      pageSize: 16,
       pageIndex: 0,
       chains: EVM_CHAINS
     }
@@ -94,11 +85,7 @@ export default {
     ...mapState(['accountInfo', 'transactions', 'prices', 'tips']),
     ...mapGetters(['getAccountInfo']),
     showingList() {
-      if (this.selectIndex === 0) {
-        return this.transactions
-      }else {
-        return this.tips
-      }
+      return this.tips
     }
   },
   methods: {
@@ -106,37 +93,32 @@ export default {
       return trans.twitterId !== this.getAccountInfo.twitterId
     },
     failResult(trans) {
-      if (this.selectIndex === 0) {
-        switch(trans.sendResult) {
-          case 0:
-            return 'Success'
-          case 1:
-            return 'Insufficient balance'
-          case 2:
-            return 'Insufficient gas fee'
-          case 3:
-            return 'Transaction fail'
-          case 4:
-            return 'Target account not registered'
-        }
-      }else {
-        switch(trans.tipResult) {
-          case 0:
-            return 'Success'
-          case 1:
-            return 'Insufficient balance'
-          case 2:
-            return 'Insufficient gas fee'
-          case 3:
-            return 'Transaction fail'
-          case 4:
-            return 'Target account not exist'
-        }
+      switch(trans.tipResult) {
+        case 0:
+          return 'Success'
+        case 1:
+          return 'Insufficient balance'
+        case 2:
+          return 'Insufficient gas fee'
+        case 3:
+          return 'Transaction fail'
+        case 4:
+          return 'Target account not exist'
       }
     },
+    hashLink(trans) {
+      if (trans.chainName === 'STEEM') {
+        return SteemScan + 'tx/' + trans.hash
+      }else {
+        const chain = Object.values(EVM_CHAINS).find(c => c.id === parseInt(trans.chainName));
+        if (chain) {
+          return chain.scan + 'tx/' + trans.hash
+        }
+      }
+    },  
     getValue(trans) {
       const amount = parseFloat(trans.amount)
-      const symbol = this.selectIndex === 0 ? trans.asset.toLowerCase() : trans.symbol.toLowerCase()
+      const symbol = trans.symbol.toLowerCase()
       return '$' + formatAmount(amount * this.prices[symbol])
     },
     formatAmount(a) {
@@ -161,67 +143,48 @@ export default {
     onRefresh() {
       this.refreshing = true
       let time;
-      if (this.selectIndex === 0) {
-        if (this.transactions && this.transactions.length > 0) {
-          time = this.transactions[0].postTime
-        }
-        getUsersTransaction(this.getAccountInfo.twitterId, this.pageSize, time, true).then(res => {
-          this.$store.commit('saveTransactions', res)
-          this.refreshing = false
-        }).catch(e => {
-          console.log(3, e);
-          this.refreshing = false
-        })
-      }else {
-        if (this.tips && this.tips.length > 0) {
-          time = this.tips[0].postTime
-        }
-        getUsersTips(this.getAccountInfo.twitterId, this.pageSize, time, true).then(res => {
-          this.$store.commit('saveTips', res)
-          this.refreshing = false
-        }).catch(e => {
-          console.log(33, e);
-          this.refreshing = false
-        })
+      if (this.tips && this.tips.length > 0) {
+        time = this.tips[0].postTime
       }
+      getUsersTips({twitterId: this.getAccountInfo.twitterId,
+            pageSize: this.pageSize,
+            time,
+            newTips: true}).then(res => {
+        console.log(53, res);
+        this.$store.commit('saveTips', res)
+        this.refreshing = false
+      }).catch(e => {
+        console.log(33, e);
+        if (e === 'log out') {
+            this.$router.go('/')
+          }
+        this.refreshing = false
+      })
     },
     onLoad() {
       console.log('load more')
       if (this.finished || this.loading) return;
-      if(this.selectIndex === 0) {
-        let time;
-        if (this.transactions && this.transactions.length > 0) {
-          this.loading = true
-          time = this.transactions[this.transactions.length - 1].postTime
-          getUsersTransaction(this.getAccountInfo.twitterId, this.pageSize, time, false).then(res => {
-            this.$store.commit('saveTransactions', this.transactions.concat(res))
-            if (res.length < this.pageSize) {
-              this.finished = true
-            }
-            this.loading = false
-          }).catch(e => {
-            console.log(2, e);
-            this.loading = false
+      let time;
+      if (this.tips && this.tips.length > 0) {
+        this.loading = true
+        time = this.tips[this.tips.length - 1].postTime
+        getUsersTips({twitterId: this.getAccountInfo.twitterId,
+              pageSize: this.pageSize,
+               time, 
+               newTips: false}).then(res => {
+          this.$store.commit('saveTips', this.tips.concat(res))
+          if (res.length < this.pageSize) {
             this.finished = true
-          })
-        }
-      }else {
-        let time;
-        if (this.tips && this.tips.length > 0) {
-          this.loading = true
-          time = this.tips[this.tips.length - 1].postTime
-          getUsersTips(this.getAccountInfo.twitterId, this.pageSize, time, false).then(res => {
-            this.$store.commit('saveTips', this.tips.concat(res))
-            if (res.length < this.pageSize) {
-              this.finished = true
-            }
-            this.loading = false
-          }).catch(e => {
-            console.log(22, e);
-            this.loading = false
-            this.finished = true
-          })
-        }
+          }
+          this.loading = false
+        }).catch(e => {
+          console.log(22, e);
+          if (e === 'log out') {
+            this.$router.go('/')
+          }
+          this.loading = false
+          this.finished = true
+        })
       }
     },
     parseTime(d) {

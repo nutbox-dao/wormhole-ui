@@ -97,6 +97,7 @@ export default {
     ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo']),
     ...mapGetters(['getAccountInfo']),
     steemValue() {
+      console.log(64, this.prices, this.steemBalance);
       if (this.prices['steem'] && this.steemBalance){
         return formatPrice(this.prices['steem'] * this.steemBalance)
       }

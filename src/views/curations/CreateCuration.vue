@@ -1058,7 +1058,6 @@ export default {
     // this.updateSelectBalance(this.selectedToken)
 
     const pendingCuration = this.getPendingTweetCuration;
-    console.log(643, pendingCuration);
     if (pendingCuration && pendingCuration.transHash) {
       try {
         if (this.form.category === 'tweet' && this.form.createType === 'new') {

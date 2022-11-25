@@ -38,9 +38,6 @@ export const getNftReceivedState = async (twitterId) =>
 export const getUsersTransaction = async (twitterId, pageSize, time, newTrans) =>
     get(BACKEND_API_URL + '/transaction/byTwitterId', { twitterId, pageSize, time, newTrans })
 
-export const getUsersTips = async (twitterId, pageSize, time, newTips) =>
-    get(BACKEND_API_URL + '/transaction/tipsByTwitterId', { twitterId, pageSize, time, newTips })
-
 export const cacheKey = async (params) =>
     post(BACKEND_API_URL + '/register/cachePwd', params)
 
@@ -141,6 +138,9 @@ export const getAllTipsOfCuration = async (curationId) =>
 
 export const getTopTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/topTipsByCurationId', {curationId})
+
+export const getUsersTips = async (params) =>
+    post(BACKEND_API_URL + '/tip/tipsByTwitterId', params)
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {

@@ -1,30 +1,8 @@
 import store from '@/store'
-import { refreshToken, logout } from '@/utils/account'
+import { checkAccessToken } from '@/utils/account'
 import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf,
      userLike as ul, getSapceBySpaceId, getUserInfoFromTwitter as guibu,
     userTweet as ut } from '@/api/api'
-
-async function checkAccessToken() {
-    let acc = store.getters.getAccountInfo;
-    if (acc && acc.accessToken) {
-        const { expiresAt } = acc;
-        if (expiresAt - new Date().getTime() < 600000) {
-            // refresh token 
-            try {
-                await refreshToken();
-                acc = store.getters.getAccountInfo;
-            }catch(e) {
-                console.log(234, e);
-                throw 'log out';
-            }
-        }
-        return acc.accessToken
-    }else {
-        // need auth again
-        await logout();
-        throw 'log out';
-    }
-}
 
 export const getTweetsById = async (tweetIds) => {
     await checkAccessToken();
