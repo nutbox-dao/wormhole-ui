@@ -95,17 +95,19 @@
                     <span v-else>
                       {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
                     </span>
-                    <div class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
+                    <div v-if="topTips.length > 0" class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
                               leading-18px rounded-full px-3px">Top3</div>
                   </div>
                 </template>
                 <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
-                     v-for="i of 3" :key="i">
+                     v-for="tip of topTips" :key="'tops' + tip.hash">
                   <div class="flex items-center">
-                    <img class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-                    <span>username</span>
+                    
+                    <img v-if="tip.fromProfileImg" class="w-2rem mr-10px" :src="tip.fromProfileImg.replace('normal', '200x200')" alt="">
+                    <img v-else class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                    <span>{{tip.fromUsername}}</span>
                   </div>
-                  <span>144 STEEM</span>
+                  <span>{{tip.amount}} STEEM</span>
                 </div>
               </el-collapse-item>
             </el-collapse>
@@ -180,6 +182,7 @@
               </el-collapse>
             </div>
           </template>
+          <!-- quests -->
           <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
                     rounded-15px text-left mt-1rem">
             <el-collapse class="border-0 no-border-collapse pb-0">
@@ -189,7 +192,7 @@
                               light:text-blueDark px-1.25rem font-bold">
                     <div>
                       <span class="c-text-black mr-6px">0/3</span>
-                      <span>Quote to Earn</span>
+                      <span>{{ (detailCuration.tasks & 1) === 1 ? 'Quote': 'Reply' }} to Earn</span>
                     </div>
                     <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
                       <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
@@ -522,28 +525,12 @@ export default {
       }
       return
     },
-    btnStatus() {
-      if (!this.detailCuration || !this.detailCuration.content) return 1
-      const createStatus = this.detailCuration.createStatus;
-      const curationStatus = this.detailCuration.curationStatus;
-      const joined = this.detailCuration.joined;
-      if (createStatus === 0) {
-        return 1;
-      }else {
-        if (curationStatus === 0 && joined) {
-          return 1
-        }else if(curationStatus === 0 && !joined) {
-          return 0;
-        }else if(curationStatus === 1 && joined) {
-          return 1;
-        }else if (curationStatus === 1 && !joined) {
-          return 2;
-        }else if(curationStatus === 2 && joined) {
-          return 3;
-        }else if(curationStatus === 2 && !joined) {
-          return 2;
-        }
+    top3Tip() {
+      if (this.tips && this.tips.length > 0) {
+        const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
+        return steemTips.sort((a, b) => a.amount - b.amount).slice(0, 3)
       }
+      return []
     },
     time() {
       if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
