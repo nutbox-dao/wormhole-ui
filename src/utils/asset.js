@@ -1,5 +1,5 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT } from "@/config";
+import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT, LIQUIDATION_NFT } from "@/config";
 import store from '@/store'
 import { ethers } from 'ethers'
 import { getEthWeb } from "./web3/web3";
@@ -230,6 +230,17 @@ export async function getStellarTreks(address) {
         }
     }
     return balances
+}
+
+export async function getLiquidationNft(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let calls = [
+        {
+            target: LIQUIDATION_NFT
+        }
+    ]
 }
 
 export async function getUserTokensFromCuration(twitterId) {
