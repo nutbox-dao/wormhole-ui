@@ -75,30 +75,28 @@
           </div>
           <!-- tips -->
           <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
-                    rounded-15px text-left mt-1rem">
-            <el-collapse class="border-0 no-border-collapse pb-0">
-              <el-collapse-item name="tip">
-                <template #title>
-                  <div class="text-white light:text-blueDark px-1.25rem font-bold
-                              flex-1 flex justify-between items-center truncate"
-                       @click.stop="speakerTipVisible=true">
-                    <el-carousel v-if="tips && tips.length>0"
-                                 class="w-full"
-                                 height="48px" indicator-position="none" :loop="true"
-                                 direction="vertical" :autoplay="true"
-                                 :interval="2500">
-                      <el-carousel-item v-for="item in tips" :key="item">
-                        <div>{{tipStr(item)}}</div>
-                      </el-carousel-item>
-                    </el-carousel>
-
-                    <span v-else>
-                      {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
-                    </span>
-                    <div v-if="topTips.length > 0" class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
-                              leading-18px rounded-full px-3px">Top3</div>
-                  </div>
-                </template>
+                      rounded-15px text-left mt-1rem">
+            <div class="text-white light:text-blueDark px-1.25rem font-bold min-h-48px
+                        flex-1 flex justify-between items-center truncate"
+                 @click.stop="speakerTipVisible=true">
+              <el-carousel v-if="tips && tips.length>0"
+                           class="w-full"
+                           height="48px" indicator-position="none" :loop="true"
+                           direction="vertical" :autoplay="true"
+                           :interval="2500">
+                <el-carousel-item v-for="item in tips" :key="item">
+                  <div>{{tipStr(item)}}</div>
+                </el-carousel-item>
+              </el-carousel>
+              <span v-else>
+                {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
+              </span>
+              <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
+                      class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
+                              leading-18px rounded-full px-3px">Top3</button>
+            </div>
+            <el-collapse-transition>
+              <div v-show="tipCollapse">
                 <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
                      v-for="tip of topTips" :key="'tops' + tip.hash">
                   <div class="flex items-center">
@@ -109,8 +107,8 @@
                   </div>
                   <span>{{tip.amount}} STEEM</span>
                 </div>
-              </el-collapse-item>
-            </el-collapse>
+              </div>
+            </el-collapse-transition>
           </div>
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
@@ -470,7 +468,8 @@ export default {
       taskIsOver: false,
       isQuote: false,
       isLike: false,
-      isFollow:false
+      isFollow:false,
+      tipCollapse: false
     }
   },
   computed: {
@@ -567,7 +566,7 @@ export default {
         }
         return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
-    },  
+    },
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
         const id = this.detailCuration.curationId;
