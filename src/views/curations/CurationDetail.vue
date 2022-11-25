@@ -189,8 +189,8 @@
                   <div class="flex-1 flex justify-between items-center text-white
                               light:text-blueDark px-1.25rem font-bold">
                     <div>
-                      <span class="c-text-black mr-6px">0/3</span>
-                      <span>{{ (detailCuration.tasks & 1) === 1 ? 'Quote': 'Reply' }} to Earn</span>
+                      <span class="c-text-black mr-6px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
+                      <span>{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
                     </div>
                     <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
                       <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
@@ -200,17 +200,17 @@
                   </div>
                 </template>
                 <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center" @click="quoteOrLike">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isQuote?'icon-checked':'icon-msg'"></i>
-                    <span>Click to Quote</span>
+                    <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
                   </div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                  <div v-if="isLike" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isLike?'icon-checked':'icon-like'"></i>
                     <span>Like (or Verify your Like)</span>
                   </div>
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                  <div v-if="isFollow" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isFollow?'icon-checked':'icon-follow'"></i>
-                    <span>Follow @user (or Verify your Follow)</span>
+                    <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
                 </div>
               </el-collapse-item>
@@ -421,6 +421,7 @@ import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
+import { userLike, userFollowing } from '@/utils/twitter'
 import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, EVM_CHAINS } from "@/config";
@@ -434,6 +435,7 @@ import SpeakerCollapse from "@/components/SpeakerCollapse";
 import SpeakerTipModal from "@/components/SpeakerTipModal";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
 import {testData} from "@/views/square/test-data";
+import { notify } from "@/utils/notify";
 
 export default {
   name: "CurationDetail",
@@ -454,6 +456,8 @@ export default {
       loading4: false, // tips
       loading5: false, // space info
       loading: false,
+      liking: false,
+      following: false,
       participant: [],
       space: {},
       popups: [],
@@ -466,9 +470,6 @@ export default {
       updateInterval: null,
       relatedCurations: [],
       taskIsOver: false,
-      isQuote: false,
-      isLike: false,
-      isFollow:false,
       tipCollapse: false
     }
   },
@@ -488,6 +489,30 @@ export default {
       }else{
         return '---'
       }
+    },
+    isQuote() {
+      return this.detailCuration.tasks & 1;
+    },
+    isReply() {
+      return (this.detailCuration.tasks & 2) / 2
+    },
+    isLike() {
+      return (this.detailCuration.tasks & 4) / 4
+    },
+    isFollow() {
+      return (this.detailCuration.tasks & 8) / 8
+    },
+    quoted() {
+      return this.detailCuration.taskRecord & 1;
+    },
+    replyed() {
+      return (this.detailCuration.taskRecord & 2) / 2
+    },
+    liked() {
+      return (this.detailCuration.taskRecord & 4) / 4
+    },
+    followed() {
+      return (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
       if (!this.detailCuration) return ''
@@ -565,6 +590,51 @@ export default {
           }
         }
         return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
+      }
+    },
+    quoteOrLike() {
+      let url;
+      if (this.isQuote) {
+        url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
+        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 1
+      }else {
+        url = `https://twitter.com/intent/tweet?in_reply_to=${this.detailCuration.tweetId}&text=%0a%23iweb3`
+        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 2
+      }
+      window.open(url, '__blank');
+    },
+    async like() {
+      if(this.liked) {
+        return
+      }
+      try{
+        this.liking = true
+        await userLike(this.detailCuration.tweetId);
+        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
+      } finally {
+        this.liking = false
+      }
+    },
+    async follow() {
+      if (this.followed) {
+        return
+      }
+      try{
+        this.following = true
+        await userFollowing(this.detailCuration.authorId)
+        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
+      } finally {
+        this.following = false
       }
     },
     updateCurationInfos() {

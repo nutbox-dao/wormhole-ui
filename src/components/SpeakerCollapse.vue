@@ -69,13 +69,17 @@ export default {
       return url.replace('normal', '200x200')
     }
   },
-  mounted () {
-    if (this.space.hosts && this.space.hosts.length > 0) {
-      this.host = this.space.hosts.find(h => h.twitterId === this.space.creatorId)
-      this.coHosts = this.space.hosts.filter(h => h.twitterId !== this.space.creatorId);
-      this.speakers = this.space.speakers ?? [];
+  watch: {
+    space(newValue, oldValue) {
+      if (newValue.hosts && newValue.hosts.length > 0) {
+      this.host = newValue.hosts.find(h => h.twitterId === newValue.creatorId)
+      this.coHosts = newValue.hosts.filter(h => h.twitterId !== newValue.creatorId);
+      this.speakers = newValue.speakers ?? [];
       this.allUsers = [this.host].concat(this.coHosts).concat(this.speakers)
     };
+    }
+  },
+  mounted () {
   },
 }
 </script>
