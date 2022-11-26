@@ -1,6 +1,7 @@
 import { aggregate } from "@makerdao/multicall";
 import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT, LIQUIDATION_NFT } from "@/config";
 import store from '@/store'
+import { getLiquidationMetaBy as getLiqMeta } from '@/api/api'
 import { ethers } from 'ethers'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
@@ -233,14 +234,55 @@ export async function getStellarTreks(address) {
 }
 
 export async function getLiquidationNft(address) {
+    address = '0xfc0f17eE63ae348294D0F130f7E0d06C61E83DE1'
     if (!ethers.utils.isAddress(address)) {
         return;
     }
-    let calls = [
-        {
-            target: LIQUIDATION_NFT
+    try {
+        let calls = [
+            {
+                target: LIQUIDATION_NFT,
+                call: [
+                    'tokensOf(address,uint256,uint256)(uint256[])',
+                    address,
+                    0,
+                    0
+                ],
+                returns:[
+                    ['ids']
+                ]
+            }
+        ]
+        const res = await aggregate(calls, Multi_Config)
+        const infos = res.results.transformed.ids;
+        console.log(53, infos);
+        if (infos.length > 0) {
+            calls = infos.map(id => ({
+                target: LIQUIDATION_NFT,
+                call: [
+                    'tokenURI(uint256)(string)',
+                    id.toString()
+                ],
+                returns:[
+                    [id]
+                ]
+            }))
+            let metas = await aggregate(calls, Multi_Config)
+            metas = metas.results.transformed;
+            let results = await Promise.all(Object.values(metas).map(url => getLiqMeta(url)))
+            console.log(54, results);
+            return results[0]
+        }else {
+            return {}
         }
-    ]
+    }catch(e) {
+        console.log('get liquidation fail:', e);
+        return {}
+    }
+}
+
+export async function getLiquidationMetaBy(tokenId) {
+
 }
 
 export async function getUserTokensFromCuration(twitterId) {

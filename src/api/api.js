@@ -118,3 +118,7 @@ export const applyAirdrop = async (twitterId) =>
 
 export const getDropRecord = async (twitterId) => 
     get(BACKEND_API_URL + '/faucet/record', {twitterId})
+
+/****************************************  NFT  ***********************************************/
+export const getLiquidationMetaBy = async (url) => 
+    get(url)

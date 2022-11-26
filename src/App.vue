@@ -113,7 +113,7 @@ import { sleep } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { onCopy } from "@/utils/tool";
-import { getTokenBalance } from "@/utils/asset";
+import { getTokenBalance, getLiquidationNft } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { login } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
@@ -187,6 +187,8 @@ export default {
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
     gotoTwitter(){
+      getLiquidationNft()
+      return;
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     goBack() {

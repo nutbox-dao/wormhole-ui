@@ -18,6 +18,17 @@
             <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
           </div>
         </div>
+
+        <div v-if="this.liquidation.image" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+            @click="modalVisibleLiq=true">
+          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              src="~@/assets/icon-liquidation.png" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1.3rem md:text-1rem">Liquidation NFT</div>
+            <div class="text-color8B text-0.8rem mt-0.5rem">register wormhole3, Tweet (picture and text) to show your liquidation experience and add the hashtags #iweb3 #liquidation</div>
+          </div>
+        </div>
+
         <div v-for="st of  showingStellarTreks" :key="st" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
          @click="showTrek(st.image)">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
@@ -35,6 +46,9 @@
     <el-dialog v-model="modalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
+    <el-dialog v-model="modalVisibleLiq" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <GetNft @close="modalVisibleLiq=false" :username="username" :liquidation="liquidation ? liquidation.liquidation : 0"></GetNft>
+    </el-dialog>
     <el-dialog v-model="showTrekImage" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <img :src="showingTrekImage" alt="">
     </el-dialog>
@@ -44,7 +58,7 @@
 <script>
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
-import { getStellarTreks } from '@/utils/asset'
+import { getStellarTreks, getLiquidationNft } from '@/utils/asset'
 import { STELLAR_TREK_NFT } from '@/config'
 
 export default {
@@ -67,14 +81,16 @@ export default {
         }
       }
       return sts
-    }
+    },
   },
   data() {
     return {
       dataList: [],
       modalVisible: false,
+      modalVisibleLiq: false,
       showTrekImage: false,
-      showingTrekImage: ''
+      showingTrekImage: '',
+      liquidation:{}
     }
   },
   methods: {
@@ -90,6 +106,7 @@ export default {
     }).catch(e => {
       console.log(60, e);
     })
+    getLiquidationNft(ethAddress).then(res => this.liquidation = res).catch(console.log)
   }
 }
 </script>
