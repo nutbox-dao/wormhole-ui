@@ -254,7 +254,6 @@ export async function getLiquidationNft(address) {
         ]
         const res = await aggregate(calls, Multi_Config)
         const infos = res.results.transformed.ids;
-        console.log(53, infos);
         if (infos.length > 0) {
             calls = infos.map(id => ({
                 target: LIQUIDATION_NFT,
@@ -269,7 +268,6 @@ export async function getLiquidationNft(address) {
             let metas = await aggregate(calls, Multi_Config)
             metas = metas.results.transformed;
             let results = await Promise.all(Object.values(metas).map(url => getLiqMeta(url)))
-            console.log(54, results);
             return results[0]
         }else {
             return {}
