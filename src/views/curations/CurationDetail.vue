@@ -31,28 +31,13 @@
       </template>
     </el-alert>
     <!-- title -->
-    <div class="container mx-auto max-w-50rem pb-2rem px-15px mt-1rem">
+    <div class="container mx-auto max-w-50rem pb-2rem px-15px pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
         <div class="col-span-1 xl:col-span-2">
           <div v-loading="loading1"
-               class="bg-blockBg h-min
-                    light:bg-white light:border-1 light:border-colorE3
-                    rounded-15px py-1.5rem text-left">
-            <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
-              <div class="c-text-black text-1.5rem sm:text-24px">
-                {{title}}
-              </div>
-              <div class="flex items-center flex-wrap gap-1rem mt-1rem">
-            <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
-              {{status}}
-            </span>
-                <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
-              {{time}}
-            </span>
-              </div>
-            </div>
+               class="h-min text-left">
             <!-- curation info -->
-            <div class="px-1.25rem pt-1rem" v-if="detailCuration">
+            <div v-if="detailCuration">
               <div class="flex items-center">
                 <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
@@ -64,121 +49,72 @@
                 </div>
               </div>
               <template v-if="contentType==='tweet'">
-                <Blog :post="detailCuration">
+                <Blog :post="detailCuration" class="border-1 border-color7D">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
-              <template v-if="contentType==='space'">
+              <template v-else-if="contentType==='space'">
                 <Space :space="space" class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
+              </template>
+              <template v-else>
+                <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
+                  <div class="c-text-black text-1.5rem sm:text-24px">
+                    {{title}}
+                  </div>
+                  <div class="flex items-center flex-wrap gap-1rem mt-1rem">
+                    <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
+                      {{status}}
+                    </span>
+                        <span class="px-10px py-6px bg-white/10 rounded-full text-12px lg:text-0.7rem leading-18px">
+                      {{time}}
+                    </span>
+                  </div>
+                </div>
               </template>
             </div>
           </div>
           <!-- tips -->
-          <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
-                      rounded-15px text-left mt-1rem">
-            <div class="text-white light:text-blueDark px-1.25rem font-bold min-h-48px
-                        flex-1 flex justify-between items-center truncate"
-                 @click.stop="speakerTipVisible=true">
-              <el-carousel v-if="tips && tips.length>0"
-                           class="w-full"
-                           height="48px" indicator-position="none" :loop="true"
-                           direction="vertical" :autoplay="true"
-                           :interval="2500">
-                <el-carousel-item v-for="item in tips" :key="item">
-                  <div>{{tipStr(item)}}</div>
-                </el-carousel-item>
-              </el-carousel>
-              <span v-else>
+          <div class="light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-8px overflow-hidden">
+            <div class="tip-bg h-min light:bg-colorED text-left">
+              <div class="text-white light:text-blueDark pl-60px pr-15px font-bold min-h-48px
+                        flex-1 flex justify-between items-center truncate relative"
+                   @click.stop="speakerTipVisible=true">
+                <el-carousel v-if="tips && tips.length>0"
+                             class="w-full"
+                             height="48px" indicator-position="none" :loop="true"
+                             direction="vertical" :autoplay="true"
+                             :interval="2500">
+                  <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
+                    <div class="flex-1 text-color62 truncate">{{tipStr(item)}}</div>
+                  </el-carousel-item>
+                </el-carousel>
+                <span v-else class="absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
                 {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
-              <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
-                      class="ml-10px border-1 border-color62 h-30px min-w-4rem flex items-center justify-center
-                              leading-18px rounded-full px-3px">Top3</button>
-            </div>
-            <el-collapse-transition>
-              <div v-show="tipCollapse">
-                <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
-                     v-for="tip of topTips" :key="'tops' + tip.hash">
-                  <div class="flex items-center">
-                    
-                    <img v-if="tip.fromProfileImg" class="w-2rem mr-10px" :src="tip.fromProfileImg.replace('normal', '200x200')" alt="">
-                    <img v-else class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-                    <span>{{tip.fromUsername}}</span>
-                  </div>
-                  <span>{{tip.amount}} STEEM</span>
-                </div>
+                <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
+                        class="ml-10px bg-tag-gradient text-white h-24px min-w-4rem flex items-center justify-center
+                             leading-18px rounded-5px px-3px">Top3</button>
               </div>
-            </el-collapse-transition>
-          </div>
-          <!-- popups -->
-          <template v-if="contentType==='space' && space.spaceState > 1">
-            <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-              <el-collapse class="border-0 no-border-collapse pb-0">
-                <el-collapse-item name="">
-                  <template #title>
-                    <div class="px-1.25rem pb-1rem w-full">
-                      <div class="flex-1">
-                        <div class="text-white light:text-blueDark font-bold
-                              flex-1 flex justify-between items-center truncate">
-                          🎉    Pop-Ups
-                        </div>
-                      </div>
-                      <div class="flex justify-between items-center leading-2rem mb-0.5rem" v-for="i of 2" :key="i">
-                        <div class="flex-1 flex items-center">
-                          <div class="text-color8B font-bold min-w-4rem">04:38</div>
-                          <div class="text-white">Reply on Tweet -></div>
-                        </div>
-                        <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
-                          <img class="border-1 border-color-62 rounded-full w-1.6rem mr-10px"
-                               src="~@/assets/icon-eth-white.svg" alt="">
-                          <span>100 USDT</span>
-                        </div>
-                      </div>
-                      <button class="bg-color62 w-full rounded-15px h-2.5rem leading-2rem text-white"
-                              @click.stop="createPopUpVisible=true">
-                        Click to add
-                      </button>
+              <el-collapse-transition>
+                <div v-show="tipCollapse">
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
+                       v-for="tip of topTips" :key="'tops' + tip.hash">
+                    <div class="flex items-center">
+
+                      <img v-if="tip.fromProfileImg" class="w-2rem mr-10px" :src="tip.fromProfileImg.replace('normal', '200x200')" alt="">
+                      <img v-else class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                      <span>{{tip.fromUsername}}</span>
                     </div>
-                  </template>
-                  <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                    <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-start"
-                         v-for="i of ['going', 'participated', 'ended']" :key="i">
-                      <template v-if="i==='going'">
-                        <div class="flex items-center">
-                          <div class="text-color8B font-bold min-w-4rem">04:38</div>
-                          <div>Reply on Tweet -></div>
-                        </div>
-                      </template>
-                      <template v-if="i==='participated'">
-                        <div class="flex items-center">
-                          <div class="min-w-4rem">
-                            <img class="w-1.6rem" src="~@/assets/icon-success-green.svg" alt="">
-                          </div>
-                          <div>Reply on Tweet -></div>
-                        </div>
-                      </template>
-                      <template v-if="i==='ended'">
-                        <div class="flex items-start">
-                          <span class="text-redColor font-bold min-w-4rem">Ened</span>
-                          <div class="">
-                            <div>Reply on Tweet -></div>
-                            <div class="flex flex-wrap">
-                              <div class="opacity-70 mr-10px whitespace-nowrap">My prize: 8.3     SIL</div>
-                              <div class="opacity-50 whitespace-nowrap">all 323 participants >></div>
-                            </div>
-                          </div>
-                        </div>
-                      </template>
-                      <div class="flex whitespace-nowrap items-center justify-end min-w-1/3">
-                        <img class="border-1 border-color-62 rounded-full w-1.6rem"
-                             src="~@/assets/icon-eth-white.svg" alt="">
-                        <span>100 USDT</span>
-                      </div>
-                    </div>
+                    <span>{{tip.amount}} STEEM</span>
                   </div>
-                </el-collapse-item>
-              </el-collapse>
+                </div>
+              </el-collapse-transition>
             </div>
+          </div>
+
+          <!-- popups -->
+          <template v-if="contentType==='space'">
+            <PopUpsCard></PopUpsCard>
           </template>
           <!-- quests -->
           <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
@@ -434,6 +370,7 @@ import CurationItem from "@/components/CurationItem";
 import SpeakerCollapse from "@/components/SpeakerCollapse";
 import SpeakerTipModal from "@/components/SpeakerTipModal";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
+import PopUpsCard from "@/components/PopUpsCard";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 
@@ -442,7 +379,7 @@ export default {
   components: {
     TweetAttendTip, Submissions, Blog, Space,
     CurationItem, SpeakerCollapse, SpeakerTipModal,
-    CreatePopUpModal
+    CreatePopUpModal, PopUpsCard
   },
   data() {
     return {
@@ -738,5 +675,10 @@ export default {
   &:focus {
     background-image: url("~@/assets/icon-share-primary.svg");
   }
+}
+.tip-bg {
+  background-image: url("~@/assets/tips-img.png");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
 }
 </style>
