@@ -200,15 +200,15 @@
                   </div>
                 </template>
                 <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center" @click="quoteOrLike">
+                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer" @click="quoteOrReply">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isQuote?'icon-checked':'icon-msg'"></i>
                     <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
                   </div>
-                  <div v-if="isLike" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                  <div v-if="isLike" @click="like" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isLike?'icon-checked':'icon-like'"></i>
                     <span>Like (or Verify your Like)</span>
                   </div>
-                  <div v-if="isFollow" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center">
+                  <div v-if="isFollow" @click="follow" class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
                     <i class="w-1.2rem h-1.2rem mr-10px" :class="isFollow?'icon-checked':'icon-follow'"></i>
                     <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
@@ -512,7 +512,7 @@ export default {
       return (this.detailCuration.taskRecord & 4) / 4
     },
     followed() {
-      return (this.detailCuration.taskRecord & 8) / 8
+      return (this.detailCuration.authorId === this.getAccountInfo.twitterId) || (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
       if (!this.detailCuration) return ''
@@ -592,7 +592,7 @@ export default {
         return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
-    quoteOrLike() {
+    quoteOrReply() {
       let url;
       if (this.isQuote) {
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
