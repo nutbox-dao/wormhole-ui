@@ -1,8 +1,12 @@
 <template>
-  <div class="flex items-end relative" :style="{height: height, width: width}">
-    <img v-if="icon" class="w-full h-full" :src="icon" alt="">
-    <img v-else class="w-full h-full" src="~@/assets/token-usdt.svg" alt="">
-    <img class="absolute bottom-0 right-0 w-1/3 h-1/3" src="~@/assets/icon-eth-white.svg" alt="">
+  <div class="flex items-center bg-primaryColor/20 w-min rounded-full">
+    <div class="flex items-end relative min-w-24px min-h-24px" :style="{height: height, width: width}">
+      <img v-if="icon" class="w-full h-full" :src="icon" alt="">
+      <img v-else class="w-full h-full" src="~@/assets/token-usdt.svg" alt="">
+      <img class="absolute -bottom-5px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
+           src="~@/assets/icon-eth-white.svg" alt="">
+    </div>
+    <slot name="amount"></slot>
   </div>
 </template>
 
@@ -22,10 +26,15 @@ export default {
     },
     token: {
       type: Object,
-      default: {}
+      default: () => {
+        return {
+          symbol: 'USDT',
+          address: ''
+        }
+      }
     },
     chainName: {
-      type: 'String',
+      type: String,
       default: ''
     }
   },

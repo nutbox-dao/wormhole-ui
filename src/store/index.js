@@ -5,6 +5,7 @@ import { b64uEnc, b64uDec } from '@/utils/helper'
 import postsModule from './postsModule'
 import web3 from './web3'
 import curation from './curation'
+import {testAccount} from "@/views/square/test-data";
 
 export default Vuex.createStore({
   state: {
@@ -38,18 +39,19 @@ export default Vuex.createStore({
       }
     },
     getAccountInfo: (state) => {
-      const acc = state.accountInfo
-      if (acc) {
-        if (acc.twitterUsername) {
-           return acc
-        }
-        return JSON.parse(acc)
-      }else {
-        const accInfo = localStorage.getItem('accountInfo')
-        if (accInfo)
-          return JSON.parse(accInfo)
-        return null
-      }
+      // const acc = state.accountInfo
+      // if (acc) {
+      //   if (acc.twitterUsername) {
+      //      return acc
+      //   }
+      //   return JSON.parse(acc)
+      // }else {
+      //   const accInfo = localStorage.getItem('accountInfo')
+      //   if (accInfo)
+      //     return JSON.parse(accInfo)
+      //   return null
+      // }
+      return testAccount
     }
   },
   mutations: {
@@ -73,7 +75,7 @@ export default Vuex.createStore({
         // Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d');
         localStorage.setItem('accountInfo', JSON.stringify(accountInfo))
       }
-      
+
     },
     saveMonitorNftInserval: (state, monitorNftInserval) => {
       state.monitorNftInserval = monitorNftInserval

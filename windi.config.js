@@ -57,7 +57,9 @@ export default defineConfig({
         'glass': 'linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%)',
         'purple-white': 'linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%)',
         'text-color17': 'linear-gradient(99.51deg, #170F49 9.03%, #170F49 89.53%)',
-        'gradient-input': 'linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%)'
+        'gradient-input': 'linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%)',
+        'tag-gradient': 'linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%)',
+        'view-more': 'linear-gradient(180deg, rgba(73, 73, 73, 0) 69.57%, #494949 100%);'
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)'

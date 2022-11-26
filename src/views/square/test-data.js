@@ -27,3 +27,28 @@ export const testAccount = {
   "isRegistry": 1,
   "source": 1
 }
+
+export const testCurations = [{
+  "curationId": "99dedb083352",
+  "creatorTwitter": "1436783473",
+  "creatorETH": "0xE27890A9F122c6DF6F27a6Fb92970334777016Dd",
+  "content": "中文圈第一个对策展市场（Curation Market）进行深入思考，并形成文章分享给大家的Web3 Buidler。建议用心阅读，并参与到其中的建设。\n\nQuote此篇文章，根据社交影响力分享 50美元，大家开始Quote吧！\n\nhttps://twitter.com/Morii_fgh/status/1595474546043166720",
+  "token": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+  "amount": "60000000000000000000",
+  "decimals": 18,
+  "maxCount": 9999999,
+  "endtime": 1669737600,
+  "tweetId": "1595581401247744002",
+  "createdTime": "2022-11-24T00:53:19.000Z",
+  "tokenName": "Wrapped Matic",
+  "tokenSymbol": "WMATIC",
+  "curationStatus": 0,
+  "createStatus": 1,
+  "profileImg": "https://pbs.twimg.com/profile_images/1573804650058244096/ZniHzlCS_normal.jpg",
+  "twitterName": "瓜子",
+  "twitterUsername": "0xNought",
+  "steemId": "iguazi123952",
+  "curatorProfile": ["https://pbs.twimg.com/profile_images/1524186469770096641/g-Tqyc-D_normal.jpg", "https://pbs.twimg.com/profile_images/1565219667903496192/Lq58e_l1_normal.jpg", "https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_normal.jpg"],
+  "totalCount": 49,
+  "curationType": 1
+}]
