@@ -234,7 +234,6 @@ export async function getStellarTreks(address) {
 }
 
 export async function getLiquidationNft(address) {
-    address = '0xfc0f17eE63ae348294D0F130f7E0d06C61E83DE1'
     if (!ethers.utils.isAddress(address)) {
         return;
     }
