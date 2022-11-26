@@ -70,6 +70,9 @@ button:disabled {
   &-colorCB {
     background-image: linear-gradient(to right, #CBBEE7, #FFFFFF);
   }
+  &-color91 {
+    background-image: linear-gradient(to right, #917AFD33, #6246EA33);
+  }
 }
 .light .gradient-border {
   box-shadow: 2px 1000px 2px var(--primary-bg-light) inset;

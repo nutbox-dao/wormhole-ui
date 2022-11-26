@@ -10,7 +10,7 @@ export default defineConfig({
         primaryColor1: '#7C3AED',
         redColor: '#CE395F',
         greenColor: '#36D233',
-        orangeColor: '#FF9352',
+        orangeColor: '#FF8700',
         primaryBg: '#0D1117',
         primaryBgLight: '#F7F7F9',
         dialogBg: '#131313',
@@ -44,6 +44,8 @@ export default defineConfig({
         colorD6: '#D6D6D6',
         color17: '#170F49',
         color6F: '#6F6C90',
+        colorED: '#EDEDFC',
+        colorEE: '#EEB134',
         blueDark: '#1A1E25'
       },
       screens: {
