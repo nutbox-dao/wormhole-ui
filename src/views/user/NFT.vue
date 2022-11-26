@@ -7,9 +7,9 @@
 <!--        By depositing into this account, you are agreeing to our terms of service.-->
 <!--      </div>-->
 <!--    </div>-->
-    <div>
+    <div class="pt-1rem px-1.5rem">
       <template  v-if="reputation>0 || showingStellarTreks.length > 0">
-        <div class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+        <div class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
             @click="modalVisible=true">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
               src="~@/assets/icon-nft.svg" alt="">
@@ -18,7 +18,8 @@
             <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
           </div>
         </div>
-        <div v-for="st of  showingStellarTreks" :key="st" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+        <div v-for="st of  showingStellarTreks" :key="st"
+             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
          @click="showTrek(st.image)">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
               :src="st.image" alt="">
@@ -95,12 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.top-box {
-  background: linear-gradient(99.28deg, rgba(83, 83, 83, 0.8) 0.41%, rgba(78, 72, 61, 0.8) 75.78%);
-  border: 1px solid #323436;
-  border-radius: 12px;
-}
-.router-link-exact-active {
-  background-color: var(--primary-custom);
+.c-list-item:last-child {
+  border: none;
 }
 </style>

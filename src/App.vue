@@ -82,7 +82,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 overflow-auto">
+      <div class="flex-1 overflow-auto relative">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -189,7 +189,7 @@ export default {
     },
     login() {
       this.$store.commit('saveShowLogin', true)
-    },  
+    },
     async monitorPrices() {
       let res = await Promise.all([
         axios.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT'),

@@ -28,17 +28,26 @@
       <div class="sm:mt-1rem sm:px-1rem">
         <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg light:sm:bg-white rounded-12px"
              :class="curationsList && curationsList.length>0?'md:p-1rem':''">
-          <div class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex flex-wrap gap-x-1.5rem gap-y-0.8rem ">
-              <span v-for="(tag, index) of subTagList" :key="index"
-                    v-show="index!==1"
-                    class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
-                    :class="subActiveTagIndex===index?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
-                    @click="changeSubIndex(index)">{{tag}}</span>
-          </div>
+          <el-popover :width="80" popper-class="c-popper" trigger="click" transition="el-zoom-in-top" ref="subTagRef">
+            <template #reference>
+              <button class="flex items-center py-0.5rem ml-auto mr-16px my-10px">
+                <span class="text-color62 text-14px">{{subTagList[subActiveTagIndex]}}</span>
+                <img class="ml-4px"  src="~@/assets/icon-arrow-primary.svg" alt="">
+              </button>
+            </template>
+            <div class="shadow-md bg-blockBg light:bg-white rounded-12px w-min px-1rem py-0.5rem ml-auto mr-0">
+                <div v-for="(tag, index) of subTagList" :key="index"
+                     v-show="index!==1"
+                     class="leading-30px whitespace-nowrap px-0.6rem rounded-full font-500 h-30px cursor-pointer"
+                     :class="subActiveTagIndex===index?'text-color62':''"
+                     @click="changeSubIndex(index)">{{tag}}</div>
+            </div>
+          </el-popover>
           <div class="c-text-black text-1.8rem mb-3rem min-h-1rem" v-if="refreshing && (!curationsList || curationsList.length === 0)">
             <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
           </div>
-          <div v-else-if="curationsList && curationsList.length === 0" class="py-3rem bg-blockBg light:bg-white rounded-12px">
+          <div v-else-if="curationsList && curationsList.length === 0"
+               class="py-3rem bg-blockBg light:bg-white rounded-12px mx-16px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
               {{$t('curationsView.p2')}}
@@ -93,6 +102,7 @@ export default {
       refreshing: false,
       subTagList: ['Ongoing', 'Ended', 'Completed'],
       subActiveTagIndex: 0,
+      subActiveTag: 'Ongoing',
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
     }
@@ -113,6 +123,8 @@ export default {
   },
   methods: {
     changeSubIndex(index) {
+      if(this.subActiveTagIndex===index) return
+      this.$refs.subTagRef.hide()
       this.listFinished = false
       this.subActiveTagIndex = index
       this.onRefresh()
