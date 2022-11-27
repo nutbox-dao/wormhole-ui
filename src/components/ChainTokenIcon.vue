@@ -61,6 +61,7 @@ export default {
     },
     isFake() {
       const t = EVM_CHAINS[this.chain].assets[this.token.symbol]
+      console.log(33, t.address, this.token.address, this.token.symbol);
       if (t && t.address  === this.token.address) {
         return false;
       }

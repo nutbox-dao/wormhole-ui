@@ -72,7 +72,7 @@
 import { mapState } from "vuex";
 import ConfirmRewardTip from "@/components/ConfirmRewardTip";
 import { parseTimestamp, formatAmount } from "@/utils/helper";
-import { getRefreshCurationRecord } from '@/api/api'
+import { getCurationRecord } from '@/api/api'
 
 export default {
   name: "Submissions",
@@ -102,6 +102,7 @@ export default {
     }
   },
   mounted() {
+    this.list = this.records;
     this.onLoad()
     // this.list = this.records
   },
@@ -113,7 +114,11 @@ export default {
     },
     onLoad() {
       this.loading = true
-      getRefreshCurationRecord(this.detailCuration.curationId, this.list.length, 0).then(list=>{
+      let time;
+      if (this.records.length > 0) {
+        time = this.records[this.records.length - 1].createAt
+      }
+      getCurationRecord(this.detailCuration.curationId, time).then(list=>{
         if (list.length < 30) {
           this.finished = true
         }else {

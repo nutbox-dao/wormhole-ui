@@ -89,7 +89,7 @@
                   </el-carousel-item>
                 </el-carousel>
                 <span v-else class="absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
-                {{ detailCuration.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
+                {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
                 <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
                         class="ml-10px bg-tag-gradient text-white h-24px min-w-4rem flex items-center justify-center
@@ -176,7 +176,7 @@
                        @error="replaceEmptyImg"
                        :src="record.profileImg" alt="">
                 </div>
-                <button class="ml-10px" @click="showSubmissions=true">All participants >></button>
+                <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">All participants >></button>
               </div>
             </div>
           </div>
@@ -208,11 +208,11 @@
             </template>
           </div>
           <!-- Related Curations web -->
-          <div class="hidden xl:block py-1rem rounded-15px mt-1rem" v-if="detailCuration && detailCuration.name">
+          <div class="hidden xl:block py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
             <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                 v-for="i of 3" :key="i">
-              <CurationItem :curation="detailCuration"
+                 v-for="item of relatedCurations" :key="item">
+              <CurationItem :curation="item"
                             class="bg-blockBg light:bg-white rounded-15px
                                    sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
               </CurationItem>
@@ -353,6 +353,7 @@ import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
+import ChainTokenIconVue from "@/components/ChainTokenIcon.vue";
 import Space from "@/components/Space";
 import CurationItem from "@/components/CurationItem";
 import SpeakerCollapse from "@/components/SpeakerCollapse";
@@ -417,27 +418,35 @@ export default {
       }
     },
     isQuote() {
+      if (!this.detailCuration) return false;
       return this.detailCuration.tasks & 1;
     },
     isReply() {
+      if (!this.detailCuration) return false;
       return (this.detailCuration.tasks & 2) / 2
     },
     isLike() {
+      if (!this.detailCuration) return false;
       return (this.detailCuration.tasks & 4) / 4
     },
     isFollow() {
+      if (!this.detailCuration) return false;
       return (this.detailCuration.tasks & 8) / 8
     },
     quoted() {
-      return this.detailCuration.taskRecord & 1;
+      if(!this.detailCuration || this.getAccountInfo) return false
+      return this.detailCuration?.taskRecord & 1;
     },
     replyed() {
-      return (this.detailCuration.taskRecord & 2) / 2
+      if(!this.detailCuration || this.getAccountInfo) return false
+      return (this.detailCuration?.taskRecord & 2) / 2
     },
     liked() {
-      return (this.detailCuration.taskRecord & 4) / 4
+      if(!this.detailCuration || this.getAccountInfo) return false
+      return (this.detailCuration?.taskRecord & 4) / 4
     },
     followed() {
+      if(!this.detailCuration || this.getAccountInfo) return false
       return (this.detailCuration.authorId === this.getAccountInfo.twitterId) || (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
@@ -553,7 +562,7 @@ export default {
       try{
         this.following = true
         await userFollowing(this.detailCuration.authorId)
-        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
+        this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 4
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
@@ -616,7 +625,8 @@ export default {
       console.log('curation detail: ', res);
       if (res) {
         getCurationsOfTweet(res.tweetId).then(res => {
-          this.relatedCurations = res ?? []
+          const cs = res ?? []
+          this.relatedCurations = cs.filter(c => c.curationId !== this.detailCuration.curationId)
         })
         this.$store.commit('curation/saveDetailCuration', res)
         this.updateCurationInfos()
