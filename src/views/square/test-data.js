@@ -25,7 +25,8 @@ export const testAccount = {
   "hasMintedRP": 1,
   "bindSteem": 1,
   "isRegistry": 1,
-  "source": 1
+  "source": 1,
+  "name": 'username'
 }
 
 export const testCurations = [{

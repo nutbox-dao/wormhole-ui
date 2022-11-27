@@ -22,7 +22,7 @@
             04:38
             <img v-if="isJoin"
                  class="w-14px h-14px absolute bottom-0 -right-5px"
-                 src="~@/assets/icon-success-green.svg" alt="">
+                 src="~@/assets/icon-checked-green.svg" alt="">
           </div>
           <div v-if="i==='ended'"
                class="text-white rounded-full h-full bg-colorD8 whitespace-nowrap
@@ -30,7 +30,7 @@
             Ended
             <img v-if="isJoin"
                  class="w-14px h-14px absolute bottom-0 -right-5px"
-                 src="~@/assets/icon-success-green.svg" alt="">
+                 src="~@/assets/icon-checked-green.svg" alt="">
           </div>
           <div class="flex-1 ml-1rem whitespace-nowrap truncate">
             NutBox first airdrop campaign
