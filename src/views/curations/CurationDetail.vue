@@ -129,7 +129,7 @@
                       <span>{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
                     </div>
                     <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
-                      <ChainTokenIconVue :width="'1.6rem'" :height="'1.6rem'" :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"/>
+                      <ChainTokenIconVue :width="'1.6rem'" :height="'1.6rem'" :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}" :chainName="detailCuration?.chainId"/>
                       <span>{{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}</span>
                     </div>
                   </div>
