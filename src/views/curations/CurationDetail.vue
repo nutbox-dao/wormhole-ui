@@ -117,26 +117,43 @@
             <PopUpsCard></PopUpsCard>
           </template>
           <!-- quests -->
-          <div class="bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3
-                    rounded-15px text-left mt-1rem">
-            <el-collapse class="border-0 no-border-collapse pb-0">
-              <el-collapse-item name="">
-                <template #title>
-                  <div class="flex-1 flex justify-between items-center text-white
-                              light:text-blueDark px-1.25rem font-bold">
-                    <div>
-                      <span class="c-text-black mr-6px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
-                      <span>{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
-                    </div>
-                    <div class="flex whitespace-nowrap items-center justify-end min-w-1/3 text-white">
-                      <ChainTokenIconVue :width="'1.6rem'" :height="'1.6rem'" :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}" :chainName="detailCuration?.chainId"/>
-                      <span>{{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}</span>
-                    </div>
-                  </div>
-                </template>
-                <div class="text-white light:text-blueDark py-0.5rem border-t-1 border-color8B/30">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer" @click="quoteOrReply">
-                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isQuote?'icon-checked':'icon-msg'"></i>
+          <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
+                      rounded-12px overflow-hidden text-left mt-1rem">
+            <div>
+              <div class="flex-1 flex items-center text-white bg-blueDark relative">
+                <div class="w-44/100 h-40px flex px-1.25rem flex items-center c-text-black">
+                  <span class="mr-6px bg-color19 rounded-full text-10px min-h-24px min-w-24px
+                               flex items-center justify-center">
+                    {{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}
+                  </span>
+                  <span>{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
+                </div>
+                <div class="w-56/100 h-40px whitespace-nowrap bg-tag-gradient
+                            flex items-center justify-center min-w-1/3 text-white token-tag">
+                  <ChainTokenIconVue height="20px" width="20px"
+                                     :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
+                                     :chainName="detailCuration?.chainId">
+                    <template #amount>
+                      <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                        {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
+                      </span>
+                    </template>
+                  </ChainTokenIconVue>
+                </div>
+                <button class="absolute right-10px top-1/2 transform -translate-y-1/2"
+                        @click="quotesCollapse=!quotesCollapse">
+                  <img class="w-14px"
+                       :class="quotesCollapse?'transform rotate-180':''"
+                       src="~@/assets/icon-arrow.svg" alt="">
+                </button>
+              </div>
+              <el-collapse-transition>
+                <div v-show="quotesCollapse"
+                     class="text-white light:text-blueDark py-0.5rem font-bold">
+                  <div @click="quoteOrReply"
+                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
+                    <i class="w-1.2rem h-1.2rem mr-10px"
+                       :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
                     <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
                   </div>
                   <div v-if="isLike" @click="like"
@@ -150,34 +167,51 @@
                     <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
                 </div>
-              </el-collapse-item>
-            </el-collapse>
-            <div class="w-full h-1px bg-color8B/30"></div>
-            <div class="flex items-center justify-between px-1.25rem py-1rem">
-              <span>💃🏼 Participants</span>
+              </el-collapse-transition>
+            </div>
+            <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>
+            <div class="flex items-center justify-between h-40px xl:h-2rem pl-1.25rem pr-10px">
+              <span class="c-text-black">Participants</span>
               <div class="flex items-center">
                 <div class="-ml-7px" v-for="p of participant.slice(0,3)" :key="p">
-                  <img v-if="p.profileImg" class="w-1.6rem"
+                  <img v-if="p.profileImg"
+                       class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
+                       @error="replaceEmptyImg"
                        :src="p.profileImg" alt="">
-                  <img v-else class="w-1.6rem"
+                  <img v-else
+                       class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
                        src="~@/assets/icon-default-avatar.svg" alt="">
                 </div>
                 <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">All participants >></button>
               </div>
             </div>
           </div>
-          <div class="bg-blockBg h-min px-1.25rem py-1rem light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left mt-1rem">
-            <div>
-              <div class="font-bold">📝 Description</div>
-              <div>{{detailCuration?.description}}</div>
-            </div>
-            <div class="flex justify-between items-center py-1rem">
-              <span>🎁 Prize</span>
-              <span>{{detailCuration ? (detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}} USDT</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>📅 Expiration</span>
-              <span>1 DAY 27 MIN 05 S</span>
+          <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
+                      rounded-12px overflow-hidden mt-1rem">
+            <div class="px-1.25rem pt-8px pb-1rem text-left">
+              <div class="c-text-black mt-4px">Details</div>
+              <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
+              <div class="text-color7D">{{detailCuration?.description}}</div>
+              <div class="flex justify-between items-center mt-1rem c-text-black">
+                <span class="">Prize</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+                  {{detailCuration ? (detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}} USDT
+                </button>
+              </div>
+              <!-- 已结束 -->
+              <div class="flex justify-between items-center mt-1rem c-text-black">
+                <span class="">End Time</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
+                  1 DAY 27 MIN 05 S
+                </button>
+              </div>
+              <!-- 未结束 -->
+              <div class="flex justify-between items-center mt-1rem c-text-black">
+                <span class="">Expiration</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+                  1 DAY 27 MIN 05 S
+                </button>
+              </div>
             </div>
             <template v-if="contentType==='space'">
               <div class="light:bg-card-gradient text-left mt-1rem">
