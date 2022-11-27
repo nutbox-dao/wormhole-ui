@@ -46,6 +46,7 @@ export default defineConfig({
         color6F: '#6F6C90',
         colorED: '#EDEDFC',
         colorEE: '#EEB134',
+        color19: '#19AF00',
         blueDark: '#1A1E25'
       },
       screens: {
@@ -61,7 +62,8 @@ export default defineConfig({
         'text-color17': 'linear-gradient(99.51deg, #170F49 9.03%, #170F49 89.53%)',
         'gradient-input': 'linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%)',
         'tag-gradient': 'linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%)',
-        'view-more': 'linear-gradient(180deg, rgba(73, 73, 73, 0) 69.57%, #494949 100%);'
+        'view-more': 'linear-gradient(180deg, rgba(73, 73, 73, 0) 69.57%, #494949 100%);',
+        'card-gradient': 'linear-gradient(95.37deg, #F5F1FF 10.99%, #FFFFFF 93.32%)'
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)'

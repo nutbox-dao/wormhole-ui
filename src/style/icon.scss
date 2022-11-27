@@ -121,5 +121,25 @@
 
 .icon-checked {
   @extend .icon;
-  background-image: url("~@/assets/icon-success-green.svg");
+  background-image: url("~@/assets/icon-checked-green.svg");
+}
+
+.icon-quote-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-circle.svg");
+}
+
+.icon-reply-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-circle.svg");
+}
+
+.icon-like-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-like-circle.svg");
+}
+
+.icon-follow-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-follow-circle.svg");
 }

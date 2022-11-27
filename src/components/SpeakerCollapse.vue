@@ -1,50 +1,60 @@
 <template>
-  <el-collapse class="border-0 no-border-collapse pb-0 speaker-collapse">
-    <el-collapse-item name="" :class="allUsers.length<5?'collapse-no-arrow':''" :disabled="allUsers.length<5">
-      <template #title>
-        <div class="flex-1">
-          <div class="text-white light:text-blueDark px-1.25rem font-bold
-                              flex-1 flex justify-between items-center truncate">
-            👧🏻 Speakers
+  <div class="px-1.25rem pt-8px text-left">
+    <div class="c-text-black">Speakers</div>
+    <div class="w-full h-1px bg-color8B/30 light:bg-white my-10px"></div>
+    <div class="collapse-box" :class="isCollapse?'show':''">
+      <div class="flex flex-wrap gap-x-4px" ref="speakerListRef">
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
+             @click="$emit('showTip')">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
+            <img v-if="host.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 :src="avatar(host.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
+            <img class="absolute -top-10px -left-8px" src="~@/assets/tag-host.svg" alt="">
           </div>
-          <div class="flex flex-wrap px-1.25rem pb-1rem gap-1rem overflow-hidden header-avatar">
-            <div v-for="u of allUsers" :key="'host' + u.twitterId" class="w-4rem" @click.stop="$emit('showTip')">
-              <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
-              <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-              <div class="w-4rem text-color8B mt-0.5rem leading-1rem truncate">{{u.name}}</div>
-            </div>
-          </div>
+          <span class="w-full text-center truncate mt-4px">{{host.name}}</span>
         </div>
-      </template>
-      <div class="text-white light:text-blueDark px-1.25rem py-0.5rem border-t-1 border-color8B/30">
-        <div class="text-1.2rem c-text-black my-6px">Host</div>
-        <div class="flex justify-between items-center">
-          <div class="flex items-center py-5px">
-            <img v-if="host.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(host.profileImg)" alt="">
-            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span>{{host.name}}</span>
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
+             v-for="u of coHosts" :key="'co' + u.twitterId"
+             @click="$emit('showTip')">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
+            <img v-if="u.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 :src="avatar(u.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
+            <img class="absolute -top-10px -left-8px" src="~@/assets/tag-co-hosts.svg" alt="">
           </div>
-          <div class="flex items-center py-5px" v-for="u of coHosts" :key="'co' + u.twitterId">
-            <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
-            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span>{{u.name}}</span>
-          </div>
-          <button class="border-1 border-color62 px-1rem rounded-full text-color62"
-                  @click="$emit('showTip')">Tip</button>
+          <span class="w-full text-center truncate mt-4px">{{u.name}}</span>
         </div>
-        <div class="text-1.2rem c-text-black my-6px">Speaker</div>
-        <div class="flex justify-between items-center" v-for="u of speakers" :key="'speaker' + u.twitterId">
-          <div class="flex items-center py-5px">
-            <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
-            <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span>{{u.name}}</span>
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
+             v-for="u of speakers" :key="'speaker' + u.twitterId"
+             @click="$emit('showTip')">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full mt-10px">
+            <img v-if="u.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 :src="avatar(u.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
           </div>
-          <button class="border-1 border-color62 px-1rem rounded-full text-color62"
-                  @click="$emit('showTip')">Tip</button>
+          <span class="w-full text-center truncate mt-4px">{{u.name}}</span>
         </div>
       </div>
-    </el-collapse-item>
-  </el-collapse>
+    </div>
+    <button class="w-full min-h-1rem"
+            :disabled="!enableCollapse"
+            @click="isCollapse=!isCollapse">
+      <img v-if="enableCollapse"
+           class="w-14px h-14px mx-auto mt-5px mb-10px"
+           :class="isCollapse?'transform rotate-180':''"
+           src="~@/assets/icon-arrow-black.svg" alt="">
+    </button>
+  </div>
 </template>
 
 <script>
@@ -61,7 +71,9 @@ export default {
       allUsers: [],
       host: {},
       coHosts: [],
-      speakers: []
+      speakers: [],
+      enableCollapse: false,
+      isCollapse: false
     }
   },
   methods: {
@@ -77,13 +89,28 @@ export default {
       this.speakers = newValue.speakers ?? [];
       this.allUsers = [this.host].concat(this.coHosts).concat(this.speakers)
     };
+      if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 80) {
+        this.enableCollapse = true
+      }
     }
   },
   mounted () {
+    if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 80) {
+      this.enableCollapse = true
+    }
   },
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.collapse-box {
+  max-height: 82px;
+  min-height: 82px;
+  overflow: hidden;
+  transition: max-height ease 0.2s;
+  &.show {
+    max-height: 1500px;
+    transition: max-height ease-in-out 0.5s;
+  }
+}
 </style>
