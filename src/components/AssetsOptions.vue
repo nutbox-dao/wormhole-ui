@@ -1,94 +1,127 @@
 <template>
-  <div>
+  <div ref="assetsOptionsRef">
     <div class="mt-1.8rem">
-      <div class="mb-6px">{{$t('curation.chain')}}</div>
-      <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-40px 2xl:h-2rem">
-        <el-select v-model="selectedChainName" class="w-full" size="large"
-                   @change="connectWallet(selectedChainName)">
-          <template v-if="showsteem">
-            <el-option label="Steem" value="steem"></el-option>
-            <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
-            <div v-if="!showEvm" class="">
-              The target twitter user not register wormhole3
+      <div class="font-bold mb-10px">{{$t('curation.network')}}</div>
+      <div class="w-full bg-black/40 border-1 border-color8B/30
+                  light:bg-white light:border-colorE3 flex items-center
+                  rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
+        <CustomSelect v-model="selectedChainName"
+                      @change="connectWallet(selectedChainName)">
+          <template #prefix>
+            <!-- chain logo -->
+            <img v-if="selectedChainName"
+                 class="w-24px min-w-24px h-24px min-h-24px rounded-full mr-15px"
+                 src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+          </template>
+          <template #options>
+            <div class="bg-block light:bg-white border-1 border-color8B/30
+                          light:border-colorE3 rounded-8px overflow-hidden">
+              <template v-if="showsteem">
+                <el-option value="steem" class="py-5px px-12px h-min">
+                  <template #default>
+                    <div class="flex items-center ">
+                      <span class="min-w-24px min-h-24px">
+                        <img class="w-24px h-24px rounded-full mr-15px"
+                             src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+                      </span>
+                      <span>Steem</span>
+                    </div>
+                  </template>
+                </el-option>
+                <div class="w-full h-1px bg-color8B/30"></div>
+                <div v-if="!showEvm" class="">
+                  The target twitter user not register wormhole3
+                </div>
+              </template>
+              <el-option v-for="item of Object.keys(EVM_CHAINS)" :key="item"
+                         class="py-5px px-12px h-min"
+                         :disabled="!showEvm"
+                         :value="item">
+                <template #default>
+                  <div class="flex items-center ">
+                    <span class="min-w-24px min-h-24px">
+                      <img class="w-24px h-24px rounded-full mr-15px"
+                           src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+                    </span>
+                    <span>{{item}}</span>
+                  </div>
+                </template>
+              </el-option>
             </div>
           </template>
-          <el-option
-              v-for="item of Object.keys(EVM_CHAINS)"
-              :disabled="!showEvm"
-              :key="item"
-              :label="item"
-              :value="item"
-          />
-        </el-select>
+        </CustomSelect>
       </div>
     </div>
-    <div>
-      {{ selectedChainName==='steem' ? getAccountInfo.steemId : formatAddress(walletAddress, 12, 12) }}
+    <div v-if="selectedChainName==='steem'" class="text-color62 mt-6px font-bold text-right">
+      {{$t('common.account')}}: {{getAccountInfo.steemId}}
+    </div>
+    <div v-else class="text-color62 mt-6px font-bold text-right">
+      {{$t('common.address')}}: {{formatAddress(walletAddress, 12, 12) }}
     </div>
     <div class="mt-1.8rem">
-      <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
-      <div class="flex items-center flex-col sm:flex-row">
+      <div class="font-bold mb-10px">{{$t('curation.rewardsAmount')}}</div>
+      <div class="flex items-center relative">
         <div ref="tokenPopper"
-             class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                        rounded-12px h-40px 2xl:h-2rem flex items-center">
-          <img v-if="selectedGift.giftUrl && selectedChainName === 'steem'"
-               class="h-30px 2xl:h-1.6rem ml-10px"
-               src="~@/assets/icon-like.svg" alt="">
+             class="w-1/2 bg-black/40 border-1 border-color8B/30 mr-5px
+                    light:bg-white light:border-colorE3 flex items-center
+                    rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
+          <span v-if="selectedGift.img && selectedChainName === 'steem'"
+               class="text-20px ml-12px">{{selectedGift.img}}</span>
           <slot name="amount"></slot>
-          <el-popover
-                      popper-class="c-popper" placement="top-end" width="250"
+          <el-popover popper-class="c-popper c-select-popper"
+                      :width="popperWidth" :teleported="false"
                       trigger="click" ref="giftPopover">
             <template #reference>
               <div v-show="selectedChainName === 'steem'" class="px-10px">
-                <img class="w-2.5rem cursor-pointer" src="~@/assets/icon-emoji.svg" alt="">
+                <img class="w-2.5rem cursor-pointer" src="~@/assets/icon-emoji-grey.svg" alt="">
               </div>
             </template>
             <template #default>
-              <div class="border-1 border-color8B/30 bg-blockBg
+              <div class="border-1 border-color8B/30 bg-blockBg ml-13px sm:ml-16px
                           light:bg-white light:border-colorE3
-                          rounded-12px p-10px flex flex-wrap
-                          gap-y-0.5rem gap-x-2rem max-h-11rem overflow-auto">
-                <div v-if="selectedChainName==='steem'" class="flex flex-col justify-center items-center"
-                     v-for="i of 7" :key="i" @click="selectGift({giftUrl: '', value: 100})">
-                  <img v-show="selectedChainName==='steem'" class="h-4rem" src="~@/assets/icon-like.svg" alt="">
+                          rounded-12px p-10px grid grid-cols-4
+                          gap-y-20px gap-x-2rem max-h-200px overflow-auto">
+                <div class="flex flex-col justify-center items-center cursor-pointer"
+                     v-for="(gift, index) of giftList" :key="index"
+                     @click="selectGift(gift)">
+                  <span class="text-48px">{{gift.img}}</span>
                   <div class="flex items-center">
-                    <img class="w-1rem h-1rem min-w-1rem mr-5px" src="~@/assets/steem.png" alt="">
-                    <span class="whitespace-nowrap">1000</span>
+                    <img class="w-12px h-12px rounded-full mr-3px" src="~@/assets/steem.png" alt="">
+                    <span class="whitespace-nowrap">{{gift.value}}</span>
                   </div>
                 </div>
               </div>
             </template>
           </el-popover>
         </div>
-        <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
+        <div class="w-1/2">
           <div v-if="selectedChainName==='steem'"
-               class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      flex items-center px-15px
-                      rounded-12px h-40px 2xl:h-2rem">
+               class="w-full bg-black/40 border-1 border-color8B/30 px-12px
+                      light:bg-white light:border-colorE3 flex items-center
+                      rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
             <img class="h-22px mr-15px rounded-full" src="~@/assets/steem.png" alt="">
             <span class="text-color8B text-15px">Steem</span>
           </div>
-          <button v-else class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                          light:bg-colorF2 light:border-colorE3 hover:border-primaryColor disabled:border-color8B/30
-                          rounded-12px h-40px 2xl:h-2rem" :disabled="!walletAddress">
-            <el-popover popper-class="c-popper" placement="top" :width="popperWidth"
+          <button v-else
+                  class="w-full bg-black/40 border-1 border-color8B/30
+                         light:bg-white light:border-colorE3 flex items-center
+                         rounded-8px overflow-hidden h-44px 2xl:h-2.1rem"
+                  :disabled="!walletAddress">
+            <el-popover popper-class="c-popper"
+                        placement="top-end"
+                        :width="popperWidth"
                         :disabled="!walletAddress"
-                        trigger="click" ref="elPopover">
+                        trigger="click" ref="tokenPopover">
               <template #reference>
-                <button class="h-full w-full flex justify-between items-center cursor-pointer px-15px"
+                <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px"
                         :disabled="!walletAddress">
                   <span class="flex items-center">
                     <img v-if="TokenIcon[selectedToken.symbol]" class="h-22px mr-15px rounded-full"
                          :src="TokenIcon[selectedToken.symbol]" alt="">
-                    <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
+                    <span v-else class="text-color8B/70">Please select</span>
                     <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                   </span>
-                  <img class="w-1rem" src="~@/assets/icon-select-arrow.svg" alt="">
+                  <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
                 </button>
               </template>
               <template #default>
@@ -111,7 +144,7 @@
                     <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
                     <img v-else class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
                     <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                         @click="selectedToken = customToken;$refs.elPopover.hide()">
+                         @click="selectedToken = customToken;$refs.tokenPopover.hide()">
                       <span class="text-15px">{{customToken.symbol}}</span>
                       <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
@@ -119,7 +152,7 @@
                     </div>
                   </div>
                   <div v-for="token of tokenList" :key="token.address"
-                       @click="selectedToken=token;$refs.elPopover.hide()"
+                       @click="selectedToken=token;$refs.tokenPopover.hide()"
                        class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                     <img class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
@@ -137,7 +170,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-0.4rem text-right font-400 flex justify-end items-center">
+    <div class="mt-0.4rem text-right font-400 flex justify-end items-center text-color62">
       <div>{{$t('common.balance')}}: </div>
       <div class="font-bold ml-5px">{{ formatAmount(selectBalance) }}</div>
     </div>
@@ -157,9 +190,11 @@ import {formatAmount} from "@/utils/helper";
 import {ethers} from "ethers";
 import { mapGetters } from 'vuex'
 import { getSteemBalance } from '@/utils/steem'
+import CustomSelect from "@/components/CustomSelect";
 
 export default {
   name: "ChainOptions",
+  components: {CustomSelect},
   props: {
     chain: {
       type: String,
@@ -198,7 +233,24 @@ export default {
       selectBalance: 0,
       customToken: null,
       searchToken: '',
-      selectedGift: {}
+      selectedGift: {},
+      giftList: [
+        {img: '✌️', value: 10, isLimit: false},
+        {img: '🎈️', value: 10, isLimit: false},
+        {img: '🍔️', value: 10, isLimit: false},
+        {img: '🍻️', value: 10, isLimit: false},
+        {img: '❤️️', value: 50, isLimit: false},
+        {img: '🎃', value: 73, isLimit: true},
+        {img: '🎄', value: 73, isLimit: true},
+        {img: '🦃️', value: 73, isLimit: true},
+        {img: '🧧', value: 88, isLimit: true},
+        {img: '🥮', value: 88, isLimit: false},
+        {img: '🇨🇳', value: 88, isLimit: false},
+        {img: '🚀', value: 100, isLimit: false},
+        {img: '🎂', value: 200, isLimit: false},
+        {img: '🌹', value: 999, isLimit: false},
+        {img: '🛳', value: 1000, isLimit: false}
+      ]
     }
   },
   mounted() {
@@ -215,6 +267,8 @@ export default {
         this.walletAddress = null
       }
     })
+    this.popperWidth = this.$refs.assetsOptionsRef.clientWidth > 400 ?
+        this.$refs.assetsOptionsRef.clientWidth/3*2:this.$refs.assetsOptionsRef.clientWidth
   },
   watch: {
     walletAddress(val) {
@@ -236,11 +290,6 @@ export default {
   methods: {
     formatAddress,
     formatAmount,
-    onNext() {
-      this.$nextTick(() => {
-        this.popperWidth = this.$refs.tokenPopper.clientWidth
-      })
-    },
     async connectWallet(chain) {
       if(chain==='steem') {
         this.$emit('chainChange', chain)

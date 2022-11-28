@@ -143,3 +143,12 @@
   @extend .icon;
   background-image: url("~@/assets/icon-follow-circle.svg");
 }
+
+.icon-back {
+  @extend .icon;
+  background-image: url("~@/assets/icon-back.svg");
+}
+.light .icon-back {
+  @extend .icon;
+  background-image: url("~@/assets/icon-back-light.svg");
+}

@@ -1,32 +1,75 @@
 <template>
-  <div class="text-left px-1.25rem pb-1.5rem min-h-28rem">
-    <template v-if="step===1">
-      <div class="text-1.2rem c-text-black mb-1rem">Tip</div>
-      <div>You can send tips directly to any twitter account, regardless he/she has a wallet or not</div>
-      <div class="c-text-black mt-2rem">Host</div>
+  <div class="text-left text-14px 2xl:text-0.8rem flex flex-col">
+    <div class="relative">
+      <div class="flex justify-center items-center py-20px">
+        <i v-for="i of 2" :key="i"
+           class="block w-10px h-10px min-w-10px h-min-10px rounded-full mx-15px"
+           :class="step===i?'bg-color62':'bg-colorD6'"></i>
+      </div>
+      <button v-show="step>1" class="absolute left-20px top-1/2 transform -translate-y-1/2"
+              @click="step-=1">
+        <i class="w-20px h-20px 2xl:w-1.2rem 2xl:h-1.2rem icon-back"></i>
+      </button>
+      <button class="absolute right-20px top-1/2 transform -translate-y-1/2"
+              @click="$emit('close')">
+        <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+      </button>
+    </div>
+    <div v-if="step===1" class="px-1.25rem flex-1 overflow-auto mt-40px">
+      <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Tip</div>
+      <div class="text-color7D">
+        You can send tips directly to any twitter account, regardless he/she has a wallet or not
+      </div>
+      <div class="mt-2rem font-bold">Host</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center" @click="tip(host)">
-          <img v-if="host.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(host.profileImg)" alt="">
-          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-          <span>{{host.name}}</span>
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer"
+             @click="tip(host)">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
+            <img v-if="host.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full"
+                 :src="avatar(host.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
+            <img class="absolute -top-10px -left-8px" src="~@/assets/tag-host.svg" alt="">
+          </div>
+          <span class="w-full text-center truncate mt-4px">{{host.name}}</span>
         </div>
-        <div class="flex items-center" v-for="u of coHosts" :key="i" @click="tip(u)">
-          <img v-if="u.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(u.profileImg)" alt="">
-          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-          <span>{{u.name}}</span>
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer"
+             v-for="u of coHosts" :key="'co' + u.twitterId"
+             @click="tip(u)">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
+            <img v-if="u.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 :src="avatar(u.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
+            <img class="absolute -top-10px -left-8px" src="~@/assets/tag-co-hosts.svg" alt="">
+          </div>
+          <span class="w-full text-center truncate mt-4px">{{u.name}}</span>
         </div>
       </div>
-      <div class="c-text-black mt-2rem">Speakers</div>
+      <div class="font-bold mt-2rem">Speakers</div>
+
       <div class="py-1rem flex flex-wrap gap-x-2rem">
-        <div class="flex items-center" v-for="s of speakers" :key="s" @click="tip(s)">
-          <img v-if="s.profileImg" class="w-3rem h-3rem mr-10px rounded-1.5rem" :src="avatar(s.profileImg)" alt="">
-          <img v-else class="w-3rem h-3rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
-          <span>{{s.name}}</span>
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer"
+             v-for="s of speakers" :key="s"
+             @click="tip(s)">
+          <div class="border-2 gradient-border gradient-border-color3 rounded-full mt-10px">
+            <img v-if="s.profileImg"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 :src="avatar(s.profileImg)" alt="">
+            <img v-else
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                 src="~@/assets/icon-default-avatar.svg" alt="">
+          </div>
+          <span class="w-full text-center truncate mt-4px">{{s.name}}</span>
         </div>
       </div>
-    </template>
+    </div>
     <template v-if="step===2">
-      <TipModalVue :tipToUser="tipToUser" @close="$emit('close')" @back="step=1"/>
+      <TipModalVue class="flex-1 mt-40px" :tipToUser="tipToUser" @close="$emit('close')" @back="step=1"/>
     </template>
   </div>
 </template>

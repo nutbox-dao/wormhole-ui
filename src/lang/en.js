@@ -244,7 +244,8 @@ export default {
     like: 'Like',
     chain: 'Chain',
     tipToUser: "Tip asset to {'@'}{user}",
-    tipToSpeaker: "Tip asset to speakers"
+    tipToSpeaker: "Tip asset to speakers",
+    network: 'Network'
   },
   err: {
     serverErr: 'Server error',
@@ -274,6 +275,8 @@ export default {
     get: 'GET',
     balance: 'Balance',
     registerNow: 'Goto Register',
-    whatsSteem: 'Steem is a community-focused blockchain that creates an instant earning opportunity for the network’s users.'
+    whatsSteem: 'Steem is a community-focused blockchain that creates an instant earning opportunity for the network’s users.',
+    address: 'Address',
+    account: 'Account'
   }
 }
