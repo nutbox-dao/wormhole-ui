@@ -6,7 +6,7 @@
                     flex-1 flex justify-between items-center truncate">
           Pop-Ups
         </div>
-        <button class="w-1.2rem" @click.stop="createPopUpVisible=true">
+        <button v-if="showCreate" class="w-1.2rem" @click.stop="create">
           <img class="w-1.2rem" src="~@/assets/icon-add-yellow.svg" alt="">
         </button>
       </div>
@@ -59,9 +59,32 @@
 
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
+import { mapGetters } from 'vuex'
 export default {
   name: "PopUpsCard",
   components: {ChainTokenIcon},
+  props: {
+    popups: {
+      type: Array,
+      default: [] 
+    },
+    showCreate: {
+      type: Boolean,
+      default: true
+    }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
+  methods: {
+    create() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+          this.$store.commit('saveShowLogin', true);
+          return;
+      }
+      this.$emit('createPopUpVisible')
+    }
+  },
   data() {
     return {
       popUpsCollapse: false,

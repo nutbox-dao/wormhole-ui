@@ -1,7 +1,7 @@
 <template>
   <div class="text-12px xl:text-0.8rem">
     <div class="md:border-b-1 border-dividerColor md:mb-1rem">
-      <div class="relative container mx-auto max-w-50rem
+      <!-- <div class="relative container mx-auto max-w-50rem
                   md:px-1rem px-15px flex items-center
                   justify-between h-2.8rem">
         <div class="c-text-black text-1.5rem md:text-1rem md:mx-1.9rem">{{$t('curation.curationDetail')}}</div>
@@ -20,16 +20,16 @@
             </div>
           </template>
         </el-popover>
-      </div>
+      </div> -->
     </div>
-    <el-alert type="warning" v-if="!getAccountInfo?.twitterId">
+    <!-- <el-alert type="warning" v-if="!getAccountInfo?.twitterId">
       <template #default>
         <div class="flex flex-wrap justify-center">
           <div>{{$t('curationsView.t1')}}</div>
-          <button class="md:mx-3 underline whitespace-nowrap" @click="$router.push('/signup')">{{$t('common.registerNow')}}</button>
+          <button class="md:mx-3 underline whitespace-nowrap" @click="$store.commit('saveShowLogin', true)">{{$t('common.registerNow')}}</button>
         </div>
       </template>
-    </el-alert>
+    </el-alert> -->
     <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
@@ -75,10 +75,10 @@
           </div>
           <!-- tips -->
           <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-8px overflow-hidden">
-            <div class="tip-bg h-min bg-blockBg light:bg-colorED text-left">
+            <div class="tip-bg h-min bg-blockBg light:bg-colorED text-left cursor-pointer">
               <div class="text-white light:text-blueDark pl-60px pr-15px font-bold min-h-48px
                         flex-1 flex justify-between items-center truncate relative"
-                   @click.stop="speakerTipVisible=true">
+                   @click.stop="showTipModal">
                 <el-carousel v-if="tips && tips.length>0"
                              class="w-full"
                              height="48px" indicator-position="none" :loop="true"
@@ -89,7 +89,7 @@
                   </el-carousel-item>
                 </el-carousel>
                 <span v-else class="absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
-                {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {username: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
+                {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {user: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
                 <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
                         class="ml-10px bg-tag-gradient text-white h-24px min-w-4rem flex items-center justify-center
@@ -114,7 +114,7 @@
 
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
-            <PopUpsCard></PopUpsCard>
+            <PopUpsCard :popups="popups" :showCreate="space.spaceState !== 1" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
@@ -187,17 +187,17 @@
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
               <div class="text-color7D">Our first giveaway event, come and grab your airdrop</div>
               <!-- 已结束 -->
-              <div class="flex justify-between items-center mt-1rem c-text-black">
+              <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">End Time</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
-                  1 DAY 27 MIN 05 S
+                  {{endtime}}
                 </button>
               </div>
               <!-- 未结束 -->
-              <div class="flex justify-between items-center mt-1rem c-text-black">
+              <div v-else class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">Expiration</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
-                  1 DAY 27 MIN 05 S
+                  {{endtime}}
                 </button>
               </div>
             </div>
@@ -315,6 +315,10 @@
                class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
       <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
     </el-dialog>
+    <el-dialog v-model="showTip" fullscreen
+               class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
+      <TipModalVue :tipToUser="detailCuration" @close="showTip=false" @back="showTip=false"></TipModalVue>
+    </el-dialog>
     <el-dialog v-model="speakerTipVisible"
                :show-close="false"
                :destroy-on-close="true"
@@ -346,7 +350,7 @@ import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { userLike, userFollowing } from '@/utils/twitter'
-import { getDateString, parseTimestamp, formatAmount } from '@/utils/helper'
+import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, EVM_CHAINS } from "@/config";
 import {onCopy} from "@/utils/tool";
@@ -367,7 +371,7 @@ import { notify } from "@/utils/notify";
 export default {
   name: "CurationDetail",
   components: {
-    TweetAttendTip, Submissions, Blog, Space,
+    TweetAttendTip, Submissions, Blog, Space, TipModalVue,
     CurationItem, SpeakerCollapse, SpeakerTipModal,
     CreatePopUpModal, PopUpsCard, ChainTokenIcon
   },
@@ -393,6 +397,7 @@ export default {
       contentType: 'space',
       speakerTipVisible: false,
       createPopUpVisible: false,
+      showTip: false,
       testData,
       updateInterval: null,
       relatedCurations: [],
@@ -434,19 +439,19 @@ export default {
       return (this.detailCuration.tasks & 8) / 8
     },
     quoted() {
-      if(!this.detailCuration || this.getAccountInfo) return false
+      if(!this.detailCuration || !this.getAccountInfo) return false
       return this.detailCuration?.taskRecord & 1;
     },
     replyed() {
-      if(!this.detailCuration || this.getAccountInfo) return false
+      if(!this.detailCuration || !this.getAccountInfo) return false
       return (this.detailCuration?.taskRecord & 2) / 2
     },
     liked() {
-      if(!this.detailCuration || this.getAccountInfo) return false
+      if(!this.detailCuration || !this.getAccountInfo) return false
       return (this.detailCuration?.taskRecord & 4) / 4
     },
     followed() {
-      if(!this.detailCuration || this.getAccountInfo) return false
+      if(!this.detailCuration || !this.getAccountInfo) return false
       return (this.detailCuration.authorId === this.getAccountInfo.twitterId) || (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
@@ -498,6 +503,10 @@ export default {
       let end = new Date(this.detailCuration.endtime * 1000)
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
     },
+    endtime() {
+      console.log(55, this.detailCuration?.endtime);
+      return parseTimestampToUppercase(this.detailCuration?.endtime)
+    }
   },
   methods: {
     formatEmojiText,
@@ -527,7 +536,22 @@ export default {
         return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
+    checkLogin() {
+      if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return false;
+      } 
+      return true
+    },
+    showTipModal() {
+      if (!this.checkLogin() || !this.detailCuration) return
+      if (this.detailCuration.curationType === 1) {
+        this.showTip=true
+      }else
+        this.speakerTipVisible=true
+    },  
     quoteOrReply() {
+      if (!this.checkLogin()) return
       let url;
       if (this.isQuote) {
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
@@ -539,6 +563,7 @@ export default {
       window.open(url, '__blank');
     },
     async like() {
+      if (!this.checkLogin()) return
       if(this.liked) {
         return
       }
@@ -556,6 +581,7 @@ export default {
       }
     },
     async follow() {
+      if (!this.checkLogin()) return
       if (this.followed) {
         return
       }

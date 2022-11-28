@@ -496,7 +496,8 @@
                      :amount="form.amount"
                      :chainName="form.chain"
                      :address="form.address"
-                     @createCuration="createCuration"
+                     :approveContract="EVM_CHAINS[form.chain].curation"
+                     @create="createCuration"
                      @confirmComplete="onComplete"
                      @close="modalVisible=false;loading=false"></component>
         </div>

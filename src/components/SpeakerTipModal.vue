@@ -1,7 +1,7 @@
 <template>
   <div class="text-left px-1.25rem pb-1.5rem min-h-28rem">
-    <div class="text-1.2rem c-text-black mb-1rem">Tip</div>
     <template v-if="step===1">
+      <div class="text-1.2rem c-text-black mb-1rem">Tip</div>
       <div>You can send tips directly to any twitter account, regardless he/she has a wallet or not</div>
       <div class="c-text-black mt-2rem">Host</div>
       <div class="py-1rem flex flex-wrap gap-x-2rem">
@@ -26,42 +26,18 @@
       </div>
     </template>
     <template v-if="step===2">
-      <div>To @{{tipToUser.username}}</div>
-      <AssetsOptions :chain="'steem'"
-                     :showEvm="!!tipToUser.ethAddress"
-                     :showsteem="true"
-                     @chainChange="selectChain"
-                     @tokenChagne="selectToken"
-                     @addressChange="selectAddress"
-                     @balanceChange="selectBalance"
-                     @selectGift="selectGift">
-        <template #amount>
-          <input class="bg-transparent h-full w-full px-0.5rem"
-                 v-model="form.amount"
-                 type="number" :placeholder="$t('curation.inputRewardsAmount')">
-        </template>
-      </AssetsOptions>
-      <div class="flex items-center justify-center gap-x-1rem">
-        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" @click="step=1">
-          back
-        </button>
-        <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem"
-          @click="send"
-          :disabled="form.amount>selectedBalance || form.amount === 0">
-          Send
-        </button>
-      </div>
+      <TipModalVue :tipToUser="tipToUser" @close="$emit('close')" @back="step=1"/>
     </template>
   </div>
 </template>
 
 <script>
 import { EVM_CHAINS, TWITTER_MONITOR_RULE } from '@/config'
-import AssetsOptions from "@/components/AssetsOptions";
 import { mapGetters } from "vuex";
 import { sendTokenToUser } from '@/utils/asset'
 import { tipEVM } from '@/utils/curation'
 import { ethers } from 'ethers';
+import TipModalVue from './TipModal.vue';
 
 export default {
   name: "SpeakerTipModal",
@@ -76,7 +52,7 @@ export default {
     }
   },
   components: {
-    AssetsOptions,
+    TipModalVue
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
