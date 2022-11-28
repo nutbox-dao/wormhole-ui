@@ -185,7 +185,7 @@
             </div>
             <template v-if="contentType==='space'">
               <div class="light:bg-card-gradient text-left mt-1rem">
-                <SpeakerCollapse :space="space" @showTip="speakerTipVisible=true"/>
+                <SpeakerCollapse :space="space"/>
               </div>
             </template>
           </div>
