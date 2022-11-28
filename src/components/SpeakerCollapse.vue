@@ -4,11 +4,11 @@
     <div class="w-full h-1px bg-color8B/30 light:bg-white my-10px"></div>
     <div class="collapse-box" :class="isCollapse?'show':''">
       <div class="flex flex-wrap gap-x-4px" ref="speakerListRef">
-        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
-             @click="$emit('showTip')">
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer">
           <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
             <img v-if="host.profileImg"
-                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
+                @click="gotoUserTwitter(host)"
+                 class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full"
                  :src="avatar(host.profileImg)" alt="">
             <img v-else
                  class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
@@ -17,9 +17,9 @@
           </div>
           <span class="w-full text-center truncate mt-4px">{{host.name}}</span>
         </div>
-        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer"
              v-for="u of coHosts" :key="'co' + u.twitterId"
-             @click="$emit('showTip')">
+             @click="gotoUserTwitter(u)">
           <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mt-10px">
             <img v-if="u.profileImg"
                  class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
@@ -31,9 +31,9 @@
           </div>
           <span class="w-full text-center truncate mt-4px">{{u.name}}</span>
         </div>
-        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate"
+        <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer"
              v-for="u of speakers" :key="'speaker' + u.twitterId"
-             @click="$emit('showTip')">
+             @click="gotoUserTwitter(u)">
           <div class="border-2 gradient-border gradient-border-color3 rounded-full mt-10px">
             <img v-if="u.profileImg"
                  class="w-40px h-40px border-2px border-blockBg light:border-white rounded-full "
@@ -79,6 +79,9 @@ export default {
   methods: {
     avatar(url) {
       return url.replace('normal', '200x200')
+    },
+    gotoUserTwitter(user) {
+      window.open(`https://twitter.com/` + user.username)
     }
   },
   watch: {
