@@ -32,28 +32,59 @@
       </template>
     </AssetsOptions>
     <div class="text-center mt-2rem">
-      <button class="gradient-btn h-3.6rem w-1/3 rounded-full">Send</button>
+      <button class="gradient-btn h-3.6rem w-1/3 rounded-full" @click="onSubmit">Send</button>
     </div>
+    <van-popup v-if="modalVisible" class="c-tip-drawer 2xl:w-2/5"
+                v-model:show="modalVisible"
+               :close-on-click-overlay="TextTrackCueList"
+               :position="position">
+      <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div v-if="position === 'bottom'"
+             @click="modalVisible=false"
+             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
+        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
+          <SendTokenTipVue
+                     :token="selectedToken"
+                     :amount="form.amount"
+                     :chainName="form.chain"
+                     :address="form.address"
+                     :approveContract="EVM_CHAINS[form.chain].popup"
+                     @create="createPopup"
+                     @confirmComplete="modalVisible=false"
+                     @close="modalVisible=false"></SendTokenTipVue>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import AssetsOptions from "@/components/AssetsOptions";
+import { EVM_CHAINS } from '@/config'
+import SendTokenTipVue from "./SendTokenTip.vue";
+
 export default {
   name: "CreatePopUpModal",
-  components: {AssetsOptions},
+  components: {AssetsOptions, SendTokenTipVue},
   data() {
     return {
       stepType: 'createContent',
       form: {
-        maxReward: 10,
+        maxReward: 100,
         chain: '',
         address: '',
         token: '',
-        amount: 0
+        amount: 0,
       },
+      EVM_CHAINS,
+      modalVisible: false,
       selectedToken: {},
-      selectedBalance: ''
+      selectedBalance: '',
+      approvement: false,
+      approving: false,
+      creating: false
     }
   },
   methods: {
@@ -72,7 +103,15 @@ export default {
     },
     selectGift(amount) {
       this.form.amount = amount
+    },
+    onSubmit() {
+      this.modalVisible = true
+    },
+    async createPopup() {
+
     }
+  },
+  mounted() {
   }
 }
 </script>

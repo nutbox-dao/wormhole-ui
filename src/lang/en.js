@@ -243,7 +243,7 @@ export default {
     follow: 'Follow',
     like: 'Like',
     chain: 'Chain',
-    tipToUser: "Tip asset to @{user}",
+    tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers"
   },
   err: {

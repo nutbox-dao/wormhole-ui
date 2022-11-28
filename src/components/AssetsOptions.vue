@@ -25,28 +25,8 @@
         </el-select>
       </div>
     </div>
-    <div class="mt-1.8rem" v-if="selectedChainName!=='steem'">
-      <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-      <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-        <button class="w-full bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
-                      flex justify-center items-center cursor-pointer"
-                :disabled="!selectedChainName"
-                @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem
-                         light:bg-gradient-text-light
-                         gradient-text gradient-text-purple-white">
-              {{walletAddress ? formatAddress(walletAddress, 12, 12) : $t('common.connectMetamask')}}
-            </span>
-          <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-          <div v-if="connectLoading"
-               class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-            <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
-          </div>
-        </button>
-      </div>
-    </div>
-    <div v-else>
-      {{ getAccountInfo.steemId }}
+    <div>
+      {{ selectedChainName==='steem' ? getAccountInfo.steemId : formatAddress(walletAddress, 12, 12) }}
     </div>
     <div class="mt-1.8rem">
       <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
@@ -55,15 +35,15 @@
              class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                        light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                         rounded-12px h-40px 2xl:h-2rem flex items-center">
-          <img v-if="selectedGift.giftUrl"
+          <img v-if="selectedGift.giftUrl && selectedChainName === 'steem'"
                class="h-30px 2xl:h-1.6rem ml-10px"
                src="~@/assets/icon-like.svg" alt="">
           <slot name="amount"></slot>
-          <el-popover v-if="chain==='steem'"
+          <el-popover
                       popper-class="c-popper" placement="top-end" width="250"
                       trigger="click" ref="giftPopover">
             <template #reference>
-              <div class="px-10px">
+              <div v-show="selectedChainName === 'steem'" class="px-10px">
                 <img class="w-2.5rem cursor-pointer" src="~@/assets/icon-emoji.svg" alt="">
               </div>
             </template>
@@ -72,9 +52,9 @@
                           light:bg-white light:border-colorE3
                           rounded-12px p-10px flex flex-wrap
                           gap-y-0.5rem gap-x-2rem max-h-11rem overflow-auto">
-                <div class="flex flex-col justify-center items-center"
+                <div v-if="selectedChainName==='steem'" class="flex flex-col justify-center items-center"
                      v-for="i of 7" :key="i" @click="selectGift({giftUrl: '', value: 100})">
-                  <img class="h-4rem" src="~@/assets/icon-like.svg" alt="">
+                  <img v-show="selectedChainName==='steem'" class="h-4rem" src="~@/assets/icon-like.svg" alt="">
                   <div class="flex items-center">
                     <img class="w-1rem h-1rem min-w-1rem mr-5px" src="~@/assets/steem.png" alt="">
                     <span class="whitespace-nowrap">1000</span>
@@ -272,6 +252,7 @@ export default {
       try{
         const connected = await setupNetwork(chain)
         if (connected) {
+          this.selectedToken = {}
           this.$emit('chainChange', chain)
           this.selectedChainName = chain;
           this.walletAddress = await getAccounts(true);

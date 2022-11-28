@@ -12,7 +12,7 @@
     </button>
     <button v-else class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
       :disabled="creating"
-      @click="creating=true;$emit('createCuration')">
+      @click="creating=true;$emit('create')">
       <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="creating"></c-spinner>
       <span>{{$t('common.confirm')}}</span>
     </button>
@@ -43,6 +43,10 @@ export default {
     amount: {
       type: Number,
       default: 0
+    },
+    approveContract: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -57,7 +61,7 @@ export default {
     async approve() {
       try{
         this.approving = true
-        const res = await approve(this.token.address, this.address, EVM_CHAINS[this.chainName].curation)
+        const res = await approve(this.token.address, this.address, this.approveContract)
         this.approvement = res
       } catch (e) {
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
@@ -72,7 +76,7 @@ export default {
     }
     this.tokenInfo = this.amount + ' ' + this.token.symbol;
     
-    getApprovement(this.chainName, this.token.address, this.address, EVM_CHAINS[this.chainName].curation).then(res => {
+    getApprovement(this.chainName, this.token.address, this.address, this.approveContract).then(res => {
       console.log(66, res);
       this.approvement = res
     }).catch(e=>{
