@@ -1,35 +1,5 @@
 <template>
   <div class="text-12px xl:text-0.8rem">
-    <div class="md:border-b-1 border-dividerColor md:mb-1rem">
-      <!-- <div class="relative container mx-auto max-w-50rem
-                  md:px-1rem px-15px flex items-center
-                  justify-between h-2.8rem">
-        <div class="c-text-black text-1.5rem md:text-1rem md:mx-1.9rem">{{$t('curation.curationDetail')}}</div>
-        <el-popover :width="270" trigger="click" popper-class="c-popper" ref="copyUrlPopper">
-          <template #reference>
-            <button class="w-24px h-24px icon-share"></button>
-          </template>
-          <template #default>
-            <div class="gradient-border border-1 gradient-border-color3 rounded-8px
-                        flex items-center justify-center py-14px cursor-pointer"
-                 @click="$refs.copyUrlPopper.hide(), onCopy('https://alpha.wormhole3.io/#/curation-detail/' + detailCuration.curationId)">
-              <i class="icon-copy w-20px h-20px 2xl:w-1rem 2xl:h-1rem mr-10px"></i>
-              <span class="text-15px 2xl:text-0.75rem leading-22px 2xl:leading-1.1rem font-600">
-                {{$t('curationsView.shareCuration')}}
-              </span>
-            </div>
-          </template>
-        </el-popover>
-      </div> -->
-    </div>
-    <!-- <el-alert type="warning" v-if="!getAccountInfo?.twitterId">
-      <template #default>
-        <div class="flex flex-wrap justify-center">
-          <div>{{$t('curationsView.t1')}}</div>
-          <button class="md:mx-3 underline whitespace-nowrap" @click="$store.commit('saveShowLogin', true)">{{$t('common.registerNow')}}</button>
-        </div>
-      </template>
-    </el-alert> -->
     <!-- title -->
     <div class="container mx-auto max-w-50rem pb-2rem px-15px pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
@@ -394,7 +364,6 @@ export default {
       popups: [],
       tips: [],
       topTips: [],
-      contentType: 'space',
       speakerTipVisible: false,
       createPopUpVisible: false,
       showTip: false,
@@ -414,6 +383,10 @@ export default {
       }else{
         return '---'
       }
+    },
+    contentType() {
+      if (!this.detailCuration) return 'space';
+      return this.detailCuration.curationType === 1 ? 'tweet' : 'space'
     },
     content() {
       if (this.detailCuration && this.detailCuration.content) {
