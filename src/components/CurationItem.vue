@@ -112,7 +112,7 @@
             </span>
           </div>
         </div>
-        <ChainTokenIcon class="bg-primaryColor/20" height="1.2rem" width="1.2rem" chain-name="ETH">
+        <ChainTokenIcon class="bg-primaryColor/20" height="1.2rem" width="1.2rem" :chain-name="curation.chainId" :token="{address: curation?.token,symbol: curation?.tokenSymbol}">
           <template #amount>
             <span class="px-8px h-1.2rem min-h-24px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-color62">
