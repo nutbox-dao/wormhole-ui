@@ -1,34 +1,36 @@
 <template>
-    <div class="text-left px-1.25rem pb-1.5rem min-h-28rem">
-        <div class="text-1.2rem c-text-black mb-1rem">Tip</div>
-        <div>To @{{tipToUser.username}}</div>
-        <AssetsOptions :chain="'steem'"
-                        :showEvm="!!tipToUser.ethAddress"
-                        :showsteem="true"
-                        @chainChange="selectChain"
-                        @tokenChagne="selectToken"
-                        @addressChange="selectAddress"
-                        @balanceChange="selectBalance"
-                        @selectGift="selectGift">
-            <template #amount>
-            <input class="bg-transparent h-full w-full px-0.5rem"
-                    v-model="form.amount"
-                    type="number" :placeholder="$t('curation.inputRewardsAmount')">
-            </template>
-        </AssetsOptions>
-        <div class="flex items-center justify-center gap-x-1rem">
-            <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem" @click="$emit('back')">
-            back
-            </button>
-            <button class="gradient-btn w-16rem h-3.6rem rounded-full mt-3rem"
-            @click="send"
-            :disabled="form.amount>selectedBalance || form.amount === 0">
-            Send
-            </button>
-        </div>
+  <div class="text-left px-1.25rem pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+    <div class="flex-1">
+      <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Tip</div>
+      <div>To @{{tipToUser.username}}</div>
+      <AssetsOptions :chain="'steem'"
+                     :showEvm="!!tipToUser.ethAddress"
+                     :showsteem="true"
+                     @chainChange="selectChain"
+                     @tokenChagne="selectToken"
+                     @addressChange="selectAddress"
+                     @balanceChange="selectBalance"
+                     @selectGift="selectGift">
+        <template #amount>
+          <input class="bg-transparent h-full w-full px-0.5rem"
+                 v-model="form.amount"
+                 type="number"
+                 :placeholder="$t('curation.inputRewardsAmount')">
+        </template>
+      </AssetsOptions>
     </div>
-  </template>
-  
+    <div class="flex items-center justify-center gap-x-1rem">
+      <button class="gradient-btn gradient-btn-disabled-grey
+                     h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+              @click="$emit('back')">back</button>
+      <button class="gradient-btn gradient-btn-disabled-grey
+                     h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+              @click="send"
+              :disabled="form.amount>selectedBalance || form.amount === 0">Send</button>
+    </div>
+  </div>
+</template>
+
   <script>
   import { EVM_CHAINS, TWITTER_MONITOR_RULE } from '@/config'
   import AssetsOptions from "@/components/AssetsOptions";
@@ -36,7 +38,7 @@
   import { sendTokenToUser } from '@/utils/asset'
   import { tipEVM } from '@/utils/curation'
   import { ethers } from 'ethers';
-  
+
   export default {
     name: "SpeakerTipModal",
     props: {
@@ -130,8 +132,7 @@
     },
   }
   </script>
-  
+
   <style scoped>
-  
+
   </style>
-  

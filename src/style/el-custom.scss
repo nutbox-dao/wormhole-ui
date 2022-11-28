@@ -241,10 +241,26 @@ html.light {
 }
 .el-select .el-input .el-input__wrapper {
   box-shadow: none!important;
+  background: none;
 }
 .el-select .el-input.is-focus .el-input__wrapper {
   box-shadow: none!important;
 }
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #F1F1FE;
+}
+.el-select .el-input .el-select__caret {
+  color: #8B949EB2;
+}
+.el-select .el-input .el-select__caret.is-reverse {
+  color: #6246EA;
+}
+.el-select .el-input__prefix-inner>:last-child {
+  margin-right: 0;
+}
 .collapse-no-arrow .el-collapse-item__arrow{
   display: none;
+}
+.c-select-popper {
+  //transform: translateX(0) !important;
 }

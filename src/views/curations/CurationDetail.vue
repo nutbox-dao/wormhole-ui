@@ -286,31 +286,45 @@
                class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
       <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
     </el-dialog>
-    <el-dialog v-model="showTip" fullscreen
-               class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
-      <TipModalVue :tipToUser="detailCuration" @close="showTip=false" @back="showTip=false"></TipModalVue>
-    </el-dialog>
-    <el-dialog v-model="speakerTipVisible"
-               :show-close="false"
-               :destroy-on-close="true"
-               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <div class="relative">
-        <div class="w-max p-1rem ml-auto mr-0" @click="speakerTipVisible=false">
-          <i class="w-1.2rem h-1.2rem icon-close"></i>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="showTip"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showTip"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-60vh">
+          <button class="absolute right-20px top-24px"
+                  @click="showTip=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
+          <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
+                       :tipToUser="detailCuration"
+                       @close="showTip=false"
+                       @back="showTip=false"></TipModalVue>
         </div>
-        <SpeakerTipModal :space="space" :parentTweetId="detailCuration.tweetId" @close="speakerTipVisible=false"/>
-      </div>
-    </el-dialog>
+      </transition>
+    </van-popup>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="speakerTipVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="speakerTipVisible"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden">
+          <SpeakerTipModal class="h-60vh"
+                           :space="space"
+                           :parentTweetId="detailCuration.tweetId"
+                           @close="speakerTipVisible=false"/>
+        </div>
+      </transition>
+    </van-popup>
     <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
                v-model:show="createPopUpVisible"
                :position="position">
-      <div class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden"
-           v-if="createPopUpVisible">
-        <div class="w-max p-1rem ml-auto mr-0" @click="createPopUpVisible=false">
-          <i class="w-1.2rem h-1.2rem icon-close"></i>
+      <transition name="el-zoom-in-bottom">
+        <div v-if="createPopUpVisible"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-80vh">
+          <CreatePopUpModal  @close="createPopUpVisible=false"/>
         </div>
-        <CreatePopUpModal/>
-      </div>
+      </transition>
     </van-popup>
   </div>
 </template>
@@ -514,7 +528,7 @@ export default {
       if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return false;
-      } 
+      }
       return true
     },
     showTipModal() {
@@ -523,7 +537,7 @@ export default {
         this.showTip=true
       }else
         this.speakerTipVisible=true
-    },  
+    },
     quoteOrReply() {
       if (!this.checkLogin()) return
       let url;
