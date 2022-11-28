@@ -205,3 +205,37 @@ export function parseTimestamp(time) {
     }
   }
 }
+
+/**
+ * 
+ * @param {*} time timeinterval(second)
+ */
+export function parseTimestampToUppercase(time) {
+  if (!time) return ''
+  let timestamp = new Date().getTime() / 1000
+  if (time - timestamp > 0) {
+    let sec = time - timestamp;
+    let days = Math.floor(sec / (24 * 3600))
+    let leave1 = sec % (24 * 3600)
+    let hours = Math.floor(leave1 / (3600))
+    let leave2 = leave1 % 3600
+    let minutes = Math.floor(leave2 / 60)
+    let leave3 = leave2%60
+    let seconds = Math.round(leave3)
+    if (days > 0) {
+      return `${days} DAY ${hours} HOURS ${minutes} MIN`
+    }else {
+      if (hours > 0) {
+        return `${hours} HOURS ${minutes} MIN ${seconds} S`
+      }else {
+        return `${minutes} MIN ${seconds} S`
+      }
+    }
+  }else {
+    let monthMap = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+    let d1 = new Date(time * 1000)
+    return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + 'PM' : (d1.getUTCHours()) + 'PM'},${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()},${d1.getUTCFullYear()}(UTC)`
+  }
+}
