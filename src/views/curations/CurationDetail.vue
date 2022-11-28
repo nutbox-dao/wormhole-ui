@@ -327,17 +327,17 @@
         <SpeakerTipModal :space="space" :parentTweetId="detailCuration.tweetId" @close="speakerTipVisible=false"/>
       </div>
     </el-dialog>
-    <el-dialog v-model="createPopUpVisible"
-               :show-close="false"
-               :destroy-on-close="true"
-               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <div class="relative">
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="createPopUpVisible"
+               :position="position">
+      <div class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden"
+           v-if="createPopUpVisible">
         <div class="w-max p-1rem ml-auto mr-0" @click="createPopUpVisible=false">
           <i class="w-1.2rem h-1.2rem icon-close"></i>
         </div>
         <CreatePopUpModal/>
       </div>
-    </el-dialog>
+    </van-popup>
   </div>
 </template>
 
