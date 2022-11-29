@@ -26,7 +26,10 @@
       <button class="gradient-btn gradient-btn-disabled-grey
                      h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
               @click="send"
-              :disabled="form.amount>selectedBalance || form.amount === 0">Send</button>
+              :disabled="form.amount>selectedBalance || form.amount === 0 || tiping">
+              Send
+              <c-spinner v-show="tiping" class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+        </button>
     </div>
   </div>
 </template>
@@ -67,7 +70,8 @@
           amount: 0
         },
         selectedToken: {},
-        selectedBalance: ''
+        selectedBalance: '',
+        tiping: false
       }
     },
     methods: {
@@ -95,6 +99,7 @@
           if (this.form.chain === 'steem') {
             window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.amount} STEEM to @${this.tipToUser.username}`,'__blank')
           }else {
+            this.tiping = true
             const transHash = await sendTokenToUser(this.selectedToken, this.form.amount, this.tipToUser.ethAddress)
             const tip = {
               twitterId: this.getAccountInfo.twitterId,
@@ -116,6 +121,8 @@
           this.$emit('close')
         }catch(e) {
           console.log('Tip to user fail:', e);
+        }finally{
+          this.tiping = false
         }
       }
     },

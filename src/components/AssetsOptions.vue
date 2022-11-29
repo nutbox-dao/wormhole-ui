@@ -55,7 +55,7 @@
     <div v-if="selectedChainName==='steem'" class="text-color62 mt-6px font-bold text-right">
       {{$t('common.account')}}: {{getAccountInfo.steemId}}
     </div>
-    <div v-else class="text-color62 mt-6px font-bold text-right">
+    <div v-else-if="formatAddress(walletAddress, 12, 12)" class="text-color62 mt-6px font-bold text-right">
       {{$t('common.address')}}: {{formatAddress(walletAddress, 12, 12) }}
     </div>
     <div class="mt-1.8rem">

@@ -82,7 +82,7 @@
 
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
-            <PopUpsCard :popups="popups" :showCreate="space.spaceState !== 1" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
+            <PopUpsCard :popups="popups" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
@@ -453,7 +453,7 @@ export default {
     },
     followed() {
       if(!this.detailCuration || !this.getAccountInfo) return false
-      return (this.detailCuration.authorId === this.getAccountInfo.twitterId) || (this.detailCuration.taskRecord & 8) / 8
+      return (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
       if (!this.detailCuration) return ''
@@ -525,7 +525,7 @@ export default {
     },
     tipStr(tip) {
       if (tip.chainName === 'STEEM') {
-        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}`
+        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}   `
       }else {
         let chainName;
         for (let chain in EVM_CHAINS) {
@@ -534,7 +534,7 @@ export default {
             break;
           }
         }
-        return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
+        return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}   `
       }
     },
     checkLogin() {

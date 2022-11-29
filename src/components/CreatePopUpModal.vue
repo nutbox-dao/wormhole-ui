@@ -76,7 +76,9 @@
       </div>
       <div class="text-center mb-1.4rem mt-2rem">
         <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                @click="step=2">Next</button>
+                @click="step=2">
+                {{ $t('common.next') }}
+          </button>
       </div>
     </div>
     <div v-if="step===2" class="flex-1 px-1.5rem mt-0.5rem flex flex-col">
@@ -92,7 +94,7 @@
                  v-model="form.maxReward"
                  type="number"
                  placeholder="">
-          <span class="whitespace-nowrap px-12px text-colorD6">limited 100</span>
+          <span class="whitespace-nowrap px-12px text-colorD6">Limited 100</span>
         </div>
         <AssetsOptions :chain="form.chain"
                        :address="form.address"
@@ -113,7 +115,11 @@
       <div class="text-center mt-2rem">
         <button class="gradient-btn gradient-btn-disabled-grey
                        h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                @click="onSubmit">Send</button>
+                :disabled="creating"
+                @click="onSubmit">
+                {{$t('common.sendAndCreate')}}
+                <c-spinner v-show="creating" class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+              </button>
       </div>
     </div>
     <van-popup v-if="modalVisible" class="w-full 2xl:w-2/5"
@@ -143,6 +149,9 @@ import AssetsOptions from "@/components/AssetsOptions";
 import { EVM_CHAINS } from '@/config'
 import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
+import { mapGetters, mapState } from "vuex";
+import { notify } from "@/utils/notify";
+import { sleep } from "@/utils/helper";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
@@ -153,14 +162,22 @@ export default {
     return {
       step: 1,
       durationOptions: [
-        {label: '1 min', value: 1},
+        {label: '5 min', value: 5},
         {label: '10 min', value: 10},
+        {label: '15 min', value: 15},
+        {label: '20 min', value: 20},
+        {label: '25 min', value: 25},
         {label: '30 min', value: 30},
+        {label: '35 min', value: 35},
+        {label: '40 min', value: 40},
+        {label: '45 min', value: 45},
+        {label: '50 min', value: 50},
+        {label: '55 min', value: 55},
         {label: '60 min', value: 60},
       ],
       form: {
         content: '',
-        duration: 1,
+        duration: 5,
         maxReward: 100,
         chain: '',
         address: '',
@@ -175,8 +192,13 @@ export default {
       approving: false,
       creating: false,
       durationPopper:false,
+      tweeting: false,
       contentRange: null
     }
+  },
+  computed: {
+    ...mapState('curation', ['detailCuration']),
+    ...mapGetters(['getAccountInfo'])
   },
   methods: {
     getBlur() {
@@ -210,11 +232,45 @@ export default {
     selectGift(amount) {
       this.form.amount = amount
     },
-    onSubmit() {
-      this.modalVisible = true
+    checkForm() {
+      if (this.form.content.length > 200) {
+        notify({message: this.$t('tips.textLengthOut'), type:'info'})
+        return false
+      }
+      if (!this.form.maxReward.toString().match(/^([1-9]?\d|100)$/) || this.form.maxReward === 0) {
+        notify({message: this.$t('err.wrongUserNumber'), type:'info'})
+        return false
+      }
+      if (this.selectedBalance < this.form.amount) {
+        notify({message: this.$t('curation.insuffientBalance'), type:'error'})
+        return false
+      }
+      if (this.form.amount === 0) {
+        notify({message: this.$t('curation.inputRewardsAmount'), type:'info'})
+        return false;
+      }
+      return true;
+    },
+    async onSubmit() {
+      if (!this.checkForm()) {
+        return
+      }
+      try{
+        this.creating = true    
+        this.modalVisible = true
+      } catch (e) { 
+      } finally {
+        this.creating = false
+      }
     },
     async createPopup() {
-
+      try{
+        this.creating = true
+      } catch (e) {
+        
+      } finally {
+        this.creating = false
+      }
     }
   },
   mounted() {
