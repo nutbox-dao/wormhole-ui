@@ -218,13 +218,17 @@ export default {
       el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
       el.innerHTML =el.innerHTML.replaceAll('<br>', '')
       let content = ''
+      let tweetLenth = 0;
       for(let i of el.childNodes) {
         if(i.nodeName==='#text') {
+          tweetLenth += stringLength(i.textContent);
           content += i.textContent
         } else if(i.nodeName === 'IMG') {
+          tweetLenth+=2;
           content += i.alt
         }
       }
+      this.tweetLenth = tweetLenth
       return content
     },
     onNext() {
