@@ -24,13 +24,34 @@
         <div class="flex justify-between items-center mt-35px">
           <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">Quick Tweet</span>
         </div>
-        <div class="w-full bg-blockBg light:bg-white
-                  border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
-                  rounded-8px min-h-40px 2xl:min-h-2rem">
-          <textarea class="bg-transparent h-full w-full p-0.5rem leading-24px"
-                    v-model="form.content"
-                    rows="4" placeholder="Type the contents"></textarea>
-          <div class="p-0.5rem text-right text-color62 font-bold">#iweb3</div>
+        <div class="border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px">
+          <div contenteditable
+               class="desc-input px-1rem pt-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
+               ref="contentRef"
+               @blur="getBlur('desc')"
+               @paste="onPasteEmojiContent"
+               v-html="formatEmojiText(form.content)"></div>
+          <div class="py-2 border-color8B/30 flex justify-between">
+            <el-popover ref="descEmojiPopover"
+                        trigger="click" width="300"
+                        :teleported="false"
+                        :persistent="false">
+              <template #reference>
+                <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+              </template>
+              <div class="h-310px lg:h-400px">
+                <EmojiPicker :options="{
+                                imgSrc:'/emoji/',
+                                locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                hasSkinTones:false,
+                                hasGroupIcons:false}"
+                                @select="selectEmoji" />
+              </div>
+            </el-popover>
+            <div class="p-0.5rem text-right text-color62 font-bold">#iweb3</div>
+          </div>
         </div>
         <div class="flex justify-between items-center mt-2rem">
           <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">Duration</span>
@@ -126,13 +147,15 @@ import AssetsOptions from "@/components/AssetsOptions";
 import { EVM_CHAINS } from '@/config'
 import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
 export default {
   name: "CreatePopUpModal",
-  components: {AssetsOptions, SendTokenTipVue, CustomSelect},
+  components: {AssetsOptions, SendTokenTipVue, CustomSelect, EmojiPicker},
   data() {
     return {
-      step: 2,
+      step: 1,
       durationOptions: [
         {label: '1 min', value: 1},
         {label: '10 min', value: 10},
@@ -155,10 +178,26 @@ export default {
       approvement: false,
       approving: false,
       creating: false,
-      durationPopper:false
+      durationPopper:false,
+      contentRange: null
     }
   },
   methods: {
+    getBlur() {
+      const sel = window.getSelection();
+      this.contentRange = sel.getRangeAt(0);
+    },
+    onPasteEmojiContent,
+    formatEmojiText,
+    selectEmoji(e) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
+      if(!this.contentRange) return
+      this.contentRange.insertNode(newNode)
+      this.$refs.descEmojiPopover.hide()
+    },
     selectChain(chain){
       this.form.chain = chain
     },
