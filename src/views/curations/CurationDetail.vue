@@ -24,7 +24,7 @@
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
-                <Space :space="space" class="min-h-15rem bg-color7D/10 rounded-15px mt-10px"></Space>
+                <Space :space="space" class="h-146px md:min-h-10rem bg-color7D/10 rounded-15px mt-10px"></Space>
               </template>
               <template v-else>
                 <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -53,10 +53,10 @@
                                 scrollable :speed="100"
                                 v-if="tips && tips.length>0">
                   <template #default>
-                    <span v-for="item in tips" :key="item" class="mr-4rem">{{tipStr(item)}}</span>
+                    <span v-for="item in tips" :key="item" class="mr-4rem text-14px text-color62">{{tipStr(item)}}</span>
                   </template>
                 </van-notice-bar>
-                <span v-else class="absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
+                <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
                 {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {user: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
                 <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
