@@ -12,7 +12,7 @@
                 <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
-                     :src="detailCuration && detailCuration.profileImg" alt="">
+                     :src="detailCuration.profileImg && detailCuration.profileImg.replace('normal', '200x200')" alt="">
                 <div class="flex md:flex-col md:justify-center md:items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
@@ -130,7 +130,7 @@
                     <img v-if="isLiking"
                          class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem h-1.2rem mr-10px"
-                       :class="isLike?'icon-checked':'icon-like-circle'"></i>
+                       :class="liked?'icon-checked':'icon-like-circle'"></i>
                     <span>Like (or Verify your Like)</span>
                   </div>
                   <div v-if="isFollow" @click="follow"
@@ -138,7 +138,7 @@
                     <img v-if="isFollowing"
                          class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem h-1.2rem mr-10px"
-                       :class="isFollow?'icon-checked':'icon-follow-circle'"></i>
+                       :class="followed?'icon-checked':'icon-follow-circle'"></i>
                     <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
                 </div>
@@ -333,7 +333,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="createPopUpVisible"
              class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-80vh">
-          <CreatePopUpModal  @close="createPopUpVisible=false"/>
+          <CreatePopUpModal @close="createPopUpVisible=false"/>
         </div>
       </transition>
     </van-popup>
@@ -363,6 +363,7 @@ import PopUpsCard from "@/components/PopUpsCard";
 import TipModalVue from "@/components/TipModal.vue";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
+import { newPopups } from '@/utils/curation'
 
 export default {
   name: "CurationDetail",
@@ -403,7 +404,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('curation', ['detailCuration']),
+    ...mapState('curation', ['detailCuration', 'getPendingPopup']),
     ...mapGetters(['getAccountInfo']),
     title() {
       if (this.detailCuration && this.detailCuration.content) {
@@ -525,7 +526,7 @@ export default {
     },
     tipStr(tip) {
       if (tip.chainName === 'STEEM') {
-        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}   `
+        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}`
       }else {
         let chainName;
         for (let chain in EVM_CHAINS) {
@@ -534,7 +535,7 @@ export default {
             break;
           }
         }
-        return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}   `
+        return `@${tip.fromUsername} tips ${(tip.amount / (10 ** tip.decimals)).toFixed(3)} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
     checkLogin() {
@@ -642,6 +643,17 @@ export default {
     const id = this.$route.params.id;
     const account = this.getAccountInfo
 
+    if (this.getPendingPopup) {
+      newPopups(pendingPopup).then(res => {
+      }).catch(e => {
+        if (e === 'log out') {
+          notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
+        }
+      }).finally(() => {
+        this.$store.commit('curation/savePendingPopup', null)
+      })
+    }
+
     if (this.detailCuration && this.detailCuration.curationId === id) {
       this.updateCurationInfos()
     }else {
@@ -661,10 +673,10 @@ export default {
     }).finally(() => {
       this.loading1 = false
     })
-      this.loading2 = true
-      this.loading3 = true
-      this.loading4 = true
-      this.loading5 = true
+    this.loading2 = true
+    this.loading3 = true
+    this.loading4 = true
+    this.loading5 = true
 
     this.updateInterval = setInterval(this.updateCurationInfos, 15000);
   },

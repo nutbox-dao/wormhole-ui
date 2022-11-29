@@ -236,6 +236,29 @@ export function parseTimestampToUppercase(time) {
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ]
     let d1 = new Date(time * 1000)
-    return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + 'PM' : (d1.getUTCHours()) + 'PM'},${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()},${d1.getUTCFullYear()}(UTC)`
+    return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + 'PM' : (d1.getUTCHours()) + 'AM'},${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()},${d1.getUTCFullYear()}(UTC)`
   }
+}
+
+export function parseSpaceStartTime(time) {
+  
+  let monthMap = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ]
+  let d1 = new Date(time)
+  return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + ":" + d1.getMinutes() + 'PM' : (d1.getUTCHours()) + ':' + d1.getMinutes() + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
+}
+
+export function stringLength(str) {
+  if (!str || str.length === 0) return 0;
+  let len = 0;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      len++;
+    }else {
+      len += 2;
+    }
+  }
+  return len;
 }

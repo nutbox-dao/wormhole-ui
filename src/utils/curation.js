@@ -4,7 +4,7 @@ import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken } from '@/utils/account'
-import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te } from '@/api/api'
+import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp } from '@/api/api'
 
 const abi = [
     {
@@ -223,6 +223,26 @@ export const randomCurationId = () => {
     return id;
 }
 
+export const createPopup = async (chainName) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+        const popupContract = EVM_CHAINS[chainName].popup
+        const metamask = await getEthWeb()
+        const provider = new ethers.providers.Web3Provider(metamask)
+        let contract = new ethers.Contract(popupContract, abi, provider)
+        contract = contract.connect(provider.getSigner())
+        const {curationId, popupTweetId, endTime, winnerCount, token, bonus} = popup
+        const tx = await contract.createPopup(ethers.BigNumber.from('0x' + curationId), ethers.BigNumber.from(popupTweetId), endTime, winnerCount, token, bonus)
+        await waitForTx(provider, tx.hash)
+        resolve(tx.hash)
+    }catch(e) {
+        console.log('create new popup fail:', e);
+        reject(errCode.TRANSACTION_FAIL)
+    }
+})
+}
+
+
 /**
  * 
  * @param {*} curation {twitterId, curationId, creatorETH, content, token, amount, maxCount, endtime, transHash,
@@ -234,6 +254,12 @@ export const newCurationWithTweet = async (curation) => {
   await checkAccessToken();
   const tweets = await ncwt(curation)
   return tweets;
+}
+
+export const newPopups = async (popup) => {
+  await checkAccessToken();
+  const res = await npp(popup);
+  return res;
 }
 
 /**

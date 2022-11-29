@@ -9,10 +9,8 @@
              src="~@/assets/icon-default-avatar.svg" alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem text-white">
-              {{ space.authorName ?? space.creatorTwitterName }}</a>
-            <span class="font-500 text-white">
-            @{{space.authorUsername ?? space.creatorTwitterUsername}}</span>
+            <a class="c-text-black text-left mr-3 ml-3 text-1rem leading-1.5rem text-white">
+              @{{ space.authorUsername ?? space.creatorTwitterUsername }}</a>
           </div>
         </div>
       </div>
@@ -21,13 +19,15 @@
     <div class="text-left c-text-black text-16px 2xl:text-1.2rem text-white">{{ space.spaceTitle }}</div>
     <button class="bg-white h-30px 2xl:1.5rem w-full rounded-full font-bold flex justify-center items-center"
       @click="gotoSpace">
-<!--      <img class="w-10x mr-5px" src="~@/assets/icon-listen.svg" alt="">-->
-      <span class="c-text-black text-14px 2xl:text-0.8rem text-black">{{ stateMap[space.spaceState] }}</span>
+     <img v-if="space.spaceState === 2" class="w-10x mr-5px" src="~@/assets/icon-listen.svg" alt="">
+      <span class="c-text-black text-14px 2xl:text-0.8rem text-black">{{ state }}</span>
     </button>
   </div>
 </template>
 
 <script>
+import { parseSpaceStartTime } from '@/utils/helper'
+
 export default {
   name: "Space",
   props: {
@@ -35,6 +35,22 @@ export default {
       type: Object,
       default: {}
     },
+  },
+  computed: {
+    state() {
+      switch (this.space.spaceState) {
+        case 1:
+          return parseSpaceStartTime(this.space.spaceStartedAt)
+        case 2:
+          return this.$t('space.listening')
+        case 3:
+          return this.$t('space.ended')
+        case 4:
+          return this.$t('space.canceled')
+        default:
+          break;
+      }
+    }
   },
   data() {
     return {
