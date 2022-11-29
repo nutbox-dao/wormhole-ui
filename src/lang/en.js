@@ -99,7 +99,9 @@ export default {
     ethWallet: 'ETH wallet',
     getNftP1: 'A NFT that shows your social influence on Twitter',
     people: 'People',
-    curations: 'Curations'
+    curations: 'Curations',
+    post: 'Post',
+    onChainTweet: 'On-chain tweet'
   },
   walletView: {
     totalBalance: 'Total balance',
@@ -119,7 +121,12 @@ export default {
     transTip: `This service is still in Beta. Please be careful and do not deposit anything more than you can lose.
     By depositing into this account, you are agreeing to our terms of service.`,
     tipTip: `There has no tips records. You can tip asset to any twitter account, and invite your followers tip to your content.`,
-    returned: 'Returned'
+    returned: 'Returned',
+    received: 'Received',
+    sent: 'Sent',
+    from: 'from',
+    to: 'to',
+    error: 'Error'
   },
   aboutView: {
     q1: '1. How to generate a new address, do you keep the private key on platform?',

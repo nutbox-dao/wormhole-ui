@@ -1,7 +1,7 @@
 <template>
   <div id="user-index" class="overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
     <template v-if="!loading">
-      <div class="border-b-0 md:border-b-1 md:border-color84/30">
+      <div class="border-b-0 sm:border-b-1 md:border-color84/30">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
@@ -11,25 +11,23 @@
                 alt=""/>
             <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
               <div class="text-left">
-                <div class="flex">
-                  <div class="c-text-black text-1.6rem light:text-blueDark">
+                <div class="flex items-center">
+                  <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
                     {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                   </div>
                   <div @click="gotoTwitter"
                        class="cursor-pointer mr-0.5rem w-max flex items-center
-                              text-color7D light:text-color7D
+                              text-color7D/60 light:text-color7D/60
                               bg-white/10 light:bg-colorF2
-                              light:border-1 light:border-colorE3
+                              light:border-1 light:border-color7D/60
                               rounded-full h-1.8rem md:1rem px-0.5rem">
                     <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
                 </div>
-                <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
+                <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
                      v-if="getAccountInfo && getAccountInfo.steemId">
-                    <span class="hover" @click="gotoSteem">
-                      #{{ getAccountInfo ? getAccountInfo.steemId : "" }}
-                      </span>
+                    <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
                 </div>
               </div>
 
@@ -64,21 +62,32 @@
             </div>
           </div>
 
-          <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
-            <div class="flex text-15px 2xl:text-0.75rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-              <router-link
-                  v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
-                  class="flex-1 py-0.5rem px-1rem text-color8B"
-                  :to="`/profile/${$route.params.user}/curations`" >{{$t('profileView.curations')}}</router-link>
-              <router-link
-                  class="flex-1 py-0.5rem px-1rem text-color8B"
-                  :to="`/profile/${$route.params.user}/post`"
-              >{{$t('profileView.socialAsset')}}</router-link>
+          <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
+                      light:bg-white light:sm:bg-transparent py-18px sm:pb-0 px-1.5rem mt-1rem">
+            <div class="flex rounded-10px sm:rounded-0px overflow-hidden text-14px
+                        xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+              <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
+                           :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
+                           class="flex-1">
+                <div class="w-full h-36px xl:h-2.4rem flex items-center justify-center"
+                     :class="isActive?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
+                     'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-l-10px sm:border-transparent sm:bg-transparent'">
+                  {{$t('profileView.curations')}}
+                </div>
+              </router-link>
+              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
+                           class="flex-1">
+                <div class="w-full h-36px xl:h-2.4rem flex items-center justify-center"
+                     :class="isActive?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
+                     'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-r-10px sm:border-transparent sm:bg-transparent'">
+                  {{$t('profileView.onChainTweet')}}
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-blockBg light:bg-white  light:md:bg-transparent md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+      <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -384,26 +393,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.dark .router-link-active, .light .router-link-active {
-  background-image: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
-  background-repeat: no-repeat;
-  background-size: 100% 0.3rem;
-  background-position: center bottom;
-}
-.dark a{
-  background-image: linear-gradient(#8483914D, #8483914D);
-  background-repeat: no-repeat;
-  background-size: 100% 0.3rem;
-  background-position: center bottom;
-  color: #8B949E;
-}
-.dark .router-link-active {
-  color: white;
-}
-.light a {
-  color: #7D7F88;
-}
-.light .router-link-active {
-  color: #1A1E25;
-}
 </style>

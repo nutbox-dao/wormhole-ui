@@ -8,7 +8,7 @@ export default defineConfig({
       colors: {
         primaryColor: '#AE88FE',
         primaryColor1: '#7C3AED',
-        redColor: '#CE395F',
+        redColor: '#D40000',
         greenColor: '#36D233',
         orangeColor: '#FF8700',
         primaryBg: '#0D1117',
@@ -47,6 +47,7 @@ export default defineConfig({
         colorED: '#EDEDFC',
         colorEE: '#EEB134',
         color19: '#19AF00',
+        colorD9: '#D9D9D9',
         blueDark: '#1A1E25'
       },
       screens: {

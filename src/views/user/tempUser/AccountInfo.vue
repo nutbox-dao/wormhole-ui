@@ -1,13 +1,5 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="md:border-b-1 border-dividerColor mb-1rem" v-if="!showDetail">
-      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px flex items-center md:justify-start justify-center h-2.8rem">
-        <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
-        <!--               @click="$router.back()"-->
-        <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem light:text-blueDark">{{$t('profileView.people')}}</div>
-      </div>
-    </div>
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail">
@@ -15,34 +7,17 @@
           <div class="border-b-0 md:border-b-1 md:border-color84/30">
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-center">
-                <img class="
-              w-6rem
-              h-6rem
-              md:w-4.8rem
-              md:h-4.8rem
-              mr-1.5rem
-              rounded-full
-              gradient-border
-              border-1px
-            " @error="replaceEmptyImg" :src="profileImg" alt="" />
-              <div class="
-              flex-1 flex
-              justify-between
-              sm:flex-row sm:items-center
-              flex-col
-            ">
+                <img
+                    class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
+                    @error="replaceEmptyImg"
+                    :src="profileImg"
+                    alt=""/>
+                <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
                   <div class="text-left">
-                    <div class="c-text-black text-1.6rem light:text-blueDark">
-                      {{ accountInfo ? accountInfo.twitterName : "" }}
-                    </div>
-                    <div class="
-                  text-text8F text-0.8rem
-                  flex
-                  mt-0.7rem
-                  font-bold
-                  sm:flex-row sm:items-center
-                  flex-col
-                ">
+                    <div class="flex flex-wrap gap-y-4px items-center">
+                      <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
+                        {{ accountInfo ? accountInfo.twitterName : "" }}
+                      </div>
                       <div @click="gotoTwitter"
                            class="cursor-pointer mr-0.5rem w-max flex items-center
                                   text-color8B light:text-color7D
@@ -52,65 +27,61 @@
                         <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                         <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                       </div>
-
-                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B light:text-color7D"
+                      <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                                  text-color8B light:text-color7D
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full h-1.8rem md:1rem px-0.5rem">Twitter Reputation:000137</div>
+                    </div>
+                    <div class="flex flex-wrap sm:mt-0 mt-0.5rem">
+                      <div class="flex items-center justify-start text-color7D/60 mr-5px"
                            v-if="accountInfo && accountInfo.steemId">
-<!--                        <img class="w-0.8rem h-0.8rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />-->
                         <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
                       </div>
+                      <button class="h-20px flex items-center p-2px rounded-full
+                                     border-1 border-color91/20 bg-colorED">
+                        <img class="w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
+                        <span class="whitespace-nowrap text-color7D">Address：0xioiijijpoijopwwe3323b</span>
+                      </button>
                     </div>
                   </div>
-                  <div class="flex flex-col sm:items-center">
-                    <div class="
-
-                  c-text-black
-                  text-1.2rem
-                  md:text-2rem
-                  sm:mt-0
-                  mt-0.8rem
-                  light:text-blueDark
-                ">
-                    {{ totalValue }}
-                  </div>
+<!--                  <div class="flex flex-col sm:items-center">-->
+<!--                    <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
+<!--                      {{ totalValue }}-->
+<!--                    </div>-->
+<!--                  </div>-->
+                </div>
+              </div>
+              <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
+                          light:bg-white light:sm:bg-transparent py-18px sm:pb-0 px-1.5rem mt-1rem">
+                <div class="flex rounded-10px sm:rounded-0px overflow-hidden text-14px
+                            xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+                  <div class="flex-1 h-36px xl:h-2.4rem flex items-center justify-center cursor-pointer"
+                       :class="selectIndex===0?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
+                       'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-l-10px sm:border-transparent sm:bg-transparent'"
+                        @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
+                  <div class="flex-1 h-36px xl:h-2.4rem flex items-center justify-center cursor-pointer"
+                       :class="selectIndex===1?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
+                       'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-r-10px sm:border-transparent sm:bg-transparent'"
+                       @click="selectIndex = 1">{{$t('profileView.post')}}</div>
                 </div>
               </div>
             </div>
-            <div class="bg-blockBg light:bg-white light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
-              <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                      :class="selectIndex===0?'active-tab light:text-blueDark':'inactive-tab light:text-color7D'"
-                      @click="selectIndex = 0">{{$t('profileView.socialAsset')}}</div>
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
-                      :class="selectIndex===1?'active-tab light:text-blueDark':'inactive-tab light:text-color7D'"
-                      @click="selectIndex = 1">{{$t('profileView.web3Wallet')}}</div>
-                <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
-                </router-link>
-                <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/wallet`">Web3 wallet
-                </router-link> -->
-              </div>
-            </div>
           </div>
-        </div>
-        <div class="bg-blockBg light:bg-white md:bg-transparent light:md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
-          <component is="post" v-show="selectIndex === 0"
-            :accountInfo="accountInfo"
-            :steemBalance="steemBalance"
-            :key="$route.params.user"
-            @gotoDetail="gotoPostDetail"/>
-          <wallet-view v-if="selectIndex === 1" :accountInfo="accountInfo" :steemBalance="steemBalance" :erc20Balances="erc20Balances"/>
-          <!-- <router-view v-slot="{ Component }">
-            <keep-alive>
-              <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
-            </keep-alive>
-            <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name" />
-          </router-view> -->
-        </div>
-      </template>
-      <div class="c-text-black text-1.8rem mb-3rem" v-else>
-        <img class="mx-auto w-6rem" src="~@/assets/loading-points.svg" alt="" />
+          <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+            <Curations v-show="selectIndex===0"/>
+            <Post v-show="selectIndex === 1"
+                  :accountInfo="accountInfo"
+                  :steemBalance="steemBalance"
+                  :key="$route.params.user"
+                  @gotoDetail="gotoPostDetail"/>
+          </div>
+        </template>
+        <div class="c-text-black text-1.8rem mb-3rem" v-else>
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -122,6 +93,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Post from './Post'
 import WalletView  from "./WalletView";
 import PostDetail from "./PostDetail";
+import Curations from './Curations'
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
@@ -133,7 +105,8 @@ export default {
   components: {
     Post,
     WalletView,
-    PostDetail
+    PostDetail,
+    Curations
   },
   data() {
     return {
