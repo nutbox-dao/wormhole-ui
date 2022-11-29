@@ -151,7 +151,7 @@ import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
 import { mapGetters, mapState } from "vuex";
 import { notify } from "@/utils/notify";
-import { sleep } from "@/utils/helper";
+import { sleep, stringLength } from "@/utils/helper";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
@@ -177,6 +177,7 @@ export default {
       ],
       form: {
         content: '',
+        tweet: "",
         duration: 5,
         maxReward: 100,
         chain: '',
@@ -193,7 +194,8 @@ export default {
       creating: false,
       durationPopper:false,
       tweeting: false,
-      contentRange: null
+      contentRange: null,
+      tweetLenth: 0
     }
   },
   computed: {
@@ -221,17 +223,22 @@ export default {
       el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
       el.innerHTML =el.innerHTML.replaceAll('<br>', '')
       let content = ''
+      let tweetLenth = 0;
       for(let i of el.childNodes) {
         if(i.nodeName==='#text') {
+          tweetLenth += stringLength(i.textContent);
           content += i.textContent
         } else if(i.nodeName === 'IMG') {
+          tweetLenth+=2;
           content += i.alt
         }
       }
+      this.tweetLenth = tweetLenth
       return content
     },
     onNext() {
-      this.form.content = this.formatElToTextContent(this.$refs.contentRef)
+      this.form.tweet = this.formatElToTextContent(this.$refs.contentRef)
+      console.log(3, this.form.tweet, this.tweetLenth);
       this.step = 2
     },
     selectChain(chain){
