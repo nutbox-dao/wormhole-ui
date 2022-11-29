@@ -32,7 +32,7 @@
                ref="contentRef"
                @blur="getBlur('desc')"
                @paste="onPasteEmojiContent"
-               v-html="formatEmojiText(form.content)"></div>
+               v-html="form.contentEl"></div>
           <div class="py-2 border-color8B/30 flex justify-between">
             <el-popover ref="descEmojiPopover"
                         trigger="click" width="300"
@@ -178,6 +178,7 @@ export default {
       form: {
         content: '',
         tweet: "",
+        contentEl: '',
         duration: 5,
         maxReward: 100,
         chain: '',
@@ -195,7 +196,7 @@ export default {
       durationPopper:false,
       tweeting: false,
       contentRange: null,
-      tweetLenth: 0
+      tweetLength: 0
     }
   },
   computed: {
@@ -223,23 +224,24 @@ export default {
       el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
       el.innerHTML =el.innerHTML.replaceAll('<br>', '')
       let content = ''
-      let tweetLenth = 0;
+      let tweetLength = 0;
       for(let i of el.childNodes) {
         if(i.nodeName==='#text') {
-          tweetLenth += stringLength(i.textContent);
+          tweetLength += stringLength(i.textContent);
           content += i.textContent
         } else if(i.nodeName === 'IMG') {
-          tweetLenth+=2;
+          tweetLength+=2;
           content += i.alt
         }
       }
-      this.tweetLenth = tweetLenth
+      this.tweetLength = tweetLength
       return content
     },
     onNext() {
-      this.form.tweet = this.formatElToTextContent(this.$refs.contentRef)
-      console.log(3, this.form.tweet, this.tweetLenth);
+      this.form.contentEl = this.$refs.contentRef.innerHTML
+      this.form.content = this.formatElToTextContent(this.$refs.contentRef)
       this.step = 2
+      console.log(this.form.content, this.form.contentEl, this.tweetLength)
     },
     selectChain(chain){
       this.form.chain = chain
