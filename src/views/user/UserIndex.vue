@@ -11,37 +11,32 @@
                 alt=""/>
             <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
               <div class="text-left">
-                <div class="c-text-black text-1.6rem light:text-blueDark">
-                  {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
-                </div>
-                <div class="text-text8F text-0.8rem flex mt-0.7rem font-bold sm:flex-row sm:items-center flex-col">
+                <div class="flex">
+                  <div class="c-text-black text-1.6rem light:text-blueDark">
+                    {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
+                  </div>
                   <div @click="gotoTwitter"
                        class="cursor-pointer mr-0.5rem w-max flex items-center
-                              text-color8B light:text-color7D
+                              text-color7D light:text-color7D
                               bg-white/10 light:bg-colorF2
                               light:border-1 light:border-colorE3
                               rounded-full h-1.8rem md:1rem px-0.5rem">
                     <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
-                  <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
-                      v-if="getAccountInfo && getAccountInfo.steemId">
-<!--                    <img-->
-<!--                        class="w-0.8rem h-0.8rem mr-0.5rem"-->
-<!--                        src="~@/assets/icon-checked.svg"-->
-<!--                        alt=""-->
-<!--                    />-->
+                </div>
+                <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
+                     v-if="getAccountInfo && getAccountInfo.steemId">
                     <span class="hover" @click="gotoSteem">
                       #{{ getAccountInfo ? getAccountInfo.steemId : "" }}
                       </span>
-                  </div>
                 </div>
               </div>
 
               <div class="flex flex-col sm:items-center">
-                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">
-                  {{ totalValue }}
-                </div>
+<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
+<!--                  {{ totalValue }}-->
+<!--                </div>-->
                 <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
                   <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
