@@ -16,13 +16,13 @@
       </button>
     </div>
     <div class="text-20px 2xl:text-1.2rem c-text-black text-left sm:text-center px-1.5rem mt-2rem">
-      Create a Pop-up reply action
+      {{$t('popup.create')}}
     </div>
     <div v-if="step===1" class="flex-1 px-1.5rem mt-0.5rem flex flex-col">
       <div class="flex-1">
-        <div class="mt-0.5rem mb-2rem text-color7D">Currently only support replying on tweets actions</div>
+        <div class="mt-0.5rem mb-2rem text-color7D">{{$t('popup.popupTip')}}</div>
         <div class="flex justify-between items-center mt-35px">
-          <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">Quick Tweet</span>
+          <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">{{$t('popup.quickTweet')}}</span>
         </div>
         <div class="border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -50,7 +50,7 @@
                                 @select="selectEmoji" />
               </div>
             </el-popover>
-            <div class="p-0.5rem text-right text-color62 font-bold">#iweb3</div>
+            <div class="p-0.5rem text-right text-color62 font-bold">#iweb3 #popup</div>
           </div>
         </div>
         <div class="flex justify-between items-center mt-2rem">
@@ -136,7 +136,7 @@
                            @create="createPopup"
                            @confirmComplete="modalVisible=false"
                            @close="modalVisible=false">
-            <template #desc>更多描述</template>
+            <template #desc>{{$t('popup.createTip', {rewards:  this.form.amount + ' ' + this.selectedToken.symbol})}}</template>
           </SendTokenTipVue>
         </div>
       </div>
@@ -154,6 +154,9 @@ import { notify } from "@/utils/notify";
 import { sleep, stringLength } from "@/utils/helper";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
+import { userTweet } from '@/utils/twitter'
+import { createPopup, newPopups } from '@/utils/curation'
+import { ethers } from "ethers";
 
 export default {
   name: "CreatePopUpModal",
@@ -177,7 +180,6 @@ export default {
       ],
       form: {
         content: '',
-        tweet: "",
         contentEl: '',
         duration: 5,
         maxReward: 100,
@@ -185,6 +187,7 @@ export default {
         address: '',
         token: '',
         amount: 0,
+        tweetId: ''
       },
       EVM_CHAINS,
       modalVisible: false,
@@ -196,11 +199,11 @@ export default {
       durationPopper:false,
       tweeting: false,
       contentRange: null,
-      tweetLength: 0
+      tweetLength: 0,
     }
   },
   computed: {
-    ...mapState('curation', ['detailCuration']),
+    ...mapState('curation', ['detailCuration', 'getPendingPopup']),
     ...mapGetters(['getAccountInfo'])
   },
   methods: {
@@ -260,7 +263,7 @@ export default {
       this.form.amount = amount
     },
     checkForm() {
-      if (this.form.content.length > 200) {
+      if (this.tweetLength > 265) {
         notify({message: this.$t('tips.textLengthOut'), type:'info'})
         return false
       }
@@ -284,7 +287,16 @@ export default {
       }
       try{
         this.creating = true
-        this.modalVisible = true
+        // tweet
+        // this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup')
+        await sleep(5)
+        this.form.tweetId = '1596342581860130816'
+        this.modalVisible =true
+        if (this.form.tweetId) {
+          this.modalVisible = true
+        }else {
+          notify({message: this.$t('popup.tweetFail'), type:'error'})
+        }
       } catch (e) {
       } finally {
         this.creating = false
@@ -293,14 +305,60 @@ export default {
     async createPopup() {
       try{
         this.creating = true
+        let popup = {
+          curationId: this.detailCuration.curationId,
+          popupTweetId: this.form.tweetId,
+          endTime: new Date().getTime() / 1000 + this.form.duration * 60,
+          winnerCount: this.form.maxReward,
+          token: this.form.token,
+          bonus: ethers.utils.parseUnits(this.form.amount, this.selectedToken.decimals)
+        }
+        const hash = await createPopup(popup)
+        if (hash) {
+        //   curationId, chainId, creatorEth, tweetId, twitterId, endTime, 
+        // token, symbol, decimals, bonus, maxCount, transHsh
+          let pendingPopup = {
+            twitterID: this.getAccountInfo.twitterId,
+            curationId: this.detailCuration.curationId,
+            chainId: EVM_CHAINS[this.form.chain].id,
+            creatorEth: this.form.address,
+            tweetId: this.form.tweetId,
+            endTime: this.form.duration * 60,
+            token: this.form.token,
+            symbol: this.selectedToken.symbol,
+            decimals: this.selectedToken.decimals,
+            bonus: ethers.utils.parseUnits(this.form.amount, this.selectedToken.decimals).toString(),
+            maxCount: this.form.maxReward,
+            transHash: hash
+          }
+          this.$store.commit('curation/savePendingPopup', pendingPopup)
+          await newPopups(pendingPopup);
+          this.$store.commit('curation/savePendingPopup', null)
+          this.$emit('close')
+          this.modalVisible = false
+        }else {
+          // to do: 
+        }
       } catch (e) {
-
+        if (e === 'log out') {
+          notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
+          this.$router.go('/')
+        }
       } finally {
         this.creating = false
       }
     }
   },
   mounted() {
+    if (this.getPendingPopup) {
+      newPopups(pendingPopup).then(res => {
+        this.$store.commit('curation/savePendingPopup', null)
+      }).catch(e => {
+        if (e === 'log out') {
+          notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
+        }
+      })  
+    }
   }
 }
 </script>

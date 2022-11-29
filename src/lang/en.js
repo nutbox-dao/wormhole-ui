@@ -151,7 +151,8 @@ export default {
     connectMetamaskFirst: 'Connect wallet first',
     wrongEndTime: 'The end time you fill has passed',
     dismatchAddress: 'Dismatch addres',
-    userNotExist: 'User not exist.'
+    userNotExist: 'User not exist.',
+    accessTokenExpire: 'Log in token expired'
   },
   ref: {
     referre: 'Referrer',
@@ -246,6 +247,18 @@ export default {
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network'
+  },
+  popup: {
+    create: 'Create a Pop-up reply action',
+    popupTip: 'Currently only support replying on tweets actions',
+    createTip: 'Since the reward of this popup includes tokens, it is necessary to enter the tokens ( {rewards} )  into the bonus vault in advance. After the popup ends, eligible participant will be able to receive the rewards.',
+    tweetFail: 'Tweet fail',
+    quickTweet: 'Quick Tweet'
+  },
+  space: {
+    listening: 'Listening',
+    ended: 'Ended',
+    canceled: 'Canceled'
   },
   err: {
     serverErr: 'Server error',
