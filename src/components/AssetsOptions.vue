@@ -14,7 +14,7 @@
                  src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
           </template>
           <template #options>
-            <div class="bg-block light:bg-white border-1 border-color8B/30
+            <div class="bg-blockBg light:bg-white border-1 border-color8B/30
                           light:border-colorE3 rounded-8px overflow-hidden">
               <template v-if="showsteem">
                 <el-option value="steem" class="py-5px px-12px h-min">
