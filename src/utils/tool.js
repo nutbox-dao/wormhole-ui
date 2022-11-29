@@ -44,3 +44,24 @@ export function formatAddress (val, start = 6, end = 6) {
   if (!val || val === '' || val.length < 12) return val
   return `${val.substring(0, start)}...${val.substring(val.length - end)}`
 }
+
+export function onPasteEmojiContent(e) {
+  e.preventDefault()
+  let text
+  let clp = e.clipboardData
+  if (clp === undefined || clp === null) {
+    text = window.clipboardData.getData('text') || ''
+    if (text !== "") {
+      text = formatEmojiText(text)
+      let newNode = document.createElement('div')
+      newNode.innerHTML = text;
+      window.getSelection().getRangeAt(0).insertNode(newNode)
+    }
+  } else {
+    text = clp.getData('text/plain') || ''
+    if (text !== "") {
+      text = formatEmojiText(text)
+      document.execCommand('insertHtml', false, text)
+    }
+  }
+}

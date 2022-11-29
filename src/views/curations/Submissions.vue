@@ -113,6 +113,7 @@ export default {
       this.refreshing = false
     },
     onLoad() {
+      if(this.loading || this.finished) return
       this.loading = true
       let time;
       if (this.records.length > 0) {

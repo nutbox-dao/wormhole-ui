@@ -24,13 +24,34 @@
         <div class="flex justify-between items-center mt-35px">
           <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">Quick Tweet</span>
         </div>
-        <div class="w-full bg-blockBg light:bg-white
-                  border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
-                  rounded-8px min-h-40px 2xl:min-h-2rem">
-          <textarea class="bg-transparent h-full w-full p-0.5rem leading-24px"
-                    v-model="form.content"
-                    rows="4" placeholder="Type the contents"></textarea>
-          <div class="p-0.5rem text-right text-color62 font-bold">#iweb3</div>
+        <div class="border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px">
+          <div contenteditable
+               class="desc-input px-1rem pt-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
+               ref="contentRef"
+               @blur="getBlur('desc')"
+               @paste="onPasteEmojiContent"
+               v-html="formatEmojiText(form.content)"></div>
+          <div class="py-2 border-color8B/30 flex justify-between">
+            <el-popover ref="descEmojiPopover"
+                        trigger="click" width="300"
+                        :teleported="false"
+                        :persistent="false">
+              <template #reference>
+                <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+              </template>
+              <div class="h-310px lg:h-400px">
+                <EmojiPicker :options="{
+                                imgSrc:'/emoji/',
+                                locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                hasSkinTones:false,
+                                hasGroupIcons:false}"
+                                @select="selectEmoji" />
+              </div>
+            </el-popover>
+            <div class="p-0.5rem text-right text-color62 font-bold">#iweb3</div>
+          </div>
         </div>
         <div class="flex justify-between items-center mt-2rem">
           <span class="font-bold text-14px 2xl:text-0.8rem mb-10px">Duration</span>
@@ -101,26 +122,22 @@
               </button>
       </div>
     </div>
-    <van-popup v-if="modalVisible" class="c-tip-drawer 2xl:w-2/5"
-                v-model:show="modalVisible"
-               :close-on-click-overlay="TextTrackCueList"
-               :position="position">
-      <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem
-      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
-      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-          <SendTokenTipVue
-                     :token="selectedToken"
-                     :amount="form.amount"
-                     :chainName="form.chain"
-                     :address="form.address"
-                     :approveContract="EVM_CHAINS[form.chain].popup"
-                     @create="createPopup"
-                     @confirmComplete="modalVisible=false"
-                     @close="modalVisible=false"></SendTokenTipVue>
+    <van-popup v-if="modalVisible" class="w-full 2xl:w-2/5"
+                v-model:show="modalVisible" position="center">
+      <div class="bg-black light:bg-white rounded-12px mx-15px">
+        <div class="dark:bg-glass light:bg-white rounded-12px flex-1 overflow-auto
+                    px-1.5rem no-scroll-bar px-15px py-2rem xl:p-1rem">
+          <SendTokenTipVue class=""
+                           :token="selectedToken"
+                           :amount="form.amount"
+                           :chainName="form.chain"
+                           :address="form.address"
+                           :approveContract="EVM_CHAINS[form.chain].popup"
+                           @create="createPopup"
+                           @confirmComplete="modalVisible=false"
+                           @close="modalVisible=false">
+            <template #desc>更多描述</template>
+          </SendTokenTipVue>
         </div>
       </div>
     </van-popup>
@@ -135,10 +152,12 @@ import CustomSelect from "@/components/CustomSelect";
 import { mapGetters, mapState } from "vuex";
 import { notify } from "@/utils/notify";
 import { sleep } from "@/utils/helper";
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
 export default {
   name: "CreatePopUpModal",
-  components: {AssetsOptions, SendTokenTipVue, CustomSelect},
+  components: {AssetsOptions, SendTokenTipVue, CustomSelect, EmojiPicker},
   data() {
     return {
       step: 1,
@@ -173,7 +192,8 @@ export default {
       approving: false,
       creating: false,
       durationPopper:false,
-      tweeting: false
+      tweeting: false,
+      contentRange: null
     }
   },
   computed: {
@@ -181,6 +201,21 @@ export default {
     ...mapGetters(['getAccountInfo'])
   },
   methods: {
+    getBlur() {
+      const sel = window.getSelection();
+      this.contentRange = sel.getRangeAt(0);
+    },
+    onPasteEmojiContent,
+    formatEmojiText,
+    selectEmoji(e) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
+      if(!this.contentRange) return
+      this.contentRange.insertNode(newNode)
+      this.$refs.descEmojiPopover.hide()
+    },
     selectChain(chain){
       this.form.chain = chain
     },
