@@ -32,7 +32,7 @@
                ref="contentRef"
                @blur="getBlur('desc')"
                @paste="onPasteEmojiContent"
-               v-html="formatEmojiText(form.content)"></div>
+               v-html="form.contentEl"></div>
           <div class="py-2 border-color8B/30 flex justify-between">
             <el-popover ref="descEmojiPopover"
                         trigger="click" width="300"
@@ -174,6 +174,7 @@ export default {
       ],
       form: {
         content: '',
+        contentEl: '',
         duration: 5,
         maxReward: 100,
         chain: '',
@@ -227,8 +228,10 @@ export default {
       return content
     },
     onNext() {
+      this.form.contentEl = this.$refs.contentRef.innerHTML
       this.form.content = this.formatElToTextContent(this.$refs.contentRef)
       this.step = 2
+      console.log(this.form.content, this.form.contentEl)
     },
     selectChain(chain){
       this.form.chain = chain
