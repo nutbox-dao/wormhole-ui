@@ -49,15 +49,13 @@
               <div class="text-white light:text-blueDark pl-60px pr-15px font-bold min-h-48px
                         flex-1 flex justify-between items-center truncate relative"
                    @click.stop="showTipModal">
-                <el-carousel v-if="tips && tips.length>0"
-                             class="w-full"
-                             height="48px" indicator-position="none" :loop="true"
-                             direction="vertical" :autoplay="true"
-                             :interval="2500">
-                  <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
-                    <div class="flex-1 text-color62 truncate">{{tipStr(item)}}</div>
-                  </el-carousel-item>
-                </el-carousel>
+                <van-notice-bar class="w-full bg-transparent px-0"
+                                scrollable :speed="100"
+                                v-if="tips && tips.length>0">
+                  <template #default>
+                    <span v-for="item in tips" :key="item" class="mr-4rem">{{tipStr(item)}}</span>
+                  </template>
+                </van-notice-bar>
                 <span v-else class="absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
                 {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {user: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
@@ -124,14 +122,21 @@
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
                     <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}} {{quoted}}</span>
                   </div>
-                  <div v-if="isLike" @click="like"
+                  <div v-if="isLike"
+                       @click="like"
                        class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
-                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isLike?'icon-checked':'icon-like-circle'"></i>
+                    <img v-if="isLiking"
+                         class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                    <i v-else class="w-1.2rem h-1.2rem mr-10px"
+                       :class="isLike?'icon-checked':'icon-like-circle'"></i>
                     <span>Like (or Verify your Like)</span>
                   </div>
                   <div v-if="isFollow" @click="follow"
                        class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
-                    <i class="w-1.2rem h-1.2rem mr-10px" :class="isFollow?'icon-checked':'icon-follow-circle'"></i>
+                    <img v-if="isFollowing"
+                         class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                    <i v-else class="w-1.2rem h-1.2rem mr-10px"
+                       :class="isFollow?'icon-checked':'icon-follow-circle'"></i>
                     <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
                 </div>
@@ -144,8 +149,21 @@
                 <div class="-ml-7px" v-for="record of (participant.slice(0, 5) ?? [])" :key="record.id">
                   <img class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
                        @error="replaceEmptyImg"
+<<<<<<< HEAD
                        :src="record.profileImg" alt="">
+=======
+                       :src="p.profileImg" alt="">
+                  <img v-else
+                       class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+
+>>>>>>> 2774f6e (update ui)
                 </div>
+                <span v-if="participant.length>3"
+                      class="w-24px h-24px xl:w-1.2rem xl:h-1.2rem rounded-full
+                             rounded-full -ml-10px flex justify-center items-center
+                             border-1 border-blockBg bg-primaryColor
+                             light:border-white light:bg-color62 light:text-white text-10px">+10</span>
                 <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">All participants >></button>
               </div>
             </div>
@@ -385,7 +403,9 @@ export default {
       updateInterval: null,
       relatedCurations: [],
       tipCollapse: false,
-      quotesCollapse: false
+      quotesCollapse: false,
+      isLiking: false,
+      isFollowing:false
     }
   },
   computed: {
