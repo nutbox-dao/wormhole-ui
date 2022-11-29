@@ -90,10 +90,10 @@ export const TokenIcon = {
     'MATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
     'WMATIC': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png',
     'DAI': 'https://polygonscan.com/token/images/mcdDai_32.png',
-    'FRAX': '',
-    'NEAR': '',
-    'AURORA': '',
-    'GLMR': ''
+    'FRAX': 'https://cdn.wherein.mobi/wormhole3/logo/frax.png',
+    'NEAR': 'https://cdn.wherein.mobi/wormhole3/logo/near.png',
+    'AURORA': 'https://cdn.wherein.mobi/wormhole3/logo/aurora.png',
+    'GLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
 }
 
 export const TokenName = {
@@ -212,10 +212,10 @@ export const EVM_CHAINS = {
         scan: 'https://moonbeam.moonscan.io/',
         id: 1284,
         main: {
-            name: '',
+            name: 'GLMR',
             symbol: 'GLMR',
             decimals: 18,
-            icon: ''
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
         },
         assets: {
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},

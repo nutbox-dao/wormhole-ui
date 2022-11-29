@@ -9,9 +9,12 @@
                       @change="connectWallet(selectedChainName)">
           <template #prefix>
             <!-- chain logo -->
-            <img v-if="selectedChainName"
+            <img v-if="selectedChainName !== 'steem' && EVM_CHAINS[selectedChainName]"
                  class="w-24px min-w-24px h-24px min-h-24px rounded-full mr-15px"
-                 src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+                 :src="EVM_CHAINS[selectedChainName]?.main.icon" alt="">
+            <img v-else-if="selectedChainName === 'steem'"
+                class="w-24px min-w-24px h-24px min-h-24px rounded-full mr-15px"
+               src="~@/assets/steem.png" alt="">
           </template>
           <template #options>
             <div class="bg-blockBg light:bg-white border-1 border-color8B/30
@@ -22,7 +25,7 @@
                     <div class="flex items-center ">
                       <span class="min-w-24px min-h-24px">
                         <img class="w-24px h-24px rounded-full mr-15px"
-                             src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+                             src="~@/assets/steem.png" alt="">
                       </span>
                       <span>Steem</span>
                     </div>
@@ -41,7 +44,7 @@
                   <div class="flex items-center ">
                     <span class="min-w-24px min-h-24px">
                       <img class="w-24px h-24px rounded-full mr-15px"
-                           src="https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png" alt="">
+                           :src="EVM_CHAINS[item]?.main.icon" alt="">
                     </span>
                     <span>{{item}}</span>
                   </div>
