@@ -788,16 +788,6 @@ export default {
         }
         return content
       }
-      // this.$refs.descContentRef.innerHTML = this.$refs.descContentRef.innerHTML.replaceAll('<div>', '\n')
-      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('</div>', '\n')
-      // this.$refs.descContentRef.innerHTML =this.$refs.descContentRef.innerHTML.replaceAll('<br>', '')
-      // for(let i of this.$refs.descContentRef.childNodes) {
-      //   if(i.nodeName==='#text') {
-      //     this.form.description += i.textContent
-      //   } else if(i.nodeName === 'IMG') {
-      //     this.form.description += i.alt
-      //   }
-      // }
     },
     disabledDate(time) {
       let date = Date.now();
@@ -900,7 +890,7 @@ export default {
     },
     selectBalance(balance) {
       this.selectedBalance = balance
-    },  
+    },
     checkRewardData() {
       if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})

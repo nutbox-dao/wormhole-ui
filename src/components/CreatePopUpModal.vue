@@ -76,7 +76,7 @@
       </div>
       <div class="text-center mb-1.4rem mt-2rem">
         <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                @click="step=2">
+                @click="onNext">
                 {{ $t('common.next') }}
           </button>
       </div>
@@ -212,6 +212,24 @@ export default {
       this.contentRange.insertNode(newNode)
       this.$refs.descEmojiPopover.hide()
     },
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      for(let i of el.childNodes) {
+        if(i.nodeName==='#text') {
+          content += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          content += i.alt
+        }
+      }
+      return content
+    },
+    onNext() {
+      this.form.content = this.formatElToTextContent(this.$refs.contentRef)
+      this.step = 2
+    },
     selectChain(chain){
       this.form.chain = chain
     },
@@ -252,9 +270,9 @@ export default {
         return
       }
       try{
-        this.creating = true    
+        this.creating = true
         this.modalVisible = true
-      } catch (e) { 
+      } catch (e) {
       } finally {
         this.creating = false
       }
@@ -263,7 +281,7 @@ export default {
       try{
         this.creating = true
       } catch (e) {
-        
+
       } finally {
         this.creating = false
       }
