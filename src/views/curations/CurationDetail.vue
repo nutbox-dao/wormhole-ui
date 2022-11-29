@@ -82,7 +82,7 @@
 
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
-            <PopUpsCard :popups="popups" :showCreate="space.spaceState !== 1" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
+            <PopUpsCard :popups="popups" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
@@ -149,15 +149,7 @@
                 <div class="-ml-7px" v-for="record of (participant.slice(0, 5) ?? [])" :key="record.id">
                   <img class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
                        @error="replaceEmptyImg"
-<<<<<<< HEAD
                        :src="record.profileImg" alt="">
-=======
-                       :src="p.profileImg" alt="">
-                  <img v-else
-                       class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
-                       src="~@/assets/icon-default-avatar.svg" alt="">
-
->>>>>>> 2774f6e (update ui)
                 </div>
                 <span v-if="participant.length>3"
                       class="w-24px h-24px xl:w-1.2rem xl:h-1.2rem rounded-full
@@ -459,7 +451,7 @@ export default {
     },
     followed() {
       if(!this.detailCuration || !this.getAccountInfo) return false
-      return (this.detailCuration.authorId === this.getAccountInfo.twitterId) || (this.detailCuration.taskRecord & 8) / 8
+      return (this.detailCuration.taskRecord & 8) / 8
     },
     status() {
       if (!this.detailCuration) return ''

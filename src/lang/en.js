@@ -251,7 +251,8 @@ export default {
     serverErr: 'Server error',
     transErr: 'Transaction Fail',
     loginErr: 'Login fail',
-    wrongTweetLink: 'Please input correct tweet link'
+    wrongTweetLink: 'Please input correct tweet link',
+    wrongUserNumber: 'Please input correct users count'
   },
   common: {
     none: 'None',
@@ -264,6 +265,7 @@ export default {
     submit: 'Submit',
     confirm: 'Confirm',
     send: 'Send',
+    sendAndCreate: 'Send and create',
     option: 'Option',
     approve: 'Approve',
     active: 'Active',
