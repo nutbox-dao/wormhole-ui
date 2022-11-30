@@ -15,7 +15,7 @@
                class="gradient-bg gradient-bg-color3 rounded-12px overflow-hidden mx-1.5rem sm:mx-0
                   absolute -top-3rem left-0 right-0 md:-top-8rem">
             <div class="px-17px py-12px mb-1rem flex items-center justify-between cursor-pointer"
-                 @click="$router.push('/transaction/' + getAccountInfo.twitterId)">
+                 @click="$router.push('/transaction/')">
               <span class="c-text-black text-white text-14px 2xl:text-0.8rem">{{$t('profileView.ethWallet')}}</span>
               <i class="w-1rem h-1rem min-w-14px min-h-14px icon-notification"></i>
               <!-- <button>

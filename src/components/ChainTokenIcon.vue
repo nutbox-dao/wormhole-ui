@@ -1,12 +1,10 @@
 <template>
   <div class="flex items-center w-min rounded-full">
     <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
-      <template>
         <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
         <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
         <img v-if="chainIcon" class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
              :src="chainIcon" alt="">
-      </template>
     </div>
     <slot name="amount"></slot>
   </div>

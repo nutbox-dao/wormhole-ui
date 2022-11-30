@@ -46,6 +46,14 @@ export default {
           return this.$t('space.ended')
         case 4:
           return this.$t('space.canceled')
+        case 'scheduled':
+          return parseSpaceStartTime(this.space.scheduledStart)
+        case 'live':
+          return this.$t('space.listening')
+        case 'ended':
+          return this.$t('space.ended') 
+        case 'canceled':
+          return this.$t('space.canceled')
         default:
           break;
       }
@@ -67,7 +75,7 @@ export default {
     gotoSpace () {
       window.open('https://twitter.com/i/spaces/' + this.space.spaceId)
     }
-  }
+  },
 }
 </script>
 
