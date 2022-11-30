@@ -11,7 +11,8 @@ export const FetchingStatus = {
     MATCH_TICKETS: 1,
     REGISTERING: 2,
     MATCH_ACCOUNT: 3,
-    NOT_SEND_TWITTER: 4
+    NOT_SEND_TWITTER: 4,
+    PENDING_USER: 5             // This is for tip user
 }
 
 const GetTicketTimes = 1
@@ -52,6 +53,10 @@ export const login = async (username, ethAddress, callback) => {
                     monitorNFTReceiveState(account.account)
                     resolve(true)
                     return;
+                } else if (account.code === FetchingStatus.PENDING_USER) {
+                    store.commit('saveAccountInfo', {...account.account, isPending: true})
+                    resolve(true)
+                    return;
                 }
                 if (getTicketTimes > GetTicketTimes) {
                     callback(FetchingStatus.NOT_SEND_TWITTER)
@@ -63,6 +68,7 @@ export const login = async (username, ethAddress, callback) => {
                     return;
                 } 
                 callback(account.code)
+                resolve(false)
             }else {
                 reject(500)
                 return;

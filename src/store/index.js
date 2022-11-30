@@ -3,6 +3,8 @@ import * as Vuex from 'vuex'
 import Cookie from 'vue-cookies'
 import { b64uEnc, b64uDec } from '@/utils/helper'
 import postsModule from './postsModule'
+import web3 from './web3'
+import curation from './curation'
 
 export default Vuex.createStore({
   state: {
@@ -18,8 +20,13 @@ export default Vuex.createStore({
     prices: {},
     erc20Balances: {},
     posts: [],
+    joinedCurations: [],
+    createdCurations: [],
     transactions: [],
-    vestsToSteem: 1
+    tips: [],
+    vestsToSteem: 1,
+    referee: '',
+    stellarTreks: {}
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -93,14 +100,31 @@ export default Vuex.createStore({
     savePosts: (state, posts) => {
       state.posts = posts
     },
+    saveJoinedCurations: (state, joinedCurations) => {
+      state.joinedCurations = joinedCurations
+    },
+    saveCreatedCurations: (state, createdCurations) => {
+      state.createdCurations = createdCurations
+    },
     saveTransactions: (state, transactions) => {
       state.transactions = transactions
     },
+    saveTips: (state, tips) => {
+      state.tips = tips
+    },
     saveVestsToSteem: (state, vestsToSteem) => {
       state.vestsToSteem = vestsToSteem
+    },
+    saveReferee: (state, referee) => {
+      state.referee = referee
+    },
+    saveStellarTreks: (state, stellarTreks) => {
+      state.stellarTreks = stellarTreks
     }
   },
   modules: {
-    postsModule
+    postsModule,
+    web3,
+    curation
   },
 })

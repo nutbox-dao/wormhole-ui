@@ -1,0 +1,102 @@
+.icon {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.icon-notification {
+  @extend .icon;
+  background-image: url("~@/assets/icon-notification.svg");
+}
+.light .icon-notification {
+  @extend .icon;
+  background-image: url("~@/assets/icon-notification-light.svg");
+}
+.icon-language {
+  @extend .icon;
+  background-image: url("~@/assets/icon-language.svg");
+}
+.light .icon-language {
+  @extend .icon;
+  background-image: url("~@/assets/icon-language-light.svg");
+}
+
+.icon-forward-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-forward-circle.svg");
+}
+.light .icon-forward-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-forward-circle-light.svg");
+}
+
+.icon-msg {
+  @extend .icon;
+  background-image: url("~@/assets/icon-msg.svg");
+}
+.light .icon-msg {
+  @extend .icon;
+  background-image: url("~@/assets/icon-msg-light.svg");
+}
+
+.icon-like {
+  @extend .icon;
+  background-image: url("~@/assets/icon-like.svg");
+}
+.light .icon-like {
+  @extend .icon;
+  background-image: url("~@/assets/icon-like-light.svg");
+}
+
+.icon-coin {
+  @extend .icon;
+  background-image: url("~@/assets/icon-coin.svg");
+}
+.light .icon-coin {
+  @extend .icon;
+  background-image: url("~@/assets/icon-coin-light.svg");
+}
+
+.icon-twitter {
+  @extend .icon;
+  background-image: url("~@/assets/icon-twitter-white.svg");
+}
+.light .icon-twitter {
+  @extend .icon;
+  background-image: url("~@/assets/icon-twitter-white-light.svg");
+}
+.icon-copy {
+  @extend .icon;
+  background-image: url("~@/assets/icon-copy.svg");
+}
+.light .icon-copy {
+  @extend .icon;
+  background-image: url("~@/assets/icon-copy-light.svg");
+}
+.icon-list-no-data {
+  @extend .icon;
+  background-image: url("~@/assets/no-data.svg");
+}
+.light .icon-list-no-data {
+  @extend .icon;
+  background-image: url("~@/assets/no-data-light.svg");
+}
+
+.icon-theme-light {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-light-primary.svg");
+}
+.light .icon-theme-light {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-light-white.svg");
+}
+
+.icon-theme-dark {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-dark-white.svg");
+}
+.light .icon-theme-dark {
+  @extend .icon;
+  background-image: url("~@/assets/icon-theme-dark-primary.svg");
+}

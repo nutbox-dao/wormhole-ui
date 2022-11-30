@@ -210,3 +210,45 @@ export const generateSteemAuth = (ethPK) => {
     }
     return stringToHex(JSON.stringify(keys))
 }
+
+export const fetchSteemAuth = async (ethPK, steemAccount) => {
+    const pass = generateBrainKey(ethPK)
+    const account = generateKeys('wormhole', pass);
+    if (await verifyAuth(steemAccount, account.key.posting.posting)) {
+        return account.key;
+    }
+    return null
+}
+
+export const verifyAuth = async (name, key, role='posting') => {
+    const account = await getAccountInfo(name);
+    const pubkey = account[role];
+    const threshold = pubkey.weight_threshold;
+    let originalPub = [];
+    for (let k of pubkey.key_auths) {
+        if (k[1] >= threshold) {
+            originalPub.push(k[0]);
+        }
+    }
+    const pub = auth.wifToPublic(key);
+    return originalPub.indexOf(pub) !== -1;
+}
+
+export const updateAccount = async (name, ownerKey, newPassword, role='active') => {
+    const account = await getAccountInfo(name);
+    console.log('Account:', account);
+    const keys = generateKeys(name, newPassword);
+    console.log('Keys:', keys.auth, keys.key);
+
+    const who_owner = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.owner, 1]]}
+    const who_active = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.active, 1]]}
+    const who_posting = {'weight_threshold': 1, 'account_auths': [], 'key_auths': [[keys.auth.posting, 1]]}
+    try{
+        console.log('start');
+        const res = await steem.broadcast.accountUpdate(ownerKey, name, who_owner, who_active, who_posting, keys.auth.memo, account.json_metadata)
+        console.log(('ok'));
+        return res;
+    }catch(e) {
+        console.log('Update account fail:', e);
+    }
+}

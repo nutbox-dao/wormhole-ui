@@ -9,11 +9,11 @@
         <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem md:mr-1.5rem sm:mr-1.4rem mr-0.8rem rounded-full gradient-border" src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{ post.name }}</a>
+            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem light:text-blueDark">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-            <span class="text-0.8rem text-color8B">@{{ post.username }}</span>
+            <span class="text-0.8rem font-500 text-color8B light:text-color7D">@{{ post.username }}</span>
           </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden text-color8B text-0.7rem leading-1.5rem">
+          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden font-500 text-color8B light:text-color7D text-0.7rem leading-1.5rem">
             {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
@@ -22,9 +22,9 @@
       <div class="overflow-x-hidden md:ml-5.1rem md:mr-1/20 sm:mx-4.1rem" @click="gotoSteem($event)">
         <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
           <div @click.stop="clickContent"
-                class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B">
-            <a v-if="isIgnoreAccount" :href="stemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
-            <div v-else v-html="content"></div>
+                class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B light:text-color46">
+            <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
+            <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
           </div>
           <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
              <a :href="u"
@@ -35,9 +35,9 @@
         </div>
 
 <!--       foreign page -->
-       <LinkPreview v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
+       <LinkPreview @click.stop="clickLinkView()" class="cursor-pointer" v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
 <!--       retweet  -->
-       <Repost v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
+       <Repost @click.stop="clickRetweetView()" v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
         <!--img-1, img-2, img-3, img-4 -->
         <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"
@@ -46,8 +46,9 @@
             <img @click.stop="viewImg(index)" :src="url" alt="">
           </div>
         </div>
-        <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap">
-          <div v-show="tag != 'iweb3'" class="blog-tag" v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
+        <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap text-color8B light:text-color7D">
+          <div v-show="tag != 'iweb3'" class="blog-tag bg-white/10 light:bg-colorF4"
+               v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
             #{{ tag }}
           </div>
         </div>
@@ -57,22 +58,23 @@
         </div>
         <div class="flex gap-4rem mt-15px">
           <div class="text-white flex items-center">
-            <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
-            <span class="c-text-medium ml-2px">{{ post.children }}</span>
+            <i class="w-18px h-18px icon-msg"></i>
+            <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
           </div>
           <!-- <div class="text-text8F flex items-center">
             <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
             <span class="c-text-medium ml-2px">61</span>
           </div> -->
           <div class="flex items-center">
-            <svg width="18" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="white" d="M10.0001 17.8349H9.98726C7.61951 17.7909 0.787598 11.6181 0.787598 5.77157C0.787598 2.9629 3.10218 0.49707 5.74035 0.49707C7.83951 0.49707 9.25118 1.9454 9.99918 2.99957C10.7453 1.94724 12.157 0.49707 14.2571 0.49707C16.8971 0.49707 19.2108 2.9629 19.2108 5.77249C19.2108 11.6172 12.3779 17.79 10.0102 17.8331H10.0001V17.8349Z"/>
-            </svg>
-            <span class="c-text-medium ml-2px text-white">{{ post.votes }}</span>
+            <i class="w-18px h-18px icon-like"></i>
+            <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
           </div>
           <div class="text-white flex items-center">
-             <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
-            <span class="c-text-medium ml-2px">{{ value }}</span>
+            <i class="w-18px h-18px icon-coin"></i>
+            <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
+          </div>
+          <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
+            <i class="w-18px h-18px icon-twitter"></i>
           </div>
         </div>
       </div>
@@ -96,6 +98,7 @@ import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "Blog",
@@ -162,6 +165,7 @@ export default {
     },
     content() {
       let content = this.post.content.replace(this.reg, '');
+      // content = content.replace('\n', '</br>')
       for (let url of this.urls){
         content = content.replace(url, `<span
                 data-url="${url}"
@@ -173,6 +177,7 @@ export default {
     }
   },
   methods: {
+    formatEmojiText,
     clickContent(e) {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
@@ -200,6 +205,24 @@ export default {
         this.$router.push({path : '/account-info/@' + this.post.username})
       }
     },
+    gotoTweet(e) {
+      e.stopPropagation();
+      window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
+    clickLinkView() {
+      try{
+        const info = JSON.parse(this.post.pageInfo)
+        window.open(info.url, '__blank')
+      }catch(e) {}
+    },
+    clickRetweetView() {
+      try {
+        const info = JSON.parse(this.post.retweetInfo);
+        window.open(`https://twitter.com/${info.author.username}/status/${info.id}`)
+      } catch (error) {
+
+      }
+    },
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||
           navigator.userAgent.toUpperCase().indexOf('ANDROID')>=0) {
@@ -214,7 +237,7 @@ export default {
     },
   },
   mounted () {
-    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
     this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
     if (!this.post.content) return;
     const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
@@ -269,8 +292,6 @@ export default {
 .blog-tag{
   border-radius: 0.4rem;
   padding: .2rem .5rem 0.2rem 0.8rem;
-  border: 1px solid #434343;
-  background-color: rgba(white, .1);
   background-image: linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
   background-size: 0.3rem 100%;
   background-repeat: no-repeat;

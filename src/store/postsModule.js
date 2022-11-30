@@ -16,7 +16,8 @@ export default {
          *      posts: []
          * }
          */
-        allPostsTagValue: {}
+        allPostsTagValue: {},
+        allPostsTagTrend: {}
     },
     mutations: {
         saveTagsAggregation: (state, tagsAggregation) => {
@@ -33,6 +34,9 @@ export default {
         },
         saveAllPostsTagValue: (state, allPostsTagValue) => {
             state.allPostsTagValue = allPostsTagValue
+        },
+        saveAllPostsTagTrend: (state, allPostsTagTrend) => {
+            state.allPostsTagTrend = allPostsTagTrend
         }
     },
     getters: {
@@ -42,6 +46,9 @@ export default {
         },
         getPostsByTagValue: (state) => (tag) => {
             return state.allPostsTagValue[tag]
-        }
+        },
+        getPostsByTagTrend: (state) => (tag) => {
+            return state.allPostsTagTrend[tag]
+        },
     }
 }

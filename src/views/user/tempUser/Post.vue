@@ -1,24 +1,28 @@
 <template>
-  <div class="grid xl:grid-cols-3 md:gap-1rem pb-2rem">
-    <div class="xl:col-start-3 xl:col-end-4 border-1 border-dividerColor px-1rem rounded-12px xl:my-2rem md:mb-0 my-1.5rem h-min overflow-hidden mx-1.5rem md:mx-0">
-      <div class="text-1.2rem border-b-1 border-dividerColor px-1rem py-0.8rem flex items-center justify-between md:justify-center">
-        <span class="c-text-black">{{$t('postView.socialToken')}}</span>
-        <div class="md:hidden c-text-black flex-1 flex justify-end items-center">
-          <span class="text-colorB5 mr-1rem">{{ steemBalance }} STEEM</span>
+  <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem">
+    <div class="col-span-1 xl:col-start-3 xl:col-end-4
+                light:bg-social-token-box light:bg-no-repeat light:bg-cover
+                border-1 border-dividerColor
+                px-1rem rounded-12px xl:my-2rem md:mb-0 md:mx-0 my-1.5rem
+                h-min overflow-hidden mx-1.5rem">
+      <div class="text-1.2rem border-b-1 border-color84/30 light:border-colorE0/80 py-0.8rem flex items-center justify-between md:justify-center">
+        <span class="text-center font-900 xl:text-left xl:font-500 xl:w-full light:text-colorE0/80 text-15px">{{$t('postView.socialToken')}}</span>
+        <div class="md:hidden flex-1 flex justify-end items-center">
+          <span class="text-colorB5 light:text-colorE0/80 mr-1rem whitespace-nowrap">{{ steemBalance }} STEEM</span>
           <span class="text-white c-text-black">{{ steemValue}} </span>
         </div>
       </div>
       <div class="mt-2rem md:mt-1rem mb-1.5rem">
         <div class="hidden md:block md:mb-1rem text-right">
-          <div class="text-colorB5 mb-0.5rem">{{ steemBalance }} STEEM</div>
-          <div class="text-1.6rem">{{ steemValue}} </div>
+          <div class="text-colorB5 light:text-colorE0/80 mb-0.5rem">{{ steemBalance }} STEEM</div>
+          <div class="text-1.6rem text-white">{{ steemValue}} </div>
         </div>
         <div class="flex justify-between items-center mb-0.5rem">
           <div class="flex items-center justify-center">
-            <span class="text-color8B text-14px 2xl:text-1rem whitespace-nowrap">{{$t('postView.resourceCredits')}}</span>
-            <el-tooltip>
+            <span class="text-color8B light:text-colorE0/80 text-14px 2xl:text-1rem whitespace-nowrap">{{$t('postView.resourceCredits')}}</span>
+            <el-tooltip popper-class="shadow-popper-tip">
               <template #content>
-                <div class="max-w-14rem">
+                <div class="max-w-14rem text-white light:text-blueDark">
                   {{$t('postView.p1')}}
                 </div>
               </template>
@@ -27,14 +31,14 @@
               </button>
             </el-tooltip>
           </div>
-          <span class="c-text-black text-16px 2xl:text-1.1rem">{{rcPercent}}%</span>
+          <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
         </div>
         <el-progress class="c-progress" :text-inside="false" :stroke-width="10"
                      :show-text="false"
                      :percentage="Number(rcPercent)" />
       </div>
     </div>
-    <div class="xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
+    <div class="col-span-1 xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"
@@ -45,13 +49,13 @@
                   :finished-text="$t('common.noMore')"
                   @load="onLoad">
 
-          <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg rounded-12px">
+          <div v-if="posts.length===0 && !refreshing" class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
             <div class="text-zinc-400 text-0.8rem leading-1.4rem">
               {{$t('postView.p7')}}
             </div>
           </div>
-          <div class="bg-blockBg rounded-12px overflow-hidden">
+          <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">
               <Blog @click="$emit('gotoDetail', p)"
                     :post="p" class="border-b-1 border-white/20 md:border-listBgBorder"/>
@@ -118,7 +122,7 @@ export default {
         time = this.posts[0].postTime
       }
 
-      getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, true).then(async (res) => {
+      getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, true).then(async (res) => {
         const posts = await getPosts(res)
         this.posts = posts.concat(this.posts)
         this.refreshing = false
@@ -133,7 +137,7 @@ export default {
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.accountInfo.twitterUsername, this.pageSize, time, false).then(async (res) => {
+        getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, false).then(async (res) => {
          const posts = await getPosts(res)
          this.posts = this.posts.concat(posts)
           if (res.length < this.pageSize) {

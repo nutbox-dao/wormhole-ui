@@ -14,6 +14,7 @@ const messages = {
 
 const i18n = createI18n({
   locale: localStorage.getItem('language') || 'en',
+  fallbackLocale: 'en',
   warnHtmlMessage: false,
   messages
 })

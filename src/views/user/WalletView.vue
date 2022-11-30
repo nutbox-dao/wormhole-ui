@@ -1,25 +1,28 @@
 <template>
   <div class="pb-4rem md:max-w-600px lg:max-w-35rem mx-auto">
-    <div class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
+    <div v-if="getAccountInfo && getAccountInfo.ethAddress" class="rounded-12px md:my-2rem my-1.5rem overflow-hidden mx-1.5rem sm:mx-0">
       <div class="gradient-bg gradient-bg-color3 text-1rem px-1rem py-0.8rem flex items-center justify-center">
-        <span class="c-text-black">{{$t('profileView.ethWallet')}}</span>
+        <span class="c-text-black text-white">{{$t('profileView.ethWallet')}}</span>
         <!-- <button>
           <img class="w-1.2rem ml-0.5rem" src="~@/assets/icon-question-black.svg" alt="">
         </button> -->
       </div>
-      <div class="border-1 border-t-0 border-dividerColor overflow-hidden rounded-b-12px p-1.5rem c-text-bold text-0.8rem leading-1.4rem break-all flex items-center justify-center">
+      <div class="border-1 border-t-0 border-dividerColor overflow-hidden rounded-b-12px
+                  p-1.5rem font-700 text-0.8rem leading-1.4rem light:text-blueDark
+                  break-all flex items-center justify-center">
         {{ getAccountInfo ? getAccountInfo.ethAddress : '' }}
-        <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
-             @click="copy(getAccountInfo.ethAddress)"
-             src="~@/assets/icon-copy.svg" alt="">
+        <i class="w-1.3rem h-1.3rem ml-1rem cursor-pointer icon-copy"
+           @click="copy(getAccountInfo.ethAddress)"></i>
       </div>
     </div>
-    <div class="bg-blockBg md:py-1.5rem rounded-12px">
+    <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px mt-1.2rem">
       <div class="px-1.5rem text-14px w-min flex gap-1rem h-2rem md:h-1.6rem">
         <router-link :to="`/profile/${$route.params.user}/wallet`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">{{$t('common.token')}}</router-link>
+                     class="px-0.8rem flex items-center rounded-full
+                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.token')}}</router-link>
         <router-link :to="`/profile/${$route.params.user}/wallet/nft`"
-                     class="px-0.8rem flex items-center rounded-full border-1 border-white/20 text-15px">{{$t('common.nft')}}</router-link>
+                     class="px-0.8rem flex items-center rounded-full
+                     border-1 border-white/20 text-15px light:bg-colorF2 light:text-color7D">{{$t('common.nft')}}</router-link>
       </div>
       <router-view></router-view>
     </div>
@@ -58,12 +61,8 @@ export default {
 </script>
 
 <style scoped>
-.top-box {
-  background: linear-gradient(99.28deg, rgba(83, 83, 83, 0.8) 0.41%, rgba(78, 72, 61, 0.8) 75.78%);
-  border: 1px solid #323436;
-  border-radius: 12px;
-}
 .router-link-exact-active {
-  background-color: var(--primary-custom);
+  background: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
+  color: white!important;
 }
 </style>

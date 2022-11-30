@@ -5,14 +5,14 @@
         <!--          <img class="absolute left-1rem top-1/2 transform -translate-y-1/2 rotate-180 md:w-2.5rem w-2rem cursor-pointer"-->
         <!--               @click="$router.back()"-->
         <!--               src="~@/assets/icon-forward-circle.svg" alt="">-->
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('profileView.people')}}</div>
+        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem light:text-blueDark">{{$t('profileView.people')}}</div>
       </div>
     </div>
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail">
         <template v-if="!loading">
-          <div class="border-b-0 md:border-b-1 border-listBgBorder md:border-b-1 border-white/20">
+          <div class="border-b-0 md:border-b-1 md:border-color84/30">
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-center">
                 <img class="
@@ -32,7 +32,7 @@
               flex-col
             ">
                   <div class="text-left">
-                    <div class="c-text-black text-1.6rem">
+                    <div class="c-text-black text-1.6rem light:text-blueDark">
                       {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
                     <div class="
@@ -43,12 +43,17 @@
                   sm:flex-row sm:items-center
                   flex-col
                 ">
-                      <div @click="gotoTwitter" class="cursor-pointer mr-0.5rem w-max flex items-center text-color8B bg-white/10 rounded-full h-1.8rem md:1rem px-0.5rem">
+                      <div @click="gotoTwitter"
+                           class="cursor-pointer mr-0.5rem w-max flex items-center
+                                  text-color8B light:text-color7D
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full h-1.8rem md:1rem px-0.5rem">
                         <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                         <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                       </div>
 
-                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B"
+                      <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color8B light:text-color7D"
                            v-if="accountInfo && accountInfo.steemId">
 <!--                        <img class="w-0.8rem h-0.8rem mr-0.5rem" src="~@/assets/icon-checked.svg" alt="" />-->
                         <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
@@ -63,19 +68,20 @@
                   md:text-2rem
                   sm:mt-0
                   mt-0.8rem
+                  light:text-blueDark
                 ">
                     {{ totalValue }}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="bg-blockBg md:bg-transparent rounded-t-1rem mt-1rem">
+            <div class="bg-blockBg light:bg-white light:md:bg-transparent md:bg-transparent rounded-t-1rem mt-1rem">
               <div class="flex text-1.2rem leading-1.5rem c-text-medium md:max-w-30rem mx-auto">
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
-                      :class="selectIndex===0?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
+                      :class="selectIndex===0?'active-tab light:text-blueDark':'inactive-tab light:text-color7D'"
                       @click="selectIndex = 0">{{$t('profileView.socialAsset')}}</div>
-                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer border-b-2"
-                      :class="selectIndex===1?'border-primaryColor text-primaryColor':'text-color8B border-dividerColor'"
+                <div  class="flex-1 py-0.8rem px-1rem cursor-pointer"
+                      :class="selectIndex===1?'active-tab light:text-blueDark':'inactive-tab light:text-color7D'"
                       @click="selectIndex = 1">{{$t('profileView.web3Wallet')}}</div>
                 <!-- <router-link class="flex-1 py-0.8rem px-1rem" :to="`/account-info/${$route.params.user}/post`">Social assets
                 </router-link>
@@ -85,7 +91,7 @@
             </div>
           </div>
         </div>
-        <div class="bg-blockBg md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+        <div class="bg-blockBg light:bg-white md:bg-transparent light:md:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
           <component is="post" v-show="selectIndex === 0"
             :accountInfo="accountInfo"
             :steemBalance="steemBalance"
@@ -101,7 +107,7 @@
         </div>
       </template>
       <div class="c-text-black text-1.8rem mb-3rem" v-else>
-        <img src="~@/assets/profile-loading.gif" alt="" />
+        <img class="mx-auto w-6rem" src="~@/assets/loading-points.svg" alt="" />
       </div>
     </div>
   </div>
@@ -272,8 +278,16 @@ export default {
 </script>
 
 <style scoped>
-.router-link-active {
-  border-bottom: 2px solid var(--primary-custom);
-  color: var(--primary-custom);
+.active-tab {
+  background-image: linear-gradient(96.99deg, #AE88FE -31.47%, #923CFF 55.23%, #00B2FF 147.53%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3rem;
+  background-position: center bottom;
+}
+.dark .inactive-tab {
+  background-image: linear-gradient(#8483914D, #8483914D);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3rem;
+  background-position: center bottom;
 }
 </style>

@@ -24,16 +24,13 @@
     <!--  Verify modal -->
     <el-dialog :destroy-on-close="true" v-model="showPrivateKey"
                custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :ethAccount="accountInfo" @send="sendTwitter"></Verify>
+      <Verify :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></Verify>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRegisterTicket } from '@/api/api'
 import Verify from "@/views/Verify";
-import { hexToString } from '@/utils/helper'
-import { createKeypair, sign, verify, open, box, openBox, test } from '@/utils/tweet-nacl'
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { randomEthAccount } from '@/utils/ethers'
 import { notify } from "@/utils/notify";
@@ -48,7 +45,8 @@ export default {
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
-      accountInfo: {}
+      accountInfo: {},
+      referee: ''
     }
   },
   computed: {
@@ -68,13 +66,22 @@ export default {
         this.showNotify(e.toString(), 5000, 'error')
       }
     },
-    sendTwitter() {
+    sendTwitter(referee) {
       this.$store.commit('saveEthAddress', this.ethAddress)
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress + '%0a(Powerd by https://alpha.wormhole3.io)', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !create wormhole account:' + this.ethAddress + (referee.length > 0 ? ` ${referee}` : '') + '%0a(Powerd by https://alpha.wormhole3.io)', '__blank')
     },
   },
   async mounted() {
     this.$store.commit('saveAccountInfo', {})
+    this.$store.commit('savePosts', [])
+    this.$store.commit('saveTransactions', [])
+    this.$store.commit('saveTips', [])
+    this.$store.commit('saveERC20Balances', {})
+    this.$store.commit('saveStellarTreks', {})
+    const referee = this.$route.params
+    if (referee.referee && referee.referee.length > 0) {
+      this.referee = referee.referee
+    }
   },
 }
 </script>

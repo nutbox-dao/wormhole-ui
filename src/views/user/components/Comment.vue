@@ -4,29 +4,27 @@
          :src="profile" alt="">
     <div class="flex-1 text-left">
       <div class="flex items-center flex-wrap">
-        <span class="c-text-black text-1rem mr-1rem">{{comment.name}}</span>
+        <span class="c-text-black text-1rem mr-1rem light:text-blueDark">{{comment.name}}</span>
         <!-- <img class="w-1.1rem h-1.1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-        <span class="text-text8F">@{{comment.username}} · {{ parseTimestamp(comment.commentTime) }} </span>
+        <span class="text-color8B light:text-color7D">@{{comment.username}} · {{ parseTimestamp(comment.commentTime) }} </span>
       </div>
       <!-- <div class="text-left my-0.5rem">
         Replying to
         <a class="text-primaryColor" href="">@acsc</a>
       </div> -->
-      <div class="text-14px leading-20px text-colorE3 mt-1rem">{{comment.content}}</div>
+      <div class="text-14px leading-20px text-colorE3 light:text-color46 mt-1rem">{{comment.content}}</div>
       <div class="flex gap-4rem mt-15px">
         <div class="flex items-center">
-          <img class="w-18px" src="~@/assets/icon-msg.svg" alt="">
-          <span class="c-text-medium ml-2px">{{ comment.children }}</span>
+          <i class="w-18px h-18px icon-msg"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">{{ comment.children }}</span>
         </div>
         <div class="flex items-center">
-          <svg width="18" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="white" d="M10.0001 17.8349H9.98726C7.61951 17.7909 0.787598 11.6181 0.787598 5.77157C0.787598 2.9629 3.10218 0.49707 5.74035 0.49707C7.83951 0.49707 9.25118 1.9454 9.99918 2.99957C10.7453 1.94724 12.157 0.49707 14.2571 0.49707C16.8971 0.49707 19.2108 2.9629 19.2108 5.77249C19.2108 11.6172 12.3779 17.79 10.0102 17.8331H10.0001V17.8349Z"/>
-          </svg>
-          <span class="c-text-medium ml-2px">{{ comment.votes }}</span>
+          <i class="w-18px h-18px icon-like"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">{{ comment.votes }}</span>
         </div>
         <div class="text-white flex items-center">
-          <img class="w-16px" src="~@/assets/icon-coin.svg" alt="">
-          <span class="c-text-medium ml-2px">{{value}}</span>
+          <i class="w-18px h-18px icon-coin"></i>
+          <span class="ml-2px font-700 text-white light:text-color7D">{{value}}</span>
         </div>
       </div>
     </div>

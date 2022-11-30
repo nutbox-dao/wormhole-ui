@@ -11,7 +11,7 @@
           </div>
         </div>
         <div>
-          <input class="bg-inputBg h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
+          <input class="bg-inputBg light:bg-colorF1 gradient-border border-1 h-3.6rem w-full rounded-full px-1.6rem outline-none text-1.2rem"
                  type="text" placeholder="@Hello_web3" v-model="username">
         </div>
         <button @click="login" :disable="loging || username.length < 3"
@@ -34,7 +34,7 @@
         {{$t('signInView.p4')}}<br>
         {{$t('signInView.p5')}}<br>
         <div class="mx-auto">
-          <img src="~@/assets/loading.gif" alt="" class="w-25 mx-auto mt-2rem">
+          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
         </div>
       </div>
     </el-dialog>
@@ -100,6 +100,10 @@ export default {
           this.showRegistering = false
         }else {
           this.$store.commit('savePosts', [])
+          this.$store.commit('saveTransactions', [])
+          this.$store.commit('saveTips', [])
+          this.$store.commit('saveERC20Balances', {})
+          this.$store.commit('saveStellarTreks', {})
           this.$router.push('/profile/' + this.username + '/post')
         }
       } catch (e) {

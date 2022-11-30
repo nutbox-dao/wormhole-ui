@@ -22,6 +22,11 @@ import TagView from "@/views/square/TagView";
 import WalletView from "@/views/user/WalletView";
 import TopicsView from "@/views/square/TopicsView";
 import AboutUsView from "@/views/AboutView";
+import CurationsIndex from "@/views/curations/CurationsIndex";
+import CreateCuration from "@/views/curations/CreateCuration";
+import CurationDetail from "@/views/curations/CurationDetail";
+import CurationsView from "@/views/user/Curations";
+import FaucetView from "@/views/Faucet"
 
 const routes = [
   {
@@ -45,12 +50,28 @@ const routes = [
     component: TopicsView,
   },
   {
+    path: '/curations',
+    name: 'curations',
+    component: CurationsIndex,
+    meta: {keepAlive: true}
+  },
+  {
+    path: '/create-curation',
+    name: 'create-curation',
+    component: CreateCuration
+  },
+  {
+    path: '/curation-detail/:id',
+    name: 'curation-detail',
+    component: CurationDetail
+  },
+  {
     path: '/verify',
     name: 'verify',
     component: VerifyView,
   },
   {
-    path: '/signup',
+    path: '/signup/:referee?',
     name: 'signup',
     component: HomeView
   },
@@ -73,6 +94,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: AboutUsView,
+  },
+  {
+    path: '/faucet',
+    name: 'faucet',
+    component: FaucetView,
   },
   {
     path: '/profile/:user',
@@ -101,6 +127,12 @@ const routes = [
         name: 'post',
         component: UserPostView,
         meta: {keepAlive: true}
+      },
+      {
+        path: '/profile/:user/curations',
+        name: 'profile-curations',
+        component: CurationsView,
+        meta: {keepAlive: true}
       }
     ]
   },
@@ -113,6 +145,16 @@ const routes = [
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
+  },
+  {
+    path: '/confirm-reward',
+    name: 'confirm-reward',
+    component: () => import('@/views/curations/ConfirmReward'),
+  },
+  {
+    path: '/submissions/:state',
+    name: 'submissions',
+    component: () => import('@/views/curations/Submissions'),
   }
 ]
 
