@@ -14,7 +14,6 @@
           </div>
         </div>
       </div>
-      <span class="c-text-black text-white">Date: Nov 26 </span>
     </div>
     <div class="text-left c-text-black text-16px 2xl:text-1.2rem text-white">{{ space.spaceTitle }}</div>
     <button class="bg-white h-30px 2xl:1.5rem w-full rounded-full font-bold flex justify-center items-center"

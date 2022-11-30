@@ -260,7 +260,8 @@ export default {
     popupTip: 'Currently only support replying on tweets actions',
     createTip: 'Since the reward of this popup includes tokens, it is necessary to enter the tokens ( {rewards} )  into the bonus vault in advance. After the popup ends, eligible participant will be able to receive the rewards.',
     tweetFail: 'Tweet fail',
-    quickTweet: 'Quick Tweet'
+    quickTweet: 'Quick Tweet',
+    ended: 'Ended'
   },
   space: {
     listening: 'Listening',

@@ -47,7 +47,6 @@ export default {
             try {
                 this.loading = true;
                 const hash = await getFaucet(this.token)
-                console.log(345, hash);
                 notify({message: 'Success'})
             }catch(e) {
                 notify({message: 'Err, please try later', type:'error'})

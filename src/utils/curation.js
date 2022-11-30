@@ -4,7 +4,8 @@ import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken } from '@/utils/account'
-import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp } from '@/api/api'
+import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, 
+        likeCuration as lc, followCuration as fc } from '@/api/api'
 
 const abi = [
     {
@@ -157,7 +158,45 @@ const abi = [
       ],
       "stateMutability": "view",
       "type": "function"
-    }
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "curationId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "popupTweetId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "winnerCount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "bonus",
+          "type": "uint256"
+        }
+      ],
+      "name": "createPopup",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
   ]
 
   /**
@@ -223,17 +262,22 @@ export const randomCurationId = () => {
     return id;
 }
 
-export const createPopup = async (chainName) => {
+export const createPopup = async (chainName, popup) => {
   return new Promise(async (resolve, reject) => {
     try{
         const popupContract = EVM_CHAINS[chainName].popup
+        console.log(1);
         const metamask = await getEthWeb()
+        console.log(2);
         const provider = new ethers.providers.Web3Provider(metamask)
         let contract = new ethers.Contract(popupContract, abi, provider)
         contract = contract.connect(provider.getSigner())
+        console.log(3);
         const {curationId, popupTweetId, endTime, winnerCount, token, bonus} = popup
         const tx = await contract.createPopup(ethers.BigNumber.from('0x' + curationId), ethers.BigNumber.from(popupTweetId), endTime, winnerCount, token, bonus)
+        console.log(4);
         await waitForTx(provider, tx.hash)
+        console.log(5);
         resolve(tx.hash)
     }catch(e) {
         console.log('create new popup fail:', e);
@@ -277,4 +321,26 @@ export const tipEVM = async (tip) => {
   await checkAccessToken();
   const result = await te(tip)
   return result;
+}
+
+/**
+ * 
+ * @param {*} curation {twitterId, tweetId, curationId} 
+ */
+export const likeCuration = async (curation) => {
+  await checkAccessToken();
+  const { twitterId, tweetId, curationId } = curation
+  const res = await lc(twitterId, tweetId, curationId)
+  return res
+}
+
+/**
+ * 
+ * @param {*} curation {twitterId, authorId, curationId}
+ */
+export const followCuration = async (curation) => {
+  await checkAccessToken();
+  const { twitterId, authorId, curationId } = curation
+  const res = await fc(twitterId, authorId, curationId)
+  return res
 }

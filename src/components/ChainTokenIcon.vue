@@ -48,7 +48,6 @@ export default {
       if (!this.chainName) {
         return 'Polygon'
       }
-      console.log(45, this.chainName);
       const num = this.chainName.toString().match(/^[0-9]+$/)
       let chain;
       if (num) {

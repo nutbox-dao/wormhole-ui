@@ -289,7 +289,7 @@ export default {
         this.creating = true
         // tweet
         // this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup')
-        await sleep(5)
+        await sleep(1)
         this.form.tweetId = '1596342581860130816'
         this.modalVisible =true
         if (this.form.tweetId) {
@@ -308,28 +308,42 @@ export default {
         let popup = {
           curationId: this.detailCuration.curationId,
           popupTweetId: this.form.tweetId,
-          endTime: new Date().getTime() / 1000 + this.form.duration * 60,
+          endTime: Math.floor(new Date().getTime() / 1000) + this.form.duration * 60,
           winnerCount: this.form.maxReward,
           token: this.form.token,
-          bonus: ethers.utils.parseUnits(this.form.amount, this.selectedToken.decimals)
+          bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals)
         }
-        const hash = await createPopup(popup)
+        const hash = 'dfs' // await createPopup(this.form.chain, popup)
         if (hash) {
         //   curationId, chainId, creatorEth, tweetId, twitterId, endTime, 
         // token, symbol, decimals, bonus, maxCount, transHsh
           let pendingPopup = {
-            twitterID: this.getAccountInfo.twitterId,
+            twitterId: this.getAccountInfo.twitterId,
             curationId: this.detailCuration.curationId,
             chainId: EVM_CHAINS[this.form.chain].id,
-            creatorEth: this.form.address,
+            creatorETH: this.form.address,
             tweetId: this.form.tweetId,
             endTime: this.form.duration * 60,
             token: this.form.token,
             symbol: this.selectedToken.symbol,
             decimals: this.selectedToken.decimals,
-            bonus: ethers.utils.parseUnits(this.form.amount, this.selectedToken.decimals).toString(),
+            bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
             maxCount: this.form.maxReward,
             transHash: hash
+          }
+          pendingPopup = {
+            twitterId: this.getAccountInfo.twitterId,
+            curationId: this.detailCuration.curationId,
+            chainId: EVM_CHAINS[this.form.chain].id,
+            creatorETH: this.form.address,
+            tweetId: this.form.tweetId,
+            endTime: this.form.duration * 60,
+            token: this.form.token,
+            symbol: this.selectedToken.symbol,
+            decimals: this.selectedToken.decimals,
+            bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
+            maxCount: this.form.maxReward,
+            transHash: '0xb0df2cb26cc0838ca7568f0075c0d256e2027b2402b8854db8d7d15b8fa876de'
           }
           this.$store.commit('curation/savePendingPopup', pendingPopup)
           await newPopups(pendingPopup);
@@ -337,10 +351,10 @@ export default {
           this.$emit('close')
           this.modalVisible = false
         }else {
-          // to do: 
           notify({message: this.$t('err.contractError'), type: 'error'})
         }
       } catch (e) {
+        console.log(564, e);
         if (e === 'log out') {
           notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
           this.$router.go('/')
