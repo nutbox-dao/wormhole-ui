@@ -172,7 +172,7 @@ export default {
   computed: {
     ...mapGetters(['getAccountInfo']),
     profileImg() {
-      return this.curation.creatorProfileImg
+      return this.curation.creatorProfileImg.replace('normal', '200x200')
     },
     contentType() {
       return this.curation.curationType === 1 ? 'tweet' : 'space'
@@ -242,9 +242,9 @@ export default {
       return true
     },
     gotoUserPage() {
-      if (!this.curation || this.curation.twitterUsername !== this.getAccountInfo.twitterUsername){
-        this.$router.push({path : '/account-info/@' + this.curation.twitterUsername})
-      }
+      // if (!this.curation || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
+      // }
     },
     quoteOrReply() {
       if (!this.checkLogin()) return

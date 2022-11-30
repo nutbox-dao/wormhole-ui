@@ -1,12 +1,12 @@
 <template>
   <div class="flex items-center w-min rounded-full">
     <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
-      <template v-if="icon">
-        <img class="w-full h-full rounded-full" :src="icon" alt="">
+      <template>
+        <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
+        <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
         <img class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
              :src="chainIcon" alt="">
       </template>
-      <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
     </div>
     <slot name="amount"></slot>
   </div>
@@ -67,7 +67,6 @@ export default {
     },
     isFake() {
       const t = EVM_CHAINS[this.chain].assets[this.token.symbol]
-      console.log(33, t.address, this.token.address, this.token.symbol);
       if (t && t.address  === this.token.address) {
         return false;
       }
