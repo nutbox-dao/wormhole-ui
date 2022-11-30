@@ -171,10 +171,11 @@
               </div>
             </div>
           </div>
+          <!-- Details -->
           <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden mt-1rem">
             <div class="px-1.25rem pt-8px pb-1rem text-left">
-              <div class="c-text-black mt-4px">Details</div>
+              <div class="c-text-black mt-4px">{{$t('curation.details')}}</div>
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
               <div class="text-color7D">Our first giveaway event, come and grab your airdrop</div>
               <!-- 已结束 -->
@@ -184,7 +185,7 @@
                   {{endtime}}
                 </button>
               </div>
-              <!-- 未结束 -->
+              <!-- ongoing -->
               <div v-else class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">Expiration</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
@@ -272,6 +273,7 @@
           <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
             <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
+                @click="gotoCuration(rc)"
                  v-for="rc of relatedCurations" :key="rc.curationId">
               <CurationItem :curation="rc"
                             class="bg-blockBg light:bg-white rounded-15px
@@ -285,6 +287,8 @@
         </div>
       </div>
     </div>
+
+    <!-- modals -->
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
@@ -610,6 +614,11 @@ export default {
         this.isFollowing = false
       }
     },
+    gotoCuration(curation) {
+      this.$store.commit('curation/saveDetailCuration', curation);
+      this.$router.replace('/curation-detail/' + curation.curationId);
+      this.$forceUpdate();
+    },  
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
         const id = this.detailCuration.curationId;
