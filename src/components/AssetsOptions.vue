@@ -70,13 +70,18 @@
                     rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
           <span v-if="selectedGift.img && selectedChainName === 'steem'"
                class="text-20px ml-12px">{{selectedGift.img}}</span>
-          <slot name="amount"></slot>
-          <el-popover popper-class="c-popper c-select-popper"
+          <input class="bg-transparent h-full w-full px-0.5rem"
+                 v-model="inputAmount"
+                 type="number"
+                 @input="amountInputChange"
+                 :placeholder="$t('curation.inputRewardsAmount')">
+          <el-popover popper-class="c-popper c-select-popper min-w-400px"
                       :width="popperWidth" :teleported="false"
                       trigger="click" ref="giftPopover">
             <template #reference>
               <div v-show="selectedChainName === 'steem'" class="px-10px">
-                <img class="w-2.5rem cursor-pointer" src="~@/assets/icon-emoji-grey.svg" alt="">
+                <img class="w-20px min-w-20px sm:w-1.3rem cursor-pointer"
+                     src="~@/assets/icon-emoji-grey.svg" alt="">
               </div>
             </template>
             <template #default>
@@ -233,6 +238,7 @@ export default {
       selectedChainName: '',
       walletAddress: '',
       selectedToken: {},
+      inputAmount: 0,
       selectBalance: 0,
       customToken: null,
       searchToken: '',
@@ -257,6 +263,7 @@ export default {
     }
   },
   mounted() {
+    this.inputAmount = this.amount
     this.selectedChainName = this.chain
     this.walletAddress = this.address
     this.searchToken = this.token
@@ -351,7 +358,12 @@ export default {
     selectGift(gift) {
       this.$refs.giftPopover.hide()
       this.selectedGift = gift
+      this.inputAmount = gift.value
       this.$emit('selectGift', gift)
+    },
+    amountInputChange() {
+      this.$emit('amountChange', this.inputAmount)
+      this.selectedGift = {}
     }
   }
 }

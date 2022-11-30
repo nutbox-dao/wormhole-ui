@@ -3,20 +3,16 @@
     <div class="flex-1">
       <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Tip</div>
       <div>To @{{tipToUser.username}}</div>
-      <AssetsOptions :chain="'steem'"
+      <AssetsOptions :amount="form.amount"
+                     :chain="'steem'"
                      :showEvm="!!tipToUser.ethAddress"
                      :showsteem="true"
                      @chainChange="selectChain"
                      @tokenChagne="selectToken"
                      @addressChange="selectAddress"
+                     @amountChange="selectAmount"
                      @balanceChange="selectBalance"
                      @selectGift="selectGift">
-        <template #amount>
-          <input class="bg-transparent h-full w-full px-0.5rem"
-                 v-model="form.amount"
-                 type="number"
-                 :placeholder="$t('curation.inputRewardsAmount')">
-        </template>
       </AssetsOptions>
     </div>
     <div class="flex items-center justify-center gap-x-1rem">
@@ -88,6 +84,9 @@
       selectToken(token) {
         this.selectedToken = token;
         this.form.token = token.address;
+      },
+      selectAmount(amount) {
+        this.form.amount = amount
       },
       selectBalance(balance) {
         this.selectedBalance = balance

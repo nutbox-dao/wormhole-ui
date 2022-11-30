@@ -8,7 +8,7 @@
                class="h-min text-left">
             <!-- curation info -->
             <div v-if="detailCuration">
-              <div class="flex items-center">
+              <div class="flex items-center mb-1rem">
                 <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
@@ -17,9 +17,10 @@
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
+                <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
               </div>
               <template v-if="contentType==='tweet'">
-                <Blog :post="detailCuration" class="border-1 border-color7D">
+                <Blog :post="detailCuration" class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
@@ -374,6 +375,7 @@ import { newPopups, likeCuration, followCuration} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
 import iconTop2 from '@/assets/icon-top2.svg'
 import iconTop3 from '@/assets/icon-top3.svg'
+import ContentTags from "@/components/ContentTags";
 
 export default {
   name: "CurationDetail",

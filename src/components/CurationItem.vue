@@ -14,22 +14,13 @@
               <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}}</a>
 <!--              <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>-->
             </div>
-            <div class="flex gap-8px mr-10px">
-              <img v-if="isQuote"
-                   class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-quote-tag.svg" alt="">
-              <img v-if="isReply"
-                   class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-reply-tag.svg" alt="">
-              <img v-if="contentType==='tweet'"
-                   class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-tweet-tag.svg" alt="">
-              <img v-if="contentType==='space'"
-                   class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-space-tag.svg" alt="">
-            </div>
+            <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
             <slot name="status"></slot>
           </div>
         </div>
       </div>
       <div v-if="contentType==='tweet'" class="my-10px">
-        <div class="overflow-hidden relative rounded-15px border-1 border-color6D"
+        <div class="overflow-hidden relative rounded-15px border-1 border-color8B/30 light:border-color6D"
              :class="enableFold && !isFold?'max-h-200px':''">
           <div ref="blogRef">
             <Blog :post="curation"
@@ -145,10 +136,11 @@ import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { likeCuration, followCuration } from "@/utils/curation";
+import ContentTags from "@/components/ContentTags";
 
 export default {
   name: "CurationItem",
-  components: {Blog, Space, ChainTokenIcon},
+  components: {Blog, Space, ChainTokenIcon, ContentTags},
   props: {
     curation: {
       type: Object,
