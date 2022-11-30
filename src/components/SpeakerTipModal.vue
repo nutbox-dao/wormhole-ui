@@ -136,40 +136,12 @@ export default {
       console.log(6, balance);
       this.selectedBalance = balance
     },
-    selectGift(amount) {
-      this.form.amount = amount
+    selectGift(gift) {
+      this.form.amount = gift.value
     },
     tip(user) {
       this.tipToUser = user;
       this.step = 2;
-    },
-    async send() {
-      try {
-        if (this.form.chain === 'steem') {
-          window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.amount} STEEM to @${this.tipToUser.username}`,'__blank')
-        }else {
-          const transHash = await sendTokenToUser(this.selectedToken, this.form.amount, this.tipToUser.ethAddress)
-          const tip = {
-            twitterId: this.getAccountInfo.twitterId,
-            targetTwitterId: this.tipToUser.twitterId,
-            fromAddress: this.form.address,
-            toAddress: this.tipToUser.ethAddress,
-            transHash,
-            chainName: EVM_CHAINS[this.form.chain].id,
-            token: this.form.token,
-            symbol: this.selectedToken.symbol,
-            decimals: this.selectedToken.decimals,
-            amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
-            parentTweetId: this.parentTweetId
-          }
-          this.$store.commit('curation/savePendingTip', tip)
-          await tipEVM(tip);
-          this.$store.commit('curation/savePendingTip', null)
-        }
-        this.$emit('close')
-      }catch(e) {
-        console.log('Tip to user fail:', e);
-      }
     }
   },
   mounted () {

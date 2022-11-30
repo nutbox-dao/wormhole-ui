@@ -123,7 +123,7 @@ const routes = [
     ]
   },
   {
-    path: '/transaction/:user',
+    path: '/transaction/',
     name: 'transaction',
     component: UserTransactionView
   },
