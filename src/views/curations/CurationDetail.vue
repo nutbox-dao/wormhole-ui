@@ -45,15 +45,26 @@
           </div>
           <!-- tips -->
           <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-8px overflow-hidden">
-            <div class="tip-bg h-min bg-blockBg light:bg-colorED text-left cursor-pointer">
-              <div class="text-white light:text-blueDark pl-60px pr-15px font-bold min-h-48px
+            <div class="h-min bg-blockBg light:bg-colorED text-left cursor-pointer"
+                 :class="tipCollapse?'tip-bg':'tip-bg-close'">
+              <div class="text-white light:text-blueDark pl-45px pr-15px font-bold min-h-48px
                         flex-1 flex justify-between items-center truncate relative"
                    @click.stop="showTipModal">
-                <van-notice-bar class="w-full bg-transparent px-0"
+                <el-carousel v-if="tips && tips.length>0"
+                             class="w-full hidden sm:block"
+                             height="48px" indicator-position="none" :loop="true"
+                             direction="vertical" :autoplay="true"
+                             :interval="2500">
+                  <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
+                    <div class="flex-1 text-color62 c-text-black text-12px">{{tipStr(item)}}</div>
+                  </el-carousel-item>
+                </el-carousel>
+                <van-notice-bar class="w-full bg-transparent px-0 sm:hidden"
                                 scrollable :speed="100"
                                 v-if="tips && tips.length>0">
                   <template #default>
-                    <span v-for="item in tips" :key="item" class="mr-4rem text-14px text-color62">{{tipStr(item)}}</span>
+                    <span v-for="item in tips" :key="item"
+                          class="mr-4rem c-text-black text-12px text-color62">{{tipStr(item)}}</span>
                   </template>
                 </van-notice-bar>
                 <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
@@ -64,13 +75,12 @@
                              leading-18px rounded-5px px-3px">Top3</button>
               </div>
               <el-collapse-transition>
-                <div v-show="tipCollapse">
-                  <div class="px-1.25rem py-4px hover:bg-color62/30 flex justify-between items-center text-color7D"
-                       v-for="tip of topTips" :key="'tops' + tip.hash">
+                <div v-show="tipCollapse" class="pl-45px pb-5px">
+                  <div class="border-t-1 gradient-border gradient-border-color91"></div>
+                  <div class="pr-1.25rem py-6px hover:bg-color62/30 flex justify-between items-center text-12px"
+                       v-for="(tip, index) of topTips" :key="'tops' + tip.hash">
                     <div class="flex items-center">
-
-                      <img v-if="tip.fromProfileImg" class="w-2rem mr-10px" :src="tip.fromProfileImg.replace('normal', '200x200')" alt="">
-                      <img v-else class="w-2rem mr-10px" src="~@/assets/icon-default-avatar.svg" alt="">
+                      <img class="w-18px" :src="top3Icons[index]" alt="">
                       <span>{{tip.fromUsername}}</span>
                     </div>
                     <span>{{tip.amount}} STEEM</span>
@@ -363,6 +373,9 @@ import TipModalVue from "@/components/TipModal.vue";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { newPopups, likeCuration, followCuration} from '@/utils/curation'
+import iconTop1 from '@/assets/icon-top1.svg'
+import iconTop2 from '@/assets/icon-top2.svg'
+import iconTop3 from '@/assets/icon-top3.svg'
 
 export default {
   name: "CurationDetail",
@@ -397,7 +410,8 @@ export default {
       tipCollapse: false,
       quotesCollapse: true,
       isLiking: false,
-      isFollowing:false
+      isFollowing:false,
+      top3Icons: [iconTop1, iconTop2, iconTop3]
     }
   },
   computed: {
@@ -713,9 +727,14 @@ export default {
   }
 }
 .tip-bg {
+  background-image: url("~@/assets/tips-img.png"), linear-gradient(180deg, #EDEDFC 29.84%, #FFFFFF 62.65%);
+  background-repeat: no-repeat;
+  background-size: auto 80px, 100% auto;
+}
+.tip-bg-close {
   background-image: url("~@/assets/tips-img.png");
   background-repeat: no-repeat;
-  background-size: auto 100%;
+  background-size: auto 80px;
 }
 .token-tag {
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
