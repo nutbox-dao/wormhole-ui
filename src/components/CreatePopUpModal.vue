@@ -333,6 +333,7 @@ export default {
           this.modalVisible = false
         }else {
           // to do: 
+          notify({message: this.$t('err.contractError'), type: 'error'})
         }
       } catch (e) {
         if (e === 'log out') {
