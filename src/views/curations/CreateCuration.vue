@@ -522,7 +522,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { newCuration, postErr, applyAirdrop, getDropRecord } from '@/api/api'
+import { postErr, applyAirdrop, getDropRecord } from '@/api/api'
 import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'

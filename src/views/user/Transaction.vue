@@ -56,8 +56,8 @@
                   <div>
                     <ChainTokenIcon class="bg-colorD9"
                                     height="24px" width="24px"
-                                    :chain-name="'steem'"
-                                    :token="{address: 'steem'}">
+                                    :chain-name="item.chainId"
+                                    :token="{address: item.token, symbol: item.symbol}">
                       <template #amount>
                         <span class="px-8px h-24px whitespace-nowrap text-color8B light:text-blueDark
                                      flex items-center text-12px 2xl:text-0.8rem font-bold">
@@ -184,6 +184,7 @@ export default {
             pageSize: this.pageSize,
             time,
             newTips: true}).then(res => {
+        console.log(432, res);
         this.$store.commit('saveTips', res)
         this.refreshing = false
       }).catch(e => {
@@ -233,10 +234,10 @@ export default {
     }
   },
   async mounted () {
-    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
-      await sleep(1)
+    if(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
+      this.$router.go('/')
     }
-    // this.onRefresh()
+    this.onRefresh()
   },
 }
 </script>
