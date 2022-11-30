@@ -4,7 +4,7 @@
       <template>
         <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
         <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
-        <img class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
+        <img v-if="chainIcon" class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
              :src="chainIcon" alt="">
       </template>
     </div>
@@ -42,6 +42,9 @@ export default {
   },
   computed: {
     icon() {
+      if (this.chain === 'steem') {
+        return require('@/assets/steem.png')
+      }
       return TokenIcon[this.token.symbol];
     },
     chain() {
@@ -63,7 +66,7 @@ export default {
       return chain;
     },
     chainIcon() {
-      return EVM_CHAINS[this.chain].main.icon
+      return EVM_CHAINS[this.chain]?.main.icon
     },
     isFake() {
       const t = EVM_CHAINS[this.chain].assets[this.token.symbol]

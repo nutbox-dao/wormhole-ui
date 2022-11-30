@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <button class="w-full h-24px" @click="popUpsCollapse=!popUpsCollapse">
+    <button v-show="showingPopup.length > 2" class="w-full h-24px" @click="popUpsCollapse=!popUpsCollapse">
       <img class="mx-auto" :class="popUpsCollapse?'transform rotate-180':''" src="~@/assets/icon-arrow-yellow.svg" alt="">
     </button>
   </div>
