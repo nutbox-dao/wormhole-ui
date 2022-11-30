@@ -15,9 +15,9 @@
 <!--              <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>-->
             </div>
             <div class="flex gap-8px mr-10px">
-              <img v-if="contentTag==='quote'"
+              <img v-if="isQuote"
                    class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-quote-tag.svg" alt="">
-              <img v-if="contentTag==='replay'"
+              <img v-if="isReply"
                    class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-reply-tag.svg" alt="">
               <img v-if="contentType==='tweet'"
                    class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-tweet-tag.svg" alt="">
@@ -52,10 +52,10 @@
         <template v-if="showBtnGroup">
           <div v-if="!isEnd" class="flex gap-x-24px">
             <!-- reply-->
-            <button v-if="contentTag==='replay'" @click.stop="isReply=!isReply"
+            <button v-if="isReply" @click.stop="quoteOrReply"
                     class="text-white flex justify-center items-center w-24px h-24px rounded-full">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" :fill="isReply?'#6246EA':'#7D7F88'"/>
+                <circle cx="12" cy="12" r="12" :fill="replyed?'#6246EA':'#7D7F88'"/>
                 <g clip-path="url(#clip0_1928_2686)">
                   <path d="M16.9952 7H6.93564C6.38237 7 5.92969 7.45279 5.92969 8.00619V16.0557C5.92969 16.6091 6.38237 17.0619 6.93564 17.0619H7.43862C7.7404 17.0619 7.94159 17.2632 7.94159 17.565V18.4203C7.94159 18.9737 8.34397 19.2252 8.84695 18.9737L11.9654 17.3135C12.2169 17.1626 12.6193 17.0619 12.9211 17.0619H16.9952C17.5484 17.0619 18.0011 16.6091 18.0011 16.0557V8.00619C18.0011 7.45279 17.5484 7 16.9952 7H16.9952ZM14.4803 14.0433H9.45055C9.14876 14.0433 8.94757 13.8421 8.94757 13.5403C8.94757 13.2384 9.19906 13.0372 9.45055 13.0372H14.4803C14.7821 13.0372 14.9833 13.2384 14.9833 13.5403C14.9833 13.8421 14.7318 14.0433 14.4803 14.0433ZM14.4803 11.0248H9.45055C9.14876 11.0248 8.94757 10.8235 8.94757 10.5217C8.94757 10.2198 9.19906 10.0186 9.45055 10.0186H14.4803C14.7821 10.0186 14.9833 10.2198 14.9833 10.5217C14.9833 10.8235 14.7318 11.0248 14.4803 11.0248Z" fill="white"/>
                 </g>
@@ -67,32 +67,32 @@
               </svg>
             </button>
             <!-- quote-->
-            <button v-if="contentTag==='quote'" @click.stop="isQuote=!isQuote"
+            <button v-if="isQuote" @click.stop="quoteOrReply"
                     class="text-white flex justify-center items-center w-24px h-24px rounded-full">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" :fill="isQuote?'#6246EA':'#7D7F88'"/>
+                <circle cx="12" cy="12" r="12" :fill="quoted?'#6246EA':'#7D7F88'"/>
                 <path d="M17.457 5.14618H12.4635C12.1497 5.11759 11.8643 5.28916 11.6361 5.51792L5.52974 11.6658C5.01613 12.1805 5.01613 13.0669 5.52974 13.6102L10.3806 18.4713C10.8942 18.986 11.7787 18.986 12.3209 18.4713L18.5128 12.2377C18.7411 12.0089 18.8837 11.6372 18.8552 11.3226V6.51873C18.8267 5.77527 18.1989 5.14618 17.457 5.14618ZM12.5206 15.2115L12.2067 15.5261C12.0355 15.6976 11.7502 15.6976 11.579 15.5261L8.46876 12.4378C8.29756 12.2663 8.29756 11.9803 8.46876 11.8088L8.78264 11.4942C8.95384 11.3226 9.23918 11.3226 9.41039 11.4942L12.5206 14.611C12.7204 14.754 12.7204 15.04 12.5206 15.2115ZM14.3468 13.3815L14.0329 13.696C13.8617 13.8676 13.5764 13.8676 13.4052 13.696L10.2949 10.6078C10.1237 10.4362 10.1237 10.1503 10.2949 9.97869L10.6088 9.66415C10.78 9.49258 11.0654 9.49258 11.2366 9.66415L14.3468 12.781C14.5465 12.9239 14.5465 13.2099 14.3468 13.3815ZM15.6308 9.49258C15.0031 9.49258 14.4895 8.97788 14.4895 8.34879C14.4895 7.71971 15.0031 7.205 15.6308 7.205C16.2586 7.205 16.7722 7.71971 16.7722 8.34879C16.7722 8.97788 16.2586 9.49258 15.6308 9.49258Z" fill="white"/>
               </svg>
             </button>
             <!-- like-->
-            <button v-if="(curation.tasks & 4) === 4"
+            <button v-if="isLike"
                     :disabled="isLiking"
-                    @click="like"
+                    @click.stop="like"
                     class="flex items-center">
               <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
               <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" :fill="isLike?'#6246EA':'#7D7F88'"/>
+                <circle cx="12" cy="12" r="12" :fill="liked?'#6246EA':'#7D7F88'"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.08093 6.10862C8.92874 5.89776 9.8237 5.99636 10.6011 6.38304L10.9214 6.5424C11.3083 6.73481 11.6483 6.99781 11.9262 7.31312C11.9651 7.35727 12.0349 7.35727 12.0738 7.31312C12.3517 6.99781 12.6917 6.73481 13.0786 6.5424L13.3989 6.38304C14.1763 5.99636 15.0713 5.89776 15.9191 6.10862C16.7338 6.31126 17.4449 6.78454 17.9385 7.43925L18.1183 7.67776C18.6925 8.43942 19 9.36133 19 10.3051V10.5715C19 10.9939 18.9479 11.4148 18.8449 11.825L18.7822 12.0744C18.5463 13.0131 18.1237 13.8973 17.5377 14.6746L17.1724 15.1592C16.8787 15.5488 16.5574 15.9174 16.2107 16.2622L15.8403 16.6308C14.9513 17.5152 13.9235 18.2526 12.7955 18.8137C12.296 19.0621 11.704 19.0621 11.2045 18.8137C10.0765 18.2526 9.04867 17.5152 8.15975 16.6308L7.78926 16.2622C7.44262 15.9174 7.12129 15.5488 6.82759 15.1592L6.4623 14.6746C5.87625 13.8973 5.4537 13.0131 5.21783 12.0744L5.15513 11.825C5.05206 11.4148 5 10.9939 5 10.5715V10.3051C5 9.36133 5.30748 8.43942 5.88167 7.67776L6.06148 7.43925C6.55506 6.78454 7.26618 6.31126 8.08093 6.10862ZM10.0592 7.32233C9.53599 7.06207 8.94067 6.99792 8.37783 7.13791C7.83535 7.27283 7.3474 7.59161 7.00157 8.05034L6.82176 8.28885C6.38601 8.86686 6.14754 9.57436 6.14754 10.3051V10.5715C6.14754 10.9127 6.1896 11.2523 6.27265 11.5828L6.33535 11.8323C6.53864 12.6413 6.902 13.3998 7.40239 14.0635L7.76768 14.5481C8.0309 14.8972 8.31848 15.2271 8.62816 15.5352L8.99864 15.9037C9.80361 16.7046 10.7316 17.3696 11.7463 17.8744C11.9073 17.9544 12.0927 17.9544 12.2537 17.8744C13.2684 17.3696 14.1964 16.7046 15.0014 15.9037L15.3718 15.5352C15.6815 15.2271 15.9691 14.8972 16.2323 14.5481L16.5976 14.0635C17.098 13.3998 17.4614 12.6413 17.6646 11.8323L17.7273 11.5828C17.8104 11.2523 17.8525 10.9127 17.8525 10.5715V10.3051C17.8525 9.57436 17.614 8.86686 17.1782 8.28885L16.9984 8.05034C16.6526 7.59161 16.1647 7.27283 15.6222 7.13791C15.0593 6.99792 14.464 7.06207 13.9408 7.32233L13.6204 7.48169C13.2061 7.68777 12.8626 8.02597 12.6485 8.45206C12.266 9.21306 11.7316 9.20817 11.3515 8.45206C11.1374 8.02597 10.7939 7.68777 10.3796 7.48169L10.0592 7.32233Z" fill="white"/>
               </svg>
             </button>
             <!-- follow-->
-            <button v-if="(curation.tasks & 8) === 8"
+            <button v-if="isFollow"
                     :disabled="isFollowing"
-                    @click="follow"
+                    @click.stop="follow"
                     class="flex items-center" >
               <img v-if="isFollowing" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
               <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" :fill="isFollow?'#6246EA':'#7D7F88'"/>
+                <circle cx="12" cy="12" r="12" :fill="followed?'#6246EA':'#7D7F88'"/>
                 <path d="M18.2071 16.4545H16.1389V18.5227C16.1389 18.6493 16.0886 18.7707 15.9991 18.8602C15.9096 18.9497 15.7882 19 15.6616 19C15.5351 19 15.4137 18.9497 15.3242 18.8602C15.2346 18.7707 15.1844 18.6493 15.1844 18.5227V16.4545H13.1162C12.9896 16.4545 12.8682 16.4043 12.7787 16.3148C12.6892 16.2253 12.6389 16.1039 12.6389 15.9773C12.6389 15.8507 12.6892 15.7293 12.7787 15.6398C12.8682 15.5503 12.9896 15.5 13.1162 15.5H15.1844V13.4318C15.1844 13.3052 15.2346 13.1838 15.3242 13.0943C15.4137 13.0048 15.5351 12.9545 15.6616 12.9545C15.7882 12.9545 15.9096 13.0048 15.9991 13.0943C16.0886 13.1838 16.1389 13.3052 16.1389 13.4318V15.5H18.2071C18.3337 15.5 18.4551 15.5503 18.5446 15.6398C18.6341 15.7293 18.6844 15.8507 18.6844 15.9773C18.6844 16.1039 18.6341 16.2253 18.5446 16.3148C18.4551 16.4043 18.3337 16.4545 18.2071 16.4545ZM11.6844 13.2727C11.5965 13.3701 11.5087 13.2727 11.3662 13.2727C8.97536 13.2727 5.95995 15.5652 5.95995 18.2806C5.9592 18.4071 5.90823 18.5282 5.81825 18.6171C5.72828 18.7061 5.60666 18.7557 5.48014 18.755C5.41746 18.7554 5.35532 18.7434 5.29727 18.7198C5.23922 18.6961 5.1864 18.6613 5.14181 18.6172C5.09723 18.5732 5.06176 18.5208 5.03742 18.463C5.01309 18.4053 5.00037 18.3433 5 18.2806C5 16.0368 6.87441 13.4932 9.51723 12.6889C8.25373 11.9835 7.548 10.6732 7.548 9.13636C7.548 6.86582 9.38773 5 11.6844 5C13.981 5 15.8207 6.86582 15.8207 9.13636C15.8207 11.3948 13.9641 13.253 11.6844 13.2727ZM11.6844 5.95455C9.92036 5.95455 8.50255 7.39241 8.50255 9.13636C8.50255 10.8803 9.92036 12.3182 11.6844 12.3182C13.4484 12.3182 14.8662 10.8803 14.8662 9.13636C14.8662 7.39241 13.4484 5.95455 11.6844 5.95455Z" fill="white"/>
               </svg>
             </button>
@@ -120,7 +120,7 @@
           <ChainTokenIcon class="bg-primaryColor/20"
                           height="24px" width="24px"
                           :chain-name="curation.chainId"
-                          :token="{address: curation?.token,symbol: curation?.tokenSymbol}">
+                          :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
             <template #amount>
             <span class="px-8px h-24px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-color62">
@@ -143,6 +143,8 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {testData} from "@/views/square/test-data";
+import { notify } from "@/utils/notify";
+import { likeCuration, followCuration } from "@/utils/curation";
 
 export default {
   name: "CurationItem",
@@ -164,10 +166,6 @@ export default {
       isFold: false,
       isLiking: false,
       isFollowing: false,
-      isReply: false,
-      isQuote: false,
-      isLike: false,
-      isFollow: false,
       isEnd: false
     }
   },
@@ -179,17 +177,11 @@ export default {
     contentType() {
       return this.curation.curationType === 1 ? 'tweet' : 'space'
     },
-    contentTag() {
-      return (this.curation.tasks & 1 === 1) ? 'quote' : 'replay'
-    },
     endtime() {
       if (this.curation.curationStatus === 0){
         return parseTimestamp(this.curation.endtime * 1000)
-      }else if(this.curation.curationStatus === 1) {
-        return this.$t('curation.end')
       }else {
-        return ''
-        return this.$t('curation.complete')
+        return this.$t('curation.end')
       }
     },
     title() {
@@ -202,32 +194,102 @@ export default {
     },
     content() {
       return this.curation.content
-    }
+    },
+    isQuote() {
+      if (!this.curation) return false;
+      return this.curation.tasks & 1;
+    },
+    isReply() {
+      if (!this.curation) return false;
+      return (this.curation.tasks & 2) / 2
+    },
+    isLike() {
+      if (!this.curation) return false;
+      return (this.curation.tasks & 4) / 4
+    },
+    isFollow() {
+      if (!this.curation) return false;
+      return (this.curation.tasks & 8) / 8
+    },
+    quoted() {
+      if(!this.curation || !this.getAccountInfo) return false
+      return this.curation?.taskRecord & 1;
+    },
+    replyed() {
+      if(!this.curation || !this.getAccountInfo) return false
+      return (this.curation?.taskRecord & 2) / 2
+    },
+    liked() {
+      if(!this.curation || !this.getAccountInfo) return false
+      return (this.curation?.taskRecord & 4) / 4
+    },
+    followed() {
+      console.log(53, this.curation.taskRecord);
+      if(!this.curation || !this.getAccountInfo) return false
+      return (this.curation.taskRecord & 8) / 8
+    },
   },
   methods: {
     formatEmojiText,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
+    checkLogin() {
+      if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return false;
+      }
+      return true
+    },
     gotoUserPage() {
       if (!this.curation || this.curation.twitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.twitterUsername})
       }
     },
+    quoteOrReply() {
+      if (!this.checkLogin()) return
+      let url;
+      if (this.isQuote) {
+        url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`
+        this.curation.taskRecord = this.curation.taskRecord | 1
+      }else {
+        url = `https://twitter.com/intent/tweet?in_reply_to=${this.curation.tweetId}&text=%0a%23iweb3`
+        this.curation.taskRecord = this.curation.taskRecord | 2
+      }
+      window.open(url, '__blank');
+    },
     async like() {
+      if (!this.checkLogin()) return
+      if(this.liked) {
+        return
+      }
       try{
         this.isLiking = true
+        await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
+        this.curation.taskRecord = this.curation.taskRecord | 4
       } catch (e) {
-
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
         this.isLiking = false
       }
     },
     async follow() {
+      if (!this.checkLogin()) return
+      if (this.followed) {
+        return
+      }
       try{
         this.isFollowing = true
+        await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
+        this.curation.taskRecord = this.curation?.taskRecord | 8
       } catch (e) {
-
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
         this.isFollowing = false
       }
@@ -235,6 +297,7 @@ export default {
   },
   mounted() {
     this.enableFold = this.$refs.blogRef?.clientHeight > 200
+    this.isEnd = this.curation.curationStatus > 0
   }
 }
 </script>

@@ -14,36 +14,37 @@
     <div class="collapse-box px-1.25rem mt-12px" :class="popUpsCollapse?'show':''">
       <div class="h-30px 2xl:h-1.5rem p-3px flex justify-between items-start mb-8px
                   border-1 border-colorEE rounded-full"
-           v-for="i of ['going', 'going', 'ended']" :key="i">
+           v-for="popup of showingPopup" :key="popup.tweetId">
         <div class="flex items-center h-full truncate">
-          <div v-if="i==='going'"
+          <div v-if="!isEnded(popup)"
                class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
                       font-bold min-w-4rem flex justify-center items-center relative">
-            04:38
-            <img v-if="isJoin"
+            {{popTime(popup)}}
+            <img v-if="isJoin(popup)"
                  class="w-14px h-14px absolute bottom-0 -right-5px"
                  src="~@/assets/icon-checked-green.svg" alt="">
           </div>
-          <div v-if="i==='ended'"
+          <div v-else
                class="text-white rounded-full h-full bg-colorD8 whitespace-nowrap
                       font-bold min-w-4rem flex justify-center items-center relative">
-            Ended
-            <img v-if="isJoin"
+            {{ $t('popup.ended') }}
+            <img v-if="isJoin(popup)"
                  class="w-14px h-14px absolute bottom-0 -right-5px"
                  src="~@/assets/icon-checked-green.svg" alt="">
           </div>
           <div class="flex-1 ml-1rem whitespace-nowrap truncate">
-            NutBox first airdrop campaign
+            {{popup.content}}
           </div>
         </div>
         <div class="flex items-center justify-end min-w-1/3">
-          <ChainTokenIcon :class="[i==='going'?'bg-colorEE/25':'', i==='ended'?'bg-colorD8':'']"
-                          height="20px" width="20px" chain-name="ETH">
+          <ChainTokenIcon :class="[!isEnded(popup)?'bg-colorEE/25':'', isEnded(popup)?'bg-colorD8':'']"
+                          height="20px" width="20px" :chain-name="popup.chainId" 
+                          :token="{address: popup.token, symbol: popup.symbol}">
             <template #amount>
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
-                  :class="[i==='going'?'text-colorEE':'', i==='ended'?'text-white':'']">
-              100 USDT
+                  :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
+              {{formatAmount(popup.amount / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
             </template>
           </ChainTokenIcon>
@@ -60,10 +61,16 @@
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { mapGetters } from 'vuex'
+import { formatAmount } from "@/utils/helper";
+
 export default {
   name: "PopUpsCard",
   components: {ChainTokenIcon},
   props: {
+    space: {
+      type: Object, 
+      default: {}
+    },
     popups: {
       type: Array,
       default: [] 
@@ -74,21 +81,62 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['detailCuration']),
+    showingPopup() {
+      if (!this.popups || this.popups.length === 0) return [];
+      let ongoing = this.popups.filter(p => p.status === 0);
+      let over = this.popups.filter(p => p.status > 0);
+      const hostIds = this.space.host_ids ? JSON.parse(this.space.host_ids) : []
+      const speakers = this.space.speakder_ids ? JSON.parse(this.space.speakder_ids) : []
+      console.log(34, ongoing, over, hostIds, speakers);
+      const h = ongoing.filter(o => hostIds.find(h => h === o.twitterId))
+      const s = ongoing.filter(o => speakers.find(s => s === o.twitterId))
+      const o = ongoing.filter(o => !hostIds.find(h => h === o.twitterId) && !speakers.find(s => s === o.twitterId))
+      return h.concat(s).concat(o).concat(over)
+    }
   },
   methods: {
+    formatAmount,
     create() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
           this.$store.commit('saveShowLogin', true);
           return;
       }
       this.$emit('createPopUpVisible')
+    },
+    prefixInteger(num, length) {
+      var i = (num + "").length;
+      while(i++ < length) num = "0" + num;
+      return num;
+    },
+    isEnded(popup) {
+      return popup.status > 0
+    },
+    isJoin(popup) {
+      return !!popup.retweetId
+    },
+    popTime(popup) {
+      if (popup.status > 0) {
+        return this.$t('popup.ended')
+      }else {
+        const now = new Date().getTime()
+        const endTime = new Date(popup.endTime).getTime()
+        if (now > endTime) {
+          return this.$t('popup.ended')
+        }else {
+          const diff = endTime - now;
+          const min = Math.floor(diff / 60000);
+          const leave = diff % 60000;
+          const sec = Math.floor(leave / 1000);
+          return `${this.prefixInteger(min, 2)}:${this.prefixInteger(sec, 2)}`
+        }
+      }
     }
   },
   data() {
     return {
-      popUpsCollapse: false,
-      isJoin: true
+      popUpsCollapse: false
     }
   }
 }

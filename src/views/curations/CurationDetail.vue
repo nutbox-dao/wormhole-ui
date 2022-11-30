@@ -82,7 +82,7 @@
 
           <!-- popups -->
           <template v-if="contentType==='space' && space.spaceState > 1">
-            <PopUpsCard :popups="popups" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
+            <PopUpsCard :popups="popups" :space="space" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
@@ -343,7 +343,6 @@ import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
-import { userLike, userFollowing } from '@/utils/twitter'
 import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, EVM_CHAINS } from "@/config";
@@ -361,7 +360,7 @@ import PopUpsCard from "@/components/PopUpsCard";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
-import { newPopups } from '@/utils/curation'
+import { newPopups, likeCuration, followCuration} from '@/utils/curation'
 
 export default {
   name: "CurationDetail",
@@ -382,8 +381,6 @@ export default {
       loading4: false, // tips
       loading5: false, // space info
       loading: false,
-      liking: false,
-      following: false,
       participant: [],
       space: {},
       popups: [],
@@ -396,7 +393,7 @@ export default {
       updateInterval: null,
       relatedCurations: [],
       tipCollapse: false,
-      quotesCollapse: false,
+      quotesCollapse: true,
       isLiking: false,
       isFollowing:false
     }
@@ -504,7 +501,6 @@ export default {
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
     },
     endtime() {
-      console.log(55, this.detailCuration?.endtime);
       return parseTimestampToUppercase(this.detailCuration?.endtime)
     }
   },
@@ -568,8 +564,8 @@ export default {
         return
       }
       try{
-        this.liking = true
-        await userLike(this.detailCuration.tweetId);
+        this.isLiking = true
+        await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
       } catch (e) {
         if (e === 'log out') {
@@ -577,7 +573,7 @@ export default {
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
-        this.liking = false
+        this.isLiking = false
       }
     },
     async follow() {
@@ -586,16 +582,16 @@ export default {
         return
       }
       try{
-        this.following = true
-        await userFollowing(this.detailCuration.authorId)
-        this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 4
+        this.isFollowing = true
+        await followCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId})
+        this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 8
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
-        this.following = false
+        this.isFollowing = false
       }
     },
     updateCurationInfos() {
@@ -610,7 +606,7 @@ export default {
         })
 
         // update popup info
-        popupsOfCuration(id).then(res => {
+        popupsOfCuration(this.getAccountInfo.twitterId, id).then(res => {
           console.log('popups', res);
           this.popups = res
         }).catch(console.log).finally(() => {
@@ -643,12 +639,14 @@ export default {
 
     if (this.getPendingPopup) {
       newPopups(pendingPopup).then(res => {
+        console.log('update popup again', re);
       }).catch(e => {
         if (e === 'log out') {
           notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
         }
+        console.log('update popup fail:', e);
       }).finally(() => {
-        this.$store.commit('curation/savePendingPopup', null)
+        // this.$store.commit('curation/savePendingPopup', null)
       })
     }
 
@@ -676,7 +674,7 @@ export default {
     this.loading4 = true
     this.loading5 = true
 
-    this.updateInterval = setInterval(this.updateCurationInfos, 15000);
+    // this.updateInterval = setInterval(this.updateCurationInfos, 15000);
   },
   beforeUnmount () {
     clearInterval(this.updateInterval)
