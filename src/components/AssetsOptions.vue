@@ -351,7 +351,7 @@ export default {
     selectGift(gift) {
       this.$refs.giftPopover.hide()
       this.selectedGift = gift
-      this.$emit('selectGift', gift.value)
+      this.$emit('selectGift', gift)
     }
   }
 }

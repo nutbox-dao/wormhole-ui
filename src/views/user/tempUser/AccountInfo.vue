@@ -31,7 +31,7 @@
                                   text-color8B light:text-color7D
                                   bg-white/10 light:bg-colorF2
                                   light:border-1 light:border-colorE3
-                                  rounded-full h-1.8rem md:1rem px-0.5rem">Twitter Reputation:000137</div>
+                                  rounded-full h-1.8rem md:1rem px-0.5rem">Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}</div>
                     </div>
                     <div class="flex flex-wrap sm:mt-0 mt-0.5rem">
                       <div class="flex items-center justify-start text-color7D/60 mr-5px"
@@ -39,9 +39,10 @@
                         <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
                       </div>
                       <button class="h-20px flex items-center p-2px rounded-full
-                                     border-1 border-color91/20 bg-colorED">
+                                     border-1 border-color91/20 bg-colorED"
+                              @click="tip">
                         <img class="w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
-                        <span class="whitespace-nowrap text-color7D">Address：0xioiijijpoijopwwe3323b</span>
+                        <span class="whitespace-nowrap text-color7D">Address:{{accountInfo ? accountInfo.ethAddress : ''}}</span>
                       </button>
                     </div>
                   </div>
@@ -82,6 +83,17 @@
       </div>
       </div>
     </div>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="showTip"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showTip"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden">
+             <TipModalVue class="flex-1 mt-40px" :tipToUser="{...accountInfo, username: accountInfo.twitterUsername}" @close="showTip=false" @back="showTip=false"/>
+        </div>
+      </transition>
+    </van-popup>
+    
   </div>
 </template>
 
@@ -94,6 +106,7 @@ import Post from './Post'
 import WalletView  from "./WalletView";
 import PostDetail from "./PostDetail";
 import Curations from './Curations'
+import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
@@ -106,7 +119,8 @@ export default {
     Post,
     WalletView,
     PostDetail,
-    Curations
+    Curations,
+    TipModalVue
   },
   data() {
     return {
@@ -122,7 +136,8 @@ export default {
       erc20Balances: {},
       ethBalance: 0,
       showDetail: false,
-      post: {}
+      post: {},
+      showTip: false
     };
   },
   computed: {
@@ -202,6 +217,9 @@ export default {
     gotoPostDetail(post) {
       this.post = post
       this.showDetail = true
+    },
+    tip() {
+      this.showTip = true
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {

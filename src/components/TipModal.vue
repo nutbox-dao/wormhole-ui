@@ -67,7 +67,8 @@
           chain: '',
           address: '',
           token: '',
-          amount: 0
+          amount: 0,
+          emoji: null
         },
         selectedToken: {},
         selectedBalance: '',
@@ -91,13 +92,14 @@
       selectBalance(balance) {
         this.selectedBalance = balance
       },
-      selectGift(amount) {
-        this.form.amount = amount
+      selectGift(gift) {
+        this.form.amount = gift.value;
+        this.form.emoji = gift.img
       },
       async send() {
         try {
           if (this.form.chain === 'steem') {
-            window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.amount} STEEM to @${this.tipToUser.username}`,'__blank')
+            window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.emoji ?? (this.form.amount + ' STEEM')} to @${this.tipToUser.username}`,'__blank')
           }else {
             this.tiping = true
             const transHash = await sendTokenToUser(this.selectedToken, this.form.amount, this.tipToUser.ethAddress)

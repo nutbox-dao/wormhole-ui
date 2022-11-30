@@ -187,7 +187,8 @@ export default {
         address: '',
         token: '',
         amount: 0,
-        tweetId: ''
+        tweetId: '',
+        emoji: ''
       },
       EVM_CHAINS,
       modalVisible: false,
@@ -259,8 +260,9 @@ export default {
     selectBalance(balance) {
       this.selectedBalance = balance
     },
-    selectGift(amount) {
-      this.form.amount = amount
+    selectGift(gift) {
+      this.form.amount = gift.value;
+      this.form.emoji = gift.img
     },
     checkForm() {
       if (this.tweetLength > 265) {
