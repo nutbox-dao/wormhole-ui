@@ -8,7 +8,7 @@
                class="h-min text-left">
             <!-- curation info -->
             <div v-if="detailCuration">
-              <div class="flex items-center">
+              <div class="flex items-center mb-1rem">
                 <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
@@ -17,9 +17,10 @@
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
+                <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
               </div>
               <template v-if="contentType==='tweet'">
-                <Blog :post="detailCuration" class="border-1 border-color7D">
+                <Blog :post="detailCuration" class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
@@ -226,26 +227,6 @@
           </div>
         </div>
         <div class="col-span-1 xl:col-span-1" v-if="detailCuration">
-          <!-- token -->
-<!--          <div v-loading="loading1" class="gradient-bg gradient-bg-color3 rounded-15px py-0.5rem px-1.5rem min-h-4rem light:shadow-popper-tip">-->
-<!--            <div class="flex justify-between items-center">-->
-<!--              <span class="text-colorF7">{{$t('curation.reward')}}</span>-->
-<!--              <div class="flex items-center">-->
-<!--                &lt;!&ndash; <span class="text-primaryColor font-500">PosW</span>-->
-<!--                <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt=""> &ndash;&gt;-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="w-full h-1px bg-white mt-0.8rem mb-1.6rem"></div>-->
-<!--            <div class="flex justify-between items-center mb-2rem">-->
-<!--              <span class="text-colorF7">Token</span>-->
-<!--              <div class="flex items-center">-->
-<!--                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem rounded-full" :src="tokenIcon" alt="">-->
-<!--                <img v-else class="w-1.5rem mr-0.6rem rounded-full" src="~@/assets/icon-eth-white.svg" alt="">-->
-<!--                <span class="font-700 text-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="text-colorE0/80 text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>-->
-<!--          </div>-->
           <div class="hidden xl:block bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left ">
             <div class="text-white light:text-blueDark p-0.5rem">
               <div class="text-1.2rem c-text-black my-6px">Host</div>
@@ -376,13 +357,14 @@ import { newPopups, likeCuration, followCuration} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
 import iconTop2 from '@/assets/icon-top2.svg'
 import iconTop3 from '@/assets/icon-top3.svg'
+import ContentTags from "@/components/ContentTags";
 
 export default {
   name: "CurationDetail",
   components: {
     TweetAttendTip, Submissions, Blog, Space, TipModalVue,
     CurationItem, SpeakerCollapse, SpeakerTipModal,
-    CreatePopUpModal, PopUpsCard, ChainTokenIconVue
+    CreatePopUpModal, PopUpsCard, ChainTokenIconVue,ContentTags
   },
   data() {
     return {

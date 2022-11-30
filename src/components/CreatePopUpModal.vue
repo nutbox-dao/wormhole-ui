@@ -96,20 +96,17 @@
                  placeholder="">
           <span class="whitespace-nowrap px-12px text-colorD6">Limited 100</span>
         </div>
-        <AssetsOptions :chain="form.chain"
+        <AssetsOptions :amount="form.amount"
+                       :chain="form.chain"
                        :address="form.address"
                        :token="form.token"
                        :showsteem="false"
                        @chainChange="selectChain"
                        @tokenChagne="selectToken"
                        @addressChange="selectAddress"
+                       @amountChange="selectAmount"
                        @balanceChange="selectBalance"
                        @selectGift="selectGift">
-          <template #amount>
-            <input class="bg-transparent h-full w-full px-12px"
-                   v-model="form.amount"
-                   type="number" :placeholder="$t('curation.inputRewardsAmount')">
-          </template>
         </AssetsOptions>
       </div>
       <div class="text-center mt-2rem">
@@ -257,6 +254,9 @@ export default {
       this.selectedToken = token;
       this.form.token = token.address;
     },
+    selectAmount(amount) {
+      this.form.amount = amount
+    },
     selectBalance(balance) {
       this.selectedBalance = balance
     },
@@ -317,7 +317,7 @@ export default {
         }
         const hash = 'dfs' // await createPopup(this.form.chain, popup)
         if (hash) {
-        //   curationId, chainId, creatorEth, tweetId, twitterId, endTime, 
+        //   curationId, chainId, creatorEth, tweetId, twitterId, endTime,
         // token, symbol, decimals, bonus, maxCount, transHsh
           let pendingPopup = {
             twitterId: this.getAccountInfo.twitterId,
@@ -374,7 +374,7 @@ export default {
         if (e === 'log out') {
           notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
         }
-      })  
+      })
     }
   }
 }

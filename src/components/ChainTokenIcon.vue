@@ -1,19 +1,28 @@
 <template>
-  <div class="flex items-center w-min rounded-full">
-    <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
-      <template>
-        <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
-        <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
-        <img v-if="chainIcon" class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
-             :src="chainIcon" alt="">
+  <div class="w-min rounded-full cursor-pointer">
+    <el-tooltip class="shadow-md">
+      <div class="flex items-center" @click.stop>
+        <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
+          <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
+          <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
+          <img v-if="chainIcon" class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
+               :src="chainIcon" alt="">
+        </div>
+        <slot name="amount"></slot>
+      </div>
+      <template #content>
+        <div class="flex items-center cursor-pointer" @click="copyAddress(token.address)">
+          <span class="text-white light:text-blueDark">{{formatAddress(token.address)}}</span>
+          <i class="w-1.2rem h-1.2rem icon-copy ml-4px"></i>
+        </div>
       </template>
-    </div>
-    <slot name="amount"></slot>
+    </el-tooltip>
   </div>
 </template>
 
 <script>
 import { TokenIcon, EVM_CHAINS } from "@/config"
+import {formatAddress, copyAddress} from "@/utils/tool";
 
 export default {
   name: "ChainTokenIcon",
@@ -76,6 +85,10 @@ export default {
       return true
     }
   },
+  methods: {
+    formatAddress,
+    copyAddress
+  }
 }
 </script>
 
