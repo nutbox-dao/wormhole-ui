@@ -272,7 +272,8 @@ export default {
     transErr: 'Transaction Fail',
     loginErr: 'Login fail',
     wrongTweetLink: 'Please input correct tweet link',
-    wrongUserNumber: 'Please input correct users count'
+    wrongUserNumber: 'Please input correct users count',
+    contractError: 'Interactive with contract fail.'
   },
   common: {
     none: 'None',
