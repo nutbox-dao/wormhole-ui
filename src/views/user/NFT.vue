@@ -18,7 +18,6 @@
             <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
           </div>
         </div>
-<<<<<<< HEAD
 
         <div v-if="this.liquidation.liquidation" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
             @click="showLiquidation">
@@ -31,10 +30,6 @@
         </div>
 
         <div v-for="st of  showingStellarTreks" :key="st" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-=======
-        <div v-for="st of  showingStellarTreks" :key="st"
-             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
->>>>>>> 03697b6 (update ui)
          @click="showTrek(st.image)">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
               :src="st.image" alt="">

@@ -241,7 +241,6 @@ export function parseTimestampToUppercase(time) {
 }
 
 export function parseSpaceStartTime(time) {
-  
   let monthMap = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ]
