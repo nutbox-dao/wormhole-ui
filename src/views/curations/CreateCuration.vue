@@ -751,7 +751,6 @@ export default {
       return true
     },
     async onSubmit() {
-      console.log(26, JSON.stringify(this.form));
       if(!this.checkRewardData()) return;
       try{
         this.loading = true

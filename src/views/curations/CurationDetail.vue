@@ -167,26 +167,27 @@
               </div>
             </div>
           </div>
+          <!-- Details -->
           <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden mt-1rem">
             <div class="px-1.25rem pt-8px pb-1rem text-left">
-              <div class="c-text-black mt-4px">Details</div>
+              <div class="c-text-black mt-4px">{{$t('curation.details')}}</div>
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
               <div class="text-color7D">{{detailCuration?.description}}</div>
               <div class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">Prize</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
-                  {{detailCuration ? (detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}} USDT
+                  {{detailCuration ? (detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
                 </button>
               </div>
-              <!-- 已结束 -->
+              <!-- ended -->
               <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">End Time</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
                   {{endtime}}
                 </button>
               </div>
-              <!-- 未结束 -->
+              <!-- ongoing -->
               <div v-else class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">Expiration</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
@@ -215,54 +216,12 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1 xl:col-span-1" v-if="detailCuration">
-          <!-- token -->
-<!--          <div v-loading="loading1" class="gradient-bg gradient-bg-color3 rounded-15px py-0.5rem px-1.5rem min-h-4rem light:shadow-popper-tip">-->
-<!--            <div class="flex justify-between items-center">-->
-<!--              <span class="text-colorF7">{{$t('curation.reward')}}</span>-->
-<!--              <div class="flex items-center">-->
-<!--                &lt;!&ndash; <span class="text-primaryColor font-500">PosW</span>-->
-<!--                <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt=""> &ndash;&gt;-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="w-full h-1px bg-white mt-0.8rem mb-1.6rem"></div>-->
-<!--            <div class="flex justify-between items-center mb-2rem">-->
-<!--              <span class="text-colorF7">Token</span>-->
-<!--              <div class="flex items-center">-->
-<!--                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem rounded-full" :src="tokenIcon" alt="">-->
-<!--                <img v-else class="w-1.5rem mr-0.6rem rounded-full" src="~@/assets/icon-eth-white.svg" alt="">-->
-<!--                <span class="font-700 text-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="text-colorE0/80 text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>-->
-<!--          </div>-->
-          <div class="hidden xl:block bg-blockBg h-min light:bg-white light:border-1 light:border-colorE3 rounded-15px text-left ">
-            <div class="text-white light:text-blueDark p-0.5rem">
-              <div class="text-1.2rem c-text-black my-6px">Host</div>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center py-5px">
-                  <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
-                       src="~@/assets/icon-default-avatar.svg" alt="">
-                  <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px truncate">Supermonday</span>
-                </div>
-                <button class="border-1 border-color62 px-1rem rounded-full text-color62">Tip</button>
-              </div>
-              <div class="text-1.2rem c-text-black my-6px">Speaker</div>
-              <div class="flex justify-between items-center" v-for="i of 5" :key="i">
-                <div class="flex items-center py-5px">
-                  <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"
-                       src="~@/assets/icon-default-avatar.svg" alt="">
-                  <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px truncate">Supermonday</span>
-                </div>
-                <button class="border-1 border-color62 px-1rem rounded-full text-color62">Tip</button>
-              </div>
-            </div>
-
-          </div>
+        <div v-if="detailCuration">
           <!-- Related Curations mobile -->
           <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
             <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
+                @click="gotoCuration(rc)"
                  v-for="rc of relatedCurations" :key="rc.curationId">
               <CurationItem :curation="rc"
                             class="bg-blockBg light:bg-white rounded-15px
@@ -276,6 +235,8 @@
         </div>
       </div>
     </div>
+
+    <!-- modals -->
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
@@ -596,6 +557,11 @@ export default {
         this.isFollowing = false
       }
     },
+    gotoCuration(curation) {
+      this.$store.commit('curation/saveDetailCuration', curation);
+      this.$router.replace('/curation-detail/' + curation.curationId);
+      this.$forceUpdate();
+    },  
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
         const id = this.detailCuration.curationId;
