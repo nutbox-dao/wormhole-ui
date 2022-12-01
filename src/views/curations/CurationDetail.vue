@@ -12,9 +12,9 @@
                 <img class="w-42px min-w-42px h-42px md:w-3.6rem md:h-3.6rem md:w-min-3.6rem
                             mr-15px md:mr-1rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
-                     @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
-                     :src="detailCuration.profileImg && detailCuration.profileImg.replace('normal', '200x200')" alt="">
-                <div class="flex flex-col justify-center items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
+                     @click="gotoUserPage(detailCuration && detailCuration.creatorTwitterUsername)"
+                     :src="detailCuration.creatorProfileImg && detailCuration.creatorProfileImg.replace('normal', '200x200')" alt="">
+                <div class="flex flex-col justify-center items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.creatorTwitterUsername)">
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
@@ -540,6 +540,9 @@ export default {
     formatEmojiText,
     onCopy,
     formatAmount,
+    gotoTweet() {
+      window.open('https://twitter.com/' + this.detailCuration.username + '/status/' + this.detailCuration.tweetId)
+    },  
     createTime(p) {
       if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
       return parseTimestamp(p.createAt)
