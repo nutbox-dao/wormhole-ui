@@ -111,7 +111,7 @@
                             flex items-center justify-center min-w-1/3 text-white token-tag">
                   <ChainTokenIconVue height="20px" width="20px"
                                      :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
-                                     :chainName="detailCuration?.chainId">
+                                     :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
                     <template #amount>
                       <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                         {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
@@ -179,7 +179,7 @@
             </div>
           </div>
           <!-- Details -->
-          <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
+          <div v-loading="loading1" class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden mt-1rem">
             <div class="px-1.25rem pt-8px pb-1rem text-left">
               <div class="c-text-black mt-4px">{{$t('curation.details')}}</div>
@@ -207,7 +207,7 @@
               </div>
             </div>
             <template v-if="contentType==='space'">
-              <div class="light:bg-card-gradient text-left mt-1rem">
+              <div v-loading="loading5" class="light:bg-card-gradient text-left mt-1rem">
                 <SpeakerCollapse :space="space"/>
               </div>
             </template>
@@ -216,7 +216,7 @@
           <div class="hidden xl:block py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
             <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                 v-for="item of relatedCurations" :key="item">
+                 v-for="item of relatedCurations" :key="('related' + item.curationId)">
               <CurationItem :curation="item"
                             class="bg-blockBg light:bg-white rounded-15px
                                    sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
@@ -364,12 +364,12 @@ export default {
       popups: [],
       tips: [],
       topTips: [],
+      relatedCurations: [],
       speakerTipVisible: false,
       createPopUpVisible: false,
       showTip: false,
       testData,
       updateInterval: null,
-      relatedCurations: [],
       tipCollapse: false,
       quotesCollapse: true,
       isLiking: false,
@@ -483,6 +483,14 @@ export default {
       return parseTimestampToUppercase(this.detailCuration?.endtime)
     }
   },
+  watch: {
+    $route(newValue, oldValue) {
+      const newId = this.$route.params.id;
+      if (this.$route.name == 'curation-detail' && newId && newId.match(/^[0-9a-fA-F]+$/)) {
+        this.loadCuration()
+      }
+    }
+  },
   methods: {
     formatEmojiText,
     onCopy,
@@ -574,9 +582,15 @@ export default {
       }
     },
     gotoCuration(curation) {
-      this.$store.commit('curation/saveDetailCuration', curation);
-      this.$router.replace('/curation-detail/' + curation.curationId);
-      this.$forceUpdate();
+      const id = curation.curationId
+      this.$store.commit('curation/saveDetailCuration', {})
+      this.participant = [];
+      this.space = {};
+      this.popups = [];
+      this.tips = [];
+      this.topTips = [];
+      this.relatedCurations = [];
+      this.$router.replace('/curation-detail/' + id);
     },
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
@@ -615,50 +629,53 @@ export default {
           this.loading5 = false
         }
       }
+    },
+    loadCuration() {
+      const id = this.$route.params.id;
+      const account = this.getAccountInfo
+
+      if (this.getPendingPopup) {
+        newPopups(pendingPopup).then(res => {
+          console.log('update popup again', re);
+        }).catch(e => {
+          if (e === 'log out') {
+            notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
+          }
+          console.log('update popup fail:', e);
+        }).finally(() => {
+          // this.$store.commit('curation/savePendingPopup', null)
+        })
+      }
+
+      if (this.detailCuration && this.detailCuration.curationId === id) {
+        this.updateCurationInfos()
+      }else {
+        this.$store.commit('curation/saveDetailCuration', null)
+        this.loading1 = true
+      }
+      getCurationById(id, account?.twitterId).then(res => {
+        console.log('curation detail: ', res);
+        if (res) {
+          getCurationsOfTweet(res.tweetId).then(res => {
+            const cs = res ?? []
+            this.relatedCurations = cs.filter(c => c.curationId !== this.detailCuration.curationId)
+          })
+          this.$store.commit('curation/saveDetailCuration', res)
+          this.updateCurationInfos()
+        }
+      }).finally(() => {
+        this.loading1 = false
+      })
+      this.loading2 = true
+      this.loading3 = true
+      this.loading4 = true
+      this.loading5 = true
+
     }
   },
   mounted () {
-    const id = this.$route.params.id;
-    const account = this.getAccountInfo
-
-    if (this.getPendingPopup) {
-      newPopups(pendingPopup).then(res => {
-        console.log('update popup again', re);
-      }).catch(e => {
-        if (e === 'log out') {
-          notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
-        }
-        console.log('update popup fail:', e);
-      }).finally(() => {
-        // this.$store.commit('curation/savePendingPopup', null)
-      })
-    }
-
-    if (this.detailCuration && this.detailCuration.curationId === id) {
-      this.updateCurationInfos()
-    }else {
-      this.$store.commit('curation/saveDetailCuration', null)
-      this.loading1 = true
-    }
-    getCurationById(id, account?.twitterId).then(res => {
-      console.log('curation detail: ', res);
-      if (res) {
-        getCurationsOfTweet(res.tweetId).then(res => {
-          const cs = res ?? []
-          this.relatedCurations = cs.filter(c => c.curationId !== this.detailCuration.curationId)
-        })
-        this.$store.commit('curation/saveDetailCuration', res)
-        this.updateCurationInfos()
-      }
-    }).finally(() => {
-      this.loading1 = false
-    })
-    this.loading2 = true
-    this.loading3 = true
-    this.loading4 = true
-    this.loading5 = true
-
-    // this.updateInterval = setInterval(this.updateCurationInfos, 15000);
+    this.loadCuration()
+    this.updateInterval = setInterval(this.updateCurationInfos, 15000);
   },
   beforeUnmount () {
     clearInterval(this.updateInterval)

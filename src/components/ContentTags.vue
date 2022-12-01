@@ -21,7 +21,7 @@
         <img class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-tweet-tag.svg" alt="">
       </button>
       <template #content>
-        <span class="text-white light:text-blueDark">Quote</span>
+        <span class="text-white light:text-blueDark">Tweet</span>
       </template>
     </el-tooltip>
     <el-tooltip v-if="contentType==='space'">
@@ -29,7 +29,7 @@
         <img class="w-20px h-20px 2xl:w-0.7rem 2xl:h-0.7rem" src="~@/assets/icon-space-tag.svg" alt="">
       </button>
       <template #content>
-        <span class="text-white light:text-blueDark">Quote</span>
+        <span class="text-white light:text-blueDark">Space</span>
       </template>
     </el-tooltip>
   </div>

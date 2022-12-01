@@ -224,11 +224,6 @@ export default {
     },
     gotoTwitter(){
       this.showMenu = false
-      const twitterId = this.$store.getters.getAccountInfo.twitterId;
-      userTweet({twitterId, text: 'Test', cardUri: 'https://alpha.wormhole3.io'}).then(res => {
-        console.log(44444, res)
-      })
-      return;
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     goBack() {
@@ -289,7 +284,6 @@ export default {
       }
 
       getProfile(twitterId).then(res => {
-        console.log(64, res);
         if (res && res.code === 3) {
           let account = res.account;
           this.$store.commit('saveAccountInfo', account)
