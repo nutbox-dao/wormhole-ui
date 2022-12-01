@@ -183,7 +183,7 @@ export default {
     schedule: 'Schedule',
     endTime: 'End time',
     startTimeTip: 'The default start time is the creation time. Please select the end time.',
-    descriptionTitle: 'Input tweet content',
+    relatedTweet: 'Related Tweet',
     description: 'This content is for the tweet you want to promote. After successfully creating the curation reward pool, we provide a Go tweet button, so that you can easily publish tweets to activate the curation. We will add some necessary tags and links in the generated tweet. Please do not delete these contents and post them, otherwise the curator will not be activated',
     inputDes: "Enter the detail of your curation",
     connectWallet: "Connect Wallet",
@@ -253,7 +253,15 @@ export default {
     chain: 'Chain',
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
-    network: 'Network'
+    network: 'Network',
+    createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space. \n' +
+      'Are you going to curarte a tweet or Twitter Space?',
+    selectExistTweet: 'Or curate an existing tweet',
+    pastLinkTip: 'Paste the tweet link below and click Verify to preview',
+    createDescTip: 'Type the details of this curation here',
+    desc: 'Description',
+    switchType1: 'Are you sure to switch to Twitter Space Curation?',
+    switchType2: 'All the contents will be discarded'
   },
   popup: {
     create: 'Create a Pop-up reply action',
@@ -301,6 +309,7 @@ export default {
     registerNow: 'Goto Register',
     whatsSteem: 'Steem is a community-focused blockchain that creates an instant earning opportunity for the network’s users.',
     address: 'Address',
-    account: 'Account'
+    account: 'Account',
+    cancel: 'Cancel'
   }
 }
