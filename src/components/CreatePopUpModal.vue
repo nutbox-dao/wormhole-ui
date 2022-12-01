@@ -356,7 +356,7 @@ export default {
           notify({message: this.$t('err.contractError'), type: 'error'})
         }
       } catch (e) {
-        console.log(564, e);
+        console.log('create popup fail:', e);
         if (e === 'log out') {
           notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
           this.$router.go('/')

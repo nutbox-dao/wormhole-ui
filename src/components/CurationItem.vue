@@ -110,7 +110,7 @@
              :class="showBtnGroup?'':'h-42px 2xl:h-2.1rem absolute right-0 top-0'">
           <ChainTokenIcon class="bg-primaryColor/20"
                           height="24px" width="24px"
-                          :chain-name="curation.chainId"
+                          :chain-name="curation.chainId.toString()"
                           :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
             <template #amount>
             <span class="px-8px h-24px whitespace-nowrap
@@ -216,7 +216,6 @@ export default {
       return (this.curation?.taskRecord & 4) / 4
     },
     followed() {
-      console.log(53, this.curation.taskRecord);
       if(!this.curation || !this.getAccountInfo) return false
       return (this.curation.taskRecord & 8) / 8
     },
@@ -234,9 +233,9 @@ export default {
       return true
     },
     gotoUserPage() {
-      // if (!this.curation || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
+      if (!this.curation || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
-      // }
+      }
     },
     quoteOrReply() {
       if (!this.checkLogin()) return

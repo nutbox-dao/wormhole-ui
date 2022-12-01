@@ -173,7 +173,6 @@ export default {
       try{
         let curations = await getCurations(this.subActiveTagIndex, null, this.getAccountInfo?.twitterId)
         curations = curations;
-        console.log(64, curations);
         let mutationStr = ''
         if (this.subActiveTagIndex === 0) {
           mutationStr = 'saveOngoingList'

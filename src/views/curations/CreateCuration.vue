@@ -531,8 +531,15 @@ export default {
   methods: {
     formatEmojiText,
     formatAmount,
-
+    checkLogin() {
+      if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return false;
+      }
+      return true
+    },
     async checkLink() {
+      if (!this.checkLogin()) return
       const link = this.form.link;
       const match = link.match(this.TweetLinRex);
       if (!match) {
@@ -754,6 +761,8 @@ export default {
       return true
     },
     onNext() {
+      if (!this.checkLogin()) return
+
       this.form.description = this.formatElToTextContent(this.$refs.descContentRef)
       if (!this.checkCreateData()) {
         return;
@@ -893,11 +902,11 @@ export default {
         }else {
           await newCurationWithTweet(pendingCuration);
           this.$store.commit('curation/savePendingTweetCuration', null)
-          this.$router.go('/square')
+          this.$router.replace('/')
         }
       } catch (e) {
         if (e === 'log out') {
-          this.$route.replace('/')
+        this.$router.replace('/')
         }
         console.log('Create curation error:', e);
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
