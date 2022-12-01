@@ -92,6 +92,9 @@ export function parseTweet(tweet) {
         name: user.name,
         username: user.username,
         profileImg: user.profile_image_url.replace('normal', '200x200'),
+        verified: user.verified,
+        followers: user.public_metrics.followers_count,
+        following: user.public_metrics.following_count,
         content,
         postTime: tweet.data.created_at,
         tags: JSON.stringify(tags)
