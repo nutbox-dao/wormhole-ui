@@ -1,7 +1,7 @@
 <template>
-  <div class="pop-up-bg h-min light:border-1 light:border-colorE3 rounded-12px text-left mt-1rem">
+  <div class="pop-up-bg h-min light:border-1 light:border-colorE3 rounded-8px text-left mt-1rem overflow-hidden">
     <div class="w-full">
-      <div class="title-bg flex-1 px-1.25rem py-8px flex justify-between items-center">
+      <div class="title-bg flex-1 px-1.25rem py-8px min-h-38px flex justify-between items-center">
         <div class="text-white c-text-black italic text-orangeColor text-16px
                     flex-1 flex justify-between items-center truncate">
           Pop-Ups
@@ -11,8 +11,9 @@
         </button>
       </div>
     </div>
-    <div class="collapse-box px-1.25rem mt-12px" :class="popUpsCollapse?'show':''">
-      <div class="h-30px 2xl:h-1.5rem p-3px flex justify-between items-start mb-8px
+    <div class="collapse-box px-1.25rem"
+         :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
+      <div class="h-30px 2xl:h-1.5rem p-3px flex justify-between items-start my-8px
                   border-1 border-colorEE rounded-full"
            v-for="popup of showingPopup" :key="popup.tweetId">
         <div class="flex items-center h-full truncate">
@@ -38,7 +39,7 @@
         </div>
         <div class="flex items-center justify-end min-w-1/3">
           <ChainTokenIcon :class="[!isEnded(popup)?'bg-colorEE/25':'', isEnded(popup)?'bg-colorD8':'']"
-                          height="20px" width="20px" :chain-name="popup.chainId.toString()" 
+                          height="20px" width="20px" :chain-name="popup.chainId.toString()"
                           :token="{address: popup.token, symbol: popup.symbol}">
             <template #amount>
             <span class="px-8px h-17px whitespace-nowrap
@@ -68,12 +69,12 @@ export default {
   components: {ChainTokenIcon},
   props: {
     space: {
-      type: Object, 
+      type: Object,
       default: {}
     },
     popups: {
       type: Array,
-      default: [] 
+      default: []
     },
     showCreate: {
       type: Boolean,
@@ -152,13 +153,15 @@ export default {
   background: linear-gradient(93.53deg, rgba(255, 168, 0, 0.22) 2.33%, rgba(255, 227, 182, 0) 91.45%);
 }
 .collapse-box {
-  max-height: 76px;
-  min-height: 76px;
   overflow: hidden;
   transition: max-height ease 0.2s;
   &.show {
     max-height: 1500px;
     transition: max-height ease-in-out 0.5s;
+  }
+  &.hide {
+    max-height: 76px;
+    min-height: 76px;
   }
 }
 </style>

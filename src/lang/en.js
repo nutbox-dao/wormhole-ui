@@ -261,7 +261,8 @@ export default {
     createDescTip: 'Type the details of this curation here',
     desc: 'Description',
     switchType1: 'Are you sure to switch to Twitter Space Curation?',
-    switchType2: 'All the contents will be discarded'
+    switchType2: 'All the contents will be discarded',
+    relatedCurations: 'Related Curations'
   },
   popup: {
     create: 'Create a Pop-up reply action',

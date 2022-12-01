@@ -1,15 +1,16 @@
 <template>
-  <div class="text-12px xl:text-0.8rem">
+  <div class="text-14px xl:text-0.8rem">
     <!-- title -->
-    <div class="container mx-auto max-w-50rem pb-2rem px-15px pt-1rem">
+    <div class="container mx-auto max-w-50rem pb-2rem pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
-        <div class="col-span-1 xl:col-span-2">
+        <div class="col-span-1 xl:col-span-2 px-15px">
           <div v-loading="loading1"
-               class="h-min text-left">
+               class="h-min min-h-80px text-left rounded-12px overflow-hidden">
             <!-- curation info -->
             <div v-if="detailCuration">
               <div class="flex items-start mb-1rem">
-                <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
+                <img class="w-42px min-w-42px h-42px md:w-3.6rem md:h-3.6rem md:w-min-3.6rem
+                            mr-15px md:mr-1rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                      :src="detailCuration.profileImg && detailCuration.profileImg.replace('normal', '200x200')" alt="">
@@ -17,10 +18,12 @@
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
-                <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
+                <ContentTags class="mt-5px" :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
               </div>
               <template v-if="contentType==='tweet'">
-                <Blog :post="detailCuration" class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
+                <Blog :post="detailCuration"
+                      avatar-class="w-30px min-w-30px h-30px md:w-2.6rem md:h-2.6rem md:w-min-2.6rem"
+                      class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
@@ -48,7 +51,7 @@
           <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-8px overflow-hidden">
             <div class="h-min bg-blockBg light:bg-colorED text-left cursor-pointer"
                  :class="tipCollapse?'tip-bg':'tip-bg-close'">
-              <div class="text-white light:text-blueDark pl-45px pr-15px font-bold min-h-48px
+              <div class="text-white light:text-blueDark pl-45px sm:pl-60px pr-15px font-bold min-h-48px
                         flex-1 flex justify-between items-center truncate relative"
                    @click.stop="showTipModal">
                 <el-carousel v-if="tips && tips.length>0"
@@ -57,7 +60,7 @@
                              direction="vertical" :autoplay="true"
                              :interval="2500">
                   <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
-                    <div class="flex-1 text-color62 c-text-black text-12px">{{tipStr(item)}}</div>
+                    <div class="flex-1 text-color62 c-text-black text-12px xl:text-0.7rem">{{tipStr(item)}}</div>
                   </el-carousel-item>
                 </el-carousel>
                 <van-notice-bar class="w-full bg-transparent px-0 sm:hidden"
@@ -65,7 +68,7 @@
                                 v-if="tips && tips.length>0">
                   <template #default>
                     <span v-for="item in tips" :key="item"
-                          class="mr-4rem c-text-black text-12px text-color62">{{tipStr(item)}}</span>
+                          class="mr-4rem c-text-black text-12px xl:text-0.7rem text-color62">{{tipStr(item)}}</span>
                   </template>
                 </van-notice-bar>
                 <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
@@ -101,11 +104,11 @@
             <div>
               <div class="flex-1 flex items-center text-white bg-blueDark relative">
                 <div class="w-44/100 h-40px flex px-1.25rem flex items-center c-text-black">
-                  <span class="mr-6px bg-color19 rounded-full text-10px min-h-24px min-w-24px
+                  <span class="mr-6px bg-color19 rounded-full text-12px min-h-24px min-w-24px
                                flex items-center justify-center">
                     {{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}
                   </span>
-                  <span>{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
+                  <span class="text-12px xl:text-0.8rem">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
                 </div>
                 <div class="w-56/100 h-40px whitespace-nowrap bg-tag-gradient
                             flex items-center justify-center min-w-1/3 text-white token-tag">
@@ -130,27 +133,27 @@
                 <div v-show="quotesCollapse"
                      class="text-white light:text-blueDark py-0.5rem font-bold">
                   <div @click="quoteOrReply"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
-                    <i class="w-1.2rem h-1.2rem mr-10px"
+                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
+                    <i class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
-                    <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
+                    <span class="text-12px xl:text-0.7rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
                   </div>
                   <div v-if="isLike"
                        @click="like"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
+                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
                     <img v-if="isLiking"
-                         class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                    <i v-else class="w-1.2rem h-1.2rem mr-10px"
+                         class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="liked?'icon-checked':'icon-like-circle'"></i>
-                    <span>Like (or Verify your Like)</span>
+                    <span class="text-12px xl:text-0.7rem">Like (or Verify your Like)</span>
                   </div>
                   <div v-if="isFollow" @click="follow"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-center cursor-pointer">
+                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
                     <img v-if="isFollowing"
-                         class="w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                    <i v-else class="w-1.2rem h-1.2rem mr-10px"
+                         class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="followed?'icon-checked':'icon-follow-circle'"></i>
-                    <span>Follow @{{detailCuration.username}} (or Verify your Follow)</span>
+                    <span class="text-12px xl:text-0.7rem">Follow @{{detailCuration.username}} (or Verify your Follow)</span>
                   </div>
                 </div>
               </el-collapse-transition>
@@ -212,38 +215,33 @@
               </div>
             </template>
           </div>
+
           <!-- Related Curations web -->
-          <div class="hidden xl:block py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
-            <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
-            <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                 v-for="item of relatedCurations" :key="('related' + item.curationId)">
-              <CurationItem :curation="item"
-                            class="bg-blockBg light:bg-white rounded-15px
-                                   sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
-              </CurationItem>
-              <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
-                view more >
-              </div>
+          <div class="bg-block light:bg-white px-15px py-1rem rounded-12px mt-1rem hidden sm:block"
+               v-if="relatedCurations && relatedCurations.length > 0">
+            <div class="text-left text-14px 2xl:text-1rem font-bold my-1rem">
+              {{$t('curation.relatedCurations')}}
             </div>
-          </div>
-        </div>
-        <div v-if="detailCuration">
-          <!-- Related Curations mobile -->
-          <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
-            <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
-            <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                @click="gotoCuration(rc)"
+            <div @click="gotoCuration(rc)"
                  v-for="rc of relatedCurations" :key="rc.curationId">
-              <CurationItem :curation="rc"
-                            class="bg-blockBg light:bg-white rounded-15px
-                                   sm:bg-transparent sm:border-b-1 sm:border-listBgBorder mb-1rem md:mb-0">
+              <CurationItem class="mb-1rem"
+                            :curation="rc" :show-btn-group="false">
               </CurationItem>
-              <div class="absolute bg-color62/70 text-white bottom-0 left-0 w-full py-10px text-center">
-                view more >
-              </div>
             </div>
           </div>
         </div>
+        <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>
+        <template v-if="detailCuration">
+          <!-- Related Curations mobile -->
+          <div class="block sm:hidden" v-if="relatedCurations && relatedCurations.length > 0">
+            <div class="text-left px-15px text-14px 2xl:text-1rem font-bold mb-1rem">{{$t('curation.relatedCurations')}}</div>
+            <div @click="gotoCuration(rc)" v-for="rc of relatedCurations" :key="rc.curationId">
+              <CurationItem class="px-15px mb-1rem"
+                            :curation="rc" :show-btn-group="false">
+              </CurationItem>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 
@@ -376,8 +374,7 @@ export default {
       isLiking: false,
       isFollowing:false,
       top3Icons: [iconTop1, iconTop2, iconTop3],
-      endtime: '',
-      timeIntrerval: null
+      endtime: ''
     }
   },
   computed: {

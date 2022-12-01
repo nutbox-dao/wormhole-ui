@@ -1,12 +1,14 @@
 <template>
-  <div class="py-1rem px-1.5rem border-b-1 border-listBgBorder">
+  <div class="">
     <div class="relative">
       <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="w-42px h-42px 2xl:w-2.1rem 2xl:h-2.1rem 2xl:mr-1.5rem mr-0.8rem rounded-full cursor-pointer"
+             class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-15px md:mr-1rem
+                    min-w-40px min-h-40px rounded-full cursor-pointer"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="w-42px h-42px 2xl:w-2.1rem 2xl:h-2.1rem 2xl:mr-1.5rem mr-0.8rem rounded-full cursor-pointer"
+        <img class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-15px md:mr-1rem
+                    min-w-40px min-h-40px rounded-full cursor-pointer"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex justify-between items-center">
           <div class="flex items-center">
@@ -20,12 +22,13 @@
         </div>
       </div>
       <div v-if="contentType==='tweet'" class="my-10px">
-        <div class="overflow-hidden relative rounded-15px border-1 border-color8B/30 light:border-color6D"
+        <div class="overflow-hidden relative rounded-15px border-1 border-color8B/30 light:border-color6D md:ml-4.1rem"
              :class="enableFold && !isFold?'max-h-200px':''">
           <div ref="blogRef">
             <Blog :post="curation"
                   class="bg-blockBg light:bg-white rounded-15px blog-item
-                         sm:bg-transparent">
+                         sm:bg-transparent"
+                  avatar-class="min-w-34px min-h-34px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
               <template #bottom-btn-bar><div></div></template>
             </Blog>
           </div>
@@ -36,7 +39,7 @@
         </div>
       </div>
       <div v-if="contentType==='space'"
-           class="h-15rem overflow-hidden relative py-10px">
+           class="h-140px md:h-10rem overflow-hidden relative my-10px">
         <Space :space="curation" class="rounded-15px h-full"/>
       </div>
       <div class="flex justify-between items-center">
@@ -131,6 +134,7 @@ import { parseTimestamp } from '@/utils/helper'
 import { mapGetters } from "vuex";
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
+import Repost from "@/components/Repost";
 import Space from "@/components/Space";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {testData} from "@/views/square/test-data";
@@ -140,7 +144,7 @@ import ContentTags from "@/components/ContentTags";
 
 export default {
   name: "CurationItem",
-  components: {Blog, Space, ChainTokenIcon, ContentTags},
+  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags},
   props: {
     curation: {
       type: Object,

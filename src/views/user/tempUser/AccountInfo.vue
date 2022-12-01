@@ -1,56 +1,53 @@
 <template>
-  <div class="h-full flex flex-col">
+  <div class="h-full flex flex-col text-14px xl:text-0.8rem">
     <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail">
         <template v-if="!loading">
           <div class="border-b-0 md:border-b-1 md:border-color84/30">
             <div class="container max-w-50rem mx-auto">
-              <div class="px-1rem mt-1rem flex items-center">
+              <div class="px-1rem mt-1rem flex items-start md:items-center overflow-hidden">
                 <img
-                    class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
+                    class="w-60px h-60px md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
                     @error="replaceEmptyImg"
                     :src="profileImg"
                     alt=""/>
-                <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
-                  <div class="text-left">
-                    <div class="flex flex-wrap gap-y-4px items-center">
-                      <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
-                        {{ accountInfo ? accountInfo.twitterName : "" }}
-                      </div>
-                      <div @click="gotoTwitter"
-                           class="cursor-pointer mr-0.5rem w-max flex items-center
-                                  text-color8B light:text-color7D
-                                  bg-white/10 light:bg-colorF2
-                                  light:border-1 light:border-colorE3
-                                  rounded-full h-1.8rem md:1rem px-0.5rem">
-                        <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                        <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
-                      </div>
-                      <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
-                                  text-color8B light:text-color7D
-                                  bg-white/10 light:bg-colorF2
-                                  light:border-1 light:border-colorE3
-                                  rounded-full h-1.8rem md:1rem px-0.5rem">Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}</div>
+                <div class="flex-1 flex justify-between sm:items-center flex-col items-start overflow-hidden">
+                  <div class="flex flex-wrap items-center gap-y-4px overflow-hidden w-full">
+                    <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px">
+                      {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
-                    <div class="flex flex-wrap sm:mt-0 mt-0.5rem">
-                      <div class="flex items-center justify-start text-color7D/60 mr-5px"
-                           v-if="accountInfo && accountInfo.steemId">
-                        <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
-                      </div>
-                      <button class="h-20px flex items-center p-2px rounded-full
-                                     border-1 border-color91/20 bg-colorED"
-                              @click="tip">
-                        <img class="w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
-                        <span class="whitespace-nowrap text-color7D">Address:{{accountInfo ? accountInfo.ethAddress : ''}}</span>
-                      </button>
+                    <div @click="gotoTwitter"
+                         class="cursor-pointer mr-0.5rem w-max flex items-center
+                                  text-color8B light:text-color7D
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                      <img class="w-16px xl:w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                      <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
+                    </div>
+                    <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                                  text-color8B light:text-color7D flex items-center
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                      Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
                     </div>
                   </div>
-<!--                  <div class="flex flex-col sm:items-center">-->
-<!--                    <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
-<!--                      {{ totalValue }}-->
-<!--                    </div>-->
-<!--                  </div>-->
+                  <div class="flex flex-wrap mt-5px overflow-hidden w-full">
+                    <div class="flex items-center justify-start text-color7D/60 mr-5px"
+                         v-if="accountInfo && accountInfo.steemId">
+                      <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
+                    </div>
+                    <button class="h-20px flex items-center p-2px rounded-full mt-5px sm:mt-0
+                                     border-1 border-color91/20 bg-colorED truncate"
+                            @click="tip">
+                      <img class="w-14px min-w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
+                      <span class="whitespace-nowrap text-color7D truncate">
+                          Address:{{accountInfo ? accountInfo.ethAddress : ''}}
+                        </span>
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
@@ -93,7 +90,7 @@
         </div>
       </transition>
     </van-popup>
-    
+
   </div>
 </template>
 
