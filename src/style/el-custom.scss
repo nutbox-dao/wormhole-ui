@@ -263,3 +263,13 @@ html.light {
 .c-select-popper {
   //transform: translateX(0) !important;
 }
+.c-small-select.el-select .el-icon {
+  color: #8B949E;
+}
+.light .c-small-select.el-select .el-icon {
+  color: #1A1E25;
+}
+.c-small-select.el-select .el-input__inner {
+  font-size: 14px;
+  font-size: 500;
+}

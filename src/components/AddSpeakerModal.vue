@@ -1,36 +1,40 @@
 <template>
-  <div class="text-left min-h-25rem">
-    <div class="c-text-black mb-2rem">{{$t('curation.'+speakerType)}}</div>
-    <div class="flex items-start">
-      <img v-if="formData.avatar" class="w-5rem h-5rem rounded-2.5rem" :src="formData.avatar" alt="">
-      <img v-else class="w-5rem h-5rem" src="~@/assets/icon-default-avatar.svg" alt="">
-      <div class="flex-1 ml-1rem">
-        <div class="bg-black border-1 border-color8B/30
+  <div class="text-left min-h-330px relative flex flex-col">
+    <button class="absolute right-20px top-20px"
+            @click="$emit('close')">
+      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+    </button>
+    <div class="flex-1">
+      <div class="c-text-black mt-50px xl:mt-2rem mb-2rem text-20px 2xl:text-1rem">{{$t('curation.'+speakerType)}}</div>
+      <div class="flex items-start">
+        <img v-if="formData.avatar"
+             class="w-54px h-54px"
+             :src="formData.avatar" alt="">
+        <div v-else class="w-54px h-54px xl:w-2.8rem xl:h-2.8rem bg-colorE3 rounded-full"></div>
+        <div class="flex-1 ml-10px h-54px xl:h-2.8rem flex flex-col justify-between">
+          <div v-if="formData.name">{{formData.name}}</div>
+          <div v-else>JasonMraz.eth</div>
+          <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative"
-             :class="isChecking?'hover:border-color8B/30':''">
-          <input class="bg-transparent h-full w-full px-0.5rem"
-                 v-model="formData.username"
-                 :disabled="isChecking"
-                 @input="checkedUser = false;formData.avatar = null;formData.name = ''"
-                 placeholder="@username">
-          <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-                  :disabled="isChecking"
-                  @click="checkUser">
-            <span v-if="!isChecking">{{$t('curation.verify')}}</span>
-            <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
-          </button>
-        </div>
-        <div class="bg-black border-1 border-color8B/30 mt-8px
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-          <input class="bg-transparent h-full w-full px-0.5rem"
-                 v-model="formData.name"
-                 placeholder="Title">
+                      rounded-full h-34px 2xl:h-2rem flex items-center relative"
+               :class="isChecking?'hover:border-color8B/30':''">
+            <input class="bg-transparent h-full w-full px-0.5rem"
+                   v-model="formData.username"
+                   :disabled="isChecking"
+                   @input="checkedUser = false;formData.avatar = null;formData.name = ''"
+                   placeholder="@username">
+            <button class="font-bold mx-10px whitespace-nowrap"
+                    :disabled="isChecking"
+                    @click="checkUser">
+              <span class="gradient-text gradient-text-right" v-if="!isChecking">{{$t('curation.verify')}}</span>
+              <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <button class="gradient-btn w-full h-3.6rem rounded-full mt-3rem flex items-center justify-center"
+    <button class="gradient-btn gradient-btn-disabled-grey
+                       h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
             :disabled="loading"
             @click="confirm">
       <span>{{$t('common.confirm')}}</span>

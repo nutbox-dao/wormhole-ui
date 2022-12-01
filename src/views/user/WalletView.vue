@@ -4,10 +4,9 @@
       <div class="md:pb-4rem md:max-w-600px lg:max-w-35rem mx-auto h-full flex flex-col">
         <div class="px-1.5rem pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem">
           <div class="w-min relative ">
-            <!--        <div class="w-full h-7px gradient-line absolute bottom-3px rounded-full"></div>-->
             <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">
-          {{$t('myWallet')}}
-        </span>
+              {{$t('myWallet')}}
+            </span>
           </div>
         </div>
         <div class="bg-blockBg light:bg-white mt-5rem pt-5rem md:mt-9rem md:pt-1rem rounded-12px basis-full md:basis-auto relative">

@@ -8,12 +8,12 @@
                class="h-min text-left">
             <!-- curation info -->
             <div v-if="detailCuration">
-              <div class="flex items-center mb-1rem">
+              <div class="flex items-start mb-1rem">
                 <img class="w-2.6rem md:h-2.6rem md:w-50px md:h-50px md:min-h-50px md:mr-30px mr-0.8rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)"
                      :src="detailCuration.profileImg && detailCuration.profileImg.replace('normal', '200x200')" alt="">
-                <div class="flex md:flex-col md:justify-center md:items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
+                <div class="flex flex-col justify-center items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.twitterUsername)">
                   <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
                   <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
                 </div>
