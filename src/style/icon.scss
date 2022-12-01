@@ -152,3 +152,13 @@
   @extend .icon;
   background-image: url("~@/assets/icon-back-light.svg");
 }
+
+.icon-selected {
+  @extend .icon;
+  background-image: url("~@/assets/icon-selected-primary.svg");
+}
+
+.icon-unselected {
+  @extend .icon;
+  background-image: url("~@/assets/icon-unselected.svg");
+}

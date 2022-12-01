@@ -1,13 +1,23 @@
 <template>
-  <div>
-    <div class="md:border-b-1 border-dividerColor mb-1rem">
-      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px flex items-center md:justify-start justify-center h-2.8rem">
-        <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem">{{$t('curationsView.createCuration')}}</div>
+  <div class="text-14px xl:text-0.8rem px-15px">
+    <div class="md:border-b-1 border-dividerColor my-30px md:mt-0">
+      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
+                  flex items-center justify-start h-20px md:h-2.8rem">
+        <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">
+          {{$t('curationsView.createCuration')}}
+        </span>
+      </div>
+    </div>
+    <div class="container mx-auto max-w-600px xl:max-w-30rem">
+      <Steps class="mx-15px" :total-step="2" :current-step="currentStep"/>
+      <div class="text-left text-12px leading-18px xl:text-14px xl:leading-1rem
+                  text-color62 px-16px py-10px bg-colorF1 rounded-8px my-11px xl:my-0.8rem">
+        {{$t('curation.createStepTip')}}
       </div>
     </div>
     <div v-if="currentStep<=2" v-loading="loading"
-         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
-      <Steps :total-step="2" :current-step="currentStep"/>
+         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px
+                px-20px sm:px-4.5rem py-24px mb-2rem">
       <!-- set up -->
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <!-- title -->
@@ -61,43 +71,24 @@
         </div>
         <!-- create new content -->
         <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
-          <div class="mb-6px flex items-center">
-            <div class="mr-7px">{{$t('curation.descriptionTitle')}}</div>
-            <el-popover placement="bottom"
-                        popper-class="c-popper"
-                        width="100%"
-                        trigger="click">
-              <template #reference>
-                <img class="w-14px h-14px 2xl:w-0.8rem 2xl:h-0.8rem" src="~@/assets/icon-warning-grey.svg" alt="">
-              </template>
-              <div class="max-w-500px 2xl:max-w-540px mx-auto rounded-12px overflow-hidden"
-                   style="box-shadow: 0px 3px 23px rgba(65, 0, 203, 0.4);">
-                <div class="border-2 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-                  <div class="bg-black light:bg-white p-14px">
-                    <div class="italic text-12px leading-24px 2xl:text-0.6rem 2xl:leading-1.2rem
-                            text-color7D light:text-blueDark">
-                      {{$t('curation.description')}}
-                    </div>
-                  </div>
-                </div>
+          <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
+          <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px
+                      flex flex-col light:bg-white light:border-colorE3 hover:border-primaryColor rounded-8px">
+            <div class="flex-1 flex flex-col relative">
+              <div contenteditable
+                   class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
+                   ref="descContentRef"
+                   @blur="getBlur('desc')"
+                   @paste="onPaste"
+                   v-html="formatEmojiText(form.description)">
               </div>
-            </el-popover>
-          </div>
-          <div class="border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px">
-            <div contenteditable
-                 class="desc-input p-1rem min-h-6rem whitespace-pre-line text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
-                 ref="descContentRef"
-                 @blur="getBlur('desc')"
-                 @paste="onPaste"
-                 v-html="formatEmojiText(form.description)"></div>
-            <div class="py-2 border-t-1 border-color8B/30">
+            </div>
+            <div class="py-2 flex justify-between items-center px-1rem">
               <el-popover ref="descEmojiPopover"
                           trigger="click" width="300"
                           :teleported="false" :persistent="false">
                 <template #reference>
-                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+                  <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
                 </template>
                 <div class="h-310px lg:h-400px">
                   <EmojiPicker :options="{
@@ -108,15 +99,47 @@
                                @select="(e) =>selectEmoji(e,'desc')" />
                 </div>
               </el-popover>
+              <span class="font-600 text-color62">#iweb3</span>
             </div>
           </div>
         </div>
+        <!-- preview tweet -->
+        <template v-if="form.category==='tweet' && form.createType==='related'">
+          <div class="mt-1.8rem">
+            <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
+            <div v-if="linkIsVerified" class="overflow-hidden relative rounded-12px"
+                 :class="expandPreview?'':'max-h-134px'">
+              <Blog :post="testData[0]"
+                    class="bg-blockBg light:bg-white rounded-8px border-1 border-listBgBorder light:border-colorE3">
+                <template #bottom-btn-bar><div></div></template>
+              </Blog>
+              <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
+                      class="absolute bg-view-more text-white bottom-0 left-0 w-full top-0
+                           flex items-center justify-center text-center">
+              </button>
+            </div>
+            <div class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
+                      border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
+              {{$t('curation.pastLinkTip')}}
+            </div>
+          </div>
+        </template>
+        <!-- preview space -->
+        <div class="mt-1.8rem" v-if="form.category==='space'">
+          <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
+          <div v-if="linkIsVerified" class="h-134px overflow-hidden relative">
+            <Space class="rounded-12px h-full mb-1rem md:mb-0"
+                   :space="form.space"/>
+          </div>
+          <div v-else class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
+                      border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
+            {{$t('curation.pastLinkTip')}}
+          </div>
+        </div>
         <!-- related link -->
-        <div class="mt-1.8rem relative" v-if="form.category==='space'|| form.createType === 'related'">
-          <div class="mb-6px c-text-black">{{$t('curation.relatedContent')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative"
+        <div class="mt-5px relative" v-if="form.category==='space'|| form.createType === 'related'">
+          <div class="bg-colorF1 border-1 border-color62 pl-15px
+                      rounded-8px h-44px 2xl:h-2rem flex items-center relative"
                :class="checkingTweetLink?'hover:border-color8B/30':''">
             <input class="bg-transparent h-full w-full px-0.5rem"
                    v-model="form.link"
@@ -144,124 +167,118 @@
             </button>
           </div>
         </div>
-        <!-- preview space -->
-        <div class="mt-1.8rem" v-if="form.category==='space' && linkIsVerified">
-          <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
-          <div class="h-15rem overflow-hidden relative">
-            <Space class="bg-blockBg light:bg-white rounded-15px h-full
-                        border-1 border-listBgBorder mb-1rem md:mb-0"
-                    :space="form.space"/>
+        <!-- description -->
+        <div class="mt-1.8rem">
+          <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
+          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+                      light:bg-white light:border-colorE3 hover:border-primaryColor
+                      rounded-8px h-44px 2xl:h-2rem flex items-center">
+            <input class="bg-transparent h-full w-full px-15px"
+                   v-model="form.description"
+                   :placeholder="$t('curation.createDescTip')">
           </div>
         </div>
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
-          <div class="mb-6px c-text-black">{{$t('curation.details')}}</div>
-          <!-- Host-->
-          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.host')}}</div>
-          <div v-if="form.host.name" class="flex items-center"
-               @click="showAddSpeakerModal('host','edit')">
-            <img v-if="form.host.avatar" class="w-4rem h-4rem rounded-2rem" :src="form.host.avatar" alt="">
-            <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
-            <div class="ml-10px">
-              <div class="mb-6px">{{form.host.name}}</div>
-              <div>@{{form.host.username}}</div>
-            </div>
-          </div>
-          <div v-else @click="showAddSpeakerModal('host','add')"
-               class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
-                      bg-color7D rounded-15px flex justify-center items-center">
-            +
-          </div>
-          <!-- Co-Host-->
-          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.coHosts')}}({{$t('curation.optional')}})</div>
-          <div class="flex flex-wrap">
-            <div class="flex items-center mr-10px relative"
-                 v-for="(coHost, index) of form.coHost" :key="index"
-                 @click="showAddSpeakerModal('coHost','edit', index)">
-              <div class="absolute -top-5px -left-5px bg-white/20 rounded-full p-3px"
-                   @click.stop="deleteSpeaker('speaker', index)">
-                <i class="icon-close w-1.2rem h-1.2rem"></i>
+          <div class="mb-6px font-bold">{{$t('curation.speakers')}}</div>
+          <div class="p-20px bg-colorF7 border-1 border-colorE3 rounded-12px">
+            <!-- Host-->
+            <div class="mb-6px font-500">{{$t('curation.host')}}</div>
+            <div v-if="form.host.name"
+                 class="flex items-center cursor-pointer">
+              <div class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem
+                          border-2 gradient-border gradient-border-color3 rounded-full relative">
+                <img v-if="form.host.avatar"
+                     class="w-full h-full border-2px border-blockBg light:border-white rounded-full"
+                     :src="form.host.avatar" alt="">
+                <img v-else
+                     class="w-full h-full border-2px border-blockBg light:border-white rounded-full "
+                     src="~@/assets/icon-default-avatar.svg" alt="">
+                <img class="absolute -top-4px -left-4px bg-block light:bg-white w-16px h-16px
+                            border-2 border-white rounded-full cursor-pointer"
+                     @click="form.host={}"
+                     src="~@/assets/icon-close-primary.svg" alt="">
               </div>
-              <img v-if="coHost.avatar" class="w-4rem h-4rem rounded-2rem" :src="coHost.avatar" alt="">
-              <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
-              <div class="ml-10px">
-                <div class="mb-6px">{{coHost.name}}</div>
-                <div>@{{coHost.username}}</div>
+              <div class="ml-5px text-12px xl:text-0.7rem">
+                <div class="mb-2px">{{form.host.name}}</div>
+                <div>@{{form.host.username}}</div>
               </div>
             </div>
-            <div @click="showAddSpeakerModal('coHost','add')"
-                v-show="form.coHost.length < 3"
-                 class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
-                      bg-color7D rounded-15px flex justify-center items-center">
-              +
+            <img v-else @click="showAddSpeakerModal('host','add')"
+                 class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
+                 src="~@/assets/icon-add-circle.svg" alt="">
+            <!-- Co-Host-->
+            <div class="mb-6px font-500 mt-20px 2xl:mt-1rem">
+              {{$t('curation.coHosts')}}
+              <span class="text-color8B/70">{{$t('curation.optional')}}</span>
             </div>
-          </div>
-          <!-- Speakers-->
-          <div class="mb-6px c-text-black mt-1rem">{{$t('curation.speakers')}}({{$t('curation.optional')}})</div>
-          <div class="flex flex-wrap">
-            <div class="flex items-center mr-10px relative"
-                 v-for="(speaker, index) of form.speakers" :key="index"
-                 @click="showAddSpeakerModal('speaker','edit', index)">
-              <div class="absolute -top-5px -left-5px bg-white/20 rounded-full p-3px"
-                   @click.stop="deleteSpeaker('speaker', index)">
-                <i class="icon-close w-1.2rem h-1.2rem"></i>
+            <div class="flex flex-wrap">
+              <div class="flex items-center mr-10px relative cursor-pointer"
+                   v-for="(coHost, index) of form.coHost" :key="index">
+                <div class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem
+                          border-2 gradient-border gradient-border-color3 rounded-full relative">
+                  <img v-if="coHost.avatar"
+                       class="w-full h-full border-2px border-blockBg light:border-white rounded-full"
+                       :src="coHost.avatar" alt="">
+                  <img v-else
+                       class="w-full h-full border-2px border-blockBg light:border-white rounded-full "
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+                  <img class="absolute -top-4px -left-4px bg-block light:bg-white w-16px h-16px
+                            border-2 border-white rounded-full cursor-pointer"
+                       @click="deleteSpeaker('coHost', index)"
+                       src="~@/assets/icon-close-primary.svg" alt="">
+                </div>
+                <div class="ml-5px text-12px xl:text-0.7rem">
+                  <div class="mb-2px">{{coHost.name}}</div>
+                  <div>@{{coHost.username}}</div>
+                </div>
               </div>
-              <img v-if="speaker.avatar" class="w-4rem h-4rem rounded-2rem" :src="speaker.avatar" alt="">
-              <img v-else class="w-4rem h-4rem" src="~@/assets/icon-default-avatar.svg" alt="">
-              <div class="ml-10px">
-                <div class="mb-6px">{{speaker.name}}</div>
-                <div>@{{speaker.username}}</div>
+              <img @click="showAddSpeakerModal('coHost','add')"
+                   v-show="form.coHost.length < 3"
+                   class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
+                   src="~@/assets/icon-add-circle.svg" alt="">
+            </div>
+            <!-- Speakers-->
+            <div class="mb-6px font-500 mt-20px 2xl:mt-1rem">
+              {{$t('curation.speakers')}}
+              <span class="text-color8B/70">{{$t('curation.optional')}}</span>
+            </div>
+            <div class="flex flex-wrap">
+              <div class="flex items-center mr-10px relative cursor-pointer"
+                   v-for="(speaker, index) of form.speakers" :key="index"
+                   @click="showAddSpeakerModal('speaker','edit', index)">
+                <div class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem
+                          border-2 gradient-border gradient-border-color3 rounded-full relative">
+                  <img v-if="speaker.avatar"
+                       class="w-full h-full border-2px border-blockBg light:border-white rounded-full"
+                       :src="speaker.avatar" alt="">
+                  <img v-else
+                       class="w-full h-full border-2px border-blockBg light:border-white rounded-full "
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+                  <img class="absolute -top-4px -left-4px bg-block light:bg-white w-16px h-16px
+                            border-2 border-white rounded-full cursor-pointer"
+                       @click="deleteSpeaker('speaker', index)"
+                       src="~@/assets/icon-close-primary.svg" alt="">
+                </div>
+                <div class="ml-5px text-12px xl:text-0.7rem">
+                  <div class="mb-2px">{{speaker.name}}</div>
+                  <div>@{{speaker.username}}</div>
+                </div>
               </div>
-            </div>
-            <div @click="showAddSpeakerModal('speaker','add')"
-                v-show="form.speakers.length < 10"
-                 class="w-4rem h-4rem c-text-black text-2rem cursor-pointer
-                      bg-color7D rounded-15px flex justify-center items-center">
-              +
-            </div>
-          </div>
-        </div>
-        <!-- requirements -->
-        <div class="mt-1.8rem relative">
-          <div class="mb-6px c-text-black">{{$t('curation.requirements')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px overflow-hidden">
-            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px">
-              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5 border-color62 bg-white"></span>
-              <div class="flex-1 flex justify-between items-center pl-8px">
-                <el-select v-model="form.mandatoryTask"
-                           class="w-1/3 text-white rounded-8px bg-blockBg" size="small">
-                  <el-option label="Quote" value="quote"></el-option>
-                  <el-option label="Reply" value="reply"></el-option>
-                </el-select>
-                <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
-              </div>
-            </div>
-            <div class="h-40px 2xl:h-2rem flex justify-between items-center relative px-15px hover:bg-blockBg cursor-pointer"
-                 @click="form.isFollow=!form.isFollow">
-              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                   :class="form.isFollow?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
-              <div class="flex-1 flex justify-between items-center pl-15px">
-                <span>{{$t('curation.follow')}}</span>
-                <span>@{{form.author.username}}</span>
-              </div>
-            </div>
-            <div class="h-40px 2xl:h-2rem flex items-center relative px-15px hover:bg-blockBg cursor-pointer"
-                 @click="form.isLike=!form.isLike">
-              <span class="w-16px h-16px min-w-16px min-h-16px rounded-full border-5"
-                    :class="form.isLike?'border-color62 bg-white':'border-color8B/40 bg-color8B/40'"></span>
-              <span class="pl-15px">{{$t('curation.like')}}</span>
+              <img @click="showAddSpeakerModal('speaker','add')"
+                   v-show="form.coHost.length < 3"
+                   class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
+                   src="~@/assets/icon-add-circle.svg" alt="">
             </div>
           </div>
         </div>
         <!-- schedule -->
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.endTime')}}</div>
-          <div class="mb-6px text-primaryColor italic">{{$t('curation.startTimeTip')}}</div>
+          <div class="mb-6px font-bold">{{$t('curation.endTime')}}</div>
+          <div class="mb-6px text-color62 italic">{{$t('curation.startTimeTip')}}</div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center">
+                      light:bg-white light:border-colorE3 hover:border-primaryColor
+                      rounded-8px h-44px 2xl:h-2rem flex items-center">
             <div class="flex-1">
               <el-date-picker
                   class="c-input-date"
@@ -278,7 +295,7 @@
           </div>
         </div>
         <div class="text-right mt-2rem">
-          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem  gradient-btn"
+          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem w-full gradient-btn"
                   @click="onNext">{{$t('common.next')}}</button>
         </div>
       </div>
@@ -309,9 +326,9 @@
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                        light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                        rounded-12px h-40px 2xl:h-2rem">
-              <input class="bg-transparent h-full w-full px-0.5rem"
+                        light:bg-white light:border-colorE3 hover:border-primaryColor
+                        rounded-8px h-44px 2xl:h-2rem">
+              <input class="bg-transparent h-full w-full px-15px"
                     v-model="form.maxCount"
                      type="number" :placeholder="$t('curation.inputMaxCount')">
             </div>
@@ -442,21 +459,30 @@
         </div>
         <!-- posw des -->
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.rewardsMethod')}}</div>
-          <div class="border-1 border-color8B/30 rounded-12px 2xl:2.5rem p-10px">
-            <div class="text-primaryColor light:text-color62 font-600 text-15px 2xl:text-0.75rem">
-              {{$t('curation.autoMethod')}}
+          <div class="mb-6px font-bold">{{$t('curation.rewardsMethod')}}</div>
+          <div class="border-1 border-color8B/30 light:border-colorE3 rounded-8px 2xl:2.5rem"
+               :class="rewardsTipCollapse?'bg-colorF7':''">
+            <div class="flex items-center h-44px 2xl:h-2.2rem px-15px">
+              <span class="text-15px 2xl:text-0.75rem">
+                {{$t('curation.autoMethod')}}
+              </span>
+              <img class="w-16px h-16px min-w-16px min-h-16px 2xl:w-1rem 2xl:h-1rem ml-5px cursor-pointer"
+                   @click="rewardsTipCollapse=!rewardsTipCollapse"
+                   src="~@/assets/icon-question-grey.svg" alt="">
             </div>
-            <div class="mt-1rem text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.6rem 2xl:leading-1rem">
-              {{$t('curation.autoMethodTip')}}
-            </div>
+            <el-collapse-transition>
+              <div v-show="rewardsTipCollapse"
+                   class="px-15px mb-10px text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.7rem 2xl:leading-1rem">
+                {{$t('curation.autoMethodTip')}}
+              </div>
+            </el-collapse-transition>
           </div>
         </div>
         <!-- submit -->
-        <div class="mt-1.8rem flex justify-between text-15px">
-          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white light:border-color7D light:text-color7D"
+        <div class="mt-1.8rem flex flex-col sm:flex-row justify-between text-15px gap-20px">
+          <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white light:border-color7D light:text-color7D"
                   @click="currentStep=1">{{$t('common.preview')}}</button>
-          <button class="h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
+          <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
                   @click="onSubmit">
                   <span>{{$t('common.submit')}}</span>
                 </button>
@@ -487,18 +513,16 @@
       <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
       rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
           <component :is="modalComponent"
                      :token="selectedToken"
                      :amount="form.amount"
                      :chainName="form.chain"
                      :address="form.address"
-                     :approveContract="EVM_CHAINS[form.chain].curation"
+                     :approveContract="EVM_CHAINS[form.chain]?EVM_CHAINS[form.chain].curation:''"
                      @create="createCuration"
                      @confirmComplete="onComplete"
+                     @confirmChangeCategory="changeCategory"
                      @close="modalVisible=false;loading=false"></component>
         </div>
       </div>
@@ -507,7 +531,7 @@
                destroy-on-close
                :show-close="false"
                :close-on-click-modal="true"
-               class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
       <AddSpeakerModal class="p-2rem"
                        :speaker-type="addSpeakerType"
                        :speaker-data="addSpeakerData"
@@ -546,7 +570,7 @@ import { dataToEsm } from "@rollup/pluginutils";
 export default {
   name: "CreateCuration",
   components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
-    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions},
+    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -585,6 +609,7 @@ export default {
       editSpeakerIndex: 0,
       followName: '',
       linkIsVerified: false,
+      linkIsError: false,
       checkingTweetLink: false,
       selectedToken: {},
       tokenList: ERC20List,
@@ -641,6 +666,7 @@ export default {
       const match = link.match(this.TweetLinRex);
       if (!match) {
         notify({message: this.$t('err.wrongTweetLink'), type: 'error', duration: 3000});
+        this.linkIsError = true
         return;
       }
       try{
