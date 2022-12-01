@@ -76,7 +76,7 @@
                  @input="amountInputChange"
                  :placeholder="$t('curation.inputRewardsAmount')">
           <el-popover popper-class="c-popper c-select-popper min-w-400px"
-                      :width="popperWidth" :teleported="false"
+                      :width="popperWidth || 300" :teleported="false"
                       trigger="click" ref="giftPopover">
             <template #reference>
               <div v-show="selectedChainName === 'steem'" class="px-10px">
@@ -117,7 +117,7 @@
                   :disabled="!walletAddress">
             <el-popover popper-class="c-popper"
                         placement="top-end"
-                        :width="popperWidth"
+                        :width="popperWidth || 300"
                         :disabled="!walletAddress"
                         trigger="click" ref="tokenPopover">
               <template #reference>

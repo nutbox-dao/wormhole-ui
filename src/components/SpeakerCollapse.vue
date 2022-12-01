@@ -92,13 +92,13 @@ export default {
       this.speakers = newValue.speakers ?? [];
       this.allUsers = [this.host].concat(this.coHosts).concat(this.speakers)
     };
-      if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 80) {
+      if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 90) {
         this.enableCollapse = true
       }
     }
   },
   mounted () {
-    if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 80) {
+    if(this.$refs.speakerListRef && this.$refs.speakerListRef.clientHeight > 90) {
       this.enableCollapse = true
     }
   },

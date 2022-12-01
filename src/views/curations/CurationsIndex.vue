@@ -60,7 +60,7 @@
                             :pulling-text="$t('common.pullRefresh')"
                             :loosing-text="$t('common.loosingRefresh')">
             <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
-                          class="cursor-pointer"
+                          class="cursor-pointer border-b-1 border-listBgBorder py-1rem px-1.5rem"
                           :curation="curation"
                           :content-type="curation.curationType === 1?'tweet':'space'"
                           @click="gotoDetail(curation)"/>

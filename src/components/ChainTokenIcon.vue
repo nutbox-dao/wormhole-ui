@@ -1,11 +1,12 @@
 <template>
   <div class="w-min rounded-full cursor-pointer">
-    <el-tooltip class="shadow-md">
+    <el-tooltip class="shadow-md" effect="light">
       <div class="flex items-center" @click.stop>
         <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
           <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
           <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
-          <img v-if="chainIcon" class="absolute -bottom-3px right-0 w-3/5 h-3/5 border-1 border-primaryColor/20 rounded-full"
+          <img v-if="chainIcon"
+               class="absolute -bottom-3px right-0 w-3/5 min-w-3/5 h-3/5 min-h-3/5 border-1 border-primaryColor/20 rounded-full"
                :src="chainIcon" alt="">
         </div>
         <slot name="amount"></slot>
@@ -13,7 +14,7 @@
       <template #content>
         <div class="flex items-center cursor-pointer" @click="copyAddress(token.address)">
           <span class="text-white light:text-blueDark">{{formatAddress(token.address)}}</span>
-          <i class="w-1.2rem h-1.2rem icon-copy ml-4px"></i>
+          <i class="w-14px h-14px 2xl:w-1.2rem 2xl:h-1.2rem icon-copy ml-4px"></i>
         </div>
       </template>
     </el-tooltip>
