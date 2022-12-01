@@ -582,9 +582,11 @@ export default {
       if (!this.checkLogin()) return
       let url;
       if (this.isQuote) {
+        if (this.quoted) return;
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 1
       }else {
+        if (this.replyed) return;
         url = `https://twitter.com/intent/tweet?in_reply_to=${this.detailCuration.tweetId}&text=%0a%23iweb3`
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 2
       }
