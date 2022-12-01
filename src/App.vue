@@ -286,7 +286,6 @@ export default {
       }
 
       getProfile(twitterId).then(res => {
-        console.log(64, res);
         if (res && res.code === 3) {
           let account = res.account;
           this.$store.commit('saveAccountInfo', account)

@@ -31,17 +31,17 @@
     </div> -->
 
     <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
-         v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
+         v-if="(erc20Balances && erc20Balances.Polygon)" v-for="erc20 of Object.keys(erc20Balances.Polygon)" :key="erc20 + 'matic'">
       <div class="flex items-center">
         <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
              :src="icons[erc20]" alt="">
         <div class="text-left ml-1rem">
           <div class="font-600 text-1.3rem md:text-1rem light:text-blueDark">{{names[erc20]}}</div>
-          <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
+          <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.Polygon[erc20]) }} {{erc20}}</div>
         </div>
       </div>
       <div class="flex flex-col items-end justify-end">
-        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
+        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.Polygon[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
     </div>
 
@@ -97,7 +97,6 @@ export default {
     ...mapState(['steemBalance', 'prices', 'ethBalance', 'erc20Balances', 'accountInfo']),
     ...mapGetters(['getAccountInfo']),
     steemValue() {
-      console.log(64, this.prices, this.steemBalance);
       if (this.prices['steem'] && this.steemBalance){
         return formatPrice(this.prices['steem'] * this.steemBalance)
       }
@@ -115,10 +114,10 @@ export default {
       return formatAmount(a)
     },
     sendSteem() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send  STEEM to', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send 1 STEEM to @', '__blank')
     },
     sendToken(token, chain) {
-      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token}${token === chain ? '' : ('('+chain +')')} to`, '__blank')
+      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send ${token}${token === chain ? '' : ('('+chain +')')} to `, '__blank')
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {
@@ -136,7 +135,7 @@ export default {
   },
   async mounted () {
       if (this.getAccountInfo) {
-        const { steemId, ethAddress, web25ETH, steemAmount, isRegistry, twitterId } = this.getAccountInfo
+        const { steemId, ethAddress, steemAmount, isRegistry, twitterId } = this.getAccountInfo
 
         if (!isRegistry) {
           getUserTokensFromCuration(twitterId).then(res => {

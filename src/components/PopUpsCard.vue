@@ -38,7 +38,7 @@
         </div>
         <div class="flex items-center justify-end min-w-1/3">
           <ChainTokenIcon :class="[!isEnded(popup)?'bg-colorEE/25':'', isEnded(popup)?'bg-colorD8':'']"
-                          height="20px" width="20px" :chain-name="popup.chainId" 
+                          height="20px" width="20px" :chain-name="popup.chainId.toString()" 
                           :token="{address: popup.token, symbol: popup.symbol}">
             <template #amount>
             <span class="px-8px h-17px whitespace-nowrap
