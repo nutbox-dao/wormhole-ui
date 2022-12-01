@@ -411,11 +411,14 @@ export default {
       showTip: false,
       testData,
       updateInterval: null,
+      timeIntrerval: null,
       tipCollapse: false,
       quotesCollapse: true,
       isLiking: false,
       isFollowing:false,
-      top3Icons: [iconTop1, iconTop2, iconTop3]
+      top3Icons: [iconTop1, iconTop2, iconTop3],
+      endtime: '',
+      timeIntrerval: null
     }
   },
   computed: {
@@ -519,9 +522,6 @@ export default {
       let start = new Date(this.detailCuration.createdTime);
       let end = new Date(this.detailCuration.endtime * 1000)
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
-    },
-    endtime() {
-      return parseTimestampToUppercase(this.detailCuration?.endtime)
     }
   },
   watch: {
@@ -548,7 +548,7 @@ export default {
     },
     tipStr(tip) {
       if (tip.chainName === 'STEEM') {
-        return `@${tip.fromUsername} tips ${tip.amount} STEEM to @${tip.toUsername}`
+        return `@${tip.fromUsername} tips ${tip.emoji ? (tip.emoji + '(' + this.amount + ' STEEM)') : (tip.amount + ' STEEM')} to @${tip.toUsername}`
       }else {
         let chainName;
         for (let chain in EVM_CHAINS) {
@@ -711,12 +711,17 @@ export default {
   mounted () {
     this.loadCuration()
     this.updateInterval = setInterval(this.updateCurationInfos, 15000);
+    this.timeIntrerval = setInterval(() => {
+      this.endtime = parseTimestampToUppercase(this.detailCuration?.endtime)
+    }, 1000)
   },
   beforeUnmount () {
     clearInterval(this.updateInterval)
+    clearInterval(this.timeIntrerval)
   },
   unmounted() {
     clearInterval(this.updateInterval)
+    clearInterval(this.timeIntrerval)
   }
 }
 </script>

@@ -87,6 +87,7 @@
       },
       selectAmount(amount) {
         this.form.amount = amount
+        this.form.emoji = null;
       },
       selectBalance(balance) {
         this.selectedBalance = balance
