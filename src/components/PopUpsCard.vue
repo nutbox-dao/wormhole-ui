@@ -45,7 +45,8 @@
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
                   :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-              {{formatAmount(popup.amount / (10 ** popup.decimals))}} {{popup.symbol}}
+                  88.888/88.888 WMATIC
+              <!-- {{formatAmount(popup.amount / (10 ** popup.decimals))}} {{popup.symbol}} -->
             </span>
             </template>
           </ChainTokenIcon>
