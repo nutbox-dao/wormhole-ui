@@ -20,7 +20,7 @@
           <div v-if="!isEnded(popup)"
                class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
                       font-bold min-w-4rem flex justify-center items-center relative">
-            {{popTime(popup)}}
+            {{popup.showingState}}
             <img v-if="isJoin(popup)"
                  class="w-14px h-14px absolute bottom-0 -right-5px"
                  src="~@/assets/icon-checked-green.svg" alt="">
@@ -45,8 +45,7 @@
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
                   :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-                  88.888/88.888 WMATIC
-              <!-- {{formatAmount(popup.amount / (10 ** popup.decimals))}} {{popup.symbol}} -->
+              {{formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
             </template>
           </ChainTokenIcon>
@@ -87,11 +86,14 @@ export default {
     ...mapGetters('curation', ['detailCuration']),
     showingPopup() {
       if (!this.popups || this.popups.length === 0) return [];
+      this.popups.forEach(p => ({
+        ...p,
+        showingState: this.popTime(p)
+      }))
       let ongoing = this.popups.filter(p => p.status === 0);
       let over = this.popups.filter(p => p.status > 0);
       const hostIds = this.space.host_ids ? JSON.parse(this.space.host_ids) : []
       const speakers = this.space.speakder_ids ? JSON.parse(this.space.speakder_ids) : []
-      console.log(34, ongoing, over, hostIds, speakers);
       const h = ongoing.filter(o => hostIds.find(h => h === o.twitterId))
       const s = ongoing.filter(o => speakers.find(s => s === o.twitterId))
       const o = ongoing.filter(o => !hostIds.find(h => h === o.twitterId) && !speakers.find(s => s === o.twitterId))
@@ -124,7 +126,7 @@ export default {
       }else {
         const now = new Date().getTime()
         const endTime = new Date(popup.endTime).getTime()
-        if (now > endTime) {
+        if (now < endTime) {
           return this.$t('popup.ended')
         }else {
           const diff = endTime - now;
@@ -134,12 +136,35 @@ export default {
           return `${this.prefixInteger(min, 2)}:${this.prefixInteger(sec, 2)}`
         }
       }
+    },
+    join(popup) {
+      if (this.isEnded(popup) || this.isJoin(popup) || !popup.tweetId) {
+
+      }else {
+        window.open(`https://twitter.com/intent/tweet?in_reply_to=${popup.tweetId}&text=%0a%23iweb3%20%23popup`)
+      }
     }
   },
   data() {
     return {
-      popUpsCollapse: false
+      popUpsCollapse: false,
+      timeUpdateInterval: null
     }
+  },
+  mounted () {
+    this.timeUpdateInterval = setInterval(() => {
+      if (this.popups && this.popups.length > 0) {
+        this.popups.forEach(popup => {
+          popup.showingState = this.popTime(popup)
+        })
+      }
+    }, 1000);;
+  },
+  beforeUnmount() {
+    clearInterval(this.timeUpdateInterval)
+  },
+  unmounted() {
+    clearInterval(this.timeUpdateInterval)
   }
 }
 </script>

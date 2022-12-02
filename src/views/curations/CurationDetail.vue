@@ -425,7 +425,6 @@ export default {
       speakerTipVisible: false,
       createPopUpVisible: false,
       showTip: false,
-      testData,
       updateInterval: null,
       timeIntrerval: null,
       tipCollapse: false,

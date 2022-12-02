@@ -8,12 +8,12 @@
       <div class="c-text-black mt-50px xl:mt-2rem mb-2rem text-20px 2xl:text-1rem">{{$t('curation.'+speakerType)}}</div>
       <div class="flex items-start">
         <img v-if="formData.avatar"
-             class="w-54px h-54px"
+             class="w-54px h-54px rounded-27px"
              :src="formData.avatar" alt="">
         <div v-else class="w-54px h-54px xl:w-2.8rem xl:h-2.8rem bg-colorE3 rounded-full"></div>
         <div class="flex-1 ml-10px h-54px xl:h-2.8rem flex flex-col justify-between">
           <div v-if="formData.name">{{formData.name}}</div>
-          <div v-else>JasonMraz.eth</div>
+          <div v-else></div>
           <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-full h-34px 2xl:h-2rem flex items-center relative"
