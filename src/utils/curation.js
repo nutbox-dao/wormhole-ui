@@ -266,18 +266,14 @@ export const createPopup = async (chainName, popup) => {
   return new Promise(async (resolve, reject) => {
     try{
         const popupContract = EVM_CHAINS[chainName].popup
-        console.log(1);
         const metamask = await getEthWeb()
-        console.log(2);
         const provider = new ethers.providers.Web3Provider(metamask)
         let contract = new ethers.Contract(popupContract, abi, provider)
         contract = contract.connect(provider.getSigner())
-        console.log(3);
         const {curationId, popupTweetId, endTime, winnerCount, token, bonus} = popup
+        console.log(3, popupTweetId); //1596342581860130816
         const tx = await contract.createPopup(ethers.BigNumber.from('0x' + curationId), ethers.BigNumber.from(popupTweetId), endTime, winnerCount, token, bonus)
-        console.log(4);
         await waitForTx(provider, tx.hash)
-        console.log(5);
         resolve(tx.hash)
     }catch(e) {
         console.log('create new popup fail:', e);

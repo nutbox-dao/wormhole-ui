@@ -260,7 +260,7 @@ export default {
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',
     desc: 'Description',
-    switchType1: 'Are you sure to switch to Twitter Space Curation?',
+    switchType1: 'Are you sure to switch to {type} Curation?',
     switchType2: 'All the contents will be discarded',
     relatedCurations: 'Related Curations',
     allParticipants: 'All participants',
