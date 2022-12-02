@@ -276,3 +276,7 @@ html.light {
 .el-progress__text {
   min-width: 0;
 }
+.c-textarea .el-textarea__inner {
+  border: none;
+  box-shadow: none;
+}
