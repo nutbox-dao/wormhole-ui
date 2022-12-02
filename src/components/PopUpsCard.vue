@@ -16,7 +16,7 @@
       <div class="h-30px 2xl:h-1.5rem p-3px flex justify-between items-start my-8px
                   border-1 border-colorEE rounded-full"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="flex items-center h-full truncate">
+        <div class="flex flex-1 items-center h-full truncate">
           <div v-if="!isEnded(popup)"
                class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
                       font-bold min-w-4rem flex justify-center items-center relative">
@@ -26,7 +26,7 @@
                  src="~@/assets/icon-checked-green.svg" alt="">
           </div>
           <div v-else
-               class="text-white rounded-full h-full bg-colorD8 whitespace-nowrap
+               class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap
                       font-bold min-w-4rem flex justify-center items-center relative">
             {{ $t('popup.ended') }}
             <img v-if="isJoin(popup)"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="flex items-center justify-end min-w-1/3">
-          <ChainTokenIcon :class="[!isEnded(popup)?'bg-colorEE/25':'', isEnded(popup)?'bg-colorD8':'']"
+          <ChainTokenIcon :class="[!isEnded(popup)?'bg-black light:bg-colorEE/25':'', isEnded(popup)?'bg-primaryColor/20 light:bg-colorD8':'']"
                           height="20px" width="20px" :chain-name="popup.chainId.toString()"
                           :token="{address: popup.token, symbol: popup.symbol}">
             <template #amount>

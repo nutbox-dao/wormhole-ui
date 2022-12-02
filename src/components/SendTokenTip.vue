@@ -19,8 +19,8 @@
                    c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
       :disabled="creating"
       @click="creating=true;$emit('create')">
-      <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="creating"></c-spinner>
       <span>{{$t('common.confirm')}}</span>
+      <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="creating"></c-spinner>
     </button>
     <div class="w-full text-center">
       <button class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem"
@@ -83,7 +83,7 @@ export default {
       this.$emit('close')
     }
     this.tokenInfo = this.amount + ' ' + this.token.symbol;
-    
+
     getApprovement(this.chainName, this.token.address, this.address, this.approveContract).then(res => {
       this.approvement = res
     }).catch(e=>{
