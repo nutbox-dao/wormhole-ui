@@ -269,7 +269,7 @@
                 </div>
                 <div class="ml-5px text-12px xl:text-0.7rem">
                   <div class="mb-2px">{{speaker.name}}</div>
-                  <div>@{{speaker.username}}</div>
+                  <div>@{{ speaker.username }}</div>
                 </div>
               </div>
               <i @click="showAddSpeakerModal('speaker','add')"
