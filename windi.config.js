@@ -64,7 +64,8 @@ export default defineConfig({
         'gradient-input': 'linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%)',
         'tag-gradient': 'linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%)',
         'view-more': 'linear-gradient(180deg, rgba(73, 73, 73, 0) 69.57%, #494949 100%);',
-        'card-gradient': 'linear-gradient(95.37deg, #F5F1FF 10.99%, #FFFFFF 93.32%)'
+        'card-gradient': 'linear-gradient(95.37deg, #F5F1FF 10.99%, #FFFFFF 93.32%)',
+        'tip-gradient':'linear-gradient(94.28deg, rgba(129, 45, 226, 0.3) 0%, rgba(58, 73, 249, 0.3) 100%)'
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)'

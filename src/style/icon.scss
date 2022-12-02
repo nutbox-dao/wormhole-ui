@@ -153,6 +153,16 @@
   background-image: url("~@/assets/icon-back-light.svg");
 }
 
+.icon-add-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-circle.svg");
+}
+.light .icon-add-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-circle-light.svg");
+}
+
+
 .icon-selected {
   @extend .icon;
   background-image: url("~@/assets/icon-selected-primary.svg");

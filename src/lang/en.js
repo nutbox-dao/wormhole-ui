@@ -262,7 +262,9 @@ export default {
     desc: 'Description',
     switchType1: 'Are you sure to switch to {type} Curation?',
     switchType2: 'All the contents will be discarded',
-    relatedCurations: 'Related Curations'
+    relatedCurations: 'Related Curations',
+    allParticipants: 'All participants',
+    participants: 'Participants'
   },
   popup: {
     create: 'Create a Pop-up reply action',
