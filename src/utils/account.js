@@ -1,7 +1,6 @@
 import { getUserInfo as gui, getNftReceivedState, getUsersTips as gut, logout as lo, twitterRefreshAccessToken } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
-import { auth, Client } from 'twitter-api-sdk'
 
 /**
  * Fetch account info from backend

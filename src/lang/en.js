@@ -159,7 +159,8 @@ export default {
     wrongEndTime: 'The end time you fill has passed',
     dismatchAddress: 'Dismatch addres',
     userNotExist: 'User not exist.',
-    accessTokenExpire: 'Log in token expired'
+    accessTokenExpire: 'Log in token expired',
+    notRegisterUser: ' Not registered',
   },
   ref: {
     referre: 'Referrer',
@@ -255,7 +256,7 @@ export default {
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
     createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space.',
-    selectCategoryTip:  'Are you going to curarte a tweet or Twitter Space?',
+    selectCategoryTip:  'Are you going to curarte a tweet or twitter space?',
     selectExistTweet: 'Or curate an existing tweet',
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',

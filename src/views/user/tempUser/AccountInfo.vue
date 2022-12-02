@@ -26,7 +26,7 @@
                       <img class="w-16px xl:w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                       <span>@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                     </div>
-                    <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                    <div v-if="accountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
                                   text-color8B light:text-color7D flex items-center
                                   bg-white/10 light:bg-colorF2
                                   light:border-1 light:border-colorE3
@@ -43,9 +43,10 @@
                                      border-1 border-color91/20 bg-colorED truncate"
                             @click="tip">
                       <img class="w-14px min-w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
-                      <span class="whitespace-nowrap text-color7D truncate">
+                      <span v-if="accountInfo?.ethAddress" class="whitespace-nowrap text-color7D truncate">
                           Address:{{accountInfo ? accountInfo.ethAddress : ''}}
                         </span>
+                      <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
                     </button>
                   </div>
                 </div>
