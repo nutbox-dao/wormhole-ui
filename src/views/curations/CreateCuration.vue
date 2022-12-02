@@ -267,7 +267,7 @@
                 </div>
                 <div class="ml-5px text-12px xl:text-0.7rem">
                   <div class="mb-2px">{{speaker.name}}</div>
-                  <div>@{{speaker.username}}</div>
+                  <div>@{{ speaker.username }}</div>
                 </div>
               </div>
               <i @click="showAddSpeakerModal('speaker','add')"
@@ -472,7 +472,7 @@ export default {
         newContent: '',  // this is for new tweet content
         token: '',
         amount: '',
-        category: 'space',
+        category: 'tweet',
         createType: 'related',
         link: '',
         host: {},
