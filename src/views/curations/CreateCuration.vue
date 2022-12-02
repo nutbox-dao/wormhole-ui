@@ -20,6 +20,7 @@
          class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px
                 px-20px sm:px-4.5rem py-24px mb-2rem">
       <!-- set up -->
+      <div class="text-12px 2xl:text-0.7rem mb-10px">{{$t('curation.selectCategoryTip')}}</div>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <!-- title -->
         <!-- <div class="mt-1.8rem">
@@ -170,13 +171,18 @@
         </div>
         <!-- description -->
         <div class="mt-1.8rem">
-          <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
+          <div class="flex justify-between items-center">
+            <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
+            <span class="text-color8B light:text-color7D/50">{{form.description.length}}/100</span>
+          </div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
-                      rounded-8px h-44px 2xl:h-2rem flex items-center">
-            <input class="bg-transparent h-full w-full px-15px"
-                   v-model="form.description"
-                   :placeholder="$t('curation.createDescTip')">
+                      rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
+            <el-input v-model="form.description"
+                      :rows="4" :maxlength="100"
+                      class="border-0 c-textarea rounded-8px overflow-hidden"
+                      type="textarea"
+                      :placeholder="$t('curation.createDescTip')"/>
           </div>
         </div>
         <!-- edit speaker -->
@@ -483,7 +489,7 @@
         <div class="mt-1.8rem flex flex-col sm:flex-row justify-between text-15px gap-20px">
           <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-color8B/30 light:border-white
                          light:border-color7D text-color8B light:text-color7D"
-                  @click="currentStep=1">{{$t('common.preview')}}</button>
+                  @click="currentStep=1">{{$t('common.previous')}}</button>
           <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
                   @click="onSubmit">
                   <span>{{$t('common.submit')}}</span>

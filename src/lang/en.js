@@ -254,8 +254,8 @@ export default {
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
-    createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space. \n' +
-      'Are you going to curarte a tweet or Twitter Space?',
+    createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space.',
+    selectCategoryTip:  'Are you going to curarte a tweet or Twitter Space?',
     selectExistTweet: 'Or curate an existing tweet',
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',
@@ -313,6 +313,7 @@ export default {
     whatsSteem: 'Steem is a community-focused blockchain that creates an instant earning opportunity for the network’s users.',
     address: 'Address',
     account: 'Account',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    previous: 'Previous'
   }
 }
