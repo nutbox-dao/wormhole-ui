@@ -1,8 +1,9 @@
 <template>
   <div class="w-min rounded-full cursor-pointer">
-    <el-tooltip class="shadow-md" effect="light">
-      <div class="flex items-center" @click.stop>
-        <div class="flex items-end relative min-w-12px min-h-12px" :style="{height: height, width: width}">
+    <el-tooltip effect="light" :auto-close="5000" :visible="visible">
+      <div class="flex items-center" @click="hideTip" @mouseenter="visible = true" @mouseleave="visible = false">
+        <div class="flex items-end relative min-w-12px min-h-12px"
+             :style="{height: height, width: width}">
           <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
           <img v-else class="w-full h-full rounded-full" src="~@/assets/icon-token-default.svg" alt="">
           <img v-if="chainIcon"
@@ -86,9 +87,20 @@ export default {
       return true
     }
   },
+  data() {
+    return {
+      visible: false
+    }
+  },
   methods: {
     formatAddress,
-    copyAddress
+    copyAddress,
+    hideTip() {
+      this.visible = true
+      setTimeout(() => {
+        this.visible = false
+      }, 3000)
+    }
   }
 }
 </script>

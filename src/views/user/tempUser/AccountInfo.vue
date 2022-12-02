@@ -14,7 +14,7 @@
                     alt=""/>
                 <div class="flex-1 flex justify-between sm:items-center flex-col items-start overflow-hidden">
                   <div class="flex flex-wrap items-center gap-y-4px overflow-hidden w-full">
-                    <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px">
+                    <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
                       {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
                     <div @click="gotoTwitter"

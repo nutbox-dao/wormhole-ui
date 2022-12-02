@@ -13,49 +13,76 @@
     </div>
     <div class="collapse-box px-1.25rem"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
-      <div class="h-30px 2xl:h-1.5rem p-3px flex justify-between items-start my-8px
-                  border-1 border-colorEE rounded-full"
+      <div class="h-80px py-3px my-8px border-1 border-colorEE rounded-12px
+                  flex flex-col"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="flex flex-1 items-center h-full truncate cursor-pointer" @click="join(popup)">
-
-          <div v-if="!isEnded(popup)"
-               class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
-                      font-bold min-w-4rem flex justify-center items-center relative">
-            {{popup.showingState}}
-            <img v-if="isJoin(popup)"
-                 class="w-14px h-14px absolute bottom-0 -right-5px"
-                 src="~@/assets/icon-checked-green.svg" alt="">
+        <div class="w-full flex items-center border-b-1 border-colorEE py-4px px-10px">
+          <div class="flex flex-1 items-center h-full truncate cursor-pointer"
+               @click="join(popup)">
+            <div v-if="!isEnded(popup)"
+                 class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
+                      font-bold min-w-70px py-2px flex justify-center items-center relative">
+              <van-count-down class="text-orangeColor font-bold"
+                              :time="popTime(popup)" format="mm:ss" />
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
+            <div v-else
+                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap
+                      font-bold min-w-70px py-2px flex justify-center items-center relative">
+              {{ $t('popup.ended') }}
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
           </div>
-          <div v-else
-               class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap
-                      font-bold min-w-4rem flex justify-center items-center relative">
-            {{ $t('popup.ended') }}
-            <img v-if="isJoin(popup)"
-                 class="w-14px h-14px absolute bottom-0 -right-5px"
-                 src="~@/assets/icon-checked-green.svg" alt="">
-          </div>
-          <div class="flex-1 ml-1rem whitespace-nowrap truncate">
-            {{popup.content}}
-          </div>
-        </div>
-        <div class="flex items-center justify-end min-w-1/3">
-          <ChainTokenIcon :class="[!isEnded(popup)?'bg-black light:bg-colorEE/25':'', isEnded(popup)?'bg-primaryColor/20 light:bg-colorD8':'']"
-                          height="20px" width="20px" :chain-name="popup.chainId.toString()"
-                          :token="{address: popup.token, symbol: popup.symbol}">
-            <template #amount>
+          <div class="flex-1 flex items-center justify-end">
+            <ChainTokenIcon :class="[!isEnded(popup)?'bg-black light:bg-colorEE/25':'', isEnded(popup)?'bg-primaryColor/20 light:bg-colorD8':'']"
+                            height="20px" width="20px" :chain-name="popup.chainId.toString()"
+                            :token="{address: popup.token, symbol: popup.symbol}">
+              <template #amount>
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
                   :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
               {{formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
-            </template>
-          </ChainTokenIcon>
+              </template>
+            </ChainTokenIcon>
+          </div>
+        </div>
+        <div class="w-full flex-1 flex px-1rem items-center justify-between">
+          <div class="flex-1 whitespace-nowrap truncate">
+            {{popup.content}}
+          </div>
+          <div class="flex-1 flex justify-end items-center" @click="modalVisible = true">
+            <div class="-ml-7px" v-for="p of 3" :key="p">
+              <img class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                              border-1 border-color62 light:border-white"
+                   src="~@/assets/icon-default-avatar.svg" alt="">
+
+            </div>
+            <span class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                             rounded-full -ml-10px flex justify-center items-center
+                             border-1 border-blockBg bg-primaryColor
+                             light:border-white light:bg-color62 light:text-white text-10px">+10</span>
+          </div>
         </div>
       </div>
     </div>
     <button v-show="showingPopup.length > 2" class="w-full h-24px" @click="popUpsCollapse=!popUpsCollapse">
       <img class="mx-auto" :class="popUpsCollapse?'transform rotate-180':''" src="~@/assets/icon-arrow-yellow.svg" alt="">
     </button>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="modalVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="modalVisible"
+             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
+          <PopUpsParticipants  @close="modalVisible=false"></PopUpsParticipants>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 
 </template>
@@ -64,10 +91,11 @@
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { mapGetters } from 'vuex'
 import { formatAmount } from "@/utils/helper";
+import PopUpsParticipants from "@/components/PopUpsParticipants";
 
 export default {
   name: "PopUpsCard",
-  components: {ChainTokenIcon},
+  components: {ChainTokenIcon, PopUpsParticipants},
   props: {
     space: {
       type: Object,
@@ -86,6 +114,7 @@ export default {
     ...mapGetters(['getAccountInfo']),
     ...mapGetters('curation', ['detailCuration']),
     showingPopup() {
+      console.log(this.popups)
       if (!this.popups || this.popups.length === 0) return [];
       this.popups.forEach(p => ({
         ...p,
@@ -122,21 +151,10 @@ export default {
       return !!popup.retweetId
     },
     popTime(popup) {
-      if (popup.status > 0) {
-        return this.$t('popup.ended')
-      }else {
-        const now = new Date().getTime()
-        const endTime = new Date(popup.endTime).getTime()
-        if (now < endTime) {
-          return this.$t('popup.ended')
-        }else {
-          const diff = endTime - now;
-          const min = Math.floor(diff / 60000);
-          const leave = diff % 60000;
-          const sec = Math.floor(leave / 1000);
-          return `${this.prefixInteger(min, 2)}:${this.prefixInteger(sec, 2)}`
-        }
-      }
+      const now = new Date().getTime()
+      const endTime = new Date(popup.endTime).getTime()
+      if(endTime < now) popup.status=1
+      return endTime - now
     },
     join(popup) {
       if (this.isEnded(popup) || this.isJoin(popup) || !popup.tweetId) {
@@ -144,28 +162,18 @@ export default {
       }else {
         window.open(`https://twitter.com/intent/tweet?in_reply_to=${popup.tweetId}&text=%0a%23iweb3%20%23popup`)
       }
+    },
+    isNumeric (val) {
+      return val !== null && val !== '' && !isNaN(val)
     }
   },
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       popUpsCollapse: false,
-      timeUpdateInterval: null
+      timeUpdateInterval: null,
+      modalVisible: false
     }
-  },
-  mounted () {
-    this.timeUpdateInterval = setInterval(() => {
-      if (this.popups && this.popups.length > 0) {
-        this.popups.forEach(popup => {
-          popup.showingState = this.popTime(popup)
-        })
-      }
-    }, 1000);;
-  },
-  beforeUnmount() {
-    clearInterval(this.timeUpdateInterval)
-  },
-  unmounted() {
-    clearInterval(this.timeUpdateInterval)
   }
 }
 </script>
@@ -187,8 +195,8 @@ export default {
     transition: max-height ease-in-out 0.5s;
   }
   &.hide {
-    max-height: 76px;
-    min-height: 76px;
+    max-height: 180px;
+    min-height: 180px;
   }
 }
 </style>

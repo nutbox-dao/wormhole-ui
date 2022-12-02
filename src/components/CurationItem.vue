@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="relative">
-      <div class="flex items-center">
+      <div class="flex items-center" @click.stop>
         <img v-if="profileImg" @click.stop="gotoUserPage()"
              class="w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem mr-15px md:mr-1rem
                     min-w-40px min-h-40px rounded-full cursor-pointer"
@@ -42,7 +42,7 @@
            class="h-140px md:h-10rem overflow-hidden relative my-10px">
         <Space :space="curation" class="rounded-15px h-full"/>
       </div>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center" @click.stop>
         <template v-if="showBtnGroup">
           <div v-if="!isEnd" class="flex gap-x-24px">
             <!-- reply-->

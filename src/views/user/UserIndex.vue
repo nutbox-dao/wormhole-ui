@@ -9,39 +9,34 @@
                 @error="replaceEmptyImg"
                 :src="profileImg"
                 alt=""/>
-            <div class="flex-1 flex justify-between sm:flex-row sm:items-center flex-col items-start">
-              <div class="text-left">
-                <div class="flex items-center">
-                  <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
-                    {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
-                  </div>
-                  <div @click="gotoTwitter"
-                       class="cursor-pointer mr-0.5rem w-max flex items-center
+            <div class="flex-1 overflow-hidden">
+              <div class="flex flex-wrap items-center gap-y-4px overflow-hidden w-full">
+                <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
+                  {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
+                </div>
+                <div @click="gotoTwitter"
+                     class="cursor-pointer mr-0.5rem w-max flex items-center
                                   text-color8B light:text-color7D
                                   bg-white/10 light:bg-colorF2
                                   light:border-1 light:border-colorE3
                                   rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                    <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
-                  </div>
-                  <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                  <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                  <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                </div>
+                <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
                                   text-color8B light:text-color7D flex items-center
                                   bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                   light:border-1 light:border-colorE3
                                   rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
-                  </div>
+                  Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
                 </div>
-                <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
-                     v-if="getAccountInfo && getAccountInfo.steemId">
-                    <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
-                </div>
+              </div>
+              <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
+                   v-if="getAccountInfo && getAccountInfo.steemId">
+                <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
               </div>
 
               <div class="flex flex-col sm:items-center">
-<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
-<!--                  {{ totalValue }}-->
-<!--                </div>-->
                 <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
                   <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
