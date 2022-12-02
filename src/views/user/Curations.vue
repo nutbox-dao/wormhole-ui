@@ -26,7 +26,8 @@
                         :loading-text="$t('common.loading')"
                         :pulling-text="$t('common.pullRefresh')"
                         :loosing-text="$t('common.loosingRefresh')">
-        <van-list :loading="loading"
+        <van-list class="px-1.5rem"
+                  :loading="loading"
                   :finished="finished"
                   :immediate-check="false"
                   :finished-text="showingCurations.length>0?$t('common.noMore'):''"
