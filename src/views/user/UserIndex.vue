@@ -37,6 +37,9 @@
               </div>
 
               <div class="flex flex-col sm:items-center">
+<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
+<!--                  {{ totalValue }}-->
+<!--                </div>-->
                 <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
                   <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
