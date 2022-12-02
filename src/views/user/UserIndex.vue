@@ -17,12 +17,19 @@
                   </div>
                   <div @click="gotoTwitter"
                        class="cursor-pointer mr-0.5rem w-max flex items-center
-                              text-color7D/60 light:text-color7D/60
-                              bg-white/10 light:bg-colorF2
-                              light:border-1 light:border-color7D/60
-                              rounded-full h-1.8rem md:1rem px-0.5rem">
-                    <img class="w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                    <span>@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                                  text-color8B light:text-color7D
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                    <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                    <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                  </div>
+                  <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                                  text-color8B light:text-color7D flex items-center
+                                  bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
                   </div>
                 </div>
                 <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
