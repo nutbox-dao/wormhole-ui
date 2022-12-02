@@ -110,7 +110,7 @@
         </AssetsOptions>
       </div>
       <div class="text-center mt-2rem">
-        <button class="gradient-btn gradient-btn-disabled-grey
+        <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
                        h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
                 :disabled="creating"
                 @click="onSubmit">

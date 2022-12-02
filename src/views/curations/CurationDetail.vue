@@ -104,11 +104,16 @@
             <div>
               <div class="flex-1 flex items-center text-white bg-blueDark relative">
                 <div class="w-44/100 h-40px flex px-1.25rem flex items-center c-text-black">
-                  <span class="mr-6px bg-color19 rounded-full text-12px min-h-24px min-w-24px
-                               flex items-center justify-center">
-                    {{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}
-                  </span>
-                  <span class="text-12px xl:text-0.8rem">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
+                  <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
+                       class="w-24px min-w-24px"
+                       src="~@/assets/icon-progress-down.svg" alt="">
+                  <el-progress v-else type="circle" width="24" color="#7D7F88"
+                               stroke-width="1"
+                               :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100"
+                               status="success">
+                    <span class="text-white">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
+                  </el-progress>
+                  <span class="text-12px xl:text-0.8rem ml-8px">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
                 </div>
                 <div class="w-56/100 h-40px whitespace-nowrap bg-tag-gradient
                             flex items-center justify-center min-w-1/3 text-white token-tag">
@@ -131,30 +136,31 @@
               </div>
               <el-collapse-transition>
                 <div v-show="quotesCollapse"
+                     :class="endAndNotComplete?'opacity-30':''"
                      class="text-white light:text-blueDark py-0.5rem font-bold">
-                  <div @click="quoteOrReply"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
+                  <button @click="quoteOrReply"
+                       :disabled="endAndNotComplete"
+                       class="px-1.25rem py-4px flex items-start sm:items-center">
                     <i class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
                     <span class="text-12px xl:text-0.7rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
-                  </div>
-                  <div v-if="isLike"
-                       @click="like"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
+                  </button>
+                  <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
+                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer">
                     <img v-if="isLiking"
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="liked?'icon-checked':'icon-like-circle'"></i>
                     <span class="text-12px xl:text-0.7rem">Like (or Verify your Like)</span>
-                  </div>
-                  <div v-if="isFollow" @click="follow"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
+                  </button>
+                  <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
+                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer">
                     <img v-if="isFollowing"
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="followed?'icon-checked':'icon-follow-circle'"></i>
                     <span class="text-12px xl:text-0.7rem">Follow @{{detailCuration.username}} (or Verify your Follow)</span>
-                  </div>
+                  </button>
                 </div>
               </el-collapse-transition>
             </div>
@@ -177,7 +183,9 @@
                              rounded-full -ml-10px flex justify-center items-center
                              border-1 border-blockBg bg-primaryColor
                              light:border-white light:bg-color62 light:text-white text-10px">+10</span>
-                <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">All participants >></button>
+                <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">
+                  {{$t('curation.allParticipants')}} >>
+                </button>
               </div>
             </div>
           </div>
@@ -252,9 +260,6 @@
       <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
       rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
           <TweetAttendTip class="py-2rem md:py-0"
                           :curation="detailCuration"
@@ -262,11 +267,16 @@
         </div>
       </div>
     </van-popup>
-
-    <el-dialog v-model="showSubmissions" fullscreen
-               class="c-dialog-fullscreen c-dialog-no-shadow bg-primaryBg light:bg-primaryBgLight">
-      <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
-    </el-dialog>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="showSubmissions"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showSubmissions"
+             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
+          <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
+        </div>
+      </transition>
+    </van-popup>
     <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
                v-model:show="showTip"
                :position="position">
@@ -397,6 +407,13 @@ export default {
       }else{
         return '---'
       }
+    },
+    // 已结束未完成
+    endAndNotComplete() {
+      return this.participant.length > 3  &&
+          ((this.quoted+this.replyed+this.liked+this.followed)<
+              (this.isQuote+this.isReply+this.isLike+this.isFollow))
+      // return true
     },
     isQuote() {
       if (!this.detailCuration) return false;

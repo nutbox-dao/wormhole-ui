@@ -11,7 +11,8 @@
     <div class="container mx-auto max-w-600px xl:max-w-30rem">
       <Steps class="mx-15px" :total-step="2" :current-step="currentStep"/>
       <div class="text-left text-12px leading-18px xl:text-14px xl:leading-1rem
-                  text-color62 px-16px py-10px bg-colorF1 rounded-8px my-11px xl:my-0.8rem">
+                  text-colorF1 bg-tip-gradient light:text-color62 light:bg-colorF1
+                  px-16px py-10px rounded-8px my-11px xl:my-0.8rem">
         {{$t('curation.createStepTip')}}
       </div>
     </div>
@@ -22,11 +23,11 @@
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <div class="relative">
           <button class="h-34px xl:h-1.5rem px-24px border-1 rounded-full mr-24px"
-                  :class="form.category==='tweet'?'bg-colorF1 border-color62 text-color62':
+                  :class="form.category==='tweet'?'bg-tag-gradient light:bg-colorF1 border-color62 light:text-color62':
                   'bg-black light:bg-colorF2 border-color8B/30 light:border-colorE3 text-color8B light:text-color7D'"
                   @click="selectCategoryType('tweet')">Tweet</button>
           <button class="h-34px xl:h-1.5rem px-24px border-1 rounded-full"
-                  :class="form.category==='space'?'bg-colorF1 border-color62 text-color62':
+                  :class="form.category==='space'?'bg-tag-gradient light:bg-colorF1 border-color62 light:text-color62':
                   'bg-black light:bg-colorF2 border-color8B/30 light:border-colorE3 text-color8B light:text-color7D'"
                   @click="selectCategoryType('space')">Twitter Space</button>
         </div>
@@ -76,10 +77,10 @@
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
                       class="absolute bg-view-more text-white bottom-0 left-0 w-full top-0
-                           flex items-center justify-center text-center">
+                           flex items-center justify-center text-center rounded-12px">
               </button>
             </div>
-            <div class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
+            <div v-else class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
                       border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
               {{$t('curation.pastLinkTip')}}
             </div>
@@ -99,7 +100,7 @@
         </div>
         <!-- related link -->
         <div class="mt-5px relative" v-if="form.category==='space'|| form.createType === 'related'">
-          <div class="bg-colorF1 border-1 border-color62 pl-15px
+          <div class="bg-color62/20 light:bg-colorF1 border-1 border-color62 pl-15px
                       rounded-8px h-44px 2xl:h-2rem flex items-center relative"
                :class="checkingTweetLink?'hover:border-color8B/30':''">
             <div class="w-full text-12px xl:text-0.7rem">
@@ -111,12 +112,12 @@
                      :placeholder="$t('curation.pasteLink')">
               <div v-if="linkIsError" class="text-redColor">Invalid link</div>
             </div>
-            <button class="bg-color62 text-white h-20px xl:h-1rem px-5px rounded-4px
-                           mx-15px whitespace-nowrap flex items-center text-12px xl:text-0.6rem"
+            <button class="bg-color62 text-white h-20px xl:h-1rem px-5px rounded-4px min-w-50px disabled:opacity-50
+                           mx-15px whitespace-nowrap flex justify-center items-center text-12px xl:text-0.6rem"
                     :disabled="checkingTweetLink"
                     @click="checkLink">
               <span v-if="!checkingTweetLink">{{$t('curation.verify')}}</span>
-              <c-spinner v-else class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+              <c-spinner v-else class="w-1.5rem h-1.5rem"></c-spinner>
             </button>
           </div>
         </div>
@@ -147,8 +148,8 @@
                       bg-block light:bg-colorF7 rounded-8px mt-5px
                       flex justify-between items-center relative px-15px"
                @click="form.isFollow=!form.isFollow">
-            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-colorE3"
-               :class="form.isFollow?'icon-selected border-0':'bg-white'"></i>
+            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
+               :class="form.isFollow?'icon-selected border-0':'bg-black light:bg-white'"></i>
             <div class="flex-1 flex justify-between items-center pl-15px">
               <span>{{$t('curation.follow')}}</span>
               <span>@{{form.author.username}}</span>
@@ -158,8 +159,8 @@
                       bg-block light:bg-colorF7 rounded-8px mt-5px
                       flex flex-start items-center relative px-15px"
                @click="form.isLike=!form.isLike">
-            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-colorE3"
-               :class="form.isLike?'icon-selected border-0':'bg-white'"></i>
+            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
+               :class="form.isLike?'icon-selected border-0':'bg-black light:bg-white'"></i>
             <span class="pl-15px">{{$t('curation.like')}}</span>
           </div>
         </div>
@@ -177,7 +178,7 @@
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
           <div class="mb-6px font-bold">{{$t('curation.speakers')}}</div>
-          <div class="p-20px bg-colorF7 border-1 border-colorE3 rounded-12px">
+          <div class="p-20px light:bg-colorF7 border-1 border-color8B/30 light:border-colorE3 rounded-12px">
             <!-- Host-->
             <div class="mb-6px font-500">{{$t('curation.host')}}</div>
             <div v-if="form.host.name"
@@ -200,9 +201,9 @@
                 <div>@{{form.host.username}}</div>
               </div>
             </div>
-            <img v-else @click="showAddSpeakerModal('host','add')"
-                 class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
-                 src="~@/assets/icon-add-circle.svg" alt="">
+            <i v-else @click="showAddSpeakerModal('host','add')"
+                 class="icon-add-circle w-44px h-44px min-w-44px min-h-44px
+                        xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"></i>
             <!-- Co-Host-->
             <div class="mb-6px font-500 mt-20px 2xl:mt-1rem">
               {{$t('curation.coHosts')}}
@@ -229,10 +230,10 @@
                   <div>@{{coHost.username}}</div>
                 </div>
               </div>
-              <img @click="showAddSpeakerModal('coHost','add')"
+              <i @click="showAddSpeakerModal('coHost','add')"
                    v-show="form.coHost.length < 3"
-                   class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
-                   src="~@/assets/icon-add-circle.svg" alt="">
+                   class="icon-add-circle w-44px h-44px min-w-44px min-h-44px
+                          xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"></i>
             </div>
             <!-- Speakers-->
             <div class="mb-6px font-500 mt-20px 2xl:mt-1rem">
@@ -261,10 +262,10 @@
                   <div>@{{speaker.username}}</div>
                 </div>
               </div>
-              <img @click="showAddSpeakerModal('speaker','add')"
+              <i @click="showAddSpeakerModal('speaker','add')"
                    v-show="form.coHost.length < 3"
-                   class="w-44px h-44px min-w-44px min-h-44px xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"
-                   src="~@/assets/icon-add-circle.svg" alt="">
+                   class="icon-add-circle w-44px h-44px min-w-44px min-h-44px
+                          xl:w-2.2rem xl:h-2.2rem xl:min-w-2.2rem xl:min-h-2.2rem cursor-pointer"></i>
             </div>
           </div>
         </div>
@@ -349,7 +350,8 @@
         </div>
         <!-- submit -->
         <div class="mt-1.8rem flex flex-col sm:flex-row justify-between text-15px gap-20px">
-          <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-white light:border-color7D light:text-color7D"
+          <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem border-1 border-color8B/30 light:border-white
+                         light:border-color7D text-color8B light:text-color7D"
                   @click="currentStep=1">{{$t('common.preview')}}</button>
           <button class="w-full h-40px 2xl:h-2rem rounded-full px-1.5rem gradient-btn text-15px"
                   @click="onSubmit">
