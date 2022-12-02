@@ -24,12 +24,12 @@
                     <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                     <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                   </div>
-                  <div class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                  <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
                                   text-color8B light:text-color7D flex items-center
                                   bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                   light:border-1 light:border-colorE3
                                   rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
+                    Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
                   </div>
                 </div>
                 <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
