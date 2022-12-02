@@ -37,6 +37,7 @@ export default {
   },
   computed: {
     state() {
+      console.log(23, this.space.spaceState, this.space.spaceStartedAt, this.space.scheduledStart);
       switch (this.space.spaceState) {
         case 1:
           return parseSpaceStartTime(this.space.spaceStartedAt)

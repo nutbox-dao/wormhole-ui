@@ -191,7 +191,7 @@
               <div class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">Prize</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
-                  {{detailCuration ? (detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
+                  {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
                 </button>
               </div>
               <!-- ended -->
@@ -330,7 +330,6 @@ import SpeakerTipModal from "@/components/SpeakerTipModal";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
 import PopUpsCard from "@/components/PopUpsCard";
 import TipModalVue from "@/components/TipModal.vue";
-import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { newPopups, likeCuration, followCuration} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
@@ -366,7 +365,6 @@ export default {
       speakerTipVisible: false,
       createPopUpVisible: false,
       showTip: false,
-      testData,
       updateInterval: null,
       timeIntrerval: null,
       tipCollapse: false,

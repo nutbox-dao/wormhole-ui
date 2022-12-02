@@ -41,7 +41,7 @@
                    ref="descContentRef"
                    @blur="getBlur('desc')"
                    @paste="onPaste"
-                   v-html="formatEmojiText(form.description)">
+                   v-html="formatEmojiText(form.newContent)">
               </div>
             </div>
             <div class="py-2 flex justify-between items-center px-1rem">
@@ -70,7 +70,7 @@
             <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
             <div v-if="linkIsVerified" class="overflow-hidden relative rounded-12px"
                  :class="expandPreview?'':'max-h-134px'">
-              <Blog :post="testData[0]"
+              <Blog :post="form.postData"
                     class="bg-blockBg light:bg-white rounded-8px border-1 border-listBgBorder light:border-colorE3">
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
@@ -151,7 +151,7 @@
                :class="form.isFollow?'icon-selected border-0':'bg-white'"></i>
             <div class="flex-1 flex justify-between items-center pl-15px">
               <span>{{$t('curation.follow')}}</span>
-              <span>@{{form.author.username}}</span>
+              <span>@{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}</span>
             </div>
           </div>
           <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
@@ -389,6 +389,7 @@
                      :chainName="form.chain"
                      :address="form.address"
                      :approveContract="EVM_CHAINS[form.chain]?EVM_CHAINS[form.chain].curation:''"
+                     :selectCategoryType="selectCategory"
                      @create="createCuration"
                      @confirmComplete="onComplete"
                      @confirmChangeCategory="changeCategory"
@@ -458,6 +459,7 @@ export default {
         maxCount: '',
         tweetId: '',
         description: '',
+        newContent: '',  // this is for new tweet content
         token: '',
         amount: '',
         category: 'space',
@@ -577,7 +579,7 @@ export default {
               }
               this.form.host = {
                 ...author,
-                avatar: author.profile_image_url.replace('normal', '200x200')
+                avatar: author.profile_image_url?.replace('normal', '200x200')
               }
               this.form.author = author
             }
@@ -606,6 +608,22 @@ export default {
       this.modalVisible = true
     },
     changeCategory(){
+      this.form.endtime = '';
+      this.form.tweetId = '';
+      this.form.description = '';
+      this.form.newContent = '';
+      this.form.createType = 'related';
+      this.form.link = '';
+      this.form.host = {}
+      this.form.coHost = [];
+      this.form.speakers = [];
+      this.form.mandatoryTask = 'quote'
+      this.form.isFollow = false;
+      this.form.isLike = false;
+      this.linkIsVerified = false;
+      this.form.postData = {}
+      this.form.space = {};
+      this.form.author = {};
       this.form.category = this.selectCategory
       this.modalVisible = false
     },
@@ -763,7 +781,7 @@ export default {
     onNext() {
       if (!this.checkLogin()) return
 
-      this.form.description = this.formatElToTextContent(this.$refs.descContentRef)
+      this.form.newContent = this.formatElToTextContent(this.$refs.descContentRef)
       if (!this.checkCreateData()) {
         return;
       }
@@ -865,7 +883,7 @@ export default {
             authorId:this.form.author.id,
             chainId: EVM_CHAINS[this.form.chain].id,
             tasks,
-            content: 'test'
+            content: this.form.description
           }
         }else {
           pendingCuration = {
@@ -888,7 +906,7 @@ export default {
             hostIds: this.form.host.id ? [this.form.host.id].concat(this.form.coHost ? this.form.coHost.map(h => h.id) : []) : [],
             speakerIds: this.form.speakers ? this.form.speakers.map(s => s.id) : [],
             tweetContent: this.form.postData?.content,
-            content: 'test',
+            content: this.form.description,
             tags: this.form.postData?.tags,
           }
         }
@@ -921,7 +939,7 @@ export default {
     },
     onPost() {
       // transfer text to uri
-      const content = this.curation.content + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + CURATION_SHORT_URL + this.curation.curationId
+      const content = this.form.newContent + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + CURATION_SHORT_URL + this.curation.curationId
       // if (content.length > 280) {
       //   notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
       //   return;

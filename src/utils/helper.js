@@ -245,7 +245,8 @@ export function parseSpaceStartTime(time) {
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ]
   let d1 = new Date(time)
-  return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + ":" + d1.getMinutes() + 'PM' : (d1.getUTCHours()) + ':' + d1.getMinutes() + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
+  console.log(645, d1, time);
+  return `${d1.getUTCHours() >= 12 ? prefixInteger(d1.getUTCHours() - 12, 2) + ":" + prefixInteger(d1.getMinutes(), 2) + 'PM' : prefixInteger(d1.getUTCHours(), 2) + ':' + prefixInteger(d1.getMinutes(), 2) + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
 }
 
 export function stringLength(str) {
@@ -260,4 +261,10 @@ export function stringLength(str) {
     }
   }
   return len;
+}
+
+export function prefixInteger(num, length) {
+  var i = (num + "").length;
+  while(i++ < length) num = "0" + num;
+  return num;
 }

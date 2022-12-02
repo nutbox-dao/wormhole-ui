@@ -5,7 +5,7 @@
       <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
     </button>
     <div class="text-20px 2xl:text-1rem c-text-black leading-32px px-50px flex-1">
-      <div class="mb-40px">{{$t('curation.switchType1')}}</div>
+      <div class="mb-40px">{{$t('curation.switchType1', {type: (selectCategoryType === 'space') ? 'Twitter Space' : 'Tweet'})}}</div>
       <div>{{$t('curation.switchType2')}}</div>
     </div>
     <div class="flex flex-col gap-20px sm:flex-row md:mx-50px">
@@ -23,7 +23,13 @@
 
 <script>
 export default {
-  name: "SelectCategoryTip"
+  name: "SelectCategoryTip",
+  props: {
+    selectCategoryType: {
+      type: String,
+      default:  ''
+    },
+  },
 }
 </script>
 

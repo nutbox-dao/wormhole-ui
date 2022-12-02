@@ -290,9 +290,7 @@ export default {
       try{
         this.creating = true
         // tweet
-        // this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup')
-        await sleep(1)
-        this.form.tweetId = '1596342581860130816'
+        this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup')
         this.modalVisible =true
         if (this.form.tweetId) {
           this.modalVisible = true
@@ -315,7 +313,7 @@ export default {
           token: this.form.token,
           bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals)
         }
-        const hash = 'dfs' // await createPopup(this.form.chain, popup)
+        const hash = await createPopup(this.form.chain, popup)
         if (hash) {
         //   curationId, chainId, creatorEth, tweetId, twitterId, endTime,
         // token, symbol, decimals, bonus, maxCount, transHsh
@@ -345,7 +343,7 @@ export default {
             decimals: this.selectedToken.decimals,
             bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
             maxCount: this.form.maxReward,
-            transHash: '0xb0df2cb26cc0838ca7568f0075c0d256e2027b2402b8854db8d7d15b8fa876de'
+            transHash: hash
           }
           this.$store.commit('curation/savePendingPopup', pendingPopup)
           await newPopups(pendingPopup);
