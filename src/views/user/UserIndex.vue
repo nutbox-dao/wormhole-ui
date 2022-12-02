@@ -28,16 +28,17 @@
                                   bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                   light:border-1 light:border-colorE3
                                   rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
+                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
                   </div>
-                </div>
-                <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
+              </div>
+              <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
                      v-if="getAccountInfo && getAccountInfo.steemId">
                     <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
                 </div>
-              </div>
-
               <div class="flex flex-col sm:items-center">
+<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
+<!--                  {{ totalValue }}-->
+<!--                </div>-->
                 <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
                   <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                           class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
