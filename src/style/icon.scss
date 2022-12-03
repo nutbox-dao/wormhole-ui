@@ -172,3 +172,14 @@
   @extend .icon;
   background-image: url("~@/assets/icon-unselected.svg");
 }
+
+.icon-radio-default {
+  @extend .icon;
+  background-image: url("~@/assets/icon-radio-default.svg");
+}
+
+.icon-radio-primary {
+  @extend .icon;
+  background-image: url("~@/assets/icon-radio-primary.svg");
+}
+

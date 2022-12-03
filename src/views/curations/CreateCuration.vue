@@ -126,7 +126,8 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-              {{$t('curation.pastLinkTip')}}
+              <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+              <span v-else>{{$t('curation.pastLinkTip')}}</span>
             </div>
           </div>
         </template>
@@ -141,7 +142,8 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-            {{$t('curation.pastLinkTip')}}
+            <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+            <span v-else>{{$t('curation.pastLinkTip')}}</span>
           </div>
         </div>
         <!-- related link -->

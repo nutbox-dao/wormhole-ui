@@ -65,3 +65,7 @@ export function onPasteEmojiContent(e) {
     }
   }
 }
+
+export  function isNumeric (val) {
+  return val !== null && val !== '' && !isNaN(val)
+}
