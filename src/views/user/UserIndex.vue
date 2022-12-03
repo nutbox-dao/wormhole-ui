@@ -235,12 +235,16 @@
         {{$t('postView.p6')}}
       </div>
     </el-dialog>
+    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <GetNft @close="modalVisible=false" :username="getAccountInfo.twitterUsername" :reputation="getAccountInfo.reputation"></GetNft>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
+import GetNft from "./components/GetNft.vue";
 import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
@@ -250,6 +254,9 @@ import { getSteemBalance } from "@/utils/steem";
 
 export default {
   name: "User",
+  components: {
+    GetNft,
+  },
   data() {
     return {
       userIsExist: true,
@@ -257,6 +264,7 @@ export default {
       tipDrawer: false,
       showRegistering: false,
       showNotSendTwitter: false,
+      modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
     };
   },
