@@ -2,6 +2,7 @@ import { get, post, put, getTwitterApi } from "./axios"
 import { BACKEND_API_URL } from '../config'
 import curation from "@/store/curation"
 import { sleep } from "@/utils/helper"
+import store from '@/store'
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
@@ -56,11 +57,15 @@ export const getUserByIds = async (twitterIds) =>
     get(BACKEND_API_URL + '/users/byTwitterIds', {twitterIds})
 
 /****************************************  posts  ***********************************************/
-export const getUsersPosts = async (twitterId, pageSize, time, newPost) =>
-    get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost})
+export const getUsersPosts = async (twitterId, pageSize, time, newPost) => {
+    const myTwitterId = store.getters.getAccountInfo?.twitterId
+    return get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost, myTwitterId})
+}
 
-export const getPostById = async (postId) =>
-    get(BACKEND_API_URL + '/twitter/getPostById', {postId})
+export const getPostById = async (postId) => {
+    const myTwitterId = store.getters.getAccountInfo?.twitterId
+    get(BACKEND_API_URL + '/twitter/getPostById', {postId, myTwitterId})
+}
 
 export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
     if (newPost) {

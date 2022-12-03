@@ -73,7 +73,7 @@
               <div class="flex items-center cursor-pointer" @click.stop="likeTweet">
                 <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                 <i v-else class="w-18px h-18px icon-like"></i>
-                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
+                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }} {{'liked:'+post.voted > 0}}</span>
               </div>
               <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
