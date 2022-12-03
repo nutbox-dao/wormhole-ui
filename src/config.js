@@ -219,7 +219,7 @@ export const EVM_CHAINS = {
         },
         assets: {
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
-          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},  
+          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
           DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
         },
@@ -248,7 +248,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     LARGE_IMG: 109,
     OUT_OF_USAGE: 110,
     UPLOAD_FAIL: 111,
-  
+
     BLOCK_CHAIN_ERR: 351,
     CONTRACT_CREATE_FAIL: 352,
     USER_CANCEL_SIGNING: 353,
@@ -256,7 +256,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     UNLOCK_METAMASK: 355,
     WRONG_CHAIN_ID: 356,
     HAVE_CREATED_COMMUNITY: 357,
-  
+
     SIGNATURE_FAILED: 451,
     INVALID_NONCE: 452,
     DB_ERROR: 453,

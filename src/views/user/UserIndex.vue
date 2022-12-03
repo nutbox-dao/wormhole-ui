@@ -1,7 +1,7 @@
 <template>
   <div id="user-index" class="overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
     <template v-if="!loading">
-      <div class="border-b-0 sm:border-b-1 md:border-color84/30">
+      <div class="border-b-0 sm:border-b-1 sm:border-color84/30">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
@@ -10,84 +10,80 @@
                 :src="profileImg"
                 alt=""/>
             <div class="flex-1 overflow-hidden">
-              <div class="flex flex-wrap items-center gap-y-4px overflow-hidden w-full">
-                <div class="c-text-black text-1.6rem light:text-blueDark mr-5px">
+              <div class="flex items-center overflow-hidden w-full mb-5px">
+                <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
+                <div class="flex items-center justify-start text-color7D/60 ml-5px"
+                     v-if="getAccountInfo && getAccountInfo.steemId">
+                  <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-y-4px">
                 <div @click="gotoTwitter"
                      class="cursor-pointer mr-0.5rem w-max flex items-center
-                                  text-color8B light:text-color7D
-                                  bg-white/10 light:bg-colorF2
-                                  light:border-1 light:border-colorE3
-                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                    <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
-                  </div>
-                  <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
-                                  text-color8B light:text-color7D flex items-center
-                                  bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
-                                  light:border-1 light:border-colorE3
-                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
-                  </div>
-              </div>
-              <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
-                     v-if="getAccountInfo && getAccountInfo.steemId">
-                    <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
+                                text-color8B light:text-color7D
+                                bg-white/10 light:bg-colorF2
+                                light:border-1 light:border-colorE3
+                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                  <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                  <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                 </div>
-              <div class="flex flex-col sm:items-center">
-<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
-<!--                  {{ totalValue }}-->
-<!--                </div>-->
-                <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
-                  <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
-                          class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
-                                rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-                          @click="$router.push('/create-curation')">
-                    {{$t('curationsView.createBtn')}}
-                  </button>
-                  <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
-                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
-                      @click="tipDrawer = true">
-                    <img
-                        class="w-1.5rem h-1.5rem mr-0.5rem"
-                        src="~@/assets/icon-warning.svg"
-                        alt=""
-                    />
-                    {{ $t('postView.tweetTip')}}
-                  </button>
-                </template>
-                <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
-                    rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
-                    @click="$store.commit('saveShowLogin', true)">
-                    {{$t('common.active')}}
-                  </button>
+                <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                                text-color8B light:text-color7D flex items-center
+                                bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
+                                light:border-1 light:border-colorE3
+                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                  Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
+                </div>
               </div>
             </div>
           </div>
 
           <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
-                      light:bg-white light:sm:bg-transparent py-18px sm:pb-0 px-1.5rem mt-1rem">
-            <div class="flex rounded-10px sm:rounded-0px overflow-hidden text-14px
-                        xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+                      light:bg-white light:sm:bg-transparent pt-7px pb-13px sm:pb-0 mt-30px">
+            <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
               <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                            :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
                            class="flex-1">
-                <div class="w-full h-36px xl:h-2.4rem flex items-center justify-center"
-                     :class="isActive?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
-                     'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-l-10px sm:border-transparent sm:bg-transparent'">
+                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                   {{$t('profileView.curations')}}
                 </div>
               </router-link>
               <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
                            class="flex-1">
-                <div class="w-full h-36px xl:h-2.4rem flex items-center justify-center"
-                     :class="isActive?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
-                     'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-r-10px sm:border-transparent sm:bg-transparent'">
+                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                   {{$t('profileView.onChainTweet')}}
                 </div>
               </router-link>
             </div>
+          </div>
+        </div>
+        <div class="w-full absolute bottom-0">
+          <div class="container max-w-50rem mx-auto relative">
+            <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
+              <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
+                      class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
+                      @click="$router.push('/create-curation')">
+                <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+              </button>
+              <button v-else
+                      class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
+                      @click="tipDrawer = true">
+                <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+              </button>
+            </template>
+            <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                    rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
+                    @click="$store.commit('saveShowLogin', true)">
+              {{$t('common.active')}}
+            </button>
           </div>
         </div>
       </div>

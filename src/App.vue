@@ -242,6 +242,7 @@ export default {
       this.showMenu = false
     },
     changeTheme(status) {
+      this.showMenu = false
       if(status === this.isDark) return
       this.isDark = !this.isDark
       localStorage.setItem('theme', this.isDark?'dark':'light')
