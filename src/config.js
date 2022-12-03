@@ -11,7 +11,8 @@ export const TWITTER_POST_TAG = "%23iweb3"
 // export const BACKEND_API_URL = 'http://localhost:3100'
 export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
-export const CURATION_SHORT_URL = 'https://wh3.io/'
+// export const CURATION_SHORT_URL = 'https://wh3.io/'
+export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detial/'
 
 export const SignUpMessage = JSON.stringify({
     project: 'wormhole3',
@@ -159,7 +160,9 @@ export const EVM_CHAINS = {
             rpcUrl: 'https://bsc-dataseed.binance.org',
             multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
             interval: 3000,
-        }
+        },
+        curation: '0x5a837723924EdBB365f85e76870450FF1D44e31a',
+        popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB'
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
@@ -186,49 +189,49 @@ export const EVM_CHAINS = {
         curation: '0x4C524F03Bdf073A0a064Cd20c0bD9330c0FEab93',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
-    Aurora: {
-        rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
-        scan: 'https://aurorascan.dev/',
-        id: 1313161554,
-        main: {
-            name: 'Ethereum',
-            symbol: 'ETH',
-            decimals: 18,
-            icon: 'https://cdn.wherein.mobi/wormhole3/logo/aurora-dev.jpg'
-        },
-        assets: {
-            FRAX: {name: 'Frax',symbol: 'FRAX',dicimals: 18,address: '0xE4B9e004389d91e4134a28F19BD833cBA1d994B6'},
-            AURORA: {name: 'Aurora',symbol: 'AURORA',dicimals: 18,address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79'},
-            NEAR: { name: 'NEAR',symbol: 'NEAR',decimals: 24,address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d'}
-        },
-        Multi_Config: {
-            rpcUrl: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
-            multicallAddress: '0x930e8aB7b759BFFb2c73c276608b9CCF52Bb5c1e',
-            interval: 3000
-        }
-    },
-    Moonbeam: {
-        rpc: 'https://rpc.api.moonbeam.network',
-        scan: 'https://moonbeam.moonscan.io/',
-        id: 1284,
-        main: {
-            name: 'GLMR',
-            symbol: 'GLMR',
-            decimals: 18,
-            icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
-        },
-        assets: {
-          USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
-          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},  
-          DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-          DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
-        },
-        Multi_Config: {
-            rpcUrl: 'https://rpc.api.moonbeam.network',
-            multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
-            interval: 3000
-        }
-    }
+    // Aurora: {
+    //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
+    //     scan: 'https://aurorascan.dev/',
+    //     id: 1313161554,
+    //     main: {
+    //         name: 'Ethereum',
+    //         symbol: 'ETH',
+    //         decimals: 18,
+    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/aurora-dev.jpg'
+    //     },
+    //     assets: {
+    //         FRAX: {name: 'Frax',symbol: 'FRAX',dicimals: 18,address: '0xE4B9e004389d91e4134a28F19BD833cBA1d994B6'},
+    //         AURORA: {name: 'Aurora',symbol: 'AURORA',dicimals: 18,address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79'},
+    //         NEAR: { name: 'NEAR',symbol: 'NEAR',decimals: 24,address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d'}
+    //     },
+    //     Multi_Config: {
+    //         rpcUrl: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
+    //         multicallAddress: '0x930e8aB7b759BFFb2c73c276608b9CCF52Bb5c1e',
+    //         interval: 3000
+    //     }
+    // },
+    // Moonbeam: {
+    //     rpc: 'https://rpc.api.moonbeam.network',
+    //     scan: 'https://moonbeam.moonscan.io/',
+    //     id: 1284,
+    //     main: {
+    //         name: 'GLMR',
+    //         symbol: 'GLMR',
+    //         decimals: 18,
+    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
+    //     },
+    //     assets: {
+    //       USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
+    //       USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},  
+    //       DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
+    //       DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
+    //     },
+    //     Multi_Config: {
+    //         rpcUrl: 'https://rpc.api.moonbeam.network',
+    //         multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
+    //         interval: 3000
+    //     }
+    // }
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'

@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
-            <Curations v-show="selectIndex===0"/>
+            <Curations :accountInfo="accountInfo" v-show="selectIndex===0"/>
             <Post v-show="selectIndex === 1"
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
@@ -142,6 +142,7 @@ export default {
     ...mapState([
       "prices"
     ]),
+    ...mapGetters(['getAccountInfo']),
     totalValue() {
       if (this.erc20Balances && this.erc20Balances.ETH) {
         let t = 0;
@@ -217,7 +218,12 @@ export default {
       this.showDetail = true
     },
     tip() {
-      this.showTip = true
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true);
+        return;
+      }
+      if (this.accountInfo.ethAddress || this.accountInfo.steemId)
+        this.showTip = true
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {
@@ -240,6 +246,7 @@ export default {
     try {
       this.loading = true
       this.accountInfo = await getUserInfo(twitterUsername)
+      console.log(345, this.accountInfo);
       const { steemId, ethAddress } = this.accountInfo;
 
       if (steemId) {

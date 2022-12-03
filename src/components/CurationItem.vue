@@ -237,7 +237,7 @@ export default {
       return true
     },
     gotoUserPage() {
-      if (!this.curation || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
+      if (!this.getAccountInfo || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
       }
     },
