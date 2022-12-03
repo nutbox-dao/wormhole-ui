@@ -6,8 +6,8 @@
         <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
           <span v-for="(tag, index) of subTagList" :key="index"
                 class="leading-30px whitespace-nowrap px-1rem rounded-full border-1 h-30px cursor-pointer"
-                :class="subActiveTagIndex===index?'bg-colorF1 text-color62 border-color62 font-bold':
-                'border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+                :class="subActiveTagIndex===index?'bg-color62/20 light:bg-colorF1 text-color62 border-color62 font-bold':
+                'border-color8B/30 light:border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                 @click="changeSubIndex(index)">{{tag}}</span>
         </div>
         <!-- <div>

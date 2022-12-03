@@ -20,7 +20,9 @@
          class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px
                 px-20px sm:px-4.5rem py-24px mb-2rem">
       <!-- set up -->
-      <div class="text-12px 2xl:text-0.7rem mb-10px">{{$t('curation.selectCategoryTip')}}</div>
+      <div class="text-14px leading-21px 2xl:text-0.7rem mb-10px text-left font-600 -mt-5px">
+        {{$t('curation.selectCategoryTip')}}
+      </div>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
         <!-- title -->
         <!-- <div class="mt-1.8rem">
@@ -120,8 +122,10 @@
                            flex items-center justify-center text-center rounded-12px">
               </button>
             </div>
-            <div v-else class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
-                      border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
+            <div v-else class="overflow-hidden relative rounded-8px h-134px px-1/5 pt-10px
+                               flex items-center justify-center
+                               c-text-black text-center text-14px leading-22px
+                               border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
               {{$t('curation.pastLinkTip')}}
             </div>
           </div>
@@ -133,8 +137,10 @@
             <Space class="rounded-12px h-full mb-1rem md:mb-0"
                    :space="form.space"/>
           </div>
-          <div v-else class="overflow-hidden relative rounded-8px h-134px px-15px pt-10px leading-20px
-                      border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
+          <div v-else class="overflow-hidden relative rounded-8px h-134px px-1/5 pt-10px
+                               flex items-center justify-center
+                               c-text-black text-center text-14px leading-22px
+                               border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
             {{$t('curation.pastLinkTip')}}
           </div>
         </div>

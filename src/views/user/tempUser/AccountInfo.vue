@@ -12,11 +12,17 @@
                     @error="replaceEmptyImg"
                     :src="profileImg"
                     alt=""/>
-                <div class="flex-1 flex justify-between sm:items-center flex-col items-start overflow-hidden">
-                  <div class="flex flex-wrap items-center gap-y-4px overflow-hidden w-full">
+                <div class="flex-1 overflow-hidden">
+                  <div class="flex items-center overflow-hidden w-full mb-5px">
                     <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
                       {{ accountInfo ? accountInfo.twitterName : "" }}
                     </div>
+                    <div class="flex items-center justify-start text-color7D/60 mr-5px"
+                         v-if="accountInfo && accountInfo.steemId">
+                      <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-y-4px">
                     <div @click="gotoTwitter"
                          class="cursor-pointer mr-0.5rem w-max flex items-center
                                   text-color8B light:text-color7D
@@ -35,12 +41,8 @@
                     </div>
                   </div>
                   <div class="flex flex-wrap mt-5px overflow-hidden w-full">
-                    <div class="flex items-center justify-start text-color7D/60 mr-5px"
-                         v-if="accountInfo && accountInfo.steemId">
-                      <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
-                    </div>
-                    <button class="h-20px flex items-center p-2px rounded-full mt-5px sm:mt-0
-                                     border-1 border-color91/20 bg-colorED truncate"
+                    <button class="h-20px flex items-center p-2px rounded-full mt-5px sm:mt-0 truncate
+                                     border-1 border-color8B/30 light:border-color91/20 bg-white/10 light:bg-colorED"
                             @click="tip">
                       <img class="w-14px min-w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
                       <span v-if="accountInfo?.ethAddress" class="whitespace-nowrap text-color7D truncate">
@@ -52,16 +54,13 @@
                 </div>
               </div>
               <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
-                          light:bg-white light:sm:bg-transparent py-18px sm:pb-0 px-1.5rem mt-1rem">
-                <div class="flex rounded-10px sm:rounded-0px overflow-hidden text-14px
-                            xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
-                  <div class="flex-1 h-36px xl:h-2.4rem flex items-center justify-center cursor-pointer"
-                       :class="selectIndex===0?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
-                       'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-l-10px sm:border-transparent sm:bg-transparent'"
+                          light:bg-white light:sm:bg-transparent pt-7px pb-13px sm:pb-0 mt-30px">
+                <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                       :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
                         @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
-                  <div class="flex-1 h-36px xl:h-2.4rem flex items-center justify-center cursor-pointer"
-                       :class="selectIndex===1?'text-color62 bg-colorED sm:bg-transparent sm:border-b-3 border-color62':
-                       'text-color7D bg-colorF2 border-1 sm:border-b-3 border-colorE3 rounded-r-10px sm:border-transparent sm:bg-transparent'"
+                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                       :class="selectIndex===1?'text-color62 border-color62':'text-color7D border-transparent'"
                        @click="selectIndex = 1">{{$t('profileView.post')}}</div>
                 </div>
               </div>

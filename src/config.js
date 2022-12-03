@@ -251,7 +251,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     LARGE_IMG: 109,
     OUT_OF_USAGE: 110,
     UPLOAD_FAIL: 111,
-  
+
     BLOCK_CHAIN_ERR: 351,
     CONTRACT_CREATE_FAIL: 352,
     USER_CANCEL_SIGNING: 353,
@@ -259,7 +259,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     UNLOCK_METAMASK: 355,
     WRONG_CHAIN_ID: 356,
     HAVE_CREATED_COMMUNITY: 357,
-  
+
     SIGNATURE_FAILED: 451,
     INVALID_NONCE: 452,
     DB_ERROR: 453,

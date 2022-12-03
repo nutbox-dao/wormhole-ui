@@ -5,11 +5,6 @@
         {{$t('walletView.tipHistory')}}
       </span>
     </div>
-<!--    <div class="text-15px flex gap-1rem mt-1.2rem">-->
-<!--      <div class="leading-27px whitespace-nowrap px-0.8rem rounded-full font-500 h-27px cursor-pointer"-->
-<!--          :class="selectIndex===0?'gradient-bg text-white':'border-1 border-white/40 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"-->
-<!--          >{{$t('transactionView.recentTip')}}</div>-->
-<!--    </div>-->
     <div class="bg-blockBg light:bg-white rounded-1rem mt-3rem">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                 loading-text="Loading"
@@ -54,7 +49,7 @@
                   <!--                <div class="c-text-medium text-0.7rem mt-0.5rem text-color8B">{{ getValue(item) }}</div>-->
                   <!--              </div>-->
                   <div>
-                    <ChainTokenIcon class="bg-colorD9"
+                    <ChainTokenIcon class="bg-black light:bg-colorD9"
                                     height="24px" width="24px"
                                     :chain-name="item.chainId.toString()"
                                     :token="{address: item.token, symbol: item.symbol}">
@@ -67,7 +62,12 @@
                     </ChainTokenIcon>
                   </div>
                 </div>
-                <div v-if="item.sendStatus!==0" class="text-redColor text-12px w-full text-left mt-4px">
+                <div v-if="item.sendStatus===0"
+                     class="text-greenColor text-12px w-full text-left mt-4px sm:ml-1rem">
+                Success
+                </div>
+                <div v-if="item.sendStatus!==0"
+                     class="text-redColor text-12px w-full text-left mt-4px sm:ml-1rem">
                   {{failResult(item) || ' Tokens has not been sent.'}}
                 </div>
               </div>
@@ -190,9 +190,8 @@ export default {
       }).catch(e => {
         console.log(33, e);
         if (e === 'log out') {
-            this.$router.go('/')
+            this.$router.replace('/')
           }
-        this.refreshing = false
       })
     },
     onLoad() {
@@ -214,7 +213,7 @@ export default {
         }).catch(e => {
           console.log(22, e);
           if (e === 'log out') {
-            this.$router.go('/')
+            this.$router.replace('/')
           }
           this.loading = false
           this.finished = true
@@ -235,7 +234,7 @@ export default {
   },
   async mounted () {
     if(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
-      this.$router.go('/')
+      this.$router.replace('/')
     }
     this.onRefresh()
   },
