@@ -62,7 +62,7 @@
           </div>
           <slot name="bottom-btn-bar">
             <div class="flex gap-4rem mt-15px">
-              <div class="text-white flex items-center">
+              <div class="text-white flex items-center cursor-pointer" @click.stop="reply">
                 <i class="w-18px h-18px icon-msg"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
               </div>
@@ -70,8 +70,9 @@
                 <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
                 <span class="c-text-medium ml-2px">61</span>
               </div> -->
-              <div class="flex items-center">
-                <i class="w-18px h-18px icon-like"></i>
+              <div class="flex items-center cursor-pointer" @click.stop="likeTweet">
+                <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                <i v-else class="w-18px h-18px icon-like"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
               </div>
               <div class="text-white flex items-center">
@@ -106,6 +107,7 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
+import { userLike } from '@/utils/twitter'
 
 export default {
   name: "Blog",
@@ -137,7 +139,8 @@ export default {
       imgIndex: 0,
       mapOptionsModalVisible: false,
       mapLoading: false,
-      gdLocation: ''
+      gdLocation: '',
+      isLiking: false
     }
   },
   computed: {
@@ -218,6 +221,24 @@ export default {
     gotoTweet(e) {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
+    reply() {
+      const url = `https://twitter.com/intent/tweet?in_reply_to=${this.post.postId}&text=%0a%23iweb3`
+      window.open(url)
+    },
+    async likeTweet() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isLiking = true
+        await userLike(this.post.postId)
+      } catch (e) {
+        
+      } finally {
+        this.isLiking = false
+      }
     },
     clickLinkView() {
       try{
