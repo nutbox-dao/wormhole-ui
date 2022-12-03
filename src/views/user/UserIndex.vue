@@ -33,7 +33,8 @@
                                 text-color8B light:text-color7D flex items-center
                                 bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                 light:border-1 light:border-colorE3
-                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem"
+                                @click="modalVisible=true">
                   Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
                 </div>
               </div>
@@ -202,12 +203,16 @@
         {{$t('postView.p6')}}
       </div>
     </el-dialog>
+    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <GetNft @close="modalVisible=false" :username="getAccountInfo.twitterUsername" :reputation="getAccountInfo.reputation"></GetNft>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
+import GetNft from "./components/GetNft.vue";
 import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
@@ -217,6 +222,9 @@ import { getSteemBalance } from "@/utils/steem";
 
 export default {
   name: "User",
+  components: {
+    GetNft,
+  },
   data() {
     return {
       userIsExist: true,
@@ -224,6 +232,7 @@ export default {
       tipDrawer: false,
       showRegistering: false,
       showNotSendTwitter: false,
+      modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
     };
   },

@@ -257,7 +257,7 @@ export default {
     network: 'Network',
     createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space.',
     selectCategoryTip:  'Are you going to curarte a tweet or twitter space?',
-    selectExistTweet: 'Or curate an existing tweet',
+    selectNewTweet: 'Or create a new tweet',
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',
     desc: 'Description',

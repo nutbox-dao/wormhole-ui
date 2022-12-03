@@ -133,9 +133,9 @@
         <!-- tweet relate or new -->
         <div class="flex items-center mt-10px" v-if="form.category==='tweet'">
           <i class="w-16px h-16px min-w-16px min-h-16px mr-10px"
-             :class="form.createType==='new'?'icon-unselected':'icon-selected'"
+             :class="form.createType==='new'?'icon-selected':'icon-unselected'"
              @click="form.createType = (form.createType==='new'?'related':'new')"></i>
-          <span>{{$t('curation.selectExistTweet')}}</span>
+          <span>{{$t('curation.selectNewTweet')}}</span>
         </div>
         <!-- requirements -->
         <div class="mt-1.8rem relative">
