@@ -234,9 +234,9 @@
             </div>
             <div @click="gotoCuration(rc)"
                  v-for="rc of relatedCurations" :key="rc.curationId">
-              <CurationItem class="mb-1rem"
-                            :curation="rc" :show-btn-group="false">
-              </CurationItem>
+              <RelatedCurationItemVue class="mb-1rem"
+                            :curation="rc">
+              </RelatedCurationItemVue>
             </div>
           </div>
         </div>
@@ -246,9 +246,9 @@
           <div class="block sm:hidden" v-if="relatedCurations && relatedCurations.length > 0">
             <div class="text-left px-15px text-14px 2xl:text-1rem font-bold mb-1rem">{{$t('curation.relatedCurations')}}</div>
             <div @click="gotoCuration(rc)" v-for="rc of relatedCurations" :key="rc.curationId">
-              <CurationItem class="px-15px mb-1rem"
-                            :curation="rc" :show-btn-group="false">
-              </CurationItem>
+              <RelatedCurationItemVue class="px-15px mb-1rem"
+                            :curation="rc">
+              </RelatedCurationItemVue>
             </div>
           </div>
         </template>
@@ -337,6 +337,7 @@ import Blog from "@/components/Blog";
 import ChainTokenIconVue from "@/components/ChainTokenIcon.vue";
 import Space from "@/components/Space";
 import CurationItem from "@/components/CurationItem";
+import RelatedCurationItemVue from "@/components/RelatedCurationItem.vue";
 import SpeakerCollapse from "@/components/SpeakerCollapse";
 import SpeakerTipModal from "@/components/SpeakerTipModal";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
@@ -353,7 +354,7 @@ export default {
   name: "CurationDetail",
   components: {
     TweetAttendTip, Submissions, Blog, Space, TipModalVue,
-    CurationItem, SpeakerCollapse, SpeakerTipModal,
+    CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
     CreatePopUpModal, PopUpsCard, ChainTokenIconVue,ContentTags
   },
   data() {
