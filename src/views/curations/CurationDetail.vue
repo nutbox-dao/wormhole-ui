@@ -623,7 +623,7 @@ export default {
         })
 
         // update popup info
-        popupsOfCuration(this.getAccountInfo.twitterId, id).then(res => {
+        popupsOfCuration(this.getAccountInfo?.twitterId, id).then(res => {
           console.log('popups', res);
           this.popups = res
         }).catch(console.log).finally(() => {
