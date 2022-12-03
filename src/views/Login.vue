@@ -122,12 +122,12 @@ export default {
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
         while((!loginCode || loginCode.length === 0) && tryTimes < 50) {
-          await sleep(1);
+          await sleep(0.5);
           loginCode = Cookie.get('twitter-loginCode');
           tryTimes++;
         }
         Cookie.remove('twitter-loginCode')
-        if (loginCode === 'fail'){
+        if (!loginCode || loginCode === 'fail' || tryTimes >= 50){
           this.showNotify(this.$t('err.loginErr'), 5000, 'error')
           return;
         }
