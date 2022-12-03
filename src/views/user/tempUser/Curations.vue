@@ -39,7 +39,7 @@ import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { sleep } from '@/utils/helper'
 
 export default {
-  name: "Curations",
+  name: "UseerCurations",
   components: {CurationItem, TweetAndStartCuration},
   props: {
     accountInfo: {
@@ -99,12 +99,13 @@ export default {
     },
     async onLoad() {
       console.log('on load');
+      if (!this.accountInfo) return;
       this.finished = false;
       this.loading = true;
       try{
         let curations = [];
         let m;
-        const twitterId = this.accountInfo.twitterId;
+        const twitterId = this.accountInfo?.twitterId;
         let createdTime;
         if (curations && curations.length > 0) {
           createdTime = this.showingCurations[this.showingCurations.length - 1].createdTime
