@@ -39,7 +39,7 @@
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
-          <CurationItem v-for="curation of showingCurations"
+          <RelatedCurationItemVue v-for="curation of showingCurations"
                         :key="curation.curationId"
                         :curation="curation" class="cursor-pointer"
                         :show-btn-group="false"
@@ -72,7 +72,7 @@
                 </button>
               </div>
             </template>
-          </CurationItem>
+          </RelatedCurationItemVue>
         </van-list>
       </van-pull-refresh>
     </div>
@@ -104,6 +104,7 @@
 
 <script>
 import CurationItem from "@/components/CurationItem";
+import RelatedCurationItemVue from "@/components/RelatedCurationItem.vue";
 import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
@@ -111,7 +112,7 @@ import { CURATION_SHORT_URL } from '@/config'
 
 export default {
   name: "Curations",
-  components: {CurationItem, TweetAndStartCuration},
+  components: {CurationItem, TweetAndStartCuration, RelatedCurationItemVue},
   data() {
     return {
       subTagList: ['Attended', 'Created'],

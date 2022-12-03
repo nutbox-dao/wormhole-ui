@@ -33,15 +33,15 @@
       </ChainTokenIcon>
     </div>
     <div class="text-left mt-1rem">
-      <div class="c-text-black">{{$t('curation.desc')}}</div>
+      <!-- <div class="c-text-black">{{$t('curation.desc')}}</div> -->
       <div class="text-color7D mt-8px">{{curation?.description}}</div>
       <div v-if="curation?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
         <span class="">End Time</span>
         <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
           {{curation?.endtime}}
         </button>
-        <van-count-down class="text-orangeColor font-bold"
-                        :time="popTime(popup)" format="mm:ss" />
+        <!-- <van-count-down class="text-orangeColor font-bold"
+                        :time="popTime(popup)" format="mm:ss" /> -->
       </div>
       <!-- ongoing -->
       <div v-else class="flex justify-between items-center mt-1rem c-text-black">
@@ -66,16 +66,12 @@ import { likeCuration, followCuration } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 
 export default {
-  name: "CurationItem",
+  name: "RelatedCurationItem",
   components: {ChainTokenIcon, ContentTags},
   props: {
     curation: {
       type: Object,
       default: {}
-    },
-    showBtnGroup: {
-      type: Boolean,
-      default: true
     }
   },
   data () {
@@ -122,96 +118,17 @@ export default {
       if (!this.curation) return false;
       return (this.curation.tasks & 2) / 2
     },
-    isLike() {
-      if (!this.curation) return false;
-      return (this.curation.tasks & 4) / 4
-    },
-    isFollow() {
-      if (!this.curation) return false;
-      return (this.curation.tasks & 8) / 8
-    },
-    quoted() {
-      if(!this.curation || !this.getAccountInfo) return false
-      return this.curation?.taskRecord & 1;
-    },
-    replyed() {
-      if(!this.curation || !this.getAccountInfo) return false
-      return (this.curation?.taskRecord & 2) / 2
-    },
-    liked() {
-      if(!this.curation || !this.getAccountInfo) return false
-      return (this.curation?.taskRecord & 4) / 4
-    },
-    followed() {
-      if(!this.curation || !this.getAccountInfo) return false
-      return (this.curation.taskRecord & 8) / 8
-    },
   },
   methods: {
     formatEmojiText,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
-    checkLogin() {
-      if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return false;
-      }
-      return true
-    },
     gotoUserPage() {
       if (!this.getAccountInfo || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
       }
     },
-    quoteOrReply() {
-      if (!this.checkLogin()) return
-      let url;
-      if (this.isQuote) {
-        url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`
-        this.curation.taskRecord = this.curation.taskRecord | 1
-      }else {
-        url = `https://twitter.com/intent/tweet?in_reply_to=${this.curation.tweetId}&text=%0a%23iweb3`
-        this.curation.taskRecord = this.curation.taskRecord | 2
-      }
-      window.open(url, '__blank');
-    },
-    async like() {
-      if (!this.checkLogin()) return
-      if(this.liked) {
-        return
-      }
-      try{
-        this.isLiking = true
-        await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
-        this.curation.taskRecord = this.curation.taskRecord | 4
-      } catch (e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-        }
-        notify({message:this.$t('err.serverErr'), type:'error'})
-      } finally {
-        this.isLiking = false
-      }
-    },
-    async follow() {
-      if (!this.checkLogin()) return
-      if (this.followed) {
-        return
-      }
-      try{
-        this.isFollowing = true
-        await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
-        this.curation.taskRecord = this.curation?.taskRecord | 8
-      } catch (e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-        }
-        notify({message:this.$t('err.serverErr'), type:'error'})
-      } finally {
-        this.isFollowing = false
-      }
-    }
   },
   mounted() {
     this.enableFold = this.$refs.blogRef?.clientHeight > 200
