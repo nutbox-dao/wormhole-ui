@@ -51,7 +51,7 @@
                   <div>
                     <ChainTokenIcon class="bg-black light:bg-colorD9"
                                     height="24px" width="24px"
-                                    :chain-name="item.chainId.toString()"
+                                    :chain-name="item.chainName.toString()"
                                     :token="{address: item.token, symbol: item.symbol}">
                       <template #amount>
                         <span class="px-8px h-24px whitespace-nowrap text-color8B light:text-blueDark

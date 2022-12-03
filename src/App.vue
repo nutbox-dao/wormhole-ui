@@ -43,7 +43,7 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
                   <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
-                  <div @click="showMenu=false" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('referral')}}</div>
+                  <div @click="onCopy('https://alpha.wormhole3.io/#/square/' + getAccountInfo.twitterId)" v-if="getAccountInfo && getAccountInfo.twitterId" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('referral')}}</div>
                   <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">
                     <template #reference>
                       <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>
@@ -259,12 +259,12 @@ export default {
   async mounted() {
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
-    // to do
-    // vestsToSteem(1).then(res => {
-    //   this.$store.commit('saveVestsToSteem', res)
-    // }).catch(e => {
-    //   console.log('Get vest to steem fail:', e);
-    // })
+
+    vestsToSteem(1).then(res => {
+      this.$store.commit('saveVestsToSteem', res)
+    }).catch(e => {
+      console.log('Get vest to steem fail:', e);
+    })
 
     if (this.getAccountInfo) {
       const { steemId, ethAddress, web25ETH, twitterUsername, twitterId } = this.getAccountInfo;
@@ -301,15 +301,14 @@ export default {
       })
     }
 
-    // to do
-    // while(true) {
-    //   try{
-    //     await this.monitorPrices()
-    //   }catch(e) {
-    //     console.log('get commen price fail:', e)
-    //   }
-    //   await sleep(15)
-    // }
+    while(true) {
+      try{
+        await this.monitorPrices()
+      }catch(e) {
+        console.log('get commen price fail:', e)
+      }
+      await sleep(15)
+    }
   },
 }
 </script>
