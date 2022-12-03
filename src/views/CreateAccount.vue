@@ -50,7 +50,8 @@
           </div>
           <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
             <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
-                    @click="step=2">
+                  :disabled="!checked"  
+                  @click="step=2">
               {{$t('verifyView.sureBtn')}}
             </button>
           </div>
@@ -176,7 +177,7 @@ export default {
             ethAddress: this.wallet.address,
             isMetamask: 0
           }
-          await register(params);
+         await register(params);
           // checkout register progress
           const res = await check({accessToken, twitterId})
           if (res && res.code === 3) {
@@ -199,11 +200,11 @@ export default {
     },
     send() {
       // go to send twitter
+      window.open('https://twitter.com/intent/tweet?text=I have linked my Twitter to @wormhole_3 to help myself take ownership of my data, see this: https://alpha.wormhole3.io%0a%23iweb3', '__blank')
       this.$emit('skip')
     }
   },
   async mounted () {
-    console.log(4,this.pair);
     if (!this.wallet && !this.wallet.address) {
       await sleep(0.6);
       randomWallet().then(wallet => this.wallet = wallet)

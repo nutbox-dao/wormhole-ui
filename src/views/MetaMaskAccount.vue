@@ -148,6 +148,8 @@ export default {
   methods: {
     onCopy,
     async send() {
+      window.open('https://twitter.com/intent/tweet?text=I have linked my Twitter to @wormhole_3 to help myself take ownership of my data, see this: https://alpha.wormhole3.io%0a%23iweb3', '__blank')
+      this.$emit('skip')
     },
     showNotify(message, duration, type) {
       notify({message, duration, type})
@@ -225,7 +227,7 @@ export default {
           if (res && res.code === 3) {
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
-            this.step = 2;
+            this.step = 3;
           }
         }catch(e) {
           console.log(532, e);
