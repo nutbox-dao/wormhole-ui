@@ -5,6 +5,8 @@ import { sleep } from "@/utils/helper"
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
+export const getCommon = async () => 
+    get("https://api-walnut.nutbox.app/common")
 
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async() => 

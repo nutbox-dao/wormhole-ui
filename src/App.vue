@@ -144,9 +144,8 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile } from '@/api/api'
+import { getProfile, getCommon } from '@/api/api'
 import Login from '@/views/Login.vue'
-import { userLike, userTweet } from '@/utils/twitter'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -191,23 +190,12 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      let res = await Promise.all([
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT'),
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=BNBETH'),
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=STEEMUSDT'),
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=UNIUSDT'),
-        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=MATICUSDT'),
-      ])
-      res = res.map(p => parseFloat(p.data.price))
-      const prices = {
-        eth: res[0],
-        btc: res[1],
-        bnb: res[2] * res[0],
-        steem: res[3],
-        uni: res[4],
-        matic: res[5],
-        wmatic: res[5],
+      const res = await getCommon();
+      let {prices, vestsToSteem} = res;
+      this.$store.commit('saveVestsToSteem', vestsToSteem)
+      prices = {
+        ...prices,
+        wmatic: prices.matic,
         dai: 1,
         usdt: 1,
         usdc: 1,
@@ -258,11 +246,12 @@ export default {
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
 
-    vestsToSteem(1).then(res => {
-      this.$store.commit('saveVestsToSteem', res)
-    }).catch(e => {
-      console.log('Get vest to steem fail:', e);
-    })
+    // to do
+    // vestsToSteem(1).then(res => {
+    //   this.$store.commit('saveVestsToSteem', res)
+    // }).catch(e => {
+    //   console.log('Get vest to steem fail:', e);
+    // })
 
     if (this.getAccountInfo) {
       const { steemId, ethAddress, web25ETH, twitterUsername, twitterId } = this.getAccountInfo;
