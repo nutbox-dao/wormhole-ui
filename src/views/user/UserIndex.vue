@@ -14,28 +14,54 @@
                 <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
-                <div class="flex items-center justify-start text-color7D/60 ml-5px"
-                     v-if="getAccountInfo && getAccountInfo.steemId">
-                  <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
-                </div>
-              </div>
-              <div class="flex flex-wrap items-center gap-y-4px">
                 <div @click="gotoTwitter"
                      class="cursor-pointer mr-0.5rem w-max flex items-center
-                                text-color8B light:text-color7D
-                                bg-white/10 light:bg-colorF2
-                                light:border-1 light:border-colorE3
-                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                  <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                  <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
-                </div>
-                <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
-                                text-color8B light:text-color7D flex items-center
-                                bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
-                                light:border-1 light:border-colorE3
-                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
-                  Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
-                </div>
+                                  text-color8B light:text-color7D
+                                  bg-white/10 light:bg-colorF2
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                    <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                    <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                  </div>
+                  <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
+                                  text-color8B light:text-color7D flex items-center
+                                  bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
+                                  light:border-1 light:border-colorE3
+                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                    Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
+                  </div>
+              </div>
+              <div class="flex items-center justify-start sm:mt-0 mt-0.5rem text-color7D/60"
+                     v-if="getAccountInfo && getAccountInfo.steemId">
+                    <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
+              </div>
+              <div class="flex flex-col sm:items-center">
+<!--                <div class="c-text-black text-1.2rem md:text-2rem sm:mt-0 mt-0.8rem light:text-blueDark">-->
+<!--                  {{ totalValue }}-->
+<!--                </div>-->
+                <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
+                  <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
+                          class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                                rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                          @click="$router.push('/create-curation')">
+                    {{$t('curationsView.createBtn')}}
+                  </button>
+                  <button v-else class="text-0.8rem md:text-1rem whitespace-nowrap flex items-center justify-center gradient-btn gradient-btn-shadow
+                            h-2.7rem px-1rem rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform -translate-x-1/2 z-2"
+                      @click="tipDrawer = true">
+                    <img
+                        class="w-1.5rem h-1.5rem mr-0.5rem"
+                        src="~@/assets/icon-warning.svg"
+                        alt=""
+                    />
+                    {{ $t('postView.tweetTip')}}
+                  </button>
+                </template>
+                <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+                    rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
+                    @click="$store.commit('saveShowLogin', true)">
+                    {{$t('common.active')}}
+                  </button>
               </div>
             </div>
           </div>
