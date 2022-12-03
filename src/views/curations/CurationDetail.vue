@@ -226,32 +226,22 @@
             </template>
           </div>
 
-          <!-- Related Curations web -->
-          <div class="bg-block light:bg-white px-15px py-1rem rounded-12px mt-1rem hidden sm:block"
-               v-if="relatedCurations && relatedCurations.length > 0">
-            <div class="text-left text-14px 2xl:text-1rem font-bold my-1rem">
-              {{$t('curation.relatedCurations')}}
+          <div class="w-full h-1px sm:h-0px bg-color8B/30 light:bg-colorE3 mt-2rem mb-1rem"></div>
+          <template v-if="detailCuration">
+            <!-- Related Curations mobile -->
+            <div v-if="relatedCurations && relatedCurations.length > 0">
+              <div class="text-left text-14px 2xl:text-1rem font-bold mb-1rem">{{$t('curation.relatedCurations')}}</div>
+              <div class="mb-1rem"
+                   @click="gotoCuration(rc)"
+                   v-for="rc of relatedCurations" :key="rc.curationId">
+                <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
+                                             rounded-12px overflow-hidden"
+                                        :curation="rc">
+                </RelatedCurationItemVue>
+              </div>
             </div>
-            <div @click="gotoCuration(rc)"
-                 v-for="rc of relatedCurations" :key="rc.curationId">
-              <RelatedCurationItemVue class="mb-1rem"
-                            :curation="rc">
-              </RelatedCurationItemVue>
-            </div>
-          </div>
+          </template>
         </div>
-        <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>
-        <template v-if="detailCuration">
-          <!-- Related Curations mobile -->
-          <div class="block sm:hidden" v-if="relatedCurations && relatedCurations.length > 0">
-            <div class="text-left px-15px text-14px 2xl:text-1rem font-bold mb-1rem">{{$t('curation.relatedCurations')}}</div>
-            <div @click="gotoCuration(rc)" v-for="rc of relatedCurations" :key="rc.curationId">
-              <RelatedCurationItemVue class="px-15px mb-1rem"
-                            :curation="rc">
-              </RelatedCurationItemVue>
-            </div>
-          </div>
-        </template>
       </div>
     </div>
 

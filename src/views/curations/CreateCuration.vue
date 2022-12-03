@@ -89,7 +89,8 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-              {{$t('curation.pastLinkTip')}}
+              <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+              <span v-else>{{$t('curation.pastLinkTip')}}</span>
             </div>
           </div>
         </template>
@@ -104,7 +105,8 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-            {{$t('curation.pastLinkTip')}}
+            <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+            <span v-else>{{$t('curation.pastLinkTip')}}</span>
           </div>
         </div>
         <!-- related link -->
@@ -119,7 +121,6 @@
                      :disabled="checkingTweetLink"
                      @input="linkIsError=false"
                      :placeholder="$t('curation.pasteLink')">
-              <div v-if="linkIsError" class="text-redColor">Invalid link</div>
             </div>
             <button class="bg-color62 text-white h-20px xl:h-1rem px-5px rounded-4px min-w-50px disabled:opacity-50
                            mx-15px whitespace-nowrap flex justify-center items-center text-12px xl:text-0.6rem"
@@ -143,7 +144,7 @@
           <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px
                       flex justify-between items-center relative px-15px">
-            <i class="w-16px h-16px min-w-16px min-h-16px icon-selected"></i>
+            <i class="w-16px h-16px min-w-16px min-h-16px icon-radio-default"></i>
             <div class="flex-1 flex justify-between items-center pl-8px">
               <el-select v-model="form.mandatoryTask"
                          class="w-1/3 c-small-select rounded-8px bg-transparent" size="small">
@@ -158,7 +159,7 @@
                       flex justify-between items-center relative px-15px"
                @click="form.isFollow=!form.isFollow">
             <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
-               :class="form.isFollow?'icon-selected border-0':'bg-black light:bg-white'"></i>
+               :class="form.isFollow?'icon-radio-primary border-0':'bg-black light:bg-white'"></i>
             <div class="flex-1 flex justify-between items-center pl-15px">
               <span>{{$t('curation.follow')}}</span>
               <span>@{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}</span>
@@ -169,7 +170,7 @@
                       flex flex-start items-center relative px-15px"
                @click="form.isLike=!form.isLike">
             <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
-               :class="form.isLike?'icon-selected border-0':'bg-black light:bg-white'"></i>
+               :class="form.isLike?'icon-radio-primary border-0':'bg-black light:bg-white'"></i>
             <span class="pl-15px">{{$t('curation.like')}}</span>
           </div>
         </div>
