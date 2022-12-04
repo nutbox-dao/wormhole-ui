@@ -45,7 +45,7 @@
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
                   :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-              {{isEnded(popup) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
+              {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
               </template>
             </ChainTokenIcon>

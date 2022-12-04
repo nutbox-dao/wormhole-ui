@@ -401,6 +401,7 @@ export default {
     },
     // 已结束未完成
     endAndNotComplete() {
+      return this.detailCuration?.endtime < (new Date().getTime() / 1000)
       return this.participant.length > 3  &&
           ((this.quoted+this.replyed+this.liked+this.followed)<
               (this.isQuote+this.isReply+this.isLike+this.isFollow))

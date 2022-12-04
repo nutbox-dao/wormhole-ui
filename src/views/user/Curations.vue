@@ -236,6 +236,9 @@ export default {
       }
     },
     gotoDetail(curation) {
+      if (!curation.tweetId) {
+        return;
+      }
       this.$store.commit('curation/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
     },
