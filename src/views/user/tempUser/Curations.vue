@@ -1,10 +1,8 @@
 <template>
-  <div class="pb-4rem w-full">
-    <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px sm:my-2rem">
-      <div v-if="accountInfo && accountInfo.isRegistry === 1"
-           class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex">
-      </div>
+  <div class="w-full h-full">
+    <div class="bg-blockBg light:bg-white sm:pb-1.5rem rounded-12px sm:my-2rem h-full sm:h-max">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+                        class="h-full"
                         :loading-text="$t('common.loading')"
                         :pulling-text="$t('common.pullRefresh')"
                         :loosing-text="$t('common.loosingRefresh')">
@@ -21,12 +19,14 @@
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
-          <CurationItem v-for="curation of showingCurations"
-                        :key="curation.curationId"
-                        :curation="curation" class="cursor-pointer"
-                        :show-btn-group="false"
-                        @click="gotoDetail(curation)">
-          </CurationItem>
+          <div v-for="curation of showingCurations" :key="curation.curationId"
+               class="border-t-1 border-listBgBorder light:border-colorE3 pt-15px pb-5px c-curation-item">
+            <CurationItem class="cursor-pointer"
+                          :curation="curation"
+                          :show-btn-group="false"
+                          @click="gotoDetail(curation)">
+            </CurationItem>
+          </div>
         </van-list>
       </van-pull-refresh>
     </div>
@@ -134,6 +134,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.c-curation-item:first-child {
+  border: none;
+}
 </style>

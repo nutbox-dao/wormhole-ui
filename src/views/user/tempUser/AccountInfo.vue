@@ -1,8 +1,18 @@
 <template>
   <div class="h-full flex flex-col text-14px xl:text-0.8rem">
-    <div id="user-index" class=" overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
+    <div id="user-index"
+         class="overflow-x-hidden h-full flex flex-col no-scroll-bar"
+         @scroll="pageScroll"
+         ref="userIndexRef">
+      <button v-show="scroll>100"
+              @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
+              class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                   h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
+        <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+      </button>
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
-      <div v-show="!showDetail">
+      <div v-show="!showDetail" class="h-full flex flex-col">
         <template v-if="!loading">
           <div class="border-b-0 md:border-b-1 md:border-color84/30">
             <div class="container max-w-50rem mx-auto">
@@ -53,8 +63,8 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
-                          light:bg-white light:sm:bg-transparent pt-7px pb-13px sm:pb-0 mt-30px">
+              <div class="bg-blockBg sm:bg-transparent overflow-hidden
+                          light:bg-white light:sm:bg-transparent pt-7px sm:pb-0 mt-30px">
                 <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
                   <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                        :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
@@ -66,7 +76,8 @@
               </div>
             </div>
           </div>
-          <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+          <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent
+                      container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
             <Curations :accountInfo="accountInfo" v-show="selectIndex===0"/>
             <Post v-show="selectIndex === 1"
                   :accountInfo="accountInfo"
@@ -76,8 +87,8 @@
           </div>
         </template>
         <div class="c-text-black text-1.8rem mb-3rem" v-else>
-        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-      </div>
+          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+        </div>
       </div>
     </div>
     <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
@@ -134,7 +145,8 @@ export default {
       ethBalance: 0,
       showDetail: false,
       post: {},
-      showTip: false
+      showTip: false,
+      scroll: 0
     };
   },
   computed: {
@@ -179,6 +191,9 @@ export default {
     },
   },
   methods: {
+    pageScroll() {
+      this.scroll = this.$refs.userIndexRef.scrollTop
+    },
     showNotify(message, duration, type) {
       notify({ message, duration, type });
     },

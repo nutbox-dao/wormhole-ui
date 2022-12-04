@@ -4,8 +4,7 @@
     <div class="container mx-auto max-w-50rem pb-2rem pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
         <div class="col-span-1 xl:col-span-2 px-15px">
-          <div v-loading="loading1"
-               class="h-min min-h-80px text-left rounded-12px overflow-hidden">
+          <div class="h-min min-h-180px text-left rounded-12px overflow-hidden relative">
             <!-- curation info -->
             <div v-if="detailCuration">
               <div class="flex items-start mb-1rem">
@@ -45,6 +44,10 @@
                   </div>
                 </div>
               </template>
+            </div>
+            <div v-if="loading1"
+                 class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+              <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
             </div>
           </div>
           <!-- tips -->
@@ -184,9 +187,9 @@
             </div>
           </div>
           <!-- Details -->
-          <div v-loading="loading1" class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
-                      rounded-12px overflow-hidden mt-1rem">
-            <div class="px-1.25rem pt-8px pb-1rem text-left">
+          <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
+                      rounded-12px overflow-hidden mt-1rem relative">
+            <div class="px-1.25rem pt-8px pb-1rem text-left relative">
               <div class="c-text-black mt-4px">{{$t('curation.details')}}</div>
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
               <div class="text-color7D">Our first giveaway event, come and grab your airdrop</div>
@@ -204,18 +207,25 @@
                   {{endtime}}
                 </button>
               </div>
+              <div v-if="loading1"
+                   class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center rounded-12px">
+                <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+              </div>
             </div>
             <template v-if="contentType==='space'">
-              <div v-loading="loading5" class="light:bg-card-gradient text-left mt-1rem">
+              <div class="light:bg-card-gradient text-left mt-1rem relative">
                 <SpeakerCollapse :space="space"/>
+                <div v-if="loading5"
+                     class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center rounded-12px">
+                  <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                </div>
               </div>
             </template>
           </div>
-
-          <div class="w-full h-1px sm:h-0px bg-color8B/30 light:bg-colorE3 mt-2rem mb-1rem"></div>
           <template v-if="detailCuration">
             <!-- Related Curations mobile -->
-            <div v-if="relatedCurations && relatedCurations.length > 0">
+            <div v-if="relatedCurations && relatedCurations.length > 0"
+                 class="border-t-1 border-color8B/30 light:border-colorE3 mt-2rem pt-1rem">
               <div class="text-left text-14px 2xl:text-1rem font-bold mb-1rem">{{$t('curation.relatedCurations')}}</div>
               <div class="mb-1rem"
                    @click="gotoCuration(rc)"
@@ -728,7 +738,6 @@ export default {
       this.loading3 = true
       this.loading4 = true
       this.loading5 = true
-
     }
   },
   mounted () {

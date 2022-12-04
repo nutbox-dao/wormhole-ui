@@ -1,8 +1,8 @@
 <template>
-  <div class="pb-4rem w-full">
+  <div class="w-full">
     <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px sm:my-2rem">
       <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
-           class="px-1.5rem border-b-1px border-white/20 sm:border-b-0 py-0.8rem text-14px flex">
+           class="px-1.5rem py-0.8rem text-14px flex">
         <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
           <span v-for="(tag, index) of subTagList" :key="index"
                 class="leading-30px whitespace-nowrap px-1rem rounded-full border-1 h-30px cursor-pointer"
@@ -10,17 +10,6 @@
                 'border-color8B/30 light:border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
                 @click="changeSubIndex(index)">{{tag}}</span>
         </div>
-        <!-- <div>
-          <div class="border-1 bg-black/40 border-1 border-color8B/30 w-10rem
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-30px">
-            <el-select v-model="filterKey" class="w-full" size="large">
-              <el-option label="Latest" value="latest"></el-option>
-              <el-option label="Attend time" value="attendTime"></el-option>
-            </el-select>
-          </div>
-        </div> -->
       </div>
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         :loading-text="$t('common.loading')"
@@ -40,7 +29,7 @@
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
           <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
-                                         cursor-pointer rounded-12px overflow-hidden"
+                                         cursor-pointer rounded-12px overflow-hidden mb-1rem"
                                   v-for="curation of showingCurations"
                         :key="curation.curationId"
                         :curation="curation"
@@ -84,9 +73,6 @@
       <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
       rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
         <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar pt-1rem pb-2rem md:py-0">
           <TweetAndStartCuration :curation-content="detailCuration.content"
                                  :curation-id="detailCuration.curationId"

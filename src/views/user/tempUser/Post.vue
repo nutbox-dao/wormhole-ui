@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem text-14px xl:text-0.8rem">
+  <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem text-14px xl:text-0.8rem pt-15px sm:pt-0">
     <div class="col-span-1 xl:col-start-3 xl:col-end-4
                 light:bg-social-token-box light:bg-no-repeat light:bg-cover
                 border-1 border-dividerColor

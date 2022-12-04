@@ -38,7 +38,7 @@
       <div v-if="curation?.endtime < (new Date().getTime() / 1000)"
            class="flex justify-between items-center c-text-black">
         <span class="">{{$t('curation.endedAt')}}</span>
-        <button class="xl:1.3rem text-color7D rounded-5px">
+        <button class="xl:1.3rem text-redColor rounded-5px">
           {{parseTimestampToUppercase(curation.endtime)}}
         </button>
       </div>
@@ -68,20 +68,33 @@
         </button>
       </div>
     </div>
-    <div class="min-h-7px cursor-pointer" @click="showTweet=true" v-if="!curation.tweetId && curation.curationStatus < 1">
+    <div class="min-h-7px cursor-pointer" @click.stop="showTweet=true" v-if="!curation.tweetId && curation.curationStatus < 1">
       <div class="bg-tag-gradient h-26px xl:h-1.3rem flex items-center justify-between text-white px-15px">
         <button class="font-600">Click to Tweet</button>
         <span>Pending...</span>
       </div>
     </div>
-    <div  v-if="showTweet"
-           class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg
-                  light:bg-white light:border-colorE3 hover:border-primaryColor
-                  rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
-        <TweetAndStartCuration :curation-content="curation.description"
-                               :curation-id="curation.curationId"
-                               @onPost="onPost"/>
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               teleport="body"
+               v-model:show="showTweet"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar pt-1rem pb-2rem md:py-0">
+          <TweetAndStartCuration :curation-content="curation.description"
+                                 :curation-id="curation.curationId"
+                                 @onPost="onPost">
+            <template #title>
+              <div class="c-text-black md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem
+                          text-left md:text-center w-full mb-1rem">
+                {{$t('curation.startCuration')}}
+              </div>
+            </template>
+          </TweetAndStartCuration>
+        </div>
       </div>
+    </van-popup>
   </div>
 </template>
 
@@ -107,6 +120,7 @@ export default {
   },
   data () {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       enableFold: true,
       isFold: false,
       isLiking: false,
