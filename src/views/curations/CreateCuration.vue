@@ -144,7 +144,7 @@
           <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px
                       flex justify-between items-center relative px-15px">
-            <i class="w-16px h-16px min-w-16px min-h-16px icon-radio-default"></i>
+            <i class="w-16px h-16px min-w-16px min-h-16px icon-radio-primary"></i>
             <div class="flex-1 flex justify-between items-center pl-8px">
               <el-select v-model="form.mandatoryTask"
                          class="w-1/3 c-small-select rounded-8px bg-transparent" size="small">

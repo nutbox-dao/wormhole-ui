@@ -22,7 +22,7 @@
         </div>
       </div>
       <div v-if="contentType==='tweet'" class="my-10px">
-        <div class="overflow-hidden relative rounded-15px border-1 border-color8B/30 light:border-color6D md:ml-4.1rem"
+        <div class="overflow-hidden relative rounded-15px border-1 border-color8B/30 light:border-colorD6 md:ml-4.1rem"
              :class="enableFold && !isFold?'max-h-200px':''">
           <div ref="blogRef">
             <Blog :post="curation"

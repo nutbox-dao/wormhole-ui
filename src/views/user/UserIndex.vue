@@ -1,5 +1,15 @@
 <template>
-  <div id="user-index" class="overflow-x-hidden h-full flex flex-col no-scroll-bar" ref="wrapper">
+  <div id="user-index"
+       class="overflow-x-hidden h-full flex flex-col no-scroll-bar"
+       @scroll="pageScroll"
+       ref="userIndexRef">
+    <button v-show="scroll>100"
+            @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
+            class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                   h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-8rem right-1.5rem sm:right-2.5rem z-9999">
+      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+    </button>
     <template v-if="!loading">
       <div class="border-b-0 sm:border-b-1 sm:border-color84/30">
         <div class="container max-w-50rem mx-auto">
@@ -234,6 +244,7 @@ export default {
       showNotSendTwitter: false,
       modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
+      scroll: 0
     };
   },
   computed: {
@@ -283,6 +294,9 @@ export default {
     },
   },
   methods: {
+    pageScroll() {
+      this.scroll = this.$refs.userIndexRef.scrollTop
+    },
     showNotify(message, duration, type) {
       notify({ message, duration, type });
     },
