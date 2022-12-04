@@ -48,6 +48,9 @@ export default defineConfig({
         colorEE: '#EEB134',
         color19: '#19AF00',
         colorD9: '#D9D9D9',
+        colorCE: '#CE395F',
+        colorFF: '#FFD480',
+        colorFA: '#FA910D',
         blueDark: '#1A1E25'
       },
       screens: {

@@ -26,9 +26,8 @@
                  class="w-14px h-14px absolute bottom-0 -right-5px"
                  src="~@/assets/icon-checked-green.svg" alt="">
           </div>
-          <div class="flex-1 flex items-center justify-end">
-            <ChainTokenIcon :class="[!isEnded(popup)?'bg-black light:bg-colorEE/25':'', isEnded(popup)?'bg-primaryColor/20 light:bg-colorD8':'']"
-                            height="20px" width="20px" :chain-name="popup.chainId.toString()"
+          <div class="flex-1 flex items-center justify-end -mr-4px">
+            <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
             <span class="px-8px h-17px whitespace-nowrap
@@ -41,7 +40,7 @@
           </div>
         </div>
         <div class="w-full flex-1 flex px-1rem items-center justify-between">
-          <div class="flex-1 whitespace-nowrap truncate">
+          <div class="flex-1 whitespace-nowrap truncate text-colorFA leading-24px">
             {{popup.content}}
           </div>
           <div v-if="(isEnded(popup) && popup.totalAcount > 0)" class="flex-1 flex justify-end items-center" @click.stop="selectedPopup=popup;modalVisible = true">
@@ -186,8 +185,8 @@ export default {
     transition: max-height ease-in-out 0.5s;
   }
   &.hide {
-    max-height: 180px;
-    min-height: 180px;
+    max-height: 160px;
+    min-height: 160px;
   }
 }
 </style>

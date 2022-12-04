@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full overflow-hidden flex flex-col relative py-1rem max-h-80vh">
+  <div class="h-full overflow-hidden relative pt-1rem max-h-80vh min-h-60vh">
     <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem text-center">
       {{$t('curation.participants')}}
     </div>
@@ -27,12 +27,14 @@
                 <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                   {{ formatAmount(record.reward?.toString() / (10 ** popUp.decimals)) }} {{ popUp.symbol }}
                 </span>
-            </template>
-          </ChainTokenIconVue>
-        </div>
-      </div>
+                  </template>
+                </ChainTokenIconVue>
+              </div>
+            </div>
+          </div>
+        </van-list>
+      </van-pull-refresh>
     </div>
-
   </div>
 </template>
 

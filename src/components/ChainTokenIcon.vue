@@ -1,7 +1,7 @@
 <template>
   <div class="w-min rounded-full cursor-pointer">
-    <el-tooltip effect="light" :auto-close="5000" :visible="visible">
-      <div class="flex items-center" @click="hideTip" @mouseenter="visible = true" @mouseleave="visible = false">
+    <el-tooltip effect="light" :auto-close="5000" ref="tokenTipRef">
+      <div class="flex items-center" @click="hideTip">
         <div class="flex items-end relative min-w-12px min-h-12px"
              :style="{height: height, width: width}">
           <img v-if="icon" class="w-full h-full rounded-full" :src="icon" alt="">
@@ -96,9 +96,8 @@ export default {
     formatAddress,
     copyAddress,
     hideTip() {
-      this.visible = true
       setTimeout(() => {
-        this.visible = false
+        this.$refs.tokenTipRef.onClose()
       }, 3000)
     }
   }
