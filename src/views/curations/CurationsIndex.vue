@@ -25,15 +25,17 @@
         </div>
         <div class="text-color8B light:text-color7D mt-10px text-left leading-20px">{{$t('curationsView.p1')}}</div>
       </div> -->
-      <div class="sm:mt-1rem sm:px-1rem">
-        <div class="container mx-auto max-w-53rem md:max-w-48rem sm:bg-blockBg light:sm:bg-white rounded-12px"
+      <div class="sm:px-15px sm:pt-1rem">
+        <div class="container mx-auto max-w-50rem md:max-w-48rem sm:bg-blockBg light:sm:bg-white rounded-12px"
              :class="curationsList && curationsList.length>0?'md:p-1rem':''">
           <el-popover :width="80" popper-class="c-popper" trigger="click" transition="el-zoom-in-top" ref="subTagRef">
             <template #reference>
-              <button class="flex items-center py-0.5rem ml-auto mr-16px my-10px">
-                <span class="text-color62 text-14px">{{subTagList[subActiveTagIndex]}}</span>
-                <img class="ml-4px"  src="~@/assets/icon-arrow-primary.svg" alt="">
-              </button>
+              <div class="py-10px w-max ml-auto mr-16px">
+                <button class="flex items-center">
+                  <span class="text-color62 text-14px">{{subTagList[subActiveTagIndex]}}</span>
+                  <img class="ml-4px"  src="~@/assets/icon-arrow-primary.svg" alt="">
+                </button>
+              </div>
             </template>
             <div class="shadow-md bg-blockBg light:bg-white rounded-12px w-min px-1rem py-0.5rem ml-auto mr-0">
                 <div v-for="(tag, index) of subTagList" :key="index"
@@ -105,6 +107,7 @@ export default {
       subActiveTag: 'Ongoing',
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
+      scroll: 0
     }
   },
   computed: {
@@ -200,6 +203,7 @@ export default {
     }
   },
   mounted () {
+    console.log('mounted')
     this.onRefresh();
   },
 }

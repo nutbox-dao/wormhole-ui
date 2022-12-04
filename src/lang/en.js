@@ -265,7 +265,8 @@ export default {
     switchType2: 'All the contents will be discarded',
     relatedCurations: 'Related Curations',
     allParticipants: 'All participants',
-    participants: 'Participants'
+    participants: 'Participants',
+    join: 'Join'
   },
   popup: {
     create: 'Create a Pop-up reply action',

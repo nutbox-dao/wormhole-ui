@@ -13,10 +13,9 @@
     </div>
     <div class="collapse-box px-1.25rem"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
-      <div class="h-80px py-3px my-8px border-1 border-colorEE rounded-12px
-                  flex flex-col"
+      <div class="h-70px my-8px border-1 border-colorEE rounded-12px overflow-hidden flex flex-col"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="w-full flex items-center border-b-1 border-colorEE py-4px px-10px">
+        <div class="w-full flex items-center bg-colorFF/25 border-b-1 border-colorEE py-4px px-10px">
           <div class="flex flex-1 items-center h-full truncate cursor-pointer"
                @click="join(popup)">
             <div v-if="!isEnded(popup)"
@@ -37,14 +36,12 @@
                    src="~@/assets/icon-checked-green.svg" alt="">
             </div>
           </div>
-          <div class="flex-1 flex items-center justify-end">
-            <ChainTokenIcon :class="[!isEnded(popup)?'bg-black light:bg-colorEE/25':'', isEnded(popup)?'bg-primaryColor/20 light:bg-colorD8':'']"
-                            height="20px" width="20px" :chain-name="popup.chainId.toString()"
+          <div class="flex-1 flex items-center justify-end -mr-4px">
+            <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
-            <span class="px-8px h-17px whitespace-nowrap
-                         flex items-center text-12px 2xl:text-0.8rem font-bold"
-                  :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
+            <span class="px-8px h-17px whitespace-nowrap text-colorFA c-text-black
+                         flex items-center text-12px 2xl:text-0.8rem">
               {{formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
               </template>
@@ -52,21 +49,16 @@
           </div>
         </div>
         <div class="w-full flex-1 flex px-1rem items-center justify-between">
-          <div class="flex-1 whitespace-nowrap truncate">
+          <div class="flex-1 whitespace-nowrap truncate text-colorFA leading-24px">
             {{popup.content}}
           </div>
-          <div class="flex-1 flex justify-end items-center" @click="modalVisible = true">
-            <div class="-ml-7px" v-for="p of 3" :key="p">
-              <img class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-1 border-color62 light:border-white"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-
-            </div>
-            <span class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                             rounded-full -ml-10px flex justify-center items-center
-                             border-1 border-blockBg bg-primaryColor
-                             light:border-white light:bg-color62 light:text-white text-10px">+10</span>
-          </div>
+          <button v-if="!isEnded(popup) && !isJoin(popup)"
+                  class="bg-colorFA text-white h-20px 2xl:h-1rem px-5px rounded-full">
+            {{$t('curation.join')}}
+          </button>
+          <div v-if="isEnded(popup)"
+               class="ml-20px text-colorFA"
+               @click="modalVisible = true">44 >></div>
         </div>
       </div>
     </div>
@@ -78,7 +70,7 @@
                :position="position">
       <transition name="el-zoom-in-bottom">
         <div v-if="modalVisible"
-             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
+             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden">
           <PopUpsParticipants  @close="modalVisible=false"></PopUpsParticipants>
         </div>
       </transition>
@@ -195,8 +187,8 @@ export default {
     transition: max-height ease-in-out 0.5s;
   }
   &.hide {
-    max-height: 180px;
-    min-height: 180px;
+    max-height: 160px;
+    min-height: 160px;
   }
 }
 </style>

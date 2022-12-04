@@ -264,7 +264,7 @@
                :position="position">
       <transition name="el-zoom-in-bottom">
         <div v-if="showSubmissions"
-             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
+             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden">
           <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
         </div>
       </transition>
