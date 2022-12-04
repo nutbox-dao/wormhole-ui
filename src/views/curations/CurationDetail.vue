@@ -28,7 +28,7 @@
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
-                <Space :space="space" class="h-146px md:min-h-10rem bg-color7D/10 rounded-15px mt-10px"></Space>
+                <Space :space="space" @click="gotoTweet" class="h-146px md:min-h-10rem bg-color7D/10 rounded-15px mt-10px cursor-pointer"></Space>
               </template>
               <template v-else>
                 <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -74,7 +74,7 @@
                 <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
                 {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {user: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
-                <button v-if="topTips && topTips.length > 0" @click.stop="tipCollapse=!tipCollapse"
+                <button v-if="top3Tip && top3Tip.length > 0" @click.stop="tipCollapse=!tipCollapse"
                         class="ml-10px bg-tag-gradient text-white h-24px min-w-4rem flex items-center justify-center
                              leading-18px rounded-5px px-3px">Top3</button>
               </div>
@@ -82,7 +82,7 @@
                 <div v-show="tipCollapse" class="pl-45px pb-5px">
                   <div class="border-t-1 gradient-border gradient-border-color91"></div>
                   <div class="pr-1.25rem py-6px hover:bg-color62/30 flex justify-between items-center text-12px"
-                       v-for="(tip, index) of topTips" :key="'tops' + tip.hash">
+                       v-for="(tip, index) of top3Tip" :key="'tops' + tip.hash">
                     <div class="flex items-center">
                       <img class="w-18px" :src="top3Icons[index]" alt="">
                       <span>{{tip.fromUsername}}</span>
@@ -417,7 +417,6 @@ export default {
       space: {},
       popups: [],
       tips: [],
-      topTips: [],
       relatedCurations: [],
       speakerTipVisible: false,
       createPopUpVisible: false,
@@ -531,7 +530,7 @@ export default {
     top3Tip() {
       if (this.tips && this.tips.length > 0) {
         const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
-        return steemTips.sort((a, b) => a.amount - b.amount).slice(0, 3)
+        return steemTips.sort((a, b) => b.amount - a.amount).slice(0, 3)
       }
       return []
     },
@@ -570,7 +569,7 @@ export default {
     },
     tipStr(tip) {
       if (tip.chainName === 'STEEM') {
-        return `@${tip.fromUsername} tips ${tip.emoji ? (tip.emoji + '(' + this.amount + ' STEEM)') : (tip.amount + ' STEEM')} to @${tip.toUsername}`
+        return `@${tip.fromUsername} tips ${tip.emoji ? (tip.emoji + '(' + tip.amount + ' STEEM)') : (tip.amount + ' STEEM')} to @${tip.toUsername}`
       }else {
         let chainName;
         for (let chain in EVM_CHAINS) {
