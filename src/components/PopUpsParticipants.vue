@@ -69,7 +69,6 @@ export default {
   mounted () {
     if (this.popUp) {
       popupRecords(this.popUp.tweetId).then(pop => {
-        console.log(676, pop);
         this.participants = pop ?? []
         if (pop && pop.length < 20) {
           this.finished = true

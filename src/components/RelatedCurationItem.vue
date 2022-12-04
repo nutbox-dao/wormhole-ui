@@ -15,7 +15,7 @@
               <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}}</a>
             </div>
             <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
-            <slot name="status"></slot>
+            <!-- <slot name="status"></slot> -->
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
         </button>
       </div>
     </div>
-    <div class="min-h-7px">
+    <div class="min-h-7px" v-if="!curation.tweetId && curation.curationStatus < 1">
       <div class="bg-tag-gradient h-26px xl:h-1.3rem flex items-center justify-between text-white px-15px">
         <button class="font-600">Click to Tweet</button>
         <span>Pending...</span>
