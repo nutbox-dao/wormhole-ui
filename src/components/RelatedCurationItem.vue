@@ -68,12 +68,20 @@
         </button>
       </div>
     </div>
-    <div class="min-h-7px" v-if="!curation.tweetId && curation.curationStatus < 1">
+    <div class="min-h-7px cursor-pointer" @click="showTweet=true" v-if="!curation.tweetId && curation.curationStatus < 1">
       <div class="bg-tag-gradient h-26px xl:h-1.3rem flex items-center justify-between text-white px-15px">
         <button class="font-600">Click to Tweet</button>
         <span>Pending...</span>
       </div>
     </div>
+    <div  v-if="showTweet"
+           class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg
+                  light:bg-white light:border-colorE3 hover:border-primaryColor
+                  rounded-20px px-2rem sm:px-4.5rem py-2rem mb-2rem">
+        <TweetAndStartCuration :curation-content="curation.description"
+                               :curation-id="curation.curationId"
+                               @onPost="onPost"/>
+      </div>
   </div>
 </template>
 
@@ -85,10 +93,12 @@ import {formatEmojiText, isNumeric} from "@/utils/tool";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import ContentTags from "@/components/ContentTags";
 import {parseTimestampToUppercase} from "@/utils/helper";
+import TweetAndStartCuration from "@/components/TweetAndStartCuration";
+import { CURATION_SHORT_URL } from '@/config'
 
 export default {
   name: "RelatedCurationItem",
-  components: {ChainTokenIcon, ContentTags},
+  components: {ChainTokenIcon, ContentTags, TweetAndStartCuration},
   props: {
     curation: {
       type: Object,
@@ -101,7 +111,8 @@ export default {
       isFold: false,
       isLiking: false,
       isFollowing: false,
-      isEnd: false
+      isEnd: false,
+      showTweet: false
     }
   },
   computed: {
@@ -153,7 +164,19 @@ export default {
     countdown(time) {
       if(!time || !isNumeric(time)) return 0
       return time*1000 - new Date().getTime()
-    }
+    },
+    onPost() {
+      // transfer text to uri
+      const content = this.curation.description + ' #iweb3\n' + this.$t('curation.moreDetail') +  ' => ' + CURATION_SHORT_URL + this.curation.curationId
+      // if (content.length > 280) {
+      //   notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
+      //   return;
+      // }
+
+      let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+      window.open(url, '__blank')
+      this.showTweet = false
+    },
   },
   mounted() {
     this.enableFold = this.$refs.blogRef?.clientHeight > 200
