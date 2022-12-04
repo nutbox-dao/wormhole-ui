@@ -126,7 +126,7 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-              <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+              <span v-if="linkIsError" class="text-redColor">{{wrongLinkDes}}</span>
               <span v-else>{{$t('curation.pastLinkTip')}}</span>
             </div>
           </div>
@@ -142,7 +142,7 @@
                                flex items-center justify-center
                                c-text-black text-center text-14px leading-22px
                                border-1 border-listBgBorder light:border-colorE3 text-color8B/30">
-            <span v-if="linkIsError" class="text-redColor">Invalid link</span>
+            <span v-if="linkIsError" class="text-redColor">{{wrongLinkDes}}</span>
             <span v-else>{{$t('curation.pastLinkTip')}}</span>
           </div>
         </div>
@@ -628,6 +628,7 @@ export default {
       followName: '',
       linkIsVerified: false,
       linkIsError: false,
+      wrongLinkDes: 'Invalid link',
       checkingTweetLink: false,
       selectedToken: {},
       tokenList: ERC20List,
@@ -636,11 +637,6 @@ export default {
       popperWidth: 200,
       customToken: null,
       curation: {},
-      testTokens: [
-        '0x871AD5aAA75C297EB22A6349871ce4588E3c0306',
-        '0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0',
-        '0x622A71842cb6f2f225bEDa38E0BdD85331573182'
-      ],
       descEditContent: '',
       descRange: null,
       titleRange: null,
@@ -690,7 +686,7 @@ export default {
       const link = this.form.link;
       const match = link.match(this.TweetLinRex);
       if (!match) {
-        notify({message: this.$t('err.wrongTweetLink'), type: 'error', duration: 3000});
+        this.wrongLinkDes = this.$t('curation.invalidLink');
         this.linkIsError = true
         return;
       }
@@ -703,6 +699,11 @@ export default {
           this.form.postData = parseTweet(tweet)
           if (this.form.category === 'space') {
             const spaceId = getSpaceIdFromUrls(tweet.data.entities.urls)
+            if (!spaceId) {
+              this.wrongLinkDes = this.$t('curation.spaceIdWrong');
+              this.linkIsError = true
+              return;
+            }
             const space = await getSpaceById(spaceId);
             if (space?.includes?.users) {
               console.log(66, space);
@@ -712,6 +713,11 @@ export default {
                   author = u
                   break;
                 }
+              }
+              if (author.id !== this.form.postData.twitterId) {
+                this.wrongLinkDes = this.$t('curation.tweetSpaceAuthorDismatch')
+                this.linkIsError = true
+                return;
               }
               this.form.space = {
                 spaceId,
@@ -729,8 +735,11 @@ export default {
                 avatar: author.profile_image_url?.replace('normal', '200x200')
               }
               this.form.author = author
+              this.linkIsVerified = true;
+            }else {
+              this.wrongLinkDes = this.$t('curation.spaceIdWrong');
+              this.linkIsError = true
             }
-            this.linkIsVerified = true;
           }else {
             this.form.author = this.form.postData;
             this.linkIsVerified = true;

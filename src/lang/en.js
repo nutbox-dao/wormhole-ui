@@ -266,7 +266,11 @@ export default {
     relatedCurations: 'Related Curations',
     allParticipants: 'All participants',
     participants: 'Participants',
-    join: 'Join'
+    join: 'Join',
+    invalidLink: 'Invalid link',
+    tweetNotExist: "Tweet not exists",
+    spaceIdWrong: "Tweet contain a wrong space ID",
+    tweetSpaceAuthorDismatch: "Authors of tweet and space should be single user."
   },
   popup: {
     create: 'Create a Pop-up reply action',
