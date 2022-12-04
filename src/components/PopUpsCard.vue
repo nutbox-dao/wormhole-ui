@@ -107,7 +107,6 @@ export default {
     ...mapGetters(['getAccountInfo']),
     ...mapGetters('curation', ['detailCuration']),
     showingPopup() {
-      console.log(this.popups)
       if (!this.popups || this.popups.length === 0) return [];
       this.popups.forEach(p => ({
         ...p,

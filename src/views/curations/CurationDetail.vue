@@ -95,7 +95,7 @@
           </div>
 
           <!-- popups -->
-          <template v-if="contentType==='space' && space.spaceState > 1">
+          <template v-if="contentType==='space' && space.spaceState > 1 && (space.spaceState > 2 && popups.length>0)">
             <PopUpsCard :popups="popups" :space="space" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
@@ -655,7 +655,6 @@ export default {
         const id = this.detailCuration.curationId;
         // update curation paricipant info
         getCurationRecord(id).then(res => {
-          console.log('participant', res);
           this.participant = res ?? []
         }).catch(console.log).finally(() => {
           this.loading2 = false
@@ -663,7 +662,6 @@ export default {
 
         // update popup info
         popupsOfCuration(this.getAccountInfo?.twitterId, id).then(res => {
-          console.log('popups', res);
           this.popups = res
         }).catch(console.log).finally(() => {
           this.loading3 = false
@@ -671,14 +669,19 @@ export default {
 
         // update tip info
         getAllTipsOfCuration(id).then(res => {
-          console.log('tips:', res);
-          this.tips = res
+          if (!res) return;
+          if(this.contentType === 'space') {
+            this.tips = res
+          }else {
+            this.tips = res.filter(r => {
+              return r.toTwitterId === this.detailCuration.authorId
+            })
+          }
         })
 
         // update space host profile
         if (this.detailCuration.spaceId) {
           getSpaceInfoById(this.detailCuration.spaceId).then(res => {
-            console.log('space', res);
             this.space = res
           }).finally(() => {
             this.loading5 = false;
@@ -694,12 +697,10 @@ export default {
 
       if (this.getPendingPopup) {
         newPopups(pendingPopup).then(res => {
-          console.log('update popup again', re);
         }).catch(e => {
           if (e === 'log out') {
             notify({message: this.$t('tips.accessTokenExpire'), type:'info'})
           }
-          console.log('update popup fail:', e);
         }).finally(() => {
           // this.$store.commit('curation/savePendingPopup', null)
         })
@@ -712,7 +713,6 @@ export default {
         this.loading1 = true
       }
       getCurationById(id, account?.twitterId).then(res => {
-        console.log('curation detail: ', res);
         if (res) {
           getCurationsOfTweet(res.tweetId).then(res => {
             const cs = res ?? []

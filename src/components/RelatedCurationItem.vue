@@ -37,14 +37,14 @@
       <div class="w-full h-1px bg-color8B/30 light:bg-colorF2 my-8px"></div>
       <div v-if="curation?.endtime < (new Date().getTime() / 1000)"
            class="flex justify-between items-center c-text-black">
-        <span class="">End Time</span>
+        <span class="">{{$t('curation.endedAt')}}</span>
         <button class="xl:1.3rem text-color7D rounded-5px">
           {{parseTimestampToUppercase(curation.endtime)}}
         </button>
       </div>
       <!-- ongoing -->
       <div v-else class="flex justify-between items-center c-text-black">
-        <span class="">Expiration</span>
+        <span class="">{{$t('curation.expire')}}</span>
         <button class="xl:1.3rem text-color62 rounded-5px">
           <van-count-down v-if="curation && curation.endtime" class="text-color7D"
                           :time="countdown(curation.endtime)">
