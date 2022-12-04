@@ -78,6 +78,7 @@ export default {
   },
   methods: {
     async onRefresh() {
+      if (!this.accountInfo) return;
       this.finished = true;
       this.refreshing = true;
       try{

@@ -270,7 +270,9 @@ export default {
     invalidLink: 'Invalid link',
     tweetNotExist: "Tweet not exists",
     spaceIdWrong: "Tweet contain a wrong space ID",
-    tweetSpaceAuthorDismatch: "Authors of tweet and space should be single user."
+    tweetSpaceAuthorDismatch: "Authors of tweet and space should be single user.",
+    endedAt: 'Ended At',
+    expire: 'Expiration'
   },
   popup: {
     create: 'Create a Pop-up reply action',
