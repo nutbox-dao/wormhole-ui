@@ -499,12 +499,6 @@ export default {
     opacity: 1;
   }
 }
-.signup-bg {
-  background-image: url("~@/assets/signup-bg-pc.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-}
 @media (min-width: 1280px) {
   .menu-box.active {
     height: 15rem;
