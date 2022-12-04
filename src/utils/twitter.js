@@ -40,7 +40,6 @@ export const userFollowing = async (authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId
     const f = await uf(twitterId, authorId)
-    console.log(222, f);
     return f;
 }
 

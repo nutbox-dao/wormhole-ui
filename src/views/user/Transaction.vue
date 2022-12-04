@@ -184,7 +184,6 @@ export default {
             pageSize: this.pageSize,
             time,
             newTips: true}).then(res => {
-        console.log(432, res);
         this.$store.commit('saveTips', res)
         this.refreshing = false
       }).catch(e => {

@@ -83,7 +83,6 @@ export default {
       try{
         const twitterId = this.accountInfo.twitterId;
         const newCuration = await getUserCreatedCurations(twitterId);
-        console.log(53, newCuration);
         if (newCuration && newCuration.length > 0) {
           this.showingCurations = newCuration
         }

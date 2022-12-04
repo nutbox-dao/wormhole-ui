@@ -56,7 +56,6 @@ export const signMessage = async (message, address) => {
   const metamask = await getEthWeb()
   const provider = new ethers.providers.Web3Provider(metamask)
   const signer = provider.getSigner();
-  console.log(2, address, await signer.getAddress());
   if (await signer.getAddress() === address) {
     return await signer.signMessage(message)
   }

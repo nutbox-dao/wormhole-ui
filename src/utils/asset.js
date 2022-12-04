@@ -207,7 +207,6 @@ export async function approve(token, account, spender) {
 }
 
 export async function sendTokenToUser(token, amount, to) {
-    console.log(35, token, amount, to);
     const abi = [{
         "inputs": [
           {

@@ -168,7 +168,6 @@ export default {
       return formatAmount(amount)
     },
     async claim(){
-      console.log(444);
       if (!this.showAccount) {
         notify({message: this.$t('tips.connectMetamaskFirst')})
         return;

@@ -133,7 +133,6 @@ export default {
       this.form.token = token.address;
     },
     selectBalance(balance) {
-      console.log(6, balance);
       this.selectedBalance = balance
     },
     selectGift(gift) {
