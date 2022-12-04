@@ -53,7 +53,6 @@ export default {
   methods: {
     getNft(){
         // read NFT
-        console.log(111, this.$store.getters.getAccountInfo.twitterId);
         readNft(this.$store.getters.getAccountInfo.twitterId)
         this.$store.commit('saveHasReceivedNft', true)
     },

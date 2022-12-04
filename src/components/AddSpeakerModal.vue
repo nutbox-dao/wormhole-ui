@@ -73,7 +73,6 @@ export default {
         try{
           this.isChecking = true
           const user = await getUserInfoByUserId(this.formData.username);
-          console.log(253, user)
           if (user.data) {
             this.formData = {
               id: user.data.id,

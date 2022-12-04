@@ -245,7 +245,6 @@ export default {
     try {
       this.loading = true
       this.accountInfo = await getUserInfo(twitterUsername)
-      console.log(345, this.accountInfo);
       const { steemId, ethAddress } = this.accountInfo;
 
       if (steemId) {

@@ -271,7 +271,6 @@ export const createPopup = async (chainName, popup) => {
         let contract = new ethers.Contract(popupContract, abi, provider)
         contract = contract.connect(provider.getSigner())
         const {curationId, popupTweetId, endTime, winnerCount, token, bonus} = popup
-        console.log(3, popupTweetId); //1596342581860130816
         const tx = await contract.createPopup(ethers.BigNumber.from('0x' + curationId), ethers.BigNumber.from(popupTweetId), endTime, winnerCount, token, bonus)
         await waitForTx(provider, tx.hash)
         resolve(tx.hash)
