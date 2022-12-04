@@ -14,11 +14,11 @@
     <div class="collapse-box px-1.25rem"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
       <div class="h-80px py-3px my-8px border-1 border-colorEE rounded-12px
-                  flex flex-col"
+                  flex flex-col cursor-pointer"
+            @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
         <div class="w-full flex items-center border-b-1 border-colorEE py-4px px-10px">
-          <div class="flex flex-1 items-center h-full truncate cursor-pointer"
-               @click="join(popup)">
+          <div class="flex flex-1 items-center h-full truncate cursor-pointer">
             <div v-if="!isEnded(popup)"
                  class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
                       font-bold min-w-70px py-2px flex justify-center items-center relative">
@@ -45,7 +45,7 @@
             <span class="px-8px h-17px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold"
                   :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-              {{formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
+              {{isEnded(popup) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
             </span>
               </template>
             </ChainTokenIcon>
@@ -55,17 +55,14 @@
           <div class="flex-1 whitespace-nowrap truncate">
             {{popup.content}}
           </div>
-          <div class="flex-1 flex justify-end items-center" @click="modalVisible = true">
-            <div class="-ml-7px" v-for="p of 3" :key="p">
+          <div v-if="(isEnded(popup) && popup.totalAcount > 0)" class="flex-1 flex justify-end items-center" @click.stop="selectedPopup=popup;modalVisible = true">
+            <!-- <div class="-ml-7px" v-for="p of 3" :key="p">
               <img class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-1 border-color62 light:border-white"
                    src="~@/assets/icon-default-avatar.svg" alt="">
 
-            </div>
-            <span class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                             rounded-full -ml-10px flex justify-center items-center
-                             border-1 border-blockBg bg-primaryColor
-                             light:border-white light:bg-color62 light:text-white text-10px">+10</span>
+            </div> -->
+            <span  class="flex justify-center items-center text-10px">{{popup.totalAcount}} >></span>
           </div>
         </div>
       </div>
@@ -79,7 +76,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="modalVisible"
              class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
-          <PopUpsParticipants  @close="modalVisible=false"></PopUpsParticipants>
+          <PopUpsParticipants :pop-up="selectedPopup"  @close="modalVisible=false"></PopUpsParticipants>
         </div>
       </transition>
     </van-popup>
@@ -108,6 +105,11 @@ export default {
     showCreate: {
       type: Boolean,
       default: true
+    }
+  },
+  data() {
+    return {
+      selectedPopup: {}
     }
   },
   computed: {
