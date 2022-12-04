@@ -72,8 +72,9 @@
               </div> -->
               <div class="flex items-center cursor-pointer" @click.stop="likeTweet">
                 <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                <img v-else-if="post.voted>0" src="~@/assets/icon-liked.png" alt="">
                 <i v-else class="w-18px h-18px icon-like"></i>
-                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }} {{'liked:'+post.voted > 0}}</span>
+                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.votes }}</span>
               </div>
               <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
@@ -234,6 +235,7 @@ export default {
       try{
         this.isLiking = true
         await userLike(this.post.postId)
+        this.post.voted = 1
       } catch (e) {
         
       } finally {
