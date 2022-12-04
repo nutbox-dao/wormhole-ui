@@ -39,9 +39,11 @@
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
-          <RelatedCurationItemVue v-for="curation of showingCurations"
+          <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
+                                         cursor-pointer rounded-12px overflow-hidden"
+                                  v-for="curation of showingCurations"
                         :key="curation.curationId"
-                        :curation="curation" class="cursor-pointer"
+                        :curation="curation"
                         :show-btn-group="false"
                         @click="gotoDetail(curation)">
             <template v-if="subActiveTagIndex===1" #status>
