@@ -13,7 +13,7 @@
     </div>
     <div class="collapse-box px-1.25rem"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
-      <div class="h-80px py-3px my-8px border-1 border-colorEE rounded-12px
+      <div class="h-70px my-8px border-1 border-colorEE rounded-12px overflow-hidden
                   flex flex-col cursor-pointer"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
@@ -43,15 +43,14 @@
           <div class="flex-1 whitespace-nowrap truncate text-colorFA leading-24px">
             {{popup.content}}
           </div>
-          <div v-if="(isEnded(popup) && popup.totalAcount > 0)" class="flex-1 flex justify-end items-center" @click.stop="selectedPopup=popup;modalVisible = true">
-            <!-- <div class="-ml-7px" v-for="p of 3" :key="p">
-              <img class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-1 border-color62 light:border-white"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-
-            </div> -->
-            <span  class="flex justify-center items-center text-10px">{{popup.totalAcount}} >></span>
-          </div>
+          <button v-if="!isEnded(popup) && !isJoin(popup)"
+                  class="bg-colorFA text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px"
+                  @click.stop="selectedPopup=popup;modalVisible = true">
+            {{$t('curation.join')}}
+          </button>
+          <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
+               class="ml-20px text-colorFA"
+               @click="modalVisible = true">{{popup.totalAcount}} >></div>
         </div>
       </div>
     </div>
@@ -97,7 +96,11 @@ export default {
   },
   data() {
     return {
-      selectedPopup: {}
+      selectedPopup: {},
+      position: document.body.clientWidth < 768?'bottom':'center',
+      popUpsCollapse: false,
+      timeUpdateInterval: null,
+      modalVisible: false
     }
   },
   computed: {
@@ -155,14 +158,6 @@ export default {
     },
     isNumeric (val) {
       return val !== null && val !== '' && !isNaN(val)
-    }
-  },
-  data() {
-    return {
-      position: document.body.clientWidth < 768?'bottom':'center',
-      popUpsCollapse: false,
-      timeUpdateInterval: null,
-      modalVisible: false
     }
   }
 }
