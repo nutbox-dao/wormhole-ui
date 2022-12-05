@@ -69,7 +69,7 @@
       </div>
     </div>
     <template v-if="step===2">
-      <TipModalVue class="flex-1 mt-40px" :tipToUser="tipToUser" @close="$emit('close')" @back="step=1"/>
+      <TipModalVue class="flex-1 mt-40px" :tipToUser="tipToUser" :parent-tweet-id="parentTweetId" @close="$emit('close')" @back="step=1"/>
     </template>
   </div>
 </template>
