@@ -38,7 +38,7 @@
                                   text-color8B light:text-color7D
                                   bg-white/10 light:bg-colorF2
                                   light:border-1 light:border-colorE3
-                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                                  rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
                       <img class="w-16px xl:w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                       <span class="text-12px 2xl:text-0.7rem">@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                     </div>
@@ -46,18 +46,23 @@
                                   text-color8B light:text-color7D flex items-center
                                   bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                   light:border-1 light:border-colorE3
-                                  rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                                  rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
                       Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
                     </div>
                   </div>
                   <div class="flex flex-wrap mt-5px overflow-hidden w-full">
-                    <button class="h-20px flex items-center p-2px rounded-full mt-5px sm:mt-0 truncate
+                    <button class="h-24px flex items-center p-2px rounded-full mt-5px sm:mt-0 truncate
                                      border-1 border-color8B/30 light:border-color91/20 bg-white/10 light:bg-colorED"
                             @click="tip">
-                      <img class="w-14px min-w-14px" src="~@/assets/icon-coin-purple.svg" alt="">
-                      <span v-if="accountInfo?.ethAddress" class="whitespace-nowrap text-color7D truncate">
+                      <img class="w-20px min-w-20px" src="~@/assets/icon-coin-tag.png" alt="">
+                      <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
+                        <span class="flex-1 whitespace-nowrap text-color7D truncate">
                           Address:{{accountInfo ? accountInfo.ethAddress : ''}}
                         </span>
+                        <img class="w-16px min-w-16px light:opacity-30 ml-3px mr-8px"
+                             @click.stop="copyAddress(accountInfo.ethAddress)"
+                             src="~@/assets/icon-copy-primary.svg" alt="">
+                      </span>
                       <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
                     </button>
                   </div>
@@ -120,6 +125,7 @@ import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
+import {copyAddress} from "@/utils/tool";
 
 export default {
   name: "AccountInfo",
@@ -191,6 +197,7 @@ export default {
     },
   },
   methods: {
+    copyAddress,
     pageScroll() {
       this.scroll = this.$refs.userIndexRef.scrollTop
     },

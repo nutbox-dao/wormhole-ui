@@ -35,7 +35,7 @@
                             text-color8B light:text-color7D
                             bg-white/10 light:bg-colorF2
                             light:border-1 light:border-colorE3
-                            rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem">
+                            rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
                   <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                   <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
                 </div>
@@ -43,7 +43,7 @@
                                 text-color8B light:text-color7D flex items-center
                                 bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
                                 light:border-1 light:border-colorE3
-                                rounded-full min-h-20px h-1.4rem md:1rem px-0.5rem"
+                                rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem"
                                 @click="modalVisible=true">
                   Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
                 </div>
