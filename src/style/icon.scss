@@ -162,6 +162,24 @@
   background-image: url("~@/assets/icon-add-circle-light.svg");
 }
 
+.icon-quote-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-tag.svg");
+}
+.light .icon-quote-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-tag-light.svg");
+}
+
+.icon-reply-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-tag.svg");
+}
+.light .icon-reply-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-tag-light.svg");
+}
+
 
 .icon-selected {
   @extend .icon;

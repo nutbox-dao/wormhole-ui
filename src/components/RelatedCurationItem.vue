@@ -38,7 +38,7 @@
       <div v-if="curation?.endtime < (new Date().getTime() / 1000)"
            class="flex justify-between items-center c-text-black">
         <span class="">{{$t('curation.endedAt')}}</span>
-        <button class="xl:1.3rem text-redColor rounded-5px">
+        <button class="xl:1.3rem text-colorCE light:text-redColor rounded-5px">
           {{parseTimestampToUppercase(curation.endtime)}}
         </button>
       </div>

@@ -15,6 +15,7 @@
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
       <div class="h-70px my-8px border-1 border-colorEE rounded-12px overflow-hidden
                   flex flex-col cursor-pointer"
+           :class="isEnded(popup)?'border-color8B/70':'border-colorEE'"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
         <div class="flex flex-1 items-center h-full truncate">
@@ -39,8 +40,9 @@
             </ChainTokenIcon>
           </div>
         </div>
-        <div class="w-full flex-1 flex px-1rem items-center justify-between">
-          <div class="flex-1 whitespace-nowrap truncate text-colorFA leading-24px">
+        <div class="w-full flex-1 flex px-1rem items-center justify-between"
+             :class="isEnded(popup)?'text-color8B/70':'text-colorFA'">
+          <div class="flex-1 whitespace-nowrap truncate leading-24px">
             {{popup.content}}
           </div>
           <button v-if="!isEnded(popup) && !isJoin(popup)"
