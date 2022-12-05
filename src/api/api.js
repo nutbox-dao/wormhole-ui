@@ -104,20 +104,20 @@ export const likeCuration = async (twitterId, tweetId, curationId) =>
 export const followCuration = async (twitterId, authorId, curationId) =>
     post(BACKEND_API_URL + '/curation/followCuration', {twitterId, authorId, curationId})
 
-export const getCurations = async (status, createTime, twitterId) =>
-    get(BACKEND_API_URL + '/curation/getCurations', {status, createTime, twitterId})
+export const getCurations = async (status, endtime, twitterId) =>
+    get(BACKEND_API_URL + '/curation/getCurations', {status, endtime, twitterId})
 
 export const getCurationById = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationById', {curationId, twitterId})
 
-export const getMyJoinedCurations = async (twitterId, createdTime) =>
-    post(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, createdTime})
+export const getMyJoinedCurations = async (twitterId, endtime) =>
+    post(BACKEND_API_URL + '/curation/getMyJoinedCurations', {twitterId, endtime})
 
-export const getMyCreatedCurations = async (twitterId, createdTime) => 
-    post(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, createdTime})
+export const getMyCreatedCurations = async (twitterId, endtime) => 
+    post(BACKEND_API_URL + '/curation/getMyCreatedCurations', {twitterId, endtime})
 
-export const getUserCreatedCurations = async (twitterId, createdTime) =>
-    get(BACKEND_API_URL + '/curation/getUserCreatedCurations', {twitterId, createdTime})
+export const getUserCreatedCurations = async (twitterId, endtime) =>
+    get(BACKEND_API_URL + '/curation/getUserCreatedCurations', {twitterId, endtime})
 
 export const getCurationsOfTweet = async (tweetId) =>
     get(BACKEND_API_URL + '/curation/getCurationsOfTweet', {tweetId})
