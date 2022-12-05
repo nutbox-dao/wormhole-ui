@@ -13,9 +13,9 @@
     </div>
     <div class="collapse-box px-1.25rem"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
-      <div class="h-70px my-8px border-1 border-colorEE rounded-12px overflow-hidden
+      <div class="h-70px my-8px border-1 rounded-12px overflow-hidden
                   flex flex-col cursor-pointer"
-           :class="isEnded(popup)?'border-color8B/70':'border-colorEE'"
+           :class="isEnded(popup)?'border-color8B/30':'border-colorEE'"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
         <div class="flex flex-1 items-center h-full truncate">
