@@ -160,7 +160,7 @@ export default {
           this.listFinished = true
           return;
         }
-        const time = curations[curations.length - 1].createdTime
+        const time = curations[curations.length - 1].endtime
         const moreCurations = await getCurations(this.subActiveTagIndex, time, this.getAccountInfo?.twitterId)
         if (moreCurations.length < 12) {
           this.listFinished = true

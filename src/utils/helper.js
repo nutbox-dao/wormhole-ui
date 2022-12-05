@@ -267,3 +267,13 @@ export function prefixInteger(num, length) {
   while(i++ < length) num = "0" + num;
   return num;
 }
+
+export function sortCurations(curations) {
+  if (curations && curations.length > 0){
+    const now = (new Date().getTime() / 1000).toFixed(0)
+    const pending = curations.filter(c => c.endtime > now)
+    const ended = curations.filter(c => c.endtime <= now)
+    return pending.reverse().concat(ended)
+  }
+  return []
+}

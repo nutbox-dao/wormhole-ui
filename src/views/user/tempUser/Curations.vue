@@ -37,7 +37,7 @@
 import CurationItem from "@/components/CurationItem";
 import { getUserCreatedCurations } from "@/api/api"
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
-import { sleep } from '@/utils/helper'
+import { sleep, sortCurations } from '@/utils/helper'
 
 export default {
   name: "UseerCurations",
@@ -57,12 +57,15 @@ export default {
       pageSize: 10,
       list: [],
       position: document.body.clientWidth < 768?'bottom':'center',
-      showingCurations: [],
+      curations: [],
       detailCuration: null,
       filterKey: 'latest'
     }
   },
   computed: {
+    showingCurations() {
+      return sortCurations(this.curations)
+    }
   },
   async mounted() {
     let count = 0
@@ -85,9 +88,9 @@ export default {
         const twitterId = this.accountInfo.twitterId;
         const newCuration = await getUserCreatedCurations(twitterId);
         if (newCuration && newCuration.length > 0) {
-          this.showingCurations = newCuration
+          this.curations = newCuration
         }
-        if (!this.showingCurations || this.showingCurations.length < 12) {
+        if (!this.curations || this.curations.length < 12) {
           this.finished = true
         }else {
           this.finished = false
@@ -107,13 +110,13 @@ export default {
         let curations = [];
         let m;
         const twitterId = this.accountInfo?.twitterId;
-        let createdTime;
+        let endtime;
         if (curations && curations.length > 0) {
-          createdTime = this.showingCurations[this.showingCurations.length - 1].createdTime
+          endtime = this.curations[this.curations.length - 1].endtime
         }
-        const newCuration = await getUserCreatedCurations(twitterId, createdTime);
+        const newCuration = await getUserCreatedCurations(twitterId, endtime);
         if (newCuration && newCuration.length > 0) {
-          this.showingCurations = this.showingCurations.concat(newCuration)
+          this.curations = this.curations.concat(newCuration)
         }
         if (!newCuration || newCuration.length < 12) {
           this.finished = true

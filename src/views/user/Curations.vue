@@ -97,6 +97,7 @@ import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { CURATION_SHORT_URL } from '@/config'
+import { sortCurations } from '@/utils/helper'
 
 export default {
   name: "Curations",
@@ -121,9 +122,9 @@ export default {
     ...mapGetters(['getAccountInfo']),
     showingCurations() {
       if(this.subActiveTagIndex === 0) {
-        return this.joinedCurations ?? [];
+        return sortCurations(this.joinedCurations)
       }else {
-        return this.createdCurations ?? []
+        return sortCurations(this.createdCurations)
       }
     }
   },
@@ -192,7 +193,7 @@ export default {
         let curations = [];
         let m;
         const twitterId = this.getAccountInfo.twitterId;
-        let createdTime;
+        let endtime;
         if (this.subActiveTagIndex === 0) {
           curations = this.joinedCurations;
           m = getMyJoinedCurations;
@@ -201,9 +202,9 @@ export default {
           m = getMyCreatedCurations;
         }
         if (curations && curations.length > 0) {
-          createdTime = curations[curations.length - 1].createdTime
+          endtime = curations[curations.length - 1].endtime
         }
-        const newCuration = await m(twitterId, createdTime);
+        const newCuration = await m(twitterId, endtime);
         if (newCuration && newCuration.length > 0) {
           curations = curations.concat(newCuration)
         }
