@@ -118,7 +118,7 @@
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
-                      class="absolute bg-view-more text-white bottom-0 left-0 w-full top-0
+                      class="absolute bg-view-more text-white bottom-0 left-0 w-full h-40px
                            flex items-center justify-center text-center rounded-12px">
               </button>
             </div>
