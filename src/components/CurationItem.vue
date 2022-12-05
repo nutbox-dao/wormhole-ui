@@ -33,7 +33,7 @@
             </Blog>
           </div>
           <button v-if="enableFold && !isFold" @click.stop="isFold=true"
-                  class="absolute bg-view-more text-white bottom-0 left-0 w-full top-0 flex
+                  class="absolute bg-view-more text-white bottom-0 left-0 w-full h-60px sm:h-50px flex
                  items-center justify-center text-center">
           </button>
         </div>
