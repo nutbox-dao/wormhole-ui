@@ -99,12 +99,12 @@
                         rounded-full -ml-10px border-1 border-blockBg light:border-white"
                    @error="replaceEmptyImg"
                    :src="i" alt="">
-              <span v-show="(curation.totalCount ?? 0) - (curation.curatorProfile ? curation.curatorProfile.length : 0) > 0"
+              <span v-show="(curation.totalCount ?? 0) - 3 > 0"
                     class="w-24px h-24px min-w-24px min-h-24px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center
                     border-1 border-blockBg bg-primaryColor
                     light:border-white light:bg-color62 light:text-white text-10px">
-              +{{curation.totalCount - curation.curatorProfile.length}}
+              +{{(curation.totalCount - 3)}}
             </span>
             </div>
           </div>

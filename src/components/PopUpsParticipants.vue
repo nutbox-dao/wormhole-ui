@@ -24,7 +24,7 @@
           <div class="flex-1 overflow-auto pt-3rem" v-if="participants.length>0">
             <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-1 border-color8B/30"
                  v-for="record of (participants ?? [])" :key="record.id">
-              <div class="flex items-center">
+              <div class="flex items-center cursor-pointer" @click="$router.push('/account-info/@' + record.username)">
                 <img class="w-40px min-w-40px h-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
                         rounded-full border-1 gradient-border "
                      :src="record.profileImg?.replace('normal', '200x200')" alt="" @error="replaceEmptyImg">

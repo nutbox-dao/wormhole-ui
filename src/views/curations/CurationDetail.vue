@@ -180,7 +180,7 @@
                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                              rounded-full -ml-10px flex justify-center items-center
                              border-1 border-blockBg bg-primaryColor
-                             light:border-white light:bg-color62 light:text-white text-10px">+10</span>
+                             light:border-white light:bg-color62 light:text-white text-10px">+{{ participant[0].totalCount - 3 }}</span>
                 <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">
                   {{$t('curation.allParticipants')}} >>
                 </button>
