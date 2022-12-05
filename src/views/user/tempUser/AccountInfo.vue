@@ -72,11 +72,11 @@
                           light:bg-white light:sm:bg-transparent pt-7px sm:pb-0 mt-30px">
                 <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
                   <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
-                       :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
-                        @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
-                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                        :class="selectIndex===1?'text-color62 border-color62':'text-color7D border-transparent'"
                        @click="selectIndex = 1">{{$t('profileView.post')}}</div>
+                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                       :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
+                        @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default {
     return {
       userIsExist: true,
       loading: false,
-      selectIndex: 0,
+      selectIndex: 1,
       tipDrawer: false,
       showRegistering: false,
       showNotSendTwitter: false,
