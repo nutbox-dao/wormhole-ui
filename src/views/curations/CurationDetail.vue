@@ -296,6 +296,7 @@
           </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
                        :tipToUser="detailCuration"
+                       :parent-tweet-id="detailCuration.tweetId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
         </div>

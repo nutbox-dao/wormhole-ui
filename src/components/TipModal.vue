@@ -39,12 +39,15 @@
   import { ethers } from 'ethers';
 
   export default {
-    name: "SpeakerTipModal",
+    name: "TipModal",
     props: {
         tipToUser: {
             type: Object,
             default: {}
         },
+        parentTweetId: {
+         type: String
+        }
     },
     components: {
       AssetsOptions,

@@ -236,8 +236,7 @@ export default {
         this.$store.commit('saveShowLogin', true);
         return;
       }
-      if (this.accountInfo.ethAddress || this.accountInfo.steemId)
-        this.showTip = true
+      this.showTip = true
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {
