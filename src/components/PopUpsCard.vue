@@ -15,9 +15,11 @@
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
       <div class="h-70px my-8px border-1 border-colorEE rounded-12px overflow-hidden
                   flex flex-col cursor-pointer"
+           :class="isEnded(popup)?'border-color8B/70':'border-colorEE'"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="w-full flex items-center border-b-1 border-colorEE py-4px px-10px bg-colorFF/25">
+        <div class="w-full flex items-center border-b-1 py-4px px-10px"
+             :class="isEnded(popup)?'bg-end-gradient border-color8B/70':'bg-colorFF/25 border-colorEE'">
           <div class="flex flex-1 items-center h-full truncate cursor-pointer">
             <div v-if="!isEnded(popup)"
                  class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
@@ -29,8 +31,8 @@
                    src="~@/assets/icon-checked-green.svg" alt="">
             </div>
             <div v-else
-                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap
-                      font-bold min-w-70px py-2px flex justify-center items-center relative">
+                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap text-color8B/70
+                      font-bold min-w-70px py-2px flex justify-center items-center relative c-text-black">
               {{ $t('popup.ended') }}
               <img v-if="isJoin(popup)"
                    class="w-14px h-14px absolute bottom-0 -right-5px"
@@ -41,26 +43,27 @@
             <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
-            <span class="px-8px h-17px whitespace-nowrap
-                         flex items-center text-12px 2xl:text-0.8rem text-colorFA"
-                  :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-              {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
-            </span>
+                <span class="px-8px h-17px whitespace-nowrap c-text-black
+                             flex items-center text-12px 2xl:text-0.8rem "
+                      :class="[!isEnded(popup)?'text-colorFA':'text-color8B/70']">
+                  {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
+                </span>
               </template>
             </ChainTokenIcon>
           </div>
         </div>
-        <div class="w-full flex-1 flex px-1rem items-center justify-between">
-          <div class="flex-1 whitespace-nowrap truncate text-colorFA leading-24px">
+        <div class="w-full flex-1 flex px-1rem items-center justify-between"
+             :class="isEnded(popup)?'text-color8B/70':'text-colorFA'">
+          <div class="flex-1 whitespace-nowrap truncate leading-24px">
             {{popup.content}}
           </div>
           <button v-if="!isEnded(popup) && !isJoin(popup)"
-                  class="bg-colorFA text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px"
+                  class="text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px"
                   @click.stop="selectedPopup=popup;modalVisible = true">
             {{$t('curation.join')}}
           </button>
           <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
-               class="ml-20px text-colorFA"
+               class="ml-20px"
                @click="modalVisible = true">{{popup.totalAcount}} >></div>
         </div>
       </div>

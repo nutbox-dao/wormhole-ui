@@ -105,15 +105,16 @@
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden text-left mt-1rem">
             <div>
-              <div class="flex-1 flex items-center text-white bg-blueDark relative">
+              <div class="flex-1 flex items-center text-white bg-black relative">
                 <div class="w-44/100 h-40px flex px-1.25rem flex items-center c-text-black">
                   <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
                        class="w-24px min-w-24px"
                        src="~@/assets/icon-progress-down.svg" alt="">
-                  <el-progress v-else type="circle" width="24" color="#7D7F88"
+                  <el-progress v-else type="circle" width="24"
+                               color="#19AF00"
+                               class="task-progress"
                                stroke-width="1"
-                               :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100"
-                               status="success">
+                               :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100">
                     <span class="text-white">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
                   </el-progress>
                   <span class="text-12px xl:text-0.8rem ml-8px">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
