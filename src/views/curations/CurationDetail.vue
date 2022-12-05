@@ -98,7 +98,7 @@
           </div>
 
           <!-- popups -->
-          <template v-if="contentType==='space' && space.spaceState > 1 && (space.spaceState > 2 && popups.length>0)">
+          <template v-if="contentType==='space' && (space.spaceState === 2 || (space.spaceState > 2 && popups.length>0))">
             <PopUpsCard :popups="popups" :space="space" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->

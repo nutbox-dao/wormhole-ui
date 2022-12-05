@@ -35,7 +35,7 @@
               </div>
               <div class="flex items-center">
                 <ChainTokenIconVue height="20px" width="20px"
-                                   :token="{symbol: pupUp?.symbol, address: popUp?.token}"
+                                   :token="{symbol: popUp?.symbol, address: popUp?.token}"
                                    :chainName="popUp.chainId">
                   <template #amount>
                 <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
@@ -91,9 +91,13 @@ export default {
       if(this.loading || this.finished) return
       this.refreshing = false
       this.loading = true
-      popupRecords(this.popUp.tweetId).then(pop => {
+      let rowIndex;
+      if (this.participants && this.participants.length > 0) {
+        rowIndex = this.participants[this.participants.length - 1].rowIndex
+      }
+      popupRecords(this.popUp.tweetId, rowIndex).then(pop => {
         this.loading = false
-        this.participants = pop ?? []
+        this.participants =  this.participants.concat(pop ?? [])
         if (pop && pop.length < 20) {
           this.finished = true
         }

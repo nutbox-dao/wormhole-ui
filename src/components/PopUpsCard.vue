@@ -56,12 +56,12 @@
           </div>
           <button v-if="!isEnded(popup) && !isJoin(popup)"
                   class="bg-colorFA text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px"
-                  @click.stop="selectedPopup=popup;modalVisible = true">
+                  >
             {{$t('curation.join')}}
           </button>
           <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
                class="ml-20px text-colorFA"
-               @click="modalVisible = true">{{popup.totalAcount}} >></div>
+               @click.stop="selectedPopup=popup;modalVisible = true">{{popup.totalAcount}} >></div>
         </div>
       </div>
     </div>
@@ -127,9 +127,9 @@ export default {
       let over = this.popups.filter(p => p.status > 0);
       const hostIds = this.space.host_ids ? JSON.parse(this.space.host_ids) : []
       const speakers = this.space.speakder_ids ? JSON.parse(this.space.speakder_ids) : []
-      const h = ongoing.filter(o => hostIds.find(h => h === o.twitterId))
-      const s = ongoing.filter(o => speakers.find(s => s === o.twitterId))
-      const o = ongoing.filter(o => !hostIds.find(h => h === o.twitterId) && !speakers.find(s => s === o.twitterId))
+      const h = ongoing.filter(o => hostIds.find(h => h === o.twitterId)).reverse()
+      const s = ongoing.filter(o => speakers.find(s => s === o.twitterId)).reverse()
+      const o = ongoing.filter(o => !hostIds.find(h => h === o.twitterId) && !speakers.find(s => s === o.twitterId)).reverse()
       return h.concat(s).concat(o).concat(over)
     }
   },
