@@ -1014,7 +1014,7 @@ export default {
             amount: curation.amount.toString(),
             twitterId: this.getAccountInfo.twitterId,
             transHash,
-            authorId:this.form.author.id,
+            authorId: this.form.author.id ?? this.getAccountInfo.twitterId,
             chainId: EVM_CHAINS[this.form.chain].id,
             tasks,
             content: this.form.description
