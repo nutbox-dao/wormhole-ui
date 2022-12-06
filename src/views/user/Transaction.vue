@@ -177,9 +177,6 @@ export default {
     onRefresh() {
       this.refreshing = true
       let time;
-      if (this.tips && this.tips.length > 0) {
-        time = this.tips[0].postTime
-      }
       getUsersTips({twitterId: this.getAccountInfo.twitterId,
             pageSize: this.pageSize,
             time,
