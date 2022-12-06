@@ -990,7 +990,7 @@ export default {
     async createCuration() {
       try{
         this.loading = true
-
+        alert(1)
         const curation = {
           curationId: randomCurationId(),
           creatorETH: this.form.address,
@@ -1000,6 +1000,7 @@ export default {
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
           token: this.form.token
         }
+        alert(2)
 
         let pendingCuration;
 
@@ -1007,6 +1008,7 @@ export default {
         tasks = tasks | (this.form.isLike ? 4 : 0);
         tasks = tasks | (this.form.isFollow ? 8 : 0);
         let transHash = '';
+        alert(3)
 
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           // create new tweet
@@ -1020,7 +1022,9 @@ export default {
             tasks,
             content: this.form.description
           }
+        alert(4)
         }else {
+        alert(5)
           pendingCuration = {
             ...curation,
             ...this.form.space,
@@ -1045,6 +1049,7 @@ export default {
             tags: this.form.postData?.tags,
           }
         }
+        alert(6)
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId || !pendingCuration.tweetId) {
             console.log('Null param:',pendingCuration)
             notify({message: this.$t(), type: 'info', duration: 5000});
@@ -1053,6 +1058,7 @@ export default {
 
         // write in contract
         transHash = await creteNewCuration(this.form.chain, curation);
+        alert(7)
         pendingCuration.transHash = transHash;
 
         // const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
