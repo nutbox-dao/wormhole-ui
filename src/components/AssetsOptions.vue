@@ -124,10 +124,14 @@
                 <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px"
                         :disabled="!walletAddress">
                   <span class="flex items-center">
-                    <img v-if="TokenIcon[selectedToken.symbol]" class="h-22px mr-15px rounded-full"
-                         :src="TokenIcon[selectedToken.symbol]" alt="">
-                    <span v-else class="text-color8B/70">Please select</span>
-                    <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
+                    <span v-if="Object.keys(selectedToken).length===0" class="text-color8B/70">Please select</span>
+                    <template v-else>
+                      <img v-if="TokenIcon[selectedToken.symbol]" class="w-22px min-w-22px h-22px mr-15px rounded-full"
+                           :src="TokenIcon[selectedToken.symbol]" alt="">
+                      <img v-else class="w-22px min-w-22px mr-15px rounded-full"
+                           src="~@/assets/icon-token-default.svg" alt="">
+                      <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
+                    </template>
                   </span>
                   <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
                 </button>
@@ -150,7 +154,7 @@
                        class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
                               py-3 px-10px overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
                     <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
-                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
+                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
                     <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
                          @click="selectedToken = customToken;$refs.tokenPopover.hide()">
                       <span class="text-15px">{{customToken.symbol}}</span>
