@@ -739,8 +739,17 @@ export default {
             }else {
               this.wrongLinkDes = this.$t('curation.spaceIdWrong');
               this.linkIsError = true
+              this.form.space = {};
+              this.form.author = {};
+              this.form.postData = {};
             }
           }else {
+            if (tweet.data.conversation_id === tweet.data.id) {
+              this.wrongLinkDes = this.$t('curation.replyCanntCurate');
+              this.linkIsError = true
+              this.form.tweetId = '';
+              this.form.postData = {}
+            }
             this.form.author = this.form.postData;
             this.linkIsVerified = true;
           }
@@ -880,8 +889,16 @@ export default {
       }
     },
     checkCreateData() {
+      if (!this.form.description ||this.form.description.length === 0) {
+        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+        return false;
+      }
       if(this.form.category === 'tweet' && this.form.createType==='new') {
         if (!this.form.description) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
+        if (!this.form.tweetContent || this.form.tweetContent.length === 0) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
@@ -891,15 +908,19 @@ export default {
           return false
         }
       }else {
+        if (!this.form.author) {
+          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+          return false
+        }
         if (!this.form.link || !this.form.endtime) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
-        if (this.form.category === 'tweet' && !this.form.postData) {
+        if (this.form.category === 'tweet' && !this.form.postData?.tweetId) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
-        if (this.form.category === 'space' && !this.form.space) {
+        if (this.form.category === 'space' && !this.form.space?.spaceId) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
@@ -1007,13 +1028,10 @@ export default {
 
         let pendingCuration;
 
-        // this.currentStep = 3;
-        // return;
-        // write in contract
-        const transHash = await creteNewCuration(this.form.chain, curation);
         let tasks = this.form.mandatoryTask === 'quote' ? 1 : 2;
         tasks = tasks | (this.form.isLike ? 4 : 0);
         tasks = tasks | (this.form.isFollow ? 8 : 0);
+        let transHash = '';
 
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           // create new tweet
@@ -1052,6 +1070,15 @@ export default {
             tags: this.form.postData?.tags,
           }
         }
+        if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId || !pendingCuration.tweetId) {
+            console.log('Null param:',pendingCuration)
+            notify({message: this.$t(), type: 'info', duration: 5000});
+            return;
+        }
+
+        // write in contract
+        transHash = await creteNewCuration(this.form.chain, curation);
+        pendingCuration.transHash = transHash;
 
         // const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
         this.$store.commit('curation/savePendingTweetCuration', pendingCuration)

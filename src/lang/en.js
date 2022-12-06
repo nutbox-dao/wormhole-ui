@@ -269,6 +269,7 @@ export default {
     join: 'Join',
     invalidLink: 'Invalid link',
     tweetNotExist: "Tweet not exists",
+    replyCanntCurate: `Reply tweet can't be curated`,
     spaceIdWrong: "Tweet contain a wrong space ID",
     tweetSpaceAuthorDismatch: "Authors of tweet and space should be single user.",
     endedAt: 'Ended At',
