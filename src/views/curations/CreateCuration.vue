@@ -1052,13 +1052,13 @@ export default {
         alert(6)
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId || !pendingCuration.tweetId) {
             console.log('Null param:',pendingCuration)
-            notify({message: this.$t(), type: 'info', duration: 5000});
+            notify({message: this.$t('tips.missingInput'), type: 'info', duration: 5000});
             return;
         }
-
+        alert(7)
         // write in contract
         transHash = await creteNewCuration(this.form.chain, curation);
-        alert(7)
+        alert(8)
         pendingCuration.transHash = transHash;
 
         // const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
