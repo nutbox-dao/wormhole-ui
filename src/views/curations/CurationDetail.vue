@@ -733,7 +733,7 @@ export default {
           this.$store.commit('curation/saveDetailCuration', res)
           this.updateCurationInfos()
         }
-      }).finally(() => {
+      }).catch(e => {console.log('Get curation fail:', e);}).finally(() => {
         this.loading1 = false
       })
       this.loading2 = true
