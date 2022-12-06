@@ -19,7 +19,7 @@
       <button class="gradient-btn gradient-btn-disabled-grey
                      h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
               @click="$emit('back')">back</button>
-      <button class="gradient-btn gradient-btn-disabled-grey
+      <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
                      h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
               @click="send"
               :disabled="form.amount>selectedBalance || form.amount === 0 || tiping">
