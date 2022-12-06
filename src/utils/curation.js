@@ -212,21 +212,15 @@ const abi = [
 export const creteNewCuration = async (chainName, curation) => {
     return new Promise(async (resolve, reject) => {
         try{
-          alert(11)
             const curationContract = EVM_CHAINS[chainName].curation
             const metamask = await getEthWeb()
-            alert(12)
             const provider = new ethers.providers.Web3Provider(metamask)
-            alert(13)
             let contract = new ethers.Contract(curationContract, abi, provider)
-            alert(14)
             contract = contract.connect(provider.getSigner())
-            alert(15)
             const {curationId, endtime, token, amount, maxCount} = curation
             const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, 30, maxCount, {
               gasLimit: 500000
             })
-            alert(16)
             await waitForTx(provider, tx.hash)
             resolve(tx.hash)
         }catch(e) {
