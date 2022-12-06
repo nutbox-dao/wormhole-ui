@@ -102,7 +102,7 @@
       async send() {
         try {
           if (this.form.chain === 'steem') {
-            window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.emoji ?? (this.form.amount + ' STEEM')} to @${this.tipToUser.username}`,'__blank')
+            window.open(`https://twitter.com/intent/tweet?in_reply_to=${this.parentTweetId}&text=${TWITTER_MONITOR_RULE} !tip ${this.form.emoji ?? (this.form.amount + ' STEEM')}  to @${this.tipToUser.username}`,'__blank')
           }else {
             this.tiping = true
             const transHash = await sendTokenToUser(this.selectedToken, this.form.amount, this.tipToUser.ethAddress)
