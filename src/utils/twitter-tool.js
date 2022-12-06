@@ -107,7 +107,6 @@ export function parseTweet(tweet) {
             post.content += "\n" + (media.url ?? media.preview_image_url);
         }
     }
-
     return post
 }catch(e) {
     console.log(661, e);

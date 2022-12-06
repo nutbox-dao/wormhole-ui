@@ -614,11 +614,12 @@ export default {
               this.form.postData = {};
             }
           }else {
-            if (tweet.data.conversation_id === tweet.data.id) {
+            if (tweet.data.conversation_id !== tweet.data.id) {
               this.wrongLinkDes = this.$t('curation.replyCanntCurate');
               this.linkIsError = true
               this.form.tweetId = '';
-              this.form.postData = {}
+              this.form.postData = {};
+              return;
             }
             this.form.author = this.form.postData;
             this.linkIsVerified = true;
@@ -633,6 +634,7 @@ export default {
       } catch (e) {
         console.log('Fetch data from twitter fail:', e);
         if (e === 'log out') {
+          console.log(5);
           this.$router.replace('/square')
         }
       } finally {
@@ -770,6 +772,7 @@ export default {
     },
     checkCreateData() {
       if (!this.form.description ||this.form.description.length === 0) {
+        console.log(1);
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false;
       }
@@ -780,18 +783,22 @@ export default {
         }
       }else {
         if (!this.form.author) {
+        console.log(2);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
         if (!this.form.link || !this.form.endtime) {
+        console.log(3);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
-        if (this.form.category === 'tweet' && !this.form.postData?.tweetId) {
+        if (this.form.category === 'tweet' && !this.form.postData?.postId) {
+        console.log(4);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
         if (this.form.category === 'space' && !this.form.space?.spaceId) {
+        console.log(5);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
@@ -861,8 +868,7 @@ export default {
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
-        postErr('Curation', 'onSubmit', `${e}`)
-        notify({message: this.$t('common.serverError'), duration: 5000, type: 'error'})
+        
       } finally {
         this.loading = false
       }
@@ -953,9 +959,10 @@ export default {
         }
       } catch (e) {
         if (e === 'log out') {
-        this.$router.replace('/')
+          this.$router.replace('/')
         }
         console.log('Create curation error:', e);
+        alert(e)
         notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
         // postErr('Curation', 'create', `${e}`)
       } finally {
