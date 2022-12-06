@@ -1050,8 +1050,10 @@ export default {
           }
         }
         alert(6)
+            alert(pendingCuration)
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId || !pendingCuration.tweetId) {
             console.log('Null param:',pendingCuration)
+            alert(pendingCuration)
             notify({message: this.$t('tips.missingInput'), type: 'info', duration: 5000});
             return;
         }
