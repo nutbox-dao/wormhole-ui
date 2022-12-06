@@ -115,7 +115,11 @@ export default {
       try {
         this.loging = true
         const res = await twitterAuth();
-        window.open(res + '?utm_source=tokenpocket', 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+        if (this.$route.query?.utm_source==="tokenpocket"){
+          window.open(res, '__blank');
+        }else {
+          window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+        }
         let loginCode = Cookie.get('twitter-loginCode');
         let tryTimes = 0
         await sleep(1)
