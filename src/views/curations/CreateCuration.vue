@@ -1074,8 +1074,8 @@ export default {
           this.$router.replace('/')
         }
         console.log('Create curation error:', e);
-        alert(e)
-        notify({message: this.$t('curation.crateFail'), duration: 5000, type: 'error'})
+        
+        notify({message: e, duration: 5000, type: 'error'})
         // postErr('Curation', 'create', `${e}`)
       } finally {
         this.loading = false
