@@ -334,7 +334,7 @@ import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
-import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase } from '@/utils/helper'
+import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, EVM_CHAINS } from "@/config";
 import {onCopy} from "@/utils/tool";
@@ -547,6 +547,17 @@ export default {
     checkLogin() {
       if(!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
+        let count = 0
+        const interval = setInterval(() => {
+          if (count++ > 60) {
+            clearInterval(interval);
+            return;
+          }
+          if (this.getAccountInfo && this.getAccountInfo.twitterId) {
+            this.loadCuration()
+            clearInterval(interval)
+          }
+        }, 1000);
         return false;
       }
       return true
