@@ -108,7 +108,7 @@
             const transHash = await sendTokenToUser(this.selectedToken, this.form.amount, this.tipToUser.ethAddress)
             const tip = {
               twitterId: this.getAccountInfo.twitterId,
-              targetTwitterId: this.tipToUser.twitterId,
+              targetTwitterId: this.tipToUser.twitterId ?? this.tipToUser.authorId,
               fromAddress: this.form.address,
               toAddress: this.tipToUser.ethAddress,
               transHash,
