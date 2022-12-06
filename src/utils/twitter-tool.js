@@ -87,6 +87,7 @@ export function parseTweet(tweet) {
     let user = getAuthor(tweet);
     let content = tweet.data.text.trim();
     let post = {
+        parentTweetId: tweet.data.conversation_id,
         postId: tweet.data.id,
         twitterId: tweet.data.author_id,
         name: user.name,
