@@ -293,7 +293,8 @@ export default {
     loginErr: 'Login fail',
     wrongTweetLink: 'Please input correct tweet link',
     wrongUserNumber: 'Please input correct users count',
-    contractError: 'Interactive with contract fail.'
+    contractError: 'Interactive with contract fail.',
+    loginTimeout: 'Login time out'
   },
   common: {
     none: 'None',
