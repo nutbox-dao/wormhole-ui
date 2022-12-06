@@ -13,8 +13,8 @@ export const getCommon = async () =>
 export const twitterAuth = async() => 
     get(BACKEND_API_URL + '/auth/login')
 
-export const twitterLogin = async(code) =>
-    get(BACKEND_API_URL + '/users/login', {code})
+export const twitterLogin = async(state) =>
+    get(BACKEND_API_URL + '/users/login', {state})
 
 export const twitterRefreshAccessToken = async (twitterId) => 
     post(BACKEND_API_URL + '/auth/refresh', {twitterId})

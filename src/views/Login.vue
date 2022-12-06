@@ -4,10 +4,9 @@
       <div class="text-1.6rem leading-2.3rem c-text-black gradient-text bg-purple-white light:bg-text-color17 mx-auto mb-2.3rem">
         {{$t('signInView.join')}}
       </div>
-      <button @click="login" :disable="loging"
+      <button @click="login" :disabled="loging"
               class="c-text-black gradient-btn h-3.6rem max-h-65px w-20rem mx-auto rounded-full text-1rem flex justify-center items-center">
         <img class="w-2rem mr-1rem cursor-pointer"
-             @click="login"
              src="~@/assets/icon-twitter-white.svg" alt="">
         <span>{{$t('signInWithTwitter')}}</span>
         <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="loging"></c-spinner>
@@ -115,37 +114,64 @@ export default {
       try {
         this.loging = true
         const res = await twitterAuth();
+        const params = res.split('?')[1].split('&')
+        let state;
+        for (let p of params) {
+          const [key, value] = p.split('=');
+          if (key === 'state') {
+            state = value;
+            break;
+          }
+        }
+        
         if (this.$route.query?.utm_source==="tokenpocket"){
           window.open(res, '__blank');
         }else {
           window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
         }
-        let loginCode = Cookie.get('twitter-loginCode');
-        let tryTimes = 0
+
+        
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
-        while((!loginCode || loginCode.length === 0) && tryTimes < 50) {
-          await sleep(0.5);
-          loginCode = Cookie.get('twitter-loginCode');
-          tryTimes++;
-        }
-        Cookie.remove('twitter-loginCode')
-        if (!loginCode || loginCode === 'fail' || tryTimes >= 50){
-          this.showNotify(this.$t('err.loginErr'), 5000, 'error')
+        await sleep(5)
+
+        let count = 0;
+        let userInfo = await twitterLogin(state)
+        if (userInfo.code === 1) {
+          while(count < 40) {
+            userInfo = await twitterLogin(state)
+            if (userInfo.code === 0) {
+              // not registry
+              // store auth info
+              console.log('not register')
+              Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+              this.pendingAccount = userInfo.account
+              this.authStep = 'select';
+              return;
+            }else if (userInfo.code === 3) { // log in
+              this.$store.commit('saveAccountInfo', userInfo.account)
+              this.$emit('close')
+              return;
+            }
+            count++;
+            await sleep(0.5)
+          }
+          // time out
+          this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
           return;
-        }
-        const userInfo = await twitterLogin(loginCode)
-        if (userInfo.code === 0) {
-          // not registry
-          // store auth info
-          console.log('not register')
-          Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
-          this.pendingAccount = userInfo.account
-          this.authStep = 'select';
-        }else if (userInfo.code === 3) { // log in
-          this.$store.commit('saveAccountInfo', userInfo.account)
-          this.$emit('close')
+        }else {
+          if (userInfo.code === 0) {
+            // not registry
+            // store auth info
+            console.log('not register')
+            Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+            this.pendingAccount = userInfo.account
+            this.authStep = 'select';
+          }else if (userInfo.code === 3) { // log in
+            this.$store.commit('saveAccountInfo', userInfo.account)
+            this.$emit('close')
+          }
         }
       }catch(e) {
         // login error
