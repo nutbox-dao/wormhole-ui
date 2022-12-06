@@ -36,7 +36,7 @@
               <div class="flex items-center">
                 <ChainTokenIconVue height="20px" width="20px"
                                    :token="{symbol: record?.tokenSymbol, address: record?.token}"
-                                   :chainName="''">
+                                   :chainName="detailCuration.chainId">
                   <template #amount>
                 <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                   {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}
@@ -63,7 +63,7 @@ export default {
   name: "Submissions",
   components: {ChainTokenIconVue},
   computed: {
-    ...mapState('curation', ['detailCuration', 'detailRecords'])
+    ...mapState('curation', ['detailCuration'])
   },
   props: {
     records: {
