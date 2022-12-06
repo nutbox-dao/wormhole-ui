@@ -768,45 +768,14 @@ export default {
       }
       return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
     },
-    async updateProgress(start, end, isFinnal) {
-      if (isFinnal) {
-        while(this.progress < 100) {
-          this.progress += 1;
-          await sleep(0.01);
-        }
-      }else {
-        this.progressing = true;
-        await sleep(0.1);
-        this.progressing = false;
-        if (this.progress < start) {
-          while(this.progress < start && !this.progressing) {
-            this.progress += 1;
-            await sleep(0.05);
-          }
-        }
-        while(this.progress < end && !this.progressing) {
-            this.progress += 0.1;
-            await sleep(0.03)
-          }
-      }
-    },
     checkCreateData() {
       if (!this.form.description ||this.form.description.length === 0) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false;
       }
       if(this.form.category === 'tweet' && this.form.createType==='new') {
-        if (!this.form.description) {
+        if (!this.form.newContent || this.form.newContent.length === 0) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
-          return false
-        }
-        if (!this.form.tweetContent || this.form.tweetContent.length === 0) {
-          notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
-          return false
-        }
-        if (this.form.description.length > 280) {
-          console.log('length:', this.form.description.length);
-          notify({message: this.$t('tips.textLengthOut'), duration: 5000, type: 'error'})
           return false
         }
       }else {
