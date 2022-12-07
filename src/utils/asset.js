@@ -166,7 +166,7 @@ export async function getApprovement(chainName, token, account, spender) {
     ]
     const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
-    return infos.allowance.toString() / (10 ** infos.decimals) > 1e12
+    return infos.allowance.toString() / (10 ** infos.decimals)
 }
 
 export async function approve(token, account, spender) {
