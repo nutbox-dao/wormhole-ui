@@ -74,11 +74,15 @@ export const formatAmount = function (value) {
   if (!value) return "0.00";
   let unit = ''
   let digit = 3
-  if(Number(value) < 1) {
+  const nm = Number(value)
+  if(nm < 1) {
     digit = 4
   }
-  if (Number(value) > 1000) {
+  if (nm > 1000) {
     digit = 2
+  }
+  if (Number.isInteger(nm)) {
+    digit = 0
   }
   value = Number(value)
   if (value < 1e6) {
@@ -89,7 +93,7 @@ export const formatAmount = function (value) {
     value = value / 1e9
     unit = 'B'
   }
-  const str = Number(value).toFixed(digit).toString();
+  const str = value.toFixed(digit).toString();
   let integer = str;
   let fraction = "";
   if (str.includes(".")) {
