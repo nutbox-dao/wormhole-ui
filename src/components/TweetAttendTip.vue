@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="pb-3rem sm:pb-0">
     <PostTip>
       <template #title>{{$t('curation.tweetToAttend')}}</template>
       <template #content>
         <div class="bg-color0E light:bg-white light:border-1 light:border-colorE3 p-1rem mt-1rem mb-2rem rounded-15px">
           <div class="flex ">
-            <img class="w-1rem h-1rem md:w-2rem md:h-2rem mr-0.8rem rounded-full "
+            <img class="w-24px h-24px min-w-24px md:w-2rem md:h-2rem mr-0.8rem rounded-full "
                 @error="replaceEmptyImg"
                  :src="curation.profileImg" alt="">
             <div class="flex-1 flex justify-between items-center cursor-pointer">
               <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.twitterName}}</a>
             </div>
           </div>
-          <div class="mt-10px whitespace-pre-line">
+          <div class="mt-10px whitespace-pre-line leading-20px">
             {{curation.content}}
           </div>
         </div>

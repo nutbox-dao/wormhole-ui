@@ -28,6 +28,10 @@
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+               v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
           <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
                                          cursor-pointer rounded-12px overflow-hidden mb-1rem"
                                   v-for="curation of showingCurations"
