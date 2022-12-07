@@ -142,7 +142,7 @@
                      class="text-white light:text-blueDark py-0.5rem font-bold">
                   <button @click="quoteOrReply"
                        :disabled="endAndNotComplete"
-                       class="px-1.25rem py-4px flex items-start sm:items-center">
+                       class="px-1.25rem py-4px flex items-start sm:items-center my-6px">
                     <i class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
                     <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}} {{quoted}}</span>
@@ -159,7 +159,7 @@
                     </span>
                   </button>
                   <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
-                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer">
+                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer my-6px">
                     <img v-if="isFollowing"
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"

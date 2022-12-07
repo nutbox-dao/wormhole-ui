@@ -28,50 +28,57 @@
                       @click.stop="showMenu=!showMenu">
                 <span class="menu-icon" :class="showMenu?'active':''"></span>
               </button>
-              <div class="menu-box w-13.5rem xl:w-11rem z-99" @click.stop
+              <div class="menu-box w-150px 2xl:w-10rem z-99" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">
-                <div class="p-0.5rem border-1 border-listBgBorder
+                <div class="px-12px py-8px border-1 border-listBgBorder
                             bg-blockBg light:bg-white light:border-0 light:shadow-popper-tip
                             rounded-12px w-full h-full
                             flex flex-col justify-between
-                            font-400 text-15px leading-24px xl:text-0.75rem">
-                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click.stop="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
+                            font-400 text-12px  xl:text-0.75rem">
+<!--                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click.stop="showMenu=false"-->
+<!--                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>-->
                   <router-link to="/faq" @click.stop="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faq')}}</router-link>
-                  <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
-                  <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
-                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">
-                    <template #reference>
-                      <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>
-                    </template>
-                    <template #default>
-                      <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg
-                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">
-                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>
-                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>
-                      </div>
-                    </template>
-                  </el-popover>
+                               class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
+                    <span>{{$t('faq')}}</span>
+                    <i class="w-14px min-w-14px h-14px icon-faq"></i>
+                  </router-link>
+<!--                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">-->
+<!--                    <template #reference>-->
+<!--                      <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>-->
+<!--                    </template>-->
+<!--                    <template #default>-->
+<!--                      <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg-->
+<!--                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">-->
+<!--                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>-->
+<!--                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>-->
+<!--                      </div>-->
+<!--                    </template>-->
+<!--                  </el-popover>-->
                   <div @click="onCopy('https://alpha.wormhole3.io/#/square/' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
-                       class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('ref.referre')}}</div>
-                  <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
-                      class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor"
-                      @click="signout">
-                    {{$t('logout')}}
+                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
+                    <span>{{$t('ref.referre')}}</span>
+                    <i class="w-14px min-w-14px h-14px icon-referral"></i>
                   </div>
-                  <div class="flex items-center border-1 gradient-border rounded-8px mx-1/8 overflow-hidden">
-                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
-                         :class="isDark?'':'gradient-bg gradient-bg-color3 text-white'"
-                         @click="changeTheme(false)">
-                      <i class="h-1.4rem w-1.4rem icon-theme-light"></i>
-                    </div>
-                    <div class="flex-1 flex items-center justify-center h-2rem p-0.4rem cursor-pointer"
-                         :class="isDark?'gradient-bg gradient-bg-color3 text-white':''"
-                         @click="changeTheme(true)">
-                      <i class="h-1.4rem w-1.4rem icon-theme-dark"></i>
-                    </div>
+                  <div class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
+                       @click="changeTheme">
+                    <span>{{isDark?'Light Mode':'Dark Mode'}}</span>
+                    <i v-if="isDark" class="w-16px min-w-16px h-16px icon-theme-light"></i>
+                    <i v-else class="w-14px min-w-14px h-14px icon-theme-dark"></i>
+                  </div>
+                  <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
+                      class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
+                      @click="signout">
+                    <span>{{$t('logout')}}</span>
+                    <i class="w-14px min-w-14px h-14px icon-logout"></i>
+                  </div>
+                  <div class="flex items-center">
+                    <button class="h-24px w-24px mr-20px" @click="gotoDC">
+                      <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">
+                    </button>
+                    <button class="h-24px w-24px" @click="gotoTwitter">
+                      <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter.svg" alt="">
+                    </button>
                   </div>
                 </div>
               </div>
@@ -229,9 +236,8 @@ export default {
       localStorage.setItem('language', lang)
       this.showMenu = false
     },
-    changeTheme(status) {
+    changeTheme() {
       this.showMenu = false
-      if(status === this.isDark) return
       this.isDark = !this.isDark
       localStorage.setItem('theme', this.isDark?'dark':'light')
       document.documentElement.className=this.isDark?'dark':'light'
@@ -430,12 +436,13 @@ export default {
   position: absolute;
   right: 0;
   top: 3rem;
-  transition: height 300ms;
-  height: 0;
+  transition: max-height 300ms;
+  min-height: 0;
+  max-height: 0;
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    height: 260px;
+    max-height: 260px;
   }
 }
 .link-btn {
@@ -499,11 +506,7 @@ export default {
     opacity: 1;
   }
 }
-@media (min-width: 1280px) {
-  .menu-box.active {
-    height: 15rem;
-  }
-}
+
 @media (min-width: 1440px) {
   .menu-icon {
     height: 0.14rem;

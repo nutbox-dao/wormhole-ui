@@ -85,20 +85,11 @@
 
 .icon-theme-light {
   @extend .icon;
-  background-image: url("~@/assets/icon-theme-light-primary.svg");
+  background-image: url("~@/assets/menu-light.svg");
 }
-.light .icon-theme-light {
-  @extend .icon;
-  background-image: url("~@/assets/icon-theme-light-white.svg");
-}
-
 .icon-theme-dark {
   @extend .icon;
-  background-image: url("~@/assets/icon-theme-dark-white.svg");
-}
-.light .icon-theme-dark {
-  @extend .icon;
-  background-image: url("~@/assets/icon-theme-dark-primary.svg");
+  background-image: url("~@/assets/menu-dark.svg");
 }
 
 .icon-close {
@@ -180,6 +171,32 @@
   background-image: url("~@/assets/icon-reply-tag-light.svg");
 }
 
+.icon-faq {
+  @extend .icon;
+  background-image: url("~@/assets/menu-faq.svg");
+}
+.light .icon-faq {
+  @extend .icon;
+  background-image: url("~@/assets/menu-faq-light.svg");
+}
+
+.icon-referral {
+  @extend .icon;
+  background-image: url("~@/assets/menu-referral.svg");
+}
+.light .icon-referral {
+  @extend .icon;
+  background-image: url("~@/assets/menu-referral-light.svg");
+}
+
+.icon-logout {
+  @extend .icon;
+  background-image: url("~@/assets/menu-logout.svg");
+}
+.light .icon-logout {
+  @extend .icon;
+  background-image: url("~@/assets/menu-logout-light.svg");
+}
 
 .icon-selected {
   @extend .icon;
