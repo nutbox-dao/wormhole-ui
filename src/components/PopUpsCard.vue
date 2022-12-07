@@ -75,7 +75,7 @@
                :position="position">
       <transition name="el-zoom-in-bottom">
         <div v-if="modalVisible"
-             class="relative dark:bg-glass light:bg-white rounded-t-12px overflow-hidden min-h-60vh">
+             class="dark:bg-glass light:bg-white rounded-t-12px">
           <PopUpsParticipants :pop-up="selectedPopup"  @close="modalVisible=false"></PopUpsParticipants>
         </div>
       </transition>
