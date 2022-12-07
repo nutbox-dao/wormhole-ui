@@ -105,8 +105,8 @@
           <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden text-left mt-1rem">
             <div>
-              <div class="flex-1 flex items-center text-white bg-black relative">
-                <div class="w-44/100 h-40px flex px-1.25rem flex items-center c-text-black">
+              <div class="flex-1 flex items-center text-white bg-black relative rounded-t-12px overflow-hidden">
+                <div class="w-55/100 h-40px flex px-1.25rem flex items-center c-text-black">
                   <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
                        class="w-24px min-w-24px"
                        src="~@/assets/icon-progress-down.svg" alt="">
@@ -115,11 +115,11 @@
                                class="task-progress"
                                stroke-width="1"
                                :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100">
-                    <span class="text-white">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
+                    <span class="text-white text-12px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
                   </el-progress>
-                  <span class="text-12px xl:text-0.8rem ml-8px">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
+                  <span class="text-14px whitespace-nowrap xl:text-0.8rem ml-8px">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
                 </div>
-                <div class="w-56/100 h-40px whitespace-nowrap bg-tag-gradient
+                <div class="w-45/100 h-40px whitespace-nowrap bg-tag-gradient
                             flex items-center justify-center min-w-1/3 text-white token-tag">
                   <ChainTokenIcon height="20px" width="20px" :token="{symbol: 'USDT', address: ''}" chain-name="ETH">
                     <template #amount>
@@ -154,7 +154,9 @@
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="liked?'icon-checked':'icon-like-circle'"></i>
-                    <span class="text-12px xl:text-0.7rem">Like (or Verify your Like)</span>
+                    <span class="text-12px xl:text-0.7rem text-left leading-14px">
+                      Like (or Verify your Like)
+                    </span>
                   </button>
                   <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
                           class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer">
@@ -162,14 +164,16 @@
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="followed?'icon-checked':'icon-follow-circle'"></i>
-                    <span class="text-12px xl:text-0.7rem">Follow @{{detailCuration.username}} (or Verify your Follow)</span>
+                    <span class="text-12px xl:text-0.7rem text-left leading-14px">
+                      Follow @{{detailCuration.username}} (or Verify your Follow)
+                    </span>
                   </button>
                 </div>
               </el-collapse-transition>
             </div>
             <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>
             <div class="flex items-center justify-between h-40px xl:h-2rem pl-1.25rem pr-10px">
-              <span class="c-text-black">Participants</span>
+              <span class="c-text-black text-14px">Participants</span>
               <div class="flex items-center">
                 <div class="-ml-7px" v-for="record of (participant.slice(0, 5) ?? [])" :key="record.id">
                   <img class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
@@ -181,7 +185,7 @@
                              rounded-full -ml-10px flex justify-center items-center
                              border-1 border-blockBg bg-primaryColor
                              light:border-white light:bg-color62 light:text-white text-10px">+{{ participant[0].totalCount - 3 }}</span>
-                <button class="ml-10px" v-if="participant.length>0" @click="showSubmissions=true">
+                <button class="ml-10px whitespace-nowrap" v-if="participant.length>0" @click="showSubmissions=true">
                   {{$t('curation.allParticipants')}} >>
                 </button>
               </div>
@@ -191,7 +195,7 @@
           <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden mt-1rem relative">
             <div class="px-1.25rem pt-8px pb-1rem text-left relative">
-              <div class="c-text-black mt-4px">{{$t('curation.details')}}</div>
+              <div class="c-text-black mt-4px text-14px">{{$t('curation.details')}}</div>
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
               <div class="text-color7D">Our first giveaway event, come and grab your airdrop</div>
               <!-- 已结束 -->

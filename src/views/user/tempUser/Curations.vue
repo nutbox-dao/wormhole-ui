@@ -14,7 +14,10 @@
                   :loosing-text="$t('common.pullRefresh')"
                   :loading-text="$t('common.loading')"
                   @load="onLoad">
-
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+               v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
           <div v-if="showingCurations.length===0 && !refreshing"
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>

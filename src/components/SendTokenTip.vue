@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-2rem pb-3rem sm:pt-1rem sm:pb-1rem">
     <div class="c-text-black text-1.6rem">{{$t('curation.create')}}</div>
     <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
       <slot name="desc">
@@ -15,7 +15,7 @@
       <span>{{$t('common.approve')}}</span>
     </button>
     <button v-else
-            class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full
+            class="gradient-btn w-full h-44px 2xl:h-2.2rem max-w-300px rounded-full
                    c-text-black text-18px 2xl:text-0.9rem flex items-center justify-center mx-auto"
       :disabled="creating"
       @click="creating=true;$emit('create')">

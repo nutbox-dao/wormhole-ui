@@ -88,14 +88,14 @@
             <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
               <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                            :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
-                           class="flex-1">
+                           class="flex-1 cursor-pointer">
                 <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                      :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                   {{$t('profileView.curations')}}
                 </div>
               </router-link>
               <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
-                           class="flex-1">
+                           class="flex-1 cursor-pointer">
                 <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                      :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                   {{$t('profileView.onChainTweet')}}
@@ -143,14 +143,14 @@
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <van-popup class="c-tip-drawer 2xl:w-2/5" v-model:show="tipDrawer" :position="position">
-      <div class="modal-bg w-full md:min-w-560px max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:p-1rem">
-        <div
-          v-if="position === 'bottom'"
-          @click="modalVisible = false"
-          class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"
-        ></div>
+      <div class="modal-bg relative w-full md:min-w-560px max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+                  rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:p-1rem">
+        <button class="absolute right-20px top-2rem"
+                @click="tipDrawer=false">
+          <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+        </button>
         <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar pb-2rem text-left">
-          <div class="c-text-black my-2rem md:text-1.6rem md:leading-2rem text-1.2rem leading-1.6rem md:text-center w-full">
+          <div class="c-text-black mt-1rem mb-2rem text-20px 2xl:text-1rem md:text-center w-full">
             {{$t('postView.tweetTip')}}
           </div>
           <!-- tip post -->
@@ -160,7 +160,7 @@
           <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
               <span class="text-color8F">{content} </span>
-              <span class="text-primaryColor">#iweb3</span>
+              <span class="text-color62">#iweb3</span>
             </div>
             <button
               @click="gotoPost" class="text-color8B flex items-center justify-center border-1px border-color8B rounded-full
@@ -181,7 +181,7 @@
           </div>
           <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
-              <span class="text-primaryColor light:text-color62">@wormhole_3 !tip </span>
+              <span class="text-color62 light:text-color62">@wormhole_3 !tip </span>
               <span class="text-color8F">{0.5 STEEM} to {@vitalik}</span>
             </div>
             <button
@@ -205,7 +205,7 @@
           </div>
           <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem h-min-8rem p-1rem relative">
             <div class="text-left break-all 2xl:text-0.8rem text-14px">
-              <span class="text-primaryColor light:text-color62">@wormhole_3 !send </span>
+              <span class="text-color62 light:text-color62">@wormhole_3 !send </span>
               <span class="text-color8F">{0.5 STEEM} to {wormhole3}</span>
             </div>
             <button

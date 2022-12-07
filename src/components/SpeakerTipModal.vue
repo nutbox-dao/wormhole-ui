@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left text-14px 2xl:text-0.8rem flex flex-col">
+  <div class="text-left text-14px 2xl:text-0.8rem flex flex-col pb-3rem sm:pb-1.5rem">
     <div class="relative">
       <div class="flex justify-center items-center py-20px">
         <i v-for="i of 2" :key="i"

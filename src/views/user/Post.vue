@@ -58,7 +58,10 @@
                   :immediate-check="false"
                   :finished-text="$t('common.noMore')"
                   @load="onLoad">
-
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+               v-if="refreshing && (!posts || posts.length === 0)">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
           <div v-if="posts.length===0 && !refreshing"
                class="py-3rem bg-blockBg light:bg-white rounded-12px">
             <div v-if="getAccountInfo && getAccountInfo.isPending">

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left px-1.25rem pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+  <div class="text-left px-1.25rem pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
     <div class="flex-1">
       <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Tip</div>
       <div>To @{{tipToUser.username}}</div>

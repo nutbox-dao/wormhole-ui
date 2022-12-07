@@ -116,6 +116,12 @@ html.light {
   }
 }
 
+.el-dialog.c-dialog-pop-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .c-notification.el-notification{
   background-color: var(--primary-bg);
   border: 1px solid rgba(132, 131, 145, 0.3);
@@ -282,4 +288,7 @@ html.light {
 }
 .task-progress .el-progress-circle__track{
   stroke: #7D7F88;
+}
+.el-select-dropdown__item.selected {
+  background-color: transparent;
 }
