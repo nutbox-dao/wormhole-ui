@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left pb-1.5rem h-80vh flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+  <div class="text-left pb-3rem sm:pb-1.5rem h-80vh flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
     <div class="relative">
       <div class="flex justify-center items-center py-20px">
         <i v-for="i of 2" :key="i"
@@ -61,7 +61,7 @@
                     rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
           <CustomSelect v-model="form.duration">
             <template #options>
-              <div class="bg-block light:bg-white border-1 border-color8B/30
+              <div class="bg-blockBg light:bg-white border-1 border-color8B/30
                           light:border-colorE3 rounded-8px overflow-hidden">
                 <el-option
                     v-for="item in durationOptions"
