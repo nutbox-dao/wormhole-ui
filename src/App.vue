@@ -39,11 +39,8 @@
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>
                   <router-link to="/faq" @click.stop="showMenu=false"
                                class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('faq')}}</router-link>
-                  <router-link to="/about" @click.stop="showMenu=false"
-                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('aboutUs')}}</router-link>
                   <div @click="gotoDC" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('discord')}}</div>
                   <div @click="gotoTwitter" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('twitter')}}</div>
-                  <div @click="onCopy('https://alpha.wormhole3.io/#/square/' + getAccountInfo.twitterId)" v-if="getAccountInfo && getAccountInfo.twitterId" class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('referral')}}</div>
                   <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">
                     <template #reference>
                       <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>
