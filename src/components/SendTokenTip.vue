@@ -85,7 +85,7 @@ export default {
     this.tokenInfo = this.amount + ' ' + this.token.symbol;
 
     getApprovement(this.chainName, this.token.address, this.address, this.approveContract).then(res => {
-      this.approvement = res
+      this.approvement = parseFloat(res) >= parseFloat(this.amount)
     }).catch(e=>{
       console.log('get approve fail:',e);
     })
