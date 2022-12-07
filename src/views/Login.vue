@@ -134,12 +134,12 @@ export default {
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
-        await sleep(5)
+        await sleep(8)
 
         let count = 0;
         let userInfo = await twitterLogin(state)
         if (userInfo.code === 1) {
-          while(count < 40) {
+          while(count < 80) {
             userInfo = await twitterLogin(state)
             if (userInfo.code === 0) {
               // not registry

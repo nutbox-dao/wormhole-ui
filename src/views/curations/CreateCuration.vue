@@ -135,7 +135,7 @@
         <div class="flex items-center mt-10px" v-if="form.category==='tweet'">
           <i class="w-16px h-16px min-w-16px min-h-16px mr-10px"
              :class="form.createType==='new'?'icon-selected':'icon-unselected'"
-             @click="form.createType = (form.createType==='new'?'related':'new')"></i>
+             @click="changeCategory();form.createType = (form.createType==='new'?'related':'new')"></i>
           <span>{{$t('curation.selectNewTweet')}}</span>
         </div>
         <!-- requirements -->
@@ -648,11 +648,13 @@ export default {
       this.modalVisible = true
     },
     changeCategory(){
+      this.linkIsError = false
+      this.linkIsVerified = false;
+      this.form.category = (this.selectCategory && this.selectCategory.length > 0) ? this.selectCategory : this.form.category;
       this.form.endtime = '';
       this.form.tweetId = '';
       this.form.description = '';
       this.form.newContent = '';
-      this.form.createType = 'related';
       this.form.link = '';
       this.form.host = {}
       this.form.coHost = [];
@@ -660,13 +662,10 @@ export default {
       this.form.mandatoryTask = 'quote'
       this.form.isFollow = false;
       this.form.isLike = false;
-      this.linkIsVerified = false;
       this.form.postData = {}
       this.form.space = {};
       this.form.author = {};
-      this.form.category = this.selectCategory
       this.modalVisible = false
-      this.linkIsError = false
     },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
@@ -991,6 +990,7 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
+    
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
       try {
