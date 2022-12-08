@@ -195,7 +195,8 @@ export default {
       approving: false,
       creating: false,
       durationPopper:false,
-      contentRange: null
+      contentRange: null,
+      tweetLength: 0,
     }
   },
   computed: {
