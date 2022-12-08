@@ -147,6 +147,9 @@ import { EVM_CHAINS } from '@/config'
 import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import { mapGetters, mapState } from "vuex";
+import { notify } from "@/utils/notify";
+import { sleep, stringLength } from "@/utils/helper";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { userTweet } from '@/utils/twitter'
 import { createPopup, newPopups } from '@/utils/curation'

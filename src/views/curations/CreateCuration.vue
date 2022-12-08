@@ -837,9 +837,6 @@ export default {
     selectBalance(balance) {
       this.selectedBalance = balance
     },
-    selectBalance(balance) {
-      this.selectedBalance = balance
-    },
     checkRewardData() {
       if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})

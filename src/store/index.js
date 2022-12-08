@@ -51,7 +51,6 @@ export default Vuex.createStore({
           return JSON.parse(accInfo)
         return null
       }
-      return testAccount
     }
   },
   mutations: {

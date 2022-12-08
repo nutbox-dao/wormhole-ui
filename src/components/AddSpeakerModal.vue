@@ -33,8 +33,13 @@
         </div>
       </div>
     </div>
-    <button class="gradient-btn w-full h-3.6rem rounded-full mt-3rem"
-            @click="confirm">Confirm</button>
+    <button class="gradient-btn gradient-btn-disabled-grey
+                       h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+            :disabled="loading"
+            @click="confirm">
+      <span>{{$t('common.confirm')}}</span>
+      <c-spinner v-show="loading" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
+    </button>
   </div>
 </template>
 
