@@ -24,6 +24,17 @@ export const sleep = async function (interval = 6) {
     });
 }
 
+/**
+ * Check if string is HEX, requires a 0x in front
+ *
+ * @method isHexStrict
+ * @param {String} hex to be checked
+ * @returns {Boolean}
+ */
+export const isHexStrict = function (hex) {
+  return ((typeof hex === 'string' || typeof hex === 'number') && /^(-)?0x[0-9a-f]*$/i.test(hex));
+};
+
 export const u8arryToHex = (buffer) => {
     return [...new Uint8Array(buffer)]
         .map(x => x.toString(16).padStart(2, '0'))
@@ -63,11 +74,15 @@ export const formatAmount = function (value) {
   if (!value) return "0.00";
   let unit = ''
   let digit = 3
-  if(Number(value) < 1) {
+  const nm = Number(value)
+  if(nm < 1) {
     digit = 4
   }
-  if (Number(value) > 1000) {
+  if (nm > 1000) {
     digit = 2
+  }
+  if (Number.isInteger(nm)) {
+    digit = 0
   }
   value = Number(value)
   if (value < 1e6) {
@@ -78,7 +93,7 @@ export const formatAmount = function (value) {
     value = value / 1e9
     unit = 'B'
   }
-  const str = Number(value).toFixed(digit).toString();
+  const str = value.toFixed(digit).toString();
   let integer = str;
   let fraction = "";
   if (str.includes(".")) {
@@ -130,12 +145,16 @@ export const formatAmount = function (value) {
 
 export function getDateString(now, timezone, extra = 0) {
   now = now || new Date();
-  const offset = timezone != null ? timezone * 60 : 0;
+  const offset = timezone != null ? timezone * 3600 : 0;
   now = new Date(now.getTime() + (offset + extra) * 1000);
-
   return now.toISOString().replace("T", " ").substring(0, 19);
 }
 
+export function isDateString(str) {
+  const regex_date = /^20\d{2}-\d{2}-\d{2} \d{2}\:\d{2}(:\d{2})?$/
+  const res = str.match(regex_date)
+  return res && res.length > 0
+}
 
 export function getUTCTime() {
   const d1 = new Date();
@@ -154,9 +173,24 @@ export function parseTimestamp(time) {
   let nowStamp = new Date().getTime() / 1000
   nowStamp = parseInt(nowStamp)
   timestamp = parseInt(timestamp)
-  const diff = nowStamp - timestamp;
+  let diff = nowStamp - timestamp;
   if (diff < 0) {
-    return getDateString(null, null, timestamp - nowStamp);
+    diff = timestamp - nowStamp
+    if (diff < 10) {
+      return 'Now'
+    }else if(diff < 60) {
+      return `${diff} seconds left`
+    }else if (diff < 3600) {
+      return `${Math.floor(diff / 60)} mins left`
+    }else if (diff < 3600 * 24) {
+      return `${Math.floor(diff / 3600)} hours left`
+    }else if (diff < 3600 * 24 * 30) {
+      return `${Math.floor(diff / 3600 / 24)} days left`
+    }else if (diff < 3600 * 24 * 60) {
+      return '1 month left'
+    }else {
+      return getDateString(null, null, timestamp - nowStamp)
+    }
   }else {
     if (diff < 10) {
       return 'Now'
@@ -174,4 +208,76 @@ export function parseTimestamp(time) {
       return getDateString(null, null, timestamp - nowStamp)
     }
   }
+}
+
+/**
+ * 
+ * @param {*} time timeinterval(second)
+ */
+export function parseTimestampToUppercase(time) {
+  if (!time) return ''
+  let timestamp = new Date().getTime() / 1000
+  if (time - timestamp > 0) {
+    let sec = time - timestamp;
+    let days = Math.floor(sec / (24 * 3600))
+    let leave1 = sec % (24 * 3600)
+    let hours = Math.floor(leave1 / (3600))
+    let leave2 = leave1 % 3600
+    let minutes = Math.floor(leave2 / 60)
+    let leave3 = leave2%60
+    let seconds = Math.round(leave3)
+    if (days > 0) {
+      return `${days} DAY ${hours} HOURS ${minutes} MIN`
+    }else {
+      if (hours > 0) {
+        return `${hours} HOURS ${minutes} MIN ${seconds} S`
+      }else {
+        return `${minutes} MIN ${seconds} S`
+      }
+    }
+  }else {
+    let monthMap = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+    let d1 = new Date(time * 1000)
+    return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + 'PM' : (d1.getUTCHours()) + 'AM'},${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()},${d1.getUTCFullYear()}(UTC)`
+  }
+}
+
+export function parseSpaceStartTime(time) {
+  let monthMap = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ]
+  let d1 = new Date(time)
+  return `${d1.getUTCHours() >= 12 ? prefixInteger(d1.getUTCHours() - 12, 2) + ":" + prefixInteger(d1.getMinutes(), 2) + 'PM' : prefixInteger(d1.getUTCHours(), 2) + ':' + prefixInteger(d1.getMinutes(), 2) + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
+}
+
+export function stringLength(str) {
+  if (!str || str.length === 0) return 0;
+  let len = 0;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      len++;
+    }else {
+      len += 2;
+    }
+  }
+  return len;
+}
+
+export function prefixInteger(num, length) {
+  var i = (num + "").length;
+  while(i++ < length) num = "0" + num;
+  return num;
+}
+
+export function sortCurations(curations) {
+  if (curations && curations.length > 0){
+    const now = (new Date().getTime() / 1000).toFixed(0)
+    const pending = curations.filter(c => c.endtime > now)
+    const ended = curations.filter(c => c.endtime <= now)
+    return pending.reverse().concat(ended)
+  }
+  return []
 }

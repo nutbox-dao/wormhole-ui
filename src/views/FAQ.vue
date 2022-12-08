@@ -1,43 +1,40 @@
 <template>
   <div class="faq-view overflow-auto">
-    <div class="container px-15px mx-auto mt-6rem text-left max-w-43rem fade-in c-text-medium">
-      <div>
-        <div class="text-1.6rem leading-2rem">
-          How to generate a new address, do you keep the private key on platform?
+    <div class="c-text-black text-center py-1rem text-1.5rem md:text-1.2rem">{{$t('faq')}}</div>
+    <div class="container mx-auto text-left max-w-43rem fade-in c-text-medium">
+      <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">
+        <div class="c-text-black text-1.15rem leading-2rem md:text-1rem md:leading-1.5rem">
+          {{$t('faqView.q1')}}
         </div>
-        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem ">
-          We generate a random key pair, send it to you in an encrypted way. And we never keep your any keys.
+        <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
+          {{$t('faqView.a1')}}
         </div>
-        <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
-      <div>
-        <div class="text-1.6rem leading-2rem">
-          Need I restore my private key after I binded my account? Can I find it back if I lost it?
+      <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">
+        <div class="c-text-black text-1.15rem leading-2rem md:text-1rem md:leading-1.5rem">
+          {{$t('faqView.q2')}}
         </div>
-        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem">
-          Please keep your key in a very security place, we dont keep them, so nobody can find them back if you lose them.
+        <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
+          {{$t('faqView.a2')}}
         </div>
-         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
-      <div>
-        <div class="text-1.6rem leading-2rem">
-          Can I send crypto asset through twitter? How?
+      <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">
+        <div class="c-text-black text-1.15rem leading-2rem md:text-1rem md:leading-1.5rem">
+          {{$t('faqView.q3')}}
         </div>
-        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem">
-          Yes, you can send STEEM token at this phase, but can't send eth assets because of we don't keep your key.<br>
-          You can send STEEM to another one by send twitter: #wormhole3 !send 1 STEEM to @another twitter account.
+        <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
+          {{$t('faqView.a3p1')}}<br>
+          {{$t('faqView.a3p2')}}
         </div>
-         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
-      <div>
-        <div class="text-1.6rem leading-2rem">
-          Can I sync my tweets to web3?
+      <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">
+        <div class="c-text-black text-1.15rem leading-2rem md:text-1rem md:leading-1.5rem">
+          {{$t('faqView.q4')}}
         </div>
-        <div class="text-1rem text-text8F leading-1.8rem mt-1.4rem">
-          Sure, your tweet will be stored in web3 for ever, it always belong to you.<br>
-          You can send twitter to sync them like this:#wormhole3 !post content. 
+        <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
+          {{$t('faqView.a4p1')}}<br>
+          {{$t('faqView.a4p2')}}
         </div>
-         <div class="w-full h-1px bg-text8F my-2.25rem"></div>
       </div>
     </div>
   </div>

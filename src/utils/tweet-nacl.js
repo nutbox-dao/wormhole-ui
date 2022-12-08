@@ -2,9 +2,11 @@ import nacl from 'tweetnacl'
 import { u8arryToHex, hexTou8array, b64uDec, b64uEnc } from './helper'
 import { ParseKeyNonce, SendPwdServerPubKey } from '@/config'
 
-export function createKeypair() {
-    const pair = nacl.box.keyPair()
-    return { publicKey: u8arryToHex(pair.publicKey), privateKey: u8arryToHex(pair.secretKey) }
+export async function createKeypair() {
+    return new Promise((resolve) => {
+        const pair = nacl.box.keyPair()
+        resolve({ publicKey: u8arryToHex(pair.publicKey), privateKey: u8arryToHex(pair.secretKey) })
+    })
 }
 
 export function box(data, publicKey, secretKey) {
@@ -32,8 +34,6 @@ export function test() {
 
     const privateKey1 = b64uEnc(pair1.privateKey)
     const privateKey2 = b64uEnc(pair2.privateKey)
-    console.log(3, privateKey1);
-    console.log(4, privateKey2);
 
     const res = box(data, pair1.publicKey, b64uDec(privateKey2))
     const res2 = openBox(res, ParseKeyNonce, pair2.publicKey, b64uDec(privateKey1))

@@ -1,22 +1,60 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import VerifyView from '@/views/Verify'
+import VerifyView from '@/views/CreateAccount'
 import LoginView from '@/views/Login'
+import LoginCodeView from '@/views/LoginCode'
 import FAQView from '@/views/FAQ'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
 import UserTransactionView from '@/views/user/Transaction'
 import UserPostView from '@/views/user/Post'
-import UserPostDetailView from '@/views/user/PostDetail'
-import AccountInfoView from '@/views/AccountInfo'
+import UserPostDetailView from '@/views/post/PostDetail'
+// other user's profile view
+import AccountInfoView from '@/views/user/tempUser/AccountInfo'
+// import AccountPostView from '@/views/user/tempUser/Post'
+// import AccountTokenView from '@/views/user/tempUser/Token'
+// import AccountNFTView from '@/views/user/tempUser/NFT'
+// import AccountWalletView from '@/views/user/tempUser/WalletView'
+
+import SquareIndex from "@/views/square/SquareIndex";
+import TagView from "@/views/square/TagView";
+import WalletView from "@/views/user/WalletView";
+import TopicsView from "@/views/square/TopicsView";
+import AboutUsView from "@/views/AboutView";
+import CurationsIndex from "@/views/curations/CurationsIndex";
+import CreateCuration from "@/views/curations/CreateCuration";
+import CurationDetail from "@/views/curations/CurationDetail";
+import CurationsView from "@/views/user/Curations";
+import FaucetView from "@/views/Faucet"
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    redirect: '/square',
+  },
+  {
+    path: '/square/:referee?',
+    name: 'square',
+    component: CurationsIndex,
+    meta: {keepAlive: true}
+  },
+  {
+    path: '/curations',
+    name: 'curations',
+    component: CurationsIndex,
+    meta: {keepAlive: true}
+  },
+  {
+    path: '/create-curation',
+    name: 'create-curation',
+    component: CreateCuration
+  },
+  {
+    path: '/curation-detail/:id',
+    name: 'curation-detail',
+    component: CurationDetail
   },
   {
     path: '/verify',
@@ -24,9 +62,9 @@ const routes = [
     component: VerifyView,
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
+    path: '/logincode/:code?',
+    name: 'login-code',
+    component: LoginCodeView
   },
   {
     path: '/account-info/:user',
@@ -39,45 +77,71 @@ const routes = [
     component: FAQView,
   },
   {
+    path: '/about',
+    name: 'about',
+    component: AboutUsView,
+  },
+  {
+    path: '/faucet',
+    name: 'faucet',
+    component: FaucetView,
+  },
+  {
+    path: '/profile/:user/wallet',
+    name: 'wallet',
+    component: WalletView,
+    children: [
+      {
+        path: '',
+        name: 'nft',
+        component: UserNftView
+      },
+      {
+        path: 'token',
+        name: 'token',
+        component: UserTokenView
+      },
+    ]
+  },
+  {
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
     children: [
       {
-        path: '/profile/:user',
-        name: 'token',
-        component: UserTokenView
-      },
-      {
-        path: '/profile/:user/nft',
-        name: 'nft',
-        component: UserNftView
-      },
-      {
-        path: '/profile/:user/transaction',
-        name: 'transaction',
-        component: UserTransactionView
-      },
-      {
         path: '/profile/:user/post',
         name: 'post',
-        component: UserPostView
+        component: UserPostView,
+        meta: {keepAlive: true}
       },
       {
-        path: '/profile/:user/post-detail',
-        name: 'post-detail',
-        component: UserPostDetailView
+        path: '/profile/:user/curations',
+        name: 'profile-curations',
+        component: CurationsView,
+        meta: {keepAlive: true}
       }
     ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: Vue.defineAsyncComponent(() => import('../views/AboutView.vue')),
+    path: '/transaction',
+    name: 'transaction',
+    component: UserTransactionView
   },
+  {
+    path: '/post-detail/:postId',
+    name: 'post-detail',
+    component: UserPostDetailView,
+  },
+  {
+    path: '/confirm-reward',
+    name: 'confirm-reward',
+    component: () => import('@/views/curations/ConfirmReward'),
+  },
+  {
+    path: '/submissions/:state',
+    name: 'submissions',
+    component: () => import('@/views/curations/Submissions'),
+  }
 ]
 
 const router = VueRouter.createRouter({

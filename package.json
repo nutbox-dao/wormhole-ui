@@ -26,9 +26,12 @@
     "steem": "^0.7.11",
     "tiny-emitter": "^2.1.0",
     "tweetnacl": "^1.0.3",
+    "vant": "^3.5.2",
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.1",
+    "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.8",
+    "vue3-twemoji-picker-final": "^0.0.15",
     "vuex": "^4.0.2",
     "yarn": "^1.22.15"
   },

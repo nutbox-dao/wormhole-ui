@@ -1,0 +1,199 @@
+<template>
+  <div class="pop-up-bg h-min light:border-1 light:border-colorE3 rounded-8px text-left mt-1rem overflow-hidden">
+    <div class="w-full">
+      <div class="title-bg flex-1 px-1.25rem py-8px min-h-38px flex justify-between items-center">
+        <div class="text-white c-text-black italic text-orangeColor text-16px
+                    flex-1 flex justify-between items-center truncate">
+          Pop-Ups
+        </div>
+        <button v-if="showCreate" class="w-1.2rem" @click.stop="create">
+          <img class="w-1.2rem" src="~@/assets/icon-add-yellow.svg" alt="">
+        </button>
+      </div>
+    </div>
+    <div class="collapse-box px-1.25rem"
+         :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
+      <div class="h-70px my-8px border-1 rounded-12px overflow-hidden
+                  flex flex-col cursor-pointer"
+           :class="isEnded(popup)?'border-color8B/30':'border-colorEE'"
+            @click="join(popup)"
+           v-for="popup of showingPopup" :key="popup.tweetId">
+        <div class="w-full flex items-center py-4px px-10px"
+             :class="isEnded(popup)?'bg-end-gradient border-color8B/70':'bg-colorFF/25 border-colorEE'">
+          <div class="flex flex-1 items-center h-full truncate cursor-pointer">
+            <div v-if="!isEnded(popup)"
+                 class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
+                      font-bold min-w-70px py-2px flex justify-center items-center relative">
+              <van-count-down class="text-orangeColor font-bold"
+                              :time="popTime(popup)" format="mm:ss" />
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
+            <div v-else
+                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap text-color8B/70
+                      font-bold min-w-70px py-2px flex justify-center items-center relative c-text-black">
+              {{ $t('popup.ended') }}
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
+          </div>
+          <div class="flex-1 flex items-center justify-end -mr-4px">
+            <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
+                            :token="{address: popup.token, symbol: popup.symbol}">
+              <template #amount>
+                <span class="px-8px h-17px whitespace-nowrap c-text-black
+                             flex items-center text-12px 2xl:text-0.8rem "
+                      :class="[!isEnded(popup)?'text-colorFA':'text-color8B/70']">
+                  {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
+                </span>
+              </template>
+            </ChainTokenIcon>
+          </div>
+        </div>
+        <div class="w-full flex-1 flex px-1rem items-center justify-between"
+             :class="isEnded(popup)?'text-color8B/70':'text-colorFA'">
+          <div class="flex-1 whitespace-nowrap truncate leading-24px">
+            {{popup.content}}
+          </div>
+          <button v-if="!isEnded(popup) && !isJoin(popup)"
+                  class="text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px">
+            {{$t('curation.join')}}
+          </button>
+          <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
+               class="ml-20px"
+               @click="selectedPopup=popup;modalVisible = true">{{popup.totalAcount}} >></div>
+        </div>
+      </div>
+    </div>
+    <button v-show="showingPopup.length > 2" class="w-full h-24px" @click="popUpsCollapse=!popUpsCollapse">
+      <img class="mx-auto" :class="popUpsCollapse?'transform rotate-180':''" src="~@/assets/icon-arrow-yellow.svg" alt="">
+    </button>
+    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+               v-model:show="modalVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="modalVisible"
+             class="dark:bg-glass light:bg-white rounded-t-12px">
+          <PopUpsParticipants :pop-up="selectedPopup"  @close="modalVisible=false"></PopUpsParticipants>
+        </div>
+      </transition>
+    </van-popup>
+  </div>
+
+</template>
+
+<script>
+import ChainTokenIcon from "@/components/ChainTokenIcon";
+import { mapGetters } from 'vuex'
+import { formatAmount } from "@/utils/helper";
+import PopUpsParticipants from "@/components/PopUpsParticipants";
+
+export default {
+  name: "PopUpsCard",
+  components: {ChainTokenIcon, PopUpsParticipants},
+  props: {
+    space: {
+      type: Object,
+      default: {}
+    },
+    popups: {
+      type: Array,
+      default: []
+    },
+    showCreate: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      selectedPopup: {},
+      position: document.body.clientWidth < 768?'bottom':'center',
+      popUpsCollapse: false,
+      timeUpdateInterval: null,
+      modalVisible: false
+    }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['detailCuration']),
+    showingPopup() {
+      if (!this.popups || this.popups.length === 0) return [];
+      this.popups.forEach(p => ({
+        ...p,
+        showingState: this.popTime(p)
+      }))
+      let ongoing = this.popups.filter(p => p.status === 0);
+      let over = this.popups.filter(p => p.status > 0);
+      const hostIds = this.space.host_ids ? JSON.parse(this.space.host_ids) : []
+      const speakers = this.space.speakder_ids ? JSON.parse(this.space.speakder_ids) : []
+      const h = ongoing.filter(o => hostIds.find(h => h === o.twitterId)).reverse()
+      const s = ongoing.filter(o => speakers.find(s => s === o.twitterId)).reverse()
+      const o = ongoing.filter(o => !hostIds.find(h => h === o.twitterId) && !speakers.find(s => s === o.twitterId)).reverse()
+      return h.concat(s).concat(o).concat(over)
+    }
+  },
+  methods: {
+    formatAmount,
+    create() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+          this.$store.commit('saveShowLogin', true);
+          return;
+      }
+      this.$emit('createPopUpVisible')
+    },
+    prefixInteger(num, length) {
+      var i = (num + "").length;
+      while(i++ < length) num = "0" + num;
+      return num;
+    },
+    isEnded(popup) {
+      return popup.status > 0
+    },
+    isJoin(popup) {
+      return !!popup.retweetId
+    },
+    popTime(popup) {
+      const now = new Date().getTime()
+      const endTime = new Date(popup.endTime).getTime()
+      if(endTime < now) popup.status=1
+      return endTime - now
+    },
+    join(popup) {
+      if (this.isEnded(popup) || this.isJoin(popup) || !popup.tweetId) {
+
+      }else {
+        window.open(`https://twitter.com/intent/tweet?in_reply_to=${popup.tweetId}&text=%0a%23iweb3%20%23popup`)
+      }
+    },
+    isNumeric (val) {
+      return val !== null && val !== '' && !isNaN(val)
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.pop-up-bg {
+  background-image: linear-gradient(93.53deg, rgba(255, 168, 0, 0.22) 2.33%, rgba(255, 227, 182, 0) 91.45%);
+  background-size: 70% 100%;
+  background-repeat: no-repeat;
+}
+.title-bg {
+  background: linear-gradient(93.53deg, rgba(255, 168, 0, 0.22) 2.33%, rgba(255, 227, 182, 0) 91.45%);
+}
+.collapse-box {
+  overflow: hidden;
+  transition: max-height ease 0.2s;
+  &.show {
+    max-height: 1500px;
+    transition: max-height ease-in-out 0.5s;
+  }
+  &.hide {
+    max-height: 160px;
+    min-height: 160px;
+  }
+}
+</style>
