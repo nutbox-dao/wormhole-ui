@@ -41,14 +41,7 @@
                     </div>
                     <div class="text-0.7rem mt-0.5rem text-color8B text-12px xl:text-0.7rem">{{ parseTime(item.postTime) }}</div>
                   </div>
-
-                  <!--              <div class="flex flex-col items-end">-->
-                  <!--                <div class="c-text-black text-0.8rem leading-1.2rem whitespace-nowrap">-->
-                  <!--                  {{ isReceive(item) ? '+' : '-' }} {{ formatAmount(item) }} {{ item.symbol }}-->
-                  <!--                </div>-->
-                  <!--                <div class="c-text-medium text-0.7rem mt-0.5rem text-color8B">{{ getValue(item) }}</div>-->
-                  <!--              </div>-->
-                  <div>
+                  <div class="flex flex-col justify-between items-end">
                     <ChainTokenIcon class="bg-black light:bg-colorD9"
                                     height="24px" width="24px"
                                     :chain-name="item.chainName.toString()"
@@ -60,6 +53,10 @@
                         </span>
                       </template>
                     </ChainTokenIcon>
+                    <a v-if="item.sendStatus === 0"
+                       class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem w-max
+                                light:text-blueDark light:border-colorE3 light:text-color7D"
+                       :href="hashLink(item)" target="_blank">View</a>
                   </div>
                 </div>
                 <div v-if="item.tipResult!==0"
@@ -68,17 +65,6 @@
                 </div>
               </div>
             </div>
-<!--            <div class="text-right mt-1rem c-text-medium text-0.6rem">-->
-<!--              <a v-if="item.tipResult === 0"-->
-<!--                 class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem-->
-<!--                        light:text-blueDark light:bg-colorF2 light:border-colorE3 light:text-color7D"-->
-<!--                 :href="hashLink(item)" target="_blank">{{$t('transactionView.viewBlockchain')}}</a>-->
-<!--              <el-tooltip v-else-if="item.sendStatus!==0">-->
-<!--                <template #content>{{failResult(item)}}</template>-->
-<!--                <button class="text-redColor rounded-full border-1 border-redColor py-4px px-0.7rem">{{$t('transactionView.fail')}}</button>-->
-<!--              </el-tooltip>-->
-<!--              <span v-if="item.returnStatus === 1" class="text-primaryColor rounded-full border-1 border-primaryColor py-4px px-0.7rem">{{$t('transactionView.returned')}}</span>-->
-<!--            </div>-->
         </van-list>
       </van-pull-refresh>
     </div>
