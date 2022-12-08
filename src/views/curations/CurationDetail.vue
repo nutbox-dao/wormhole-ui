@@ -20,7 +20,7 @@
                 <ContentTags class="mt-5px" :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
               </div>
               <template v-if="contentType==='tweet'">
-                <Blog :post="detailCuration"
+                <Blog :post="detailCuration" @click="gotoTweet"
                       avatar-class="w-30px min-w-30px h-30px md:w-2.6rem md:h-2.6rem md:w-min-2.6rem"
                       class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
                   <template #bottom-btn-bar><div></div></template>
@@ -121,13 +121,15 @@
                 </div>
                 <div class="w-45/100 h-40px whitespace-nowrap bg-tag-gradient
                             flex items-center justify-center min-w-1/3 text-white token-tag">
-                  <ChainTokenIcon height="20px" width="20px" :token="{symbol: 'USDT', address: ''}" chain-name="ETH">
+                  <ChainTokenIconVue height="20px" width="20px"
+                                     :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
+                                     :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
                     <template #amount>
                       <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
-                        10.1 USDT/1000
+                        {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
                       </span>
                     </template>
-                  </ChainTokenIcon>
+                  </ChainTokenIconVue>
                 </div>
                 <button class="absolute right-10px top-1/2 transform -translate-y-1/2"
                         @click="quotesCollapse=!quotesCollapse">
@@ -145,11 +147,10 @@
                        class="px-1.25rem py-4px flex items-start sm:items-center my-6px">
                     <i class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
-                    <span>Click to {{isQuote === 1 ? 'Quote' : 'Reply'}} {{quoted}}</span>
-                  </div>
-                  <div v-if="isLike"
-                       @click="like"
-                       class="px-1.25rem py-4px hover:bg-color62/30 flex items-start sm:items-center cursor-pointer">
+                    <span class="text-12px xl:text-0.7rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
+                  </button>
+                  <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
+                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer my-8px">
                     <img v-if="isLiking"
                          class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
                     <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
@@ -175,10 +176,17 @@
             <div class="flex items-center justify-between h-40px xl:h-2rem pl-1.25rem pr-10px">
               <span class="c-text-black text-14px">Participants</span>
               <div class="flex items-center">
-                <div class="-ml-7px" v-for="record of (participant.slice(0, 5) ?? [])" :key="record.id">
-                  <img class="w-18px h-18px xl:w-1.2rem xl:h-1.2rem rounded-full border-1 border-color62 light:border-white"
+                <div class="-ml-7px" v-for="p of participant.slice(0,3)" :key="p">
+                  <img v-if="p.profileImg"
+                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                              border-1 border-color62 light:border-white"
                        @error="replaceEmptyImg"
-                       :src="record.profileImg" alt="">
+                       :src="p.profileImg" alt="">
+                  <img v-else
+                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                              border-1 border-color62 light:border-white"
+                       src="~@/assets/icon-default-avatar.svg" alt="">
+
                 </div>
                 <span v-if="participant.length>3"
                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
@@ -197,8 +205,14 @@
             <div class="px-1.25rem pt-8px pb-1rem text-left relative">
               <div class="c-text-black mt-4px text-14px">{{$t('curation.details')}}</div>
               <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
-              <div class="text-color7D">Our first giveaway event, come and grab your airdrop</div>
-              <!-- 已结束 -->
+              <div class="text-color7D">{{detailCuration?.description}}</div>
+              <div class="flex justify-between items-center mt-1rem c-text-black">
+                <span class="">Prize</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+                  {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
+                </button>
+              </div>
+              <!-- ended -->
               <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
                 <span class="">End Time</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
@@ -241,74 +255,12 @@
                 </RelatedCurationItemVue>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-span-1 xl:col-span-1" v-if="detailCuration">
-          <!-- token -->
-<!--          <div v-loading="loading1" class="gradient-bg gradient-bg-color3 rounded-15px py-0.5rem px-1.5rem min-h-4rem light:shadow-popper-tip">-->
-<!--            <div class="flex justify-between items-center">-->
-<!--              <span class="text-colorF7">{{$t('curation.reward')}}</span>-->
-<!--              <div class="flex items-center">-->
-<!--                &lt;!&ndash; <span class="text-primaryColor font-500">PosW</span>-->
-<!--                <img class="w-20px 2xl:w-1rem ml-0.5rem" src="~@/assets/icon-question-purple.svg" alt=""> &ndash;&gt;-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="w-full h-1px bg-white mt-0.8rem mb-1.6rem"></div>-->
-<!--            <div class="flex justify-between items-center mb-2rem">-->
-<!--              <span class="text-colorF7">Token</span>-->
-<!--              <div class="flex items-center">-->
-<!--                <img v-if="tokenIcon" class="w-1.5rem mr-0.6rem rounded-full" :src="tokenIcon" alt="">-->
-<!--                <img v-else class="w-1.5rem mr-0.6rem rounded-full" src="~@/assets/icon-eth-white.svg" alt="">-->
-<!--                <span class="font-700 text-white text-1.4rem">{{(detailCuration && detailCuration.amount) ? (detailCuration.amount.toString() / (10 ** detailCuration.decimals)) : '0'}} {{detailCuration && detailCuration.tokenSymbol}}</span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="text-colorE0/80 text-12px 2xl:text-0.6rem">{{$t('curation.rewardOnChain')}}</div>-->
-<!--          </div>-->
-          <!-- curators list -->
-<!--          <div v-loading="loading2" class="border-1 border-color8B/30 rounded-15px p-2 mt-1rem text-left min-h-8rem">-->
-<!--            <div class="flex justify-between items-center mb-10px p-0.5rem">-->
-<!--              <div class="text-primaryColor light:text-color62">{{$t('curation.curators')}}  {{detailCuration && detailCuration.totalCount}}</div>-->
-<!--              <div v-if="participant.length > 10" class="text-right cursor-pointer text-12px 2xl:text-0.6rem"-->
-<!--                   @click="showSubmissions=true">-->
-<!--                {{$t('curation.viewAll')}}  >-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div v-if="participant.length===0" class="flex flex-col justify-center items-center py-1rem">-->
-<!--              <div class="icon-list-no-data w-6rem h-4rem"></div>-->
-<!--              <div class="text-color84/30 font-600">{{$t('common.none')}}</div>-->
-<!--            </div>-->
-<!--            <div v-else class="flex justify-between items-center py-6px cursor-pointer"-->
-<!--                @click="gotoUserPage(record.twitterUsername)"-->
-<!--                 v-for="record of (participant.slice(0, 10) ?? [])" :key="record.id">-->
-<!--              <div class="flex items-center flex-1 overflow-hidden mr-8px">-->
-<!--                <img class="w-34px h-34px 2xl:w-1.7rem 2xl:h-1.7rem rounded-full"-->
-<!--                     @error="replaceEmptyImg"-->
-<!--                     :src="record.profileImg" alt="">-->
-<!--                <div class="flex-1 text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px truncate">-->
-<!--                  <div class="w-full truncate">{{record.twitterUsername}}</div>-->
-<!--                  <div class="text-color8B">{{createTime(record)}}</div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="flex items-center" v-show="showReward">-->
-<!--                <span class="font-700 text-15px leading-18px 2xl:text-0.75rem 2xl:leading-1rem whitespace-nowrap">-->
-<!--                  {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}-->
-<!--                </span>-->
-<!--                &lt;!&ndash; <img class="w-15px h-15px 2xl:w-0.75rem 2xl:h-0.75rem ml-5px"-->
-<!--                     src="~@/assets/icon-question-white.svg" alt=""> &ndash;&gt;-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-          <!-- Related Curations mobile -->
-          <div class="xl:hidden py-1rem rounded-15px mt-1rem" v-if="relatedCurations && relatedCurations.length > 0">
-            <div class="text-left pt-0.5rem pb-1rem text-1.2rem font-bold">📢  Related Curations</div>
-            <div class="max-h-15rem overflow-hidden relative py-10px rounded-15px bg-blockBg mb-1rem"
-                @click="gotoCuration(rc)"
-                 v-for="rc of relatedCurations" :key="rc.curationId">
-              <RelatedCurationItemVue class="mb-1rem"
-                            :curation="rc">
-              </RelatedCurationItemVue>
+            <div class="min-h-100px relative mt-1rem" v-if="loading1">
+              <div class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center rounded-12px">
+                <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -401,8 +353,7 @@ import SpeakerCollapse from "@/components/SpeakerCollapse";
 import SpeakerTipModal from "@/components/SpeakerTipModal";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
 import PopUpsCard from "@/components/PopUpsCard";
-import ChainTokenIcon from "@/components/ChainTokenIcon";
-import {testData} from "@/views/square/test-data";
+import TipModalVue from "@/components/TipModal.vue";
 import { notify } from "@/utils/notify";
 import { newPopups, likeCuration, followCuration} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
@@ -414,8 +365,8 @@ export default {
   name: "CurationDetail",
   components: {
     TweetAttendTip, Submissions, Blog, Space, TipModalVue,
-    CurationItem, SpeakerCollapse, SpeakerTipModal,
-    CreatePopUpModal, PopUpsCard, ChainTokenIcon
+    CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
+    CreatePopUpModal, PopUpsCard, ChainTokenIconVue,ContentTags
   },
   data() {
     return {
@@ -572,7 +523,7 @@ export default {
     formatAmount,
     gotoTweet() {
       window.open('https://twitter.com/' + this.detailCuration.username + '/status/' + this.detailCuration.tweetId)
-    },  
+    },
     createTime(p) {
       if (!this.detailCuration || !this.detailCuration.createdTime || !this.detailCuration.endtime) return '';
       return parseTimestamp(p.createAt)
@@ -673,10 +624,15 @@ export default {
       }
     },
     gotoCuration(curation) {
-      this.$store.commit('curation/saveDetailCuration', curation);
-      this.$router.replace('/curation-detail/' + curation.curationId);
-      this.$forceUpdate();
-    },  
+      const id = curation.curationId
+      this.$store.commit('curation/saveDetailCuration', {})
+      this.participant = [];
+      this.space = {};
+      this.popups = [];
+      this.tips = [];
+      this.relatedCurations = [];
+      this.$router.replace('/curation-detail/' + id);
+    },
     updateCurationInfos() {
       if (this.detailCuration && this.detailCuration.curationId) {
         const id = this.detailCuration.curationId;

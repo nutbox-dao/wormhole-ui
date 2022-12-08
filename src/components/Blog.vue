@@ -194,6 +194,7 @@ export default {
   },
   methods: {
     formatEmojiText,
+    parseTimestamp,
     clickContent(e) {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
@@ -203,9 +204,6 @@ export default {
     },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
-    },
-    parseTimestamp(time) {
-      return parseTimestamp(time)
     },
     parseSBD(v) {
       // return parseFloat(v.replace(' SBD', ''))

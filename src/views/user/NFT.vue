@@ -18,18 +18,8 @@
             <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
           </div>
         </div>
-
-        <div v-if="this.liquidation.liquidation" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-            @click="showLiquidation">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              src="~@/assets/icon-liquidation.png" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">Liquidation NFT</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">register wormhole3, Tweet (picture and text) to show your liquidation experience and add the hashtags #iweb3 #liquidation</div>
-          </div>
-        </div>
-
-        <div v-for="st of  showingStellarTreks" :key="st" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+        <div v-for="st of  showingStellarTreks" :key="st"
+             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
          @click="showTrek(st.image)">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
               :src="st.image" alt="">

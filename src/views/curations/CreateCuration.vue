@@ -24,54 +24,17 @@
         {{$t('curation.selectCategoryTip')}}
       </div>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
-        <!-- title -->
-        <!-- <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.title')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <div contenteditable
-                 class="bg-transparent w-full px-0.5rem overflow-hidden whitespace-nowrap text-15px leading-24px 2xl:text-0.75rem 2xl:leading-1rem"
-                 ref="titleRef"
-                 @keydown="keydown"
-                 @blur="getBlur('title')"
-                 @paste="onPaste"
-                 v-html="formatEmojiText(form.title)"></div>
-            <el-popover ref="titleEmojiPopover" trigger="click" width="300" :teleported="false" :persistent="false">
-              <template #reference>
-                <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
-              </template>
-              <div class="h-310px lg:h-400px">
-                <EmojiPicker :options="{
-                                imgSrc:'/emoji/',
-                                locals: $i18n.locale==='zh'?'zh_CN':'en',
-                                hasSkinTones:false}"
-                             @select="(e) =>selectEmoji(e,'title')" />
-              </div>
-            </el-popover>
-          </div>
-        </div> -->
-        <div class="mt-1.8rem relative">
-          <div class="mb-6px c-text-black">{{$t('curation.category')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <el-select v-model="form.category" class="w-full" size="large">
-              <el-option label="Tweet" value="tweet"></el-option>
-              <el-option label="Space" value="space"></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="mt-1.8rem relative" v-if="form.category==='tweet'">
-          <div class="mb-6px c-text-black">{{$t('curation.select')}}</div>
-          <div class="bg-black border-1 border-color8B/30
-                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                      rounded-12px h-40px 2xl:h-2rem flex items-center relative">
-            <el-select v-model="form.createType" class="w-full" size="large">
-              <el-option label="Create New" value="new"></el-option>
-              <el-option label="Related" value="related"></el-option>
-            </el-select>
-          </div>
+        <div class="relative">
+          <button class="h-34px xl:h-1.5rem px-24px border-1 rounded-full mr-24px"
+                  :class="form.category==='tweet'?
+                  'bg-color62/30 light:bg-colorF1 border-color62 light:text-color62':
+                  'bg-black light:bg-colorF2 border-color8B/30 light:border-colorE3 text-color8B light:text-color7D'"
+                  @click="selectCategoryType('tweet')">Tweet</button>
+          <button class="h-34px xl:h-1.5rem px-24px border-1 rounded-full"
+                  :class="form.category==='space'?
+                  'bg-color62/30 light:bg-colorF1 border-color62 light:text-color62':
+                  'bg-black light:bg-colorF2 border-color8B/30 light:border-colorE3 text-color8B light:text-color7D'"
+                  @click="selectCategoryType('space')">Twitter Space</button>
         </div>
         <!-- create new content -->
         <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
@@ -151,30 +114,64 @@
           <div class="bg-color62/20 light:bg-colorF1 border-1 border-color62 pl-15px
                       rounded-8px h-44px 2xl:h-2rem flex items-center relative"
                :class="checkingTweetLink?'hover:border-color8B/30':''">
-            <input class="bg-transparent h-full w-full px-0.5rem"
-                   v-model="form.link"
-                   type="text" :placeholder="$t('curation.pasteLink')">
-            <button class="text-color62 c-text-black mx-10px whitespace-nowrap"
-                    @click="checkLink">{{$t('curation.verify')}}</button>
+            <div class="w-full text-12px xl:text-0.7rem">
+              <input class="bg-transparent h-full w-full"
+                     :class="linkIsError?'text-redColor':'text-color62'"
+                     v-model="form.link"
+                     :disabled="checkingTweetLink"
+                     @input="linkIsError=false"
+                     :placeholder="$t('curation.pasteLink')">
+            </div>
+            <button class="bg-color62 text-white h-20px xl:h-1rem px-5px rounded-4px min-w-50px disabled:opacity-50
+                           mx-15px whitespace-nowrap flex justify-center items-center text-12px xl:text-0.6rem"
+                    :disabled="checkingTweetLink"
+                    @click="checkLink">
+              <span v-if="!checkingTweetLink">{{$t('curation.verify')}}</span>
+              <c-spinner v-else class="w-1.5rem h-1.5rem"></c-spinner>
+            </button>
           </div>
         </div>
-        <!-- preview tweet -->
-        <div class="mt-1.8rem" v-if="form.category==='tweet' && linkIsVerified">
-          <div class="mb-6px c-text-black">{{$t('curation.preview')}}</div>
-          <div class="max-h-15rem overflow-hidden relative rounded-15px">
-            <Blog :post="form.postData"
-                  class="bg-blockBg light:bg-white rounded-15px
-                       border-1 border-listBgBorder"
-                  :class="expandPreview?'pb-30px':''">
-              <template #bottom-btn-bar><div></div></template>
-            </Blog>
-            <button @click.stop="expandPreview=!expandPreview"
-                 class="absolute bg-color62/70 text-white bottom-0 left-0 w-full h-30px flex
-                 items-center justify-center text-center">
-              <span v-if="!expandPreview">view more ></span>
-              <img v-else class="w-1.2rem transform rotate-180"
-                   src="~@/assets/icon-arrow.svg" alt="">
-            </button>
+        <!-- tweet relate or new -->
+        <div class="flex items-center mt-10px" v-if="form.category==='tweet'">
+          <i class="w-16px h-16px min-w-16px min-h-16px mr-10px"
+             :class="form.createType==='new'?'icon-selected':'icon-unselected'"
+             @click="changeCategory();form.createType = (form.createType==='new'?'related':'new')"></i>
+          <span>{{$t('curation.selectNewTweet')}}</span>
+        </div>
+        <!-- requirements -->
+        <div class="mt-1.8rem relative">
+          <div class="mb-6px font-bold">{{$t('curation.requirements')}}</div>
+          <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
+                      bg-block light:bg-colorF7 rounded-8px
+                      flex justify-between items-center relative px-15px">
+            <i class="w-16px h-16px min-w-16px min-h-16px icon-radio-primary"></i>
+            <div class="flex-1 flex justify-between items-center pl-8px">
+              <el-select v-model="form.mandatoryTask"
+                         class="w-1/3 c-small-select rounded-8px bg-transparent" size="small">
+                <el-option label="Quote" value="quote"></el-option>
+                <el-option label="Reply" value="reply"></el-option>
+              </el-select>
+              <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
+            </div>
+          </div>
+          <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
+                      bg-block light:bg-colorF7 rounded-8px mt-5px
+                      flex justify-between items-center relative px-15px"
+               @click="form.isFollow=!form.isFollow">
+            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
+               :class="form.isFollow?'icon-radio-primary border-0':'bg-black light:bg-white'"></i>
+            <div class="flex-1 flex justify-between items-center pl-15px">
+              <span>{{$t('curation.follow')}}</span>
+              <span>@{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}</span>
+            </div>
+          </div>
+          <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
+                      bg-block light:bg-colorF7 rounded-8px mt-5px
+                      flex flex-start items-center relative px-15px"
+               @click="form.isLike=!form.isLike">
+            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
+               :class="form.isLike?'icon-radio-primary border-0':'bg-black light:bg-white'"></i>
+            <span class="pl-15px">{{$t('curation.like')}}</span>
           </div>
         </div>
         <!-- description -->
@@ -317,27 +314,7 @@
       <!-- reward -->
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
-                      flex justify-center items-center cursor-pointer"
-                 @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem
-                         light:bg-gradient-text-light
-                         gradient-text gradient-text-purple-white">
-              {{showAccount ? showAccount : $t('common.connectMetamask')}}
-            </span>
-              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-              <div v-if="connectLoading"
-                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.maxCount')}}</div>
+          <div class="mb-6px font-bold">{{$t('curation.maxCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
@@ -354,124 +331,17 @@
             </div>
           </div>
         </div>
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.chain')}}</div>
-          <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                  flex items-center justify-between
-                  light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                  rounded-12px h-40px 2xl:h-2rem">
-            <el-select v-model="form.chain" class="w-full" size="large">
-              <el-option label="Steem" value="steem"></el-option>
-              <div class="w-full h-1px bg-color8B/30 my-0.5rem"></div>
-              <div class="flex justify-between items-center px-1.5rem ">
-                <span class="c-text-black">Other</span>
-                <span class="text-color8B">Only available for registered Wormhole3 users</span>
-              </div>
-              <el-option
-                  v-for="item in chainOptions"
-                  :disabled="false"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-              />
-            </el-select>
-          </div>
-        </div>
-        <div class="mt-1.8rem" v-if="form.chain!=='steem'">
-          <div class="mb-6px">{{$t('curation.connectWallet')}}</div>
-          <div class="relative border-1 gradient-border gradient-border-color3 rounded-12px overflow-hidden">
-            <div class="bg-black/30 light:bg-gradient-btn-purple light:bg-white h-50px 2xl:h-2.5rem
-                      flex justify-center items-center cursor-pointer"
-                 @click="connectWallet">
-            <span class="font-600 text-15px 2xl:text-0.75rem
-                         light:bg-gradient-text-light
-                         gradient-text gradient-text-purple-white">
-              {{showAccount ? showAccount : $t('common.connectMetamask')}}
-            </span>
-              <img class="absolute h-32px right-20px" src="~@/assets/icon-metamask.png" alt="">
-              <div v-if="connectLoading"
-                   class="absolute bg-black/70 light:bg-white/40 w-full h-full rounded-12px flex justify-center items-center">
-                <img class="w-3rem" src="~@/assets/loading-points.svg" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- token -->
-        <div class="mt-1.8rem">
-          <div class="mb-6px">{{$t('curation.rewardsAmount')}}</div>
-          <div class="flex items-center flex-col sm:flex-row">
-            <div ref="tokenPopper"
-                 class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
-                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                        rounded-12px h-40px 2xl:h-2rem">
-              <input class="bg-transparent h-full w-full px-0.5rem"
-                      v-model="form.amount"
-                     type="number" :placeholder="$t('curation.inputRewardsAmount')">
-            </div>
-            <div class="w-full sm:w-3/7 mt-10px sm:pl-1.5rem sm:mt-0">
-              <div class="border-1 bg-black/40 border-1 border-color8B/30
-                          light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                          rounded-12px h-40px 2xl:h-2rem">
-                <el-popover popper-class="c-popper" placement="top" :width="popperWidth" trigger="click" ref="elPopover">
-                  <template #reference>
-                    <div class="h-full w-full flex justify-between items-center cursor-pointer px-15px">
-                      <div class="flex items-center">
-                        <img v-if="selectedToken.icon" class="h-22px mr-15px rounded-full" :src="selectedToken.icon" alt="">
-                        <img v-else class="h-22px mr-15px rounded-full" src="~@/assets/icon-eth-white.svg" alt="">
-                        <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
-                      </div>
-                      <img class="w-1rem" src="~@/assets/icon-select-arrow.svg" alt="">
-                    </div>
-                  </template>
-                  <template #default>
-                    <div class="border-1 border-color8B/30 bg-blockBg
-                                light:bg-white light:border-colorE3 hover:border-primaryColor
-                                rounded-12px py-10px overflow-x-hidden">
-                      <div class="px-10px mb-10px">
-                        <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                                    light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                                    rounded-12px h-40px 2xl:h-2rem">
-                          <input class="bg-transparent h-full w-full px-0.5rem"
-                                v-model="form.token"
-                                @input="updateToken"
-                                 type="text" :placeholder="$t('curation.inputErc20')">
-                        </div>
-                      </div>
-                      <div v-if="customToken"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img class="h-34px mr-15px" src="~@/assets/icon-eth-white.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                             @click="updateSelectBalance(customToken);selectedToken = customToken;$refs.elPopover.hide()">
-                          <span class="text-15px">{{customToken.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {{customToken.address}}
-                          </span>
-                        </div>
-                      </div>
-                      <div v-for="token of tokenList" :key="token.address"
-                            @click="updateSelectBalance(token);selectedToken=token;$refs.elPopover.hide()"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img class="h-34px mr-15px rounded-full" :src="token.icon" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                          <span class="text-15px">{{token.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {{token.address}}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </el-popover>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-0.4rem text-right font-400 flex justify-end items-center">
-          <div>{{$t('common.balance')}}: </div>
-          <div class="font-bold ml-5px">{{ formatAmount(selectBalance) }}</div>
-        </div>
+        <AssetsOptions :chain="form.chain"
+                       :address="form.address"
+                       :token="form.token"
+                       :amount="form.amount"
+                       :showsteem="false"
+                       @chainChange="selectChain"
+                       @tokenChagne="selectToken"
+                       @addressChange="selectAddress"
+                       @amountChange="selectAmount"
+                       @balanceChange="selectBalance">
+        </AssetsOptions>
         <!-- posw des -->
         <div class="mt-1.8rem">
           <div class="mb-6px font-bold">{{$t('curation.rewardsMethod')}}</div>
@@ -563,7 +433,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { postErr, applyAirdrop, getDropRecord } from '@/api/api'
+import { postErr } from '@/api/api'
 import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
@@ -571,7 +441,7 @@ import { notify, showError } from "@/utils/notify";
 import { setupNetwork, chainChanged, lockStatusChanged } from '@/utils/web3/web3'
 import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
 import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
-import { CHAIN_ID, ERC20List, CURATION_SHORT_URL } from "@/config";
+import { CHAIN_ID, ERC20List, CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration } from '@/utils/curation'
@@ -582,7 +452,9 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import AddSpeakerModal from "@/components/AddSpeakerModal";
 import {testData} from "@/views/square/test-data";
-import { dataToEsm } from "@rollup/pluginutils";
+import { parseTweet } from '@/utils/twitter-tool'
+import AssetsOptions from "@/components/AssetsOptions";
+import SelectCategoryTip from "@/components/SelectCategoryTip";
 
 export default {
   name: "CreateCuration",
@@ -607,8 +479,8 @@ export default {
         newContent: '',  // this is for new tweet content
         token: '',
         amount: '',
-        category: 'space',
-        createType: 'new',
+        category: 'tweet',
+        createType: 'related',
         link: '',
         host: {},
         coHost: [],
@@ -618,7 +490,8 @@ export default {
         isLike: false,
         postData: {},
         space: {},
-        author: {}
+        author: {},
+        address: null
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -631,7 +504,6 @@ export default {
       wrongLinkDes: 'Invalid link',
       checkingTweetLink: false,
       selectedToken: {},
-      tokenList: ERC20List,
       modalVisible: false,
       modalComponent: markRaw(SendTokenTip),
       popperWidth: 200,
@@ -644,16 +516,12 @@ export default {
       progressing: false,
       selectedBalance: 0,
       testData,
-      postData: {},
-      space: {},
-      TweetLinRex: 'https://twitter.com/[a-zA_Z0-9\_]+/status/([0-9]+)',
-      author: {},
-      chainOptions: [
-        {label: 'Ethereum', value: 'ethereum'},
-        {label: 'BSC', value: 'bsc'},
-        {label: 'Polygon', value: 'polygon'},
-      ],
+      TweetLinRex: 'https://twitter.com/[a-zA-Z0-9\_]+/status/([0-9]+)',
+      EVM_CHAINS,
+      TokenIcon,
       expandPreview: false,
+      rewardsTipCollapse: false,
+      selectCategory: ''
     }
   },
   computed: {
@@ -661,14 +529,18 @@ export default {
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     showAccount() {
-      if (this.account && this.chainId === CHAIN_ID)
-        return this.account.slice(0, 12) + '...' + this.account.slice(this.account.length - 12, this.account.length);
+      if (this.form.address)
+        return this.form.address.slice(0, 12) + '...' + this.form.address.slice(this.form.address.length - 12, this.form.address.length);
       return false
     },
-  },
-  watch: {
-    account(newValue, oldValue) {
-      this.updateSelectBalance(this.selectedToken, newValue)
+    tokenList() {
+      if (this.form.chain) {
+        return Object.values(this.EVM_CHAINS[this.form.chain].assets)
+      }else {
+        this.selectedToken = {};
+        this.selectedBalance = 0;
+        return []
+      }
     }
   },
   methods: {
@@ -693,7 +565,6 @@ export default {
       try{
         this.checkingTweetLink = true;
         const tweet = await getTweetById(match[1]);
-        console.log(235, tweet);
         if (tweet.data) {
           this.form.tweetId = tweet.data.id
           this.form.postData = parseTweet(tweet)
@@ -706,7 +577,6 @@ export default {
             }
             const space = await getSpaceById(spaceId);
             if (space?.includes?.users) {
-              console.log(66, space);
               let author;
               for (let u of space.includes.users) {
                 if (u.id === space.data.creator_id) {
@@ -754,6 +624,12 @@ export default {
             this.form.author = this.form.postData;
             this.linkIsVerified = true;
           }
+        }else {
+          this.wrongLinkDes = this.$t('curation.tweetNotExist');
+          this.linkIsError = true
+          this.form.space = {};
+          this.form.author = {};
+          this.form.postData = {};
         }
       } catch (e) {
         console.log('Fetch data from twitter fail:', e);
@@ -764,7 +640,33 @@ export default {
       } finally {
         this.checkingTweetLink = false;
       }
-    },  
+    },
+    selectCategoryType(type) {
+      if(this.form.category === type) return
+      this.selectCategory = type
+      this.modalComponent = markRaw(SelectCategoryTip)
+      this.modalVisible = true
+    },
+    changeCategory(){
+      this.linkIsError = false
+      this.linkIsVerified = false;
+      this.form.category = (this.selectCategory && this.selectCategory.length > 0) ? this.selectCategory : this.form.category;
+      this.form.endtime = '';
+      this.form.tweetId = '';
+      this.form.description = '';
+      this.form.newContent = '';
+      this.form.link = '';
+      this.form.host = {}
+      this.form.coHost = [];
+      this.form.speakers = [];
+      this.form.mandatoryTask = 'quote'
+      this.form.isFollow = false;
+      this.form.isLike = false;
+      this.form.postData = {}
+      this.form.space = {};
+      this.form.author = {};
+      this.modalVisible = false
+    },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
       this.operateType = operateType
@@ -779,8 +681,7 @@ export default {
       }
     },
     onConfirmSpeaker(data) {
-      console.log(666, data);
-      if (!data) {
+      if (!data || !data.id) {
         this.addSpeakerVisible = false;
         return;
       }
@@ -912,40 +813,29 @@ export default {
       }
       this.$store.commit('curation/saveDraft', this.form);
       this.currentStep = 2
+      this.form.chain = null;
+      this.form.address = null;
+      this.selectedToken = {};
+      this.selectedBalance = 0;
       this.$nextTick(() => {
         this.popperWidth = this.$refs.tokenPopper.clientWidth
       })
     },
-    async connectWallet() {
-      this.connectLoading = true
-      try{
-        if (await setupNetwork()) {
-          await getAccounts(true);
-        }
-      } catch (e) {
-        notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
-      } finally {
-        this.connectLoading = false
-      }
+    selectChain(chain){
+      this.form.chain = chain
     },
-    async updateToken() {
-      if (!ethers.utils.isAddress(this.form.token)) {
-        this.customToken = null;
-        return;
-      }
-      try {
-        const res = await getTokenInfo(this.form.chain, this.form.token)
-        console.log(53, res);
-        this.customToken = {...res, address: this.form.token}
-        this.selectedToken = this.customToken
-        this.updateSelectBalance(this.customToken)
-      }catch(e) {
-        console.log(63, e);
-      }
+    selectAddress(address) {
+      this.form.address = address
     },
-    async updateSelectBalance(token) {
-      this.selectBalance = await getERC20TokenBalance(token.address, this.account)
-
+    selectToken(token) {
+      this.selectedToken = token;
+      this.form.token = token.address;
+    },
+    selectAmount(amount) {
+      this.form.amount = amount
+    },
+    selectBalance(balance) {
+      this.selectedBalance = balance
     },
     selectBalance(balance) {
       this.selectedBalance = balance
@@ -1103,16 +993,7 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
-    chainChanged()
-    accountChanged()
-    await this.updateToken()
-    // if (ethers.utils.isAddress(this.form.token)) {
-    //   this.selectedToken = this.customToken
-    // }else {
-    //   this.selectedToken = this.tokenList[0]
-    // }
-    // this.updateSelectBalance(this.selectedToken)
-
+    
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
       try {

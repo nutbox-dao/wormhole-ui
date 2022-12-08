@@ -220,24 +220,24 @@ export default {
       el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
       el.innerHTML =el.innerHTML.replaceAll('<br>', '')
       let content = ''
-      let tweetLenth = 0;
+      let tweetLength = 0;
       for(let i of el.childNodes) {
         if(i.nodeName==='#text') {
-          tweetLenth += stringLength(i.textContent);
+          tweetLength += stringLength(i.textContent);
           content += i.textContent
         } else if(i.nodeName === 'IMG') {
-          tweetLenth+=2;
+          tweetLength+=2;
           content += i.alt
         }
       }
-      this.tweetLenth = tweetLenth
+      this.tweetLength = tweetLength
       return content
     },
     onNext() {
       this.form.contentEl = this.$refs.contentRef.innerHTML
       this.form.content = this.formatElToTextContent(this.$refs.contentRef)
       this.step = 2
-      console.log(this.form.content, this.form.contentEl)
+      console.log(this.form.content, this.form.contentEl, this.tweetLength)
     },
     selectChain(chain){
       this.form.chain = chain

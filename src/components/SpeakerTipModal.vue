@@ -107,7 +107,7 @@ export default {
       host: {},
       coHosts: [],
       speakers:[],
-      popUpData: {
+      form: {
         chain: '',
         address: '',
         token: '',
@@ -121,6 +121,26 @@ export default {
   methods: {
     avatar(url) {
       return url.replace('normal', '200x200')
+    },
+    selectChain(chain){
+      this.form.chain = chain
+    },
+    selectAddress(address) {
+      this.form.address = address
+    },
+    selectToken(token) {
+      this.selectedToken = token;
+      this.form.token = token.address;
+    },
+    selectBalance(balance) {
+      this.selectedBalance = balance
+    },
+    selectGift(gift) {
+      this.form.amount = gift.value
+    },
+    tip(user) {
+      this.tipToUser = user;
+      this.step = 2;
     }
   },
   mounted () {

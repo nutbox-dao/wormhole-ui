@@ -18,24 +18,36 @@
            :class="isEnded(popup)?'border-color8B/30':'border-colorEE'"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="flex flex-1 items-center h-full truncate">
-          <div v-if="!isEnded(popup)"
-               class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
-                      font-bold min-w-4rem flex justify-center items-center relative">
-            {{popup.showingState}}
-            <img v-if="isJoin(popup)"
-                 class="w-14px h-14px absolute bottom-0 -right-5px"
-                 src="~@/assets/icon-checked-green.svg" alt="">
+        <div class="w-full flex items-center py-4px px-10px"
+             :class="isEnded(popup)?'bg-end-gradient border-color8B/70':'bg-colorFF/25 border-colorEE'">
+          <div class="flex flex-1 items-center h-full truncate cursor-pointer">
+            <div v-if="!isEnded(popup)"
+                 class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
+                      font-bold min-w-70px py-2px flex justify-center items-center relative">
+              <van-count-down class="text-orangeColor font-bold"
+                              :time="popTime(popup)" format="mm:ss" />
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
+            <div v-else
+                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap text-color8B/70
+                      font-bold min-w-70px py-2px flex justify-center items-center relative c-text-black">
+              {{ $t('popup.ended') }}
+              <img v-if="isJoin(popup)"
+                   class="w-14px h-14px absolute bottom-0 -right-5px"
+                   src="~@/assets/icon-checked-green.svg" alt="">
+            </div>
           </div>
           <div class="flex-1 flex items-center justify-end -mr-4px">
             <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
-            <span class="px-8px h-17px whitespace-nowrap
-                         flex items-center text-12px 2xl:text-0.8rem font-bold"
-                  :class="[!isEnded(popup)?'text-colorEE':'', isEnded(popup)?'text-white':'']">
-              {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
-            </span>
+                <span class="px-8px h-17px whitespace-nowrap c-text-black
+                             flex items-center text-12px 2xl:text-0.8rem "
+                      :class="[!isEnded(popup)?'text-colorFA':'text-color8B/70']">
+                  {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
+                </span>
               </template>
             </ChainTokenIcon>
           </div>
@@ -46,13 +58,12 @@
             {{popup.content}}
           </div>
           <button v-if="!isEnded(popup) && !isJoin(popup)"
-                  class="bg-colorFA text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px"
-                  >
+                  class="text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px">
             {{$t('curation.join')}}
           </button>
           <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
-               class="ml-20px text-colorFA"
-               @click.stop="selectedPopup=popup;modalVisible = true">{{popup.totalAcount}} >></div>
+               class="ml-20px"
+               @click="selectedPopup=popup;modalVisible = true">{{popup.totalAcount}} >></div>
         </div>
       </div>
     </div>

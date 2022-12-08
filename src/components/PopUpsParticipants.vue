@@ -69,7 +69,9 @@ export default {
   data() {
     return {
       participants: [],
-      finished: false
+      finished: false,
+      refreshing: false,
+      loading: false
     }
   },
   methods: {
@@ -86,8 +88,13 @@ export default {
       if(this.loading || this.finished) return
       this.refreshing = false
       this.loading = true
-      popupRecords(this.popUp.tweetId).then(pop => {
-        this.participants = pop ?? []
+      let rowIndex;
+      if (this.participants && this.participants.length > 0) {
+        rowIndex = this.participants[this.participants.length - 1].rowIndex
+      }
+      popupRecords(this.popUp.tweetId, rowIndex).then(pop => {
+        this.loading = false
+        this.participants =  this.participants.concat(pop ?? [])
         if (pop && pop.length < 20) {
           this.finished = true
         }
