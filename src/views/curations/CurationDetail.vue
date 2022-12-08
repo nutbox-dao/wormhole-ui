@@ -665,7 +665,9 @@ export default {
         // update space host profile
         if (this.detailCuration.spaceId) {
           getSpaceInfoById(this.detailCuration.spaceId).then(res => {
-            this.space = res
+            if (res && res.spaceId) {
+              this.space = res
+            }
           }).finally(() => {
             this.loading5 = false;
           })

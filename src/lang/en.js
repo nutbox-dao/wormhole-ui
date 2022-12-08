@@ -271,7 +271,7 @@ export default {
     tweetNotExist: "Tweet not exists",
     replyCanntCurate: `Reply tweet can't be curated`,
     spaceIdWrong: "Tweet contain a wrong space ID",
-    tweetSpaceAuthorDismatch: "Authors of tweet and space should be single user.",
+    tweetSpaceAuthorDismatch: "The initiator of Twitter space and Tweet has to be the same person ",
     endedAt: 'Ended At',
     expire: 'Expiration'
   },
