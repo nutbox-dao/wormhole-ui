@@ -178,18 +178,18 @@
               <div class="flex items-center">
                 <div class="-ml-7px" v-for="p of participant.slice(0,3)" :key="p">
                   <img v-if="p.profileImg"
-                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                       class="w-24px min-w-24px h-24px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-1 border-color62 light:border-white"
                        @error="replaceEmptyImg"
                        :src="p.profileImg" alt="">
                   <img v-else
-                       class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                       class="w-24px min-w-24px h-24px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-1 border-color62 light:border-white"
                        src="~@/assets/icon-default-avatar.svg" alt="">
 
                 </div>
                 <span v-if="participant.length>3"
-                      class="w-18px min-w-18px h-18px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                      class=" min-w-24px h-24px xl:min-w-1.2rem xl:h-1.2rem rounded-full px-4px
                              rounded-full -ml-10px flex justify-center items-center
                              border-1 border-blockBg bg-primaryColor
                              light:border-white light:bg-color62 light:text-white text-10px">+{{ participant[0].totalCount - 3 }}</span>
