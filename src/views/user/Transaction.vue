@@ -62,11 +62,7 @@
                     </ChainTokenIcon>
                   </div>
                 </div>
-                <div v-if="item.sendStatus===0"
-                     class="text-greenColor text-12px w-full text-left mt-4px sm:ml-1rem">
-                Success
-                </div>
-                <div v-if="item.sendStatus!==0"
+                <div v-if="item.tipResult!==0"
                      class="text-redColor text-12px w-full text-left mt-4px sm:ml-1rem">
                   {{failResult(item) || ' Tokens has not been sent.'}}
                 </div>

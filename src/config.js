@@ -330,3 +330,7 @@ export const STELLAR_TREK_NFT = [
         image: "https://gateway.nutbox.app/ipfs/QmUK3RvGfS5iqAsbvzfyDvQZc24SCSq7PsUt7AGmqPsg1N"
     }
 ]
+
+export const WC2022_NFT = [
+    
+]
