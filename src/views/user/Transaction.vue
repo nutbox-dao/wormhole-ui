@@ -53,16 +53,17 @@
                         </span>
                       </template>
                     </ChainTokenIcon>
-                    <a v-if="item.sendStatus === 0"
+                    <a v-if="item.tipResult === 0"
                        class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem w-max
                                 light:text-blueDark light:border-colorE3 light:text-color7D"
                        :href="hashLink(item)" target="_blank">View</a>
+                    <div v-else
+                     class="text-redColor text-12px w-full text-left mt-4px sm:ml-1rem">
+                      {{failResult(item) || ' Tokens has not been sent.'}}
+                  </div>
                   </div>
                 </div>
-                <div v-if="item.tipResult!==0"
-                     class="text-redColor text-12px w-full text-left mt-4px sm:ml-1rem">
-                  {{failResult(item) || ' Tokens has not been sent.'}}
-                </div>
+                
               </div>
             </div>
         </van-list>
