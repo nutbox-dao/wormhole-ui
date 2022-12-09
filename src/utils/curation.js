@@ -3,7 +3,7 @@ import { u8arryToHex } from './helper'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
-import { checkAccessToken } from '@/utils/account'
+import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, 
         likeCuration as lc, followCuration as fc } from '@/api/api'
 
@@ -327,8 +327,16 @@ export const tipEVM = async (tip) => {
 export const likeCuration = async (curation) => {
   await checkAccessToken();
   const { twitterId, tweetId, curationId } = curation
-  const res = await lc(twitterId, tweetId, curationId)
-  return res
+  try {
+    const res = await lc(twitterId, tweetId, curationId)
+    return res
+  }catch(e) {
+    if (e === 401) {
+      await logout(twitterId)
+      throw 'log out'
+    }
+    throw e
+  }
 }
 
 /**
@@ -338,6 +346,14 @@ export const likeCuration = async (curation) => {
 export const followCuration = async (curation) => {
   await checkAccessToken();
   const { twitterId, authorId, curationId } = curation
-  const res = await fc(twitterId, authorId, curationId)
-  return res
+  try {
+    const res = await fc(twitterId, authorId, curationId)
+    return res
+  }catch(e) {
+    if (e === 401) {
+      await logout(twitterId)
+      throw 'log out'
+    }
+    return false
+  }
 }

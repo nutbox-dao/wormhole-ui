@@ -340,7 +340,7 @@ import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { ERC20List, EVM_CHAINS } from "@/config";
+import { ERC20List, errCode, EVM_CHAINS } from "@/config";
 import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
 import {formatEmojiText} from "@/utils/tool";
@@ -599,6 +599,10 @@ export default {
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
+          return;
+        }else if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: 'info', duration: 5000})
+          return;
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
@@ -617,6 +621,7 @@ export default {
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
+          return;
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {

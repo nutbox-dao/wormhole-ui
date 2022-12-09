@@ -161,6 +161,7 @@ export default {
     userNotExist: 'User not exist.',
     accessTokenExpire: 'Log in token expired',
     notRegisterUser: ' Not registered',
+    tweetNotFound: 'This tweet may have been deleted'
   },
   ref: {
     referre: 'Referrer',

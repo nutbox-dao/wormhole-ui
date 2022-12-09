@@ -103,13 +103,14 @@
 <script>
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { SteemScan, IgnoreAuthor } from '@/config'
+import { SteemScan, IgnoreAuthor, errCode } from '@/config'
 import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import { userLike } from '@/utils/twitter'
+import { notify } from '@/utils/notify';
 
 export default {
   name: "Blog",
@@ -238,7 +239,13 @@ export default {
         await userLike(this.post.postId)
         this.post.voted = 1
       } catch (e) {
-
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+        }
       } finally {
         this.isLiking = false
       }

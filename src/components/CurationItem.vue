@@ -141,6 +141,7 @@ import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { likeCuration, followCuration } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
+import { errCode } from "@/config";
 
 export default {
   name: "CurationItem",
@@ -265,6 +266,10 @@ export default {
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
+          return;
+        }else if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
@@ -283,6 +288,7 @@ export default {
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
+          return;
         }
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {

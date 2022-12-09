@@ -264,6 +264,8 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     INVALID_NONCE: 452,
     DB_ERROR: 453,
     SERVER_ERR: 500,
+
+    TWEET_NOT_FOUND: 701
   };
 
 // reputation NFT configs
