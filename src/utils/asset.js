@@ -1,5 +1,6 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT, LIQUIDATION_NFT } from "@/config";
+import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT,
+     STELLAR_TREK_NFT, LIQUIDATION_NFT, WC2022_NFT } from "@/config";
 import store from '@/store'
 import { getLiquidationMetaBy as getLiqMeta } from '@/api/api'
 import { ethers } from 'ethers'
@@ -256,6 +257,33 @@ export async function getStellarTreks(address) {
         ],
         returns: [
             [id-21, val => parseInt(val)]
+        ]
+    }));
+    const res = await aggregate(call, Multi_Config);
+    const infos = res.results.transformed;
+    let balances = {}
+    for (let b in infos) {
+        if (infos[b] > 0) {
+            balances[b] = infos[b]
+        }
+    }
+    return balances
+}
+
+export async function getWc2022(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let ids = WC2022_NFT.map((s, i) => i + 31)
+    let call = ids.map(id => ({
+        target: REPUTATION_NFT,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            address,
+            id
+        ],
+        returns: [
+            [id-31, val => parseInt(val)]
         ]
     }));
     const res = await aggregate(call, Multi_Config);

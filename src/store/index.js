@@ -28,6 +28,7 @@ export default Vuex.createStore({
     vestsToSteem: 1,
     referee: '',
     stellarTreks: {},
+    worldCupNFT: {},
     showLogin: false
   },
   getters: {
@@ -126,6 +127,9 @@ export default Vuex.createStore({
     },
     saveStellarTreks: (state, stellarTreks) => {
       state.stellarTreks = stellarTreks
+    },
+    saveWorldCupNFT: (state, worldCupNFT) => {
+      state.worldCupNFT = worldCupNFT
     },
     saveShowLogin: (state, showLogin) => {
       state.showLogin = showLogin

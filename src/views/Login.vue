@@ -155,7 +155,7 @@ export default {
               return;
             }
             count++;
-            await sleep(0.5)
+            await sleep(1)
           }
           // time out
           this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')

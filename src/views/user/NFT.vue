@@ -18,7 +18,17 @@
             <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
           </div>
         </div>
-        <div v-for="st of  showingStellarTreks" :key="st"
+        <div v-for="st of showingStellarTreks" :key="st"
+             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
+         @click="showTrek(st.image)">
+          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              :src="st.image" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1.3rem md:text-1rem">{{st.name}}</div>
+            <div class="text-color8B text-0.8rem mt-0.5rem">{{st.description}}</div>
+          </div>
+        </div>
+        <div v-for="st of showingWC2022" :key="st"
              class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
          @click="showTrek(st.image)">
           <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
@@ -39,20 +49,23 @@
     <el-dialog v-model="showTrekImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <img :src="showingTrekImage" alt="">
     </el-dialog>
+    <el-dialog v-model="showWcImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <img :src="showingWcImage" alt="">
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
-import { getStellarTreks, getLiquidationNft } from '@/utils/asset'
-import { STELLAR_TREK_NFT } from '@/config'
+import { getStellarTreks, getLiquidationNft, getWc2022 } from '@/utils/asset'
+import { STELLAR_TREK_NFT, WC2022_NFT } from '@/config'
 
 export default {
   name: "NFT",
   components: {GetNft},
   computed: {
-    ...mapState(['stellarTreks']),
+    ...mapState(['stellarTreks', 'worldCupNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
       return this.getAccountInfo?.twitterUsername
@@ -69,15 +82,29 @@ export default {
       }
       return sts
     },
+    showingWC2022() {
+      let sts = []
+      if (this.worldCupNFT && Object.keys(this.worldCupNFT).length > 0) {
+        for (let id in this.worldCupNFT) {
+          sts.push(WC2022_NFT[id])
+        }
+      }
+      console.log(73, sts);
+      return sts
+    }
   },
   data() {
     return {
       dataList: [],
       modalVisible: false,
       modalVisibleLiq: false,
+      // stellar treck
       showTrekImage: false,
       showingTrekImage: '',
-      liquidation:{}
+      liquidation:{},
+      // world cup 2022
+      showingWcImage: '',
+      showWcImage: false,
     }
   },
   methods: {
@@ -88,6 +115,10 @@ export default {
     showLiquidation() {
       this.showingTrekImage = this.liquidation.image;
       this.showTrekImage = true
+    },
+    showWC2022(url) {
+      this.showingWcImage = url;
+      this.showWcImage = true;
     }
   },
   mounted() {
@@ -98,6 +129,12 @@ export default {
       console.log(60, e);
     })
     getLiquidationNft(ethAddress).then(res => this.liquidation = res).catch(console.log)
+    getWc2022(ethAddress).then(balances => {
+      console.log(53, balances);
+      this.$store.commit('saveWorldCupNFT', balances)
+    }).catch(e => {
+      console.log(64, e);
+    })
   }
 }
 </script>

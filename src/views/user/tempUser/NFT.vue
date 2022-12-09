@@ -27,6 +27,15 @@
             <div class="text-color8B light:text-color7D text-0.8rem mt-0.5rem">{{st.description}}</div>
           </div>
         </div>
+        <div v-for="st of showingWC2022" :key="st.name" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
+            @click="showWC2022(st.image)">
+          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
+              :src="st.image" alt="">
+          <div class="text-left ml-1rem">
+            <div class="c-text-black text-1rem light:text-blueDark">{{st.name}}</div>
+            <div class="text-color8B light:text-color7D text-0.8rem mt-0.5rem">{{st.description}}</div>
+          </div>
+        </div>
       </template>
       <div class="mt-2rem" v-else>
         <div class="text-center">{{$t('token.noNft')}}</div>
@@ -39,13 +48,17 @@
     <el-dialog v-model="showTrekImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <img :src="showingTrekImage" alt="">
     </el-dialog>
+    <el-dialog v-model="showWcImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <img :src="showingWcImage" alt="">
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
-import { STELLAR_TREK_NFT } from '@/config'
-import { getStellarTreks } from '@/utils/asset'
+import { STELLAR_TREK_NFT, WC2022_NFT } from '@/config'
+import { getStellarTreks, getWc2022 } from '@/utils/asset'
+import { WHILE_TYPES } from "@babel/types";
 
 export default {
   name: "NFT",
@@ -68,15 +81,24 @@ export default {
     return {
       dataList: [],
       modalVisible: false,
+      // stellar treck
       showingStellarTreks: [],
       showingTrekImage: '',
-      showTrekImage: false
+      showTrekImage: false,
+      // world cup 2022
+      showingWC2022: [],
+      showingWcImage: '',
+      showWcImage: false,
     }
   },
   methods: {
     showTrek(url) {
       this.showingTrekImage = url
-      this.showTrekImage = true
+      this.showTrekImage = true;
+    },
+    showWC2022(url) {
+      this.showingWcImage = url;
+      this.showWcImage = true;
     }
   },
   mounted () {
@@ -90,6 +112,17 @@ export default {
       this.showingStellarTreks = sts
     }).catch(e => {
       console.log(3908, e);
+    })
+    getWc2022(this.accountInfo?.ethAddress).then(res => {
+      let wc = [];
+      if (res && Object.keys(res).length > 0) {
+        for (let id in res) {
+          wc.push(WC2022_NFT[id])
+        }
+      }
+      this.showingWC2022 = wc
+    }).catch(e => {
+      console.log(64, e);
     })
   }
 }
