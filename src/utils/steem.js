@@ -49,7 +49,6 @@ export const getAccountRC = async (account) => {
         axios.post(steem_api, '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}')
         .then(res => {
             if (res.data.result) {
-                console.log(555, res.data.result);
                 const rc = res.data.result.rc_accounts[0]
                 var elapsed = Date.now() / 1000 - rc.rc_manabar.last_update_time;
                 var maxMana = parseFloat(rc.max_rc);
