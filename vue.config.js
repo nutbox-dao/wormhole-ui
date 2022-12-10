@@ -50,6 +50,13 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/steem': {
+        target: 'https://steem.wh3.io',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/steem': ''
+        }
       }
     }
   },

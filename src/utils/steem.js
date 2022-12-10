@@ -4,10 +4,11 @@ const { auth } = require("steem");
 import { sha256 } from 'js-sha256'
 import { hexTou8array, stringToHex } from '@/utils/helper'
 import base58 from 'bs58'
+import { BACKEND_API_URL } from '@/config'
 
 steem.api.setOptions({ url: 'https://api.steemit.com' })
 // use vue proxy to hide CORS issue
-const steem_api = 'https://steem.wh3.io'
+const steem_api = '/steem'
 
 export const getAccountInfo = async (account) => {
     return new Promise((resolve, reject) => {
@@ -45,8 +46,10 @@ export async function vestsToSteem(vests) {
 
 export const getAccountRC = async (account) => {
     return new Promise((resolve, reject) => {
-        axios.post(steem_api, '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}').then(res => {
+        axios.post(steem_api, '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}')
+        .then(res => {
             if (res.data.result) {
+                console.log(555, res.data.result);
                 const rc = res.data.result.rc_accounts[0]
                 var elapsed = Date.now() / 1000 - rc.rc_manabar.last_update_time;
                 var maxMana = parseFloat(rc.max_rc);
