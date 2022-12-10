@@ -8,7 +8,7 @@ import { BACKEND_API_URL } from '@/config'
 
 steem.api.setOptions({ url: 'https://api.steemit.com' })
 // use vue proxy to hide CORS issue
-const steem_api = '/steem'
+const steem_api = 'https://steem.wh3.io'
 
 export const getAccountInfo = async (account) => {
     return new Promise((resolve, reject) => {
