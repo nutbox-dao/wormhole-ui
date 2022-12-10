@@ -145,7 +145,9 @@
                   <button @click="quoteOrReply"
                        :disabled="endAndNotComplete"
                        class="px-1.25rem py-4px flex items-start sm:items-center my-6px">
-                    <i class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
+                    <img v-if="isQuoting || isRepling"
+                      class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
                        :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
                     <span class="text-12px xl:text-0.7rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
                   </button>
@@ -355,7 +357,7 @@ import CreatePopUpModal from "@/components/CreatePopUpModal";
 import PopUpsCard from "@/components/PopUpsCard";
 import TipModalVue from "@/components/TipModal.vue";
 import { notify } from "@/utils/notify";
-import { newPopups, likeCuration, followCuration} from '@/utils/curation'
+import { newPopups, likeCuration, followCuration, checkMyCurationRecord} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
 import iconTop2 from '@/assets/icon-top2.svg'
 import iconTop3 from '@/assets/icon-top3.svg'
@@ -392,6 +394,8 @@ export default {
       timeIntrerval: null,
       tipCollapse: false,
       quotesCollapse: true,
+      isQuoting: false,
+      isRepling: false,
       isLiking: false,
       isFollowing:false,
       top3Icons: [iconTop1, iconTop2, iconTop3],
@@ -573,25 +577,46 @@ export default {
       }else
         this.speakerTipVisible=true
     },
-    quoteOrReply() {
+    async quoteOrReply() {
       if (!this.checkLogin()) return
+      if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
       let url;
       if (this.isQuote) {
-        if (this.quoted) return;
+        this.isQuoting = true 
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
-        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 1
       }else {
-        if (this.replyed) return;
+        this.isRepling = true;
         url = `https://twitter.com/intent/tweet?in_reply_to=${this.detailCuration.tweetId}&text=%0a%23iweb3`
-        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 2
       }
       window.open(url, '__blank');
+
+      await sleep(6)
+      let count = 0;
+      while(count++ < 50) {
+        try {
+          const record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.detailCuration.curationId)
+          if (record && record.taskRecord) {
+            this.detailCuration.taskRecord = record.taskRecord
+            if (this.isQuote && (record.taskRecord & 1 === 1)) {
+              break;
+            }
+            if (this.isReply && (record.taskRecord & 2 === 2)) {
+              break;
+            }
+          }
+        }catch(e) {
+          if (e === 'log out') {
+            notify({message: this.$t('tips.accessTokenExpire')})
+            break;
+          }
+        }
+        await sleep(2)
+      }
+      this.isQuoting = false 
+      this.isRepling = false 
     },
     async like() {
-      if (!this.checkLogin()) return
-      if(this.liked) {
-        return
-      }
+      if (!this.checkLogin() || this.liked || this.isLiking) return
       try{
         this.isLiking = true
         await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
@@ -610,10 +635,7 @@ export default {
       }
     },
     async follow() {
-      if (!this.checkLogin()) return
-      if (this.followed) {
-        return
-      }
+      if (!this.checkLogin() || this.followed || this.isFollowing) return
       try{
         this.isFollowing = true
         await followCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId})

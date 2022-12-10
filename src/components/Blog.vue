@@ -207,7 +207,7 @@ export default {
       e.target.src = emptyAvatar;
     },
     parseSBD(v) {
-      // return parseFloat(v.replace(' SBD', ''))
+      return parseFloat(v.replace(' SBD', ''))
       return 0
     },
     gotoSteem(e) {

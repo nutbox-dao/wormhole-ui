@@ -32,7 +32,7 @@ export const getAccountInfo = async (account) => {
 
 export async function getGlobalProperties() {
     return new Promise(async (resolve, reject) => {
-        axios.post('https://api.steemit.com', '{"jsonrpc":"2.0", "method":"database_api.get_dynamic_global_properties", "id":1}').then(res => {
+        axios.post('/steem', '{"jsonrpc":"2.0", "method":"database_api.get_dynamic_global_properties", "id":1}').then(res => {
             if (res.data.result)
                 resolve(res.data.result)
             else
@@ -53,7 +53,7 @@ export async function vestsToSteem(vests) {
 
 export const getAccountRC = async (account) => {
     return new Promise((resolve, reject) => {
-        axios.post('https://api.steemit.com', '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}').then(res => {
+        axios.post('/steem', '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}').then(res => {
             if (res.data.result) {
                 const rc = res.data.result.rc_accounts[0]
                 var elapsed = Date.now() / 1000 - rc.rc_manabar.last_update_time;

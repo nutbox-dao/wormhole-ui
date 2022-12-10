@@ -50,6 +50,13 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/steem': {
+        target: 'https://api.steemit.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/steem': ''
+        }
       }
     }
   },

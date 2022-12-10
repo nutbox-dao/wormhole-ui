@@ -125,6 +125,9 @@ export const getCurationsOfTweet = async (tweetId) =>
 export const getCurationRecord = async (curationId, createAt, isFeed) =>
     get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
 
+export const checkMyCurationRecord = async (twitterId, curationId) =>
+    post(BACKEND_API_URL + '/curation/checkMyParticipantion', {twitterId, curationId})
+
 /****************************************  popup  ***********************************************/
 export const popupsOfCuration = async (twitterId, curationId) =>
     get(BACKEND_API_URL + '/popup/popupsOfCuration', {twitterId, curationId})
