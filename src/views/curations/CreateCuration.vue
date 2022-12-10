@@ -357,6 +357,7 @@
             </div>
             <el-collapse-transition>
               <div v-show="rewardsTipCollapse"
+                  style="white-space: pre-line;"
                    class="px-15px mb-10px text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.7rem 2xl:leading-1rem">
                 {{$t('curation.autoMethodTip')}}
               </div>

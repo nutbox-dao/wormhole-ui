@@ -287,7 +287,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showSubmissions"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <Submissions :records="participant" @close="showSubmissions=false"></Submissions>
+          <Submissions :records="participant" :state="detailCuration.curationStatus" @close="showSubmissions=false"></Submissions>
         </div>
       </transition>
     </van-popup>
