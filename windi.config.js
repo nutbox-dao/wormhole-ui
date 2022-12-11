@@ -67,6 +67,7 @@ export default defineConfig({
         'gradient-input': 'linear-gradient(94.28deg, #812DE2 0%, #3A49F9 100%)',
         'tag-gradient': 'linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%)',
         'view-more': 'linear-gradient(180deg, rgba(73, 73, 73, 0) 0, #494949 100%);',
+        'view-more-light': 'linear-gradient(359.68deg, #FFFFFF 0.27%, rgba(255, 255, 255, 0) 99.73%)',
         'card-gradient': 'linear-gradient(95.37deg, #F5F1FF 10.99%, #FFFFFF 93.32%)',
         'tip-gradient':'linear-gradient(94.28deg, rgba(129, 45, 226, 0.3) 0%, rgba(58, 73, 249, 0.3) 100%)',
         'end-gradient': 'linear-gradient(135deg, rgba(0, 0, 0, 0.1075) 0%, rgba(174, 174, 174, 0.0675) 0.01%, rgba(34, 34, 34, 0.0675) 100%)'

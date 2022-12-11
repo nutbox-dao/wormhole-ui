@@ -582,7 +582,7 @@ export default {
       if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
       let url;
       if (this.isQuote) {
-        this.isQuoting = true 
+        this.isQuoting = true
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
       }else {
         this.isRepling = true;
@@ -612,8 +612,8 @@ export default {
         }
         await sleep(2)
       }
-      this.isQuoting = false 
-      this.isRepling = false 
+      this.isQuoting = false
+      this.isRepling = false
     },
     async like() {
       if (!this.checkLogin() || this.liked || this.isLiking) return
@@ -785,10 +785,15 @@ export default {
     background-image: url("~@/assets/icon-share-primary.svg");
   }
 }
-.tip-bg {
+.light .tip-bg {
   background-image: url("~@/assets/tips-img.png"), linear-gradient(180deg, #EDEDFC 29.84%, #FFFFFF 62.65%);
   background-repeat: no-repeat;
   background-size: auto 80px, 100% auto;
+}
+.tip-bg {
+  background-image: url("~@/assets/tips-img.png");
+  background-repeat: no-repeat;
+  background-size: auto 80px;
 }
 .tip-bg-close {
   background-image: url("~@/assets/tips-img.png");

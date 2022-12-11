@@ -81,7 +81,7 @@
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
-                      class="absolute bg-view-more text-white bottom-0 left-0 w-full h-40px
+                      class="absolute bg-view-more light:bg-view-more-light text-white bottom-0 left-0 w-full h-40px
                            flex items-center justify-center text-center rounded-12px">
               </button>
             </div>
@@ -860,7 +860,7 @@ export default {
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
-        
+
       } finally {
         this.loading = false
       }
@@ -952,7 +952,7 @@ export default {
           this.$router.replace('/')
         }
         console.log('Create curation error:', e);
-        
+
         notify({message: e, duration: 5000, type: 'error'})
         // postErr('Curation', 'create', `${e}`)
       } finally {
@@ -983,7 +983,7 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
-    
+
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
       try {

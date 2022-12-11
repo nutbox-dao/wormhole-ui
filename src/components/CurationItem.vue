@@ -33,7 +33,7 @@
             </Blog>
           </div>
           <button v-if="enableFold && !isFold" @click.stop="isFold=true"
-                  class="absolute bg-view-more text-white bottom-0 left-0 w-full h-60px sm:h-50px flex
+                  class="absolute bg-view-more light:bg-view-more-light text-white bottom-0 left-0 w-full h-60px sm:h-50px flex
                  items-center justify-center text-center">
           </button>
         </div>
@@ -252,7 +252,7 @@ export default {
       let url;
       if (this.isQuote) {
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`
-       this.isQuoting = true 
+       this.isQuoting = true
       }else {
         url = `https://twitter.com/intent/tweet?in_reply_to=${this.curation.tweetId}&text=%0a%23iweb3`
         this.isRepling = true;
@@ -281,8 +281,8 @@ export default {
         }
         await sleep(2)
       }
-      this.isQuoting = false 
-      this.isRepling = false 
+      this.isQuoting = false
+      this.isRepling = false
     },
     async like() {
       if (!this.checkLogin() || this.liked || this.isLiking) return
