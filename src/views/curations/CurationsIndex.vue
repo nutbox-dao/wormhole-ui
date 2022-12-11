@@ -84,13 +84,20 @@
         </div>
       </div>
     </van-popup> -->
-    <button v-show="scroll>100"
-            @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
-            class="flex items-center justify-center gradient-btn gradient-btn-shadow
+    <div class="fixed bottom-2rem right-1.2rem sm:right-2.5rem z-9999 flex flex-col justify-center items-center">
+      <router-link to="/christmas" class="mb-1rem">
+        <img class=" w-70px min-w-70px 2xl:w-2.4rem 2xl:min-w-2.4rem"
+             src="~@/assets/christmas/icon-tree.gif" alt="">
+      </router-link>
+      <button v-show="scroll>100"
+              @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+              class="flex items-center justify-center gradient-btn gradient-btn-shadow
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                   rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
-      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
-    </button>
+                   rounded-full mt-0.5rem c-text-bold ">
+        <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+      </button>
+    </div>
+
   </div>
 </template>
 
