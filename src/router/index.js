@@ -28,6 +28,7 @@ import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
+import ChristmasEvent from "@/views/ChristmasEvent";
 
 const routes = [
   {
@@ -131,6 +132,11 @@ const routes = [
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
+  },
+  {
+    path: '/christmas',
+    name: 'christmas',
+    component: ChristmasEvent,
   },
   {
     path: '/confirm-reward',

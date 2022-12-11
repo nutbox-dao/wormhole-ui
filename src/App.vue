@@ -3,7 +3,8 @@
     <div id="app"
          class="bg-primaryBg light:bg-primaryBgLight"
          @click="showMenu=false">
-      <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
+      <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight"
+           :class="$route.name==='christmas'?'hidden':''">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
           <button @click="goBack">
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
