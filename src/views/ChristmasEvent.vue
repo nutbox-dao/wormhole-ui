@@ -95,6 +95,10 @@ export default {
     }
     this.audio = new Audio('./JingleBells.mp3');
     this.audio.play()
+    this.audio.loop = true
+  },
+  beforeUnmount() {
+    this.audio.pause()
   },
   methods: {
     setBg() {
