@@ -24,9 +24,13 @@
              @click="modalVisible=true"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
-        <button @click="showInfo=true" class="view-more"></button>
+        <button class="view-more"></button>
+        <!-- twitter -->
+        <button class="twitter-pointer">
+          <img src="~@/assets/christmas/twitter.png" alt="">
+        </button>
       </div>
-      <div class="snowflake" v-for="i of 50" :key="i"></div>
+      <div class="snowflake" v-for="i of 80" :key="i"></div>
     </div>
     <el-dialog class="c-img-dialog"
                v-model="modalVisible" :fullscreen="true" title="&nbsp;" @click="modalVisible=false">
@@ -163,6 +167,20 @@ export default {
     filter: grayscale(1);
   }
 }
+.twitter-pointer {
+  animation: move 1s infinite;
+}
+@keyframes move {
+  0% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
 .ball {
   &.ball-light{
     animation-name: light-ball;
@@ -195,6 +213,13 @@ export default {
     height: 10%;
     left: 76%;
     top: 68%;
+  }
+  .twitter-pointer {
+    position: absolute;
+    width: 10%;
+    height: 8%;
+    left: 7%;
+    top: 62%;
   }
   .star-img {
     top: 8.5%;
@@ -257,12 +282,27 @@ export default {
     left: 70%;
     top: 79%;
   }
+  .twitter-pointer {
+    position: absolute;
+    width: 19%;
+    height: 9%;
+    left: 12%;
+    top: 76.5%;
+  }
   .star-img {
     position: absolute;
     top: 8.2%;
     left: 50%;
     transform: translateX(-50%);
     width: 21.8%;
+  }
+  .star-img-shadow {
+    position: absolute;
+    top: 8.2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 21.8%;
+    height: 10%;
   }
   .ball {
     position: absolute;
@@ -334,9 +374,9 @@ export default {
   }
 }
 
-@for $i from 1 through 40 {
+@for $i from 1 through 60 {
   .snowflake:nth-child(#{$i}) {
-    --size: #{random(5) * 0.2}vw;
+    --size: #{random(2) * 0.2}vw;
     --left-ini: #{random(20) - 10}vw;
     --left-end: #{random(20) - 10}vw;
     left: #{random(100)}vw;
@@ -345,9 +385,9 @@ export default {
   }
 }
 
-@for $i from 40 through 50 {
+@for $i from 60 through 80 {
   .snowflake:nth-child(#{$i}) {
-    --size: #{random(10) * 0.2}vw;
+    --size: #{random(7) * 0.2}vw;
     --left-ini: #{random(20) - 10}vw;
     --left-end: #{random(20) - 10}vw;
     left: #{random(100)}vw;
