@@ -28,13 +28,16 @@
                    :src="record.profileImg" alt="">
               <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
                 <div>{{record.twitterUsername}} </div>
-                <div class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
+                <div v-if="state===2" class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
               </div>
             </div>
-            <div class="flex items-center">
+            <div v-if="state!==2" class="flex items-center">
+              {{parseTimestamp(record.createAt)}}
+            </div>
+            <div v-else class="flex items-center">
               <ChainTokenIconVue height="20px" width="20px"
                                  :token="{symbol: record?.tokenSymbol, address: record?.token}"
-                                 :chainName="detailCuration.chainId">
+                                 :chainName="detailCuration.chainId.toString()">
                 <template #amount>
               <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                 {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}
@@ -68,8 +71,8 @@ export default {
       default: []
     },
     state: {
-      type: String,
-      default: 'common'
+      type: Number,
+      default: 0
     }
   },
   data() {

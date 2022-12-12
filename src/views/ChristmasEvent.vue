@@ -1,7 +1,7 @@
 <template>
   <div class="christmas-page" ref="christmasRef">
     <div class="relative h-full w-full flex flex-col justify-center items-center">
-      <button class="fixed top-30px right-30px z-9 bg-white/30 h-40px w-40px rounded-full flex items-center justify-center"
+      <button class="fixed top-60px right-20px z-9 bg-white/30 h-40px w-40px rounded-full flex items-center justify-center"
               @click="onPlay">
         <img v-if="!isPaused" class="w-35px" src="~@/assets/icon-play.svg" alt="">
         <img v-else class="h-30px music-icon" src="~@/assets/icon-music.svg" alt="">
@@ -16,24 +16,25 @@
 <!--                 class="ball"-->
 <!--                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']"-->
 <!--                 :src="ballOptions[index]" alt="">-->
-            <div v-for="(item, index) of status"
+            <div v-for="(item, index) of curations"
                  :key="index" class="ball"
-                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']">
+                 @click="gotoDetail(item)"
+                 :class="[item.status===0?'ball-silver':'', item.status===1?'ball-gold':'', item.status===2?'ball-light':'']">
               <div class="w-full h-full relative">
                 <img :src="ballOptions[index]" alt="">
-                <img class="ball-logo" src="~@/assets/christmas/twitter.png" alt="">
+                <img v-if="item.icon" class="ball-logo" :src="item.icon" alt="">
               </div>
             </div>
           </div>
         </div>
         <img class="star-img cursor-pointer"
-             :class="[starStatus===0?'star-light':'', starStatus===1?'star-gold':'', starStatus===2?'star-silver':'']"
+             :class="[blindBoxStatus===0?'star-silver':'', blindBoxStatus===1?'star-gold':'', blindBoxStatus===2?'star-light':'']"
              @click="modalVisible=true"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
         <button class="view-more"></button>
         <!-- twitter -->
-        <button class="twitter-pointer">
+        <button @click="gotoTwitter" class="twitter-pointer">
           <img src="~@/assets/christmas/twitter.png" alt="">
         </button>
       </div>
@@ -80,17 +81,42 @@ import goldBall7 from '@/assets/christmas/ball7-gold.png'
 import goldBall8 from '@/assets/christmas/ball8-gold.png'
 import goldBall9 from '@/assets/christmas/ball9-gold.png'
 import goldBall10 from '@/assets/christmas/ball10-gold.png'
+import { getChristmasCurations } from '@/api/api'
+import { mapGetters } from 'vuex'
 
 export default {
   name: "ChristmasEvent",
   data() {
     return {
       ballOptions: [goldBall1, goldBall2, goldBall3, goldBall4, goldBall5, goldBall6, goldBall7, goldBall8, goldBall9, goldBall10],
-      status: [0, 1, 2, 1, 2, 0, 2, 0, 1, 1],
+      status: [1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
       audio: null,
       isPaused: true,
       modalVisible: false,
-      starStatus: 0
+      showInfo: false,
+      starStatus: 0,
+      interval: null,
+      curations: [],
+      claimed: false
+    }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    blindBoxStatus() {
+      if (this.claimed) {
+        return 2
+      }
+      let count = 0
+      for(let curation of this.curations) {
+        if (curation && curation.curationId) {
+          count += (curation.tasks === curation.taskRecord)
+        }else {
+          return 0
+        }
+        if (count === 10) {
+          return 1
+        }
+      }
     }
   },
   mounted() {
@@ -101,9 +127,14 @@ export default {
     this.audio = new Audio('./JingleBells.mp3');
     this.audio.play()
     this.audio.loop = true
+    this.udpateCurations()
+    this.interval = setInterval(() => {
+      this.udpateCurations()
+    }, 6000);
   },
   beforeUnmount() {
     this.audio.pause()
+    clearInterval(this.interval)
   },
   methods: {
     setBg() {
@@ -120,6 +151,40 @@ export default {
     onPlay() {
       this.isPaused = this.audio.paused
       this.isPaused?this.audio.play():this.audio.pause()
+    },
+    gotoDetail(curation) {
+      if (curation.curationId) {
+        this.$router.push('/curation-detail/' + curation.curationId)
+      }
+    },
+    gotoTwitter() {
+      window.open('https://twitter.com/wormhole_3')
+    }, 
+    async udpateCurations() {
+      try {
+        const res = await getChristmasCurations(this.getAccountInfo?.twitterId);
+        let curations = [];
+        if (res && res.length > 0) {
+          for (let i = 0; i < 10; i++) {
+            const curation = res.find(c => c.index === i)
+            if (curation) {
+              curations.push({
+                ...curation,
+                status: curation.curationId ? ((curation.tasks === curation.taskRecord) ? 2 : 1) : 0,
+                icon: curation.icon
+              })
+            }else {
+              curations.push({
+                status: 0,
+                icon: null
+              })
+            }
+          }
+          this.curations = curations;
+        }
+      }catch(e) {
+        console.log(35, e);
+      }
     }
   }
 }
@@ -195,6 +260,7 @@ export default {
     cursor: pointer;
     &:hover{
       transform: scale(0.95);
+      cursor: pointer;
     }
   }
   &.ball-gold {
@@ -204,6 +270,7 @@ export default {
     cursor: pointer;
     &:hover{
       transform: scale(0.95);
+      cursor: pointer;
     }
   }
   &.ball-silver {

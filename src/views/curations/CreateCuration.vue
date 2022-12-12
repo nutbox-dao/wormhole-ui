@@ -81,7 +81,7 @@
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
-                      class="absolute bg-view-more text-white bottom-0 left-0 w-full h-40px
+                      class="absolute bg-view-more light:bg-view-more-light text-white bottom-0 left-0 w-full h-40px
                            flex items-center justify-center text-center rounded-12px">
               </button>
             </div>
@@ -357,6 +357,7 @@
             </div>
             <el-collapse-transition>
               <div v-show="rewardsTipCollapse"
+                  style="white-space: pre-line;"
                    class="px-15px mb-10px text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.7rem 2xl:leading-1rem">
                 {{$t('curation.autoMethodTip')}}
               </div>
@@ -433,15 +434,11 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { postErr } from '@/api/api'
 import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
-import { setupNetwork, chainChanged, lockStatusChanged } from '@/utils/web3/web3'
-import { getTokenInfo, getERC20TokenBalance } from '@/utils/asset'
-import { accountChanged, getAccounts, updateAllUsersByPolling } from '@/utils/web3/account'
-import { CHAIN_ID, ERC20List, CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
+import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration } from '@/utils/curation'
@@ -771,7 +768,6 @@ export default {
     },
     checkCreateData() {
       if (!this.form.description ||this.form.description.length === 0) {
-        console.log(1);
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false;
       }
@@ -782,22 +778,18 @@ export default {
         }
       }else {
         if (!this.form.author) {
-        console.log(2);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
         if (!this.form.link || !this.form.endtime) {
-        console.log(3);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
         if (this.form.category === 'tweet' && !this.form.postData?.postId) {
-        console.log(4);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
         if (this.form.category === 'space' && !this.form.space?.spaceId) {
-        console.log(5);
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
           return false
         }
@@ -856,6 +848,7 @@ export default {
       return true
     },
     async onSubmit() {
+      if (!this.checkLogin()) return
       if(!this.checkRewardData()) return;
       try{
         this.loading = true
@@ -867,14 +860,14 @@ export default {
         this.modalComponent = markRaw(SendTokenTip)
         this.modalVisible = true
       } catch (e) {
-        
+
       } finally {
         this.loading = false
       }
-
     },
     // created curation on chain
     async createCuration() {
+      if (!this.checkLogin()) return
       try{
         this.loading = true
         const curation = {
@@ -959,7 +952,7 @@ export default {
           this.$router.replace('/')
         }
         console.log('Create curation error:', e);
-        
+
         notify({message: e, duration: 5000, type: 'error'})
         // postErr('Curation', 'create', `${e}`)
       } finally {
@@ -990,7 +983,7 @@ export default {
       this.form = this.getDraft
       this.linkIsVerified = true;
     }
-    
+
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
       try {
