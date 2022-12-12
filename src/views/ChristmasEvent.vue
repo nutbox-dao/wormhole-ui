@@ -69,6 +69,7 @@ import goldBall7 from '@/assets/christmas/ball7-gold.png'
 import goldBall8 from '@/assets/christmas/ball8-gold.png'
 import goldBall9 from '@/assets/christmas/ball9-gold.png'
 import goldBall10 from '@/assets/christmas/ball10-gold.png'
+import { getChristmasCurations } from '@/api/api'
 
 export default {
   name: "ChristmasEvent",
