@@ -1,7 +1,6 @@
 
 export const SendPwdServerPubKey = '215ae8d490ddbf62242a3cca9849a73df847997f91982d77b9708411e17c647f'
 export const ParseKeyNonce = '111111111111111111111111111111111111111111111111'
-export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 
 export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
