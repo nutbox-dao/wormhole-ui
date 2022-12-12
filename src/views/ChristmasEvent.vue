@@ -24,6 +24,8 @@
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
         <button @click="showInfo=true" class="view-more"></button>
+        <!-- twitter -->
+        <button @click="gotoTwitter" class="twitter">asdfhsalkfjhlkjl</button>
       </div>
       <div class="snowflake" v-for="i of 50" :key="i"></div>
     </div>
@@ -177,6 +179,13 @@ export default {
   height: 90vh;
   width: 133.3vh;
   .view-more {
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    left: 76%;
+    top: 68%;
+  }
+  .twitter {
     position: absolute;
     width: 10%;
     height: 10%;
