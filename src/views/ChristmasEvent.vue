@@ -20,6 +20,7 @@
           </div>
         </div>
         <img class="star-img cursor-pointer"
+             :class="[starStatus===0?'star-light':'', starStatus===1?'star-gold':'', starStatus===2?'star-silver':'']"
              @click="modalVisible=true"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
@@ -80,7 +81,8 @@ export default {
       audio: null,
       isPaused: true,
       modalVisible: false,
-      showInfo: false
+      showInfo: false,
+      starStatus: 0
     }
   },
   mounted() {
@@ -147,10 +149,20 @@ export default {
 }
 .star-img {
   position: absolute;
-  filter: drop-shadow(0 0 20px #ffb800);
-  animation-name: star;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
+  &.star-light {
+    filter: drop-shadow(0 0 20px #ffb800);
+    animation-name: star;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+  &.star-gold {
+    animation-name: starGold;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+  &.star-silver {
+    filter: grayscale(1);
+  }
 }
 .ball {
   &.ball-light{
@@ -194,8 +206,8 @@ export default {
   }
   .star-img {
     top: 8.5%;
-    left: 48.7%;
-    transform: translateX(-48.7%);
+    left: 48.9%;
+    transform: translateX(-50%);
     width: 9%;
   }
   .ball {
