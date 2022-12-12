@@ -764,7 +764,7 @@ export default {
         const startTime = this.form.space.scheduledStart;
         date = new Date(startTime).getTime();
       }
-      return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
+      return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*14
     },
     checkCreateData() {
       if (!this.form.description ||this.form.description.length === 0) {

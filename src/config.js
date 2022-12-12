@@ -1,14 +1,13 @@
 
 export const SendPwdServerPubKey = '215ae8d490ddbf62242a3cca9849a73df847997f91982d77b9708411e17c647f'
 export const ParseKeyNonce = '111111111111111111111111111111111111111111111111'
-export const BEARER_TOKEN = process.env.VUE_APP_BEARER_TOKEN
 
 export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'http://localhost:3100'
 // export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
