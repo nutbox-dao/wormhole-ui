@@ -12,10 +12,18 @@
         <img class="w-full h-full bg-phone" src="~@/assets/christmas/tree-phone.gif" alt="">
         <div class="ball-box absolute top-0 left-0 right-0 bottom-0">
           <div class="relative w-full h-full">
-            <img v-for="(item, index) of status" :key="index"
-                 class="ball"
-                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']"
-                 :src="ballOptions[index]" alt="">
+<!--            <img v-for="(item, index) of status" :key="index"-->
+<!--                 class="ball"-->
+<!--                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']"-->
+<!--                 :src="ballOptions[index]" alt="">-->
+            <div v-for="(item, index) of status"
+                 :key="index" class="ball"
+                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']">
+              <div class="w-full h-full relative">
+                <img :src="ballOptions[index]" alt="">
+                <img class="ball-logo" src="~@/assets/christmas/twitter.png" alt="">
+              </div>
+            </div>
           </div>
         </div>
         <img class="star-img cursor-pointer"
@@ -184,6 +192,7 @@ export default {
     animation-name: light-ball;
     animation-duration: 0.6s;
     animation-iteration-count: infinite;
+    cursor: pointer;
     &:hover{
       transform: scale(0.95);
     }
@@ -192,12 +201,20 @@ export default {
     animation-name: gold-ball;
     animation-duration: 1s;
     animation-iteration-count: infinite;
+    cursor: pointer;
     &:hover{
       transform: scale(0.95);
     }
   }
   &.ball-silver {
     filter: grayscale(1);
+  }
+  .ball-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 75%;
+    transform: translate(-50%, -50%);
   }
 }
 .tree-box-web {
