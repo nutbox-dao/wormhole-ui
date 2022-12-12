@@ -226,6 +226,9 @@ export default {
     console.log('mounted')
     this.onRefresh();
   },
+  activated() {
+    this.onRefresh()
+  }
 }
 </script>
 

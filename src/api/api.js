@@ -127,6 +127,9 @@ export const getCurationRecord = async (curationId, createAt, isFeed) =>
 
 export const getChristmasCurations = async (twitterId) =>
     get(BACKEND_API_URL + '/christmas/curations', {twitterId})
+    
+export const checkMyCurationRecord = async (twitterId, curationId) =>
+    post(BACKEND_API_URL + '/curation/checkMyParticipantion', {twitterId, curationId})
 
 /****************************************  popup  ***********************************************/
 export const popupsOfCuration = async (twitterId, curationId) =>

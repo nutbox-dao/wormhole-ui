@@ -34,7 +34,7 @@
             <div class="flex items-center">
               <ChainTokenIconVue height="20px" width="20px"
                                  :token="{symbol: popUp?.symbol, address: popUp?.token}"
-                                 :chainName="popUp.chainId">
+                                 :chainName="popUp.chainId.toString()">
                 <template #amount>
                 <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                   {{ formatAmount(record.reward?.toString() / (10 ** popUp.decimals)) }} {{ popUp.symbol }}

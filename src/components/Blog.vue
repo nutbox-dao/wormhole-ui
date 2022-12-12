@@ -10,9 +10,10 @@
         <img class="mr-15px md:mr-1rem rounded-full gradient-border"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
+        <div class="flex-1 flex flex-col items-start cursor-pointer">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem light:text-blueDark">{{ post.name }}</a>
+            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem light:text-blueDark"
+               @click.stop="gotoUserPage()">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
             <span class="text-0.8rem font-500 text-color8B light:text-color7D">@{{ post.username }}</span>
           </div>
@@ -207,7 +208,7 @@ export default {
       e.target.src = emptyAvatar;
     },
     parseSBD(v) {
-      // return parseFloat(v.replace(' SBD', ''))
+      return parseFloat(v.replace(' SBD', ''))
       return 0
     },
     gotoSteem(e) {
