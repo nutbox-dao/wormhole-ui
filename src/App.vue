@@ -3,10 +3,12 @@
     <div id="app"
          class="bg-primaryBg light:bg-primaryBgLight"
          @click="showMenu=false">
-      <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
+      <div class="py-1rem border-b-1"
+           :class="$route.name==='christmas'?'christmas-header':'border-headerBorder light:border-headerBorderLight'">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
           <button @click="goBack">
-            <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
+            <img v-if="$route.name==='christmas'" class="h-1.7rem" src="~@/assets/christmas/logo.svg" alt="">
+            <img v-else class="h-1.7rem" src="~@/assets/logo.svg" alt="">
           </button>
           <div class="flex items-center">
             <div class="md:flex" v-if="!getAccountInfo">
@@ -514,6 +516,37 @@ export default {
     }
     &::after {
       height: 0.14rem;
+    }
+  }
+}
+.christmas-header {
+  background-color: transparent;
+  border-color: transparent;
+  z-index: 9;
+}
+.christmas-header .link-btn {
+  border-color: white;
+  color: white;
+  &:hover {
+    background-image: none;
+  }
+}
+.christmas-header .menu-icon {
+  background: white;
+  &::before {
+    background: white;
+  }
+  &::after {
+    background: white;
+  }
+  &.active {
+    &::before{
+      background-image:none;
+      background-color: white;
+    }
+    &::after {
+      background-image:none;
+      background-color: white;
     }
   }
 }

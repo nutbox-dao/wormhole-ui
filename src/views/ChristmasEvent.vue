@@ -12,10 +12,6 @@
         <img class="w-full h-full bg-phone" src="~@/assets/christmas/tree-phone.gif" alt="">
         <div class="ball-box absolute top-0 left-0 right-0 bottom-0">
           <div class="relative w-full h-full">
-<!--            <img v-for="(item, index) of status" :key="index"-->
-<!--                 class="ball"-->
-<!--                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']"-->
-<!--                 :src="ballOptions[index]" alt="">-->
             <div v-for="(item, index) of curations"
                  :key="index" class="ball"
                  @click="gotoDetail(item)"
@@ -32,7 +28,7 @@
              @click="modalVisible=true"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
-        <button class="view-more"></button>
+        <button class="view-more" @click="moreVisible=true"></button>
         <!-- twitter -->
         <button @click="gotoTwitter" class="twitter-pointer">
           <img src="~@/assets/christmas/twitter.png" alt="">
@@ -67,6 +63,29 @@
         </div>
       </div>
     </el-dialog>
+    <el-dialog v-model="moreVisible"
+               class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-34rem">
+      <div class="relative max-w-560px mx-auto">
+        <img class="w-full h-full" src="~@/assets/christmas/modal-bg.png" alt="">
+        <button class="absolute top-12/100 right-14/100 w-5/100 cursor-pointer" @click="moreVisible=false">
+          <img src="~@/assets/christmas/close.png" alt="">
+        </button>
+        <div class="absolute modal-content-box overflow-auto">
+          <div class="c-text-black text-20px xl:text-1.2rem mb-8px">Lorem Ipsum</div>
+          <div class="font-bold text-12px leading-24px xl:text-0.75rem xl:leading-1.4rem text-left">
+            Fun all-in-one marketing solution for your Twitter Space
+            improve your Twitter Space exposure and stats
+            Engage your users with gamified Space experience No sweat,
+            we' II help you set up everything! Fun all-in-one marketing
+            solution for your Twitter Space improve your Twitter Space
+            exposure and stats Engage your users with gamified Space
+            experience No sweat, we' I help you set up everything!
+            Fun all-in-one marketing solution for your Twitter Space
+            improve your Twitter Space exposure and stats
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -97,7 +116,8 @@ export default {
       starStatus: 0,
       interval: null,
       curations: [],
-      claimed: false
+      claimed: false,
+      moreVisible: true
     }
   },
   computed: {
@@ -125,12 +145,13 @@ export default {
       this.setBg()
     }
     this.audio = new Audio('./JingleBells.mp3');
-    this.audio.play()
-    this.audio.loop = true
-    this.udpateCurations()
-    this.interval = setInterval(() => {
-      this.udpateCurations()
-    }, 6000);
+    // this.audio.play()
+    // this.isPaused = this.audio.paused
+    // this.audio.loop = true
+    // this.udpateCurations()
+    // this.interval = setInterval(() => {
+    //   this.udpateCurations()
+    // }, 6000);
   },
   beforeUnmount() {
     this.audio.pause()
@@ -159,7 +180,7 @@ export default {
     },
     gotoTwitter() {
       window.open('https://twitter.com/wormhole_3')
-    }, 
+    },
     async udpateCurations() {
       try {
         const res = await getChristmasCurations(this.getAccountInfo?.twitterId);
@@ -192,13 +213,14 @@ export default {
 
 <style scoped lang="scss">
 .christmas-page {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   overflow: hidden;
   background-color: #c63322;
+  z-index: 0;
   .bg-light {
     position: absolute;
     top: 50%;
@@ -296,10 +318,10 @@ export default {
   }
   .twitter-pointer {
     position: absolute;
-    width: 10%;
-    height: 8%;
-    left: 7%;
-    top: 62%;
+    width: 11%;
+    height: 9%;
+    left: 6.5%;
+    top: 60.9%;
   }
   .star-img {
     top: 8.5%;
@@ -364,10 +386,10 @@ export default {
   }
   .twitter-pointer {
     position: absolute;
-    width: 19%;
+    width: 20%;
     height: 9%;
-    left: 12%;
-    top: 76.5%;
+    left: 11.4%;
+    top: 76.8%;
   }
   .star-img {
     position: absolute;
@@ -567,5 +589,11 @@ export default {
   100% {
     transform: scale(0.5) translateY(-20%);
   }
+}
+.modal-content-box {
+  top: 24%;
+  left: 9%;
+  right: 13%;
+  bottom: 8%;
 }
 </style>

@@ -109,6 +109,10 @@
   @extend .icon;
   background-image: url("~@/assets/icon-wallet-light.svg");
 }
+.christmas-header .icon-wallet {
+  @extend .icon;
+  background-image: url("~@/assets/icon-wallet-white.svg");
+}
 
 .icon-checked {
   @extend .icon;
