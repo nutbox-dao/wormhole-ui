@@ -136,7 +136,7 @@ const routes = [
   {
     path: '/christmas',
     name: 'christmas',
-    component: ChristmasEvent,
+    component: ChristmasEvent
   },
   {
     path: '/confirm-reward',
