@@ -132,11 +132,12 @@ export default {
       pwd: '',
       sendPubKey: '',
       salt: "",
-      authError: false
+      authError: false,
+      account: ''
     }
   },
   computed: {
-    ...mapState('web3', ['account']),
+    // ...mapState('web3', ['account']),
     ...mapState(['referee'])
   },
   watch: {
@@ -244,9 +245,11 @@ export default {
     }
   },
   async mounted () {
-    this.$store.commit('web3/saveAccount', this.address)
+    this.account = this.address
     this.checkoutAccount();
-    accountChanged()
+    accountChanged(acc => {
+      this.account = ethers.utils.getAddress(acc)
+    })
   },
 }
 </script>
