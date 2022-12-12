@@ -161,7 +161,7 @@ export default {
           this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
           return;
         }else {
-          if (userInfo.code === 0) {
+          if (userInfo.code === 1) {
             // not registry
             // store auth info
             console.log('not register')

@@ -33,7 +33,7 @@
             </Blog>
           </div>
           <button v-if="enableFold && !isFold" @click.stop="isFold=true"
-                  class="absolute bg-view-more text-white bottom-0 left-0 w-full h-60px sm:h-50px flex
+                  class="absolute bg-view-more light:bg-view-more-light text-white bottom-0 left-0 w-full h-60px sm:h-50px flex
                  items-center justify-center text-center">
           </button>
         </div>
@@ -48,7 +48,8 @@
             <!-- reply-->
             <button v-if="isReply" @click.stop="quoteOrReply"
                     class="text-white flex justify-center items-center w-24px h-24px rounded-full">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <img v-if="isRepling" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+              <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="12" :fill="replyed?'#6246EA':'#7D7F88'"/>
                 <path d="M10 6C7.23858 6 5 8.23858 5 11C5 13.7614 7.23858 16 10 16H11V19C13.8696 17.0869 19 15.0587 19 11C19 8.23858 16.7614 6 14 6H10Z" stroke="white"/>
               </svg>
@@ -56,7 +57,8 @@
             <!-- quote-->
             <button v-if="isQuote" @click.stop="quoteOrReply"
                     class="text-white flex justify-center items-center w-24px h-24px rounded-full">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <img v-if="isQuoting" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
+              <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="12" :fill="quoted?'#6246EA':'#7D7F88'"/>
                 <g clip-path="url(#clip0_2340_3084)">
                   <path d="M6.36842 8.08289V16.4497C6.36842 17.3059 7.07534 18 7.94737 18H13.4737M6.36842 8.08289L4 10.4083M6.36842 8.08289L8.73684 10.4083M16.6316 18V8.55026C16.6316 7.69408 15.9247 7 15.0526 7H9.52632M16.6316 18L19 15.6746M16.6316 18L14.2632 15.6746" stroke="white" stroke-linecap="round"/>
@@ -130,7 +132,7 @@
 
 <script>
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { parseTimestamp } from '@/utils/helper'
+import { parseTimestamp, sleep } from '@/utils/helper'
 import { mapGetters } from "vuex";
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
@@ -139,7 +141,7 @@ import Space from "@/components/Space";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
-import { likeCuration, followCuration } from "@/utils/curation";
+import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
 
@@ -163,7 +165,9 @@ export default {
       isFold: false,
       isLiking: false,
       isFollowing: false,
-      isEnd: false
+      isEnd: false,
+      isQuoting: false,
+      isRepling: false
     }
   },
   computed: {
@@ -242,23 +246,46 @@ export default {
         this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
       }
     },
-    quoteOrReply() {
-      if (!this.checkLogin()) return
+    async quoteOrReply() {
+      if (!this.checkLogin() || this.quoted || this.replyed || this.isQuoting || this.isRepling) return
+
       let url;
       if (this.isQuote) {
         url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`
-        this.curation.taskRecord = this.curation.taskRecord | 1
+       this.isQuoting = true
       }else {
         url = `https://twitter.com/intent/tweet?in_reply_to=${this.curation.tweetId}&text=%0a%23iweb3`
-        this.curation.taskRecord = this.curation.taskRecord | 2
+        this.isRepling = true;
       }
       window.open(url, '__blank');
+
+      await sleep(6)
+      let count = 0;
+      while(count++ < 50) {
+        try {
+          const record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.curation.curationId)
+          if (record && record.taskRecord) {
+            this.curation.taskRecord = record.taskRecord;
+            if (this.isQuote && (record.taskRecord & 1 === 1)) {
+              break;
+            }
+            if (this.isReply && (record.taskRecord & 2 === 2)) {
+              break;
+            }
+          }
+        }catch(e) {
+          if (e === 'log out') {
+            notify({message: this.$t('tips.accessTokenExpire')})
+            break;
+          }
+        }
+        await sleep(2)
+      }
+      this.isQuoting = false
+      this.isRepling = false
     },
     async like() {
-      if (!this.checkLogin()) return
-      if(this.liked) {
-        return
-      }
+      if (!this.checkLogin() || this.liked || this.isLiking) return
       try{
         this.isLiking = true
         await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
@@ -277,10 +304,7 @@ export default {
       }
     },
     async follow() {
-      if (!this.checkLogin()) return
-      if (this.followed) {
-        return
-      }
+      if (!this.checkLogin() || this.followed || this.isFollowing) return
       try{
         this.isFollowing = true
         await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})

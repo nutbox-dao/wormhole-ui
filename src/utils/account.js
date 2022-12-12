@@ -152,7 +152,7 @@ export const refreshToken = async () => {
         const token = await twitterRefreshAccessToken(acc.twitterId);
         store.commit('saveAccountInfo', {...acc, ...token})
     } else {
-        throw 'Not login'
+        throw 'log out'
     }
   }
 
@@ -179,7 +179,6 @@ export async function checkAccessToken() {
                 await refreshToken();
                 acc = store.getters.getAccountInfo;
             }catch(e) {
-                console.log(234, e);
                 throw 'log out';
             }
         }

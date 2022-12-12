@@ -198,7 +198,7 @@ export default {
     posw: "Proof Of Subjective Work(PoSW)",
     poswDes: 'If it is a PoSW curation, the reward will be issued to the participants according to the review. \nIf it is other method, the rewards will be automatically ditribute.',
     autoMethod: 'Automatic Distribution',
-    autoMethodTip: 'When the curation is created by using this method, the ERC20 tokens need to be staked to the Wormhole3 contract. This reward pool is all for the curators who help you spread your content. After the curation reaches the end date, all the rewards will be automatically distributed to the curators, and the amount for each one is depending on his/her Twitter Reputation NFT score and influence of the spread(Which is caculated by the upvotes of his quote tweet).',
+    autoMethodTip: 'When the curation is created by using this method, the ERC20 tokens need to be staked to the Wormhole3 contract. \n\nThis reward pool is all for the curators who help you spread your content. \n\nAfter the curation reaches the end date, all the rewards will be automatically distributed to the curators, and the amount for each one is depending on his/her Twitter Reputation NFT score and influence of the spread(Which is caculated by the upvotes of his quote/reply tweet).',
     rewardsAmount: 'Rewards Amount',
     inputRewardsAmount: 'Enter amount of rewards',
     inputErc20: 'Enter ERC20 address or select one',
