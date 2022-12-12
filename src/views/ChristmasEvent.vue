@@ -27,9 +27,9 @@
       <div class="snowflake" v-for="i of 50" :key="i"></div>
     </div>
     <el-dialog class="c-img-dialog"
-               v-model="modalVisible" :fullscreen="true" title="&nbsp;">
-      <div class="w-full h-full flex flex-col justify-center">
-        <div class="flex-1 flex flex-col justify-center items-center relative">
+               v-model="modalVisible" :fullscreen="true" title="&nbsp;" @click="modalVisible=false">
+      <div class="w-full h-full flex flex-col justify-center items-center">
+        <div class="flex-1 flex flex-col justify-center items-center relative w-max" @click.stop>
           <svg xmlns="http://www.w3.org/2000/svg" class="gift-box" viewBox="-180 -200 800 800">
             <path d="M425.435 273.698v193.301c0 24.899-20.099 45-45 45h-150v-271h131.4c1.8 0 3.6.3 5.099.899l48.6 17.701c6 2.1 9.901 7.8 9.901 14.099z" fill="#c60034"></path>
             <path d="M415.534 259.599l-48.6-17.701c-1.5-.599-3.3-.899-5.099-.899h-311.4c-8.401 0-15 6.599-15 15v211c0 24.899 20.099 45 45 45h300c24.901 0 45-20.101 45-45V273.698c0-6.299-3.901-11.999-9.901-14.099z" fill="#fc1a40"></path>
@@ -47,7 +47,7 @@
           <div class="gift min-w-100px ">
             <div class="relative">
               <img src="~@/assets/christmas/gift-banner.png" alt="">
-              <span class="gift-text text-white c-text-black text-2.2rem">100U</span>
+              <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">100U</span>
             </div>
           </div>
         </div>
@@ -186,24 +186,24 @@ export default {
     position: absolute;
     width: 4.8%;
     &:nth-child(1) {
-      top:61%;
-      left: 58.2%;
+      top:68.7%;
+      left: 38.4%;
     }
     &:nth-child(2) {
-      top:64.6%;
-      left: 53.6%;
+      top:67.3%;
+      left: 43.5%;
     }
     &:nth-child(3) {
       top:66.2%;
       left: 48.7%;
     }
     &:nth-child(4) {
-      top:67.3%;
-      left: 43.5%;
+      top:64.6%;
+      left: 53.6%;
     }
     &:nth-child(5) {
-      top:68.7%;
-      left: 38.4%;
+      top:61%;
+      left: 58.2%;
     }
     &:nth-child(6) {
       top:53.2%;
@@ -249,24 +249,24 @@ export default {
     width: 12.7%;
 
     &:nth-child(1) {
-      top:59.5%;
-      left: 75%;
+      top: 67.4%;
+      left: 22.13%;
     }
     &:nth-child(2) {
-      top:63.2%;
-      left: 62.16%;
+      top: 66%;
+      left: 35.5%;
     }
     &:nth-child(3) {
       top:64.9%;
       left: 48.9%;
     }
     &:nth-child(4) {
-      top: 66%;
-      left: 35.5%;
+      top:63.2%;
+      left: 62.16%;
     }
     &:nth-child(5) {
-      top: 67.4%;
-      left: 22.13%;
+      top:59.5%;
+      left: 75%;
     }
     &:nth-child(6) {
       top: 51.6%;
