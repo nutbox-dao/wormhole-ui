@@ -744,7 +744,7 @@ export default {
   },
   mounted () {
     this.loadCuration()
-    this.updateInterval = setInterval(this.updateCurationInfos, 15000);
+    this.updateInterval = setInterval(this.updateCurationInfos, 10000);
     this.timeIntrerval = setInterval(() => {
       this.endtime = parseTimestampToUppercase(this.detailCuration?.endtime)
     }, 1000)

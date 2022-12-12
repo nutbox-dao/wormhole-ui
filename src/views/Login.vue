@@ -161,14 +161,14 @@ export default {
           this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
           return;
         }else {
-          if (userInfo.code === 3) {
+          if (userInfo.code === 1) {
             // not registry
             // store auth info
             console.log('not register')
             Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
             this.pendingAccount = userInfo.account
             this.authStep = 'select';
-          }else if (userInfo.code === 1) { // log in
+          }else if (userInfo.code === 3) { // log in
             this.$store.commit('saveAccountInfo', userInfo.account)
             this.$emit('close')
           }
