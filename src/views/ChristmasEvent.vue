@@ -117,7 +117,7 @@ export default {
       interval: null,
       curations: [],
       claimed: false,
-      moreVisible: true
+      moreVisible: false
     }
   },
   computed: {
