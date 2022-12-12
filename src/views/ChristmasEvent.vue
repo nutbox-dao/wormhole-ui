@@ -14,7 +14,8 @@
           <div class="relative w-full h-full">
             <img v-for="(item, index) of status" :key="index"
                  class="ball"
-                 :class="[item===0?'ball-light':'', item===1?'ball-gold':'', item===2?'ball-silver':'']"
+                 @click="gotoDetail(index)"
+                 :class="[item===1?'ball-light':'', item===2?'ball-gold':'', item===0?'ball-silver':'']"
                  :src="ballOptions[index]" alt="">
           </div>
         </div>
@@ -22,7 +23,7 @@
              @click="modalVisible=true"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
-        <button class="view-more"></button>
+        <button @click="showInfo=true" class="view-more"></button>
       </div>
       <div class="snowflake" v-for="i of 50" :key="i"></div>
     </div>
@@ -73,10 +74,11 @@ export default {
   data() {
     return {
       ballOptions: [goldBall1, goldBall2, goldBall3, goldBall4, goldBall5, goldBall6, goldBall7, goldBall8, goldBall9, goldBall10],
-      status: [0, 1, 2, 1, 2, 0, 2, 0, 1, 1],
+      status: [1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
       audio: null,
       isPaused: true,
-      modalVisible: false
+      modalVisible: false,
+      showInfo: false
     }
   },
   mounted() {
@@ -102,6 +104,9 @@ export default {
     onPlay() {
       this.isPaused = this.audio.paused
       this.isPaused?this.audio.play():this.audio.pause()
+    },
+    gotoDetail(index) {
+      console.log(index);
     }
   }
 }
@@ -152,6 +157,7 @@ export default {
     animation-iteration-count: infinite;
     &:hover{
       transform: scale(0.95);
+      cursor: pointer;
     }
   }
   &.ball-gold {
@@ -160,6 +166,7 @@ export default {
     animation-iteration-count: infinite;
     &:hover{
       transform: scale(0.95);
+      cursor: pointer;
     }
   }
   &.ball-silver {
