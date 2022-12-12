@@ -145,13 +145,13 @@ export default {
       this.setBg()
     }
     this.audio = new Audio('./JingleBells.mp3');
-    // this.audio.play()
-    // this.isPaused = this.audio.paused
-    // this.audio.loop = true
-    // this.udpateCurations()
-    // this.interval = setInterval(() => {
-    //   this.udpateCurations()
-    // }, 6000);
+    this.audio.play()
+    this.isPaused = this.audio.paused
+    this.audio.loop = true
+    this.udpateCurations()
+    this.interval = setInterval(() => {
+      this.udpateCurations()
+    }, 6000);
   },
   beforeUnmount() {
     this.audio.pause()
