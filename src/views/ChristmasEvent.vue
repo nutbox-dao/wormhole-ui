@@ -77,7 +77,7 @@
           <img src="~@/assets/christmas/close.png" alt="">
         </button>
         <div class="absolute modal-content-box overflow-auto text-white no-scroll-bar">
-          <div class="c-text-black text-20px xl:text-1.2rem mb-8px"></div>
+          <div class="c-text-black text-20px xl:text-1.2rem mb-8px">Campaign Guidline</div>
           <div class=" text-left break-word">
             <div class="text-12px leading-20px xl:text-0.6rem xl:leading-1rem ">
               Christmas is coming, Wormhole3 has partnered with different projects to
@@ -202,7 +202,7 @@ export default {
     this.audio.loop = true
     if (this.getAccountInfo.twitterId) {
       openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
-        if (res.reward) {
+        if (res?.reward) {
           this.claimed = res.claimStatus === 1;
           this.blindAmount = parseInt(res.reward / 1e18);
         }
@@ -245,7 +245,7 @@ export default {
       if (this.blindBoxStatus === 0) return
       this.modalVisible = true
       openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
-        if (res.reward) {
+        if (res?.reward) {
           this.claimed = res.claimStatus === 1;
           this.blindAmount = parseInt(res.reward / 1e18);
         }
