@@ -23,9 +23,10 @@
             </div>
           </div>
         </div>
+        <!-- star -->
         <img class="star-img cursor-pointer"
              :class="[blindBoxStatus===0?'star-silver':'', blindBoxStatus===1?'star-gold':'', blindBoxStatus===2?'star-light':'']"
-             @click="modalVisible=true"
+             @click="clickStar"
              src="~@/assets/christmas/star.png" alt="">
         <!-- view more -->
         <button class="view-more" @click="moreVisible=true"></button>
@@ -58,7 +59,7 @@
           <div class="gift min-w-100px ">
             <div class="relative">
               <img src="~@/assets/christmas/gift-banner.png" alt="">
-              <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">100U</span>
+              <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">{{blindAmount}}U</span>
             </div>
           </div>
         </div>
@@ -149,7 +150,7 @@ import goldBall7 from '@/assets/christmas/ball7-gold.png'
 import goldBall8 from '@/assets/christmas/ball8-gold.png'
 import goldBall9 from '@/assets/christmas/ball9-gold.png'
 import goldBall10 from '@/assets/christmas/ball10-gold.png'
-import { getChristmasCurations } from '@/api/api'
+import { getChristmasCurations, openBlindBox } from '@/api/api'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -167,6 +168,7 @@ export default {
       curations: [],
       claimed: false,
       moreVisible: false,
+      blindAmount: 0,
       showBoxAnimation: false
     }
   },
@@ -198,6 +200,14 @@ export default {
     this.audio.play()
     this.isPaused = this.audio.paused
     this.audio.loop = true
+    if (this.getAccountInfo.twitterId) {
+      openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
+        if (res.reward) {
+          this.claimed = res.claimStatus === 1;
+          this.blindAmount = parseInt(res.reward / 1e18);
+        }
+      }).catch()
+    }
     this.udpateCurations()
     this.interval = setInterval(() => {
       this.udpateCurations()
@@ -231,6 +241,16 @@ export default {
     gotoTwitter() {
       window.open('https://twitter.com/wormhole_3')
     },
+    clickStar() {
+      if (this.blindBoxStatus === 0) return
+      this.modalVisible = true
+      openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
+        if (res.reward) {
+          this.claimed = res.claimStatus === 1;
+          this.blindAmount = parseInt(res.reward / 1e18);
+        }
+      }).catch()
+    },
     async udpateCurations() {
       try {
         const res = await getChristmasCurations(this.getAccountInfo?.twitterId);
@@ -239,10 +259,26 @@ export default {
           for (let i = 0; i < 10; i++) {
             const curation = res.find(c => c.index === i)
             if (curation) {
+              let status = 0;
+              if (curation.taskStatus === 0) {
+                if (curation.tasks === curation.taskRecord) {
+                  status = 2;
+                }else {
+                  status = 1;
+                }
+              }else {
+                if (curation.tasks === curation.taskRecord) {
+                  status = 2;
+                }else {
+                  status = 0;
+                }
+              }
+              if (!curation.curationId) {
+                status = 0;
+              }
               curations.push({
                 ...curation,
-                status: curation.curationId ? ((curation.tasks === curation.taskRecord) ? 2 : 1) : 0,
-                icon: curation.icon
+                status
               })
             }else {
               curations.push({
