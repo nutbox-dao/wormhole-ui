@@ -65,7 +65,7 @@
         </div>
         <div v-else class="relative">
           <img class="max-w-300px" src="~@/assets/christmas/gift-banner.png" alt="">
-          <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">100U</span>
+          <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">{{blindAmount}}U</span>
         </div>
       </div>
     </el-dialog>
