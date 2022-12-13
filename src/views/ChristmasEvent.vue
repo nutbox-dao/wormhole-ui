@@ -37,6 +37,7 @@
       </div>
       <div class="snowflake" v-for="i of 80" :key="i"></div>
     </div>
+    <!-- ball -->
     <el-dialog class="c-img-dialog"
                v-model="modalVisible" :fullscreen="true" title="&nbsp;" @click="modalVisible=false">
       <div class="w-full h-full flex flex-col justify-center items-center">
@@ -69,6 +70,7 @@
         </div>
       </div>
     </el-dialog>
+    <!-- guild line -->
     <el-dialog v-model="moreVisible"
                class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-34rem">
       <div class="relative max-w-600px mx-auto">
@@ -200,7 +202,7 @@ export default {
     this.audio.play()
     this.isPaused = this.audio.paused
     this.audio.loop = true
-    if (this.getAccountInfo.twitterId) {
+    if (this.getAccountInfo?.twitterId) {
       openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
         if (res?.reward) {
           this.claimed = res.claimStatus === 1;
@@ -244,7 +246,7 @@ export default {
     clickStar() {
       if (this.blindBoxStatus === 0) return
       this.modalVisible = true
-      openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
+      openBlindBox(this.getAccountInfo?.twitterId, false).then(res => {
         if (res?.reward) {
           this.claimed = res.claimStatus === 1;
           this.blindAmount = parseInt(res.reward / 1e18);
