@@ -39,7 +39,8 @@
     <el-dialog class="c-img-dialog"
                v-model="modalVisible" :fullscreen="true" title="&nbsp;" @click="modalVisible=false">
       <div class="w-full h-full flex flex-col justify-center items-center">
-        <div class="flex-1 flex flex-col justify-center items-center relative w-max" @click.stop>
+        <div v-if="showBoxAnimation"
+             class="flex-1 flex flex-col justify-center items-center relative w-max" @click.stop>
           <svg xmlns="http://www.w3.org/2000/svg" class="gift-box" viewBox="-180 -200 800 800">
             <path d="M425.435 273.698v193.301c0 24.899-20.099 45-45 45h-150v-271h131.4c1.8 0 3.6.3 5.099.899l48.6 17.701c6 2.1 9.901 7.8 9.901 14.099z" fill="#c60034"></path>
             <path d="M415.534 259.599l-48.6-17.701c-1.5-.599-3.3-.899-5.099-.899h-311.4c-8.401 0-15 6.599-15 15v211c0 24.899 20.099 45 45 45h300c24.901 0 45-20.101 45-45V273.698c0-6.299-3.901-11.999-9.901-14.099z" fill="#fc1a40"></path>
@@ -61,27 +62,75 @@
             </div>
           </div>
         </div>
+        <div v-else class="relative">
+          <img class="max-w-300px" src="~@/assets/christmas/gift-banner.png" alt="">
+          <span class="gift-text text-white whitespace-nowrap c-text-black text-34px xl:text-2.5rem">100U</span>
+        </div>
       </div>
     </el-dialog>
     <el-dialog v-model="moreVisible"
                class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-34rem">
-      <div class="relative max-w-560px mx-auto">
+      <div class="relative max-w-600px mx-auto">
         <img class="w-full h-full" src="~@/assets/christmas/modal-bg.png" alt="">
         <button class="absolute top-12/100 right-14/100 w-5/100 cursor-pointer" @click="moreVisible=false">
           <img src="~@/assets/christmas/close.png" alt="">
         </button>
-        <div class="absolute modal-content-box overflow-auto">
-          <div class="c-text-black text-20px xl:text-1.2rem mb-8px">Lorem Ipsum</div>
-          <div class="font-bold text-12px leading-24px xl:text-0.75rem xl:leading-1.4rem text-left">
-            Fun all-in-one marketing solution for your Twitter Space
-            improve your Twitter Space exposure and stats
-            Engage your users with gamified Space experience No sweat,
-            we' II help you set up everything! Fun all-in-one marketing
-            solution for your Twitter Space improve your Twitter Space
-            exposure and stats Engage your users with gamified Space
-            experience No sweat, we' I help you set up everything!
-            Fun all-in-one marketing solution for your Twitter Space
-            improve your Twitter Space exposure and stats
+        <div class="absolute modal-content-box overflow-auto text-white no-scroll-bar">
+          <div class="c-text-black text-20px xl:text-1.2rem mb-8px"></div>
+          <div class=" text-left break-word">
+            <div class="text-12px leading-20px xl:text-0.6rem xl:leading-1rem text-justify">
+              Christmas is coming, Wormhole3 has partnered with different projects to
+              deliver prizes to everyone as Santa! All the prizes are packaged on this
+              special Christmas tree, try clicking on these golden balls and discover these surprises.</div>
+            <div class="c-text-black text-18px leading-28px xl:text-1rem xl:leading-1.6rem my-12px">
+              Campaign period: 12.15-12.27
+            </div>
+            <div class="c-text-black text-16px leading-26px xl:text-0.9rem xl:leading-1.4rem my-12px">
+              How to participate:
+            </div>
+            <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
+              12.15 -12.24
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+              All the projects will be putting a certain amount of Token prizes into the corresponding golden balls. Just click on the balls to enter the curation participation page and complete the tasks, so you can light up each ball and win the rewards.
+            </div>
+            <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
+              12.25
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+              Wormhole3 will initiate a curation task on Christmas day. Once you participate in a curation, the corresponding golden ball will be lit, you can light up all 10 golden balls in the end. When all the golden balls are lit, the star at the top of the Christmas tree will light up and you will be eligible to participate in the mystery box drawing.
+            </div>
+            <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
+              12.26-12.27
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+              After you successfully participate in all the curation and light up all the golden balls and stars on the top of the Christmas tree, you will be eligible to click on the top star on 12.26 to draw your USDT mystery box （contains rewards <span class="c-text-black text-colorFF text-15px xl:text-0.8rem "> max 25U</span>, and every user who lights up the Star has a chance to draw, one person per chance）& get Limited Christmas NFT
+            </div>
+            <div class="c-text-black text-16px leading-26px xl:text-0.9rem xl:leading-1.4rem mt-30px mb-10px">
+              How to successfully participate in a curation:
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem">
+              Click on each golden ball representing each project and follow the curation task on the curation page.
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem mt-20px mb-10px">
+              NOTE
+            </div>
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify italic">
+              Please <span class="c-text-black text-15px xl:text-0.8rem">DO NOT</span> delete any of your curation quoted/replied tweet or your lit golden ball will go off and you won’t be qualified to participate in the mystery box drawing
+              <br><br>
+              Every curation will end on 12.24, even if you missed the previous curation, you can still participate before them close
+            </div>
+            <div class="c-text-black text-16px leading-26px xl:text-0.9rem xl:leading-1.4rem mt-30px mb-10px">
+              Rewards
+            </div>
+            <ul>
+              <li>Curating rewards equivalent to more than 500USDT</li>
+              <li>500 USDT mystery box</li>
+              <li>Limited Christmas NFT</li>
+            </ul>
+            <div class="font-bold text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem mt-20px mb-10px">
+              This campaign is powered by Wormhole3, follow @wormhole_3 so you don’t miss out on anything!
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +166,8 @@ export default {
       interval: null,
       curations: [],
       claimed: false,
-      moreVisible: false
+      moreVisible: false,
+      showBoxAnimation: false
     }
   },
   computed: {
@@ -592,8 +642,15 @@ export default {
 }
 .modal-content-box {
   top: 24%;
-  left: 9%;
-  right: 13%;
+  left: 12%;
+  right: 15%;
   bottom: 8%;
+}
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 20px;
 }
 </style>

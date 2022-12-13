@@ -22,11 +22,11 @@
                 <img class="h-1.6rem w-1.6rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
-                <i class="h-1.8rem w-1.8rem mr-0.8rem icon-wallet"></i>
+                <i class="h-1.5rem w-1.5rem mr-0.8rem icon-wallet"></i>
               </router-link>
             </template>
             <div class="relative">
-              <button class="bg-transparent h-2rem w-1.6rem flex items-center"
+              <button class="bg-transparent h-2rem w-1.4rem flex items-center"
                       @click.stop="showMenu=!showMenu">
                 <span class="menu-icon" :class="showMenu?'active':''"></span>
               </button>
