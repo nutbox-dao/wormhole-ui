@@ -79,7 +79,7 @@
         <div class="absolute modal-content-box overflow-auto text-white no-scroll-bar">
           <div class="c-text-black text-20px xl:text-1.2rem mb-8px"></div>
           <div class=" text-left break-word">
-            <div class="text-12px leading-20px xl:text-0.6rem xl:leading-1rem text-justify">
+            <div class="text-12px leading-20px xl:text-0.6rem xl:leading-1rem ">
               Christmas is coming, Wormhole3 has partnered with different projects to
               deliver prizes to everyone as Santa! All the prizes are packaged on this
               special Christmas tree, try clicking on these golden balls and discover these surprises.</div>
@@ -92,19 +92,19 @@
             <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
               12.15 -12.24
             </div>
-            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem ">
               All the projects will be putting a certain amount of Token prizes into the corresponding golden balls. Just click on the balls to enter the curation participation page and complete the tasks, so you can light up each ball and win the rewards.
             </div>
             <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
               12.25
             </div>
-            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem ">
               Wormhole3 will initiate a curation task on Christmas day. Once you participate in a curation, the corresponding golden ball will be lit, you can light up all 10 golden balls in the end. When all the golden balls are lit, the star at the top of the Christmas tree will light up and you will be eligible to participate in the mystery box drawing.
             </div>
             <div class="c-text-black text-14px leading-24px xl:text-0.8rem xl:leading-1.3rem my-10px">
               12.26-12.27
             </div>
-            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify">
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem ">
               After you successfully participate in all the curation and light up all the golden balls and stars on the top of the Christmas tree, you will be eligible to click on the top star on 12.26 to draw your USDT mystery box （contains rewards <span class="c-text-black text-colorFF text-15px xl:text-0.8rem "> max 25U</span>, and every user who lights up the Star has a chance to draw, one person per chance）& get Limited Christmas NFT
             </div>
             <div class="c-text-black text-16px leading-26px xl:text-0.9rem xl:leading-1.4rem mt-30px mb-10px">
@@ -116,7 +116,7 @@
             <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem mt-20px mb-10px">
               NOTE
             </div>
-            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem text-justify italic">
+            <div class="text-12px leading-20px xl:text-0.7rem xl:leading-1.2rem  italic">
               Please <span class="c-text-black text-15px xl:text-0.8rem">DO NOT</span> delete any of your curation quoted/replied tweet or your lit golden ball will go off and you won’t be qualified to participate in the mystery box drawing
               <br><br>
               Every curation will end on 12.24, even if you missed the previous curation, you can still participate before them close
