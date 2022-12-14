@@ -213,7 +213,7 @@
           </div>
           <!-- Details -->
           <div class="c-text-black mt-18px mb-10px text-16px leading-16px text-left">{{$t('curation.details')}}</div>
-          <div class="light:text-color21 text-left leading-18px text-12px mb-14px">{{detailCuration?.description}}</div>
+          <div class="light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line">{{detailCuration?.description}}</div>
           <div class="h-min border-1 border-color8B/30 light:border-black
                       rounded-15px overflow-hidden relative">
             <div class="px-1.25rem py-13px text-left relative">

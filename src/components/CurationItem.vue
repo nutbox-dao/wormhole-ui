@@ -75,7 +75,7 @@
                      @error="replaceEmptyImg"
                      :src="i" alt="">
                 <span v-show="(curation.totalCount ?? 0) - 3 > 0"
-                      class="w-20px h-20px min-w-20px min-h-20px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
+                      class="min-w-20px px-4px h-20px min-w-20px min-h-20px xl:w-1.6rem xl:min-w-1.6rem xl:h-1.6rem xl:min-h-1.6rem
                     rounded-full -ml-10px flex justify-center items-center
                     border-1 border-blockBg bg-primaryColor
                     light:border-white light:bg-color62 light:text-white text-10px">
