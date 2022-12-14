@@ -7,7 +7,7 @@
           <div class="h-min min-h-180px text-left rounded-12px overflow-hidden relative">
             <!-- curation info -->
             <div v-if="detailCuration">
-              <div class="flex items-start mb-1rem">
+              <div v-if="detailCuration.creatorTwitter !== detailCuration.authorId" class="flex items-start mb-1rem">
                 <img class="w-42px min-w-42px h-42px md:w-3.6rem md:h-3.6rem md:w-min-3.6rem
                             mr-15px md:mr-1rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
