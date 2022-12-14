@@ -357,7 +357,7 @@ export default {
                   status = 1;
                 }
               }else {
-                if (curation.tasks === curation.taskRecord) {
+                if (curations.tasks && (curation.tasks === curation.taskRecord)) {
                   status = 2;
                 }else {
                   status = 0;
