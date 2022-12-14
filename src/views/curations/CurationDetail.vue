@@ -141,7 +141,7 @@
                 <button @click="quoteOrReply"
                         :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
-                  <i v-if="isQuoting || isRepling" class="w-16px h-16px rounded-full bg-colorEA">
+                  <i v-if="isQuoting || isRepling" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
                     <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
                   </i>
                   <template v-else>
@@ -154,7 +154,7 @@
                 </button>
                 <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
-                  <i v-if="isLiking" class="w-16px h-16px rounded-full bg-colorEA">
+                  <i v-if="isLiking" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
                     <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
                   </i>
                   <i v-else class="w-16px min-w-16px h-16px mr-10px"
@@ -165,7 +165,7 @@
                 </button>
                 <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
-                  <i v-if="isFollowing" class="w-16px h-16px rounded-full bg-colorEA">
+                  <i v-if="isFollowing" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
                     <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
                   </i>
                   <i v-else class="w-16px min-w-16px h-16px mr-10px"
