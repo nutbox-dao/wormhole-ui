@@ -28,6 +28,8 @@
              :class="[blindBoxStatus===0?'star-silver':'', blindBoxStatus===1?'star-gold':'', blindBoxStatus===2?'star-light':'']"
              @click="clickStar"
              src="~@/assets/christmas/star.png" alt="">
+        <!-- Santa -->
+        <button class="santa-pointer" @click="showChristmasMessage"></button>
         <!-- view more -->
         <button class="view-more" @click="moreVisible=true"></button>
         <!-- twitter -->
@@ -169,7 +171,41 @@ export default {
       claimed: false,
       moreVisible: false,
       blindAmount: 0,
-      showBoxAnimation: false
+      showBoxAnimation: false,
+      messages: [
+        'I am the Christmas sugar and spice for girls and boys that are nice.',
+        'I work my jolliness right into your heart.',
+        'Sadly, I only come in town once a year.',
+        `Smile! Santa's coming to town.`,
+        `I exist within the hearts of children and adults alike.`,
+        `I symbolize the love we give one another and the importance of happiness.`,
+        `Wishing you peace and joy all season long. Happy Holidays!`,
+        `Cheers to warm holiday memories!`,
+        `You know you're getting old when Santa starts looking younger.`,
+        `Gifts of time and love are surely the basic ingredients of a truly merry Christmas.`,
+        `Sending lots of peace and joy to you and your family this Christmas season.`,
+        `HO HO HO`,
+        `HO HO HO`,
+        `HO HO HO`,
+        `HO HO HO`,
+        `HO HO HO`,
+        `My favorite snack is milk and cookies, what about you?`,
+        `I hope your Christmas is filled with laughter and prosperity.`,
+        `Merry Christmas! This coming year, may you be gifted with countless blessings`,
+        `Oh, Christmas isn’t just a day; it’s a frame of mind.`,
+        `To cherish peace and goodwill, to be plenteous in mercy, is to have the real spirit of Christmas`,
+        `You better watch out, you better not cry, better not pout, I'm telling you why— I am coming to town.`,
+        `The elves are very busy and still working.`,
+        `May you never be too grown up to search the skies on Christmas Eve.`,
+        `Sending you love, strength and unwavering support this holiday season.`,
+        `Hey you, have you been a good kid this year?`,
+        `Hey you, have you been a good kid this year?`,
+        `The reindeers love carrots and apples, they are my good helper`,
+        `My favorite snack is milk and cookies, what about you?`,
+        `Cheers to warm holiday memories!`,
+        `Cheers to warm holiday memories!`
+      ],
+      showingMessageIndex: 0
     }
   },
   computed: {
@@ -250,6 +286,10 @@ export default {
           this.blindAmount = parseInt(res.reward / 1e18);
         }
       }).catch()
+    },
+    showChristmasMessage() {
+      const total = this.messages.length
+      this.showingMessageIndex = Math.floor(Math.random() * total)
     },
     async udpateCurations() {
       try {
@@ -409,6 +449,13 @@ export default {
     left: 6.5%;
     top: 60.9%;
   }
+  .santa-pointer {
+    position: absolute;
+    width: 11%;
+    height: 9%;
+    left: 4.5%;
+    top: 50.9%;
+  }
   .star-img {
     top: 8.5%;
     left: 48.9%;
@@ -476,6 +523,13 @@ export default {
     height: 9%;
     left: 11.4%;
     top: 76.8%;
+  }
+  .santa-pointer {
+    position: absolute;
+    width: 11%;
+    height: 9%;
+    left: 4.5%;
+    top: 50.9%;
   }
   .star-img {
     position: absolute;
