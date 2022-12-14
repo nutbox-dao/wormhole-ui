@@ -292,6 +292,7 @@ export default {
     showChristmasMessage() {
       const total = this.messages.length
       this.showingMessageIndex = Math.floor(Math.random() * total)
+      console.log(this.showingMessageIndex);
     },
     async udpateCurations() {
       try {
@@ -453,10 +454,10 @@ export default {
   }
   .santa-pointer {
     position: absolute;
-    width: 11%;
-    height: 9%;
+    width: 15%;
+    height: 16%;
     left: 4.5%;
-    top: 50.9%;
+    top: 61%;
   }
   .star-img {
     top: 8.5%;
@@ -528,10 +529,10 @@ export default {
   }
   .santa-pointer {
     position: absolute;
-    width: 11%;
-    height: 9%;
+    width: 15%;
+    height: 16%;
     left: 4.5%;
-    top: 50.9%;
+    top: 61%;
   }
   .star-img {
     position: absolute;
