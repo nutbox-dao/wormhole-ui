@@ -176,7 +176,7 @@
                 </button>
               </div>
             </el-collapse-transition>
-<!--            <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>-->
+            <div v-if="!quotesCollapse" class="w-full h-1px bg-color8B/30 light:bg-colorE3 mb-16px"></div>
             <div class="flex items-center justify-between h-40px xl:h-2rem">
               <div class="flex items-center ml-11px">
                 <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
