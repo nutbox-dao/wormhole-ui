@@ -98,7 +98,7 @@
         <div class="mt-1.8rem" v-if="form.category==='space'">
           <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
           <div v-if="linkIsVerified" class="h-134px overflow-hidden relative">
-            <Space class="rounded-12px h-full mb-1rem md:mb-0"
+            <Space class="rounded-12px h-full mb-1rem md:mb-0 bg-tag-gradient"
                    :space="form.space"/>
           </div>
           <div v-else class="overflow-hidden relative rounded-8px h-134px px-1/5 pt-10px

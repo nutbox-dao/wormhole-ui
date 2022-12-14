@@ -4,30 +4,38 @@
     <div class="container mx-auto max-w-50rem pb-2rem pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
         <div class="col-span-1 xl:col-span-2 px-15px">
-          <div class="h-min min-h-180px text-left rounded-12px overflow-hidden relative">
+          <div class="h-min min-h-146px text-left rounded-12px overflow-hidden relative">
             <!-- curation info -->
             <div v-if="detailCuration">
-              <div class="flex items-start mb-1rem">
-                <img class="w-42px min-w-42px h-42px md:w-3.6rem md:h-3.6rem md:w-min-3.6rem
+              <div v-if="detailCuration.creatorTwitter !== detailCuration.authorId" class="flex items-center mb-1rem">
+                <img class="w-42px min-w-42px h-42px md:w-3rem md:h-3rem md:w-min-3rem
                             mr-15px md:mr-1rem rounded-full cursor-pointer"
                      @error="replaceEmptyImg"
                      @click="gotoUserPage(detailCuration && detailCuration.creatorTwitterUsername)"
                      :src="detailCuration.creatorProfileImg && detailCuration.creatorProfileImg.replace('normal', '200x200')" alt="">
-                <div class="flex flex-col justify-center items-start cursor-pointer" @click="gotoUserPage(detailCuration && detailCuration.creatorTwitterUsername)">
-                  <a class="c-text-black text-16px 2xl:text-0.8rem leading-24px 2xl:leading-1rem mr-0.8rem">{{detailCuration && detailCuration.creatorTwitterName}}</a>
-                  <span class="text-15px 2xl:text-0.75rem text-color8B light:text-color7D leading-22px 2xl:leading-1.1rem">@{{detailCuration && detailCuration.creatorTwitterUsername}}</span>
+                <div >
+                  <div class="flex justify-center items-center">
+                  <span class="c-text-black text-18px 2xl:text-0.8rem leading-18px 2xl:leading-1rem mr-0.8rem cursor-pointer"
+                        @click="gotoUserPage(detailCuration && detailCuration.creatorTwitterUsername)">
+                    {{detailCuration && detailCuration.creatorTwitterName}}
+                  </span>
+                    <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
+                  </div>
+                  <div class="text-12px 2xl:text-0.7rem text-color8B light:text-color7D leading-18px 2xl:leading-1.1rem">
+                    @{{detailCuration && detailCuration.creatorTwitterUsername}}
+                  </div>
                 </div>
-                <ContentTags class="mt-5px" :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
               </div>
               <template v-if="contentType==='tweet'">
                 <Blog :post="detailCuration" @click="gotoTweet"
-                      avatar-class="w-30px min-w-30px h-30px md:w-2.6rem md:h-2.6rem md:w-min-2.6rem"
-                      class="border-1 border-color8B/30 light:border-colorD6 rounded-12px">
+                      avatar-class="w-30px min-w-30px h-30px md:w-2.4rem md:h-2.4rem md:w-min-2.4rem"
+                      class="border-1 border-color8B/30 light:border-black px-15px pt-10px pb-15px rounded-15px">
                   <template #bottom-btn-bar><div></div></template>
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
-                <Space :space="space" @click="gotoTweet" class="h-146px md:min-h-10rem bg-color7D/10 rounded-15px mt-10px cursor-pointer"></Space>
+                <Space :space="space" @click="gotoTweet"
+                       class="h-146px md:min-h-10rem dark:bg-tag-gradient light:bg-color15 rounded-15px cursor-pointer "></Space>
               </template>
               <template v-else>
                 <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -51,19 +59,18 @@
             </div>
           </div>
           <!-- tips -->
-          <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-8px overflow-hidden">
-            <div class="h-min bg-blockBg light:bg-colorED text-left cursor-pointer"
-                 :class="tipCollapse?'tip-bg':'tip-bg-close'">
-              <div class="text-white light:text-blueDark pl-45px sm:pl-60px pr-15px font-bold min-h-48px
+          <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-15px overflow-hidden">
+            <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
+              <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
                         flex-1 flex justify-between items-center truncate relative"
                    @click.stop="showTipModal">
                 <el-carousel v-if="tips && tips.length>0"
                              class="w-full hidden sm:block"
-                             height="48px" indicator-position="none" :loop="true"
+                             height="54px" indicator-position="none" :loop="true"
                              direction="vertical" :autoplay="true"
                              :interval="2500">
                   <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
-                    <div class="flex-1 text-color62 c-text-black text-12px xl:text-0.7rem">{{tipStr(item)}}</div>
+                    <div class="flex-1 c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</div>
                   </el-carousel-item>
                 </el-carousel>
                 <van-notice-bar class="w-full bg-transparent px-0 sm:hidden"
@@ -71,26 +78,27 @@
                                 v-if="tips && tips.length>0">
                   <template #default>
                     <span v-for="item in tips" :key="item"
-                          class="mr-4rem c-text-black text-12px xl:text-0.7rem text-color62">{{tipStr(item)}}</span>
+                          class="mr-4rem c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</span>
                   </template>
                 </van-notice-bar>
-                <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center text-color62 font-bold">
+                <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center font-bold text-white">
                 {{ detailCuration?.curationType == 1 ? this.$t('curation.tipToUser', {user: detailCuration.username}) : this.$t('curation.tipToSpeaker') }}
               </span>
                 <button v-if="top3Tip && top3Tip.length > 0" @click.stop="tipCollapse=!tipCollapse"
-                        class="ml-10px bg-tag-gradient text-white h-24px min-w-4rem flex items-center justify-center
-                             leading-18px rounded-5px px-3px">Top3</button>
+                        class="ml-10px bg-black rounded-full text-white h-24px min-w-60px flex items-center justify-center
+                             leading-18px text-12px 2xl:text-0.7rem 2xl:leading-0.8rem px-3px">Top3</button>
               </div>
               <el-collapse-transition>
-                <div v-show="tipCollapse" class="pl-45px pb-5px">
-                  <div class="border-t-1 gradient-border gradient-border-color91"></div>
-                  <div class="pr-1.25rem py-6px hover:bg-color62/30 flex justify-between items-center text-12px"
-                       v-for="(tip, index) of top3Tip" :key="'tops' + tip.hash">
-                    <div class="flex items-center">
-                      <img class="w-18px" :src="top3Icons[index]" alt="">
-                      <span>{{tip.fromUsername}}</span>
+                <div v-show="tipCollapse" class="pb-10px px-18px">
+                  <div class="px-25px py-6px bg-white text-black rounded-10px">
+                    <div class="h-32px flex justify-between items-center text-12px"
+                         v-for="(tip, index) of top3Tip" :key="'tops' + tip.hash">
+                      <div class="flex items-center">
+                        <img class="w-18px" :src="top3Icons[index]" alt="">
+                        <span>{{tip.fromUsername}}</span>
+                      </div>
+                      <span>{{tip.amount}} STEEM</span>
                     </div>
-                    <span>{{tip.amount}} STEEM</span>
                   </div>
                 </div>
               </el-collapse-transition>
@@ -102,129 +110,130 @@
             <PopUpsCard :popups="popups" :space="space" :showCreate="space.spaceState === 2" @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
           </template>
           <!-- quests -->
-          <div class="h-min bg-blockBg light:bg-white light:border-1 light:border-colorE3
+          <div class="h-min bg-blockBg px-18px py-12px light:bg-black text-white light:border-1 light:border-colorE3
                       rounded-12px overflow-hidden text-left mt-1rem">
-            <div>
-              <div class="flex-1 flex items-center text-white bg-black relative rounded-t-12px overflow-hidden">
-                <div class="w-55/100 h-40px flex px-1.25rem flex items-center c-text-black">
-                  <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
-                       class="w-24px min-w-24px"
-                       src="~@/assets/icon-progress-down.svg" alt="">
-                  <el-progress v-else type="circle" width="24"
-                               color="#19AF00"
-                               class="task-progress"
-                               stroke-width="1"
-                               :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100">
-                    <span class="text-white text-12px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
-                  </el-progress>
-                  <span class="text-14px whitespace-nowrap xl:text-0.8rem ml-8px">{{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn</span>
-                </div>
-                <div class="w-45/100 h-40px whitespace-nowrap bg-tag-gradient
-                            flex items-center justify-center min-w-1/3 text-white token-tag">
-                  <ChainTokenIconVue height="20px" width="20px"
-                                     :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
-                                     :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
-                    <template #amount>
-                      <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
-                        {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
-                      </span>
-                    </template>
-                  </ChainTokenIconVue>
-                </div>
-                <button class="absolute right-10px top-1/2 transform -translate-y-1/2"
-                        @click="quotesCollapse=!quotesCollapse">
+            <div class="flex justify-between items-center">
+              <div class="h-40px flex items-center c-text-black">
+                <span class="text-16px xl:text-0.9rem whitespace-nowrap">
+                  {{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn
+                </span>
+                <button class="ml-20px" @click="quotesCollapse=!quotesCollapse">
                   <img class="w-14px"
                        :class="quotesCollapse?'transform rotate-180':''"
                        src="~@/assets/icon-arrow.svg" alt="">
                 </button>
               </div>
-              <el-collapse-transition>
-                <div v-show="quotesCollapse"
-                     :class="endAndNotComplete?'opacity-30':''"
-                     class="text-white light:text-blueDark py-0.5rem font-bold">
-                  <button @click="quoteOrReply"
-                       :disabled="endAndNotComplete"
-                       class="px-1.25rem py-4px flex items-start sm:items-center my-6px">
-                    <img v-if="isQuoting || isRepling"
-                      class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
-                       :class="quoted || replyed ?'icon-checked':(isQuote===1?'icon-quote-circle':'icon-reply-circle')"></i>
-                    <span class="text-12px xl:text-0.7rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
-                  </button>
-                  <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
-                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer my-8px">
-                    <img v-if="isLiking"
-                         class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
-                       :class="liked?'icon-checked':'icon-like-circle'"></i>
-                    <span class="text-12px xl:text-0.7rem text-left leading-14px">
+              <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
+                   class="w-26px min-w-26px"
+                   src="~@/assets/icon-progress-down.svg" alt="">
+              <el-progress v-else type="circle" width="26"
+                           color="#7851FF"
+                           class="task-progress"
+                           stroke-width="2"
+                           :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100">
+                <span class="text-white text-12px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
+              </el-progress>
+            </div>
+            <el-collapse-transition>
+              <div v-show="quotesCollapse"
+                   :class="endAndNotComplete?'opacity-90':''"
+                   class="text-white py-0.5rem font-bold">
+                <button @click="quoteOrReply"
+                        :disabled="endAndNotComplete"
+                        class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
+                  <i v-if="isQuoting || isRepling" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
+                    <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <template v-else>
+                    <i v-if="isQuote===1" class="w-16px min-w-16px h-16px mr-10px"
+                       :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                    <i v-else class="w-16px min-w-16px h-16px mr-10px"
+                       :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
+                  </template>
+                  <span class="text-12px xl:text-0.7rem leading-18px 2xl:leading-0.9rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
+                </button>
+                <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
+                        class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
+                  <i v-if="isLiking" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
+                    <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-16px min-w-16px h-16px mr-10px"
+                     :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
+                  <span class="text-12px xl:text-0.7rem text-left leading-14px">
                       Like (or Verify your Like)
-                    </span>
-                  </button>
-                  <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
-                          class="px-1.25rem py-4px flex items-start sm:items-center cursor-pointer my-6px">
-                    <img v-if="isFollowing"
-                         class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                    <i v-else class="w-1.2rem min-w-1.2rem h-1.2rem mr-10px"
-                       :class="followed?'icon-checked':'icon-follow-circle'"></i>
-                    <span class="text-12px xl:text-0.7rem text-left leading-14px">
+                  </span>
+                </button>
+                <button v-if="isFollow" @click="follow" :disabled="endAndNotComplete"
+                        class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
+                  <i v-if="isFollowing" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
+                    <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-16px min-w-16px h-16px mr-10px"
+                     :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+                  <span class="text-12px xl:text-0.7rem text-left leading-14px">
                       Follow @{{detailCuration.username}} (or Verify your Follow)
                     </span>
-                  </button>
-                </div>
-              </el-collapse-transition>
-            </div>
-            <div class="w-full h-1px bg-color8B/30 light:bg-colorE3"></div>
-            <div class="flex items-center justify-between h-40px xl:h-2rem pl-1.25rem pr-10px">
-              <span class="c-text-black text-14px">Participants</span>
-              <div class="flex items-center">
-                <div class="-ml-7px" v-for="p of participant.slice(0,3)" :key="p">
+                </button>
+              </div>
+            </el-collapse-transition>
+            <div v-if="!quotesCollapse" class="w-full h-1px bg-color8B/30 light:bg-colorE3 mb-16px"></div>
+            <div class="flex items-center justify-between h-40px xl:h-2rem">
+              <div class="flex items-center ml-11px">
+                <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
                   <img v-if="p.profileImg"
-                       class="w-24px min-w-24px h-24px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-1 border-color62 light:border-white"
+                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                              border-2 border-color62 light:border-white"
                        @error="replaceEmptyImg"
                        :src="p.profileImg" alt="">
                   <img v-else
-                       class="w-24px min-w-24px h-24px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-1 border-color62 light:border-white"
+                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                              border-2 border-color62 light:border-white"
                        src="~@/assets/icon-default-avatar.svg" alt="">
 
                 </div>
                 <span v-if="participant.length>3"
-                      class=" min-w-24px h-24px xl:min-w-1.2rem xl:h-1.2rem rounded-full px-4px
+                      class=" min-w-28px h-28px xl:min-w-1.2rem xl:h-1.2rem rounded-full px-4px
                              rounded-full -ml-10px flex justify-center items-center
-                             border-1 border-blockBg bg-primaryColor
+                             border-2 border-blockBg bg-primaryColor
                              light:border-white light:bg-color62 light:text-white text-10px">+{{ participant[0].totalCount - 3 }}</span>
                 <button class="ml-10px whitespace-nowrap" v-if="participant.length>0" @click="showSubmissions=true">
                   {{$t('curation.allParticipants')}} >>
                 </button>
               </div>
+              <ChainTokenIconVue height="18px" width="18px" class="bg-color62 p-2px"
+                                 :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
+                                 :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
+                <template #amount>
+                      <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                        {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
+                      </span>
+                </template>
+              </ChainTokenIconVue>
             </div>
           </div>
           <!-- Details -->
-          <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
-                      rounded-12px overflow-hidden mt-1rem relative">
-            <div class="px-1.25rem pt-8px pb-1rem text-left relative">
-              <div class="c-text-black mt-4px text-14px">{{$t('curation.details')}}</div>
-              <div class="w-full h-1px bg-color8B/30 light:bg-colorE3 my-10px"></div>
-              <div class="text-color7D">{{detailCuration?.description}}</div>
-              <div class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">Prize</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+          <div class="c-text-black mt-18px mb-10px text-16px leading-16px text-left">{{$t('curation.details')}}</div>
+          <div class="light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line">{{detailCuration?.description}}</div>
+          <div class="h-min border-1 border-color8B/30 light:border-black
+                      rounded-15px overflow-hidden relative">
+            <div class="px-1.25rem py-13px text-left relative">
+              <div class="flex justify-between items-center">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">Prize</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
                   {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
                 </button>
               </div>
               <!-- ended -->
-              <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">End Time</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
+              <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">End Time</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-color62/20 border-1 border-color62 light:text-black text-color7D rounded-5px ">
                   {{endtime}}
                 </button>
               </div>
               <!-- ongoing -->
-              <div v-else class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">Expiration</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+              <div v-else class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">Expiration</span>
+                <button class="h-26px xl:1.3rem px-1rem border-1 border-color52 light:text-black  rounded-5px">
                   {{endtime}}
                 </button>
               </div>
@@ -234,7 +243,7 @@
               </div>
             </div>
             <template v-if="contentType==='space'">
-              <div class="light:bg-card-gradient text-left mt-1rem relative">
+              <div class="text-left mt-1rem relative">
                 <SpeakerCollapse :space="space"/>
                 <div v-if="loading5"
                      class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center rounded-12px">
@@ -785,20 +794,11 @@ export default {
     background-image: url("~@/assets/icon-share-primary.svg");
   }
 }
-.light .tip-bg {
-  background-image: url("~@/assets/tips-img.png"), linear-gradient(180deg, #EDEDFC 29.84%, #FFFFFF 62.65%);
-  background-repeat: no-repeat;
-  background-size: auto 80px, 100% auto;
-}
 .tip-bg {
-  background-image: url("~@/assets/tips-img.png");
+  background-image: url("~@/assets/tips-img.svg");
   background-repeat: no-repeat;
-  background-size: auto 80px;
-}
-.tip-bg-close {
-  background-image: url("~@/assets/tips-img.png");
-  background-repeat: no-repeat;
-  background-size: auto 80px;
+  background-size: 24px 24px;
+  background-position: 18px 15px;
 }
 .token-tag {
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);

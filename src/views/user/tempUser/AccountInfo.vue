@@ -6,7 +6,7 @@
          ref="userIndexRef">
       <button v-show="scroll>100"
               @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
-              class="flex items-center justify-center gradient-btn gradient-btn-shadow
+              class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
         <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
@@ -14,7 +14,7 @@
       <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
       <div v-show="!showDetail" class="h-full flex flex-col">
         <template v-if="!loading">
-          <div class="border-b-0 md:border-b-1 md:border-color84/30">
+          <div class="border-b-1 border-color84/30">
             <div class="container max-w-50rem mx-auto">
               <div class="px-1rem mt-1rem flex items-start md:items-center overflow-hidden">
                 <img
@@ -56,7 +56,7 @@
                             @click="tip">
                       <img class="w-20px min-w-20px" src="~@/assets/icon-coin-tag.png" alt="">
                       <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
-                        <span class="flex-1 whitespace-nowrap text-color7D truncate">
+                        <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px">
                           Address:{{accountInfo ? accountInfo.ethAddress : ''}}
                         </span>
                         <img class="w-16px min-w-16px light:opacity-30 ml-3px mr-8px"

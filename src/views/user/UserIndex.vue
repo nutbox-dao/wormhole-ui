@@ -5,13 +5,13 @@
        ref="userIndexRef">
     <button v-show="scroll>100"
             @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
-            class="flex items-center justify-center gradient-btn gradient-btn-shadow
+            class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-8rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
     </button>
     <template v-if="!loading">
-      <div class="border-b-0 sm:border-b-1 sm:border-color84/30">
+      <div class="border-b-1 border-color84/30">
         <div class="container max-w-50rem mx-auto">
           <div class="px-1rem mt-1rem flex items-center">
             <img
@@ -51,8 +51,8 @@
             </div>
           </div>
 
-          <div class="bg-blockBg sm:bg-transparent sm:rounded-10px overflow-hidden
-                      light:bg-white light:sm:bg-transparent pt-7px pb-13px sm:pb-0 mt-30px">
+          <div class="bg-blockBg sm:bg-transparent overflow-hidden
+                      light:bg-white light:sm:bg-transparent pt-7px mt-30px">
             <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
               <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                            :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
@@ -76,21 +76,21 @@
           <div class="container max-w-50rem mx-auto relative">
             <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
               <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
-                      class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                      class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                                  rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
                       @click="$router.push('/create-curation')">
                 <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
               </button>
               <button v-else
-                      class="flex items-center justify-center gradient-btn gradient-btn-shadow
+                      class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                                  rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
                       @click="tipDrawer = true">
                 <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
               </button>
             </template>
-            <button v-else class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+            <button v-else class="flex items-center justify-center bg-color62 h-2.7rem px-1rem
                     rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
                     @click="$store.commit('saveShowLogin', true)">
               {{$t('common.active')}}

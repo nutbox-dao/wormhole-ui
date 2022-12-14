@@ -1,7 +1,7 @@
 <template>
   <div class="px-1.25rem pt-8px text-left">
     <div class="c-text-black">Speakers</div>
-    <div class="w-full h-1px bg-color8B/30 light:bg-white my-10px"></div>
+    <div class="w-full h-1px bg-color8B/30 light:bg-black my-10px"></div>
     <div class="collapse-box" :class="isCollapse?'show':''">
       <div class="flex flex-wrap gap-x-4px" ref="speakerListRef">
         <div class="flex flex-col justify-center items-center py-0.5rem w-60px sm:w-80px truncate cursor-pointer">
@@ -49,10 +49,10 @@
     <button class="w-full min-h-1rem"
             :disabled="!enableCollapse"
             @click="isCollapse=!isCollapse">
-      <img v-if="enableCollapse"
-           class="w-14px h-14px mx-auto mt-5px mb-10px"
-           :class="isCollapse?'transform rotate-180':''"
-           src="~@/assets/icon-arrow-black.svg" alt="">
+      <i v-if="enableCollapse"
+         class="w-14px h-14px mx-auto icon-collapse"
+         :class="isCollapse?'transform rotate-180':''"></i>
+
     </button>
   </div>
 </template>
