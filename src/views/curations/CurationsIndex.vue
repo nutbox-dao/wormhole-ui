@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full overflow-auto relative" id="square-index" ref="curationPageRef" @scroll="pageScroll">
+  <div class="h-full flex flex-col overflow-hidden relative" id="square-index" ref="curationPageRef" @scroll="pageScroll">
     <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
       <div class="flex py-20px">
         <button v-for="(tag, index) of subTagList" :key="index" v-show="index!==1"
@@ -8,42 +8,44 @@
                 @click="changeSubIndex(index)">{{tag}}</button>
       </div>
     </div>
-    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="refreshing && (!curationsList || curationsList.length === 0)">
-      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-    </div>
-    <van-pull-refresh v-else
-                      class="min-h-full"
-                      v-model="refreshing"
-                      @refresh="onRefresh"
-                      :loading-text="$t('common.loading')"
-                      :pulling-text="$t('common.pullRefresh')"
-                      :loosing-text="$t('common.loosingRefresh')">
-      <van-list :loading="listLoading"
-                :finished="listFinished"
-                :immediate-check="false"
-                :loading-text="$t('common.loading')"
-                :finished-text="curationsList.length!==0?$t('common.noMore'):''"
-                @load="onLoad">
-        <div class="sm:px-15px sm:pt-1rem">
-          <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
-               :class="curationsList && curationsList.length>0?'md:p-1rem':''">
-            <div v-if="curationsList && curationsList.length === 0"
-                 class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
-              <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
-              <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
-                {{$t('curationsView.p2')}}
+    <div class="flex-1 overflow-auto">
+      <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+           v-if="refreshing && (!curationsList || curationsList.length === 0)">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
+      <van-pull-refresh v-else
+                        class="min-h-full"
+                        v-model="refreshing"
+                        @refresh="onRefresh"
+                        :loading-text="$t('common.loading')"
+                        :pulling-text="$t('common.pullRefresh')"
+                        :loosing-text="$t('common.loosingRefresh')">
+        <van-list :loading="listLoading"
+                  :finished="listFinished"
+                  :immediate-check="false"
+                  :loading-text="$t('common.loading')"
+                  :finished-text="curationsList.length!==0?$t('common.noMore'):''"
+                  @load="onLoad">
+          <div class="sm:px-15px sm:pt-1rem">
+            <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
+                 :class="curationsList && curationsList.length>0?'md:p-1rem':''">
+              <div v-if="curationsList && curationsList.length === 0"
+                   class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
+                <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
+                <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
+                  {{$t('curationsView.p2')}}
+                </div>
               </div>
+              <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
+                            :curation="curation"
+                            :content-type="curation.curationType === 1?'tweet':'space'"
+                            @click="gotoDetail(curation)"/>
             </div>
-            <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
-                          :curation="curation"
-                          :content-type="curation.curationType === 1?'tweet':'space'"
-                          @click="gotoDetail(curation)"/>
           </div>
-        </div>
-      </van-list>
+        </van-list>
 
-    </van-pull-refresh>
+      </van-pull-refresh>
+    </div>
     <!-- <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
