@@ -86,7 +86,7 @@
     </van-popup> -->
     <div class="fixed bottom-2rem right-1.2rem sm:right-2.5rem z-9999 flex flex-col justify-center items-center">
       <router-link to="/christmas" class="mb-1rem">
-        <img class=" w-70px min-w-70px 2xl:w-2.4rem 2xl:min-w-2.4rem"
+        <img class="w-70px min-w-70px 2xl:w-3rem 2xl:min-w-3rem"
              src="~@/assets/christmas/icon-tree.gif" alt="">
       </router-link>
       <button v-show="scroll>100"
