@@ -69,15 +69,20 @@ export const getEthWeb = async () => {
     if (!window.ethereum.isMetaMask) {
       console.log('Not metamask wallet');
     }
+    if (window.ethereum.overrideIsMetaMask) {
+      return window.ethereum.selectedProvider ?? window.ethereum.providers.find(p => p.isMetaMask)
+    }
     return window.ethereum
   }
   var metamask = window.ethereum
   for (let i = 0; i < 10; i++) {
-    if (typeof metamask !== 'undefined') {
-      return metamask
+    if (typeof window.ethereum !== 'undefined') {
+      if (window.ethereum.overrideIsMetaMask) {
+        return window.ethereum.selectedProvider ?? window.ethereum.providers.find(p => p.isMetaMask)
+      }
+      return window.ethereum
     }
     await sleep(0.5)
-    metamask = window.ethereum
   }
   
   return metamask
