@@ -29,7 +29,22 @@
              @click="clickStar"
              src="~@/assets/christmas/star.png" alt="">
         <!-- Santa -->
-        <button class="santa-pointer" @click="showChristmasMessage"></button>
+        <el-popover ref="msgPopoverRef" persistent :visible="msgVisible"
+                    trigger="click" placement="top-start" popper-class="c-popper">
+          <template #reference>
+            <button class="santa-pointer"
+                    @click.stop="showChristmasMessage"></button>
+          </template>
+          <template #default>
+            <div class="bg-white rounded-15px py-5px pl-12px pr-18px min-w-200px relative" style="color: #c63322">
+              {{messages[showingMessageIndex]}}
+              <img class="absolute -right-8px -bottom-4px w-30px"
+                   src="~@/assets/christmas/msg-tag.png" alt="">
+              <span class="triangle"></span>
+            </div>
+          </template>
+        </el-popover>
+
         <!-- view more -->
         <button class="view-more" @click="moreVisible=true"></button>
         <!-- twitter -->
@@ -156,6 +171,7 @@ import goldBall9 from '@/assets/christmas/ball9-gold.png'
 import goldBall10 from '@/assets/christmas/ball10-gold.png'
 import { getChristmasCurations, openBlindBox } from '@/api/api'
 import { mapGetters } from 'vuex'
+import {unref} from "vue";
 
 export default {
   name: "ChristmasEvent",
@@ -207,7 +223,11 @@ export default {
         `Cheers to warm holiday memories!`,
         `Cheers to warm holiday memories!`
       ],
-      showingMessageIndex: 0
+      showingMessageIndex: 0,
+      msgPopoverRef: null,
+      msgVisible: false,
+      lastClickTime: 0,
+      timeCount: 0
     }
   },
   computed: {
@@ -248,8 +268,15 @@ export default {
     }
     this.udpateCurations()
     this.interval = setInterval(() => {
-      this.udpateCurations()
-    }, 6000);
+      this.timeCount += 1
+      if(this.timeCount === 3) {
+        this.udpateCurations()
+        this.timeCount = 0
+      }
+      if(this.msgVisible && new Date().getTime() - this.lastClickTime>2000)  {
+        this.msgVisible = false
+      }
+    }, 2000);
   },
   beforeUnmount() {
     this.audio.pause()
@@ -290,6 +317,8 @@ export default {
       }).catch()
     },
     showChristmasMessage() {
+      this.msgVisible = true
+      this.lastClickTime = new Date().getTime()
       const total = this.messages.length
       this.showingMessageIndex = Math.floor(Math.random() * total)
       console.log(this.showingMessageIndex);
@@ -454,10 +483,10 @@ export default {
   }
   .santa-pointer {
     position: absolute;
-    width: 15%;
-    height: 16%;
-    left: 4.5%;
-    top: 61%;
+    width: 8%;
+    height: 20%;
+    left: 22%;
+    top: 54%;
   }
   .star-img {
     top: 8.5%;
@@ -745,5 +774,14 @@ ul {
   margin-inline-start: 0;
   margin-inline-end: 0;
   padding-inline-start: 20px;
+}
+.triangle {
+  position: absolute;
+  bottom: -16px;
+  left: 15%;
+  width: 14px;
+  height: 16px;
+  background: white;
+  clip-path: polygon(0 0, 100% 0, 50% 100%, 0 0);
 }
 </style>
