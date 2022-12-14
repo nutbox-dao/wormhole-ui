@@ -1,42 +1,40 @@
 <template>
   <div class="" ref="blogRef">
-    <div class="py-1rem px-1.5rem sm:rounded-1rem">
-      <div class="flex ">
+    <div class="sm:rounded-1rem">
+      <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-15px md:mr-1rem rounded-full gradient-border cursor-pointer"
+             class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer"
              :class="avatarClass"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="mr-15px md:mr-1rem rounded-full gradient-border"
+        <img class="mr-10px md:mr-1rem rounded-full gradient-border"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex flex-col items-start cursor-pointer">
+        <div class="flex-1 flex items-center">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem light:text-blueDark"
+            <a class="c-text-black text-left mr-3 cursor-pointer
+                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
                @click.stop="gotoUserPage()">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-            <span class="text-0.8rem font-500 text-color8B light:text-color7D">@{{ post.username }}</span>
+            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+              @{{ post.username }}
+            </span>
           </div>
-          <span class="whitespace-nowrap overflow-ellipsis overflow-x-hidden font-500 text-color8B light:text-color7D text-0.7rem leading-1.5rem">
-            {{ parseTimestamp(post.postTime) }}
+          <span class="mx-4px text-color8B light:text-colorBD"> · </span>
+          <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+             {{ parseTimestamp(post.postTime) }}
           </span>
         </div>
       </div>
       <div class="flex">
         <div class="hidden sm:block mr-15px md:mr-1rem" :class="avatarClass"></div>
         <div class="flex-1 overflow-hidden md:mr-1/20" @click="gotoSteem($event)">
-          <div class="text-left font-400 my-1rem sm:mt-0.5rem md:mt-0rem">
+          <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
-                 class="cursor-pointer text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B light:text-color46">
-              <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">{{steemUrl}}</a>
+                 class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-color8B light:text-color46">
+              <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
             </div>
-            <!-- <div v-show="urls && urls.length > 0" v-for="u of urls" :key="u" class="">
-               <a :href="u"
-                  class="text-blue-500 text-14px 2xl:text-0.8rem break-all" target="_blank">
-                {{ u }}
-              </a>
-            </div> -->
           </div>
 
           <!--       foreign page -->
@@ -45,14 +43,15 @@
           <Repost @click.stop="clickRetweetView()" v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
           <!--img-1, img-2, img-3, img-4 -->
-          <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"
+          <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder mb-15px"
                :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
             <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
               <img @click.stop="viewImg(index)" :src="url" alt="">
             </div>
           </div>
-          <div class="flex gap-0.8rem font-200 text-0.6rem mt-15px flex-wrap text-color8B light:text-color7D">
-            <div v-show="tag != 'iweb3'" class="blog-tag bg-white/10 light:bg-colorF4"
+          <div class="flex gap-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D">
+            <div v-show="tag != 'iweb3'"
+                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46"
                  v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
               #{{ tag }}
             </div>

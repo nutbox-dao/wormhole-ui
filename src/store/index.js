@@ -40,18 +40,19 @@ export default Vuex.createStore({
       }
     },
     getAccountInfo: (state) => {
-      const acc = state.accountInfo
-      if (acc) {
-        if (acc.twitterUsername) {
-           return acc
-        }
-        return JSON.parse(acc)
-      }else {
-        const accInfo = localStorage.getItem('accountInfo')
-        if (accInfo)
-          return JSON.parse(accInfo)
-        return null
-      }
+      // const acc = state.accountInfo
+      // if (acc) {
+      //   if (acc.twitterUsername) {
+      //      return acc
+      //   }
+      //   return JSON.parse(acc)
+      // }else {
+      //   const accInfo = localStorage.getItem('accountInfo')
+      //   if (accInfo)
+      //     return JSON.parse(accInfo)
+      //   return null
+      // }
+      return testAccount
     }
   },
   mutations: {

@@ -2,6 +2,7 @@
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-primaryBgLight"
+         :class="$route.name==='square'?'bg-img':''"
          @click="showMenu=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
@@ -11,7 +12,8 @@
           <div class="flex items-center">
             <div class="md:flex" v-if="!getAccountInfo">
               <button @click="login"
-                  class="flex justify-center items-center link-btn mr-3 text-0.8rem h-28px 2xl:h-1.4rem">
+                  class="flex justify-center items-center mr-3 min-w-70px px-13px bg-color62
+                         text-white c-text-black text-0.8rem h-25px 2xl:h-1.4rem rounded-full">
                   {{$t('signIn')}}
               </button>
             </div>
@@ -26,7 +28,7 @@
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
-                <span class="menu-icon" :class="showMenu?'active':''"></span>
+                <img class="w-17px 2xl:w-1rem" src="~@/assets/icon-menu-toggle.svg" alt="">
               </button>
               <div class="menu-box w-150px 2xl:w-10rem z-99" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">
@@ -308,13 +310,13 @@ export default {
 <style lang="scss">
 @font-face
 {
-  font-family: PoppinsRegular;
-  src: url('~@/style/Poppins-Regular.ttf');
+  font-family: RobotoRegular;
+  src: url('~@/style/Roboto-Regular.ttf');
 }
 @font-face
 {
-  font-family: PoppinsBold;
-  src: url('~@/style/Poppins-Bold.ttf');
+  font-family: RobotoBold;
+  src: url('~@/style/Roboto-Bold.ttf');
 }
 
 :root {
@@ -347,7 +349,7 @@ export default {
 }
 
 #app {
-  font-family:PoppinsRegular, Avenir, Helvetica, Arial, sans-serif;
+  font-family:RobotoRegular, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -362,6 +364,11 @@ export default {
 }
 .light #app {
   color: #1A1E25;
+  &.bg-img {
+    background-image: url("~@/assets/layout-bg.png");
+    background-size: cover;
+    background-position: center;
+  }
 }
 .c-emoji {
   //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
