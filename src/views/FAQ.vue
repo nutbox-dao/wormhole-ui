@@ -24,7 +24,8 @@
         </div>
         <div class="text-1rem leading-2rem md:text-0.8rem md:leading-1.2rem mt-1rem text-color8B">
           {{$t('faqView.a3p1')}}<br>
-          {{$t('faqView.a3p2')}}
+          {{$t('faqView.a3p2')}}<br>
+          {{$t('faqView.a3p3')}}
         </div>
       </div>
       <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">

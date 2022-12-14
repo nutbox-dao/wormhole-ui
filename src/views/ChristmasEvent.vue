@@ -221,7 +221,24 @@ export default {
         `The reindeers love carrots and apples, they are my good helper`,
         `My favorite snack is milk and cookies, what about you?`,
         `Cheers to warm holiday memories!`,
-        `Cheers to warm holiday memories!`
+        `Cheers to warm holiday memories!`,
+        `Christmas, kid, is love in action. Every time we love, every time we give, it's Christmas`,
+        `Have a jolly holiday.`,
+        `May your heart be filled with all the joys of the season`,
+        `Merry Christmas with lots of love!`,
+        `It’s the most wonderful time of the year!`,
+        `Fuzzy socks and candy cane pops, everyone knows that Christmas rocks.`,
+        `Keeping you in our hearts this holiday season, and always!`,
+        `Are you dreaming of a white Christmas ~`,
+        `Rudolph, Have you seen Rudolph?`,
+        `A Christmas Reminder for you: Don’t try to borrow any money from elves; They’re always a little short!`,
+        `Wishing you a white Christmas this year. If you run out of white, I have plenty of red.`,
+        `Remember, Santa is watching. Everything. Yes, even that. Anyway, Merry Christmas!`,
+        `This holiday season, let’s make it a point to cherish what’s truly important in our lives: cookies.`,
+        `Eat. Drink. Be Merry. Have a wonderful Christmas!`,
+        `Wishing you a season full of light and laughter for you`,
+        `May your holidays sparkle with joy and laughter`,
+        `Wishing you a fun-filled holiday season and best wishes for a Happy New Year!`
       ],
       showingMessageIndex: 0,
       msgPopoverRef: null,
@@ -317,6 +334,7 @@ export default {
       }).catch()
     },
     showChristmasMessage() {
+      if (this.msgVisible === true) return;
       this.msgVisible = true
       this.lastClickTime = new Date().getTime()
       const total = this.messages.length
