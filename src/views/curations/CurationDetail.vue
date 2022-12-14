@@ -4,7 +4,7 @@
     <div class="container mx-auto max-w-50rem pb-2rem pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
         <div class="col-span-1 xl:col-span-2 px-15px">
-          <div class="h-min min-h-180px text-left rounded-12px overflow-hidden relative">
+          <div class="h-min min-h-146px text-left rounded-12px overflow-hidden relative">
             <!-- curation info -->
             <div v-if="detailCuration">
               <div v-if="detailCuration.creatorTwitter !== detailCuration.authorId" class="flex items-center mb-1rem">
@@ -34,7 +34,8 @@
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
-                <Space :space="space" @click="gotoTweet" class="h-146px md:min-h-10rem bg-color7D/10 rounded-15px mt-10px cursor-pointer"></Space>
+                <Space :space="space" @click="gotoTweet"
+                       class="h-146px md:min-h-10rem dark:bg-tag-gradient light:bg-color15 rounded-15px cursor-pointer "></Space>
               </template>
               <template v-else>
                 <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -60,12 +61,12 @@
           <!-- tips -->
           <div class="border-0 light:border-1 gradient-border gradient-border-color91 mt-1rem rounded-15px overflow-hidden">
             <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
-              <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-48px
+              <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
                         flex-1 flex justify-between items-center truncate relative"
                    @click.stop="showTipModal">
                 <el-carousel v-if="tips && tips.length>0"
                              class="w-full hidden sm:block"
-                             height="48px" indicator-position="none" :loop="true"
+                             height="54px" indicator-position="none" :loop="true"
                              direction="vertical" :autoplay="true"
                              :interval="2500">
                   <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
@@ -212,27 +213,27 @@
           </div>
           <!-- Details -->
           <div class="c-text-black mt-18px mb-10px text-16px leading-16px text-left">{{$t('curation.details')}}</div>
-          <div class="light:text-color21 text-left leading-18px text-12px mb-16px">{{detailCuration?.description}}</div>
-          <div class="bg-blockBg light:bg-white h-min light:border-1 light:border-colorE3
-                      rounded-12px overflow-hidden relative">
-            <div class="px-1.25rem pt-8px pb-1rem text-left relative">
-              <div class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">Prize</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+          <div class="light:text-color21 text-left leading-18px text-12px mb-14px">{{detailCuration?.description}}</div>
+          <div class="h-min border-1 border-color8B/30 light:border-black
+                      rounded-15px overflow-hidden relative">
+            <div class="px-1.25rem py-13px text-left relative">
+              <div class="flex justify-between items-center">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">Prize</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
                   {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
                 </button>
               </div>
               <!-- ended -->
-              <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">End Time</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-color7D/20 text-color7D rounded-5px">
+              <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">End Time</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-color62/20 border-1 border-color62 light:text-black text-color7D rounded-5px ">
                   {{endtime}}
                 </button>
               </div>
               <!-- ongoing -->
-              <div v-else class="flex justify-between items-center mt-1rem c-text-black">
-                <span class="">Expiration</span>
-                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 text-color62 rounded-5px">
+              <div v-else class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">Expiration</span>
+                <button class="h-26px xl:1.3rem px-1rem border-1 border-color52 light:text-black  rounded-5px">
                   {{endtime}}
                 </button>
               </div>
@@ -242,7 +243,7 @@
               </div>
             </div>
             <template v-if="contentType==='space'">
-              <div class="light:bg-card-gradient text-left mt-1rem relative">
+              <div class="text-left mt-1rem relative">
                 <SpeakerCollapse :space="space"/>
                 <div v-if="loading5"
                      class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center rounded-12px">
@@ -797,7 +798,7 @@ export default {
   background-image: url("~@/assets/tips-img.svg");
   background-repeat: no-repeat;
   background-size: 24px 24px;
-  background-position: 18px 12px;
+  background-position: 18px 15px;
 }
 .token-tag {
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);

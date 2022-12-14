@@ -1,74 +1,81 @@
 <template>
-  <div class="pop-up-bg h-min light:border-1 light:border-colorE3 rounded-8px text-left mt-1rem overflow-hidden">
+  <div class="h-min bg-blockBg light:bg-white dark:text-black
+              border-1 border-color8B/30 light:border-black rounded-15px text-left mt-1rem overflow-hidden">
     <div class="w-full">
-      <div class="title-bg flex-1 px-1.25rem py-8px min-h-38px flex justify-between items-center">
-        <div class="text-white c-text-black italic text-orangeColor text-16px
-                    flex-1 flex justify-between items-center truncate">
-          Pop-Ups
+      <div class="flex-1 px-20px py-8px min-h-54px flex justify-between items-center">
+        <div class="flex items-center">
+          <i class="w-20px h-20px icon-popups"></i>
+          <div class="text-white c-text-black light:text-black text-16px leading-24px ml-20px
+                    whitespace-nowrap flex justify-between items-center">
+            Pop-Ups
+          </div>
         </div>
-        <button v-if="showCreate" class="w-1.2rem" @click.stop="create">
-          <img class="w-1.2rem" src="~@/assets/icon-add-yellow.svg" alt="">
+        <button v-if="showCreate"
+                class="flex items-center whitespace-nowrap bg-color62 rounded-6px min-h-26px px-14px"
+                @click.stop="create">
+          <span class="text-white">Add</span>
+          <img class="w-12px ml-5px" src="~@/assets/icon-add-white.svg" alt="">
         </button>
       </div>
     </div>
-    <div class="collapse-box px-1.25rem"
+    <div class="collapse-box px-14px"
          :class="[popUpsCollapse?'show':'', showingPopup.length>2 && !popUpsCollapse?'hide':'']">
-      <div class="h-70px my-8px border-1 rounded-12px overflow-hidden
-                  flex flex-col cursor-pointer"
-           :class="isEnded(popup)?'border-color8B/30':'border-colorEE'"
+      <div class="h-54px xl:h-2.7rem my-8px rounded-8px overflow-hidden
+                  flex flex-col justify-between cursor-pointer px-12px py-4px"
+           :class="isEnded(popup)?'bg-color62/30 light:bg-colorF2':'bg-color62/80 light:bg-colorEA'"
             @click="join(popup)"
            v-for="popup of showingPopup" :key="popup.tweetId">
-        <div class="w-full flex items-center py-4px px-10px"
-             :class="isEnded(popup)?'bg-end-gradient border-color8B/70':'bg-colorFF/25 border-colorEE'">
-          <div class="flex flex-1 items-center h-full truncate cursor-pointer">
+        <div class="flex items-center">
+          <div class="flex flex-1 items-center truncate cursor-pointer">
             <div v-if="!isEnded(popup)"
-                 class="text-orangeColor rounded-full h-full bg-colorEE/25 whitespace-nowrap
-                      font-bold min-w-70px py-2px flex justify-center items-center relative">
-              <van-count-down class="text-orangeColor font-bold"
+                 class="light:text-black rounded-full h-18px xl:h-1rem bg-black light:bg-white whitespace-nowrap
+                        px-4px flex justify-center items-center relative">
+              <van-count-down class="text-white light:text-black"
                               :time="popTime(popup)" format="mm:ss" />
               <img v-if="isJoin(popup)"
-                   class="w-14px h-14px absolute bottom-0 -right-5px"
-                   src="~@/assets/icon-checked-green.svg" alt="">
+                   class="w-10px h-10px absolute -right-5px bottom-0"
+                   src="~@/assets/icon-selected-primary.svg" alt="">
             </div>
             <div v-else
-                 class="text-white rounded-full h-full bg-black light:bg-colorD8 whitespace-nowrap text-color8B/70
-                      font-bold min-w-70px py-2px flex justify-center items-center relative c-text-black">
+                 class="text-white rounded-full h-18px bg-black light:bg-colorD8 whitespace-nowrap
+                        px-4px flex justify-center items-center relative">
               {{ $t('popup.ended') }}
               <img v-if="isJoin(popup)"
-                   class="w-14px h-14px absolute bottom-0 -right-5px"
-                   src="~@/assets/icon-checked-green.svg" alt="">
+                   class="w-10px h-10px absolute -right-5px bottom-0"
+                   src="~@/assets/icon-selected-primary.svg" alt="">
             </div>
           </div>
-          <div class="flex-1 flex items-center justify-end -mr-4px">
-            <ChainTokenIcon height="20px" width="20px" :chain-name="popup.chainId.toString()"
+          <div class="flex-1 flex items-center justify-end">
+            <ChainTokenIcon height="18px" width="18px" :chain-name="popup.chainId.toString()"
+                            class="bg-white min-w-60px"
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
-                <span class="px-8px h-17px whitespace-nowrap c-text-black
-                             flex items-center text-12px 2xl:text-0.8rem "
-                      :class="[!isEnded(popup)?'text-colorFA':'text-color8B/70']">
+                <span class="px-8px h-18px whitespace-nowrap
+                             flex items-center text-12px 2xl:text-0.8rem ">
                   {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
                 </span>
               </template>
             </ChainTokenIcon>
           </div>
         </div>
-        <div class="w-full flex-1 flex px-1rem items-center justify-between"
-             :class="isEnded(popup)?'text-color8B/70':'text-colorFA'">
-          <div class="flex-1 whitespace-nowrap truncate leading-24px">
+        <div class="w-full flex items-center justify-between">
+          <div class="flex-1 whitespace-nowrap truncate leading-18px text-white light:text-black text-12px">
             {{popup.content}}
           </div>
           <button v-if="!isEnded(popup) && !isJoin(popup)"
-                  class="text-white h-20px 2xl:h-1rem px-5px rounded-full ml-20px">
+                  class="text-white h-18px 2xl:h-1rem px-5px rounded-full ml-20px bg-black min-w-60px">
             {{$t('curation.join')}}
           </button>
-          <div v-if="(isEnded(popup) && popup.totalAcount > 0)"
-               class="ml-20px"
-               @click="selectedPopup=popup;modalVisible = true">{{popup.totalAcount}} >></div>
+          <button v-if="(isEnded(popup) && popup.totalAcount > 0)"
+                  class="text-white h-18px 2xl:h-1rem px-5px rounded-full ml-20px bg-black min-w-60px"
+                  @click="selectedPopup=popup;modalVisible = true">
+            {{popup.totalAcount}} >>
+          </button>
         </div>
       </div>
     </div>
     <button v-show="showingPopup.length > 2" class="w-full h-24px" @click="popUpsCollapse=!popUpsCollapse">
-      <img class="mx-auto" :class="popUpsCollapse?'transform rotate-180':''" src="~@/assets/icon-arrow-yellow.svg" alt="">
+      <i class="w-14px h-14px mx-auto icon-collapse" :class="popUpsCollapse?'transform rotate-180':''"></i>
     </button>
     <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
                v-model:show="modalVisible"
@@ -192,8 +199,8 @@ export default {
     transition: max-height ease-in-out 0.5s;
   }
   &.hide {
-    max-height: 160px;
-    min-height: 160px;
+    max-height: 130px;
+    min-height: 130px;
   }
 }
 </style>

@@ -43,15 +43,15 @@
           <Repost @click.stop="clickRetweetView()" v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
           <!--img-1, img-2, img-3, img-4 -->
-          <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder mb-15px"
+          <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"
                :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
             <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
               <img @click.stop="viewImg(index)" :src="url" alt="">
             </div>
           </div>
-          <div class="flex gap-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D">
+          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D">
             <div v-show="tag != 'iweb3'"
-                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46"
+                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px"
                  v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
               #{{ tag }}
             </div>

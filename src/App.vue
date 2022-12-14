@@ -1,7 +1,7 @@
 <template>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
-         class="bg-primaryBg light:bg-primaryBgLight"
+         class="bg-primaryBg light:bg-white"
          :class="$route.name==='square'?'bg-img':''"
          @click="showMenu=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
@@ -19,16 +19,17 @@
             </div>
             <template v-else>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/curations`">
-                <img class="h-1.6rem w-1.6rem rounded-full mr-0.8rem" :src="profileImg" @error="replaceEmptyImg" alt="">
+                <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.8rem"
+                     :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
-                <i class="h-1.8rem w-1.8rem mr-0.8rem icon-wallet"></i>
+                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.8rem icon-wallet"></i>
               </router-link>
             </template>
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
-                <img class="w-17px 2xl:w-1rem" src="~@/assets/icon-menu-toggle.svg" alt="">
+                <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem" src="~@/assets/icon-menu-toggle.svg" alt="">
               </button>
               <div class="menu-box w-150px 2xl:w-10rem z-99" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">

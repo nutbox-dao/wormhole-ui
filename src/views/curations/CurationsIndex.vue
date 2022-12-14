@@ -4,7 +4,7 @@
       <div class="flex py-20px">
         <button v-for="(tag, index) of subTagList" :key="index" v-show="index!==1"
                 class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
-                :class="subActiveTagIndex===index?'text-color18':'text-color59/50'"
+                :class="subActiveTagIndex===index?'light:text-color18':'text-color59/50'"
                 @click="changeSubIndex(index)">{{tag}}</button>
       </div>
     </div>
@@ -29,7 +29,7 @@
           <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
                :class="curationsList && curationsList.length>0?'md:p-1rem':''">
             <div v-if="curationsList && curationsList.length === 0"
-                 class="py-3rem bg-blockBg light:bg-white rounded-12px mx-16px">
+                 class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
               <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
               <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
                 {{$t('curationsView.p2')}}

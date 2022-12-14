@@ -4,7 +4,7 @@
       <div class="flex items-center pb-8px" @click.stop>
         <div class="flex-1 flex justify-between items-center px-15px">
           <div class="flex items-center">
-            <div class="flex flex-col justify-between items-start cursor-pointer text-color59
+            <div class="flex flex-col justify-between items-start cursor-pointer light:text-color59
                         c-text-black text-14px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
                  @click.stop="gotoUserPage()">
               <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}}</a>
@@ -24,7 +24,7 @@
         </div>
         <div v-if="contentType==='space'"
              class="h-140px md:h-10rem overflow-hidden relative my-10px">
-          <Space :space="curation" class="rounded-15px h-full"/>
+          <Space :space="curation" class="rounded-15px h-full bg-tag-gradient"/>
         </div>
         <div class="flex justify-between items-center mt-1rem" @click.stop>
           <template v-if="showBtnGroup">
@@ -85,7 +85,7 @@
             </div>
           </template>
           <div class="flex items-center justify-center ml-20px"
-               :class="showBtnGroup?'':'h-42px 2xl:h-2.1rem absolute right-0 top-0'">
+               :class="showBtnGroup?'':' absolute right-0 -top-2px'">
             <ChainTokenIcon class="bg-color62 p-2px"
                             height="16px" width="16px"
                             :chain-name="curation.chainId.toString()"

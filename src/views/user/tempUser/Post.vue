@@ -3,7 +3,7 @@
     <div class="col-span-1 xl:col-start-3 xl:col-end-4
                 light:bg-social-token-box light:bg-no-repeat light:bg-cover
                 border-1 border-dividerColor
-                px-1rem rounded-12px xl:my-2rem md:mb-0 sm:mx-0 sm:mt-1rem mb-1.5rem
+                px-1rem rounded-12px xl:my-2rem md:mb-0 sm:mx-0 mt-1rem mb-1.5rem
                 h-min overflow-hidden mx-1.5rem">
       <div class="border-b-1 border-color84/30 light:border-colorE0/80
                   py-11px flex items-center justify-between xl:justify-center">
@@ -72,7 +72,8 @@
           <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">
               <Blog @click="$emit('gotoDetail', p)"
-                    :post="p" class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder"/>
+                    :post="p"
+                    class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder px-1.5rem py-1rem"/>
             </div>
           </div>
         </van-list>

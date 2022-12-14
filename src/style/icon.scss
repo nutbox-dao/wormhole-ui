@@ -198,6 +198,24 @@
   background-image: url("~@/assets/menu-logout-light.svg");
 }
 
+.icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups-white.svg");
+}
+.light .icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups.svg");
+}
+
+.icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-white.svg");
+}
+.light .icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-black.svg");
+}
+
 .icon-selected {
   @extend .icon;
   background-image: url("~@/assets/icon-selected-primary.svg");
