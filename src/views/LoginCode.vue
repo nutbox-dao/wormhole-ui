@@ -18,18 +18,18 @@ export default {
     const code = this.$route.params.code;
     if (code) {
         this.info = 'Login Success'
-        Cookie.set('twitter-loginCode', code, '300s');
+        // Cookie.set('twitter-loginCode', code, '300s');
         window.close();
     }else {
         // login fail
-        Cookie.set('twitter-loginCode', 'fail', '300s');
+        // Cookie.set('twitter-loginCode', 'fail', '300s');
         window.close();
     };
     this.info = 'Wrong login code'
   },
   beforeDestroy () {
     if (this.info.length === 0) {
-      Cookie.set('twitter-loginCode', 'fail', '300s');
+      // Cookie.set('twitter-loginCode', 'fail', '300s');
     }
   },
 }
