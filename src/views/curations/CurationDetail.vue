@@ -703,7 +703,7 @@ export default {
         }
       }
     },
-    loadCuration() {
+    async loadCuration() {
       const id = this.$route.params.id;
       const account = this.getAccountInfo
 
@@ -720,9 +720,14 @@ export default {
 
       if (this.detailCuration && this.detailCuration.curationId === id) {
         this.updateCurationInfos()
+        await sleep(3)
       }else {
         this.$store.commit('curation/saveDetailCuration', null)
         this.loading1 = true
+        this.loading2 = true
+        this.loading3 = true
+        this.loading4 = true
+        this.loading5 = true
       }
       getCurationById(id, account?.twitterId).then(res => {
         if (res) {
@@ -736,10 +741,6 @@ export default {
       }).catch(e => {console.log('Get curation fail:', e);}).finally(() => {
         this.loading1 = false
       })
-      this.loading2 = true
-      this.loading3 = true
-      this.loading4 = true
-      this.loading5 = true
     }
   },
   mounted () {
