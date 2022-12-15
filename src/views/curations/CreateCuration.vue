@@ -178,13 +178,13 @@
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
             <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
-            <span class="text-color8B light:text-color7D/50">{{form.description.length}}/100</span>
+            <span class="text-color8B light:text-color7D/50">{{form.description.length}}/2048</span>
           </div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
             <el-input v-model="form.description"
-                      :rows="4" :maxlength="100"
+                      :rows="4" :maxlength="2048"
                       class="border-0 c-textarea rounded-8px overflow-hidden"
                       type="textarea"
                       :placeholder="$t('curation.createDescTip')"/>
