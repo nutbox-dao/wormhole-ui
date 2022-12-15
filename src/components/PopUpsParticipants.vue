@@ -1,5 +1,5 @@
 <template>
-  <div class="relative pt-1rem max-h-60vh min-h-60vh flex flex-col">
+  <div class="relative pt-1rem max-h-60vh min-h-60vh flex flex-col text-white light:text-blueDark">
     <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem text-center">
       {{$t('curation.participants')}}
     </div>
