@@ -184,11 +184,7 @@ export default {
       let content = this.post.content.replace(this.reg, '');
       // content = content.replace('\n', '</br>')
       for (let url of this.urls){
-        content = content.replace(url, `<span
-                data-url="${url}"
-                class="text-blue-500 text-14px 2xl:text-0.8rem break-all">
-              ${url}
-            </span>`)
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px 2xl:text-0.8rem break-all">${url}</span>`)
       }
       return content
     }
