@@ -1,5 +1,5 @@
 <template>
-  <div class="p-17px 2xl:p-1rem sm:rounded-1rem space-box flex flex-col justify-between">
+  <div class="p-17px 2xl:p-1rem sm:rounded-1rem flex flex-col justify-between">
     <div class="flex justify-between items-center text-14px 2xl:text-0.8rem">
       <div class="flex items-center">
         <img v-if="space.authorProfileImg || space.creatorProfileImg"
@@ -9,7 +9,7 @@
              src="~@/assets/icon-default-avatar.svg" alt="">
         <div class="flex-1 flex flex-col items-start cursor-pointer" @click.stop="gotoUserPage()">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 ml-3 text-1rem leading-1.5rem text-white">
+            <a class="c-text-black text-left mr-3 ml-3 text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem text-white">
               @{{ space.authorUsername ?? space.creatorTwitterUsername }}</a>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default {
         case 'live':
           return this.$t('space.listening')
         case 'ended':
-          return this.$t('space.ended') 
+          return this.$t('space.ended')
         case 'canceled':
           return this.$t('space.canceled')
         default:

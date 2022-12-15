@@ -12,11 +12,11 @@ export default defineConfig({
         greenColor: '#36D233',
         orangeColor: '#FF8700',
         primaryBg: '#0D1117',
-        primaryBgLight: '#F7F7F9',
+        primaryBgLight: '#F5F5F5',
         dialogBg: '#131313',
         inputBg: '#161B22',
         headerBorder: 'rgba(132, 131, 145, 0.3)',
-        headerBorderLight: '#D6D6D6',
+        headerBorderLight: '#F4F5F7',
         blockBg: '#161B22',
         dividerColor: 'rgba(132, 131, 145, 0.3)',
         dividerColorLight: 'rgba(132, 131, 145, 0.16)',
@@ -37,7 +37,7 @@ export default defineConfig({
         color46: '#464646',
         colorF4: '#F4F3FD',
         colorE0: '#E0D2FF',
-        color62: '#6246EA',
+        color62: '#7851FF',
         colorF1: '#F1F1FE',
         color8F: '#8F8F8F',
         colorF7: '#F7F7F9',
@@ -51,6 +51,16 @@ export default defineConfig({
         colorCE: '#CE395F',
         colorFF: '#FFD480',
         colorFA: '#FA910D',
+        color18: '#181818',
+        color59: '#59597C',
+        colorBD: '#BDBDBD',
+        colorEA: '#EAE6FF',
+        color1D: '#1D1D1D',
+        color21: '#212121',
+        colorA2: '#A265FF',
+        color52: '#5271FF',
+        color15: '#151515',
+        colorEF: '#EFE7FF',
         blueDark: '#1A1E25'
       },
       screens: {
@@ -73,7 +83,8 @@ export default defineConfig({
         'end-gradient': 'linear-gradient(135deg, rgba(0, 0, 0, 0.1075) 0%, rgba(174, 174, 174, 0.0675) 0.01%, rgba(34, 34, 34, 0.0675) 100%)'
       }),
       boxShadow: theme => ({
-        'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)'
+        'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)',
+        'card': '0px 12px 24px rgba(135, 127, 149, 0.09)'
       })
     }
   }

@@ -198,6 +198,24 @@
   background-image: url("~@/assets/menu-logout-light.svg");
 }
 
+.icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups-white.svg");
+}
+.light .icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups.svg");
+}
+
+.icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-white.svg");
+}
+.light .icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-black.svg");
+}
+
 .icon-selected {
   @extend .icon;
   background-image: url("~@/assets/icon-selected-primary.svg");
@@ -218,3 +236,42 @@
   background-image: url("~@/assets/icon-radio-primary.svg");
 }
 
+.btn-icon-quote {
+  @extend .icon;
+  background-image: url("~@/assets/btn-quote.svg");
+}
+
+.btn-icon-quote-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-quote-active.svg");
+}
+
+.btn-icon-reply {
+  @extend .icon;
+  background-image: url("~@/assets/btn-reply.svg");
+}
+
+.btn-icon-reply-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-reply-active.svg");
+}
+
+.btn-icon-like {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like.svg");
+}
+
+.btn-icon-like-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like-active.svg");
+}
+
+.btn-icon-follow {
+  @extend .icon;
+  background-image: url("~@/assets/btn-follow.svg");
+}
+
+.btn-icon-follow-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-follow-active.svg");
+}

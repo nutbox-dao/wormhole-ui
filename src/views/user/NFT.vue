@@ -89,7 +89,6 @@ export default {
           sts.push(WC2022_NFT[id])
         }
       }
-      console.log(73, sts);
       return sts
     }
   },
@@ -130,7 +129,6 @@ export default {
     })
     getLiquidationNft(ethAddress).then(res => this.liquidation = res).catch(console.log)
     getWc2022(ethAddress).then(balances => {
-      console.log(53, balances);
       this.$store.commit('saveWorldCupNFT', balances)
     }).catch(e => {
       console.log(64, e);
