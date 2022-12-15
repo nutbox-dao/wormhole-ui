@@ -134,7 +134,7 @@ export default {
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
-        await sleep(3)
+        await sleep(5)
 
         let count = 0;
         let userInfo = await twitterLogin(state)
@@ -161,7 +161,7 @@ export default {
           this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
           return;
         }else {
-          if (userInfo.code === 1) {
+          if (userInfo.code === 0) {
             // not registry
             // store auth info
             console.log('not register')
