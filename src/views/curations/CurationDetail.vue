@@ -204,8 +204,11 @@
                                  :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
                                  :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
                 <template #amount>
-                      <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
-                        {{(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
+                      <span v-if="detailCuration?.curationStatus > 0 && (detailCuration?.taskRecord === detailCuration?.tasks)" class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                        {{formatAmount(detailCuration?.myRewardAmount / (10 ** detailCuration?.decimals))+'/'+formatAmount(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
+                      </span>
+                      <span v-else class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                        {{formatAmount(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
                       </span>
                 </template>
               </ChainTokenIconVue>
