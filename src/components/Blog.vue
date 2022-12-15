@@ -91,8 +91,8 @@
     </div>
     <el-dialog class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true"
                destroy-on-close
-               title="&nbsp;" append-to-body >
-      <el-carousel height="70vh" indicator-position="none" :autoplay="false" :initial-index="imgIndex" @click.stop>
+               title="&nbsp;" append-to-body @click="imgViewDialog=false">
+      <el-carousel height="70vh" indicator-position="none" :autoplay="false" :initial-index="imgIndex" >
         <el-carousel-item v-for="item in imgurls" :key="item">
           <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
                :src="item" alt="">
