@@ -134,7 +134,7 @@ export default {
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
-        await sleep(8)
+        await sleep(3)
 
         let count = 0;
         let userInfo = await twitterLogin(state)
