@@ -133,7 +133,6 @@ export default {
 
           })
         }
-
         
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
