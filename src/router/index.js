@@ -90,6 +90,7 @@ const routes = [
     path: '/profile/:user/wallet',
     name: 'wallet',
     component: WalletView,
+    meta: {gotoHome: true},
     children: [
       {
         path: '',
@@ -107,25 +108,27 @@ const routes = [
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
+    meta: {gotoHome: true},
     children: [
       {
         path: '/profile/:user/post',
         name: 'post',
         component: UserPostView,
-        meta: {keepAlive: true}
+        meta: {keepAlive: true, gotoHome: true}
       },
       {
         path: '/profile/:user/curations',
         name: 'profile-curations',
         component: CurationsView,
-        meta: {keepAlive: true}
+        meta: {keepAlive: true, gotoHome: true}
       }
     ]
   },
   {
     path: '/transaction',
     name: 'transaction',
-    component: UserTransactionView
+    component: UserTransactionView,
+    meta: {gotoHome: true},
   },
   {
     path: '/post-detail/:postId',
