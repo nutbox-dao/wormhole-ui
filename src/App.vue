@@ -250,6 +250,9 @@ export default {
       logout(this.getAccountInfo.twitterId).then(res => {
       });
       this.showMenu = false
+      if (this.$route.meta.gotoHome) {
+        this.$router.replace('/')
+      }
     }
   },
   async mounted() {
