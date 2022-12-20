@@ -167,7 +167,8 @@
                        @click="selectedToken=token;$refs.tokenPopover.hide()"
                        class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                    <img class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                    <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
                     <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
                       <span class="text-15px">{{token.symbol}}</span>
                       <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
@@ -297,7 +298,13 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['getCustomTokens']),
     tokenList() {
+      if (this.selectedChainName && this.selectedChainName !== 'steem') {
+        const customToken = this.getCustomTokens ? (this.getCustomTokens[this.selectedChainName] ?? {}) : {}
+        return Object.values(customToken).concat(Object.values(this.EVM_CHAINS[this.selectedChainName].assets))
+      }
+      return []
       return this.selectedChainName && this.selectedChainName!=='steem'?
           Object.values(this.EVM_CHAINS[this.selectedChainName].assets):[]
     }
@@ -355,6 +362,12 @@ export default {
       try {
         const res = await getTokenInfo(this.selectedChainName, this.searchToken)
         this.customToken = {...res, address: this.searchToken}
+        let customToken = this.getCustomTokens ?? {};
+        if (!customToken[this.selectedChainName]) {
+          customToken[this.selectedChainName] = {}
+        }
+        customToken[this.selectedChainName][res.symbol] = this.customToken
+        this.$store.commit('curation/saveCustomTokens', customToken)
         this.selectedToken = this.customToken
       }catch(e) {
         console.log(63, e);

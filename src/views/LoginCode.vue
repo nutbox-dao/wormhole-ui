@@ -25,7 +25,7 @@ export default {
         // Cookie.set('twitter-loginCode', 'fail', '300s');
         window.close();
     };
-    this.info = 'Wrong login code'
+    this.info = 'Login Success, please close this window'
   },
   beforeDestroy () {
     if (this.info.length === 0) {

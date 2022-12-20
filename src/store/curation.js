@@ -13,7 +13,8 @@ export default {
         // cache the created curation which not push to backend
         pendingTweetCuration: localStorage.getItem('pending-cache-curation'),
         pendingTip: localStorage.getItem('pending-cache-tip'),
-        pendingPopup: localStorage.getItem('pending-cache-popup')
+        pendingPopup: localStorage.getItem('pending-cache-popup'),
+        customTokens: localStorage.getItem('custom-tokens')
     },
     mutations: {
         saveDraft: (state, draft) => {
@@ -66,6 +67,15 @@ export default {
             }else {
                 state.pendingPopup = null;
                 localStorage.removeItem('pending-cache-popup')
+            }
+        },
+        saveCustomTokens: (state, customTokens) => {
+            if (customTokens && Object.keys(customTokens).length > 0) {
+                state.customTokens = JSON.stringify(customTokens);
+                localStorage.setItem('custom-tokens', state.customTokens)
+            }else {
+                state.customTokens = null;
+                localStorage.removeItem('custom-tokens')
             }
         }
     },
@@ -123,6 +133,21 @@ export default {
                 pendingPopup = localStorage.getItem('pending-cache-popup')
                 if (pendingPopup)
                 return JSON.parse(pendingPopup)
+                return null
+            }
+        },
+        getCustomTokens: (state) => {
+            let customTokens = state.customTokens;
+            if (customTokens) {
+                if (typeof(customTokens) === 'string') {
+                    return JSON.parse(customTokens)
+                }
+                return customTokens;
+            }else {
+                customTokens = localStorage.getItem('custom-tokens')
+                if (customTokens) {
+                    return JSON.parse(customTokens)
+                }
                 return null
             }
         }
