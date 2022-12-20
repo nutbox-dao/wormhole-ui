@@ -395,5 +395,61 @@ export const WC2022_NFT = [
         description: `#PortugalWin or #SwitzerlandWin
         Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
         image: "https://gateway.nutbox.app/ipfs/QmbEqrXDaX1Pa31eQmpubY89zApmcjgKT7HCWpjT2gzeQf"
+    },
+    {
+        id: 39,
+        name: "World Cup Qatar 2022 - HRV vs BRA",
+        description: `#CroatiaWin or #BrazilWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/Qme6CgHaU6kqvC7qJb4dbGTmJ8cNQcquZQefSCABy7eHzU"
+    },
+    {
+        id: 40,
+        name: "World Cup Qatar 2022 - NLD vs ARG",
+        description: `#NetherlandsWin or #ArgentinaWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmdJXsqYHgVe1Hr9rxmrnSVtE9fcsWLrsuEEFPSiKrxmra"
+    },
+    {
+        id: 41,
+        name: "World Cup Qatar 2022 - MAR vs PRT",
+        description: `#MoroccoWin or #PortugalWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmYGoK7oJyBrPssMiUiojNbJdq9kXZExyukorx4rf3n3ad"
+    },
+    {
+        id: 42,
+        name: "World Cup Qatar 2022 - GBR vs FRA",
+        description: `#EnglandWin or #FranceWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmdR6SpJC7A7sanVqEjVif8TAjLGGmnyTMjK43UzoBtfda"
+    },
+    {
+        id: 43,
+        name: "World Cup Qatar 2022 - ARG vs HRV",
+        description: `#ArgentinaWin or #CroatiaWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmZbB5uZRYLk6WRwuEPLryvNnv6wxFt1yA2yue5f7rr5cn"
+    },
+    {
+        id: 44,
+        name: "World Cup Qatar 2022 - FRA vs MAR",
+        description: `#FranceWin or #MoroccoWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmSGZB9uUYELfDcGwhZL3TdFWNT9mckBRcQa1KWNUvVdpo"
+    },
+    {
+        id: 45,
+        name: "World Cup Qatar 2022 - HRV vs MAR The 3rd Place Match",
+        description: `#CroatiaWin or #MoroccoWin
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmNcdfu6zY6AHBVGt6g4vG69abB7pVrF4MfnojE3851sSN"
+    },
+    {
+        id: 46,
+        name: "World Cup Qatar 2022 - FRA vs ARG Final Championship",
+        description: `#FranceWin or #ArgentinaWin 
+        Guess what will be the result of the match and win a prize from the Wormhole3 World Cup 2022 Campaign.`,
+        image: "https://gateway.nutbox.app/ipfs/QmYM8L2WXvGnRYBur9r7QwVXBydvRz2AFZForWD7xBsvaE"
     }
 ]

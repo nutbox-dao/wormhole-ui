@@ -133,8 +133,7 @@ export default {
 
           })
         }
-
-
+        
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
