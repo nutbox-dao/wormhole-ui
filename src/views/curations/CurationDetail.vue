@@ -595,7 +595,7 @@ export default {
       let url;
       if (this.isQuote) {
         this.isQuoting = true
-        url = `https://twitter.com/intent/tweet?text=tweet%20content%20%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
+        url = `https://twitter.com/intent/tweet?text=%0a%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
       }else {
         this.isRepling = true;
         url = `https://twitter.com/intent/tweet?in_reply_to=${this.detailCuration.tweetId}&text=%0a%23iweb3`
