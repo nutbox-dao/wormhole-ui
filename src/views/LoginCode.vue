@@ -16,6 +16,7 @@ export default {
   },
   mounted () {
     const code = this.$route.params.code;
+    
     if (code) {
         this.info = 'Login Success'
         // Cookie.set('twitter-loginCode', code, '300s');
