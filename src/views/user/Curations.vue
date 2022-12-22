@@ -126,9 +126,9 @@ export default {
     ...mapGetters(['getAccountInfo']),
     showingCurations() {
       if(this.subActiveTagIndex === 0) {
-        return sortCurations(this.joinedCurations)
+        return this.joinedCurations
       }else {
-        return sortCurations(this.createdCurations)
+        return this.createdCurations
       }
     }
   },
@@ -201,12 +201,15 @@ export default {
         if (this.subActiveTagIndex === 0) {
           curations = this.joinedCurations;
           m = getMyJoinedCurations;
+          if (curations && curations.length > 0) {
+            endtime = curations[curations.length - 1].joinTime
+          }
         }else {
           curations = this.createdCuration;
           m = getMyCreatedCurations;
-        }
-        if (curations && curations.length > 0) {
-          endtime = curations[curations.length - 1].endtime
+          if (curations && curations.length > 0) {
+            endtime = curations[curations.length - 1].createdTime
+          }
         }
         const newCuration = await m(twitterId, endtime);
         if (newCuration && newCuration.length > 0) {
