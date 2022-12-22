@@ -137,7 +137,7 @@
                 </button>
               </template>
               <template #default>
-                <div class="border-1 border-color8B/30 bg-blockBg
+                <div class="border-1 border-color8B/30 bg-blockBg max-h-240px flex flex-col overflow-hidden
                                 light:bg-white light:border-colorE3 hover:border-primaryColor
                                 rounded-12px py-10px overflow-x-hidden">
                   <div class="px-10px mb-10px">
@@ -150,30 +150,32 @@
                              type="text" :placeholder="$t('curation.inputErc20')">
                     </div>
                   </div>
-                  <div v-if="customToken"
-                       class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
+                  <div class="flex-1 overflow-auto">
+                    <div v-if="customToken"
+                         class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
                               py-3 px-10px overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                    <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
-                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                    <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                         @click="selectedToken = customToken;$refs.tokenPopover.hide()">
-                      <span class="text-15px">{{customToken.symbol}}</span>
-                      <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                      <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
+                      <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
+                           @click="selectedToken = customToken;$refs.tokenPopover.hide()">
+                        <span class="text-15px">{{customToken.symbol}}</span>
+                        <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
                           </span>
+                      </div>
                     </div>
-                  </div>
-                  <div v-for="token of tokenList" :key="token.address"
-                       @click="selectedToken=token;$refs.tokenPopover.hide()"
-                       class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                    <div v-for="token of tokenList" :key="token.address"
+                         @click="selectedToken=token;$refs.tokenPopover.hide()"
+                         class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                    <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
-                    <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                    <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                      <span class="text-15px">{{token.symbol}}</span>
-                      <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                      <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                      <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                        <span class="text-15px">{{token.symbol}}</span>
+                        <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{token.address}}
                           </span>
+                      </div>
                     </div>
                   </div>
                 </div>
