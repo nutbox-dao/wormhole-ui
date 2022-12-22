@@ -292,3 +292,6 @@ html.light {
 .el-select-dropdown__item.selected {
   background-color: transparent;
 }
+.dark .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #000000;
+}

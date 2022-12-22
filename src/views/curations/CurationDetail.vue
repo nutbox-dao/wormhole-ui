@@ -293,7 +293,8 @@
         </div>
       </div>
     </van-popup>
-    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="showSubmissions"
                :position="position">
       <transition name="el-zoom-in-bottom">
@@ -303,7 +304,8 @@
         </div>
       </transition>
     </van-popup>
-    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="showTip"
                :position="position">
       <transition name="el-zoom-in-bottom">
@@ -321,7 +323,8 @@
         </div>
       </transition>
     </van-popup>
-    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="speakerTipVisible"
                :position="position">
       <transition name="el-zoom-in-bottom">
@@ -334,7 +337,8 @@
         </div>
       </transition>
     </van-popup>
-    <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="createPopUpVisible"
                :position="position">
       <transition name="el-zoom-in-bottom">
