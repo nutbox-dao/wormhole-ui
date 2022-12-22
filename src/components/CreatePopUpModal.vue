@@ -143,7 +143,7 @@
 
 <script>
 import AssetsOptions from "@/components/AssetsOptions";
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS, CURATION_SHORT_URL } from '@/config'
 import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
@@ -264,7 +264,7 @@ export default {
       this.form.emoji = gift.img
     },
     checkForm() {
-      if (this.tweetLength > 265) {
+      if (this.tweetLength > (255 - CURATION_SHORT_URL.length)) {
         notify({message: this.$t('tips.textLengthOut'), type:'info'})
         return false
       }
@@ -289,7 +289,7 @@ export default {
       try{
         this.creating = true
         // tweet
-        this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup')
+        this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup\nFYI=> ' + CURATION_SHORT_URL + this.detailCuration.curationId)
         this.modalVisible =true
         if (this.form.tweetId) {
           this.modalVisible = true
