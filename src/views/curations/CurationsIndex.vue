@@ -131,18 +131,22 @@ export default {
       if(this.refreshing || this.listLoading) return
       try{
         let curations;
+        let time;
         if (this.subActiveTagIndex === 0) {
           curations = this.ongoingList
+          time = curations[curations.length - 1].createdTime
         }else if(this.subActiveTagIndex === 1) {
           curations = this.endList
+          time = curations[curations.length - 1].endtime
         }else if(this.subActiveTagIndex === 2) {
           curations = this.closeList
+          time = curations[curations.length - 1].endtime
         }
         if (!curations || curations.length === 0) {
           this.listFinished = true
           return;
         }
-        const time = curations[curations.length - 1].endtime
+        
         const moreCurations = await getCurations(this.subActiveTagIndex, time, this.getAccountInfo?.twitterId)
         if (moreCurations.length < 12) {
           this.listFinished = true

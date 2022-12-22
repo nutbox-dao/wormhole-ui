@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     showingCurations() {
-      return sortCurations(this.curations)
+      return this.curations
     }
   },
   async mounted() {
@@ -115,7 +115,7 @@ export default {
         const twitterId = this.accountInfo?.twitterId;
         let endtime;
         if (curations && curations.length > 0) {
-          endtime = this.curations[this.curations.length - 1].endtime
+          endtime = this.curations[this.curations.length - 1].createdTime
         }
         const newCuration = await getUserCreatedCurations(twitterId, endtime);
         if (newCuration && newCuration.length > 0) {
