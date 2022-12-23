@@ -39,7 +39,7 @@
           </div>
         </div>
     </template>
-      <div class="mt-2rem" v-else>
+      <div class="my-2rem" v-else>
         <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
     </div>

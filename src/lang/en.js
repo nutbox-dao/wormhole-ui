@@ -13,6 +13,7 @@ export default {
   faucet: 'Faucet',
   logout: 'Log out',
   myWallet: 'My wallet',
+  myReward: 'My reward',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
