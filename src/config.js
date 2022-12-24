@@ -93,7 +93,10 @@ export const TokenIcon = {
     'FRAX': 'https://cdn.wherein.mobi/wormhole3/logo/frax.png',
     'NEAR': 'https://cdn.wherein.mobi/wormhole3/logo/near.png',
     'AURORA': 'https://cdn.wherein.mobi/wormhole3/logo/aurora.png',
-    'GLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
+    'GLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png',
+    'PNUT': 'https://cdn.wherein.mobi/nutbox/v2/1645760918196',
+    'NUT': "https://cdn.wherein.mobi/nutbox-v2/token/logo/nutcoin1.png",
+    'WIN': 'https://cdn.wherein.mobi/nutbox/v2/1650853172818'
 }
 
 export const TokenName = {
