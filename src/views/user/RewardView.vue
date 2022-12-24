@@ -23,23 +23,31 @@
         </div>
       </div>
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col">
-        <div class="bg-blockBg light:bg-white mt-5rem pt-5rem md:mt-9rem md:pt-1rem rounded-12px basis-full md:basis-auto relative">
-          <div class="gradient-bg gradient-bg-color3 rounded-12px overflow-hidden mx-1.5rem sm:mx-0
-                  absolute -top-3rem left-0 right-0 md:-top-8rem">
-            <div class="px-17px py-12px mb-1rem flex items-center justify-between cursor-pointer">
-              <span class="c-text-black text-white text-14px 2xl:text-0.8rem">{{$t('common.summary')}}</span>
-<!--              <i class="w-1rem h-1rem min-w-14px min-h-14px icon-notification"></i>-->
+        <div class="py-1rem mx-1.5rem sm:mx-0 relative">
+          <div class="flex tabs mx-36px relative min-h-30px">
+            <button class="tab flex-1 h-30px" :class="timeTab===0?'active':''" @click="timeTab=0">
+              Today
+            </button>
+            <button class="tab flex-1 h-30px" :class="timeTab===1?'active':''" @click="timeTab=1">
+              Last week
+            </button>
+            <button class="tab flex-1 h-30px" :class="timeTab===2?'active':''" @click="timeTab=2">
+              Last month
+            </button>
+          </div>
+          <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
+            <div class="mb-1rem flex items-center justify-between cursor-pointer">
+              <span class="c-text-black text-white text-16px 2xl:text-0.8rem mx-15px">{{$t('common.summary')}}</span>
             </div>
-            <div class="border-1 gradient-border light:gradient-border-colorCB
-                        overflow-hidden rounded-5px mx-17px mb-1rem min-h-30px">
-              <div class="bg-color62/20 light:bg-white p-5px
-                          font-700 text-0.8rem leading-1.4rem light:text-blueDark
-                          break-all flex items-center justify-between">
-                <span class="text-1.6rem">$0.000</span>
-              </div>
+            <div class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem
+                          bg-primaryColor rounded-12px p-15px">
+              <div>Claim 2335 sp($10000) from author posts;</div>
+              <div>Claim 15533 NUT from curation;</div>
+              <div>Claim 235USDT from curation;</div>
             </div>
           </div>
-
+        </div>
+        <div class="bg-blockBg light:bg-white pt-1rem rounded-12px basis-full md:basis-auto relative">
           <div class="px-1.5rem text-14px w-min flex gap-1rem mt-1rem font-bold">
             <button class="flex items-center rounded-full
                     border-1 border-white/20 leading-14px text-14px py-10px px-24px
@@ -72,7 +80,8 @@ export default {
   components: {RewardCuration, RewardPost},
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      timeTab: 0
     }
   },
   computed: {
@@ -97,10 +106,67 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .active-tab {
   background: linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%);
   color: white!important;
   border: none;
+}
+.tab {
+  text-transform: uppercase;
+  display: inline-block;
+  filter: opacity(0.2);
+  border: none;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  background: var(--primary-custom);
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+  min-width: 120px;
+  margin: 0 12px;
+  &.active {
+    z-index: 1;
+    position: relative;
+    filter: opacity(1);
+  }
+  &::before{
+    right: -5%;
+    transform: skew(25deg);
+    border-radius: 0 8px 0 0;
+  }
+  &::after{
+    transform: skew(-25deg);
+    left: -5%;
+    border-radius: 8px 0 0 0;
+  }
+}
+.tab:before, .tab:after {
+  content: "";
+  height: 100%;
+  position: absolute;
+  background: var(--primary-custom);
+  border-radius: 8px 8px 0 0;
+  width: 10%;
+  min-width: 15px;
+  top: 0;
+}
+@media (max-width: 550px) {
+  .tabs {
+    position: relative;
+  }
+  .tab:nth-child(1) {
+    position: absolute;
+    left: 0;
+  }
+  .tab:nth-child(2) {
+    position: absolute;
+    left: 47%;
+    transform: translateX(-50%);
+  }
+  .tab:nth-child(3) {
+    position: absolute;
+    right: 0%;
+  }
 }
 </style>

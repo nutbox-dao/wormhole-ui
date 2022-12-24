@@ -327,7 +327,7 @@ export default {
   --primary-bg: #0D1117;
   --primary-bg-light: #F7F7F9;
   --primary-custom: #AE88FE;
-  --secondary-custom: #7C3AED;
+  --secondary-custom: #7851FF;
   --gradient-primary-color1: #AE88FE;
   --gradient-primary-color2: #923CFF;
   --gradient-primary-color3: #00B2FF;
