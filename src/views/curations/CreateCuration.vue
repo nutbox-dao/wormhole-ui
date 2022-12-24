@@ -57,14 +57,16 @@
                 <template #reference>
                   <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
                 </template>
-                <div class="h-310px lg:h-400px">
-                  <EmojiPicker :options="{
+                <template #default>
+                  <div class="h-310px lg:h-400px ">
+                    <EmojiPicker :options="{
                                 imgSrc:'/emoji/',
                                 locals: $i18n.locale==='zh'?'zh_CN':'en',
                                 hasSkinTones:false,
                                 hasGroupIcons:false}"
-                               @select="(e) =>selectEmoji(e,'desc')" />
-                </div>
+                                 @select="(e) =>selectEmoji(e,'desc')" />
+                  </div>
+                </template>
               </el-popover>
               <span class="font-600 text-color62">#iweb3</span>
             </div>

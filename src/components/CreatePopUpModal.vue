@@ -34,14 +34,14 @@
                @paste="onPasteEmojiContent"
                v-html="form.contentEl"></div>
           <div class="py-2 border-color8B/30 flex justify-between">
-            <el-popover ref="descEmojiPopover"
+            <el-popover ref="descEmojiPopover" :placement="position"
                         trigger="click" width="300"
                         :teleported="false"
                         :persistent="false">
               <template #reference>
                 <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
               </template>
-              <div class="h-310px lg:h-400px">
+              <div class="h-310px">
                 <EmojiPicker :options="{
                                 imgSrc:'/emoji/',
                                 locals: $i18n.locale==='zh'?'zh_CN':'en',
@@ -160,6 +160,7 @@ export default {
   components: {AssetsOptions, SendTokenTipVue, CustomSelect, EmojiPicker},
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'right',
       step: 1,
       durationOptions: [
         {label: '5 min', value: 5},
