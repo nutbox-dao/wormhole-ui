@@ -27,7 +27,7 @@
           <div class="gradient-bg gradient-bg-color3 rounded-12px overflow-hidden mx-1.5rem sm:mx-0
                   absolute -top-3rem left-0 right-0 md:-top-8rem">
             <div class="px-17px py-12px mb-1rem flex items-center justify-between cursor-pointer">
-              <span class="c-text-black text-white text-14px 2xl:text-0.8rem">{{$t('profileView.ethWallet')}}</span>
+              <span class="c-text-black text-white text-14px 2xl:text-0.8rem">{{$t('common.summary')}}</span>
 <!--              <i class="w-1rem h-1rem min-w-14px min-h-14px icon-notification"></i>-->
             </div>
             <div class="border-1 gradient-border light:gradient-border-colorCB
