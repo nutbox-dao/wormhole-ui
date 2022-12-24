@@ -327,6 +327,7 @@ export default {
     address: 'Address',
     account: 'Account',
     cancel: 'Cancel',
-    previous: 'Previous'
+    previous: 'Previous',
+    summary: 'Summary'
   }
 }
