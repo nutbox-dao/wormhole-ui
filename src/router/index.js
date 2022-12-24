@@ -28,6 +28,7 @@ import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
+import RewardView from "@/views/user/RewardView";
 
 const routes = [
   {
@@ -103,6 +104,12 @@ const routes = [
         component: UserTokenView
       },
     ]
+  },
+  {
+    path: '/profile/:user/reward',
+    name: 'reward',
+    component: RewardView,
+    meta: {gotoHome: true}
   },
   {
     path: '/profile/:user',
