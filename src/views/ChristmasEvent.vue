@@ -324,10 +324,14 @@ export default {
       window.open('https://twitter.com/wormhole_3')
     },
     clickStar() {
-      return;
       if (this.blindBoxStatus === 0) return
+      let needClaim = false
+      if (!this.claimed) {
+        this.showBoxAnimation = true;
+        needClaim = true
+      }
       this.modalVisible = true
-      openBlindBox(this.getAccountInfo?.twitterId, false).then(res => {
+      openBlindBox(this.getAccountInfo?.twitterId, needClaim).then(res => {
         console.log(32, res);
         if (res?.reward) {
           this.claimed = res.claimStatus === 1;
