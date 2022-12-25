@@ -125,6 +125,7 @@ export default {
       try{
         let curations;
         let time;
+        const sel = this.subActiveTagIndex
         if (this.subActiveTagIndex === 0) {
           curations = this.ongoingList
           time = curations[curations.length - 1].createdTime
@@ -140,7 +141,7 @@ export default {
           return;
         }
         
-        const moreCurations = await getCurations(this.subActiveTagIndex, time, this.getAccountInfo?.twitterId)
+        const moreCurations = await getCurations(sel, time, this.getAccountInfo?.twitterId)
         if (moreCurations.length < 12) {
           this.listFinished = true
         }else {
@@ -148,11 +149,11 @@ export default {
         }
         curations = curations.concat(moreCurations);
         let mutationStr = ''
-        if (this.subActiveTagIndex === 0) {
+        if (sel === 0) {
           mutationStr = 'saveOngoingList'
-        }else if(this.subActiveTagIndex === 1) {
+        }else if(sel === 1) {
           mutationStr = 'saveEndList'
-        }else if(this.subActiveTagIndex === 2) {
+        }else if(sel === 2) {
           mutationStr = 'saveCloseList'
         }
         this.$store.commit('curation/'+mutationStr, curations)
@@ -166,14 +167,15 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try{
-        let curations = await getCurations(this.subActiveTagIndex, null, this.getAccountInfo?.twitterId)
+        let sel = this.subActiveTagIndex;
+        let curations = await getCurations(sel, null, this.getAccountInfo?.twitterId)
         curations = curations;
         let mutationStr = ''
-        if (this.subActiveTagIndex === 0) {
+        if (sel === 0) {
           mutationStr = 'saveOngoingList'
-        }else if(this.subActiveTagIndex === 1) {
+        }else if(sel === 1) {
           mutationStr = 'saveEndList'
-        }else if(this.subActiveTagIndex === 2) {
+        }else if(sel === 2) {
           mutationStr = 'saveCloseList'
         }
         this.$store.commit('curation/'+mutationStr, curations ?? [])
