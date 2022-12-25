@@ -24,10 +24,23 @@
           </div>
         </div>
         <!-- star -->
-        <img class="star-img cursor-pointer"
-             :class="[blindBoxStatus===0?'star-silver':'', blindBoxStatus===1?'star-gold':'', blindBoxStatus===2?'star-light':'']"
-             @click="clickStar"
-             src="~@/assets/christmas/star.png" alt="">
+        <el-popover ref="starPopoverRef" :visible="starPopVisible"
+                    placement="right" trigger="click" persistent popper-class="c-popper">
+          <template #reference>
+            <img class="star-img cursor-pointer"
+                 :class="[blindBoxStatus===0?'star-silver':'', blindBoxStatus===1?'star-gold':'', blindBoxStatus===2?'star-light':'']"
+                 @click="clickStar"
+                 src="~@/assets/christmas/star.png" alt="">
+          </template>
+          <template #default>
+            <div class="bg-white rounded-15px py-15px pl-12px pr-18px w-120px relative" style="color: #c63322">
+              Coming soon
+              <img class="absolute -right-8px -bottom-4px w-30px"
+                   src="~@/assets/christmas/msg-tag.png" alt="">
+              <span class="star-triangle"></span>
+            </div>
+          </template>
+        </el-popover>
         <!-- Santa -->
         <el-popover ref="msgPopoverRef" persistent :visible="msgVisible"
                     trigger="click" placement="top-start" popper-class="c-popper">
@@ -244,7 +257,9 @@ export default {
       msgPopoverRef: null,
       msgVisible: false,
       lastClickTime: 0,
-      timeCount: 0
+      timeCount: 0,
+      starPopVisible: false,
+      starClickTime: 0
     }
   },
   computed: {
@@ -293,6 +308,9 @@ export default {
       if(this.msgVisible && new Date().getTime() - this.lastClickTime>2000)  {
         this.msgVisible = false
       }
+      if(this.starPopVisible && new Date().getTime() - this.starClickTime>2000)  {
+        this.starPopVisible = false
+      }
     }, 2000);
   },
   beforeUnmount() {
@@ -324,6 +342,10 @@ export default {
       window.open('https://twitter.com/wormhole_3')
     },
     clickStar() {
+      if (this.starPopVisible === true) return;
+      this.starPopVisible = true
+      this.starClickTime = new Date().getTime()
+      return;
       if (this.blindBoxStatus === 0) return
       let needClaim = false
       if (!this.claimed) {
@@ -807,5 +829,14 @@ ul {
   height: 16px;
   background: white;
   clip-path: polygon(0 0, 100% 0, 50% 100%, 0 0);
+}
+.star-triangle {
+  position: absolute;
+  top: 30%;
+  left: -16px;
+  width: 16px;
+  height: 14px;
+  background: white;
+  clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 50%);
 }
 </style>
