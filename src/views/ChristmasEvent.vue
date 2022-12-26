@@ -294,7 +294,7 @@ export default {
       openBlindBox(this.getAccountInfo.twitterId, false).then(res => {
         if (res?.reward) {
           this.claimed = res.claimStatus === 1;
-          this.blindAmount = parseInt(res.reward / 1e18);
+          this.blindAmount = res.reward;
         }
       }).catch()
     }
@@ -342,22 +342,18 @@ export default {
       window.open('https://twitter.com/wormhole_3')
     },
     clickStar() {
-      if (this.starPopVisible === true) return;
-      this.starPopVisible = true
-      this.starClickTime = new Date().getTime()
-      return;
       if (this.blindBoxStatus === 0) return
       let needClaim = false
+      this.showBoxAnimation = false;
       if (!this.claimed) {
         this.showBoxAnimation = true;
         needClaim = true
       }
       this.modalVisible = true
       openBlindBox(this.getAccountInfo?.twitterId, needClaim).then(res => {
-        console.log(32, res);
         if (res?.reward) {
           this.claimed = res.claimStatus === 1;
-          this.blindAmount = parseInt(res.reward / 1e18);
+          this.blindAmount = res.reward;
         }
       }).catch()
     },
