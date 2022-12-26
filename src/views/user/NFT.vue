@@ -8,34 +8,90 @@
 <!--      </div>-->
 <!--    </div>-->
     <div class="pt-1rem px-1.5rem">
+      <div class="grid grid-cols-3 xs:grid-cols-5 gap-20px">
+        <div class="col-span-1">
+          <div class="relative min-w hover-scale" @click="collectionIndex=0">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
+              <div class="w-80/100 mx-auto">
+                <GetNft :username="username" :reputation="reputation" text-scale="scale-20"></GetNft>
+              </div>
+              <div class="text-12px scale-text leading-14px text-white">Reputation<br>{{prefixInteger(reputation, 6)}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1">
+          <div class="relative min-w hover-scale" @click="collectionIndex=1">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="~@/assets/nft-collection1.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">The Fastest <br> Way <br> To Da Moon</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1">
+          <div class="relative min-w hover-scale" @click="collectionIndex=2">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="~@/assets/nft-collection2.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">FIFA World Cup<br>Qatar 2022</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>
       <template  v-if="reputation>0 || showingStellarTreks.length > 0">
-        <div class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
-            @click="modalVisible=true">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              src="~@/assets/icon-nft.svg" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">Twitter Reputation NFT</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
+        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===0">
+          <div class="col-span-1 text-left">
+            <div class="relative min-w cursor-pointer hover-scale" @click="modalVisible=true">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <GetNft :username="username" :reputation="reputation" text-scale="scale-15"></GetNft>
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100 -top-5/100">
+              <div class="text-14px leading-14px mt-5px">Twitter Reputation NFT</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">From @wormhole3 official</div>
+            </div>
           </div>
         </div>
-        <div v-for="st of showingStellarTreks" :key="st"
-             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
-         @click="showTrek(st.image)">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              :src="st.image" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">{{st.name}}</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">{{st.description}}</div>
+        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===1">
+          <div v-if="showingStellarTreks.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left" v-for="st of showingStellarTreks" :key="st">
+            <div class="relative min-w cursor-pointer hover-scale" @click="showTrek(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100 -top-5/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
           </div>
         </div>
-        <div v-for="st of showingWC2022" :key="st"
-             class="flex items-center py-1rem border-b-1 border-listBgBorder cursor-pointer c-list-item"
-         @click="showTrek(st.image)">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              :src="st.image" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">{{st.name}}</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">{{st.description}}</div>
+
+        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===2">
+          <div v-if="showingWC2022.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left" v-for="st of showingWC2022" :key="st">
+            <div class="relative min-w cursor-pointer hover-scale" @click="showTrek(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100 -top-5/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
           </div>
         </div>
     </template>
@@ -104,6 +160,7 @@ export default {
       // world cup 2022
       showingWcImage: '',
       showWcImage: false,
+      collectionIndex: 0
     }
   },
   methods: {
@@ -118,6 +175,9 @@ export default {
     showWC2022(url) {
       this.showingWcImage = url;
       this.showWcImage = true;
+    },
+    prefixInteger(num, length) {
+      return num.toString().padStart(length, '0')
     }
   },
   mounted() {
@@ -137,8 +197,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .c-list-item:last-child {
   border: none;
+}
+.scale-text {
+  transform: scale(0.7);
+}
+.multi-content {
+  word-break: break-word;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.hover-scale:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
 </style>

@@ -64,6 +64,7 @@ export default defineConfig({
         blueDark: '#1A1E25'
       },
       screens: {
+        'xs': { min: '500px' },
         '2md': { min: '961px' },
       },
       backgroundImage: theme => ({
