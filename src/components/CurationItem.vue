@@ -18,6 +18,7 @@
       <div class="px-15px pt-10px pb-15px bg-blockBg light:bg-white mb-20px rounded-15px shadow-card">
         <div v-if="contentType==='tweet'">
           <Blog :post="curation"
+                content-class="multi-content"
                 avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
             <template #bottom-btn-bar><div></div></template>
           </Blog>

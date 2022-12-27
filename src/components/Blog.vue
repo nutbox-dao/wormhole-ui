@@ -33,7 +33,7 @@
             <div @click.stop="clickContent"
                  class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-color8B light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
-              <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
+              <div class="whitespace-pre-line" :class="contentClass" v-else v-html="formatEmojiText(content)"></div>
             </div>
           </div>
 
@@ -129,6 +129,10 @@ export default {
     avatarClass: {
       type: String,
       default: 'w-2.6rem h-2.6rem md:w-3.6rem md:h-3.6rem'
+    },
+    contentClass: {
+      type: String,
+      default: ''
     }
   },
   data() {

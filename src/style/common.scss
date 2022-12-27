@@ -169,3 +169,12 @@ div[contenteditable] {
     box-shadow: none;
   }
 }
+
+.multi-content {
+  word-break: break-word;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
