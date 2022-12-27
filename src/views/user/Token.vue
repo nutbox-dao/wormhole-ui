@@ -29,48 +29,78 @@
         <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
     </div> -->
-
-    <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
-         v-if="(erc20Balances && erc20Balances.Polygon)" v-for="erc20 of Object.keys(erc20Balances.Polygon)" :key="erc20 + 'matic'">
-      <div class="flex items-center">
-        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
-             :src="icons[erc20]" alt="">
-        <div class="text-left ml-1rem">
-          <div class="font-600 text-1.3rem md:text-1rem light:text-blueDark">{{names[erc20]}}</div>
-          <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.Polygon[erc20]) }} {{erc20}}</div>
-        </div>
-      </div>
-      <div class="flex flex-col items-end justify-end">
-        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.Polygon[erc20] * prices[erc20.toLowerCase()])}}</div>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item">
-      <div class="flex items-center">
-        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
-            src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
-        <div class="text-left ml-1rem">
+    <el-collapse :model-value="['polygon', 'bsc', 'steem']" class="no-border-collapse border-0">
+      <el-collapse-item name="polygon" v-if="(erc20Balances && erc20Balances.Polygon)">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Polygon</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances.Polygon)" :key="erc20 + 'matic'">
           <div class="flex items-center">
-            <div class="font-600 text-1.3rem md:text-1rem light:text-blueDark">Steem</div>
-            <el-tooltip popper-class="shadow-popper-tip">
-              <template #content>
-                <div class="max-w-14rem text-white light:text-blueDark">
-                  {{$t('common.whatsSteem')}}
-                </div>
-              </template>
-              <button>
-                <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
-              </button>
-            </el-tooltip>
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.Polygon[erc20]) }} {{erc20}}</div>
+            </div>
           </div>
-          <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.Polygon[erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col items-end justify-end">
-        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">{{ steemValue }}</div>
-        <button class="c-text-bold mt-8px rounded-full text-color62" @click="sendSteem">{{$t('common.send')}}</button>
-      </div>
-    </div>
+      </el-collapse-item>
+      <el-collapse-item name="bsc" v-if="(erc20Balances && erc20Balances['BNB-Chain'])">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">BSC-Chain</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances['BNB-Chain'])" :key="erc20 + 'bsc'">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['BNB-Chain'][erc20]) }} {{erc20}}</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['BNB-Chain'][erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Steem" name="steem">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Steem</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
+            <div class="text-left ml-1rem">
+              <div class="flex items-center">
+                <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">Steem</div>
+                <el-tooltip popper-class="shadow-popper-tip">
+                  <template #content>
+                    <div class="max-w-14rem text-white light:text-blueDark">
+                      {{$t('common.whatsSteem')}}
+                    </div>
+                  </template>
+                  <button>
+                    <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
+                  </button>
+                </el-tooltip>
+              </div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">{{ steemValue }}</div>
+            <button class="c-text-bold mt-8px rounded-full text-color62" @click="sendSteem">{{$t('common.send')}}</button>
+          </div>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+
   </div>
 </template>
 

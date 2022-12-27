@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
-        <div class="number c-text-black text-4rem xl:text-78px transform"
+        <div class="number c-text-black text-4rem xl:text-78px transform whitespace-nowrap"
              :class="textScale"
              :data-text="prefixInteger(reputation, 6)">{{prefixInteger(reputation, 6)}}</div>
       </div>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="absolute w-5/5 h-25/40 top-56/100 left-0 flex items-center justify-center">
-        <div class="number c-text-black text-3rem xl:text-58px transform scale-25"
+        <div class="number c-text-black text-3rem xl:text-58px transform scale-25 whitespace-nowrap"
              :class="textScale"
              :data-text="formatAmount(liquidation)">${{formatAmount(liquidation)}}</div>
       </div>

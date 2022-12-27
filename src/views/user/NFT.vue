@@ -7,10 +7,10 @@
 <!--        By depositing into this account, you are agreeing to our terms of service.-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="pt-1rem px-1.5rem">
+    <div class="pt-1rem px-1.5rem pb-2rem">
       <div class="grid grid-cols-3 xs:grid-cols-5 gap-20px">
         <div class="col-span-1">
-          <div class="relative min-w hover-scale" @click="collectionIndex=0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=0">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
               <div class="w-80/100 mx-auto">
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="col-span-1">
-          <div class="relative min-w hover-scale" @click="collectionIndex=1">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=1">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="~@/assets/nft-collection1.png" alt="">
@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="col-span-1">
-          <div class="relative min-w hover-scale" @click="collectionIndex=2">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=2">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-6px flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="~@/assets/nft-collection2.png" alt="">
@@ -39,11 +39,19 @@
           </div>
         </div>
       </div>
-      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>
+<!--      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>-->
       <template  v-if="reputation>0 || showingStellarTreks.length > 0">
-        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===0">
-          <div class="col-span-1 text-left">
-            <div class="relative min-w cursor-pointer hover-scale" @click="modalVisible=true">
+
+    </template>
+      <div class="my-2rem" v-else>
+        <div class="text-center">{{$t('token.noNft')}}</div>
+      </div>
+    </div>
+    <el-dialog v-model="collectionVisible" fullscreen class=" c-dialog-fullscreen">
+      <div class="px-1.5rem py-1/10 xs:p-1/10 max-w-50rem mx-auto">
+        <div class="grid grid-cols-3 xs:grid-cols-4 lg:grid-cols-5 gap-x-20px" v-show="collectionIndex===0">
+          <div class="col-span-1 text-left hover-scale">
+            <div class="relative min-w cursor-pointer" @click="modalVisible=true">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
@@ -51,17 +59,17 @@
                 </div>
               </div>
             </div>
-            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100 -top-5/100">
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100 ">
               <div class="text-14px leading-14px mt-5px">Twitter Reputation NFT</div>
               <div class="text-12px leading-13px text-color8B mt-6px">From @wormhole3 official</div>
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===1">
+        <div class="grid grid-cols-3 xs:grid-cols-4 lg:grid-cols-5 gap-x-20px" v-show="collectionIndex===1">
           <div v-if="showingStellarTreks.length===0"
                class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
-          <div class="col-span-1 text-left" v-for="st of showingStellarTreks" :key="st">
-            <div class="relative min-w cursor-pointer hover-scale" @click="showTrek(st.image)">
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingStellarTreks" :key="st">
+            <div class="relative min-w cursor-pointer " @click="showTrek(st.image)">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
@@ -76,11 +84,11 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-3 xs:grid-cols-5 gap-x-20px" v-show="collectionIndex===2">
+        <div class="grid grid-cols-3 xs:grid-cols-4 lg:grid-cols-5 gap-x-20px lg:gap-x-40px" v-show="collectionIndex===2">
           <div v-if="showingWC2022.length===0"
                class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
-          <div class="col-span-1 text-left" v-for="st of showingWC2022" :key="st">
-            <div class="relative min-w cursor-pointer hover-scale" @click="showTrek(st.image)">
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingWC2022" :key="st">
+            <div class="relative min-w cursor-pointer" @click="showTrek(st.image)">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
@@ -94,11 +102,8 @@
             </div>
           </div>
         </div>
-    </template>
-      <div class="my-2rem" v-else>
-        <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
-    </div>
+    </el-dialog>
     <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
     </el-dialog>
@@ -160,7 +165,8 @@ export default {
       // world cup 2022
       showingWcImage: '',
       showWcImage: false,
-      collectionIndex: 0
+      collectionIndex: 0,
+      collectionVisible: false
     }
   },
   methods: {
