@@ -20,7 +20,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1" v-if="showingStellarTreks.length > 0">
+        <div class="col-span-1" v-if="liquidation.image">
           <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=1">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/20 flex flex-col justify-between">
@@ -44,6 +44,15 @@
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmVudQSy1hvGgigAvZtP1x7qj6Vg6j7WD8bJykG8pg6WKF" alt="">
               <div class="text-12px scale-text leading-14px text-white">2022 Christmas Campaign</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="showingStellarTreks.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=4">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmcuJyKGuSfSh7SQgKhvympxUPQmix4mwKzymBJ68w21Su" alt="">
+              <div class="text-12px scale-text leading-14px text-white">Stellar Treck</div>
             </div>
           </div>
         </div>
@@ -75,20 +84,20 @@
           </div>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===1">
-          <div v-if="showingStellarTreks.length===0"
+          <div v-if="liquidation.image"
                class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
-          <div class="col-span-1 text-left hover-scale" v-for="st of showingStellarTreks" :key="st">
-            <div class="relative min-w cursor-pointer " @click="showTrek(st.image)">
+          <div class="col-span-1 text-left hover-scale">
+            <div class="relative min-w cursor-pointer " @click="showTrek(liquidation.image)">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
-                  <img :src="st.image" alt="">
+                  <img :src="liquidation.image" alt="">
                 </div>
               </div>
             </div>
             <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
-              <div class="text-14px leading-14px">{{st.name}}</div>
-              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+              <div class="text-14px leading-14px">{{liquidation.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{liquidation.description}}</div>
             </div>
           </div>
         </div>
@@ -116,6 +125,24 @@
                class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale" v-for="st of showingChristmasNFT" :key="st">
             <div class="relative min-w cursor-pointer" @click="showChristmas(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===4">
+          <div v-if="showingStellarTreks.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingStellarTreks" :key="st">
+            <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
