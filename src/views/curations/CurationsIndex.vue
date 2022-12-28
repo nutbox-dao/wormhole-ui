@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col overflow-hidden relative" id="square-index" ref="curationPageRef" @scroll="pageScroll">
+  <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
     <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
       <div class="flex py-20px">
         <button v-for="(tag, index) of subTagList" :key="index" v-show="index!==1"
@@ -8,7 +8,7 @@
                 @click="changeSubIndex(index)">{{tag}}</button>
       </div>
     </div>
-    <div class="flex-1 overflow-auto">
+    <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!curationsList || curationsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -60,12 +60,21 @@
         </div>
       </div>
     </van-popup> -->
+    <!-- back top  -->
     <button v-show="scroll>100"
             @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                   rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-6rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+    </button>
+    <!-- create curation   -->
+    <button
+        class="flex items-center justify-center bg-color62
+                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
+        @click="$router.push('/create-curation')">
+      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
   </div>
 </template>
@@ -140,7 +149,7 @@ export default {
           this.listFinished = true
           return;
         }
-        
+
         const moreCurations = await getCurations(sel, time, this.getAccountInfo?.twitterId)
         if (moreCurations.length < 12) {
           this.listFinished = true
