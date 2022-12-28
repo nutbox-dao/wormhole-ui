@@ -456,3 +456,12 @@ export const WC2022_NFT = [
         image: "https://gateway.nutbox.app/ipfs/QmYM8L2WXvGnRYBur9r7QwVXBydvRz2AFZForWD7xBsvaE"
     }
 ]
+
+export const Christmas_NFT = [
+    {
+        id: 50,
+        name: "Christmas NFT",
+        description: `2022 Christmas Campaign`,
+        image: "https://gateway.nutbox.app/ipfs/QmVudQSy1hvGgigAvZtP1x7qj6Vg6j7WD8bJykG8pg6WKF"
+    },
+]

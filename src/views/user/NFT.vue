@@ -20,7 +20,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1">
+        <div class="col-span-1" v-if="showingStellarTreks.length > 0">
           <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=1">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/20 flex flex-col justify-between">
@@ -29,12 +29,21 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1">
+        <div class="col-span-1" v-if="showingWC2022.length > 0">
           <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=2">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="~@/assets/nft-collection2.png" alt="">
               <div class="text-12px scale-text leading-14px text-white">FIFA World Cup<br>Qatar 2022</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="showingChristmasNFT.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=3">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmVudQSy1hvGgigAvZtP1x7qj6Vg6j7WD8bJykG8pg6WKF" alt="">
+              <div class="text-12px scale-text leading-14px text-white">2022 Christmas Campaign</div>
             </div>
           </div>
         </div>
@@ -102,6 +111,24 @@
             </div>
           </div>
         </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===3">
+          <div v-if="showingChristmasNFT.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingChristmasNFT" :key="st">
+            <div class="relative min-w cursor-pointer" @click="showChristmas(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </el-dialog>
 <!--    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
@@ -119,14 +146,14 @@
 <script>
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
-import { getStellarTreks, getLiquidationNft, getWc2022 } from '@/utils/asset'
-import { STELLAR_TREK_NFT, WC2022_NFT } from '@/config'
+import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT } from '@/utils/asset'
+import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/config'
 
 export default {
   name: "NFT",
   components: {GetNft},
   computed: {
-    ...mapState(['stellarTreks', 'worldCupNFT']),
+    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
       return this.getAccountInfo?.twitterUsername
@@ -151,6 +178,15 @@ export default {
         }
       }
       return sts
+    },
+    showingChristmasNFT() {
+      let chr = []
+      if (this.christmasNFT && Object.keys(this.christmasNFT).length > 0) {
+        for (let id in this.christmasNFT) {
+          chr.push(Christmas_NFT[id])
+        }
+      }
+      return chr
     }
   },
   data() {
@@ -165,6 +201,9 @@ export default {
       // world cup 2022
       showingWcImage: '',
       showWcImage: false,
+      // christmas
+      showingChristmasImage: '',
+      showChristmasImage: false,
       collectionIndex: 0,
       collectionVisible: false
     }
@@ -182,6 +221,10 @@ export default {
       this.showingWcImage = url;
       this.showWcImage = true;
     },
+    showChristmas(url) {
+      this.showingChristmasImage = url;
+      this.showChristmasImage = true;
+    },
     prefixInteger(num, length) {
       return num.toString().padStart(length, '0')
     }
@@ -198,6 +241,11 @@ export default {
       this.$store.commit('saveWorldCupNFT', balances)
     }).catch(e => {
       console.log(64, e);
+    })
+    getChritmasNFT(ethAddress).then(balances => {
+      this.$store.commit('saveChristmasNFT', balances)
+    }).catch(e => {
+      console.log(65, e);
     })
   }
 }

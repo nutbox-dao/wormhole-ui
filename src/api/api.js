@@ -87,7 +87,7 @@ export const getTagAggregation = async () =>
 export const getUserFavTag = async (twitterId) => 
     get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
-    /****************************************  curation  ***********************************************/
+/****************************************  curation  ***********************************************/
 
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
@@ -151,6 +151,9 @@ export const getTopTipsOfCuration = async (curationId) =>
 
 export const getUsersTips = async (params) =>
     post(BACKEND_API_URL + '/tip/tipsByTwitterId', params)
+
+/****************************************  rewards  ***********************************************/
+
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
