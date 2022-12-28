@@ -74,7 +74,6 @@
         </div>
         <div class="w-full absolute bottom-0">
           <div class="container max-w-50rem mx-auto relative">
-            <template v-if="getAccountInfo && (getAccountInfo.source === 1)">
               <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
                       class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
@@ -89,12 +88,6 @@
                       @click="tipDrawer = true">
                 <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
               </button>
-            </template>
-            <button v-else class="flex items-center justify-center bg-color62 h-2.7rem px-1rem
-                    rounded-full mt-0.5rem c-text-bold absolute bottom-2rem left-1/2 transform-translate-x-1/2 z-2"
-                    @click="$store.commit('saveShowLogin', true)">
-              {{$t('common.active')}}
-            </button>
           </div>
         </div>
       </div>

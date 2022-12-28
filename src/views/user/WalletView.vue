@@ -12,13 +12,13 @@
                 {{$t('myWallet')}}
               </div>
             </router-link>
-            <router-link :to="`/profile/${$route.params.user}/reward`" v-slot="{isActive}"
+            <!-- <router-link :to="`/profile/${$route.params.user}/reward`" v-slot="{isActive}"
                          class="flex-1 cursor-pointer">
               <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                    :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                 {{$t('myReward')}}
               </div>
-            </router-link>
+            </router-link> -->
           </div>
         </div>
       </div>
