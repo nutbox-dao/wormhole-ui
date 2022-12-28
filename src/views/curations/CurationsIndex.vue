@@ -73,7 +73,7 @@
         class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                                  rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
-        @click="$router.push('/create-curation')">
+        @click="createCuration">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
   </div>
@@ -203,6 +203,13 @@ export default {
     gotoDetail(curation) {
       this.$store.commit('curation/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
+    },
+    createCuration() {
+      if (this.getAccountInfo?.twitterId) {
+        this.$router.push('/create-curation')
+      }else {
+        this.$store.commit('saveShowLogin', true)
+      }
     }
   },
   mounted () {
