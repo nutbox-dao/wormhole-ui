@@ -21,7 +21,7 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-0.5rem">
-            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark">
+            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark" :class="contentClass">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -63,6 +63,10 @@ export default {
       type: String,
       default: {}
     },
+    contentClass: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {

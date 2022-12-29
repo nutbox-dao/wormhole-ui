@@ -40,7 +40,7 @@
           <!--       foreign page -->
           <LinkPreview @click.stop="clickLinkView()" class="cursor-pointer mt-10px" v-if="post.pageInfo && post.pageInfo.length>10 && !isIgnoreAccount" :pageInfo="post.pageInfo"/>
           <!--       retweet  -->
-          <Repost class="mt-10px" @click.stop="clickRetweetView()" v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
+          <Repost class="mt-10px" :content-class="contentClass" @click.stop="clickRetweetView()" v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount" :retweetInfo="post.retweetInfo"/>
 
           <!--img-1, img-2, img-3, img-4 -->
           <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"

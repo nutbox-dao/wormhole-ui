@@ -52,7 +52,7 @@
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmcuJyKGuSfSh7SQgKhvympxUPQmix4mwKzymBJ68w21Su" alt="">
-              <div class="text-12px scale-text leading-14px text-white">Stellar Treck</div>
+              <div class="text-12px scale-text leading-14px text-white">Stellar Trek</div>
             </div>
           </div>
         </div>

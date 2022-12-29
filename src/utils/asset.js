@@ -321,7 +321,6 @@ export async function getChritmasNFT(address) {
             balances[b] = infos[b]
         }
     }
-    console.log(325, balances);
     return balances
 }
 
