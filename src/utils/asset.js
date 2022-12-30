@@ -203,7 +203,7 @@ export async function approve(token, account, spender) {
     let contract = new ethers.Contract(token, abi, provider)
     contract = contract.connect(provider.getSigner())
 
-    const tx = await contract.approve(spender, ethers.constants.MaxUint256, {gasLimit: 60000});
+    const tx = await contract.approve(spender, ethers.constants.MaxUint256, {gasLimit: 90000});
     await waitForTx(provider, tx.hash)
     return true;
 }
