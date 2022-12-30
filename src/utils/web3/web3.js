@@ -31,6 +31,7 @@ export const setupNetwork = async (chainName) => {
     return true
   } catch (error) {
     if (error.code === 4001) return;
+    if (error.code === -32002) return;
     try{
       const n = await eth.request({
         method: 'wallet_addEthereumChain',
