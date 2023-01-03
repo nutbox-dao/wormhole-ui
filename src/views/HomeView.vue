@@ -34,6 +34,7 @@ import CreateAccount from "@/views/CreateAccount";
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { randomEthAccount } from '@/utils/ethers'
 import { notify } from "@/utils/notify";
+import { mapState } from "vuex"
 
 export default {
   name: 'HomeView',
@@ -45,11 +46,11 @@ export default {
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
-      accountInfo: {},
-      referee: ''
+      accountInfo: {}
     }
   },
   computed: {
+    ...mapState(['referee'])
   },
   methods: {
     showNotify(message, duration, type) {
@@ -74,7 +75,7 @@ export default {
   async mounted() {
     const referee = this.$route.params
     if (referee.referee && referee.referee.length > 0) {
-      this.referee = referee.referee
+      this.$store.commit('saveReferee', referee.referee)
     }
   },
 }

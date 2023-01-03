@@ -18,6 +18,7 @@ export default {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
     createAccount: 'Create a new wallet',
+    notAuth: "Twitter auth fail",
     or: 'Or',
     metamask: 'Continue with MetaMask',
     quitTip: 'Are you sure to quit?\n' +
