@@ -238,7 +238,8 @@ export default {
       }
       try{
         this.isLiking = true
-        await userLike(this.post.postId)
+        const result = await userLike(this.post.postId)
+        let nyCard = result?.nyCard;
         this.post.voted = 1
       } catch (e) {
         if (e === 'log out') {

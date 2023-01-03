@@ -5,7 +5,7 @@ import { waitForTx } from './ethers'
 import { CURATION_CONTRACT, errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, 
-        likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr } from '@/api/api'
+        likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr } from '@/api/api'
 
 const abi = [
     {
@@ -369,4 +369,17 @@ export const checkMyCurationRecord = async (twitterId, curationId) => {
         throw 'log out'
       }
    }
+}
+
+export const checkMyPopupRecord = async (twitterId, popupId) =>  {
+  await checkAccessToken();
+  try {
+    const res = cpr(twitterId, popupId);
+    return res;
+  }catch(e) {
+    if (e === 401) {
+      await logout(twitterId);
+      throw 'log out'
+    }
+  }
 }

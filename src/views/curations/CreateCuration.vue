@@ -940,12 +940,14 @@ export default {
         this.$store.commit('curation/saveDraft', null);
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
-          await newCuration(pendingCuration);
+          const result = await newCuration(pendingCuration);
+          let nyCard = result?.nyCard;
           this.curation = pendingCuration
           this.currentStep = 3;
           this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
-          await newCurationWithTweet(pendingCuration);
+          const result = await newCurationWithTweet(pendingCuration);
+          let nyCard = result?.nyCard;
           this.$store.commit('curation/savePendingTweetCuration', null)
           this.$router.replace('/')
         }

@@ -94,8 +94,10 @@
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { mapGetters } from 'vuex'
-import { formatAmount } from "@/utils/helper";
+import { formatAmount, sleep } from "@/utils/helper";
 import PopUpsParticipants from "@/components/PopUpsParticipants";
+import { checkMyPopupRecord } from '@/utils/curation'
+import { notify } from "@/utils/notify";
 
 export default {
   name: "PopUpsCard",
@@ -168,11 +170,28 @@ export default {
       if(endTime < now) popup.status=1
       return endTime - now
     },
-    join(popup) {
+    async join(popup) {
       if (this.isEnded(popup) || this.isJoin(popup) || !popup.tweetId) {
 
       }else {
         window.open(`https://twitter.com/intent/tweet?in_reply_to=${popup.tweetId}&text=%0a%23iweb3%20%23popup`)
+        await sleep(6);
+        let count = 0;
+        while(count++ < 20) {
+          try {
+            const result = await checkMyPopupRecord(this.getAccountInfo.twitterId, popup.tweetId)
+            if (result && result.record && result.record.reward) {
+              const nyCard = result?.nyCard;
+              break;
+            }
+          } catch (e) {
+            if (e === 'log out') {
+              notify({message: this.$t('tips.accessTokenExpire')})
+              break;
+            }
+          }
+          await sleep(4)
+        }
       }
     },
     isNumeric (val) {

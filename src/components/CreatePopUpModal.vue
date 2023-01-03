@@ -331,22 +331,9 @@ export default {
             maxCount: this.form.maxReward,
             transHash: hash
           }
-          pendingPopup = {
-            twitterId: this.getAccountInfo.twitterId,
-            curationId: this.detailCuration.curationId,
-            chainId: EVM_CHAINS[this.form.chain].id,
-            creatorETH: this.form.address,
-            tweetId: this.form.tweetId,
-            endTime: this.form.duration * 60,
-            token: this.form.token,
-            symbol: this.selectedToken.symbol,
-            decimals: this.selectedToken.decimals,
-            bonus: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals).toString(),
-            maxCount: this.form.maxReward,
-            transHash: hash
-          }
           this.$store.commit('curation/savePendingPopup', pendingPopup)
-          await newPopups(pendingPopup);
+          const result = await newPopups(pendingPopup);
+          const nyCard = result?.nyCard;
           this.$store.commit('curation/savePendingPopup', null)
           this.$emit('close')
           this.modalVisible = false

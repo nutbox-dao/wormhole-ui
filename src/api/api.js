@@ -135,6 +135,9 @@ export const popupRecords = async (tweetId, rowIndex) =>
 export const newPopup = async (popup) =>
     post(BACKEND_API_URL + '/popup/newPopup', popup)
 
+export const checkMyPopupRecord = async (twitterId, popupId) =>
+    post(BACKEND_API_URL + '/popup/checkMyParticipantion', {twitterId, popupId})
+
 /****************************************  space  ***********************************************/
 export const getSpaceInfoById = async (spaceId) =>
     get(BACKEND_API_URL + '/space/bySpaceId', {spaceId})

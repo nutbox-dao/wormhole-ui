@@ -120,7 +120,8 @@
               parentTweetId: this.parentTweetId
             }
             this.$store.commit('curation/savePendingTip', tip)
-            await tipEVM(tip);
+            const result = await tipEVM(tip);
+            const nyCard = result?.nyCard;
             this.$store.commit('curation/savePendingTip', null)
           }
           this.$emit('close')
@@ -135,6 +136,7 @@
       const pendingTip = this.getPendingTip;
       if (pendingTip) {
         tipEVM(pendingTip).then(res => {
+          const nyCard = res?.nyCard;
           this.$store.commit('curation/savePendingTip', null)
         }).catch(e => {
           console.log('upload cache tip fail:', e);

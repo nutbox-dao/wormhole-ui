@@ -236,10 +236,12 @@ export default {
 
       await sleep(6)
       let count = 0;
-      while(count++ < 50) {
+      while(count++ < 20) {
         try {
-          const record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.curation.curationId)
-          if (record && record.taskRecord) {
+          let record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.curation.curationId)
+          if (record && record.record && record.record.taskRecord) {
+            const nyCard = record.nyCard;
+            record = record.record;
             this.curation.taskRecord = record.taskRecord;
             if (this.isQuote && (record.taskRecord & 1 === 1)) {
               break;
@@ -254,7 +256,7 @@ export default {
             break;
           }
         }
-        await sleep(2)
+        await sleep(4)
       }
       this.isQuoting = false
       this.isRepling = false
@@ -263,7 +265,8 @@ export default {
       if (!this.checkLogin() || this.liked || this.isLiking) return
       try{
         this.isLiking = true
-        await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
+        const result = await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
+        let nyCard = result?.nyCard;
         this.curation.taskRecord = this.curation.taskRecord | 4
       } catch (e) {
         if (e === 'log out') {
@@ -282,7 +285,8 @@ export default {
       if (!this.checkLogin() || this.followed || this.isFollowing) return
       try{
         this.isFollowing = true
-        await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
+        const result = await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
+        let nyCard = result?.nyCard;
         this.curation.taskRecord = this.curation?.taskRecord | 8
       } catch (e) {
         if (e === 'log out') {
