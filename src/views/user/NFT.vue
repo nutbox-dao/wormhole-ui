@@ -65,8 +65,11 @@
         <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
     </div>
-    <el-dialog v-model="collectionVisible" fullscreen class=" c-dialog-fullscreen">
-      <div class="px-1.5rem py-1/10 xs:p-1/10 max-w-50rem mx-auto">
+    <el-dialog v-model="collectionVisible" fullscreen class=" c-dialog-fullscreen" :show-close="false">
+      <div class="py-4rem px-15px max-w-50rem mx-auto relative">
+        <button class="absolute top-1rem left-15px" @click="collectionVisible=false">
+          <i class="icon-back w-30px h-30px"></i>
+        </button>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===0">
           <div class="col-span-1 text-left hover-scale">
             <div class="relative min-w cursor-pointer" @click="modalVisible=true">
