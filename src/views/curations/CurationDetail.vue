@@ -638,7 +638,6 @@ export default {
       try{
         this.isLiking = true
         let result = await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
-        console.log(222, result);
         let nyCard = result?.nyCard;
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
       } catch (e) {
