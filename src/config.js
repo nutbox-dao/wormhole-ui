@@ -94,6 +94,7 @@ export const TokenIcon = {
     'NEAR': 'https://cdn.wherein.mobi/wormhole3/logo/near.png',
     'AURORA': 'https://cdn.wherein.mobi/wormhole3/logo/aurora.png',
     'GLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png',
+    'WGLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png',
     'PNUT': 'https://cdn.wherein.mobi/nutbox/v2/1645760918196',
     'NUT': "https://cdn.wherein.mobi/nutbox-v2/token/logo/nutcoin1.png",
     'WIN': 'https://cdn.wherein.mobi/nutbox/v2/1650853172818'
@@ -226,7 +227,7 @@ export const EVM_CHAINS = {
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
           USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-          DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
+          WGLMR: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
         },
         Multi_Config: {
             rpcUrl: 'https://rpc.api.moonbeam.network',
