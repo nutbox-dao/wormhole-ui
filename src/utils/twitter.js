@@ -2,7 +2,7 @@ import store from '@/store'
 import { checkAccessToken } from '@/utils/account'
 import { getTweetsById as gtbi, getTweetById as getbi, userFollowing as uf,
      userLike as ul, getSapceBySpaceId, getUserInfoFromTwitter as guibu,
-    userTweet as ut } from '@/api/api'
+    userTweet as ut, userReply as ur } from '@/api/api'
 import { logout } from '@/utils/account'
 import { errCode } from '@/config'
 
@@ -106,6 +106,21 @@ export const userTweet = async (text) => {
     try {
         const twitterId = store.getters.getAccountInfo.twitterId;
         const r = await ut(twitterId, text)
+        if(r) {
+            return r.id
+        }
+    }catch(e) {
+        if (e === 401) {
+            throw 'log out'
+        }
+    }
+}
+
+export const userReply = async (tweetId, text) => {
+    await checkAccessToken();
+    try {
+        const twitterId = store.getters.getAccountInfo.twitterId;
+        const r = await ur(twitterId, tweetId, text)
         if(r) {
             return r.id
         }

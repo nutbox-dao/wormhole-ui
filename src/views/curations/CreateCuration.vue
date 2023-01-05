@@ -436,7 +436,7 @@ import Steps from "@/components/Steps";
 import SendTokenTip from "@/components/SendTokenTip";
 import TwitterCompleteTip from "@/components/TwitterCompleteTip";
 import {markRaw, ref} from "vue";
-import { getTweetById, getSpaceById, getUserInfoByUserId } from '@/utils/twitter'
+import { getTweetById, getSpaceById, getUserInfoByUserId, userReply } from '@/utils/twitter'
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
@@ -963,6 +963,25 @@ export default {
         this.loading = false
         this.modalVisible=false
       }
+    },
+    // auto reply the original tweet for user
+    async reply() {
+      try{
+        this.isRepling = true
+        await userReply(this.form.tweetId, `I created a curation for this tweet by @wormhole_3. 
+
+All the users who curated this tweet can share ${this.form.amount} ${this.selectedToken.symbol} on ${this.form.chain}. 
+                
+Users can join the curation from here: https://alpha.wormhole3.io/#/curation-detail/${curationId}`)
+      } catch (e) {
+        
+      } finally {
+        this.isRepling = false
+      }
+    },
+    // reply to the original tweet by our twitter account
+    async cancelReply() {
+      
     },
     onPost() {
       // transfer text to uri

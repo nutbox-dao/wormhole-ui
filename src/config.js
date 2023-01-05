@@ -212,28 +212,30 @@ export const EVM_CHAINS = {
     //         interval: 3000
     //     }
     // },
-    // Moonbeam: {
-    //     rpc: 'https://rpc.api.moonbeam.network',
-    //     scan: 'https://moonbeam.moonscan.io/',
-    //     id: 1284,
-    //     main: {
-    //         name: 'GLMR',
-    //         symbol: 'GLMR',
-    //         decimals: 18,
-    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
-    //     },
-    //     assets: {
-    //       USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
-    //       USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
-    //       DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-    //       DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
-    //     },
-    //     Multi_Config: {
-    //         rpcUrl: 'https://rpc.api.moonbeam.network',
-    //         multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
-    //         interval: 3000
-    //     }
-    // }
+    Moonbeam: {
+        rpc: 'https://rpc.api.moonbeam.network',
+        scan: 'https://moonbeam.moonscan.io/',
+        id: 1284,
+        main: {
+            name: 'GLMR',
+            symbol: 'GLMR',
+            decimals: 18,
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
+        },
+        assets: {
+          USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
+          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
+          DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
+          DAI: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
+        },
+        Multi_Config: {
+            rpcUrl: 'https://rpc.api.moonbeam.network',
+            multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
+            interval: 3000
+        },
+        curation: '0xc53A46d6Ba6C9115Ab4D10afb499Aee2e46aa2F9',
+        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
+    }
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'
