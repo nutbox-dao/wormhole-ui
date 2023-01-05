@@ -637,7 +637,7 @@ export default {
       if (!this.checkLogin() || this.liked || this.isLiking) return
       try{
         this.isLiking = true
-        const result = await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
+        let result = await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
         let nyCard = result?.nyCard;
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
       } catch (e) {
