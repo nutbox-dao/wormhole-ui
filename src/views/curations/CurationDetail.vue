@@ -659,7 +659,7 @@ export default {
       try{
         this.isFollowing = true
         const result = await followCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId})
-        let nyCard = result?.nyCard;
+        let nyCard = result.nyCard;
         this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 8
       } catch (e) {
         if (e === 'log out') {

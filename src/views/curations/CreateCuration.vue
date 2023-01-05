@@ -941,13 +941,13 @@ export default {
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           const result = await newCuration(pendingCuration);
-          let nyCard = result?.nyCard;
+          let nyCard = result.nyCard;
           this.curation = pendingCuration
           this.currentStep = 3;
           this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
           const result = await newCurationWithTweet(pendingCuration);
-          let nyCard = result?.nyCard;
+          let nyCard = result.nyCard;
           this.$store.commit('curation/savePendingTweetCuration', null)
           this.$router.replace('/')
         }
@@ -981,7 +981,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
     },
     // reply to the original tweet by our twitter account
     async cancelReply() {
-      
+
     },
     onPost() {
       // transfer text to uri

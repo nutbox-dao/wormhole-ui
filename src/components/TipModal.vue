@@ -121,7 +121,7 @@
             }
             this.$store.commit('curation/savePendingTip', tip)
             const result = await tipEVM(tip);
-            const nyCard = result?.nyCard;
+            const nyCard = result.nyCard;
             this.$store.commit('curation/savePendingTip', null)
           }
           this.$emit('close')

@@ -181,7 +181,7 @@ export default {
           try {
             const result = await checkMyPopupRecord(this.getAccountInfo.twitterId, popup.tweetId)
             if (result && result.record && result.record.reward) {
-              const nyCard = result?.nyCard;
+              const nyCard = result.nyCard;
               break;
             }
           } catch (e) {

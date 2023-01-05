@@ -333,7 +333,7 @@ export default {
           }
           this.$store.commit('curation/savePendingPopup', pendingPopup)
           const result = await newPopups(pendingPopup);
-          const nyCard = result?.nyCard;
+          const nyCard = result.nyCard;
           this.$store.commit('curation/savePendingPopup', null)
           this.$emit('close')
           this.modalVisible = false

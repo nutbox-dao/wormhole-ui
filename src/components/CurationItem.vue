@@ -266,7 +266,7 @@ export default {
       try{
         this.isLiking = true
         const result = await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
-        let nyCard = result?.nyCard;
+        let nyCard = result.nyCard;
         this.curation.taskRecord = this.curation.taskRecord | 4
       } catch (e) {
         if (e === 'log out') {
@@ -286,7 +286,7 @@ export default {
       try{
         this.isFollowing = true
         const result = await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
-        let nyCard = result?.nyCard;
+        let nyCard = result.nyCard;
         this.curation.taskRecord = this.curation?.taskRecord | 8
       } catch (e) {
         if (e === 'log out') {
