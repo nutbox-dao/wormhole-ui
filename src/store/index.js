@@ -5,6 +5,7 @@ import { b64uEnc, b64uDec } from '@/utils/helper'
 import postsModule from './postsModule'
 import web3 from './web3'
 import curation from './curation'
+import newYear from './newYear'
 import {testAccount} from "@/views/square/test-data";
 
 export default Vuex.createStore({
@@ -142,6 +143,7 @@ export default Vuex.createStore({
   modules: {
     postsModule,
     web3,
-    curation
+    curation,
+    newYear
   },
 })
