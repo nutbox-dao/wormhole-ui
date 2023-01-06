@@ -6,6 +6,13 @@
                 class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
                 :class="subActiveTagIndex===index?'light:text-color18':'text-color59/50'"
                 @click="changeSubIndex(index)">{{tag}}</button>
+        <button class="flex items-center justify-center bg-color62 hidden sm:flex
+                       h-34px 2xl:w-2.2rem px-15px rounded-full
+                       font-bold text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem"
+            @click="createCuration">
+          <span>Create curation</span>
+          <img class="ml-5px w-14px min-w-14px h-14px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+        </button>
       </div>
     </div>
     <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
@@ -70,9 +77,9 @@
     </button>
     <!-- create curation   -->
     <button
-        class="flex items-center justify-center bg-color62
-                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
+        class="flex items-center justify-center bg-color62 sm:hidden
+               h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
+               rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
         @click="createCuration">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
