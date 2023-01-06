@@ -958,8 +958,11 @@ export default {
           // const result = await newCurationWithTweet(pendingCuration);
           // let nyCard = result.nyCard;
           // this.$store.commit('curation/savePendingTweetCuration', null)
-          // this.$router.replace('/')
-          this.createdTipVisible = true
+          if (pendingCuration.authorId === this.getAccountInfo.twitterId) {
+            this.$router.replace('/')
+          }else {
+            this.createdTipVisible = true
+          }
         }
       } catch (e) {
         if (e === 'log out') {

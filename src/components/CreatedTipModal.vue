@@ -1,8 +1,8 @@
 <template>
   <div class="p-2rem">
-    <div class="c-text-black text-1.6rem">Reply to the author</div>
+    <div class="c-text-black text-1.6rem">Reply to the tweet</div>
     <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
-      Send a reply to the tweet to notice the author you have create a curation for him.
+      Reply to this tweet to notify the author that you have create a curation for it. 
     </div>
     <button class="gradient-btn w-full h-44px 2xl:h-2.2rem rounded-full c-text-black text-18px 2xl:text-0.9rem"
           :disabled="isRepling"  
