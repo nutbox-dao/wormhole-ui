@@ -433,7 +433,7 @@
                :show-close="false"
                :close-on-click-modal="true"
                class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <CreatedTipModal @onPost="reply" @close="createdTipVisible=false, $router.replace('/')"/>
+      <CreatedTipModal @onPost="reply" @close="cancelReply"/>
     </el-dialog>
   </div>
 </template>
@@ -447,6 +447,7 @@ import { getTweetById, getSpaceById, getUserInfoByUserId, userReply } from '@/ut
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
+import { replyToCurationByWH3 } from '@/api/api'
 import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
@@ -942,22 +943,22 @@ export default {
             return;
         }
         // write in contract
-        // transHash = await creteNewCuration(this.form.chain, curation);
-        // pendingCuration.transHash = transHash;
+        transHash = await creteNewCuration(this.form.chain, curation);
+        pendingCuration.transHash = transHash;
+        this.curation = pendingCuration
 
-        // this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
-        // this.$store.commit('curation/saveDraft', null);
+        this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
+        this.$store.commit('curation/saveDraft', null);
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
-          // const result = await newCuration(pendingCuration);
-          // let nyCard = result.nyCard;
-          this.curation = pendingCuration
+          const result = await newCuration(pendingCuration);
+          let nyCard = result.nyCard;
           this.currentStep = 3;
-          // this.$store.commit('curation/savePendingTweetCuration', null)
+          this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
-          // const result = await newCurationWithTweet(pendingCuration);
-          // let nyCard = result.nyCard;
-          // this.$store.commit('curation/savePendingTweetCuration', null)
+          const result = await newCurationWithTweet(pendingCuration);
+          let nyCard = result.nyCard;
+          this.$store.commit('curation/savePendingTweetCuration', null)
           if (pendingCuration.authorId === this.getAccountInfo.twitterId) {
             this.$router.replace('/')
           }else {
@@ -980,23 +981,28 @@ export default {
     // auto reply the original tweet for user
     async reply() {
       try{
-        this.isRepling = true
         await userReply(this.form.tweetId, `I created a curation for this tweet by @wormhole_3.
 
 All the users who curated this tweet can share ${this.form.amount} ${this.selectedToken.symbol} on ${this.form.chain}.
 
-Users can join the curation from here: https://alpha.wormhole3.io/#/curation-detail/${curationId}`)
+Users can join the curation from here: https://alpha.wormhole3.io/#/curation-detail/${this.curation.curationId}`)
       } catch (e) {
-
+        console.log('Reply fail:', e);
       } finally {
-        this.isRepling = false
         this.createdTipVisible = false
         this.$router.replace('/')
       }
     },
     // reply to the original tweet by our twitter account
     async cancelReply() {
-
+      try{
+        await replyToCurationByWH3(this.getAccountInfo.twitterId, this.getAccountInfo.twitterUsername, this.curation.curationId, this.form.tweetId, this.form.amount, this.selectedToken.symbol, this.form.chain)
+      } catch (e) {
+          console.log('cancel fail', e);
+      } finally {
+        this.createdTipVisible = false
+        this.$router.replace('/')
+      }
     },
     onPost() {
       // transfer text to uri

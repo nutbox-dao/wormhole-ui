@@ -9,12 +9,12 @@
                    c-text-black text-18px 2xl:text-0.9rem"
           :disabled="isRepling"
           @click="isRepling=true; $emit('onPost')">
-      Send
+      Reply
       <c-spinner v-show="isRepling" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
     </button>
     <div class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem cursor-pointer"
         :disabled="isRepling"
-         @click="$emit('close')">Cancel</div>
+         @click="isRepling=true;$emit('close')">Cancel</div>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   name: "CreatedTipModal",
   data() {
     return {
-      isRepling: true
+      isRepling: false
     }
   },
 }
