@@ -433,7 +433,7 @@
                :show-close="false"
                :close-on-click-modal="true"
                class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <CreatedTipModal @onPost="goPost" @close="createdTipVisible=false, $router.replace('/')"/>
+      <CreatedTipModal @onPost="reply" @close="createdTipVisible=false, $router.replace('/')"/>
     </el-dialog>
   </div>
 </template>
@@ -474,6 +474,7 @@ export default {
       connectLoading: false,
       loading: false,
       receiving: false,
+      isRepling: false,
       // we cancel title from 2022/10/12
       // get the first line of description as title
       form: {
@@ -941,23 +942,22 @@ export default {
             return;
         }
         // write in contract
-        transHash = await creteNewCuration(this.form.chain, curation);
-        pendingCuration.transHash = transHash;
+        // transHash = await creteNewCuration(this.form.chain, curation);
+        // pendingCuration.transHash = transHash;
 
-        // const pendingCuration = {...curation, amount: curation.amount.toString(), transHash: hash, twitterId: this.getAccountInfo.twitterId};
-        this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
-        this.$store.commit('curation/saveDraft', null);
+        // this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
+        // this.$store.commit('curation/saveDraft', null);
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
-          const result = await newCuration(pendingCuration);
-          let nyCard = result.nyCard;
+          // const result = await newCuration(pendingCuration);
+          // let nyCard = result.nyCard;
           this.curation = pendingCuration
           this.currentStep = 3;
-          this.$store.commit('curation/savePendingTweetCuration', null)
+          // this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
-          const result = await newCurationWithTweet(pendingCuration);
-          let nyCard = result.nyCard;
-          this.$store.commit('curation/savePendingTweetCuration', null)
+          // const result = await newCurationWithTweet(pendingCuration);
+          // let nyCard = result.nyCard;
+          // this.$store.commit('curation/savePendingTweetCuration', null)
           // this.$router.replace('/')
           this.createdTipVisible = true
         }
@@ -974,9 +974,6 @@ export default {
         this.modalVisible=false
       }
     },
-    goPost() {
-      this.createdTipVisible = false
-    },
     // auto reply the original tweet for user
     async reply() {
       try{
@@ -990,6 +987,8 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
 
       } finally {
         this.isRepling = false
+        this.createdTipVisible = false
+        this.$router.replace('/')
       }
     },
     // reply to the original tweet by our twitter account
