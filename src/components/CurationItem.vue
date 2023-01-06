@@ -102,6 +102,13 @@
         </div>
       </div>
     </div>
+<!--    <el-dialog v-model="getCardVisible"-->
+<!--               destroy-on-close-->
+<!--               :show-close="false"-->
+<!--               :close-on-click-modal="true"-->
+<!--               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">-->
+<!--      <GetCardModal/>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -119,10 +126,11 @@ import { notify } from "@/utils/notify";
 import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
+import GetCardModal from "@/views/red-envelope/GetCardModal";
 
 export default {
   name: "CurationItem",
-  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags},
+  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags, GetCardModal},
   props: {
     curation: {
       type: Object,
@@ -142,7 +150,8 @@ export default {
       isFollowing: false,
       isEnd: false,
       isQuoting: false,
-      isRepling: false
+      isRepling: false,
+      getCardVisible: true
     }
   },
   computed: {
