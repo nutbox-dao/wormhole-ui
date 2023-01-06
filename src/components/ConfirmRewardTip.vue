@@ -6,7 +6,7 @@
     <div class="text-15px leading-1.5rem xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
       After the Quest ends, eligible questers will be able to claim the rewards.
     </div>
-    <button class="gradient-btn w-full h-55px 2xl:h-2.8rem max-w-300px rounded-full
+    <button class="gradient-btn w-full h-44px 2xl:h-2.2rem max-w-300px rounded-full
                    flex justify-center items-center mx-auto
                    c-text-black text-18px 2xl:text-0.9rem"
             @click="$emit('onConnect')">

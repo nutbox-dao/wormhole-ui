@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div class="p-2rem">
     <div class="c-text-black text-1.6rem">Tips</div>
     <div class="text-15px leading-1.5rem text-left xl:text-0.75rem text-color8B light:text-color7D my-1.5rem">
-      Only one curation can be created at a time, you need to deal with the draft first.
+      提示内容：xxx
     </div>
     <button class="gradient-btn w-full h-44px 2xl:h-2.2rem rounded-full c-text-black text-18px 2xl:text-0.9rem"
-            @click="$emit('confirm')">
-      Edit Draft
+            @click="$emit('onPost')">
+      Post
     </button>
-    <div class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem"
-         @click="$emit('close')">Cancel Create</div>
+    <div class="underline mt-1.5rem c-text-black text-15px 2xl:text-0.75rem cursor-pointer"
+         @click="$emit('close')">Cancel</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CurationsTip"
+  name: "CreatedTipModal"
 }
 </script>
 

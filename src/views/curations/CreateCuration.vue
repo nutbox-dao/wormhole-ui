@@ -428,6 +428,13 @@
                        @close="addSpeakerVisible=false"
                        @confirm="onConfirmSpeaker"/>
     </el-dialog>
+    <el-dialog v-model="createdTipVisible"
+               destroy-on-close
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <CreatedTipModal @onPost="goPost" @close="createdTipVisible=false, $router.replace('/')"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -454,11 +461,12 @@ import {testData} from "@/views/square/test-data";
 import { parseTweet } from '@/utils/twitter-tool'
 import AssetsOptions from "@/components/AssetsOptions";
 import SelectCategoryTip from "@/components/SelectCategoryTip";
+import CreatedTipModal from "@/components/CreatedTipModal";
 
 export default {
   name: "CreateCuration",
   components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
-    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip},
+    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip, CreatedTipModal},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -520,7 +528,8 @@ export default {
       TokenIcon,
       expandPreview: false,
       rewardsTipCollapse: false,
-      selectCategory: ''
+      selectCategory: '',
+      createdTipVisible: false
     }
   },
   computed: {
@@ -949,7 +958,8 @@ export default {
           const result = await newCurationWithTweet(pendingCuration);
           let nyCard = result.nyCard;
           this.$store.commit('curation/savePendingTweetCuration', null)
-          this.$router.replace('/')
+          // this.$router.replace('/')
+          this.createdTipVisible = true
         }
       } catch (e) {
         if (e === 'log out') {
@@ -964,17 +974,20 @@ export default {
         this.modalVisible=false
       }
     },
+    goPost() {
+      this.createdTipVisible = false
+    },
     // auto reply the original tweet for user
     async reply() {
       try{
         this.isRepling = true
-        await userReply(this.form.tweetId, `I created a curation for this tweet by @wormhole_3. 
+        await userReply(this.form.tweetId, `I created a curation for this tweet by @wormhole_3.
 
-All the users who curated this tweet can share ${this.form.amount} ${this.selectedToken.symbol} on ${this.form.chain}. 
-                
+All the users who curated this tweet can share ${this.form.amount} ${this.selectedToken.symbol} on ${this.form.chain}.
+
 Users can join the curation from here: https://alpha.wormhole3.io/#/curation-detail/${curationId}`)
       } catch (e) {
-        
+
       } finally {
         this.isRepling = false
       }
