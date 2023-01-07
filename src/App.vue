@@ -155,7 +155,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon } from '@/api/api'
+import { getProfile, getCommon, getPrice } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
 import {showError} from "@/utils/notify";
@@ -203,18 +203,28 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      const res = await getCommon();
+      const [res, res2] = await Promise.all([getCommon(), getPrice()])
       let {prices, vestsToSteem} = res;
       this.$store.commit('saveVestsToSteem', vestsToSteem)
       prices = {
         ...prices,
         wmatic: prices.matic,
+        wglmr: prices.glmr,
         dai: 1,
         usdt: 1,
         usdc: 1,
         busd: 1,
         't-usdt': 0,
         'test-u': 0
+      }
+
+      if (res2 && res2.length > 0) {
+        for (let p in res2) {
+          const price = res2[p]
+          if (price.address === '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11') {
+            prices['pnut'] = price.price
+          }
+        }
       }
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)

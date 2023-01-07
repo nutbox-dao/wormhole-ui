@@ -29,7 +29,7 @@
         <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
     </div> -->
-    <el-collapse :model-value="['polygon', 'bsc', 'steem']" class="no-border-collapse border-0">
+    <el-collapse :model-value="['polygon', 'bsc', 'moonbeam', 'steem']" class="no-border-collapse border-0">
       <el-collapse-item name="polygon" v-if="(erc20Balances && erc20Balances.Polygon)">
         <template #title>
           <div class="text-white light:text-blueDark c-text-black">Polygon</div>
@@ -49,22 +49,41 @@
           </div>
         </div>
       </el-collapse-item>
-      <el-collapse-item name="bsc" v-if="(erc20Balances && erc20Balances['BNB-Chain'])">
+      <el-collapse-item name="bsc" v-if="(erc20Balances && erc20Balances['BNB Smart Chain'])">
         <template #title>
-          <div class="text-white light:text-blueDark c-text-black">BSC-Chain</div>
+          <div class="text-white light:text-blueDark c-text-black">BNB Smart Chain</div>
         </template>
         <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
-             v-for="erc20 of Object.keys(erc20Balances['BNB-Chain'])" :key="erc20 + 'bsc'">
+             v-for="erc20 of Object.keys(erc20Balances['BNB Smart Chain'])" :key="erc20 + 'bsc'">
           <div class="flex items-center">
             <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
                  :src="icons[erc20]" alt="">
             <div class="text-left ml-1rem">
               <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
-              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['BNB-Chain'][erc20]) }} {{erc20}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['BNB Smart Chain'][erc20]) }} {{erc20}}</div>
             </div>
           </div>
           <div class="flex flex-col items-end justify-end">
-            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['BNB-Chain'][erc20] * prices[erc20.toLowerCase()])}}</div>
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['BNB Smart Chain'][erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="moonbeam" v-if="(erc20Balances && erc20Balances['Moonbeam'])">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Moonbeam</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances['Moonbeam'])" :key="erc20 + 'moonbeam'">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['Moonbeam'][erc20]) }} {{erc20}}</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['Moonbeam'][erc20] * prices[erc20.toLowerCase()])}}</div>
           </div>
         </div>
       </el-collapse-item>

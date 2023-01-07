@@ -106,7 +106,7 @@ export const TokenName = {
     'USDT': 'Tether USD',
     'USDC': 'USD Coin',
     'UNI': 'Uniswap',
-    'BUSD': 'BSC-USD',
+    'BUSD': 'BSC USD',
     'MATIC': 'Polygon',
     'TEST-U': 'TEST USDT',
     'WMATIC': 'Wrapped Matic',
@@ -114,7 +114,9 @@ export const TokenName = {
     'FRAX': 'Frax',
     'NEAR': 'Near',
     'AURORA': 'Aurora',
-    'GLMR': 'GLMR'
+    'GLMR': 'GLMR',
+    'WGLMR': 'Wrapped GLMR',
+    'PNUT': 'Peanut'
 }
 
 /**
@@ -155,9 +157,10 @@ export const EVM_CHAINS = {
         },
         assets: {
             // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-            BUSD: {symbol: 'BUSD', name: 'BSC-USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
+            BUSD: {symbol: 'BUSD', name: 'BSC USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0x55d398326f99059fF775485246999027B3197955', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            PNUT: {symbol: 'PNUT', name: 'Peanut', address: '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11', decimals: 18}
         },
         Multi_Config: {
             rpcUrl: 'https://bsc-dataseed.binance.org',
@@ -227,7 +230,7 @@ export const EVM_CHAINS = {
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
           USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-          WGLMR: {symbol: 'GLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
+          WGLMR: {symbol: 'WGLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
         },
         Multi_Config: {
             rpcUrl: 'https://rpc.api.moonbeam.network',
