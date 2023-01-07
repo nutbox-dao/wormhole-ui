@@ -7,10 +7,10 @@
                 :class="subActiveTagIndex===index?'light:text-color18':'text-color59/50'"
                 @click="changeSubIndex(index)">{{tag}}</button>
         <button class="flex items-center justify-center bg-color62 hidden sm:flex
-                       h-34px 2xl:w-2.2rem px-15px rounded-full
+                       h-34px px-15px rounded-full
                        font-bold text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem"
             @click="createCuration">
-          <span>Create curation</span>
+          <span class="whitespace-nowrap text-white">Create curation</span>
           <img class="ml-5px w-14px min-w-14px h-14px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
         </button>
       </div>
