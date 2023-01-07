@@ -1,6 +1,10 @@
 <template>
-  <div class="pb-2rem">
-    <div class="gradient-text gradient-text-right mx-auto c-text-black text-20px xl:text-1.2rem my-3rem">
+  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem">
+    <button class="absolute right-20px top-20px"
+            @click="$emit('close')">
+      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+    </button>
+    <div class="mx-auto c-text-black text-20px xl:text-1.2rem my-3rem">
       {{$t('ny.mysteryCards')}}
     </div>
     <div class="flex flex-col justify-center items-center relative">

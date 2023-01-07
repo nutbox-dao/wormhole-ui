@@ -213,7 +213,7 @@
         </div>
       </div>
       <div class="mt-10px">{{$t('ny.caretMintDesc')}}</div>
-      <button class="bg-btn-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+      <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
               @click="onShare">
@@ -242,7 +242,7 @@
       <div class="flex justify-center items-center gap-10px my-20px">
         <button class="font-bold w-10rem rounded-8px border-1 border-color8B/30 light:border-colorF4 h-34px 2xl:h-1.7rem"
                 @click="cropperModalVisible=false">{{ $t('ny.cancel') }}</button>
-        <button class="bg-btn-gradient text-white font-bold rounded-8px w-10rem border-1 border-color8B/30 light:border-colorF4
+        <button class="bg-tag-gradient text-white font-bold rounded-8px w-10rem border-1 border-color8B/30 light:border-colorF4
                        h-34px 2xl:h-1.7rem"
                 @click="completeCropAndUpload">{{ $t('ny.complete') }}</button>
       </div>

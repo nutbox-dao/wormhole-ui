@@ -23,7 +23,7 @@
       </div>
       <div class="opacity-40">动画待制作</div>
       <div class="mt-2rem">{{$t('ny.chanceTip', {count: 1})}}</div>
-      <button class="bg-btn-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+      <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
               @click="onDrawCard">
@@ -86,7 +86,7 @@
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
           {{$t('ny.projectDesc')}}
         </div>
-        <button class="bg-btn-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+        <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 @click="$emit('close')">

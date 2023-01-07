@@ -14,13 +14,13 @@
       <div class="bg-blockBg light:bg-white light:border-1 light:border-colorF4 rounded-8px mt-1rem mb-2rem">
         <div class="flex gap-x-10px justify-center p-1rem border-b-1 border-color8B/30 light:border-colorF4">
           <button class="px-20px rounded-full h-30px flex items-center justify-center"
-                  :class="tabIndex===0?'bg-btn-gradient text-white':'border-1 border-color8B/30'"
+                  :class="tabIndex===0?'bg-tag-gradient text-white':'border-1 border-color8B/30'"
                   @click="tabIndex=0">
             <img class="h-20px mr-4px" src="~@/assets/red-envelope/tab-tag.png" alt="">
             {{$t('ny.blessingCards')}}
           </button>
           <button class="px-20px rounded-full h-30px flex items-center justify-center"
-                  :class="tabIndex===1?'bg-btn-gradient text-white':'border-1 border-color8B/30'"
+                  :class="tabIndex===1?'bg-tag-gradient text-white':'border-1 border-color8B/30'"
                   @click="tabIndex=1">
             <img class="h-20px mr-4px" src="~@/assets/red-envelope/tab-tag.png" alt="">
             {{$t('ny.mysteryCards')}}

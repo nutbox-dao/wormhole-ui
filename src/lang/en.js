@@ -340,7 +340,12 @@ export default {
     caretMintDesc: 'This is advertisement for project owner. This is advertisement for project owner. This is advertisement for project owner. This is advertisement for project owner.',
     specialRewards: 'Special Rewards',
     commonRewards: 'Common Rewards',
-    tokenNftAddress: 'Token / NFT address'
+    tokenNftAddress: 'Token / NFT address',
+    claimReward: 'Claim rewards',
+    redeemCards: 'Redeem cards',
+    notOpen: 'not open',
+    redeemCardDesc: 'You made {totalNum} mystery cards, {notOpenNum} of them are not open, now you can redeem to get back the special rewards in these cards.',
+    redeem: 'Redeem'
   },
   err: {
     serverErr: 'Server error',
