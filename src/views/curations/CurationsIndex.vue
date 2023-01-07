@@ -81,7 +81,7 @@
                :show-close="false"
                :close-on-click-modal="true"
                class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <GetCardModal/>
+      <GetCardModal @close="getCardVisible=false"/>
     </el-dialog>
   </div>
 </template>
