@@ -22,6 +22,10 @@
                 <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.8rem"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
+              <router-link to="/red-envelope">
+                <img class="w-22px h-22px xl:h-1.4rem xl:w-1.4rem mr-0.8rem"
+                     src="~@/assets/red-envelope/icon-red-envelope.png" @error="replaceEmptyImg" alt="">
+              </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.8rem icon-wallet"></i>
               </router-link>

@@ -83,6 +83,13 @@
         @click="createCuration">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
+    <el-dialog v-model="getCardVisible"
+               destroy-on-close
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <GetCardModal @close="getCardVisible=false"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -92,10 +99,11 @@ import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
 import { getCurations } from '@/api/api'
 import { showError } from '@/utils/notify'
+import GetCardModal from "@/views/red-envelope/GetCardModal";
 
 export default {
   name: "CurationsIndex",
-  components: {CurationItem, CurationsTip},
+  components: {CurationItem, CurationsTip, GetCardModal},
   data() {
     return {
       listLoading: false,
@@ -106,7 +114,8 @@ export default {
       subActiveTag: 'Ongoing',
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
-      scroll: 0
+      scroll: 0,
+      getCardVisible: true
     }
   },
   computed: {

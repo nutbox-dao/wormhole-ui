@@ -29,6 +29,7 @@ import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
+import RedEnvelopeIndex from "@/views/red-envelope/RedEnvelopeIndex";
 
 const routes = [
   {
@@ -148,10 +149,10 @@ const routes = [
     component: () => import('@/views/curations/ConfirmReward'),
   },
   {
-    path: '/submissions/:state',
-    name: 'submissions',
-    component: () => import('@/views/curations/Submissions'),
-  }
+    path: '/red-envelope',
+    name: 'red-envelope',
+    component: RedEnvelopeIndex,
+  },
 ]
 
 const router = VueRouter.createRouter({
