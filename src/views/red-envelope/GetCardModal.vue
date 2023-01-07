@@ -11,7 +11,7 @@
       <div class="relative w-20rem max-w-240px mx-auto">
         <img class="w-full"
              src="~@/assets/red-envelope/card0.png" alt="">
-        <div class="absolute top-20px left-20px text-white font-bold text-20px opacity-50">Leek Rabbit</div>
+        <div class="absolute top-20px left-20px text-white font-bold text-20px opacity-50">Leek Rabbit:{{ newCardId }}</div>
         <div class="absolute bottom-30px right-30px text-white font-bold text-20px ">Balance: 0</div>
       </div>
       <div class="my-20px text-left whitespace-pre-line">
@@ -19,10 +19,10 @@
       </div>
       <div class="flex flex-col">
         <button class="bg-red-gradient text-white font-bold h-44px 2xl:h-2.2rem w-10rem mx-auto rounded-8px"
-                @click="$emit('close')">
+                @click="close">
           {{$t('ny.get')}}
         </button>
-        <button class="underline mt-20px font-bold" @click="$emit('close')">
+        <button class="underline mt-20px font-bold" @click="goteCollection">
           {{$t('ny.checkCollections')}}
         </button>
       </div>
@@ -31,8 +31,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-  name: "GetCardModal"
+  name: "GetCardModal",
+  data() {
+    return {
+      key: ''
+    }
+  },
+  computed: {
+    ...mapState(['newCardId'])
+  },
+  methods: {
+    close() {
+      this.$store.commit('saveGetCardVisible', false)
+    },
+    goteCollection() {
+      this.$router.push('/red-envelope')
+    }
+  },
 }
 </script>
 
