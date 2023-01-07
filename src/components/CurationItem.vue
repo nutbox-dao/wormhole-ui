@@ -66,7 +66,7 @@
                 </i>
                 <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
               </button>
-              <button @click="getCard">get card</button>
+              <button @click="getCard">get</button>
             </div>
             <div v-else>
               <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
