@@ -46,6 +46,7 @@
               <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
                             :curation="curation"
                             :content-type="curation.curationType === 1?'tweet':'space'"
+                            @getCard="getCardVisible=true"
                             @click="gotoDetail(curation)"/>
             </div>
           </div>
@@ -115,7 +116,7 @@ export default {
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0,
-      getCardVisible: true
+      getCardVisible: false
     }
   },
   computed: {

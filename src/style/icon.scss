@@ -153,6 +153,15 @@
   background-image: url("~@/assets/icon-add-circle-light.svg");
 }
 
+.icon-add {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-white.svg");
+}
+.light .icon-add {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add.svg");
+}
+
 .icon-quote-tag {
   @extend .icon;
   background-image: url("~@/assets/icon-quote-tag.svg");

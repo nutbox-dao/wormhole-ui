@@ -101,7 +101,7 @@
           <component :is="Component" v-if="!$route.meta.keepAlive"/>
         </router-view>
       </div>
-      <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;">
+      <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
       </el-dialog>
 

@@ -1,5 +1,6 @@
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
+import {stringLength} from "@/utils/helper";
 
 export function onCopy(msg) {
   navigator.clipboard.writeText(msg).then(() => {

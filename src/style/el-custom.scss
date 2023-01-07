@@ -295,3 +295,6 @@ html.light {
 .dark .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
   background-color: #000000;
 }
+.c-number-input .el-input-number__increase, .c-number-input .el-input-number__decrease{
+  background: transparent;
+}

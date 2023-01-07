@@ -66,6 +66,7 @@
                 </i>
                 <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
               </button>
+              <button @click="getCard">get card</button>
             </div>
             <div v-else>
               <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
@@ -102,13 +103,6 @@
         </div>
       </div>
     </div>
-<!--    <el-dialog v-model="getCardVisible"-->
-<!--               destroy-on-close-->
-<!--               :show-close="false"-->
-<!--               :close-on-click-modal="true"-->
-<!--               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">-->
-<!--      <GetCardModal/>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -126,11 +120,10 @@ import { notify } from "@/utils/notify";
 import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
-import GetCardModal from "@/views/red-envelope/GetCardModal";
 
 export default {
   name: "CurationItem",
-  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags, GetCardModal},
+  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags},
   props: {
     curation: {
       type: Object,
@@ -150,8 +143,7 @@ export default {
       isFollowing: false,
       isEnd: false,
       isQuoting: false,
-      isRepling: false,
-      getCardVisible: true
+      isRepling: false
     }
   },
   computed: {
@@ -229,6 +221,10 @@ export default {
       if (!this.getAccountInfo || this.curation.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.curation.creatorTwitterUsername})
       }
+    },
+    // 获取卡片
+    getCard() {
+      this.$emit('getCard')
     },
     async quoteOrReply() {
       if (!this.checkLogin() || this.quoted || this.replyed || this.isQuoting || this.isRepling) return

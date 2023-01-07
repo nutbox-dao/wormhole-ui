@@ -1,0 +1,103 @@
+<template>
+  <div class="pb-2rem">
+    <div class="gradient-text gradient-text-right mx-auto c-text-black text-20px xl:text-1.2rem my-3rem">
+      {{$t('ny.mysteryCards')}}
+    </div>
+    <div class="flex flex-col justify-center items-center relative">
+      <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
+        <div class="mystery-card cursor-pointer w-full h-full"
+             :class="flipCard?'flipped':''"
+             @click="flipCard=!flipCard">
+          <div class="front absolute">
+            <div class="relative text-white">
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
+              <div class="absolute top-20px left-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                {{$t('ny.mysteryCard')}}
+              </div>
+              <div class="absolute text-60px top-1/2 left-1/2 opacity-70
+                      transform -translate-x-1/2 -translate-y-1/2 text-shadow-lg">
+                <div class="flex flex-col items-center">
+                  <div class="flex items-center justify-center gap-4px">
+                    <img v-for="i of cardDetail.power" :key="i"
+                         class="text-shadow-lg"
+                         src="~@/assets/red-envelope/icon-star.svg" alt="">
+                  </div>
+                  <div class="c-text-black text-120px text-shadow-lg">{{cardDetail.power}}</div>
+                  <div class="c-text-black text-20px text-shadow-lg">{{$t('ny.power')}}</div>
+                </div>
+              </div>
+              <button class="absolute bottom-15px left-20px">
+                <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
+              </button>
+              <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
+                Wormhole3
+              </div>
+            </div>
+          </div>
+          <div class="back absolute">
+            <div class="relative text-white">
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
+              <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+                   src="~@/assets/red-envelope/mystery-logo.png" alt="">
+              <div class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                + {{cardDetail.amount}} {{cardDetail.tokenName}}
+              </div>
+              <button class="absolute bottom-15px left-20px">
+                <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
+              </button>
+              <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
+                {{cardDetail.brandName}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
+        {{cardDetail.desc}}
+      </div>
+      <button class="underline mt-20px font-bold" @click="$emit('close')">
+        <img src="~@/assets/icon-twitter-blue.svg" alt="">
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "MysteryCardDetailModal",
+  props: {
+    cardDetail: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      flipCard: true
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.card-container {
+  -ms-perspective: 800px;
+  perspective: 800px;
+  border-radius: 4px;
+}
+.mystery-card {
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+.mystery-card .back, .mystery-card .front {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.mystery-card .back {
+  transform: rotateY(-180deg);
+}
+.mystery-card.flipped {
+  transform: rotateY(-180deg);
+}
+
+</style>
