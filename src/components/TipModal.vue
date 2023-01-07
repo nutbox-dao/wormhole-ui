@@ -122,6 +122,11 @@
             this.$store.commit('curation/savePendingTip', tip)
             const result = await tipEVM(tip);
             const nyCard = result.nyCard;
+
+            if (nyCard && nyCard.cardId > 0) {
+              this.$store.commit('saveNewCardId', nyCard.cardId)
+              this.$store.commit('saveGetCardVisible', true)
+            }
             this.$store.commit('curation/savePendingTip', null)
           }
           this.$emit('close')
@@ -137,6 +142,11 @@
       if (pendingTip) {
         tipEVM(pendingTip).then(res => {
           const nyCard = res?.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
           this.$store.commit('curation/savePendingTip', null)
         }).catch(e => {
           console.log('upload cache tip fail:', e);

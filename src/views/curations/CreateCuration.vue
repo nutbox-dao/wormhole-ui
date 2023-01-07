@@ -953,11 +953,21 @@ export default {
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           const result = await newCuration(pendingCuration);
           let nyCard = result.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
           this.currentStep = 3;
           this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
           const result = await newCurationWithTweet(pendingCuration);
           let nyCard = result.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
           this.$store.commit('curation/savePendingTweetCuration', null)
           if (pendingCuration.authorId === this.getAccountInfo.twitterId) {
             this.$router.replace('/')

@@ -182,6 +182,11 @@ export default {
             const result = await checkMyPopupRecord(this.getAccountInfo.twitterId, popup.tweetId)
             if (result && result.record && result.record.reward) {
               const nyCard = result.nyCard;
+
+            if (nyCard && nyCard.cardId > 0) {
+              this.$store.commit('saveNewCardId', nyCard.cardId)
+              this.$store.commit('saveGetCardVisible', true)
+            }
               break;
             }
           } catch (e) {

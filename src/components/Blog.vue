@@ -240,6 +240,10 @@ export default {
         this.isLiking = true
         const result = await userLike(this.post.postId)
         let nyCard = result.nyCard;
+        if (nyCard && nyCard.cardId > 0) {
+          this.$store.commit('saveNewCardId', nyCard.cardId)
+          this.$store.commit('saveGetCardVisible', true)
+        }
         this.post.voted = 1
       } catch (e) {
         if (e === 'log out') {

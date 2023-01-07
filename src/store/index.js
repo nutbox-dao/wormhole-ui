@@ -32,7 +32,8 @@ export default Vuex.createStore({
     worldCupNFT: {},
     christmasNFT: {},
     showLogin: false,
-    getCardVisible: false
+    getCardVisible: false,
+    newCardId: 0
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -139,6 +140,12 @@ export default Vuex.createStore({
     },
     saveShowLogin: (state, showLogin) => {
       state.showLogin = showLogin
+    },
+    saveGetCardVisible: (state, getCardVisible) => {
+      state.getCardVisible = getCardVisible
+    },
+    saveNewCardId: (state, newCardId) => {
+      state.newCardId = newCardId
     }
   },
   modules: {

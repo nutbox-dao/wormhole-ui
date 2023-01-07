@@ -334,6 +334,10 @@ export default {
           this.$store.commit('curation/savePendingPopup', pendingPopup)
           const result = await newPopups(pendingPopup);
           const nyCard = result.nyCard;
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
           this.$store.commit('curation/savePendingPopup', null)
           this.$emit('close')
           this.modalVisible = false

@@ -613,6 +613,11 @@ export default {
           let record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.detailCuration.curationId)
           if (record && record.record && record.taskRecord) {
             const nyCard = record.nyCard;
+
+            if (nyCard && nyCard.cardId > 0) {
+              this.$store.commit('saveNewCardId', nyCard.cardId)
+              this.$store.commit('saveGetCardVisible', true)
+            }
             record = record.record;
             this.detailCuration.taskRecord = record.taskRecord
             if (this.isQuote && (record.taskRecord & 1 === 1)) {
@@ -639,6 +644,11 @@ export default {
         this.isLiking = true
         let result = await likeCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId});
         let nyCard = result.nyCard;
+
+        if (nyCard && nyCard.cardId > 0) {
+          this.$store.commit('saveNewCardId', nyCard.cardId)
+          this.$store.commit('saveGetCardVisible', true)
+        }
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
       } catch (e) {
         console.log(123, e);
@@ -660,6 +670,11 @@ export default {
         this.isFollowing = true
         const result = await followCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId})
         let nyCard = result.nyCard;
+
+        if (nyCard && nyCard.cardId > 0) {
+          this.$store.commit('saveNewCardId', nyCard.cardId)
+          this.$store.commit('saveGetCardVisible', true)
+        }
         this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 8
       } catch (e) {
         if (e === 'log out') {
