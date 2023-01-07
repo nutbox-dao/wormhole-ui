@@ -31,7 +31,8 @@ export default Vuex.createStore({
     stellarTreks: {},
     worldCupNFT: {},
     christmasNFT: {},
-    showLogin: false
+    showLogin: false,
+    getCardVisible: false
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {

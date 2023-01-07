@@ -138,6 +138,13 @@
           </div>
         </div>
       </el-dialog>
+      <el-dialog v-model="getCardVisible"
+                 destroy-on-close
+                 :show-close="false"
+                 :close-on-click-modal="true"
+                 class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+        <GetCardModal @close="getCardVisible=false"/>
+      </el-dialog>
     </div>
   </el-config-provider>
 </template>
@@ -159,9 +166,10 @@ import { getProfile, getCommon, getPrice } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
 import {showError} from "@/utils/notify";
+import GetCardModal from "@/views/red-envelope/GetCardModal";
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login},
+  components: {NFTAnimation, ElConfigProvider, Login, GetCardModal},
   data: () => {
     return {
       pubKey: '',
@@ -174,7 +182,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
       return !this.hasReceivedNft
