@@ -106,7 +106,7 @@ export const TokenName = {
     'USDT': 'Tether USD',
     'USDC': 'USD Coin',
     'UNI': 'Uniswap',
-    'BUSD': 'BSC-USD',
+    'BUSD': 'BSC USD',
     'MATIC': 'Polygon',
     'TEST-U': 'TEST USDT',
     'WMATIC': 'Wrapped Matic',
@@ -114,7 +114,8 @@ export const TokenName = {
     'FRAX': 'Frax',
     'NEAR': 'Near',
     'AURORA': 'Aurora',
-    'GLMR': 'GLMR'
+    'GLMR': 'GLMR',
+    'PNUT': 'Peanut'
 }
 
 /**
@@ -155,9 +156,10 @@ export const EVM_CHAINS = {
         },
         assets: {
             // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-            BUSD: {symbol: 'BUSD', name: 'BSC-USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
+            BUSD: {symbol: 'BUSD', name: 'BSC USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0x55d398326f99059fF775485246999027B3197955', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            PNUT: {symbol: 'PNUT', name: 'Peanut', address: '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11', decimals: 18}
         },
         Multi_Config: {
             rpcUrl: 'https://bsc-dataseed.binance.org',

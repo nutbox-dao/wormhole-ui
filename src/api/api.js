@@ -9,6 +9,9 @@ export const postErr = async (module, title, error) =>
 export const getCommon = async () => 
     get("https://api-walnut.nutbox.app/common")
 
+export const getPrice = async () =>
+    get("https://api-walnut.nutbox.app/token/getPrices")
+
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async() => 
     get(BACKEND_API_URL + '/auth/login')
