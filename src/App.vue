@@ -205,6 +205,7 @@ export default {
       prices = {
         ...prices,
         wmatic: prices.matic,
+        wglmr: prices.glmr,
         dai: 1,
         usdt: 1,
         usdc: 1,
