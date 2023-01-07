@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-2rem relative px-15px">
+  <div class="pb-2rem relative px-15px ">
     <div class="grid grid-cols-2 xs:grid-cols-4 gap-1rem py-1rem">
       <div class="col-span-1" v-for="(item, index) of cards" :key="index">
         <div class="relative text-white">
@@ -11,10 +11,10 @@
             {{$t('common.balance')}}: {{item.balance}}
           </div>
         </div>
-        <div class="flex gap-5px mx-10px">
-          <button class="flex-1 h-24px border-1 border-color8B/30 rounded-4px"
+        <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
+          <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
                   @click="onGive(index+1)">{{$t('ny.give')}}</button>
-          <button class="flex-1 h-24px border-1 border-color8B/30 rounded-4px">{{$t('ny.ask')}}</button>
+          <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px">{{$t('ny.ask')}}</button>
         </div>
       </div>
     </div>
@@ -27,10 +27,10 @@
             {{$t('common.balance')}}: 0
           </div>
         </div>
-        <div class="flex gap-5px mx-10px mt-10px">
-          <button class="flex-1 h-24px border-1 border-color8B/30 rounded-4px"
+        <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
+          <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
                   @click="onGive(0)">{{$t('ny.give')}}</button>
-          <button class="flex-1 h-24px border-1 border-color8B/30 rounded-4px"
+          <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
                   @click="buyCardVisible=true">{{$t('ny.buy')}}</button>
         </div>
       </div>
