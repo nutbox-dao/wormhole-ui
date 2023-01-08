@@ -30,6 +30,7 @@ import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import RedEnvelopeIndex from "@/views/red-envelope/RedEnvelopeIndex";
+import CurationsRecommend from "@/views/curations/CurationsRecommend";
 
 const routes = [
   {
@@ -59,9 +60,9 @@ const routes = [
     component: CurationDetail
   },
   {
-    path: '/verify',
-    name: 'verify',
-    component: VerifyView,
+    path: '/recommended',
+    name: 'recommended',
+    component: CurationsRecommend,
   },
   {
     path: '/logincode/:code?',

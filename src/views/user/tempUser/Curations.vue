@@ -23,7 +23,7 @@
             <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
           </div>
           <div v-for="curation of showingCurations" :key="curation.curationId"
-               class="border-t-1 border-listBgBorder light:border-colorE3 pt-15px pb-5px c-curation-item">
+               class="border-t-1 border-listBgBorder light:border-colorE3 pt-15px c-curation-item">
             <CurationItem class="cursor-pointer"
                           :curation="curation"
                           :show-btn-group="false"

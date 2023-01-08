@@ -277,7 +277,8 @@ export default {
     spaceIdWrong: "Tweet contain a wrong space ID",
     tweetSpaceAuthorDismatch: "The initiator of Twitter space and Tweet has to be the same person ",
     endedAt: 'Ended At',
-    expire: 'Expiration'
+    expire: 'Expiration',
+    recommendedCurations: 'Recommended curations'
   },
   popup: {
     create: 'Create a Pop-up reply action',
@@ -384,6 +385,7 @@ export default {
     account: 'Account',
     cancel: 'Cancel',
     previous: 'Previous',
-    summary: 'Summary'
+    summary: 'Summary',
+    viewMore: 'View more'
   }
 }

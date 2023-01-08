@@ -27,8 +27,8 @@
         </div>
       </div>
       <div class="flex">
-        <div class="hidden sm:block mr-15px md:mr-1rem" :class="avatarClass"></div>
-        <div class="flex-1 overflow-hidden md:mr-1/20" @click="gotoSteem($event)">
+        <div class="hidden mr-10px md:mr-1rem" :class="[avatarClass, rpClass]"></div>
+        <div class="flex-1 overflow-hidden" :class="rpClass==='hidden'?'':'md:mr-1/20'" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
                  class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-color8B light:text-color46">
@@ -133,6 +133,10 @@ export default {
     contentClass: {
       type: String,
       default: ''
+    },
+    rpClass: {
+      type: String,
+      default: 'sm:block'
     }
   },
   data() {
