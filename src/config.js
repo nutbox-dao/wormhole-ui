@@ -45,10 +45,10 @@ export const SignUpMessage = JSON.stringify({
 // export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
 
 // polygon
-export const RPC_NODE = 'https://polygon-rpc.com'
-export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
-export const CHAIN_NAME = 'Polygon'
-export const CHAIN_ID = 137
+// export const RPC_NODE = 'https://polygon-rpc.com'
+// export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
+// export const CHAIN_NAME = 'Polygon'
+// export const CHAIN_ID = 137
 export const MainToken = {
     name: 'MATIC',
     symbol: 'MATIC',
@@ -56,6 +56,12 @@ export const MainToken = {
     decimals: 18
 }
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
+
+// bsc test 
+export const RPC_NODE = 'https://data-seed-prebsc-2-s2.binance.org:8545'
+export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
+export const CHAIN_NAME = 'BSC Testnet'
+export const CHAIN_ID = 97
 
 // eth
 // export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
@@ -239,7 +245,28 @@ export const EVM_CHAINS = {
         },
         curation: '0xc53A46d6Ba6C9115Ab4D10afb499Aee2e46aa2F9',
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
-    }
+    },
+    'BSC Testnet': {
+        rpc: 'https://data-seed-prebsc-2-s2.binance.org:8545',
+        scan: '',
+        id: 97,
+        main: {
+            name: 'BNB',
+            symbol: 'BNB',
+            decimals: 18,
+            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
+        },
+        assets: {
+          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2358F9255d2b31dc05cEC4249C612CA6FA9179a', decimals: 18}
+        },
+        Multi_Config: {
+            rpcUrl: 'https://data-seed-prebsc-2-s2.binance.org:8545',
+            multicallAddress: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
+            interval: 3000
+        },
+        curation: '',
+        popup: ''
+    },
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'
@@ -285,8 +312,8 @@ export const LIQUIDATION_NFT = '0x3724E11f09cF1D690f0Cfe9874108bC0F1DC7AbC';
 
 export const CURATION_FUND_CONTRACT = '0x525B88B649F5c8AD225122F8fe6e9304e9d54000';
 
-export const COLLECT_BLESS_CONTRACT = '2354325'
-export const NEW_YEAR_CARD_CONTRACT = 'SGASG'
+export const COLLECT_BLESS_CONTRACT = '0x890e2e986D585433d6998c11979F6C2B8fB6BbD6'
+export const NEW_YEAR_CARD_CONTRACT = '0x02034646cBB118Ee9032cFb0E1Ac54A65942c607'
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,

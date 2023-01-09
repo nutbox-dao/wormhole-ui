@@ -37,11 +37,13 @@
                     rounded-8px h-34px 2xl:h-1.7rem">
             <input class="bg-transparent h-full w-full px-15px"
                    v-model="giveTo"
+                   v-on:change="checkInfo"
                    :placeholder="'@'+$t('ny.giveTo')">
             <button @click="verify">verify</button>
           </div>
         </div>
-        <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
+        <ConnectMainchainBTNVue v-if="chainId !== CHAIN_ID"/>
+        <button v-else class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 :disabled="giveEnable || giveLoading"
@@ -117,16 +119,17 @@ import card4 from '@/assets/red-envelope/card4.png'
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import { send11155ToUser } from '@/utils/asset'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { getUserInfoByUserId } from '@/utils/twitter'
 import { getUserInfo } from '@/api/api'
 import { ethers } from 'ethers'
 import { notify } from '@/utils/notify'
-import { NEW_YEAR_CARD_CONTRACT } from '@/config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/config'
+import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
 export default {
   name: "GiveCardModal",
-  components: {EmojiPicker},
+  components: {EmojiPicker, ConnectMainchainBTNVue},
   props: {
     selectIndex: {
       type: Number,
@@ -144,6 +147,7 @@ export default {
         {label: 'Rabbit Trader', balance: 0, img: card4},
       ],
       giveNum: 1,
+      CHAIN_ID,
       giveTo: '',
       giveLoading: false,
       cardIndex: 0,
@@ -154,8 +158,15 @@ export default {
       giveEnable: false
     }
   },
+  watch: {
+    giveNum(newValue, oldValue) {
+      this.checkInfo()
+    }
+  },
   computed: {
-    ...mapState('newYear', ['blessCardBalance'])
+    ...mapState('newYear', ['blessCardBalance']),
+    ...mapState('web3', ['chainId']),
+    ...mapGetters(['getAccountInfo'])
   },
   mounted() {
     this.cardIndex = this.selectIndex
@@ -192,8 +203,10 @@ export default {
     },
     cardChange(index) {
       this.cardIndex = index
+      this.checkInfo()
     },
     checkInfo() {
+      console.log(3);
       const cardBalance = this.blessCardBalance[this.cardIndex+1];
       if (cardBalance < this.giveNum) {
         this.giveEnable = false
@@ -203,6 +216,7 @@ export default {
         this.giveEnable = false;
         return false
       }
+      this.giveEnable = true;
       return true;
     },
     async onGive() {
@@ -217,6 +231,7 @@ export default {
           this.step=1
         }
       } catch (e) {
+        console.log(64, e);
         notify({message: this.$t('err.transErr'), duration: 3000, type: 'error'})
       } finally {
         this.giveLoading = false

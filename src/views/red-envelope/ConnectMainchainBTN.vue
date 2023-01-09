@@ -1,0 +1,40 @@
+<template>
+    <div>
+        <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
+                     flex items-center justify-center
+                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
+            {{ $t('common.connectMetamask') }}
+            <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+        </button>
+    </div>
+</template>
+
+<script>
+import { setupNetwork } from '@/utils/web3/web3';
+
+export default {
+    name: 'ConnectMainchainBTN',
+    data() {
+        return {
+            connecting: false
+        }
+    },
+    methods: {
+        async connect() {
+            try{
+                this.connecting = true
+                await setupNetwork('BSC Testnet')
+            } catch(e) {
+                
+            } finally {
+                this.connecting = false
+            }
+            
+        }
+    },
+}
+</script>
+
+<style scoped>
+
+</style>

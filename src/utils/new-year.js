@@ -21,14 +21,7 @@ export async function getUserNYCards(ethAddress) {
     if (!ethers.utils.isAddress(ethAddress)) {
         return;
     }
-    store.commit('newYear/saveBlessCardBalance', {
-        1: 2,
-        2:4,
-        3: 5,
-        4:87,
-        5:23
-    })
-    return;
+
     let ids = [1,2,3,4,5]
     let call = ids.map(id => ({
         target: NEW_YEAR_CARD_CONTRACT,
@@ -43,14 +36,8 @@ export async function getUserNYCards(ethAddress) {
     }));
     const res = await aggregate(call, Multi_Config);
     const infos = res.results.transformed;
-    let balances = {}
-    for (let b in infos) {
-        if (infos[b] > 0) {
-            balances[b] = infos[b]
-        }
-    }
-    store.commit('newYear/saveBlessCardBalance', balances)
-    return balances
+    store.commit('newYear/saveBlessCardBalance', infos)
+    return infos
 }
 
 export async function getUserBlindBox(ethAddress) {

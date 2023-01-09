@@ -98,6 +98,7 @@ export default {
     }
   },
   mounted () {
+    if (!this.getAccountInfo) return;
     const { twitterId, ethAddress } = this.getAccountInfo;
     if (ethAddress) {
       getUserNYCards(ethAddress).catch(e => {

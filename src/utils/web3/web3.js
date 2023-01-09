@@ -27,7 +27,7 @@ export const setupNetwork = async (chainName) => {
         chainId: `0x${id.toString(16)}`
       }],
     })
-    // store.commit('web3/saveChainId', parseInt(id))
+    store.commit('web3/saveChainId', parseInt(id))
     return true
   } catch (error) {
     if (error.code === 4001) return;
@@ -43,7 +43,7 @@ export const setupNetwork = async (chainName) => {
           blockExplorerUrls: [scan]
         }],
       })
-      // store.commit('web3/saveChainId', parseInt(id))
+      store.commit('web3/saveChainId', parseInt(id))
       return true
     }catch(error){
       console.log(43256, error);

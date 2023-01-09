@@ -27,8 +27,8 @@
           </button>
         </div>
         <div class="">
-          <BlessingCards v-show="tabIndex===0"/>
-          <MysteryCards v-show="tabIndex===1"/>
+          <BlessingCards v-if="tabIndex===0"/>
+          <MysteryCards v-if="tabIndex===1"/>
         </div>
       </div>
     </div>
@@ -38,6 +38,8 @@
 <script>
 import BlessingCards from "@/views/red-envelope/BlessingCards";
 import MysteryCards from "@/views/red-envelope/MysteryCards";
+import { mapGetters } from 'vuex'
+
 export default {
   name: "RedEnvelopeIndex",
   components: {BlessingCards, MysteryCards},
@@ -45,7 +47,15 @@ export default {
     return {
       tabIndex: 0
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
+  mounted () {
+    if (!this.getAccountInfo || !this.getAccountInfo.ethAddress) {
+      this.$router.replace('/')
+    }
+  },
 }
 </script>
 
