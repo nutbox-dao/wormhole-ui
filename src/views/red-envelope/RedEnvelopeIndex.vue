@@ -43,7 +43,7 @@ export default {
   components: {BlessingCards, MysteryCards},
   data() {
     return {
-      tabIndex: 1
+      tabIndex: 0
     }
   }
 }

@@ -8,7 +8,7 @@
           <div class="absolute text-60px top-1/2 left-1/2 opacity-70
                       transform -translate-x-1/2 -translate-y-1/2 text-shadow-lg">?</div>
           <div class="absolute bottom-10px right-15px text-shadow-lg font-bold opacity-70">
-            {{$t('common.balance')}}: {{item.balance}}
+            {{$t('common.balance')}}: {{ blessCardBalance[index+1] }}
           </div>
         </div>
         <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
@@ -24,7 +24,7 @@
           <img class="w-full" src="~@/assets/red-envelope/card0.png" alt="">
           <div class="absolute top-1/18 left-1/10 font-bold text-shadow-lg opacity-70">Leek Rabbit</div>
           <div class="absolute bottom-1/14 right-1/10 text-shadow-lg font-bold opacity-70">
-            {{$t('common.balance')}}: 0
+            {{$t('common.balance')}}: {{ blessCardBalance[5] }}
           </div>
         </div>
         <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
@@ -67,6 +67,9 @@
 import BuyCardModal from "@/views/red-envelope/BuyCardModal";
 import GiveCardModal from "@/views/red-envelope/GiveCardModal";
 import OpenBlindBoxModal from "@/views/red-envelope/OpenBlindBoxModal";
+import { getUserNYCards } from '@/utils/new-year'
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "BlessingCards",
   components: {BuyCardModal, GiveCardModal, OpenBlindBoxModal},
@@ -84,12 +87,24 @@ export default {
       openBoxVisible: false
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('newYear', ['blessCardBalance'])
+  },
   methods: {
     onGive(index) {
       this.giveCardIndex = index
       this.giveCardVisible = true
     }
-  }
+  },
+  mounted () {
+    const { twitterId, ethAddress } = this.getAccountInfo;
+    if (ethAddress) {
+      getUserNYCards(ethAddress).catch(e => {
+        console.log('get bless card balance fail:', e);
+      })
+    }
+  },
 }
 </script>
 

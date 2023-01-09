@@ -30,7 +30,7 @@
                          :min="1"
                          :step="1" step-strictly
                          v-model="giveNum"/>
-        <div class="w-12rem flex items-center mx-auto mt-1rem">
+        <div class="w-18rem flex items-center mx-auto mt-1rem">
           <span class="whitespace-nowrap mr-5px">{{$t('ny.to')}}</span>
           <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -38,11 +38,13 @@
             <input class="bg-transparent h-full w-full px-15px"
                    v-model="giveTo"
                    :placeholder="'@'+$t('ny.giveTo')">
+            <button @click="verify">verify</button>
           </div>
         </div>
         <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+                :disabled="giveEnable || giveLoading"
                 @click="onGive">
           {{$t('ny.give')}}
           <c-spinner v-show="giveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
@@ -114,6 +116,13 @@ import card3 from '@/assets/red-envelope/card3.png'
 import card4 from '@/assets/red-envelope/card4.png'
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import { send11155ToUser } from '@/utils/asset'
+import { mapState } from 'vuex'
+import { getUserInfoByUserId } from '@/utils/twitter'
+import { getUserInfo } from '@/api/api'
+import { ethers } from 'ethers'
+import { notify } from '@/utils/notify'
+import { NEW_YEAR_CARD_CONTRACT } from '@/config'
 
 export default {
   name: "GiveCardModal",
@@ -140,8 +149,13 @@ export default {
       cardIndex: 0,
       contentRange: null,
       tweetContent: '',
-      shareLoading: false
+      shareLoading: false,
+      toAddress: '',
+      giveEnable: false
     }
+  },
+  computed: {
+    ...mapState('newYear', ['blessCardBalance'])
   },
   mounted() {
     this.cardIndex = this.selectIndex
@@ -179,12 +193,66 @@ export default {
     cardChange(index) {
       this.cardIndex = index
     },
-    onGive() {
-      this.step=1
+    checkInfo() {
+      const cardBalance = this.blessCardBalance[this.cardIndex+1];
+      if (cardBalance < this.giveNum) {
+        this.giveEnable = false
+        return false
+      }
+      if (!ethers.utils.isAddress(this.toAddress)) {
+        this.giveEnable = false;
+        return false
+      }
+      return true;
+    },
+    async onGive() {
+      if (!this.checkInfo()) return;
+      try{
+        this.giveLoading = true
+        const id = this.cardIndex + 1;
+        const tx = await send11155ToUser(NEW_YEAR_CARD_CONTRACT, id, this.giveNum, this.getAccountInfo.ethAddress, this.toAddress)
+        if (ethers.utils.isAddress(this.giveTo)) {
+          this.$emit('close')
+        }else {
+          this.step=1
+        }
+      } catch (e) {
+        notify({message: this.$t('err.transErr'), duration: 3000, type: 'error'})
+      } finally {
+        this.giveLoading = false
+      }
     },
     onShare() {
       this.tweetContent = this.formatElToTextContent(this.$refs.contentRef)
       this.$emit('close')
+    },
+    async verify() {
+      if (!this.giveTo) {
+        return;
+      }
+      const usernameRex = '^@?[0-9a-zA-Z\_]+$'
+      const match = this.giveTo.match(usernameRex)
+      if (ethers.utils.isAddress(this.giveTo)) {
+        this.toAddress = this.giveTo
+      }else if (match) {
+        try{
+          this.isChecking = true
+          const user = await getUserInfo(this.giveTo);
+          if (user && user.code === 3) {
+            const account = user.account;
+            const { ethAddress } = account;
+            this.toAddress = ethAddress
+          }else {
+            notify({message: this.$t('tips.userNotExist'), duration: 3000, type: 'info'})
+          }
+        } catch (e) {
+          if (e === 'log out') {
+            this.$router.replace('/square')
+          }
+        } finally {
+          this.isChecking = false
+        }
+      }
     }
   }
 }
