@@ -1,5 +1,5 @@
 <template>
-  <div class="relative text-left pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
       <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
@@ -17,33 +17,36 @@
       </div>
       <div class="flex justify-between items-center mt-1rem px-15px">
         <div class="w-1/2">
-          <el-input-number class="c-number-input w-full" v-model="buyNum" :step="1" step-strictly/>
+          <el-input-number class="c-number-input w-full"
+                           v-model="buyNum" :step="1" step-strictly/>
         </div>
         <div>{{buyAmount}} USDT</div>
       </div>
-      <div>
+      <div class="text-center mt-10px">
         {{ $t('common.balance') }}: {{ formatAmount(usdtBalance) }}
       </div>
     </div>
-    <ConnectMainchainBTNVue v-if="chainId !== CHAIN_ID"/>
-    <div v-else class="text-center my-2rem">
-      <button v-if="!approved" class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
+    <div class="flex flex-col items-center">
+      <ConnectMainchainBTNVue class="my-1rem" v-if="chainId !== CHAIN_ID"/>
+      <div v-else class="text-center my-2rem">
+        <button v-if="!approved" class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
                      text-white rounded-12px font-bold"
-                     :disabled="isApproving || accountMismatch"
-                     @click="approve">
-        {{ $t('common.approve') }}
-        <c-spinner v-show="isApproving" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-      </button>
-      <button v-else class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
+                :disabled="isApproving || accountMismatch"
+                @click="approve">
+          {{ $t('common.approve') }}
+          <c-spinner v-show="isApproving" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+        </button>
+        <button v-else class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
                      text-white rounded-12px font-bold"
-                     :disabled="isBuying || accountMismatch"
-                     @click="buy">
-        {{$t('ny.buy')}}
-        <c-spinner v-show="isBuying" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-      </button>
-    </div>
-    <div v-if="accountMismatch">
-      {{ $t('ny.accountMismatch') }}
+                :disabled="isBuying || accountMismatch"
+                @click="buy">
+          {{$t('ny.buy')}}
+          <c-spinner v-show="isBuying" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+        </button>
+      </div>
+      <div v-if="accountMismatch">
+        {{ $t('ny.accountMismatch') }}
+      </div>
     </div>
   </div>
 </template>
@@ -94,7 +97,7 @@ export default {
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
       } finally {
         this.isApproving = false
-      }   
+      }
     },
     async buy() {
       try{

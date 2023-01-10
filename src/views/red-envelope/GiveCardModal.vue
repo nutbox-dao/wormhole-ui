@@ -1,5 +1,5 @@
 <template>
-  <div class="relative text-left pb-3rem sm:pb-1.5rem  flex flex-col text-14px 2xl:text-0.8rem h-max">
+  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem h-max">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
       <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
@@ -30,20 +30,28 @@
                          :min="1"
                          :step="1" step-strictly
                          v-model="giveNum"/>
-        <div class="w-18rem flex items-center mx-auto mt-1rem">
+        <div class="w-full max-w-330px px-15px flex items-center mx-auto mt-1rem">
           <span class="whitespace-nowrap mr-5px">{{$t('ny.to')}}</span>
           <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px 2xl:h-1.7rem">
+                      flex items-center justify-between
+                      light:bg-white light:border-colorE3 hover:border-primaryColor
+                      rounded-8px h-34px 2xl:h-1.7rem">
             <input class="bg-transparent h-full w-full px-15px"
                    v-model="giveTo"
                    v-on:change="checkInfo"
                    :placeholder="'@'+$t('ny.giveTo')">
-            <button @click="verify">verify</button>
-            <span v-show="showUserNotExist">{{ $t('ny.userNotExist') }}</span>
+            <button class="whitespace-nowrap bg-tag-gradient py-4px px-4px rounded-4px
+                           min-w-4rem mr-10px font-bold text-white flex items-center justify-center"
+                    :disabled="verifyLoading"
+                    @click="verify">
+              <c-spinner v-if="verifyLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem"></c-spinner>
+              <span v-else>{{$t('ny.verify')}}</span>
+            </button>
           </div>
         </div>
-        <ConnectMainchainBTNVue v-if="chainId !== CHAIN_ID"/>
+        <span v-show="showUserNotExist">{{ $t('ny.userNotExist') }}</span>
+
+        <ConnectMainchainBTNVue class="mt-1rem" v-if="chainId !== CHAIN_ID"/>
         <button v-else class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
@@ -159,7 +167,8 @@ export default {
       shareLoading: false,
       toAddress: '',
       giveEnable: false,
-      showUserNotExist: false
+      showUserNotExist: false,
+      verifyLoading: false
     }
   },
   watch: {

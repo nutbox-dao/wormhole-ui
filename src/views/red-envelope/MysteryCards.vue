@@ -8,18 +8,18 @@
           <div>{{$t('ny.totalPower')}}: {{ userActivityInfo.totalWeights }}</div>
         </div>
       </div>
-      <div class="col-span-1 ">
-        <div v-if="!isOver"
-             class="border-1 border-color8B/30 light:border-colorF4 p-12px
-                    rounded-12px bg-glass light:bg-card-gradient">
-          <div>{{$t('ny.poolRewards')}}</div>
-          <div class="c-text-black">${{ userActivityInfo.prizeTotalAmount }}</div>
-        </div>
-        <div v-else class="bg-tag-gradient p-12px rounded-12px text-white cursor-pointer">
-          <div class="font-bold">{{$t('ny.claimReward')}}</div>
-          <div class="c-text-black">${{ userActivityInfo.alreadyReceived }}</div>
-        </div>
-      </div>
+<!--      <div class="col-span-1 ">-->
+<!--        <div v-if="!isOver"-->
+<!--             class="border-1 border-color8B/30 light:border-colorF4 p-12px-->
+<!--                    rounded-12px bg-glass light:bg-card-gradient">-->
+<!--          <div>{{$t('ny.poolRewards')}}</div>-->
+<!--          <div class="c-text-black">${{ userActivityInfo.prizeTotalAmount }}</div>-->
+<!--        </div>-->
+<!--        <div v-else class="bg-tag-gradient p-12px rounded-12px text-white cursor-pointer">-->
+<!--          <div class="font-bold">{{$t('ny.claimReward')}}</div>-->
+<!--          <div class="c-text-black">${{ userActivityInfo.alreadyReceived }}</div>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="col-span-1 xs:col-span-2 sm:col-start-4">
         <div v-if="!isOver"
              class="p-12px text-white rounded-12px bg-tag-gradient cursor-pointer cursor-pointer"

@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
-                     flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
-            {{ $t('common.connectMetamask') }}
-            <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-        </button>
-    </div>
+  <button class="bg-tag-gradient gradient-btn-disabled-grey
+                 flex items-center justify-center min-w-10rem px-20px
+                 rounded-12px h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
+    {{ $t('common.connectMetamask') }}
+    <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+  </button>
 </template>
 
 <script>
@@ -28,11 +26,11 @@ export default {
                 await setupNetwork(CHAIN_NAME)
                 getAccounts()
             } catch(e) {
-                
+
             } finally {
                 this.connecting = false
             }
-            
+
         }
     },
 }

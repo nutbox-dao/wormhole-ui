@@ -335,8 +335,8 @@ export default {
     cancel: 'Cancel',
     complete: 'Complete',
     createDescTip: 'This is advertisement for project owner.',
-    mintTip: 'Mint cost estimate: {amount}\n' +
-      'Your cost will be put into the common reward pool',
+    mintTip1: 'Mint cost estimate: {amount}',
+    mintTip2: 'Your cost will be put into the common reward pool',
     mint: 'Mint',
     caretMintDesc: 'This is advertisement for project owner. This is advertisement for project owner. This is advertisement for project owner. This is advertisement for project owner.',
     specialRewards: 'Special Rewards',
@@ -348,7 +348,9 @@ export default {
     redeemCardDesc: 'You made {totalNum} mystery cards, {notOpenNum} of them are not open, now you can redeem to get back the special rewards in these cards.',
     redeem: 'Redeem',
     userNotExist: 'User not registerd wormhole3',
-    accountMismatch: 'You must use your wormhole3 account to operate.'
+    accountMismatch: 'You must use your wormhole3 account to operate.',
+    endTime: 'Time to end',
+    verify: 'Verify',
   },
   err: {
     serverErr: 'Server error',

@@ -9,35 +9,7 @@
     </div>
     <div class="flex flex-col justify-center items-center relative">
       <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
-        <div class="mystery-card cursor-pointer w-full h-full"
-             :class="flipCard?'flipped':''"
-             @click="flipCard=!flipCard">
-          <div class="front absolute">
-            <div class="relative text-white">
-              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-              <div class="absolute top-20px left-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                {{$t('ny.mysteryCard')}}
-              </div>
-              <div class="absolute text-60px top-1/2 left-1/2 opacity-70
-                      transform -translate-x-1/2 -translate-y-1/2 text-shadow-lg">
-                <div class="flex flex-col items-center">
-                  <div class="flex items-center justify-center gap-4px">
-                    <img v-for="i of cardDetail.power" :key="i"
-                         class="text-shadow-lg"
-                         src="~@/assets/red-envelope/icon-star.svg" alt="">
-                  </div>
-                  <div class="c-text-black text-120px text-shadow-lg">{{cardDetail.power}}</div>
-                  <div class="c-text-black text-20px text-shadow-lg">{{$t('ny.power')}}</div>
-                </div>
-              </div>
-              <button class="absolute bottom-15px left-20px">
-                <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
-              </button>
-              <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                Wormhole3
-              </div>
-            </div>
-          </div>
+        <div class="mystery-card cursor-pointer w-full h-full flipped">
           <div class="back absolute">
             <div class="relative text-white">
               <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
@@ -46,9 +18,16 @@
               <div class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
                 + {{cardDetail.amount}} {{cardDetail.tokenName}}
               </div>
-              <button class="absolute bottom-15px left-20px">
-                <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
-              </button>
+              <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
+                <div class="flex flex-col items-start">
+                  <div class="flex items-center justify-center gap-4px">
+                    <img v-for="star of cardDetail.power" :key="star"
+                         class="text-shadow-lg w-14px"
+                         src="~@/assets/red-envelope/icon-star.svg" alt="">
+                  </div>
+                  <div class="c-text-black text-shadow-lg text-16px">{{cardDetail.power}} {{$t('ny.power')}}</div>
+                </div>
+              </div>
               <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
                 {{cardDetail.brandName}}
               </div>

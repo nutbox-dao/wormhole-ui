@@ -1,5 +1,5 @@
 <template>
-  <div class="relative text-left pb-3rem sm:pb-1.5rem text-14px 2xl:text-0.8rem h-max">
+  <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
       <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
@@ -23,10 +23,11 @@
       </div>
       <div class="mt-2rem">{{$t('ny.chanceTip', {count: enableChange})}}</div>
       <!-- <button @click="approve">approve</button> -->
-      <ConnectMainchainBTNVue v-if="chainId !== CHAIN_ID"/>
-        <button v-else class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
-                      flex items-center justify-center
-                      min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+      <ConnectMainchainBTNVue class="mx-auto my-1rem" v-if="chainId !== CHAIN_ID"/>
+        <button v-else
+                class="bg-tag-gradient gradient-btn-disabled-grey my-1rem mx-auto
+                       flex items-center justify-center
+                       min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 :disabled="isDrawing || accountMismatch"
                 @click="onDrawCard">
           {{$t('ny.drawCard')}}
@@ -42,35 +43,7 @@
       </div>
       <div class="flex flex-col justify-center items-center relative">
         <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
-          <div class="mystery-card cursor-pointer w-full h-full"
-               :class="flipCard?'flipped':''"
-               @click="flipCard=!flipCard">
-            <div class="front absolute">
-              <div class="relative text-white">
-                <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-                <div class="absolute top-20px left-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                  {{$t('ny.mysteryCard')}}
-                </div>
-                <div class="absolute text-60px top-1/2 left-1/2 opacity-70
-                      transform -translate-x-1/2 -translate-y-1/2 text-shadow-lg">
-                  <div class="flex flex-col items-center">
-                    <div class="flex items-center justify-center gap-4px">
-                      <img v-for="i of drawedBoxInfo.weights" :key="i"
-                           class="text-shadow-lg"
-                           src="~@/assets/red-envelope/icon-star.svg" alt="">
-                    </div>
-                    <div class="c-text-black text-120px text-shadow-lg">{{drawedBoxInfo.weights}}</div>
-                    <div class="c-text-black text-20px text-shadow-lg">Power</div>
-                  </div>
-                </div>
-                <button class="absolute bottom-15px left-20px">
-                  <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
-                </button>
-                <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                  Wormhole3
-                </div>
-              </div>
-            </div>
+          <div class="mystery-card cursor-pointer w-full h-full flipped">
             <div class="back absolute">
               <div class="relative text-white">
                 <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
@@ -82,9 +55,16 @@
                 <div v-else="drawedBoxInfo.prizeType === 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
                   + {{ showingAmount }} {{ drawedBoxInfo.symbol }}
                 </div>
-                <button class="absolute bottom-15px left-20px">
-                  <img class="w-30px" src="~@/assets/red-envelope/icon-reverse.png" alt="">
-                </button>
+                <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
+                  <div class="flex flex-col items-start">
+                    <div class="flex items-center justify-center gap-4px">
+                      <img v-for="star of drawedBoxInfo.weights" :key="star"
+                           class="text-shadow-lg w-14px"
+                           src="~@/assets/red-envelope/icon-star.svg" alt="">
+                    </div>
+                    <div class="c-text-black text-shadow-lg">{{drawedBoxInfo.weights}} {{$t('ny.power')}}</div>
+                  </div>
+                </div>
                 <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
                   {{ drawedBoxInfo.bandName }}
                 </div>

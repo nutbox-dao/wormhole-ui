@@ -16,8 +16,8 @@
             <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
             <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                  :src="logoPreviewSrc" alt="">
-            <img class="absolute w-20px bottom-15px left-15px"
-                 src="~@/assets/red-envelope/icon-reverse.png" alt="">
+<!--            <img class="absolute w-20px bottom-15px left-15px"-->
+<!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
             <div v-if="form.tokenNum"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
               + {{form.tokenNum}} {{form.tokenName}}
@@ -36,16 +36,21 @@
                    :placeholder="$t('ny.brandName')">
           </div>
           <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
-          <div class="flex gap-10px mb-10px">
-            <button class="flex-1 rounded-8px h-34px"
+          <div class="flex rounded-8px mb-10px gap-1px">
+            <button class="flex-1 rounded-l-8px h-34px"
                     :class="form.type==='token'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
                     @click="form.type='token'">
               Token
             </button>
-            <button class="flex-1 rounded-8px h-34px"
+            <button class="flex-1 h-34px"
                     :class="form.type==='nft'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
                     @click="form.type='nft'">
               NFT
+            </button>
+            <button class="flex-1 rounded-r-8px h-34px"
+                    :class="form.type==='none'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
+                    @click="form.type='none'">
+              None
             </button>
           </div>
           <template v-if="form.type==='token'">
@@ -109,6 +114,17 @@
                      :placeholder="$t('ny.cardNum')">
             </div>
           </template>
+          <template v-if="form.type==='none'">
+            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                        light:bg-white light:border-colorE3 hover:border-primaryColor
+                        rounded-8px h-34px mb-10px">
+              <input class="bg-transparent h-full w-full px-15px"
+                     v-model="form.cardNum"
+                     type="number"
+                     :placeholder="$t('ny.cardNum')">
+            </div>
+          </template>
+
           <div class="flex">
             <span class="mr-2rem font-bold">{{$t('ny.logo')}}</span>
             <div class="w-60px h-60px rounded-8px border-1 bg-black/40
@@ -151,7 +167,13 @@
         </div>
       </div>
       <div class="mt-10px">
-        {{$t('ny.mintTip', {amount: '100*1 USDT'})}}
+        {{$t('ny.mintTip1', {amount: '100*1 USDT'})}}
+      </div>
+      <div class="mt-10px text-color8B light:text-color7D">
+        {{$t('common.balance')}}: 10000
+      </div>
+      <div class="mt-10px text-color8B light:text-color7D">
+        {{$t('ny.mintTip2')}}
       </div>
       <div class="flex justify-center items-center mt-1rem gap-10px">
         <button class="bg-tag-gradient gradient-btn-disabled-grey
@@ -178,8 +200,8 @@
             <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
             <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                  :src="logoPreviewSrc" alt="">
-            <img class="absolute w-20px bottom-15px left-15px"
-                 src="~@/assets/red-envelope/icon-reverse.png" alt="">
+<!--            <img class="absolute w-20px bottom-15px left-15px"-->
+<!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
             <div v-if="form.tokenNum"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
               + {{form.tokenNum}} {{form.tokenName}}
