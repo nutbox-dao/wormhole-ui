@@ -6,7 +6,9 @@ export default {
         blessCardBalance: [],
         blindBoxBalance: [],
         usdtBalance: 0,
-        approvedUSDT: 0
+        approvedUSDT: 0,
+        userActivityInfo: {},
+        blindBoxInfo: []
     },
     mutations: {
         saveCollectBlessAbi: (state, collectBlessAbi) => {
@@ -24,6 +26,11 @@ export default {
         saveApprovedUSDT: (state, approvedUSDT) => {
             state.approvedUSDT = approvedUSDT
         },
-
+        saveUserActivityInfo: (state, userActivityInfo) => {
+            state.userActivityInfo = userActivityInfo
+        },
+        saveBlindBoxInfo: (state, blindBoxInfo) => {
+            state.blindBoxInfo = blindBoxInfo
+        }
     }
 }

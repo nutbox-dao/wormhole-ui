@@ -50,6 +50,7 @@ export async function getUserBlindBox(ethAddress) {
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)
 
     const boxes = await contract.getUserOpendBox(ethAddress, 0, 500);
+
     return boxes;
 }
 
@@ -73,7 +74,7 @@ export async function getUserActivityInfo(ethAddress) {
                 'totalWeights()(uint256)'
             ],
             returns: [
-                ['totalWeights']
+                ['totalWeights', val => val / 1]
             ]
         },
         {
@@ -83,7 +84,7 @@ export async function getUserActivityInfo(ethAddress) {
                 ethAddress
             ],
             returns:[
-                ['userWeights']
+                ['userWeights', val => val / 1]
             ]
         },
         {
@@ -92,7 +93,7 @@ export async function getUserActivityInfo(ethAddress) {
                 'prizePoolAmount()(uint256)'
             ],
             returns: [
-                ['prizeTotalAmount']
+                ['prizeTotalAmount', val => val.toString() / (10**18)]
             ]
         },
         {
@@ -102,7 +103,7 @@ export async function getUserActivityInfo(ethAddress) {
                 ethAddress
             ],
             returns: [
-                ['mintBoxCounts']
+                ['mintBoxCounts', val => val / 1]
             ]
         },
         {
@@ -112,7 +113,7 @@ export async function getUserActivityInfo(ethAddress) {
                 ethAddress
             ],
             returns: [
-                ['openBoxCounts']
+                ['openBoxCounts', val  => val / 1]
             ]
         },
         {
@@ -121,12 +122,24 @@ export async function getUserActivityInfo(ethAddress) {
                 'eventEndTime()(uint256)'
             ],
             returns: [
-                ['eventEndTime']
+                ['eventEndTime', val => val / 1]
+            ]
+        },
+        {
+            target: COLLECT_BLESS_CONTRACT,
+            call: [
+                'alreadyReceived(address)(uint256)',
+                ethAddress
+            ],
+            returns: [
+                ['alreadyReceived', val => val.toString() / 1e18]
             ]
         }
     ]
     const res = await aggregate(calls, Multi_Config);
-    return res.results.transformed;
+    const info = res.results.transformed
+    store.commit('newYear/saveUserActivityInfo', info)
+    return info;
 }
 
 export async function buyRareCard(counts, account) {

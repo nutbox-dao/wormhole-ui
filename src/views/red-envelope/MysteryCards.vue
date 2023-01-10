@@ -4,34 +4,34 @@
       <div class="col-span-1 ">
         <div class="border-1 border-color8B/30 light:border-colorF4 text-left p-12px
                     rounded-12px bg-glass light:bg-card-gradient">
-          <div>{{$t('ny.yourPower')}}: 10</div>
-          <div>{{$t('ny.totalPower')}}: 1304</div>
+          <div>{{$t('ny.yourPower')}}: {{ userActivityInfo.userWeights }}</div>
+          <div>{{$t('ny.totalPower')}}: {{ userActivityInfo.totalWeights }}</div>
         </div>
       </div>
       <div class="col-span-1 ">
-        <div v-if="isOver"
+        <div v-if="!isOver"
              class="border-1 border-color8B/30 light:border-colorF4 p-12px
                     rounded-12px bg-glass light:bg-card-gradient">
           <div>{{$t('ny.poolRewards')}}</div>
-          <div class="c-text-black">$304820</div>
+          <div class="c-text-black">${{ userActivityInfo.prizeTotalAmount }}</div>
         </div>
         <div v-else class="bg-tag-gradient p-12px rounded-12px text-white cursor-pointer">
           <div class="font-bold">{{$t('ny.claimReward')}}</div>
-          <div class="c-text-black">$304820</div>
+          <div class="c-text-black">${{ userActivityInfo.alreadyReceived }}</div>
         </div>
       </div>
       <div class="col-span-1 xs:col-span-2 sm:col-start-4">
-        <div v-if="isOver"
+        <div v-if="!isOver"
              class="p-12px text-white rounded-12px bg-tag-gradient cursor-pointer cursor-pointer"
              @click="makeCardVisible=true">
           <div class="font-bold">{{$t('ny.makeCard')}}</div>
-          <div>52 / 100 {{$t('ny.opened')}}</div>
+          <div>{{ userActivityInfo.openBoxCounts }} / {{ userActivityInfo.mintBoxCounts }} {{$t('ny.opened')}}</div>
         </div>
         <div v-else
              class="p-12px text-white rounded-12px bg-tag-gradient cursor-pointer cursor-pointer"
              @click="redeemCardVisible=true">
           <div class="font-bold">{{$t('ny.redeemCards')}}</div>
-          <div>52 / 100 {{$t('ny.notOpen')}}</div>
+          <div>{{ userActivityInfo.openBoxCounts }} / {{ userActivityInfo.mintBoxCounts }} {{$t('ny.opened')}}</div>
         </div>
       </div>
     </div>
@@ -90,9 +90,21 @@ import MysteryCardDetailModal from "@/views/red-envelope/MysteryCardDetailModal"
 import MakeMysteryCard from "@/views/red-envelope/MakeMysteryCard";
 import RedeemCardModal from "@/views/red-envelope/RedeemCardModal";
 import CardLogo from '@/assets/red-envelope/mystery-logo.png'
+import { getUserActivityInfo, getUserBlindBox } from '@/utils/new-year'
+import { mapGetters, mapState } from "vuex";
+
+
 export default {
   name: "MysteryCards",
   components: {MysteryCardDetailModal, MakeMysteryCard, RedeemCardModal},
+  computed: {
+    ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance', 'userActivityInfo', 'blindBoxBalance']),
+    ...mapState('web3', ['chainId', 'account']),
+    ...mapGetters(['getAccountInfo']),
+    isOver() {
+      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime
+    }
+  },
   data() {
     return {
       cards: [
@@ -104,11 +116,16 @@ export default {
       cardDetailVisible: false,
       selectedCard: {},
       makeCardVisible: false,
-      isOver: false,
       redeemCardVisible: false
     }
   },
   mounted() {
+    const account = this.getAccountInfo?.ethAddress;
+    if (!account) return;
+    getUserActivityInfo(account).catch();
+    getUserBlindBox(account).then(res => {
+
+    }).catch()
     this.selectedCard = this.cards[0]
   }
 }

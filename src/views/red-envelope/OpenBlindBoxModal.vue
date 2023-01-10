@@ -98,7 +98,7 @@
         <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                @click="$emit('close')">
+                @click="get">
           {{$t('ny.get')}}
         </button>
         <button class="underline mt-20px font-bold" @click="$emit('gotoBlind')">
@@ -183,12 +183,20 @@ export default {
         this.isDrawing = true;
         this.drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         console.log(35, this.drawedBoxInfo);
+        getUserNYCards(this.getAccountInfo.ethAddress)
       } catch (e) {
         console.log('open box fail:', e);
       } finally {
         this.isDrawing = false
       }
       this.step=1
+    },
+    get() {
+      if (this.enableChange) {
+        this.step = 0
+      }else {
+        this.$emit('close')
+      }
     }
   },
   mounted () {
