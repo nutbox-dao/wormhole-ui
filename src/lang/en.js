@@ -308,7 +308,7 @@ export default {
     to: 'To',
     giveCard: 'Give card',
     buyCard: 'Buy card',
-    giveToDesc: `You just give your card successfully \n to: {'@'}{tweetName}`,
+    giveToDesc: `You just give your card successfully \n to: {'@'}{tweetName}, post a tweet to notice him.`,
     shareTweet: 'Share in Twitter',
     chanceTip: 'You have {count} chance',
     drawCard: 'Draw a mystery card',
@@ -346,7 +346,9 @@ export default {
     redeemCards: 'Redeem cards',
     notOpen: 'not open',
     redeemCardDesc: 'You made {totalNum} mystery cards, {notOpenNum} of them are not open, now you can redeem to get back the special rewards in these cards.',
-    redeem: 'Redeem'
+    redeem: 'Redeem',
+    userNotExist: 'User not registerd wormhole3',
+    accountMismatch: 'You must use your wormhole3 account to operate.'
   },
   err: {
     serverErr: 'Server error',

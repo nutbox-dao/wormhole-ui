@@ -4,7 +4,9 @@ export default {
     state: {
         collectBlessAbi: [],
         blessCardBalance: [],
-        blindBoxBalance: []
+        blindBoxBalance: [],
+        usdtBalance: 0,
+        approvedUSDT: 0
     },
     mutations: {
         saveCollectBlessAbi: (state, collectBlessAbi) => {
@@ -15,6 +17,13 @@ export default {
         },
         saveBlindBoxBalance: (state, blindBoxBalance) => {
             state.blindBoxBalance = blindBoxBalance
-        }
+        },
+        saveUsdtBalance: (state, usdtBalance) => {
+            state.usdtBalance = usdtBalance
+        },
+        saveApprovedUSDT: (state, approvedUSDT) => {
+            state.approvedUSDT = approvedUSDT
+        },
+
     }
 }

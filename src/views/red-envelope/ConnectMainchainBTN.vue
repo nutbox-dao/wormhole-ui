@@ -11,6 +11,8 @@
 
 <script>
 import { setupNetwork } from '@/utils/web3/web3';
+import {accountChanged, getAccounts} from "@/utils/web3/account";
+import { CHAIN_NAME } from '@/ny-config';
 
 export default {
     name: 'ConnectMainchainBTN',
@@ -23,7 +25,8 @@ export default {
         async connect() {
             try{
                 this.connecting = true
-                await setupNetwork('BSC Testnet')
+                await setupNetwork(CHAIN_NAME)
+                getAccounts()
             } catch(e) {
                 
             } finally {

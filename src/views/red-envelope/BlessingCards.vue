@@ -3,7 +3,8 @@
     <div class="grid grid-cols-2 xs:grid-cols-4 gap-1rem py-1rem">
       <div class="col-span-1" v-for="(item, index) of cards" :key="index">
         <div class="relative text-white">
-          <img class="w-full" src="~@/assets/red-envelope/card-default.png" alt="">
+          <img v-if="blessCardBalance[index+1] > 0" :src="require(`@/assets/red-envelope/card${index}.png`)" alt="">
+          <img v-else class="w-full" src="~@/assets/red-envelope/card-default.png" alt="">
           <div class="absolute top-5px left-10px font-bold text-shadow-lg opacity-70">{{item.label}}</div>
           <div class="absolute text-60px top-1/2 left-1/2 opacity-70
                       transform -translate-x-1/2 -translate-y-1/2 text-shadow-lg">?</div>
@@ -13,7 +14,7 @@
         </div>
         <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
           <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
-                  @click="onGive(index+1)">{{$t('ny.give')}}</button>
+                  @click="onGive(index)">{{$t('ny.give')}}</button>
           <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px">{{$t('ny.ask')}}</button>
         </div>
       </div>
@@ -21,7 +22,7 @@
     <div class="flex justify-center">
       <div class="w-1/2 xs:w-1/4 px-0.5rem">
         <div class="relative text-white">
-          <img class="w-full" src="~@/assets/red-envelope/card0.png" alt="">
+          <img class="w-full" src="~@/assets/red-envelope/card4.png" alt="">
           <div class="absolute top-1/18 left-1/10 font-bold text-shadow-lg opacity-70">Leek Rabbit</div>
           <div class="absolute bottom-1/14 right-1/10 text-shadow-lg font-bold opacity-70">
             {{$t('common.balance')}}: {{ blessCardBalance[5] }}
@@ -29,7 +30,7 @@
         </div>
         <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
           <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
-                  @click="onGive(0)">{{$t('ny.give')}}</button>
+                  @click="onGive(4)">{{$t('ny.give')}}</button>
           <button class="flex-1 py-6px border-1 border-color8B/30 rounded-4px"
                   @click="buyCardVisible=true">{{$t('ny.buy')}}</button>
         </div>

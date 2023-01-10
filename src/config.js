@@ -6,8 +6,8 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-// export const BACKEND_API_URL = 'http://localhost:3100'
+// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+export const BACKEND_API_URL = 'http://localhost:3100'
 // export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
@@ -58,7 +58,7 @@ export const MainToken = {
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
 
 // bsc test 
-export const RPC_NODE = 'https://data-seed-prebsc-2-s2.binance.org:8545'
+export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
 export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
 export const CHAIN_NAME = 'BSC Testnet'
 export const CHAIN_ID = 97
@@ -247,7 +247,7 @@ export const EVM_CHAINS = {
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
     },
     'BSC Testnet': {
-        rpc: 'https://data-seed-prebsc-2-s2.binance.org:8545',
+        rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
         scan: '',
         id: 97,
         main: {
@@ -260,7 +260,7 @@ export const EVM_CHAINS = {
           USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2358F9255d2b31dc05cEC4249C612CA6FA9179a', decimals: 18}
         },
         Multi_Config: {
-            rpcUrl: 'https://data-seed-prebsc-2-s2.binance.org:8545',
+            rpcUrl: 'https://data-seed-prebsc-2-s3.binance.org:8545',
             multicallAddress: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
             interval: 3000
         },

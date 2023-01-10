@@ -11,7 +11,7 @@
       <el-carousel indicator-position="none" :autoplay="false" arrow="always"
                    :initial-index="cardIndex"
                    @change="cardChange">
-        <el-carousel-item v-for="item in cards" :key="item">
+        <el-carousel-item v-for="(item, index) in cards" :key="item">
           <div class="text-center">
             <div class="relative w-max mx-auto">
               <img class="h-280px" :src="item.img" alt="">
@@ -19,7 +19,7 @@
                 {{item.label}}
               </div>
               <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
-                {{$t('common.balance')}}: {{item.balance}}
+                {{$t('common.balance')}}: {{ blessCardBalance[index + 1] }}
               </div>
             </div>
           </div>
@@ -40,6 +40,7 @@
                    v-on:change="checkInfo"
                    :placeholder="'@'+$t('ny.giveTo')">
             <button @click="verify">verify</button>
+            <span v-show="showUserNotExist">{{ $t('ny.userNotExist') }}</span>
           </div>
         </div>
         <ConnectMainchainBTNVue v-if="chainId !== CHAIN_ID"/>
@@ -61,11 +62,11 @@
             {{cards[cardIndex].label}}
           </div>
           <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
-            {{$t('common.balance')}}: {{cards[cardIndex].balance}}
+            {{$t('common.balance')}}: {{blessCardBalance[cardIndex + 1]}}
           </div>
         </div>
         <div class="whitespace-pre-line font-bold leading-24px mt-1rem">
-          {{$t('ny.giveToDesc', {tweetName: 'xxxx'})}}
+          {{$t('ny.giveToDesc', {tweetName: giveTo})}}
         </div>
       </div>
       <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px w-full max-w-300px mx-auto
@@ -124,7 +125,7 @@ import { getUserInfoByUserId } from '@/utils/twitter'
 import { getUserInfo } from '@/api/api'
 import { ethers } from 'ethers'
 import { notify } from '@/utils/notify'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
 export default {
@@ -140,11 +141,11 @@ export default {
     return {
       step: 0,
       cards: [
-        {label: 'Leek Rabbit', balance: 0, img: card0},
-        {label: 'SBF Rabbit', balance: 0, img: card1},
-        {label: 'MashiMaro', balance: 0, img: card2},
-        {label: 'BTC Rabbit', balance: 0, img: card3},
-        {label: 'Rabbit Trader', balance: 0, img: card4},
+        {label: 'SBF Rabbit', balance: 0, img: card0},
+        {label: 'MashiMaro', balance: 0, img: card1},
+        {label: 'BTC Rabbit', balance: 0, img: card2},
+        {label: 'Rabbit Trader', balance: 0, img: card3},
+        {label: 'Leek Rabbit', balance: 0, img: card4},
       ],
       giveNum: 1,
       CHAIN_ID,
@@ -155,7 +156,8 @@ export default {
       tweetContent: '',
       shareLoading: false,
       toAddress: '',
-      giveEnable: false
+      giveEnable: false,
+      showUserNotExist: false
     }
   },
   watch: {
@@ -220,6 +222,8 @@ export default {
       return true;
     },
     async onGive() {
+      this.step = 1;
+      return;
       if (!this.checkInfo()) return;
       try{
         this.giveLoading = true
@@ -239,9 +243,11 @@ export default {
     },
     onShare() {
       this.tweetContent = this.formatElToTextContent(this.$refs.contentRef)
+      window.open('https://twitter.com/intent/tweet?text=' + this.tweetContent + '%0a%23iweb3 %23Spring_Festival')
       this.$emit('close')
     },
     async verify() {
+      this.showUserNotExist = false;
       if (!this.giveTo) {
         return;
       }
@@ -258,6 +264,7 @@ export default {
             const { ethAddress } = account;
             this.toAddress = ethAddress
           }else {
+            this.showUserNotExist = true;
             notify({message: this.$t('tips.userNotExist'), duration: 3000, type: 'info'})
           }
         } catch (e) {

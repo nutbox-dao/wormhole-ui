@@ -1,18 +1,19 @@
 import axios from 'axios'
 import store from '@/store'
-import { COLLECT_BLESS_CONTRACT, NEW_YEAR_CARD_CONTRACT, Multi_Config, RPC_NODE } from '@/config'
+import { COLLECT_BLESS_CONTRACT, NEW_YEAR_CARD_CONTRACT, USDT_CONTRACT, Multi_Config, RPC_NODE, CHAIN_NAME } from '@/ny-config'
 import { ethers } from 'ethers';
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
+import { getERC20TokenBalance, getApprovement, approve } from './asset'
 
 async function getAbi() {
-    let abi = store.state.newYear.collectBlessAbi;
-    if (abi.length > 0) {
+    let abi = store.state.newYear?.collectBlessAbi;
+    if (abi) {
         return abi;
     }
     abi = await axios.get('/CollectBless.json');
-    abi = abi.abi;
+    abi = abi.data.abi;
     store.commit('newYear/saveCollectBlessAbi', abi);
     return abi;
 }
@@ -122,6 +123,7 @@ export async function getUserActivityInfo(ethAddress) {
 
 export async function buyRareCard(counts, account) {
     const abi = await getAbi();
+    console.log(677, counts, account);
     const metamask = await getEthWeb()
     const provider = new ethers.providers.Web3Provider(metamask)
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)
@@ -205,4 +207,26 @@ export async function claimPrize() {
         return false;
     }
     
+}
+
+export async function getUSDTBalance(account) {
+    const balance = await getERC20TokenBalance(CHAIN_NAME, USDT_CONTRACT, account);
+    store.commit('newYear/saveUsdtBalance', balance)
+    return balance
+}
+
+export async function checkUSDTApproved(account) {
+    try {
+        const res = await getApprovement(CHAIN_NAME, USDT_CONTRACT, account, COLLECT_BLESS_CONTRACT)
+        store.commit('newYear/saveApprovedUSDT', res)
+    } catch (e) {
+        console.log('get approved usdt to card fail:', e);
+    }
+}
+
+export async function approveUSDTToCollect(account) {
+    const res = await approve(USDT_CONTRACT, account, COLLECT_BLESS_CONTRACT)
+    if(res) {
+        await checkUSDTApproved(account)
+    }
 }
