@@ -53,7 +53,7 @@ import { mapState, mapGetters } from 'vuex'
 import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, buyRareCard, getUserNYCards } from '@/utils/new-year'
 import { notify } from '@/utils/notify'
 import { formatAmount } from '@/utils/helper'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/ny-config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 

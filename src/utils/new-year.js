@@ -5,11 +5,11 @@ import { ethers } from 'ethers';
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
-import { getERC20TokenBalance, getApprovement, approve } from './asset'
+import { getERC20TokenBalance, getApprovement, approve, approveERC1155, approveERC721 } from './asset'
 
 async function getAbi() {
     let abi = store.state.newYear?.collectBlessAbi;
-    if (abi) {
+    if (abi && Object.keys(abi).length > 0) {
         return abi;
     }
     abi = await axios.get('/CollectBless.json');
@@ -53,6 +53,14 @@ export async function getUserBlindBox(ethAddress) {
     return boxes;
 }
 
+export async function getBlindBoxById(id) {
+    const provider = new ethers.providers.JsonRpcBatchProvider(RPC_NODE);
+    const abi = await getAbi();
+    let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider);
+
+    const box = await contract.blindBoxs(id);
+    return box;
+}
 
 export async function getUserActivityInfo(ethAddress) {
     if (!ethers.utils.isAddress(ethAddress)) {
@@ -166,7 +174,7 @@ export async function mintBlindBox(rewardToken, type, id, counts, totalAmount) {
     })
 }
 
-export async function openBox(account, count) {
+export async function openBox(account, count = 1) {
     return new Promise(async (resolve, reject)=>{
         try {
             const abi = await getAbi();
@@ -178,14 +186,14 @@ export async function openBox(account, count) {
             contract.on('OpenBox', async (user, ids) => {
                 if (user.toLowerCase() == account.toLowerCase()) {
                     contract.removeAllListeners('OpenBox')
-                    resolve(ids);
+                    const box = await contract.blindBoxs(ids[0]);
+                    resolve(box);
                 }
             })
 
             let tx = await contract.openBox(count);
             await waitForTx(provider, tx.hash);
         } catch (e) {
-            console.log('Open box fail:', e);
             reject(e)
         }
     })
@@ -229,4 +237,13 @@ export async function approveUSDTToCollect(account) {
     if(res) {
         await checkUSDTApproved(account)
     }
+}
+
+export async function approve1155ToCollect(token, account) {
+    const res = await approveERC1155(token, account, COLLECT_BLESS_CONTRACT)
+    return res;
+}
+
+export async function approve721ToCollect(account) {
+    const res = await(approveERC721(token, account, COLLECT_BLESS_CONTRACT))
 }

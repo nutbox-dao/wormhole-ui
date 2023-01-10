@@ -16,7 +16,7 @@
             <div class="relative w-max mx-auto">
               <img class="h-280px" :src="item.img" alt="">
               <div class="absolute top-15px left-20px font-bold text-shadow-lg opacity-70 text-white">
-                {{item.label}}
+                {{BLESS_CARD_NAME[index]}}
               </div>
               <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
                 {{$t('common.balance')}}: {{ blessCardBalance[index + 1] }}
@@ -59,7 +59,7 @@
         <div class="relative w-max mx-auto">
           <img class="h-240px" :src="cards[cardIndex].img" alt="">
           <div class="absolute top-15px left-20px font-bold text-shadow-lg opacity-70 text-white">
-            {{cards[cardIndex].label}}
+            {{BLESS_CARD_NAME[cardIndex]}}
           </div>
           <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
             {{$t('common.balance')}}: {{blessCardBalance[cardIndex + 1]}}
@@ -125,7 +125,7 @@ import { getUserInfoByUserId } from '@/utils/twitter'
 import { getUserInfo } from '@/api/api'
 import { ethers } from 'ethers'
 import { notify } from '@/utils/notify'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/ny-config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
 export default {
@@ -152,6 +152,7 @@ export default {
       giveTo: '',
       giveLoading: false,
       cardIndex: 0,
+      BLESS_CARD_NAME,
       contentRange: null,
       tweetContent: '',
       shareLoading: false,

@@ -27,7 +27,7 @@
           </button>
         </div>
         <div class="">
-          <BlessingCards v-if="tabIndex===0"/>
+          <BlessingCards v-if="tabIndex===0" @gotoBlind="tabIndex=1"/>
           <MysteryCards v-if="tabIndex===1"/>
         </div>
       </div>

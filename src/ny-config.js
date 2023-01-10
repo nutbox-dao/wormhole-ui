@@ -14,3 +14,11 @@ export const Multi_Config = {
     multicallAddress: MultiAddress,
     interval: 3000,
 }
+
+export const BLESS_CARD_NAME = [
+    'Rabbit Trader',
+    'Rabbit Dealer',
+    'Rabbit Miner',
+    'Rabbit Investor',
+    'Rabbit Holder'
+]
