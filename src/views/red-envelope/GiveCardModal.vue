@@ -76,7 +76,8 @@
                class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
                ref="contentRef"
                @blur="getBlur"
-               @paste="onPasteEmojiContent">
+               @paste="onPasteEmojiContent"
+               v-html="formatEmojiText(tweetContent)">
           </div>
         </div>
         <div class="py-2 flex justify-between items-center px-1rem">
@@ -154,7 +155,7 @@ export default {
       cardIndex: 0,
       BLESS_CARD_NAME,
       contentRange: null,
-      tweetContent: '',
+      tweetContent: '默认内容',
       shareLoading: false,
       toAddress: '',
       giveEnable: false,
