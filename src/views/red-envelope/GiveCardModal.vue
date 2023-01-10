@@ -140,7 +140,7 @@ export default {
   },
   data() {
     return {
-      step: 1,
+      step: 0,
       cards: [
         {label: 'SBF Rabbit', balance: 0, img: card0},
         {label: 'MashiMaro', balance: 0, img: card1},
