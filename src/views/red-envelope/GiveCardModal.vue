@@ -76,7 +76,8 @@
                class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
                ref="contentRef"
                @blur="getBlur"
-               @paste="onPasteEmojiContent">
+               @paste="onPasteEmojiContent"
+               v-html="formatEmojiText(tweetContent)">
           </div>
         </div>
         <div class="py-2 flex justify-between items-center px-1rem">
@@ -139,7 +140,7 @@ export default {
   },
   data() {
     return {
-      step: 0,
+      step: 1,
       cards: [
         {label: 'SBF Rabbit', balance: 0, img: card0},
         {label: 'MashiMaro', balance: 0, img: card1},
@@ -153,7 +154,7 @@ export default {
       giveLoading: false,
       cardIndex: 0,
       contentRange: null,
-      tweetContent: '',
+      tweetContent: '默认内容',
       shareLoading: false,
       toAddress: '',
       giveEnable: false,
