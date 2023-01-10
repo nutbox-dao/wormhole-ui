@@ -178,6 +178,8 @@ export async function mintBlindBox(rewardToken, type, id, counts, totalAmount) {
                 tx = await contract.mintBoxNFT1155(rewardToken, id, counts);
             }else if(type === 'ERC721') {
                 tx = await contract.mintBoxNFT721(rewardToken, id);
+            }else if(type === 'common') {
+                tx = await contract.mintWhitelistNFT(counts);
             }
             await waitForTx(provider, tx.hash)
         } catch (e) {
