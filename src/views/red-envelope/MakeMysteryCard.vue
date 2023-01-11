@@ -18,16 +18,16 @@
                  :src="logoPreviewSrc" alt="">
 <!--            <img class="absolute w-20px bottom-15px left-15px"-->
 <!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
-            <div v-if="form.tokenNum"
+            <div v-if="selectedToken"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{form.tokenNum}} {{form.tokenName}}
+              + {{form.tokenNum || 0}} {{selectedToken.symbol}}
             </div>
             <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
               {{form.brandName}}
             </div>
           </div>
         </div>
-        <div class="col-span-1">
+        <div class="col-span-1" ref="formRef">
           <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-34px mb-10px">
@@ -36,7 +36,7 @@
                    :placeholder="$t('ny.brandName')">
           </div>
           <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
-          <div class="flex rounded-8px mb-10px gap-1px">
+          <div class="flex rounded-8px overflow-hidden mb-10px gap-1px">
             <button class="flex-1 rounded-l-8px h-34px"
                     :class="form.type==='token'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
                     @click="form.type='token'">
@@ -54,13 +54,75 @@
             </button>
           </div>
           <template v-if="form.type==='token'">
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px"
-                     v-model="form.tokenAddress"
-                     :placeholder="$t('ny.tokenAddress')">
-            </div>
+            <button class="w-full bg-black/40 border-1 border-color8B/30 mb-10px
+                         light:bg-white light:border-colorE3 flex items-center
+                         rounded-8px overflow-hidden h-34px">
+              <el-popover popper-class="c-popper"
+                          placement="bottom-end"
+                          :width="popperWidth"
+                          trigger="click" ref="tokenPopover">
+                <template #reference>
+                  <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px">
+                  <span class="flex items-center">
+                    <span v-if="Object.keys(selectedToken).length===0" class="text-color8B/70">{{$t('ny.select')}}</span>
+                    <template v-else>
+                      <img v-if="TokenIcon[selectedToken.symbol]" class="w-22px min-w-22px h-22px mr-15px rounded-full"
+                           :src="TokenIcon[selectedToken.symbol]" alt="">
+                      <img v-else class="w-22px min-w-22px mr-15px rounded-full"
+                           src="~@/assets/icon-token-default.svg" alt="">
+                      <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
+                    </template>
+                  </span>
+                    <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
+                  </button>
+                </template>
+                <template #default>
+                  <div class="border-1 border-color8B/30 bg-blockBg max-h-240px flex flex-col overflow-hidden
+                                light:bg-white light:border-colorE3 hover:border-primaryColor
+                                rounded-12px py-10px overflow-x-hidden">
+                    <div class="px-10px mb-10px">
+                      <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                                    light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                                    rounded-12px h-40px 2xl:h-2rem">
+                        <input class="bg-transparent h-full w-full px-0.5rem"
+                               v-model="searchToken"
+                               @input="updateToken"
+                               type="text" :placeholder="$t('curation.inputErc20')">
+                      </div>
+                    </div>
+                    <div class="flex-1 overflow-auto">
+                      <div v-if="customToken"
+                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
+                              py-3 px-10px overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
+                        <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
+                        <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
+                             @click="selectedToken = customToken;$refs.tokenPopover.hide()">
+                          <span class="text-15px">{{customToken.symbol}}</span>
+                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            {{customToken.address}}
+                          </span>
+                        </div>
+                      </div>
+                      <div v-for="token of tokenList" :key="token.address"
+                           @click="selectedToken=token;$refs.tokenPopover.hide()"
+                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
+                        <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                        <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                          <span class="text-15px">{{token.symbol}}</span>
+                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            {{token.address}}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </el-popover>
+            </button>
+
             <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                         flex items-center
                         light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -69,7 +131,7 @@
                      v-model="form.tokenNum"
                      type="number"
                      :placeholder="$t('ny.tokenNum')">
-              <span class="whitespace-nowrap pr-15px font-bold">{{form.tokenName}}</span>
+<!--              <span class="whitespace-nowrap pr-15px font-bold">{{form.tokenName}}</span>-->
             </div>
             <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                         light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -275,12 +337,17 @@
 <script>
 import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
+import {TokenIcon, EVM_CHAINS} from "@/config";
+import {ethers} from "ethers";
+import {getTokenInfo} from "@/utils/asset";
+import {mapGetters} from "vuex";
 
 export default {
   name: "MakeMysteryCard",
   components: {VueCropper},
   data() {
     return {
+      TokenIcon,
       step: 0,
       form: {
         brandName: '',
@@ -304,10 +371,47 @@ export default {
       logoUploadLoading: false,
       approveLoading: false,
       mintLoading: false,
-      shareLoading: false
+      shareLoading: false,
+      popperWidth: 300,
+      EVM_CHAINS,
+      selectedToken: {},
+      searchToken: '',
+      selectedChainName: 'BNB Smart Chain',
+      customToken: null
     }
   },
+  computed: {
+    ...mapGetters('curation', ['getCustomTokens']),
+    tokenList() {
+      const customToken = this.getCustomTokens ? (this.getCustomTokens[this.selectedChainName] ?? {}) : {}
+      return Object.values(customToken).concat(Object.values(this.EVM_CHAINS[this.selectedChainName].assets))
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.popperWidth = this.$refs.formRef.clientWidth < 300? 300: this.$refs.formRef.clientWidth
+    })
+  },
   methods: {
+    async updateToken() {
+      if (!ethers.utils.isAddress(this.searchToken)) {
+        this.customToken = null;
+        return;
+      }
+      try {
+        const res = await getTokenInfo(this.selectedChainName, this.searchToken)
+        this.customToken = {...res, address: this.searchToken}
+        let customToken = this.getCustomTokens ?? {};
+        if (!customToken[this.selectedChainName]) {
+          customToken[this.selectedChainName] = {}
+        }
+        customToken[this.selectedChainName][res.symbol] = this.customToken
+        this.$store.commit('curation/saveCustomTokens', customToken)
+        this.selectedToken = this.customToken
+      }catch(e) {
+        console.log(63, e);
+      }
+    },
     onUploadLogo(file) {
       console.log('=========',file)
       this.logoUploadLoading = true
@@ -346,7 +450,7 @@ export default {
     },
     onShare() {
 
-    }
+    },
   }
 }
 </script>
