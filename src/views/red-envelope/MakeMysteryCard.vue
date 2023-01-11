@@ -275,6 +275,10 @@
 <script>
 import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
+import { uploadImage } from '@/utils/helper'
+import { mapState, mapGetters } from 'vuex'
+import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, buyRareCard, getUserNYCards } from '@/utils/new-year'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 
 export default {
   name: "MakeMysteryCard",
@@ -304,8 +308,17 @@ export default {
       logoUploadLoading: false,
       approveLoading: false,
       mintLoading: false,
-      shareLoading: false
+      shareLoading: false,
+      CHAIN_ID,
     }
+  },
+  computed: {
+    ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance']),
+    ...mapState('web3', ['chainId', 'account']),
+    ...mapGetters(['getAccountInfo']),
+    buyAmount () {
+      return (this.form.cardNum * 1)
+    },
   },
   methods: {
     onUploadLogo(file) {
@@ -329,6 +342,7 @@ export default {
           this.form.logoUrl = await this.uploadImage(data)
           this.logoUploadLoading = false
         } catch (e) {
+          console.log(53, e);
           this.coverImg = null
           this.form.poster = null
           this.logoUploadLoading = false
@@ -336,18 +350,26 @@ export default {
       })
     },
     // 上传图片
-    uploadImage(data) {
-      // this.form.logoUrl = await upload()
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve()
-        }, 3000)
-      })
+    async uploadImage(data) {
+      this.form.logoUrl = await uploadImage(data)
+      console.log(64, this.form.logoUrl);
     },
     onShare() {
 
     }
-  }
+  },
+  mounted () {
+    if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+      return;
+    }
+    const account = this.getAccountInfo.ethAddress
+    getUSDTBalance(account).catch();
+    checkUSDTApproved(account).catch();
+    accountChanged().catch()
+    getAccounts(true).then(wallet => {
+      this.account = wallet
+    }).catch();;
+  },
 }
 </script>
 
