@@ -155,7 +155,7 @@ export async function buyRareCard(counts, account) {
     return true;
 }
 
-export async function mintBlindBox(rewardToken, type, id, counts, totalAmount) {
+export async function mintBlindBox(account, rewardToken, type, id, counts, totalAmount) {
     return new Promise(async (resolve, reject) => {
         try {
             const abi = await getAbi();
@@ -164,23 +164,26 @@ export async function mintBlindBox(rewardToken, type, id, counts, totalAmount) {
             let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)
             contract = contract.connect(provider.getSigner())
 
+            let hash;
+
             contract.on('MintBox', async (creator, ids) => {
                 if (creator.toLowerCase() == account.toLowerCase()) {
                     contract.removeAllListeners('MintBox')
-                    resolve(ids);
+                    resolve([ids.map(val => val / 1), hash]);
                 }
             })
-
+            
             let tx;
-            if (type === 'ERC20') {
+            if (type === 'erc20') {
                 tx = await contract.mintBox(rewardToken, counts, totalAmount);
-            }else if(type === 'ERC1155') {
+            }else if(type === 'erc1155') {
                 tx = await contract.mintBoxNFT1155(rewardToken, id, counts);
-            }else if(type === 'ERC721') {
+            }else if(type === 'erc721') {
                 tx = await contract.mintBoxNFT721(rewardToken, id);
-            }else if(type === 'common') {
+            }else if(type === 'none') {
                 tx = await contract.mintWhitelistNFT(counts);
             }
+            hash = tx.hash
             await waitForTx(provider, tx.hash)
         } catch (e) {
             console.log('mint box fail:',e );

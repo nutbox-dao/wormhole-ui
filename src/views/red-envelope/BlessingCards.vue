@@ -105,7 +105,7 @@ export default {
     const { twitterId, ethAddress } = this.getAccountInfo;
     if (ethAddress) {
       getUserNYCards(ethAddress).catch(e => {
-        console.log('get bless card balance fail:', e);
+        console.log('get lucky card balance fail:', e);
       })
     }
   },

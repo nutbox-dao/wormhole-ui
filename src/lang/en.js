@@ -299,7 +299,7 @@ export default {
     get: 'Get',
     checkCollections: 'Check your collections',
     springFestival: 'Spring Festival',
-    blessingCards: 'Blessing cards',
+    blessingCards: 'Lucky cards',
     mysteryCards: 'Mystery cards',
     give: 'Give',
     buy: 'Buy',
@@ -351,7 +351,16 @@ export default {
     accountMismatch: 'You must use your wormhole3 account to operate.',
     endTime: 'Time to end',
     verify: 'Verify',
-    select: 'Please select'
+    select: 'Please select',
+    inputBrandInfo: 'Please compelete your brand infos',
+    inputTokenInfo: 'Please compelete your rewards infos',
+    inputCardNum: 'Please input card count',
+    inputTokenNum: 'Please input token count',
+    selectToken: 'Please select your reward token',
+    uploadLogo: 'Please upload your brand logo',
+    uBalance: 'USDT Balance',
+    tokenBalance: 'Token Balance',
+    approveStep: 'Approve {step}/2 '
   },
   err: {
     serverErr: 'Server error',

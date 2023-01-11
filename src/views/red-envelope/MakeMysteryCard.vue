@@ -20,7 +20,7 @@
 <!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
             <div v-if="form.tokenNum > 0"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{form.tokenNum}} {{selectedToken.symbol}}
+              + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
             </div>
             <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
               {{form.brandName}}
@@ -38,22 +38,22 @@
           <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
           <div class="flex rounded-8px overflow-hidden mb-10px gap-1px">
             <button class="flex-1 rounded-l-8px h-34px"
-                    :class="form.type==='token'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="form.type='token'">
+                    :class="type==='token'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
+                    @click="type='token'">
               Token
             </button>
-            <button class="flex-1 h-34px"
-                    :class="form.type==='nft'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="form.type='nft'">
+            <!-- <button class="flex-1 h-34px"
+                    :class="type==='nft'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
+                    @click="type='nft'">
               NFT
-            </button>
+            </button> -->
             <button class="flex-1 rounded-r-8px h-34px"
-                    :class="form.type==='none'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="form.type='none'">
+                    :class="type==='none'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
+                    @click="type='none';clearTokenInput()">
               None
             </button>
           </div>
-          <template v-if="form.type==='token'">
+          <template v-if="type==='token'">
             <button class="w-full bg-black/40 border-1 border-color8B/30 mb-10px
                          light:bg-white light:border-colorE3 flex items-center
                          rounded-8px overflow-hidden h-34px">
@@ -131,7 +131,7 @@
                      v-model="form.tokenNum"
                      type="number"
                      :placeholder="$t('ny.tokenNum')">
-<!--              <span class="whitespace-nowrap pr-15px font-bold">{{form.tokenName}}</span>-->
+<!--              <span class="whitespace-nowrap pr-15px font-bold">{{form.tokenSymbol}}</span>-->
             </div>
             <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                         light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -142,7 +142,7 @@
                      :placeholder="$t('ny.cardNum')">
             </div>
           </template>
-          <template v-if="form.type==='nft'">
+          <template v-if="type==='nft'">
             <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-34px mb-10px">
@@ -176,7 +176,7 @@
                      :placeholder="$t('ny.cardNum')">
             </div>
           </template>
-          <template v-if="form.type==='none'">
+          <template v-if="type==='none'">
             <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                         light:bg-white light:border-colorE3 hover:border-primaryColor
                         rounded-8px h-34px mb-10px">
@@ -216,13 +216,13 @@
       </div>
       <div class="">
         <div class="flex justify-end items-center">
-          <span class="text-color8B light:text-color7D/50">{{form.description.length}}/30</span>
+          <span class="text-color8B light:text-color7D/50">{{form.brandDesc.length}}/180</span>
         </div>
         <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
-          <el-input v-model="form.description"
-                    :rows="4" :maxlength="30"
+          <el-input v-model="form.brandDesc"
+                    :rows="4" :maxlength="180"
                     class="border-0 c-textarea rounded-8px overflow-hidden"
                     type="textarea"
                     :placeholder="$t('ny.createDescTip')"/>
@@ -232,29 +232,36 @@
         {{$t('ny.mintTip1', {amount: form.cardNum + '*1 USDT'})}}
       </div>
       <div class="mt-10px text-color8B light:text-color7D">
-        {{$t('common.balance')}}: {{ usdtBalance }}
+        {{$t('ny.uBalance')}}: {{ formatAmount(usdtBalance) }}
+      </div>
+      <div v-if="type!=='none'" class="mt-10px text-color8B light:text-color7D">
+        {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
       </div>
       <div class="mt-10px text-color8B light:text-color7D">
         {{$t('ny.mintTip2')}}
       </div>
-      <div class="flex justify-center items-center mt-1rem gap-10px">
+      <ConnectMainchainBTNVue class="my-1rem" v-if="chainId !== CHAIN_ID"/>
+      <div v-else class="flex justify-center items-center mt-1rem gap-10px">
         <button class="bg-tag-gradient gradient-btn-disabled-grey
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                     :disabled="approveLoading"
+                     :disabled="approveLoading || approveStep === 2 || accountMismatch"
                      @click="approve">
-          {{$t('common.approve')}}
+          {{$t('ny.approveStep', {step: approveStep})}}
           <c-spinner v-show="approveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
         <button class="bg-tag-gradient gradient-btn-disabled-grey
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                :disabled="approveLoading"
-                @click="step=1">
+                :disabled="approveLoading || approveStep < 2 || mintLoading || accountMismatch"
+                @click="mint">
           {{$t('ny.mint')}}
           <c-spinner v-show="mintLoading"
                      class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
+      </div>
+      <div v-if="accountMismatch">
+        {{ $t('ny.accountMismatch') }}
       </div>
     </div>
     <div v-if="step===1" class="px-15px xs:px-40px">
@@ -269,7 +276,7 @@
 <!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
             <div v-if="form.tokenNum"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{form.tokenNum}} {{form.tokenName}}
+              + {{form.tokenNum}} {{form.tokenSymbol}}
             </div>
             <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
               {{form.brandName}}
@@ -283,7 +290,7 @@
           </div>
           <div class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.specialRewards')}}:</span>
-            <span>{{form.tokenNum}} {{form.tokenName}}</span>
+            <span>{{form.tokenNum}} {{form.tokenSymbol}}</span>
           </div>
           <div class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.commonRewards')}}:</span>
@@ -291,7 +298,7 @@
           </div>
           <div class="mb-10px xs:mb-20px">
             <div class="text-color8B light:text-color7D mr-10px">{{$t('ny.tokenNftAddress')}}:</div>
-            <div class="mt-3px leading-16px">{{form.type==='token'?form.tokenAddress:form.nftAddress}}</div>
+            <div class="mt-3px leading-16px">{{type==='token'?form.tokenAddress:form.nftAddress}}</div>
           </div>
           <div class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.nftId')}}:</span>
@@ -340,29 +347,32 @@
 <script>
 import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
-import { uploadImage } from '@/utils/helper'
+import { uploadImage, formatAmount } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, mintBlindBox, getUserNYCards } from '@/utils/new-year'
+import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, mintBlindBox, getUserNYCards, getUserActivityInfo } from '@/utils/new-year'
 import { accountChanged, getAccounts } from "@/utils/web3/account";
 import { ethers } from 'ethers'
 import { newBlindCards, getBlindCardsByIds } from '@/api/api'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME } from '@/ny-config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME, COLLECT_BLESS_CONTRACT, USDT_CONTRACT } from '@/ny-config'
 import { TokenIcon, EVM_CHAINS } from "@/config";
-import { getTokenInfo, checkNFTType } from "@/utils/asset";
+import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance } from "@/utils/asset";
+import { notify } from '@/utils/notify'
+import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
 export default {
   name: "MakeMysteryCard",
-  components: {VueCropper},
+  components: {VueCropper, ConnectMainchainBTNVue},
   data() {
     return {
       TokenIcon,
       step: 0,
+      type: 'token',
       form: {
+        twitterId: '',
         ids: [],
         brandName: '',
-        type: 'token',
+        type: 'erc20',
         tokenAddress: '',
-        tokenName: 'NUT',
         tokenSymbol: 'NUT',
         tokenDecimals: 18,
         tokenNum: '',
@@ -371,7 +381,7 @@ export default {
         nftId: '',
         cardNum: '',
         logoUrl: '',
-        description: ''
+        brandDesc: ''
       },
       nftNumDisabled: false,
       cropperModalVisible: false,
@@ -384,13 +394,14 @@ export default {
       mintLoading: false,
       shareLoading: false,
       CHAIN_ID,
-      tokenApprovement: false,
+      tokenApproveNum: 0,
       popperWidth: 300,
       EVM_CHAINS,
       selectedToken: {},
       searchToken: '',
       selectedChainName: CHAIN_NAME,
-      customToken: null
+      customToken: null,
+      tokenBalance: 0
     }
   },
   computed: {
@@ -398,11 +409,29 @@ export default {
     ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
     ...mapGetters('curation', ['getCustomTokens']),
+    ...mapGetters('newYear', ['getMintedBoxCache']),
     buyAmount () {
       return (this.form.cardNum * 1)
     },
     usdtApprovement() {
-      return this.buyAmount <= parseFloat(this.usdtBalance)
+      return this.buyAmount <= parseFloat(this.approvedUSDT)
+    },
+    accountMismatch() {
+      return this.getAccountInfo.ethAddress !== this.account
+    },
+    approveStep() {
+      let count = 0;
+      if (this.usdtApprovement) {
+        count++
+      } 
+      if (this.type === 'none') {
+        count++
+      }else {
+        if (this.tokenApproveNum >= this.form.tokenNum) {
+          count++
+        }
+      }
+      return count
     },
     tokenList() {
       const customToken = this.getCustomTokens ? (this.getCustomTokens[this.selectedChainName] ?? {}) : {}
@@ -410,13 +439,26 @@ export default {
     }
   },
   watch: {
-    searchToken(newValue, oldValue) {
+    selectedToken(newValue, oldValue) {
       if (newValue && newValue.symbol) {
-        console.log(35, newValue);
+        this.form.tokenType = 'erc20';
+        this.form.tokenAddress = newValue.address;
+        this.form.tokenDecimals = newValue.decimals;
+        this.form.tokenSymbol = newValue.symbol;
+        getApprovement(CHAIN_NAME, this.form.tokenAddress,this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(t => {
+            this.tokenApproveNum = t
+        })
+        getERC20TokenBalance(CHAIN_NAME, newValue.address, this.getAccountInfo.ethAddress).then(b => {
+          this.tokenBalance = b
+        })
+      }else {
+        this.tokenApproveNum = 0;
+        this.tokenBalance = 0;
       }
     }
   },
   methods: {
+    formatAmount,
     async updateToken() {
       if (!ethers.utils.isAddress(this.searchToken)) {
         this.customToken = null;
@@ -454,7 +496,7 @@ export default {
       })
       this.$refs.cropper.getCropBlob(async (data) => {
         try {
-          this.form.logoUrl = await this.uploadImage(data)
+          await this.uploadImage(data)
           this.logoUploadLoading = false
         } catch (e) {
           console.log(53, e);
@@ -467,49 +509,110 @@ export default {
     // 上传图片
     async uploadImage(data) {
       this.form.logoUrl = await uploadImage(data)
-      console.log(64, this.form.logoUrl);
+      console.log('logo:', this.form.logoUrl);
     },
     async approve() {
-      if (!this.usdtApprovement) {
+      try{
+        this.approveLoading = true;
+        if (!this.usdtApprovement) {
+          await approveUSDTToCollect(this.getAccountInfo.ethAddress)
+          getUSDTBalance(this.getAccountInfo.ethAddress).catch();
+        }else if (this.tokenApproveNum < this.form.tokenNum) {
 
-      }else if (!this.tokenApprovement) {
-
+          getApprovement(CHAIN_NAME, this.form.tokenAddress,this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(t => {
+              this.tokenApproveNum = t
+          })
+        }
+      } catch (e) {
+        console.log('approve fail:', e``);
+        notify({message: this.$t('curation.approveFail'), type: 'error'})
+      } finally {
+        this.approveLoading = false;
       }
+    },
+    clearTokenInput() {
+      this.form.tokenType = 'none';
+        this.form.tokenAddress = '';
+        this.form.tokenDecimals = 18;
+        this.form.tokenSymbol = '';
+        this.selectedToken = {};
+
     },
     checkInfo() {
-
-    },
-    async mint() {
-      let type = 'none'
-      let id = 0
-      if (this.form.type === 'none') {
-      
-      }else if(this.form.type === 'token') {
-        type = 'erc20'
-      }else if(this.form.type === 'nft') {
-
+      if (this.form.brandName.length === 0 || this.form.brandDesc.length === 0) {
+        notify({message: this.$t('ny.inputBrandInfo'), type: 'info'})
+        return false;
       }
-      // brandName: '',
-      // type: 'token',
-      // tokenAddress: '',
-      // tokenName: 'UNI',
-      // tokenNum: '',
-      // nftAddress: '',
-      // nftNum: '',
-      // nftId: '',
-      // cardNum: '',
-      // logoUrl: '',
-      // description: ''
+      if (this.form.logoUrl.length === 0) {
+        notify({message: this.$t('ny.uploadLogo'), type: 'info'})
+        return false;
+      }
+
+      if (this.form.cardNum < 1) {
+          notify({message: this.$t('ny.inputCardNum'), type: 'info'})
+          return false;
+        }
+
+      if (this.type === 'token') {
+        if (!ethers.utils.isAddress(this.form.tokenAddress)) {
+          notify({message: this.$t('ny.selectToken'), type: 'info'})
+          return false;
+        }
+        if (this.form.tokenNum < 1) {
+          notify({message: this.$t('ny.inputTokenNum'), type: 'info'})
+          return false;
+        }
+      }
+
+      var insufficientBalance = false
+      if (this.form.tokenAddress === USDT_CONTRACT) {
+        if (this.usdtBalance < this.buyAmount + this.form.tokenNum) {
+          insufficientBalance = true;
+        }
+      }else {
+        if (this.usdtBalance < this.buyAmount) {
+          insufficientBalance = true;
+        }
+        if (this.tokenBalance < this.form.tokenNum) {
+          insufficientBalance = true;
+        }
+      }
+      if (insufficientBalance) {
+        notify({message: this.$t('curation.insuffientBalance'), type: 'error'});
+        return false;
+      }
+      return true;
+    },
+
+    async mint() {
+      let id = 0
+      if (this.type === 'none') {
+        this.form.type = 'none'
+        this.form.nftId = 0
+      }else if(this.type === 'token') {
+        this.form.type = 'erc20'
+        this.form.nftId = 0
+      }else if(this.type === 'nft') {
+        this.form.type = 'erc1155'
+      }
+      if (!this.checkInfo()) {
+        return;
+      }
       try{
         this.mintLoading = true 
-        const ids = await mintBlindBox(this.form.tokenAddress, type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals))
+        console.log(this.form.tokenAddress, this.form.type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals));
+        const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals))
+        console.log(55, ids, hash);
         this.form.ids = ids
-
-        this.$store.commit('newYear/saveMintedBoxCache', this.form)
-        await newBlindCards();
-        this.$store.commit('newYear/saveMintedBoxCache', this.form)
+        this.form.twitterId = this.getAccountInfo.twitterId;
+        this.form.hash = hash
+        getUserActivityInfo(this.getAccountInfo.ethAddress).catch();
+        this.$store.commit('newYear/saveMintedBoxCache', this.form);
+        await newBlindCards(this.form);
+        this.$store.commit('newYear/saveMintedBoxCache', null)
+        this.step = 1;
       } catch (e) { 
-        
+        console.log('mint fail:', e);
       } finally {
         this.mintLoading = false
       }
@@ -525,6 +628,12 @@ export default {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
       return;
     }
+
+    const b = this.getMintedBoxCache;
+    if (b && b.twitterId && b.twitterId.length > 0) {
+      // upload box info
+      newBlindCards(b).catch();
+    }
     const account = this.getAccountInfo.ethAddress
     getUSDTBalance(account).catch();
     checkUSDTApproved(account).catch();
@@ -532,6 +641,7 @@ export default {
     getAccounts(true).then(wallet => {
       this.account = wallet
     }).catch();
+    getUserActivityInfo(account).catch();
   },
 }
 </script>
