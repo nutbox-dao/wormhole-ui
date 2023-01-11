@@ -23,11 +23,11 @@
         <div class="col-span-1">
           <div class="flex items-center justify-between sm:flex-col sm:items-start gap-5px">
             <span class="font-bold opacity-80">{{$t('ny.poolRewards')}}: </span>
-            <span class="c-text-black text-16px">$304820.12</span>
+            <span class="c-text-black text-16px">${{ userActivityInfo.prizeTotalAmount }}</span>
           </div>
           <div class="flex items-center justify-between sm:flex-col sm:items-start gap-5px mt-10px">
             <span class="font-bold opacity-80">{{$t('ny.endTime')}}: </span>
-            <span class="c-text-black text-16px">5D：12H：30M：42S</span>
+            <span class="c-text-black text-16px">{{ endTime }}</span>
           </div>
         </div>
       </div>
@@ -58,7 +58,10 @@
 <script>
 import BlessingCards from "@/views/red-envelope/BlessingCards";
 import MysteryCards from "@/views/red-envelope/MysteryCards";
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+import { chainChanged } from '@/utils/web3/web3'
+import { getUserActivityInfo } from '@/utils/new-year'
+import { parseTimestampToUppercase } from '@/utils/helper'
 
 export default {
   name: "RedEnvelopeIndex",
@@ -69,12 +72,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance', 'userActivityInfo', 'blindBoxBalance']),
+    endTime() {
+      return parseTimestampToUppercase(this.userActivityInfo.eventEndTime)
+    }
   },
   mounted () {
     if (!this.getAccountInfo || !this.getAccountInfo.ethAddress) {
       this.$router.replace('/')
     }
+    chainChanged().catch()
+    getUserActivityInfo(this.getAccountInfo.ethAddress).catch();
   },
 }
 </script>

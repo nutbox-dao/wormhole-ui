@@ -66,7 +66,7 @@ export default {
     ConnectMainchainBTNVue,
   },
   computed: {
-    ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance']),
+    ...mapState('newYear', ['blessCardBalance', 'approvedUSDT', 'usdtBalance']),
     ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
     buyAmount () {

@@ -212,3 +212,10 @@ export const getDropRecord = async (twitterId) =>
 /****************************************  NFT  ***********************************************/
 export const getLiquidationMetaBy = async (url) => 
     get(url)
+
+/****************************************  New year card  ***********************************************/
+export const newBlindCards = async (params) =>
+    post(BACKEND_API_URL + '/newYear/newBlindCards', params)
+
+export const getBlindCardsByIds = async (ids) =>
+    get(BACKEND_API_URL + '/newYear/getBlindCardsByIds', {ids})

@@ -201,7 +201,12 @@ export async function openBox(account, count = 1) {
             contract.on('OpenBox', async (user, ids) => {
                 if (user.toLowerCase() == account.toLowerCase()) {
                     contract.removeAllListeners('OpenBox')
-                    const box = await contract.blindBoxs(ids[0]);
+                    let box = await contract.blindBoxs(ids[0]);
+                    box = {
+                        ...box,
+                        id: box.id / 1,
+                        nftId: box.nftId / 1,
+                    }
                     resolve(box);
                 }
             })

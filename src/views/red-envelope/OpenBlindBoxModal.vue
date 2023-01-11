@@ -47,13 +47,15 @@
             <div class="back absolute">
               <div class="relative text-white">
                 <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
-                <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+                <img v-if="drawedBoxInfo?.logo" class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+                     :src="drawedBoxInfo.logo" alt="">
+                <img v-else class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                      src="~@/assets/red-envelope/mystery-logo.png" alt="">
                 <div v-if="drawedBoxInfo.prizeType > 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
                 + 1 {{ drawedBoxInfo.symbol }}
                 </div>
                 <div v-else="drawedBoxInfo.prizeType === 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                  + {{ showingAmount }} {{ drawedBoxInfo.symbol }}
+                  + {{ showingAmount }} {{ drawedBoxInfo.tokenSymbol }}
                 </div>
                 <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
                   <div class="flex flex-col items-start">
@@ -66,14 +68,14 @@
                   </div>
                 </div>
                 <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                  {{ drawedBoxInfo.bandName }}
+                  {{ drawedBoxInfo.brandName }}
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
-          {{ drawedBoxInfo.bandDesc }}
+          {{ drawedBoxInfo.brandDesc }}
         </div>
         <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
@@ -102,6 +104,7 @@ import { formatAmount } from '@/utils/helper'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
+import { getBlindCardsByIds } from '@/api/api'
 
 export default {
   name: "OpenBlindBoxModal",
@@ -142,6 +145,12 @@ export default {
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
     },
+    showingAmount() {
+      if (this.drawedBoxInfo.id > 0) {
+        return this.drawedBoxInfo.amount  / (10 ** this.drawedBoxInfo.tokenDecimals)
+      }
+      return 1
+    },
     enableChange() {
       const bs = Object.values(this.blessCardBalance)
       let c = bs[0];
@@ -161,15 +170,29 @@ export default {
     async onDrawCard() {
       try{
         this.isDrawing = true;
-        this.drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
-        console.log(35, this.drawedBoxInfo);
-        getUserNYCards(this.getAccountInfo.ethAddress)
+        const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
+        if (drawedBoxInfo && Object.keys(drawedBoxInfo).length > 0) {
+          this.drawedBoxInfo = drawedBoxInfo;
+          console.log(35, this.drawedBoxInfo);
+          const box = await getBlindCardsByIds([this.drawedBoxInfo.id]);
+          if (box && box.length > 0) {
+            this.drawedBoxInfo = {
+              ...this.drawedBoxInfo,
+              ...box[0]
+            }
+          }
+          getUserNYCards(this.getAccountInfo.ethAddress)
+            this.step=1
+        }
+        else {
+          console.log('open box fail:');
+          return;
+        }
       } catch (e) {
         console.log('open box fail:', e);
       } finally {
         this.isDrawing = false
       }
-      this.step=1
     },
     get() {
       if (this.enableChange) {
