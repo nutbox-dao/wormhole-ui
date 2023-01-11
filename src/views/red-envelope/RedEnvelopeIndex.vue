@@ -81,6 +81,7 @@ export default {
   mounted () {
     if (!this.getAccountInfo || !this.getAccountInfo.ethAddress) {
       this.$router.replace('/')
+      return;
     }
     chainChanged().catch()
     getUserActivityInfo(this.getAccountInfo.ethAddress).catch();

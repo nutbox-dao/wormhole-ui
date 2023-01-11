@@ -280,10 +280,12 @@ import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
 import { uploadImage } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, buyRareCard, getUserNYCards } from '@/utils/new-year'
+import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, mintBlindBox, getUserNYCards } from '@/utils/new-year'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
-
+import { ethers } from 'ethers'
+import { newBlindCards, getBlindCardsByIds } from '@/api/api'
+import { checkNFTType } from '@/utils/asset'
 
 export default {
   name: "MakeMysteryCard",
@@ -292,10 +294,13 @@ export default {
     return {
       step: 0,
       form: {
+        ids: [],
         brandName: '',
         type: 'token',
         tokenAddress: '',
-        tokenName: 'UNI',
+        tokenName: 'NUT',
+        tokenSymbol: 'NUT',
+        tokenDecimals: 18,
         tokenNum: '',
         nftAddress: '',
         nftNum: '',
@@ -327,7 +332,8 @@ export default {
     },
     usdtApprovement() {
       return this.buyAmount <= parseFloat(this.usdtBalance)
-    }
+    },
+    
   },
   methods: {
     onUploadLogo(file) {
@@ -371,10 +377,42 @@ export default {
       }
     },
     checkInfo() {
-      
+
     },
     async mint() {
+      let type = 'none'
+      let id = 0
+      if (this.form.type === 'none') {
+      
+      }else if(this.form.type === 'token') {
+        type = 'erc20'
+      }else if(this.form.type === 'nft') {
 
+      }
+      // brandName: '',
+      // type: 'token',
+      // tokenAddress: '',
+      // tokenName: 'UNI',
+      // tokenNum: '',
+      // nftAddress: '',
+      // nftNum: '',
+      // nftId: '',
+      // cardNum: '',
+      // logoUrl: '',
+      // description: ''
+      try{
+        this.mintLoading = true 
+        const ids = await mintBlindBox(this.form.tokenAddress, type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals))
+        this.form.ids = ids
+
+        this.$store.commit('newYear/saveMintedBoxCache', this.form)
+        await newBlindCards();
+        this.$store.commit('newYear/saveMintedBoxCache', this.form)
+      } catch (e) { 
+        
+      } finally {
+        this.mintLoading = false
+      }
     },
     onShare() {
 
