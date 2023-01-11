@@ -167,10 +167,10 @@
         </div>
       </div>
       <div class="mt-10px">
-        {{$t('ny.mintTip1', {amount: '100*1 USDT'})}}
+        {{$t('ny.mintTip1', {amount: form.cardNum + '*1 USDT'})}}
       </div>
       <div class="mt-10px text-color8B light:text-color7D">
-        {{$t('common.balance')}}: 10000
+        {{$t('common.balance')}}: {{ usdtBalance }}
       </div>
       <div class="mt-10px text-color8B light:text-color7D">
         {{$t('ny.mintTip2')}}
@@ -178,13 +178,16 @@
       <div class="flex justify-center items-center mt-1rem gap-10px">
         <button class="bg-tag-gradient gradient-btn-disabled-grey
                      flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold">
+                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+                     :disabled="approveLoading"
+                     @click="approve">
           {{$t('common.approve')}}
           <c-spinner v-show="approveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
         <button class="bg-tag-gradient gradient-btn-disabled-grey
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+                :disabled="approveLoading"
                 @click="step=1">
           {{$t('ny.mint')}}
           <c-spinner v-show="mintLoading"
@@ -279,6 +282,8 @@ import { uploadImage } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, buyRareCard, getUserNYCards } from '@/utils/new-year'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
+import {accountChanged, getAccounts} from "@/utils/web3/account";
+
 
 export default {
   name: "MakeMysteryCard",
@@ -310,15 +315,19 @@ export default {
       mintLoading: false,
       shareLoading: false,
       CHAIN_ID,
+      tokenApprovement: false,
     }
   },
   computed: {
-    ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance']),
+    ...mapState('newYear', ['blessCardBalance', 'approvedUSDT', 'usdtBalance']),
     ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
     buyAmount () {
       return (this.form.cardNum * 1)
     },
+    usdtApprovement() {
+      return this.buyAmount <= parseFloat(this.usdtBalance)
+    }
   },
   methods: {
     onUploadLogo(file) {
@@ -353,6 +362,19 @@ export default {
     async uploadImage(data) {
       this.form.logoUrl = await uploadImage(data)
       console.log(64, this.form.logoUrl);
+    },
+    async approve() {
+      if (!this.usdtApprovement) {
+
+      }else if (!this.tokenApprovement) {
+
+      }
+    },
+    checkInfo() {
+      
+    },
+    async mint() {
+
     },
     onShare() {
 
