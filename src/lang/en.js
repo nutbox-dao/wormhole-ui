@@ -351,6 +351,7 @@ export default {
     accountMismatch: 'You must use your wormhole3 account to operate.',
     endTime: 'Time to end',
     verify: 'Verify',
+    select: 'Please select'
   },
   err: {
     serverErr: 'Server error',
