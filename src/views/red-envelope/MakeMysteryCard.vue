@@ -18,9 +18,9 @@
                  :src="logoPreviewSrc" alt="">
 <!--            <img class="absolute w-20px bottom-15px left-15px"-->
 <!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
-            <div v-if="selectedToken"
+            <div v-if="form.tokenNum > 0"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{form.tokenNum || 0}} {{selectedToken.symbol}}
+              + {{form.tokenNum}} {{selectedToken.symbol}}
             </div>
             <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
               {{form.brandName}}
@@ -343,12 +343,11 @@ import { VueCropper } from 'vue-cropper'
 import { uploadImage } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, buyRareCard, getUserNYCards } from '@/utils/new-year'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
+import {NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME} from '@/ny-config'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import {TokenIcon, EVM_CHAINS} from "@/config";
 import {ethers} from "ethers";
 import {getTokenInfo} from "@/utils/asset";
-import {mapGetters} from "vuex";
 
 export default {
   name: "MakeMysteryCard",
@@ -386,7 +385,7 @@ export default {
       EVM_CHAINS,
       selectedToken: {},
       searchToken: '',
-      selectedChainName: 'BNB Smart Chain',
+      selectedChainName: CHAIN_NAME,
       customToken: null
     }
   },
@@ -489,7 +488,7 @@ export default {
     accountChanged().catch()
     getAccounts(true).then(wallet => {
       this.account = wallet
-    }).catch();;
+    }).catch();
   },
 }
 </script>
