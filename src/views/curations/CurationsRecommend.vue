@@ -15,7 +15,11 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <div>
+    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+         v-if="loading && (!curationsList || curationsList.length === 0)">
+      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+    </div>
+    <div v-else>
       <div class="flex justify-between items-center">
         <span class="font-bold">{{$t('curation.recommendedCurations')}}</span>
         <button class="gradient-text gradient-text-purple-white">>>></button>
@@ -31,7 +35,7 @@
                       @click="gotoDetail(curation)"/>
       </div>
       <div class="mb-2rem">
-        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px" 
+        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px"
         @click="$router.push('/curations')">
           {{$t('common.viewMore')}}
         </button>
@@ -50,6 +54,8 @@ export default {
   components: {CurationItem},
   data() {
     return {
+      loading: true,
+      curationsList: [],
       testData:  {
         "curationId": "8a04b53165af",
         "creatorTwitter": "1564127353290526721",
