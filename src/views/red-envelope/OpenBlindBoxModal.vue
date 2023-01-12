@@ -25,7 +25,7 @@
       <!-- <button @click="approve">approve</button> -->
       <ConnectMainchainBTNVue class="mx-auto my-1rem" v-if="chainId !== CHAIN_ID"/>
         <button v-else
-                class="bg-tag-gradient gradient-btn-disabled-grey my-1rem mx-auto
+                class="ny-gradient-btn gradient-btn-disabled-grey my-1rem mx-auto
                        flex items-center justify-center
                        min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 :disabled="isDrawing || accountMismatch"
@@ -80,7 +80,7 @@
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
           {{ drawedBoxInfo.brandDesc ?? '' }}
         </div>
-        <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+        <button class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 @click="get">

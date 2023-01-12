@@ -6,8 +6,8 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'http://localhost:3100'
 // export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
@@ -57,7 +57,7 @@ export const MainToken = {
 }
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
 
-// bsc test 
+// bsc test
 export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
 export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
 export const CHAIN_NAME = 'BSC Testnet'

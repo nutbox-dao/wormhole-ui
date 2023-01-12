@@ -1,25 +1,38 @@
 <template>
-  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem h-max">
+  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem h-max bg-white rounded-20px">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
-      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+      <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
     <template v-if="step===0">
-      <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-3rem mb-2rem">
+      <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-3rem mb-2rem text-blueDark">
         {{$t('ny.giveCard')}}
       </div>
-      <el-carousel indicator-position="none" :autoplay="false" arrow="always"
+      <el-carousel indicator-position="none"
+                   :autoplay="false" arrow="always"
+                   height="330px"
                    :initial-index="cardIndex"
+                   class="ny-card-carousel"
                    @change="cardChange">
         <el-carousel-item v-for="(item, index) in cards" :key="item">
           <div class="text-center">
             <div class="relative w-max mx-auto">
-              <img class="h-280px" :src="item.img" alt="">
-              <div class="absolute top-15px left-20px font-bold text-shadow-lg opacity-70 text-white">
-                {{BLESS_CARD_NAME[index]}}
-              </div>
-              <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
-                {{$t('common.balance')}}: {{ blessCardBalance[index + 1] }}
+              <img class="max-w-220px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+              <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+                        flex flex-col justify-between items-center">
+                <img :src="item.img" alt="">
+                <div class="flex flex-col items-center">
+                  <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                    <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                    <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                      {{BLESS_CARD_NAME[index]}}
+                    </span>
+                    <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  </div>
+                  <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                    {{$t('common.balance')}}: {{ blessCardBalance[index + 1] }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -32,10 +45,8 @@
                          v-model="giveNum"/>
         <div class="w-full max-w-330px px-15px flex items-center mx-auto mt-1rem">
           <span class="whitespace-nowrap mr-5px">{{$t('ny.to')}}</span>
-          <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                      flex items-center justify-between
-                      light:bg-white light:border-colorE3 hover:border-primaryColor
-                      rounded-8px h-34px 2xl:h-1.7rem">
+          <div class="w-full flex items-center justify-between bg-colorF2
+                      rounded-4px h-34px 2xl:h-1.7rem">
             <input class="bg-transparent h-full w-full px-15px"
                    v-model="giveTo"
                    v-on:change="checkInfo"
@@ -52,9 +63,9 @@
         <span v-show="showUserNotExist">{{ $t('ny.userNotExist') }}</span>
 
         <ConnectMainchainBTNVue class="mt-1rem" v-if="chainId !== CHAIN_ID"/>
-        <button v-else class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem
+        <button v-else class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+                     w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
                 :disabled="giveEnable || giveLoading"
                 @click="onGive">
           {{$t('ny.give')}}
@@ -63,22 +74,33 @@
       </div>
     </template>
     <template v-if="step===1">
-      <div class="text-center mt-5rem">
+      <div class="mx-auto c-text-black text-20px xl:text-1.2rem break-word
+                  mt-3rem mb-1rem text-blueDark px-1/10 text-center">
+        {{$t('ny.giveToDesc', {tweetName: giveTo})}}
+      </div>
+      <div class="text-center">
         <div class="relative w-max mx-auto">
-          <img class="h-240px" :src="cards[cardIndex].img" alt="">
-          <div class="absolute top-15px left-20px font-bold text-shadow-lg opacity-70 text-white">
-            {{BLESS_CARD_NAME[cardIndex]}}
+          <img class="max-w-220px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+          <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+                        flex flex-col justify-between items-center">
+            <img class="h-240px" :src="cards[cardIndex].img" alt="">
+            <div class="flex flex-col items-center">
+              <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                  {{BLESS_CARD_NAME[cardIndex]}}
+                </span>
+                <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+              </div>
+              <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                {{$t('common.balance')}}: {{blessCardBalance[cardIndex + 1]}}
+              </div>
+            </div>
           </div>
-          <div class="absolute bottom-30px right-30px text-shadow-lg font-bold text-white opacity-70">
-            {{$t('common.balance')}}: {{blessCardBalance[cardIndex + 1]}}
-          </div>
-        </div>
-        <div class="whitespace-pre-line font-bold leading-24px mt-1rem">
-          {{$t('ny.giveToDesc', {tweetName: giveTo})}}
         </div>
       </div>
-      <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px w-full max-w-300px mx-auto
-                  flex flex-col light:bg-white light:border-colorE3 hover:border-primaryColor rounded-8px">
+      <div class="bg-colorF2 text-blueDark min-h-134px w-full max-w-300px mx-auto
+                  flex flex-col rounded-8px mt-1rem">
         <div class="flex-1 flex flex-col relative">
           <div contenteditable
                class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
@@ -109,10 +131,11 @@
           <span class="font-600 text-color62">#{{$t('ny.springFestival')}}</span>
         </div>
       </div>
-      <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
-                     flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
+      <button class="bg-colorBlue gradient-btn-disabled-grey mt-2rem mx-auto
+                     flex items-center justify-center whitespace-nowrap px-12px
+                     min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
               @click="onShare">
+        <img class="w-20px mr-10px" src="~@/assets/icon-twitter-white.svg" alt="">
         {{$t('ny.shareTweet')}}
         <c-spinner v-show="shareLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
       </button>

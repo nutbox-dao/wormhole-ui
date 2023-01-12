@@ -294,7 +294,7 @@ export default {
     canceled: 'Canceled'
   },
   ny: {
-    congratulations: 'Congratulations!',
+    congratulations: 'Congratulations',
     activityTip: 'Introduction of the spring festival activity. Description of the rule. Description of the rule.……',
     get: 'Get',
     checkCollections: 'Check your collections',
@@ -360,7 +360,11 @@ export default {
     uploadLogo: 'Please upload your brand logo',
     uBalance: 'USDT Balance',
     tokenBalance: 'Token Balance',
-    approveStep: 'Approve {step}/2 '
+    approveStep: 'Approve {step}/2 ',
+    p1: 'Happy Lunar New Year to You！👋',
+    p2: 'Here’s what’s happening with your collections today.',
+    price: 'Price',
+    compoundBox: 'Compound blind box'
   },
   err: {
     serverErr: 'Server error',

@@ -178,3 +178,64 @@ div[contenteditable] {
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+.recommend-curation {
+  .id-time {
+    display: none;
+  }
+  .ml-block {
+    display: none;
+  }
+  .blog-tag {
+    max-height: 30px;
+    overflow: hidden;
+  }
+  .blog-avatar {
+    width: 34px;
+    height: 34px;
+  }
+  .blog-content {
+    margin-top: 5px;
+  }
+}
+.ny-gradient-text {
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  width: fit-content;
+  background-image: linear-gradient(90.31deg, #8C2CE3 14.62%, #4C02E1 100.37%);
+  text-shadow: 0px 0px 1.79466px rgba(146, 60, 255, 0.58), 0px 0px 10.7679px rgba(194, 166, 255, 0.86);
+}
+.ny-card-text {
+  color: #FFF4D7;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
+}
+.ny-color4E {
+  color: #4E5969;
+}
+.ny-color36 {
+  color: #362473;
+}
+.ny-gradient-btn {
+  color: white;
+  background-image: linear-gradient(90deg, #8E2DE2 0%, #4A00E0 100%);
+}
+.ny-modal-bg {
+  background-image: url("~@/assets/red-envelope/modal-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.ny-banner-bg {
+  background-image: url("~@/assets/red-envelope/banner-bg1.png"), url("~@/assets/red-envelope/banner-bg0.png");
+  background-size: 120px auto, 100% 100%;
+  background-position: right bottom, center;
+  background-repeat: no-repeat;
+}
+.ny-card-carousel .el-carousel__arrow{
+  background: #DFD5FF;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  &:hover {
+    background: #DFD5FF;
+    color: #7850FF;
+  }
+}

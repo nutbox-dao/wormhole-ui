@@ -297,16 +297,19 @@ html.light {
 }
 .c-number-input .el-input-number__increase, .c-number-input .el-input-number__decrease{
   background: transparent;
-  //border: none;
+  border: none;
+  font-size: 20px;
 }
-//.c-number-input .el-input__wrapper {
-//  box-shadow: none;
-//}
-//.c-number-input .el-input__inner {
-//  min-width: 30px;
-//  border-radius: 4px;
-//  border: 1px solid #8B949E;
-//}
-//.light .c-number-input .el-input__inner {
-//  border-color: #F4F3FD;
-//}
+.c-number-input .el-input__wrapper {
+  box-shadow: none;
+}
+.c-number-input .el-input__inner {
+  min-width: 30px;
+  border-radius: 4px;
+  background: #F2F3F5;
+  color: #4E5969;
+  font-weight: bold;
+}
+.light .c-number-input .el-input__inner {
+  border-color: #F4F3FD;
+}

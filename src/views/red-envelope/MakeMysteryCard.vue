@@ -242,7 +242,7 @@
       </div>
       <ConnectMainchainBTNVue class="my-1rem" v-if="chainId !== CHAIN_ID"/>
       <div v-else class="flex justify-center items-center mt-1rem gap-10px">
-        <button class="bg-tag-gradient gradient-btn-disabled-grey
+        <button class="ny-gradient-btn gradient-btn-disabled-grey
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                      :disabled="approveLoading || approveStep === 2 || accountMismatch"
@@ -250,7 +250,7 @@
           {{$t('ny.approveStep', {step: approveStep})}}
           <c-spinner v-show="approveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
-        <button class="bg-tag-gradient gradient-btn-disabled-grey
+        <button class="ny-gradient-btn gradient-btn-disabled-grey
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
                 :disabled="approveLoading || approveStep < 2 || mintLoading || accountMismatch"
@@ -307,7 +307,7 @@
         </div>
       </div>
       <div class="mt-10px">{{ form.brandDesc ?? WormholeInfo }}</div>
-      <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+      <button class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
               @click="onShare">
@@ -430,7 +430,7 @@ export default {
         if (this.form.tokenAddress === USDT_CONTRACT) {
           return 2;
         }
-      } 
+      }
       if (this.type === 'none') {
         count++
       }else {
@@ -607,7 +607,7 @@ export default {
         return;
       }
       try{
-        this.mintLoading = true 
+        this.mintLoading = true
         const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, id, this.form.cardNum, this.type==='token' ? ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals) : 0)
         this.form.ids = ids
         this.form.twitterId = this.getAccountInfo.twitterId;
@@ -619,7 +619,7 @@ export default {
         await newBlindCards(this.form);
         this.$store.commit('newYear/saveMintedBoxCache', null)
         this.step = 1;
-      } catch (e) { 
+      } catch (e) {
         console.log('mint fail:', e);
       } finally {
         this.mintLoading = false

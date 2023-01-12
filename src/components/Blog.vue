@@ -3,32 +3,34 @@
     <div class="sm:rounded-1rem">
       <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer"
+             class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar"
              :class="avatarClass"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
         <img class="mr-10px md:mr-1rem rounded-full gradient-border"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex items-center">
+        <div class="flex-1 flex items-center flex-wrap">
           <div class="flex items-center flex-wrap">
             <a class="c-text-black text-left mr-3 cursor-pointer
                       text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
                @click.stop="gotoUserPage()">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
+          </div>
+          <div class="flex items-center id-time">
             <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
               @{{ post.username }}
             </span>
-          </div>
-          <span class="mx-4px text-color8B light:text-colorBD"> · </span>
-          <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+            <span class="mx-4px text-color8B light:text-colorBD"> · </span>
+            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
              {{ parseTimestamp(post.postTime) }}
-          </span>
+            </span>
+          </div>
         </div>
       </div>
-      <div class="flex">
-        <div class="hidden mr-10px md:mr-1rem" :class="[avatarClass, rpClass]"></div>
-        <div class="flex-1 overflow-hidden" :class="rpClass==='hidden'?'':'md:mr-1/20'" @click="gotoSteem($event)">
+      <div class="flex blog-content">
+        <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
+        <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
                  class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-color8B light:text-color46">
@@ -49,9 +51,10 @@
               <img @click.stop="viewImg(index)" :src="url" alt="">
             </div>
           </div>
-          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D">
+          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
             <div v-show="tag != 'iweb3'"
-                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px"
+                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px
+                        whitespace-nowrap"
                  v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
               #{{ tag }}
             </div>
@@ -133,10 +136,6 @@ export default {
     contentClass: {
       type: String,
       default: ''
-    },
-    rpClass: {
-      type: String,
-      default: 'sm:block'
     }
   },
   data() {
@@ -340,13 +339,6 @@ export default {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 2px;
-}
-.blog-tag{
-  border-radius: 0.4rem;
-  padding: .2rem .5rem 0.2rem 0.8rem;
-  background-image: linear-gradient(to bottom, var(--gradient-primary-color1), var(--gradient-primary-color2));
-  background-size: 0.3rem 100%;
-  background-repeat: no-repeat;
 }
 @media (max-width: 500px) {
   .img-3 {

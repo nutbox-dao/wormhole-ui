@@ -27,12 +27,12 @@
     <div v-else>
       <div class="flex justify-between items-center">
         <span class="font-bold">{{$t('curation.recommendedCurations')}}</span>
-        <button class="gradient-text gradient-text-purple-white">>>></button>
+        <button class="gradient-text gradient-text-purple-white"
+                @click="$router.push('/curations')">>>></button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-1rem py-1rem">
         <CurationItem v-for="(curation, index) of curations" :key="index"
-                      class="col-span-1 "
-                      blog-rp-class="hidden"
+                      class="col-span-1 recommend-curation"
                       :show-btn-group="false"
                       :curation="curation"
                       :content-type="'none'"

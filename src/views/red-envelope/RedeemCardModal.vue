@@ -10,7 +10,7 @@
     <div class="px-20px xs:px-1/10 leading-20px">
       {{$t('ny.redeemCardDesc', {totalNum: '100', notOpenNum: '52'})}}
     </div>
-    <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
+    <button class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
                    flex items-center justify-center
                    w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
             @click="onRedeem">
