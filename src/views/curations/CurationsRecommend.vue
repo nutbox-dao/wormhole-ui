@@ -21,7 +21,7 @@
       </el-carousel>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="loading && (!curationsList || curationsList.length === 0)">
+         v-if="loading && (!curations || curations.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <div v-else>
@@ -65,7 +65,8 @@ export default {
       wh3Info: {
         poster: '',
         url: 'https://alpha.wormhole3.io'
-      }
+      },
+      loading: true
     }
   },
   mounted() {
