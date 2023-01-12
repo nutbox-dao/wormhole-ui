@@ -6,6 +6,7 @@ import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 import { getERC20TokenBalance, getApprovement, approve, approveERC1155, approveERC721 } from './asset'
+import { getBlindCardsByIds as gbcbi } from '@/api/api'
 
 async function getAbi() {
     let abi = store.state.newYear?.collectBlessAbi;
@@ -41,7 +42,7 @@ export async function getUserNYCards(ethAddress) {
     return infos
 }
 
-export async function getUserBlindBox(ethAddress) {
+export async function getUserBlindBox(ethAddress, start, end) {
     if (!ethers.utils.isAddress(ethAddress)) {
         return;
     }
@@ -49,18 +50,30 @@ export async function getUserBlindBox(ethAddress) {
     const abi = await getAbi();
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)
 
-    const boxes = await contract.getUserOpendBox(ethAddress, 0, 500);
-
+    let [boxIds, boxes, weights] = await contract.getUserOpendBox(ethAddress, start, end);
+    const boxInfo = await gbcbi(boxIds.map(id => id / 1));
+    boxes = boxes.map((box, idx) => ({
+        ...box,
+        weights: weights[idx],
+        ...boxInfo[idx],
+    }));
+    console.log(453, boxes);
     return boxes;
 }
 
-export async function getBlindBoxById(id) {
+export async function getBlindBoxByIds(ids) {
     const provider = new ethers.providers.JsonRpcBatchProvider(RPC_NODE);
     const abi = await getAbi();
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider);
-
-    const box = await contract.blindBoxs(id);
-    return box;
+    let [[boxes, weights], boxInfo] = await Promise.all([ contract.getBoxsByIds(ids), gbcbi(ids)]);
+    boxInfo = boxInfo ?? {}
+    console.log(boxes, weights);
+    boxes = boxes.map((box, idx) => ({
+        ...box,
+        weights: weights[idx],
+        ...boxInfo[idx]
+    }));
+    return boxes;
 }
 
 export async function getUserActivityInfo(ethAddress) {
@@ -204,13 +217,17 @@ export async function openBox(account, count = 1) {
             contract.on('OpenBox', async (user, ids) => {
                 if (user.toLowerCase() == account.toLowerCase()) {
                     contract.removeAllListeners('OpenBox')
-                    let box = await contract.blindBoxs(ids[0]);
-                    box = {
-                        ...box,
-                        id: box.id / 1,
-                        nftId: box.nftId / 1,
+                    try {
+                        if (ids && ids.length > 0){
+                            let box = await getBlindBoxByIds(ids.map(id => id / 1));
+                            resolve(box);
+                        }else {
+                            resolve();
+                        }
+                    }catch(e) {
+                        console.log('get boxes fail:', e);
+                        resolve();
                     }
-                    resolve(box);
                 }
             })
 

@@ -117,60 +117,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "blindBoxs",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "enum CollectBless.PrizeType",
-          "name": "prizeType",
-          "type": "uint8"
-        },
-        {
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
-        },
-        {
-          "internalType": "uint16",
-          "name": "weights",
-          "type": "uint16"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "nftId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "seedBlock",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "eventEndTime",
       "outputs": [
@@ -685,12 +631,12 @@
       "name": "getUserOpendBox",
       "outputs": [
         {
+          "internalType": "uint256[]",
+          "name": "boxIds",
+          "type": "uint256[]"
+        },
+        {
           "components": [
-            {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
-            },
             {
               "internalType": "enum CollectBless.PrizeType",
               "name": "prizeType",
@@ -705,11 +651,6 @@
               "internalType": "address",
               "name": "creator",
               "type": "address"
-            },
-            {
-              "internalType": "uint16",
-              "name": "weights",
-              "type": "uint16"
             },
             {
               "internalType": "uint256",
@@ -730,6 +671,67 @@
           "internalType": "struct CollectBless.BlindBox[]",
           "name": "boxes",
           "type": "tuple[]"
+        },
+        {
+          "internalType": "uint16[]",
+          "name": "weights",
+          "type": "uint16[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getBoxsByIds",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum CollectBless.PrizeType",
+              "name": "prizeType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "nftId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seedBlock",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CollectBless.BlindBox[]",
+          "name": "boxes",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "uint16[]",
+          "name": "weights",
+          "type": "uint16[]"
         }
       ],
       "stateMutability": "view",

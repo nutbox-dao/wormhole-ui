@@ -276,7 +276,7 @@
 <!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
             <div v-if="form.tokenNum"
                  class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{form.tokenNum}} {{form.tokenSymbol}}
+              + {{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}
             </div>
             <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
               {{form.brandName}}
@@ -290,23 +290,23 @@
           </div>
           <div class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.specialRewards')}}:</span>
-            <span>{{form.tokenNum}} {{form.tokenSymbol}}</span>
+            <span>{{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}</span>
           </div>
           <div class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.commonRewards')}}:</span>
-            <span>100 USDT</span>
+            <span>{{ buyAmount }} USDT</span>
           </div>
           <div class="mb-10px xs:mb-20px">
             <div class="text-color8B light:text-color7D mr-10px">{{$t('ny.tokenNftAddress')}}:</div>
             <div class="mt-3px leading-16px">{{type==='token'?form.tokenAddress:form.nftAddress}}</div>
           </div>
-          <div class="mb-10px xs:mb-20px">
+          <div v-if="type === 'nft'" class="mb-10px xs:mb-20px">
             <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.nftId')}}:</span>
             <span>{{form.nftId}}</span>
           </div>
         </div>
       </div>
-      <div class="mt-10px">{{$t('ny.caretMintDesc')}}</div>
+      <div class="mt-10px">{{ form.brandDesc }}</div>
       <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
@@ -375,13 +375,15 @@ export default {
         tokenAddress: '',
         tokenSymbol: 'NUT',
         tokenDecimals: 18,
+        tokenAmount: 0,
         tokenNum: '',
         nftAddress: '',
         nftNum: '',
         nftId: '',
         cardNum: '',
         logoUrl: '',
-        brandDesc: ''
+        brandDesc: '',
+        creator: ''
       },
       nftNumDisabled: false,
       cropperModalVisible: false,
@@ -423,6 +425,9 @@ export default {
       let count = 0;
       if (this.usdtApprovement) {
         count++
+        if (this.form.tokenAddress === USDT_CONTRACT) {
+          return 2;
+        }
       } 
       if (this.type === 'none') {
         count++
@@ -565,7 +570,7 @@ export default {
       }
 
       var insufficientBalance = false
-      if (this.form.tokenAddress === USDT_CONTRACT) {
+      if (this.form.tokenAddress === USDT_CONTRACT && this.type === 'token') {
         if (this.usdtBalance < this.buyAmount + this.form.tokenNum) {
           insufficientBalance = true;
         }
@@ -573,7 +578,7 @@ export default {
         if (this.usdtBalance < this.buyAmount) {
           insufficientBalance = true;
         }
-        if (this.tokenBalance < this.form.tokenNum) {
+        if (this.tokenBalance < this.form.tokenNum && this.type === 'token') {
           insufficientBalance = true;
         }
       }
@@ -594,18 +599,19 @@ export default {
         this.form.nftId = 0
       }else if(this.type === 'nft') {
         this.form.type = 'erc1155'
+        thif.form.tokenAddress = this.form.nftAddress
       }
       if (!this.checkInfo()) {
         return;
       }
       try{
         this.mintLoading = true 
-        console.log(this.form.tokenAddress, this.form.type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals));
-        const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, id, this.form.cardNum, ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals))
-        console.log(55, ids, hash);
+        const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, id, this.form.cardNum, this.type==='token' ? ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals) : 0)
         this.form.ids = ids
         this.form.twitterId = this.getAccountInfo.twitterId;
         this.form.hash = hash
+        this.form.tokenAmount = this.type === 'token' ? (this.form.tokenNum / this.form.cardNum) : 1;
+        this.form.creator = this.getAccountInfo.ethAddress;
         getUserActivityInfo(this.getAccountInfo.ethAddress).catch();
         this.$store.commit('newYear/saveMintedBoxCache', this.form);
         await newBlindCards(this.form);
@@ -618,7 +624,9 @@ export default {
       }
     },
     onShare() {
-
+      window.open(`https://twitter.com/intent/tweet?text=I hive minted ${this.form.cardNum} mystery cards on @wormhole_3 with some prize. You can join the game to draw these card from: https://alpha.wormhole3.io.
+      #iweb3`)
+      this.$emit('close')
     }
   },
   mounted () {

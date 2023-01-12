@@ -51,11 +51,14 @@
                      :src="drawedBoxInfo.logo" alt="">
                 <img v-else class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                      src="~@/assets/red-envelope/mystery-logo.png" alt="">
-                <div v-if="drawedBoxInfo.prizeType > 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                <div v-if="drawedBoxInfo.prizeType === 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
                 + 1 {{ drawedBoxInfo.symbol }}
                 </div>
-                <div v-else="drawedBoxInfo.prizeType === 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                  + {{ showingAmount }} {{ drawedBoxInfo.tokenSymbol }}
+                <div v-else-if="drawedBoxInfo.prizeType === 2" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                  + 1 NFT
+                </div>
+                <div v-else-if="drawedBoxInfo.prizeType === 3" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                  + {{ drawedBoxInfo.amount  }} NFT
                 </div>
                 <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
                   <div class="flex flex-col items-start">
@@ -68,14 +71,14 @@
                   </div>
                 </div>
                 <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                  {{ drawedBoxInfo.brandName }}
+                  {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
-          {{ drawedBoxInfo.brandDesc }}
+          {{ drawedBoxInfo.brandDesc ?? '' }}
         </div>
         <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
@@ -98,7 +101,7 @@ import card2 from "@/assets/red-envelope/card2.png";
 import card3 from "@/assets/red-envelope/card3.png";
 import card4 from "@/assets/red-envelope/card4.png";
 import { mapState, mapGetters } from 'vuex'
-import { getUserNYCards, approve1155ToCollect, openBox } from '@/utils/new-year'
+import { getUserNYCards, approve1155ToCollect, openBox, getUserActivityInfo } from '@/utils/new-year'
 import { notify } from '@/utils/notify'
 import { formatAmount } from '@/utils/helper'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
@@ -171,21 +174,15 @@ export default {
       try{
         this.isDrawing = true;
         const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
-        if (drawedBoxInfo && Object.keys(drawedBoxInfo).length > 0) {
-          this.drawedBoxInfo = drawedBoxInfo;
+        if (drawedBoxInfo && drawedBoxInfo.length > 0) {
+          this.drawedBoxInfo = drawedBoxInfo[0];
           console.log(35, this.drawedBoxInfo);
-          const box = await getBlindCardsByIds([this.drawedBoxInfo.id]);
-          if (box && box.length > 0) {
-            this.drawedBoxInfo = {
-              ...this.drawedBoxInfo,
-              ...box[0]
-            }
-          }
-          getUserNYCards(this.getAccountInfo.ethAddress)
-            this.step=1
-        }
-        else {
+          getUserNYCards(this.getAccountInfo.ethAddress).catch()
+          getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
+          this.step=1
+        }else {
           console.log('open box fail:');
+          this.$emit('close');
           return;
         }
       } catch (e) {

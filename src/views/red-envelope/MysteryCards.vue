@@ -37,7 +37,7 @@
     </div>
     <div class="grid grid-cols-2 xs:grid-cols-4 gap-x-1rem xs:gap-x-2.5rem gap-y-1rem py-1rem">
       <div class="relative text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white cursor-pointer"
-           v-for="(card, index) of cards" :key="index"
+           v-for="(card, index) of showingBox" :key="index"
            @click="selectedCard=card, cardDetailVisible=true">
         <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
         <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
@@ -48,11 +48,11 @@
         <div class="absolute bottom-10px left-10px text-shadow-lg font-bold opacity-70">
           <div class="flex flex-col items-start">
             <div class="flex items-center justify-center gap-4px">
-              <img v-for="star of card.power" :key="star"
+              <img v-for="star of card.weights" :key="star"
                    class="text-shadow-lg w-12px"
                    src="~@/assets/red-envelope/icon-star.svg" alt="">
             </div>
-            <div class="c-text-black text-shadow-lg">{{card.power}} {{$t('ny.power')}}</div>
+            <div class="c-text-black text-shadow-lg">{{card.weights}} {{$t('ny.power')}}</div>
           </div>
         </div>
         <div class="absolute bottom-10px right-10px text-shadow-lg font-bold opacity-70">
@@ -103,6 +103,12 @@ export default {
     ...mapGetters(['getAccountInfo']),
     isOver() {
       return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime
+    },
+    showingBox() {
+      if (this.blindBoxBalance && this.blindBoxBalance.length > 0) {
+        return this.blindBoxBalance.sort((b,a) => a.weights - b.weights)
+      }
+      return [];
     }
   },
   data() {
@@ -123,10 +129,12 @@ export default {
     const account = this.getAccountInfo?.ethAddress;
     if (!account) return;
     getUserActivityInfo(account).catch();
-    getUserBlindBox(account).then(res => {
-
+    getUserBlindBox(account, 0, 48).then(res => {
+      console.log(3, res);
+      if (res && res.length > 0) {
+        this.$store.commit('newYear/saveBlindBoxBalance', res)
+      }
     }).catch()
-    this.selectedCard = this.cards[0]
   }
 }
 </script>

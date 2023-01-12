@@ -334,7 +334,7 @@ export default {
     logo: 'Logo',
     cancel: 'Cancel',
     complete: 'Complete',
-    createDescTip: 'This is advertisement for project owner.',
+    createDescTip: 'This is advertisement for project owner. The special user who open this card can see your advertising information.',
     mintTip1: 'Mint cost estimate: {amount}',
     mintTip2: 'Your cost will be put into the common reward pool',
     mint: 'Mint',
