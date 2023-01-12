@@ -2,9 +2,14 @@
   <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
     <div class="mt-2rem">
       <el-carousel height="14rem" indicator-position="outside">
+        <el-carousel-item>
+          <div @click="gotoUrl(wh3Info)" class="cursor-pointer gradient-bg-color3 rounded-8px h-full flex justify-between items-center p-2rem">
+            <img class="h-4/5 absolute right-2rem" :src="wh3Info.poster" alt="">
+          </div>
+        </el-carousel-item>
         <el-carousel-item v-for="item in banners" :key="item">
           <div @click="gotoUrl(item)" class="cursor-pointer gradient-bg-color3 rounded-8px h-full flex justify-between items-center p-2rem">
-            <img class="h-4/5 absolute right-2rem" :src="item.logo" alt="">
+            <img class="h-4/5 absolute right-2rem" :src="item.poster" alt="">
             <!-- <div class="w-full xs:w-2/3 text-left z-2">
               This first banner is reserved for wormhole3 to introduce itself.
               The 2nd to 4th banners are used for project owners who want to advertise themselves.
@@ -52,7 +57,11 @@ export default {
   data() {
     return {
       curations:[],
-      banners: []
+      banners: [],
+      wh3Info: {
+        poster: '',
+        url: 'https://alpha.wormhole3.io'
+      }
     }
   },
   mounted() {
@@ -72,11 +81,9 @@ export default {
     },
     updatePage() {
       getRecommendedCurations().then(curations => {
-        console.log(3,curations);
         this.curations = curations;
       }).catch();
       getBanner().then(banners => {
-        console.log(6, banners);
         this.banners = banners
       }).catch();
     }
