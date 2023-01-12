@@ -14,18 +14,18 @@
             <div class="relative text-white">
               <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
               <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
-                   src="~@/assets/red-envelope/mystery-logo.png" alt="">
+                   :src="cardDetail.logo" alt="">
               <div class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                + {{cardDetail.amount}} {{cardDetail.tokenName}}
+                + {{cardDetail.amount}} {{cardDetail.tokenSymbol}}
               </div>
               <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
                 <div class="flex flex-col items-start">
                   <div class="flex items-center justify-center gap-4px">
-                    <img v-for="star of cardDetail.power" :key="star"
+                    <img v-for="star of cardDetail.weights" :key="star"
                          class="text-shadow-lg w-14px"
                          src="~@/assets/red-envelope/icon-star.svg" alt="">
                   </div>
-                  <div class="c-text-black text-shadow-lg text-16px">{{cardDetail.power}} {{$t('ny.power')}}</div>
+                  <div class="c-text-black text-shadow-lg text-16px">{{cardDetail.weights}} {{$t('ny.power')}}</div>
                 </div>
               </div>
               <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
-        {{cardDetail.desc}}
+        {{cardDetail.brandDesc}}
       </div>
       <button class="underline mt-20px font-bold" @click="$emit('close')">
         <img src="~@/assets/icon-twitter-blue.svg" alt="">

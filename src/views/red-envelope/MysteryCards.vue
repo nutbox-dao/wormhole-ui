@@ -114,12 +114,6 @@ export default {
   },
   data() {
     return {
-      cards: [
-        { amount: 0.5, tokenName: 'UNI', tokenAddress: '', power: 4, logo: CardLogo, brandName: 'Uniswap', count: 2, desc: 'xxxx'},
-        { amount: 0.3, tokenName: 'NFT', tokenAddress: '', power: 3, logo: CardLogo, brandName: 'Uniswap', count: 2, desc: 'xxxx'},
-        { amount: 0.2, tokenName: 'UNI', tokenAddress: '', power: 2, logo: CardLogo, brandName: 'Uniswap', count: 2, desc: 'xxxx'},
-        { amount: 0.1, tokenName: 'UNI', tokenAddress: '', power: 1, logo: CardLogo, brandName: 'Uniswap', count: 2, desc: 'xxxx'}
-      ],
       cardDetailVisible: false,
       selectedCard: {},
       makeCardVisible: false,
@@ -131,16 +125,28 @@ export default {
   mounted() {
     const account = this.getAccountInfo?.ethAddress;
     if (!account) return;
+    if (this.blindBoxBalance.length > 0) {
+      this.loading = false
+    }
     getUserActivityInfo(account).catch();
     getUserBlindBox(account, 0, 48).then(res => {
       console.log(3, res);
       if (res && res.length > 0) {
         this.$store.commit('newYear/saveBlindBoxBalance', res)
       }
+      this.loading = false;
     }).catch()
   },
   methods: {
-    onRefresh() {}
+    onRefresh() {
+      getUserBlindBox(this.getAccountInfo.ethAddress, 0, 48).then(res => {
+        if (res && res.length > 0) {
+          this.$store.commit('newYear/saveBlindBoxBalance', res)
+        }
+        this.loading = false;
+        this.refreshing = false;
+      }).catch()
+    }
   }
 }
 </script>
