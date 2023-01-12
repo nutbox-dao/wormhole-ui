@@ -26,12 +26,13 @@
                       blog-rp-class="hidden"
                       :show-btn-group="false"
                       :curation="testData"
-                      :content-type="curation.curationType === 1?'tweet':'space'"
+                      :content-type="'none'"
                       @getCard="getCardVisible=true"
                       @click="gotoDetail(curation)"/>
       </div>
       <div class="mb-2rem">
-        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px">
+        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px" 
+        @click="$router.push('/curations')">
           {{$t('common.viewMore')}}
         </button>
       </div>

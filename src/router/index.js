@@ -40,7 +40,7 @@ const routes = [
   {
     path: '/square/:referee?',
     name: 'square',
-    component: CurationsIndex,
+    component: CurationsRecommend,
     meta: {keepAlive: true}
   },
   {

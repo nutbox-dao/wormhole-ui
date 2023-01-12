@@ -10,7 +10,7 @@
               <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}} create a curation</a>
 <!--              <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>-->
             </div>
-            <ContentTags :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
+            <ContentTags v-if="showBtnGroup" :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
             <slot name="status"></slot>
           </div>
         </div>
