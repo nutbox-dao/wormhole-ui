@@ -107,6 +107,9 @@ export const followCuration = async (twitterId, authorId, curationId) =>
 export const getCurations = async (status, endtime, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurations', {status, endtime, twitterId})
 
+export const getRecommendedCurations = async () =>
+    get(BACKEND_API_URL + '/curation/getRecommendedCurations')
+
 export const getCurationById = async (curationId, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationById', {curationId, twitterId})
 
@@ -219,3 +222,6 @@ export const newBlindCards = async (params) =>
 
 export const getBlindCardsByIds = async (ids) =>
     get(BACKEND_API_URL + '/newYear/getBlindCardsByIds', {ids})
+
+export const getBanner = async () =>
+    get(BACKEND_API_URL + '/newYear/getBanner')
