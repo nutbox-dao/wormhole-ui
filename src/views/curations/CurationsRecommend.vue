@@ -87,8 +87,10 @@ export default {
     updatePage() {
       getRecommendedCurations().then(curations => {
         this.curations = curations;
+        this.loading = false
       }).catch();
       getBanner().then(banners => {
+        this.loading = false
         this.banners = banners
       }).catch();
     }

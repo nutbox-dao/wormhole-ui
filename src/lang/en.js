@@ -304,7 +304,7 @@ export default {
     give: 'Give',
     buy: 'Buy',
     ask: 'Ask',
-    giveTo: 'Twitter name or ETH address',
+    giveTo: 'Twitter name',
     to: 'To',
     giveCard: 'Give card',
     buyCard: 'Buy card',

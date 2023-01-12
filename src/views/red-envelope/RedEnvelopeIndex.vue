@@ -35,28 +35,19 @@
       </div>
       <div v-if="tabIndex===0"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
-        Blessing cards activity description. Blessing cards activity description. <br>
-        Blessing cards activity description. <br>
-        Blessing cards activity description. <br>
+           The five lucky cards are combined with 4 Common cards and 1 Rare card. <br>
+            How to obtain the lucky cards?<br>
+            <b>Interaction</b> - You will get a chance to win the Five Lucky Cards by using Wormhole3 during the campaign period <br>
+            <b>Participation</b> - Participate in the project's tasks during the event <br>
+            <b>Trading/Giving</b> - All cards can be traded and gifted <br>
+            <b>Recommendation</b> - Refer 1 new user with more than 30 reputations (Rare only)<br>
+            <b>Mint</b> - Per price at 0.2 $usdt (Rare only)
       </div>
       <div v-if="tabIndex===1"
-           class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36
-                  grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-y-1rem sm:gap-x-2rem">
-        <div class="col-span-2 xl:col-span-3">
-          Mystery cards activity description. Mystery cards activity.
-          Mystery cards activity description.
-          Mystery cards activity description.
-        </div>
-        <div class="col-span-1">
-          <div class="flex items-center justify-between sm:flex-col sm:items-start gap-5px">
-            <span class="font-bold opacity-80">{{$t('ny.poolRewards')}}: </span>
-            <span class="c-text-black text-16px">${{ userActivityInfo.prizeTotalAmount }}</span>
-          </div>
-          <div class="flex items-center justify-between sm:flex-col sm:items-start gap-5px mt-10px">
-            <span class="font-bold opacity-80">{{$t('ny.endTime')}}: </span>
-            <span class="c-text-black text-16px">{{ endTime }}</span>
-          </div>
-        </div>
+           class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
+           Mystery box cards have 5 levels, each level represents weight 1, 2, 3, 5, 10. The ultimate reward is determined by the sum of the mystery box card levels held.<br>
+            How to obtain the mystery box card? <br>
+            <b>Combination</b> - A mystery box card combined with 4 normal luck cards and 1 rare luck card
       </div>
       <div class="card-box mt-1rem mb-2rem">
         <div class="flex justify-start gap-x-10px pt-10px px-1/10
