@@ -306,7 +306,7 @@
           </div>
         </div>
       </div>
-      <div class="mt-10px">{{ form.brandDesc }}</div>
+      <div class="mt-10px">{{ form.brandDesc ?? WormholeInfo }}</div>
       <button class="bg-tag-gradient gradient-btn-disabled-grey mt-2rem mx-auto
                      flex items-center justify-center
                      w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
@@ -353,7 +353,7 @@ import { getUSDTBalance, checkUSDTApproved, approveUSDTToCollect, mintBlindBox, 
 import { accountChanged, getAccounts } from "@/utils/web3/account";
 import { ethers } from 'ethers'
 import { newBlindCards, getBlindCardsByIds } from '@/api/api'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME, COLLECT_BLESS_CONTRACT, USDT_CONTRACT } from '@/ny-config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME, COLLECT_BLESS_CONTRACT, USDT_CONTRACT, WormholeInfo } from '@/ny-config'
 import { TokenIcon, EVM_CHAINS } from "@/config";
 import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance } from "@/utils/asset";
 import { notify } from '@/utils/notify'
@@ -385,6 +385,7 @@ export default {
         brandDesc: '',
         creator: ''
       },
+      WormholeInfo,
       nftNumDisabled: false,
       cropperModalVisible: false,
       cropperImgSrc: '',
@@ -403,7 +404,8 @@ export default {
       searchToken: '',
       selectedChainName: CHAIN_NAME,
       customToken: null,
-      tokenBalance: 0
+      tokenBalance: 0,
+      WormholeInfo
     }
   },
   computed: {
