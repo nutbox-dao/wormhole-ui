@@ -1,8 +1,7 @@
 <template>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
-         class="bg-primaryBg light:bg-white"
-         :class="$route.name==='square'?'bg-img':''"
+         class="bg-primaryBg light:bg-white bg-img"
          @click="showMenu=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">

@@ -365,7 +365,11 @@ export default {
     p2: 'Here’s what’s happening with your collections today.',
     price: 'Price',
     compoundBox: 'Compound blind box',
-    expectedGet: 'Expected to get'
+    expectedGet: 'Expected to get',
+    brandDefaultDesc: 'This is advertisement for project owner.',
+    description: 'Description',
+    noMysteryCard: 'No Mystery cards yet～',
+    noCardDesc: 'By compond five lucky cards you can get a mystery box card to win rewards'
   },
   err: {
     serverErr: 'Server error',

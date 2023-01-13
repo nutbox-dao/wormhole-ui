@@ -132,7 +132,7 @@
         </div>
       </div>
       <button class="bg-colorBlue gradient-btn-disabled-grey mt-2rem mx-auto
-                     flex items-center justify-center whitespace-nowrap px-12px
+                     flex items-center justify-center whitespace-nowrap px-20px
                      min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
               @click="onShare">
         <img class="w-20px mr-10px" src="~@/assets/icon-twitter-white.svg" alt="">

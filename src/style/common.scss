@@ -245,3 +245,55 @@ div[contenteditable] {
 .ny-box-shadow {
   box-shadow: inset 0px 2px 3px rgba(0, 0, 0, 0.12);
 }
+.ny-power-1 {
+  .brand-name {
+    color: #3D4E72;
+  }
+  .amount {
+    color: #3D4E72;
+  }
+}
+
+.ny-power-2 {
+  .brand-name {
+    color: #771F06;
+  }
+  .amount {
+    color: #771F06;
+  }
+}
+
+.ny-power-3 {
+  .brand-name {
+    color: #A1151E;
+  }
+  .amount {
+    color: #A1151E;
+  }
+}
+
+.ny-power-5 {
+  .brand-name {
+    color: #0048E1;
+  }
+  .amount {
+    color: #0048E1;
+  }
+}
+
+.ny-power-10 {
+  .brand-name {
+    color: #DDE2FC;
+  }
+  .amount {
+    color: #DDE2FC;
+  }
+}
+.ny-c-textarea .el-textarea__inner{
+  border: none;
+  box-shadow: none !important;
+  min-height: 100% !important;
+  border-radius: 8px;
+  background: transparent;
+  color: #86909C;
+}

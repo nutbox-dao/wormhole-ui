@@ -1,45 +1,43 @@
 <template>
-  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem">
+  <div class="relative text-left pb-3rem flex flex-col text-14px 2xl:text-0.8rem text-blueDark
+              overflow-auto bg-white rounded-20px">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
-      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+      <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
-    <div class="mx-auto c-text-black text-20px xl:text-1.2rem my-3rem">
+    <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-3rem mb-2rem">
       {{$t('ny.mysteryCards')}}
     </div>
     <div class="flex flex-col justify-center items-center relative">
-      <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
-        <div class="mystery-card cursor-pointer w-full h-full flipped">
-          <div class="back absolute">
-            <div class="relative text-white">
-              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-              <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
-                   :src="cardDetail.logo" alt="">
-              <div class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
-                + {{cardDetail.amount}} {{cardDetail.tokenSymbol}}
-              </div>
-              <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
-                <div class="flex flex-col items-start">
-                  <div class="flex items-center justify-center gap-4px">
-                    <img v-for="star of cardDetail.weights" :key="star"
-                         class="text-shadow-lg w-14px"
-                         src="~@/assets/red-envelope/icon-star.svg" alt="">
-                  </div>
-                  <div class="c-text-black text-shadow-lg text-16px">{{cardDetail.weights}} {{$t('ny.power')}}</div>
-                </div>
-              </div>
-              <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                {{cardDetail.brandName}}
-              </div>
-            </div>
-          </div>
+      <div class="relative text-white w-220px" :class="`ny-power-${cardDetail.weights}`">
+        <img class="w-full cursor-pointer"
+             :src="require(`@/assets/red-envelope/mystery-power-${cardDetail.weights || 10}.png`)"
+             alt="">
+        <img v-if="cardDetail?.logo"
+             class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+             :src="cardDetail.logo" alt="">
+        <img v-else
+             class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+             src="~@/assets/red-envelope/mystery-logo.png" alt="">
+        <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+                          text-14px lg:text-16px font-bold">
+          {{cardDetail.brandName || 'Wormhole3'}}
+        </div>
+        <div class="absolute top-54/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-18px">
+          + {{cardDetail.amount}} {{cardDetail.tokenName}}
         </div>
       </div>
-      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
+      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem">
         {{cardDetail.brandDesc}}
       </div>
-      <button class="underline mt-20px font-bold" @click="$emit('close')">
-        <img src="~@/assets/icon-twitter-blue.svg" alt="">
+      <button class="bg-colorBlue gradient-btn-disabled-grey mt-1.5rem mx-auto
+                     flex items-center justify-center whitespace-nowrap px-20px
+                     min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+              @click="onShare">
+        <img class="w-20px mr-10px" src="~@/assets/icon-twitter-white.svg" alt="">
+        {{$t('ny.shareTweet')}}
+        <c-spinner v-show="shareLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
       </button>
     </div>
   </div>
@@ -56,8 +54,16 @@ export default {
   },
   data() {
     return {
-      flipCard: true
+      flipCard: true,
+      shareLoading: false
     }
+  },
+  methods: {
+    onShare() {
+      this.tweetContent = this.formatElToTextContent(this.$refs.contentRef)
+      window.open('https://twitter.com/intent/tweet?text=' + this.tweetContent + '%0a%23iweb3 %23Spring_Festival')
+      this.$emit('close')
+    },
   }
 }
 </script>

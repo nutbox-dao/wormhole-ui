@@ -31,7 +31,7 @@
     <div v-else>
       <div class="flex justify-between items-center">
         <span class="font-bold">{{$t('curation.recommendedCurations')}}</span>
-        <button class="gradient-text gradient-text-purple-white"
+        <button class="gradient-text gradient-bg-color3"
                 @click="$router.push('/curations')">>>></button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-1rem py-1rem">
@@ -44,7 +44,7 @@
                                @click="gotoDetail(curation)"/>
       </div>
       <div class="mb-2rem">
-        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px"
+        <button class="px-20px min-w-10rem h-44px 2xl:h-2.2rem bg-tag-gradient rounded-12px text-white font-bold"
         @click="$router.push('/curations')">
           {{$t('common.viewMore')}}
         </button>
@@ -54,7 +54,7 @@
     <button
         class="flex items-center justify-center bg-color62 sm:hidden
                h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-               rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
+               rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-2"
         @click="createCuration">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>

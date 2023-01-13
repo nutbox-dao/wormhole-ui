@@ -1,68 +1,124 @@
 <template>
-  <div class="relative text-left pb-3rem sm:pb-2rem  flex flex-col text-14px 2xl:text-0.8rem
-              text-white light:text-blueDark">
+  <div class="relative text-left pb-3rem sm:pb-2rem flex flex-col text-14px 2xl:text-0.8rem
+              text-color4E bg-white">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
-      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+      <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
-    <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-2rem mb-1.5rem xs:mt-3rem xs:mb-2rem">
+    <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-2rem mb-1.5rem text-blueDark">
       {{$t('ny.makeMysteryCard')}}
     </div>
     <div v-if="step===0" class="px-15px xs:px-40px">
-      <div class="grid grid-cols-1 xs:grid-cols-2 gap-1rem">
-        <div class="col-span-1">
-          <div class="relative w-1/2 xs:w-full mx-auto cursor-pointer
+      <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="col-span-1 sm:pr-26px sm:min-h-546px">
+          <div class="card-box h-full flex flex-col justify-center items-center py-2rem">
+            <div class="relative w-220px mx-auto cursor-pointer card
                       text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white">
-            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-            <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
-                 :src="logoPreviewSrc" alt="">
-<!--            <img class="absolute w-20px bottom-15px left-15px"-->
-<!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
-            <div v-if="form.tokenNum > 0"
-                 class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
+              <img class="w-57px absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-14px"
+                   :src="logoPreviewSrc" alt="">
+              <div v-if="form.tokenNum > 0"
+                   class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
+                + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
+              </div>
+              <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+                          text-16px font-bold text-color62">
+                {{form.brandName || 'Brand name'}}
+              </div>
+              <div v-if="type==='token'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                + {{form.tokenNum}} {{form.tokenSymbol}}
+              </div>
+              <div v-if="type==='nft'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                + {{form.nftNum}} NFT
+              </div>
+              <div v-if="type==='none'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                ~
+              </div>
             </div>
-            <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
-              {{form.brandName}}
+            <div class="text-color62 mt-1rem w-3/5 mx-auto text-center break-word">
+              {{form.brandDesc || $t('ny.brandDefaultDesc')}}
             </div>
           </div>
         </div>
-        <div class="col-span-1" ref="formRef">
-          <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
-            <input class="bg-transparent h-full w-full px-15px"
-                   v-model="form.brandName"
-                   :placeholder="$t('ny.brandName')">
-          </div>
-          <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
-          <div class="flex rounded-8px overflow-hidden mb-10px gap-1px">
-            <button class="flex-1 rounded-l-8px h-34px"
-                    :class="type==='token'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="type='token'">
-              Token
-            </button>
-            <!-- <button class="flex-1 h-34px"
-                    :class="type==='nft'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="type='nft'">
-              NFT
-            </button> -->
-            <button class="flex-1 rounded-r-8px h-34px"
-                    :class="type==='none'?'bg-tag-gradient text-white':'bg-inputBg light:bg-colorF2 text-color7D'"
-                    @click="type='none';clearTokenInput()">
-              None
-            </button>
-          </div>
-          <template v-if="type==='token'">
-            <button class="w-full bg-black/40 border-1 border-color8B/30 mb-10px
-                         light:bg-white light:border-colorE3 flex items-center
-                         rounded-8px overflow-hidden h-34px">
-              <el-popover popper-class="c-popper"
-                          placement="bottom-end"
-                          :width="popperWidth"
-                          trigger="click" ref="tokenPopover">
-                <template #reference>
-                  <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px">
+        <div class="col-span-1 h-full flex flex-col justify-between mt-10px sm:mt-0" ref="formRef">
+          <div>
+            <div class="flex">
+              <div class="">
+                <span class="font-bold">{{$t('ny.logo')}}</span>
+                <div class="w-80px min-w-80px h-80px rounded-8px bg-colorF2 mt-4px relative overflow-hidden">
+                  <img v-if="logoPreviewSrc"
+                       class="w-full h-full"
+                       :src="logoPreviewSrc" alt="">
+                  <el-upload action="#" list-type="picture" ref="uploadLogoRef"
+                             :on-change="onUploadLogo"
+                             :auto-upload="false" :limit="1" :show-file-list="false">
+                    <template #trigger>
+                      <button class="absolute w-full h-full top-0 left-0
+                                 flex items-center justify-center
+                                 light:border-colorE3 hover:border-primaryColor">
+                        <img v-if="!logoPreviewSrc" class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
+                      </button>
+                    </template>
+                  </el-upload>
+                  <div v-if="logoUploadLoading"
+                       class="w-full h-full bg-inputBg/20 absolute top-0 left-0 flex items-center justify-center">
+                    <c-spinner class="w-30px h-30px"></c-spinner>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1 ml-6px relative">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold">{{$t('ny.description')}}</span>
+                  <span>{{form.brandDesc.length}}/180</span>
+                </div>
+                <div class="relative mt-4px rounded-8px bg-colorF2 h-80px">
+                  <el-input v-model="form.brandDesc"
+                            :rows="4" :maxlength="180"
+                            class="border-0 ny-c-textarea bg-colorF2 rounded-8px text-color4E
+                                 overflow-hidden h-full break-word"
+                            type="textarea"
+                            :placeholder="$t('ny.createDescTip')"/>
+                </div>
+              </div>
+            </div>
+            <div class="mt-10px font-bold mb-4px">{{$t('ny.brandName')}}</div>
+            <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
+              <input class="bg-transparent h-full w-full px-15px text-color86"
+                     v-model="form.brandName"
+                     :placeholder="$t('ny.brandName')">
+            </div>
+            <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
+            <div class="flex rounded-8px overflow-hidden mb-10px gap-1px bg-colorF2 py-3px px-4px h-34px">
+              <button class="flex-1 rounded-8px h-full"
+                      :class="type==='token'?'bg-white text-color62':''"
+                      @click="type='token'">
+                Token
+              </button>
+              <!--            <button class="flex-1 rounded-8px h-full"-->
+              <!--                    :class="type==='nft'?'bg-white text-color62':''"-->
+              <!--                    @click="type='nft'">-->
+              <!--              NFT-->
+              <!--            </button>-->
+              <button class="flex-1 rounded-8px h-full"
+                      :class="type==='none'?'bg-white text-color62':''"
+                      @click="type='none';clearTokenInput()">
+                None
+              </button>
+            </div>
+            <template v-if="type==='token'">
+              <button class="w-full bg-colorF2 rounded-8px overflow-hidden h-34px mb-10px">
+                <el-popover popper-class="c-popper"
+                            placement="bottom-end"
+                            :width="popperWidth"
+                            trigger="click" ref="tokenPopover">
+                  <template #reference>
+                    <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px">
                   <span class="flex items-center">
                     <span v-if="Object.keys(selectedToken).length===0" class="text-color8B/70">{{$t('ny.select')}}</span>
                     <template v-else>
@@ -73,247 +129,212 @@
                       <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
                     </template>
                   </span>
-                    <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
-                  </button>
-                </template>
-                <template #default>
-                  <div class="border-1 border-color8B/30 bg-blockBg max-h-240px flex flex-col overflow-hidden
-                                light:bg-white light:border-colorE3 hover:border-primaryColor
-                                rounded-12px py-10px overflow-x-hidden">
-                    <div class="px-10px mb-10px">
-                      <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                                    light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
-                                    rounded-12px h-40px 2xl:h-2rem">
-                        <input class="bg-transparent h-full w-full px-0.5rem"
-                               v-model="searchToken"
-                               @input="updateToken"
-                               type="text" :placeholder="$t('curation.inputErc20')">
+                      <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
+                    </button>
+                  </template>
+                  <template #default>
+                    <div class="border-1 border-color8B/30 bg-white max-h-240px flex flex-col overflow-hidden
+                              light:bg-white light:border-colorE3 hover:border-primaryColor
+                              rounded-12px py-10px overflow-x-hidden">
+                      <div class="px-10px mb-10px">
+                        <div class="w-full border-1 bg-white border-1 border-color8B/30
+                                  light:border-colorE3 hover:border-primaryColor
+                                  rounded-12px h-40px 2xl:h-2rem text-color4E">
+                          <input class="bg-transparent h-full w-full px-0.5rem text-color4E"
+                                 v-model="searchToken"
+                                 @input="updateToken"
+                                 type="text" :placeholder="$t('curation.inputErc20')">
+                        </div>
                       </div>
-                    </div>
-                    <div class="flex-1 overflow-auto">
-                      <div v-if="customToken"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
-                              py-3 px-10px overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
-                        <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                             @click="selectedToken = customToken;$refs.tokenPopover.hide()">
-                          <span class="text-15px">{{customToken.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                      <div class="flex-1 overflow-auto">
+                        <div v-if="customToken"
+                             class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
+                              py-3 px-10px overflow-x-hidden hover:bg-black/10">
+                          <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
+                          <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                          <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
+                               @click="selectedToken = customToken;$refs.tokenPopover.hide()">
+                            <span class="text-15px">{{customToken.symbol}}</span>
+                            <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
                           </span>
+                          </div>
                         </div>
-                      </div>
-                      <div v-for="token of tokenList" :key="token.address"
-                           @click="selectedToken=token;$refs.tokenPopover.hide()"
-                           class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                        <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
-                        <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                        <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                          <span class="text-15px">{{token.symbol}}</span>
-                          <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <div v-for="token of tokenList" :key="token.address"
+                             @click="selectedToken=token;$refs.tokenPopover.hide()"
+                             class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                           overflow-x-hidden hover:bg-black/10">
+                          <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                          <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                          <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                            <span class="text-15px">{{token.symbol}}</span>
+                            <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{token.address}}
                           </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </template>
-              </el-popover>
-            </button>
+                  </template>
+                </el-popover>
+              </button>
 
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                        flex items-center
-                        light:bg-white light:border-colorE3 hover:border-primaryColor
-                        rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px"
-                     v-model="form.tokenNum"
-                     type="number"
-                     :placeholder="$t('ny.tokenNum')">
-<!--              <span class="whitespace-nowrap pr-15px font-bold">{{form.tokenSymbol}}</span>-->
-            </div>
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                        light:bg-white light:border-colorE3 hover:border-primaryColor
-                        rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px"
-                     v-model="form.cardNum"
-                     type="number"
-                     :placeholder="$t('ny.cardNum')">
-            </div>
-          </template>
-          <template v-if="type==='nft'">
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px"
-                     v-model="form.nftAddress"
-                     :placeholder="$t('ny.nftAddress')">
-            </div>
-            <div class="flex gap-10px">
+              <div class="w-full bg-colorF2 rounded-8px h-34px mb-4px">
+                <input class="bg-transparent h-full w-full px-15px text-color86"
+                       v-model="form.tokenNum"
+                       type="number"
+                       :placeholder="$t('ny.tokenNum')">
+              </div>
+              <div v-if="type!=='none'" class="text-right text-color8B light:text-color7D mb-10px">
+                {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
+              </div>
+            </template>
+            <template v-if="type==='nft'">
               <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-34px mb-10px">
                 <input class="bg-transparent h-full w-full px-15px"
-                       v-model="form.nftNum"
-                       :disabled="nftNumDisabled"
-                       :placeholder="$t('ny.nftNum')">
+                       v-model="form.nftAddress"
+                       :placeholder="$t('ny.nftAddress')">
               </div>
-              <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+              <div class="flex gap-10px">
+                <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-34px mb-10px">
-                <input class="bg-transparent h-full w-full px-15px"
-                       v-model="form.nftId"
-                       :placeholder="$t('ny.nftId')">
+                  <input class="bg-transparent h-full w-full px-15px"
+                         v-model="form.nftNum"
+                         :disabled="nftNumDisabled"
+                         :placeholder="$t('ny.nftNum')">
+                </div>
+                <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px h-34px mb-10px">
+                  <input class="bg-transparent h-full w-full px-15px"
+                         v-model="form.nftId"
+                         :placeholder="$t('ny.nftId')">
+                </div>
               </div>
-            </div>
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                        light:bg-white light:border-colorE3 hover:border-primaryColor
-                        rounded-8px h-34px mb-10px">
+            </template>
+            <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
               <input class="bg-transparent h-full w-full px-15px"
                      v-model="form.cardNum"
                      type="number"
                      :placeholder="$t('ny.cardNum')">
             </div>
-          </template>
-          <template v-if="type==='none'">
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                        light:bg-white light:border-colorE3 hover:border-primaryColor
-                        rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px"
-                     v-model="form.cardNum"
-                     type="number"
-                     :placeholder="$t('ny.cardNum')">
+            <div class="mt-10px text-right font-bold text-16px">
+              {{$t('ny.mintTip1', {amount: form.cardNum + '*1 USDT'})}}
             </div>
-          </template>
-
-          <div class="flex">
-            <span class="mr-2rem font-bold">{{$t('ny.logo')}}</span>
-            <div class="w-60px h-60px rounded-8px border-1 bg-black/40
-                        hover:border-primaryColor light:hover:border-primaryColor
-                        border-1 border-color8B/30 light:border-colorF4 relative overflow-hidden">
-              <img v-if="logoPreviewSrc"
-                   class="w-full h-full"
-                   :src="logoPreviewSrc" alt="">
-              <el-upload action="#" list-type="picture" ref="uploadLogoRef"
-                         :on-change="onUploadLogo"
-                         :auto-upload="false" :limit="1" :show-file-list="false">
-                <template #trigger>
-                  <button class="absolute w-full h-full top-0 left-0
-                                 flex items-center justify-center
-                                 light:border-colorE3 hover:border-primaryColor">
-                    <i v-if="!logoPreviewSrc" class="w-20px h-20px icon-add"></i>
-                  </button>
-                </template>
-              </el-upload>
-              <div v-if="logoUploadLoading"
-                   class="w-full h-full bg-inputBg/20 absolute top-0 left-0 flex items-center justify-center">
-                <c-spinner class="w-30px h-30px"></c-spinner>
-              </div>
+            <div class="mt-10px text-color86 text-right">
+              {{$t('ny.uBalance')}}: {{ formatAmount(usdtBalance) }}
+            </div>
+            <div class="mt-10px text-right">
+              {{$t('ny.mintTip2')}}
+            </div>
+          </div>
+          <div>
+            <ConnectMainchainBTNVue class="my-1rem w-full" v-if="chainId !== CHAIN_ID"/>
+            <div v-else class="flex justify-center items-center my-1rem gap-10px">
+              <button class="ny-gradient-btn gradient-btn-disabled-grey
+                             flex items-center justify-center
+                             flex-1 rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                      :disabled="approveLoading || approveStep === 2 || accountMismatch"
+                      @click="approve">
+                {{$t('ny.approveStep', {step: approveStep})}}
+                <c-spinner v-show="approveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+              </button>
+              <button class="ny-gradient-btn gradient-btn-disabled-grey
+                             flex items-center justify-center
+                             flex-1 rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                      :disabled="approveLoading || approveStep < 2 || mintLoading || accountMismatch"
+                      @click="mint">
+                {{$t('ny.mint')}}
+                <c-spinner v-show="mintLoading"
+                           class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+              </button>
+            </div>
+            <div v-if="accountMismatch" class="text-center">
+              {{ $t('ny.accountMismatch') }}
             </div>
           </div>
         </div>
       </div>
-      <div class="">
-        <div class="flex justify-end items-center">
-          <span class="text-color8B light:text-color7D/50">{{form.brandDesc.length}}/180</span>
-        </div>
-        <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-white light:border-colorE3 hover:border-primaryColor
-                      rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
-          <el-input v-model="form.brandDesc"
-                    :rows="4" :maxlength="180"
-                    class="border-0 c-textarea rounded-8px overflow-hidden"
-                    type="textarea"
-                    :placeholder="$t('ny.createDescTip')"/>
-        </div>
-      </div>
-      <div class="mt-10px">
-        {{$t('ny.mintTip1', {amount: form.cardNum + '*1 USDT'})}}
-      </div>
-      <div class="mt-10px text-color8B light:text-color7D">
-        {{$t('ny.uBalance')}}: {{ formatAmount(usdtBalance) }}
-      </div>
-      <div v-if="type!=='none'" class="mt-10px text-color8B light:text-color7D">
-        {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
-      </div>
-      <div class="mt-10px text-color8B light:text-color7D">
-        {{$t('ny.mintTip2')}}
-      </div>
-      <ConnectMainchainBTNVue class="my-1rem" v-if="chainId !== CHAIN_ID"/>
-      <div v-else class="flex justify-center items-center mt-1rem gap-10px">
-        <button class="ny-gradient-btn gradient-btn-disabled-grey
-                     flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                     :disabled="approveLoading || approveStep === 2 || accountMismatch"
-                     @click="approve">
-          {{$t('ny.approveStep', {step: approveStep})}}
-          <c-spinner v-show="approveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-        </button>
-        <button class="ny-gradient-btn gradient-btn-disabled-grey
-                     flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                :disabled="approveLoading || approveStep < 2 || mintLoading || accountMismatch"
-                @click="mint">
-          {{$t('ny.mint')}}
-          <c-spinner v-show="mintLoading"
-                     class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-        </button>
-      </div>
-      <div v-if="accountMismatch">
-        {{ $t('ny.accountMismatch') }}
-      </div>
+
     </div>
     <div v-if="step===1" class="px-15px xs:px-40px">
-      <div class="grid grid-cols-1 xs:grid-cols-2 gap-1rem">
-        <div class="col-span-1">
-          <div class="relative w-1/2 xs:w-full mx-auto cursor-pointer
+      <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="col-span-1 sm:pr-26px sm:min-h-546px">
+          <div class="card-box h-full flex flex-col justify-center items-center py-2rem">
+            <div class="relative w-220px mx-auto cursor-pointer card
                       text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white">
-            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-            <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
-                 :src="logoPreviewSrc" alt="">
-<!--            <img class="absolute w-20px bottom-15px left-15px"-->
-<!--                 src="~@/assets/red-envelope/icon-reverse.png" alt="">-->
-            <div v-if="form.tokenNum"
-                 class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
-              + {{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
+              <img class="w-57px absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-14px"
+                   :src="logoPreviewSrc" alt="">
+              <div v-if="form.tokenNum > 0"
+                   class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
+                + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
+              </div>
+              <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+                          text-16px font-bold text-color62">
+                {{form.brandName || 'Brand name'}}
+              </div>
+              <div v-if="type==='token'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                + {{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}
+              </div>
+              <div v-if="type==='nft'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                + {{form.nftNum}} NFT
+              </div>
+              <div v-if="type==='none'"
+                   class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-14px lg:text-16px text-color62">
+                ~
+              </div>
             </div>
-            <div class="absolute bottom-15px right-15px text-shadow-lg font-bold opacity-70 max-w-1/2">
-              {{form.brandName}}
+            <div class="text-color62 mt-1rem w-3/5 mx-auto text-center break-word">
+              {{form.brandDesc || $t('ny.brandDefaultDesc')}}
             </div>
           </div>
         </div>
-        <div class="col-span-1 font-bold">
-          <div class="mb-10px xs:mb-20px">
-            <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.cardNum')}}:</span>
-            <span>{{form.cardNum}}</span>
+        <div class="col-span-1 font-bold flex flex-col justify-between">
+          <div class="mt-10px sm:mt-0">
+            <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
+              <span class="text-color86 mr-10px">{{$t('ny.cardNum')}}:</span>
+              <span class="sm:mt-8px text-color1D text-20px">{{form.cardNum}} 0</span>
+            </div>
+            <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
+              <span class="text-color86 mr-10px">{{$t('ny.specialRewards')}}:</span>
+              <span class="mt-8px text-color1D text-20px">{{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}</span>
+            </div>
+            <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
+              <span class="text-color86 mr-10px">{{$t('ny.commonRewards')}}:</span>
+              <span class="mt-8px text-color1D text-20px">{{ buyAmount }} USDT</span>
+            </div>
+            <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
+              <div class="text-color86 mr-10px">{{$t('ny.tokenNftAddress')}}:</div>
+              <div class="mt-8px text-color1D text-20px">{{type==='token'?form.tokenAddress:form.nftAddress}}</div>
+            </div>
+            <div v-if="type === 'nft'"
+                 class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
+              <span class="text-color86 mr-10px">{{$t('ny.nftId')}}:</span>
+              <span class="mt-8px text-color1D text-20px">{{form.nftId}}</span>
+            </div>
+            <div class="mt-10px">{{ form.brandDesc ?? WormholeInfo }}</div>
           </div>
-          <div class="mb-10px xs:mb-20px">
-            <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.specialRewards')}}:</span>
-            <span>{{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}</span>
-          </div>
-          <div class="mb-10px xs:mb-20px">
-            <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.commonRewards')}}:</span>
-            <span>{{ buyAmount }} USDT</span>
-          </div>
-          <div class="mb-10px xs:mb-20px">
-            <div class="text-color8B light:text-color7D mr-10px">{{$t('ny.tokenNftAddress')}}:</div>
-            <div class="mt-3px leading-16px">{{type==='token'?form.tokenAddress:form.nftAddress}}</div>
-          </div>
-          <div v-if="type === 'nft'" class="mb-10px xs:mb-20px">
-            <span class="text-color8B light:text-color7D mr-10px">{{$t('ny.nftId')}}:</span>
-            <span>{{form.nftId}}</span>
+          <div class="flex justify-center sm:justify-end">
+            <button class="bg-colorBlue gradient-btn-disabled-grey mt-1.5rem
+                     flex items-center justify-center whitespace-nowrap px-20px
+                     min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                    @click="onShare">
+              <img class="w-20px mr-10px" src="~@/assets/icon-twitter-white.svg" alt="">
+              {{$t('ny.shareTweet')}}
+              <c-spinner v-show="shareLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+            </button>
           </div>
         </div>
       </div>
-      <div class="mt-10px">{{ form.brandDesc ?? WormholeInfo }}</div>
-      <button class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
-                     flex items-center justify-center
-                     w-10rem rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-              @click="onShare">
-        {{$t('ny.shareTweet')}}
-        <c-spinner v-show="shareLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-      </button>
     </div>
     <el-dialog v-model="cropperModalVisible"
                destroy-on-close
@@ -382,10 +403,9 @@ export default {
         nftId: '',
         cardNum: '',
         logoUrl: '',
-        brandDesc: '',
+        brandDesc: 'This is advertisement for project owner.',
         creator: ''
       },
-      WormholeInfo,
       nftNumDisabled: false,
       cropperModalVisible: false,
       cropperImgSrc: '',
@@ -656,6 +676,23 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.text-color4E {
+  color: #4E5969;
+}
+.text-color86 {
+  color: #86909C;
+}
+.text-color1D {
+  color: #1D2129;
+}
+.card-box {
+  background: #F2EEFF;
+  border: 1px solid rgba(138, 104, 255, 0.4);
+  border-radius: 14px;
+  .card {
+    box-shadow: 0px 9px 20px rgba(90, 43, 168, 0.35);
+    border-radius: 14px;
+  }
+}
 </style>

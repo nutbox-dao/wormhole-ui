@@ -72,32 +72,35 @@
                   :loading-text="$t('common.loading')"
                   :finished-text="showingBox.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
-          <div class="grid grid-cols-2 xs:grid-cols-4 gap-x-1rem xs:gap-x-2.5rem gap-y-1rem py-1rem">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1rem py-1rem">
             <div v-if="showingBox.length===0 && !refreshing"
                  class="py-2rem bg-blockBg light:bg-white rounded-12px col-span-2 xs:col-span-4">
-              <div class="c-text-black text-color7D text-2rem">{{$t('common.none')}}</div>
+              <div class="flex flex-col items-center max-w-600px mx-auto">
+                <img class="max-w-200px w-10rem" src="~@/assets/red-envelope/no-card.png" alt="">
+                <div class="c-text-black text-colorC9 text-20px my-10px">{{$t('ny.noMysteryCard')}}</div>
+                <div class="text-colorC9">{{$t('ny.noCardDesc')}}</div>
+              </div>
             </div>
             <div class="relative text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white cursor-pointer"
+                 :class="`ny-power-${card.weights}`"
                  v-for="(card, index) of showingBox" :key="index"
                  @click="selectedCard=card, cardDetailVisible=true">
-              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
-              <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+              <img class="w-full cursor-pointer"
+                   :src="require(`@/assets/red-envelope/mystery-power-${card.weights || 10}.png`)"
+                   alt="">
+              <img v-if="card?.logo"
+                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                   :src="card.logo" alt="">
+              <img v-else
+                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                    src="~@/assets/red-envelope/mystery-logo.png" alt="">
-              <div class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
+              <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+                          text-14px lg:text-16px font-bold">
+                {{card.brandName || 'Wormhole3'}}
+              </div>
+              <div class="absolute top-55/100 sm:top-54/100 left-1/2 transform -translate-x-1/2 amount
+                          font-bold text-12px lg:text-18px">
                 + {{card.amount}} {{card.tokenName}}
-              </div>
-              <div class="absolute bottom-10px left-10px text-shadow-lg font-bold opacity-70">
-                <div class="flex flex-col items-start">
-                  <div class="flex items-center justify-center gap-4px">
-                    <img v-for="star of card.weights" :key="star"
-                         class="text-shadow-lg w-12px"
-                         src="~@/assets/red-envelope/icon-star.svg" alt="">
-                  </div>
-                  <div class="c-text-black text-shadow-lg">{{card.weights}} {{$t('ny.power')}}</div>
-                </div>
-              </div>
-              <div class="absolute bottom-10px right-10px text-shadow-lg font-bold opacity-70">
-                {{card.brandName}}
               </div>
             </div>
           </div>
@@ -116,7 +119,7 @@
                destroy-on-close
                :show-close="false"
                :close-on-click-modal="true"
-               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+               class="c-dialog c-dialog-center max-w-800px bg-glass border-1 border-color84/30 rounded-1.6rem">
       <MakeMysteryCard @close="makeCardVisible=false"/>
     </el-dialog>
     <el-dialog v-model="redeemCardVisible"
@@ -210,5 +213,8 @@ export default {
 }
 .bg-color36 {
   background: #362473;
+}
+.text-colorC9 {
+  color: #C9CDD4;
 }
 </style>

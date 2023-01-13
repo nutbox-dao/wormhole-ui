@@ -8,11 +8,11 @@
       {{$t('ny.buyCard')}}
     </div>
     <div class="w-200px mx-auto mt-2rem">
-      <div class="relative">
+      <div class="relative text-white">
         <img class="w-full" src="~@/assets/red-envelope/lucky-card.png" alt="">
         <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-          <img class="w-full" src="~@/assets/red-envelope/card-default.png" alt="">
+          <img class="w-full" src="~@/assets/red-envelope/card4.png" alt="">
           <div class="flex flex-col items-center">
             <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
               <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -37,15 +37,17 @@
     <div class="flex flex-col items-center">
       <ConnectMainchainBTNVue class="my-1rem" v-if="chainId !== CHAIN_ID"/>
       <div v-else class="text-center my-1rem">
-        <button v-if="!approved" class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
-                     text-white rounded-full font-bold"
+        <button v-if="!approved"
+                class="gradient-bg gradient-btn-disabled-grey w-10rem h-44px 2xl:h-2.2rem
+                       text-white rounded-full font-bold flex justify-center items-center"
                 :disabled="isApproving || accountMismatch"
                 @click="approve">
           {{ $t('common.approve') }}
           <c-spinner v-show="isApproving" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
-        <button v-else class="buy-btn w-10rem h-44px 2xl:h-2.2rem
-                     text-white rounded-full font-bold"
+        <button v-else
+                class="buy-btn w-10rem h-44px 2xl:h-2.2rem flex justify-center items-center
+                       text-white rounded-full font-bold"
                 :disabled="isBuying || accountMismatch"
                 @click="buy">
           {{$t('ny.buy')}}
