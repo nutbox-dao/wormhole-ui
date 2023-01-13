@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
-          {{ drawedBoxInfo.brandDesc ?? '' }}
+          {{ drawedBoxInfo.brandDesc ?? WormholeInfo }}
         </div>
       </div>
       <div class="px-15px sm:w-8/10 mx-auto text-center">
@@ -153,7 +153,7 @@ import { mapState, mapGetters } from 'vuex'
 import { getUserNYCards, approve1155ToCollect, openBox, getUserActivityInfo } from '@/utils/new-year'
 import { notify } from '@/utils/notify'
 import { formatAmount } from '@/utils/helper'
-import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
+import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, WormholeInfo} from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { getBlindCardsByIds } from '@/api/api'
@@ -178,6 +178,7 @@ export default {
       flipCard: false,
       CHAIN_ID,
       isDrawing: false,
+      WormholeInfo,
       /**
        * id,
        * prizeType: 1: erc20, 2: erc721, 3: erc1155

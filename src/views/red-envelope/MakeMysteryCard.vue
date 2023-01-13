@@ -28,7 +28,7 @@
               <div v-if="type==='token'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                           font-bold text-14px lg:text-16px text-color62">
-                + {{form.tokenNum}} {{form.tokenSymbol}}
+                +  {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{form.tokenSymbol}}
               </div>
               <div v-if="type==='nft'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
@@ -48,7 +48,13 @@
         </div>
         <div class="col-span-1 h-full flex flex-col justify-between mt-10px sm:mt-0" ref="formRef">
           <div>
-            <div class="flex">
+            <div class="font-bold mb-4px">{{$t('ny.brandName')}}</div>
+            <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
+              <input class="bg-transparent h-full w-full px-15px text-color86"
+                     v-model="form.brandName"
+                     :placeholder="$t('ny.brandName')">
+            </div>
+            <div class="flex mb-10px">
               <div class="">
                 <span class="font-bold">{{$t('ny.logo')}}</span>
                 <div class="w-80px min-w-80px h-80px rounded-8px bg-colorF2 mt-4px relative overflow-hidden">
@@ -87,12 +93,7 @@
                 </div>
               </div>
             </div>
-            <div class="mt-10px font-bold mb-4px">{{$t('ny.brandName')}}</div>
-            <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
-              <input class="bg-transparent h-full w-full px-15px text-color86"
-                     v-model="form.brandName"
-                     :placeholder="$t('ny.brandName')">
-            </div>
+            
             <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
             <div class="flex rounded-8px overflow-hidden mb-10px gap-1px bg-colorF2 py-3px px-4px h-34px">
               <button class="flex-1 rounded-8px h-full"
@@ -302,7 +303,7 @@
           <div class="mt-10px sm:mt-0">
             <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
               <span class="text-color86 mr-10px">{{$t('ny.cardNum')}}:</span>
-              <span class="sm:mt-8px text-color1D text-20px">{{form.cardNum}} 0</span>
+              <span class="sm:mt-8px text-color1D text-20px">{{form.cardNum}}</span>
             </div>
             <div class="mb-10px xs:mb-20px flex items-center sm:items-start sm:flex-col">
               <span class="text-color86 mr-10px">{{$t('ny.specialRewards')}}:</span>
@@ -646,7 +647,7 @@ export default {
       }
     },
     onShare() {
-      window.open(`https://twitter.com/intent/tweet?text=I hive minted ${this.form.cardNum} mystery cards on @wormhole_3 with some prize. You can join the game to draw these card from: https://alpha.wormhole3.io.
+      window.open(`https://twitter.com/intent/tweet?text=I hive minted ${this.form.cardNum} mystery cards on @wormhole_3 with some prize. You can join the game to draw these cards from: https://alpha.wormhole3.io.
       #iweb3`)
       this.$emit('close')
     }

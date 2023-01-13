@@ -52,12 +52,23 @@ export async function getUserBlindBox(ethAddress, start, end) {
 
     let [boxIds, boxes, weights] = await contract.getUserOpendBox(ethAddress, start, end);
     if (boxIds.length === 0) return [];
-    const boxInfo = await gbcbi(boxIds.map(id => id / 1));
-    boxes = boxes.map((box, idx) => ({
-        ...box,
-        weights: weights[idx],
-        ...boxInfo[idx],
-    }));
+    boxIds = boxIds.map(id => id / 1)
+    const boxInfo = await gbcbi(boxIds);
+    boxes = boxes.map((box, idx) => {
+        const info = boxInfo.find(box => box.id === boxIds[idx])
+        if (info) {
+            return {
+                ...box,
+                weights: weights[idx],
+                ...boxInfo[idx],
+            }
+        }else {
+            return {
+                ...box,
+                weights: weights[idx]
+            }
+        }
+    });
     return boxes;
 }
 
@@ -66,16 +77,25 @@ export async function getBlindBoxByIds(ids) {
     const abi = await getAbi();
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider);
     let [[boxes, weights], boxInfo] = await Promise.all([ contract.getBoxsByIds(ids), gbcbi(ids)]);
-    boxInfo = boxInfo ?? {}
-    console.log(boxes, weights);
+    boxInfo = boxInfo ?? []
     if (boxes.length === 0) {
         return []
     }
-    boxes = boxes.map((box, idx) => ({
-        ...box,
-        weights: weights[idx],
-        ...boxInfo[idx]
-    }));
+    boxes = boxes.map((box, idx) => {
+        const info = boxInfo.find(box => box.id === ids[idx])
+        if (info) {
+            return {
+                ...box,
+                weights: weights[idx],
+                ...boxInfo[idx],
+            }
+        }else {
+            return {
+                ...box,
+                weights: weights[idx]
+            }
+        }
+    });
     return boxes;
 }
 
