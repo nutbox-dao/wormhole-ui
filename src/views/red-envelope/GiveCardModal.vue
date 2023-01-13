@@ -44,10 +44,10 @@
                          :step="1" step-strictly
                          v-model="giveNum"/>
         <div class="w-full max-w-330px px-15px flex items-center mx-auto mt-1rem">
-          <span class="whitespace-nowrap mr-5px">{{$t('ny.to')}}</span>
+          <span class="whitespace-nowrap mr-5px text-blueDark">{{$t('ny.to')}}</span>
           <div class="w-full flex items-center justify-between bg-colorF2
                       rounded-4px h-34px 2xl:h-1.7rem">
-            <input class="bg-transparent h-full w-full px-15px"
+            <input class="bg-transparent h-full w-full px-15px text-blueDark"
                    v-model="giveTo"
                    v-on:change="checkInfo"
                    :placeholder="'@'+$t('ny.giveTo')">
