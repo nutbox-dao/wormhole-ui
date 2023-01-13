@@ -66,7 +66,7 @@
         <button v-else class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
                      w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
-                :disabled="giveEnable || giveLoading"
+                :disabled="!giveEnable || giveLoading"
                 @click="onGive">
           {{$t('ny.give')}}
           <c-spinner v-show="giveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
@@ -197,6 +197,10 @@ export default {
   watch: {
     giveNum(newValue, oldValue) {
       this.checkInfo()
+    },
+    giveTo() {
+      this.toAddress = '';
+      this.checkInfo()
     }
   },
   computed: {
@@ -242,7 +246,6 @@ export default {
       this.checkInfo()
     },
     checkInfo() {
-      console.log(3);
       const cardBalance = this.blessCardBalance[this.cardIndex+1];
       if (cardBalance < this.giveNum) {
         this.giveEnable = false
@@ -256,8 +259,6 @@ export default {
       return true;
     },
     async onGive() {
-      this.step = 1;
-      return;
       if (!this.checkInfo()) return;
       try{
         this.giveLoading = true
@@ -292,7 +293,7 @@ export default {
       }else if (match) {
         try{
           this.isChecking = true
-          const user = await getUserInfo(this.giveTo);
+          const user = await getUserInfo(this.giveTo.replace('@', ''));
           if (user && user.code === 3) {
             const account = user.account;
             const { ethAddress } = account;
@@ -301,6 +302,7 @@ export default {
             this.showUserNotExist = true;
             notify({message: this.$t('tips.userNotExist'), duration: 3000, type: 'info'})
           }
+          this.checkInfo();
         } catch (e) {
           if (e === 'log out') {
             this.$router.replace('/square')
