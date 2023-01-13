@@ -92,8 +92,8 @@
                   {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
                 </div>
                 <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
-                     class="absolute top-53/100 left-1/2 transform -translate-x-1/2
-                            text-20px font-bold text-shadow-lg opacity-70 text-white">
+                     class="absolute top-54/100 left-1/2 transform -translate-x-1/2
+                            text-14px font-bold text-shadow-lg opacity-70 text-white">
                   Congrats!<br>
                   Power Up!
                 </div>
