@@ -67,40 +67,44 @@
         </div>
     </div>
     <template v-if="step===1">
-      <div class="gradient-text gradient-text-right mx-auto c-text-black text-20px xl:text-1.2rem my-3rem">
-        {{$t('ny.congratulations')}}
+      <div class="relative h-100px min-h-100px flex items-center justify-center mt-1rem">
+        <div class="ny-gradient-text italic mx-auto c-text-black text-36px xl:text-1.8rem">
+          {{$t('ny.congratulations')}}
+        </div>
+        <img class="h-100px absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+             src="~@/assets/red-envelope/modal-title-bg.png" alt="">
       </div>
       <div class="flex flex-col justify-center items-center relative">
         <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
           <div class="mystery-card cursor-pointer w-full h-full flipped">
             <div class="back absolute">
               <div class="relative text-white">
-                <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
-                <img v-if="drawedBoxInfo?.logo" class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+                <img class="w-full cursor-pointer"
+                     :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
+                <img v-if="drawedBoxInfo?.logo"
+                     class="w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                      :src="drawedBoxInfo.logo" alt="">
-                <img v-else class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
+                <img v-else
+                     class="w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                      src="~@/assets/red-envelope/mystery-logo.png" alt="">
-                <div v-if="drawedBoxInfo.prizeType === 1" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2
+                            text-16px text-shadow-lg font-bold opacity-70 text-white">
+                  {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
+                </div>
+                <div v-if="drawedBoxInfo.prizeType === 1"
+                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
                 + 1 {{ drawedBoxInfo.symbol }}
                 </div>
-                <div v-else-if="drawedBoxInfo.prizeType === 2" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                <div v-else-if="drawedBoxInfo.prizeType === 2"
+                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
                   + 1 NFT
                 </div>
-                <div v-else-if="drawedBoxInfo.prizeType === 3" class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">
+                <div v-else-if="drawedBoxInfo.prizeType === 3"
+                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
                   + {{ drawedBoxInfo.amount  }} NFT
-                </div>
-                <div class="absolute bottom-20px left-15px text-shadow-lg font-bold opacity-70">
-                  <div class="flex flex-col items-start">
-                    <div class="flex items-center justify-center gap-4px">
-                      <img v-for="star of drawedBoxInfo.weights" :key="star"
-                           class="text-shadow-lg w-14px"
-                           src="~@/assets/red-envelope/icon-star.svg" alt="">
-                    </div>
-                    <div class="c-text-black text-shadow-lg">{{drawedBoxInfo.weights}} {{$t('ny.power')}}</div>
-                  </div>
-                </div>
-                <div class="absolute bottom-20px right-20px text-16px text-shadow-lg font-bold opacity-70 text-white">
-                  {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
                 </div>
               </div>
             </div>
@@ -109,14 +113,23 @@
         <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
           {{ drawedBoxInfo.brandDesc ?? '' }}
         </div>
-        <button class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
-                     flex items-center justify-center
-                     min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                @click="get">
-          {{$t('ny.get')}}
-        </button>
-        <button class="underline mt-20px font-bold" @click="$emit('gotoBlind')">
-          {{$t('ny.checkCollections')}}
+      </div>
+      <div class="px-15px sm:w-8/10 mx-auto text-center">
+        <div class="flex gap-6px xs:gap-16px">
+          <button class="flex-1 h-44px 2xl:h-2.2rem font-bold text-color62 rounded-full
+                       border-1 border-color62"
+                  @click="$emit('gotoBlind')">
+            {{$t('ny.checkCollections')}}
+          </button>
+          <button class="flex-1 ny-gradient-btn rounded-full font-bold h-44px 2xl:h-2.2rem"
+                  @click="close">
+            {{$t('ny.get')}}
+          </button>
+        </div>
+        <button class="flex justify-center items-center max-w mx-auto h-38px 2xl:h-1.8rem mt-10px
+                     border-b-2px border-colorBlue">
+          <img src="~@/assets/icon-twitter-blue.svg" alt="">
+          <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
         </button>
       </div>
     </template>

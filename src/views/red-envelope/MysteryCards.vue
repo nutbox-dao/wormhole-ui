@@ -38,7 +38,7 @@
           <div class="relative text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white cursor-pointer"
                v-for="(card, index) of showingBox" :key="index"
                @click="selectedCard=card, cardDetailVisible=true">
-            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
+            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
             <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                  src="~@/assets/red-envelope/mystery-logo.png" alt="">
             <div class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">

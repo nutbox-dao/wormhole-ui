@@ -12,7 +12,7 @@
         <div class="mystery-card cursor-pointer w-full h-full flipped">
           <div class="back absolute">
             <div class="relative text-white">
-              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
               <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                    :src="cardDetail.logo" alt="">
               <div class="absolute top-20px right-20px text-20px font-bold text-shadow-lg opacity-70 text-white">

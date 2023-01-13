@@ -13,7 +13,7 @@
         <div class="col-span-1">
           <div class="relative w-1/2 xs:w-full mx-auto cursor-pointer
                       text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white">
-            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
+            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
             <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                  :src="logoPreviewSrc" alt="">
 <!--            <img class="absolute w-20px bottom-15px left-15px"-->
@@ -269,7 +269,7 @@
         <div class="col-span-1">
           <div class="relative w-1/2 xs:w-full mx-auto cursor-pointer
                       text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white">
-            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card-back.png" alt="">
+            <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
             <img class="w-4/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-12px"
                  :src="logoPreviewSrc" alt="">
 <!--            <img class="absolute w-20px bottom-15px left-15px"-->
