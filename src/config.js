@@ -7,8 +7,8 @@ export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
 // export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-export const BACKEND_API_URL = 'http://localhost:3100'
-// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+// export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
@@ -45,10 +45,10 @@ export const SignUpMessage = JSON.stringify({
 // export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
 
 // polygon
-// export const RPC_NODE = 'https://polygon-rpc.com'
-// export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
-// export const CHAIN_NAME = 'Polygon'
-// export const CHAIN_ID = 137
+export const RPC_NODE = 'https://polygon-rpc.com'
+export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
+export const CHAIN_NAME = 'Polygon'
+export const CHAIN_ID = 137
 export const MainToken = {
     name: 'MATIC',
     symbol: 'MATIC',
@@ -58,10 +58,10 @@ export const MainToken = {
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
 
 // bsc test
-export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
-export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-export const CHAIN_NAME = 'BSC Testnet'
-export const CHAIN_ID = 97
+// export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
+// export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
+// export const CHAIN_NAME = 'BSC Testnet'
+// export const CHAIN_ID = 97
 
 // eth
 // export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
