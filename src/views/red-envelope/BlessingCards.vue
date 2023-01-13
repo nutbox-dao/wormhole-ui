@@ -123,7 +123,7 @@ export default {
       ],
       BLESS_CARD_NAME,
       buyCardVisible: false,
-      giveCardVisible: true,
+      giveCardVisible: false,
       giveCardIndex: 0,
       openBoxVisible: false,
       refreshing: false
