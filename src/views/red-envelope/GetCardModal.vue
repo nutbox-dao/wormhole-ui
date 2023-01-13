@@ -47,7 +47,7 @@
       <button class="flex justify-center items-center max-w mx-auto h-38px 2xl:h-1.8rem mt-10px
                      border-b-2px border-colorBlue">
         <img src="~@/assets/icon-twitter-blue.svg" alt="">
-        <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
+        <span class="text-colorBlue font-bold" @click="share">{{$t('ny.shareTweet')}}</span>
       </button>
     </div>
   </div>
@@ -84,10 +84,14 @@ export default {
       this.$router.push('/red-envelope');
       this.close();
     },
+    share() {
+      const name = BLESS_CARD_NAME[this.newCardId];
+      window.open(`https://twitter.com/intent/tweet?text=I get a ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCome join us here: https://alpha.wormhole3.io.`);
+      this.close()
+    },
     onDownload() {
       let canvas = document.createElement('canvas')
       let context = canvas.getContext('2d')
-
       let aLink = document.createElement('a')
       aLink.download = 'card'
       aLink.style.display = 'none'

@@ -17,7 +17,8 @@
         <el-carousel-item v-for="(item, index) in cards" :key="item">
           <div class="text-center">
             <div class="relative w-max mx-auto">
-              <img class="max-w-220px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+              <img v-if="index === 4" class="max-w-220px" src="~@/assets/red-envelope/rare-card.png" alt="">
+              <img v-else class="max-w-220px" src="~@/assets/red-envelope/lucky-card.png" alt="">
               <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
                 <img :src="item.img" alt="">

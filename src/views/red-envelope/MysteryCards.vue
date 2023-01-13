@@ -102,7 +102,7 @@
                           font-bold text-12px lg:text-18px">
                 + {{card.amount}} {{card.tokenName}}
               </div> -->
-              <div v-if="!card.tokenSymbol && card.nftId === 0"
+              <div v-if="!card.brandName || (!card.tokenSymbol && card.nftId === 0)"
                     class="absolute top-53/100 left-1/2 transform -translate-x-1/2
                     font-bold text-12px xl:text-14px">
                 Congrats!<br>
