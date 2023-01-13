@@ -12,7 +12,7 @@
             <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
             <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full" :src="item.img" alt="">
+              <img class="w-full rounded-8px" :src="item.img" alt="">
               <div class="flex flex-col items-center">
                 <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                   <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -33,7 +33,7 @@
             <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
             <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full" :src="cards[0].img" alt="">
+              <img class="w-full rounded-8px" :src="cards[0].img" alt="">
               <div class="flex flex-col items-center">
                 <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                   <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -75,48 +75,42 @@
              src="~@/assets/red-envelope/modal-title-bg.png" alt="">
       </div>
       <div class="flex flex-col justify-center items-center relative">
-        <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
-          <div class="mystery-card cursor-pointer w-full h-full flipped">
-            <div class="back absolute">
-              <div class="relative text-white w-220px" :class="`ny-power-${drawedBoxInfo.weights || 10}`">
-                <img class="w-full cursor-pointer"
-                     :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
-                <img v-if="drawedBoxInfo?.logo"
-                     class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
-                     :src="drawedBoxInfo.logo" alt="">
-                <img v-else
-                     class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
-                     src="~@/assets/red-envelope/mystery-logo.png" alt="">
-                <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+        <div class="relative text-white w-220px" :class="`ny-power-${drawedBoxInfo.weights || 10}`">
+          <img class="w-full cursor-pointer"
+               :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
+          <img v-if="drawedBoxInfo?.logo"
+               class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+               :src="drawedBoxInfo.logo" alt="">
+          <img v-else
+               class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+               src="~@/assets/red-envelope/mystery-logo.png" alt="">
+          <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
                             text-16px font-bold">
-                  {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
-                </div>
-                <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
-                     class="absolute top-54/100 left-1/2 transform -translate-x-1/2
+            {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
+          </div>
+          <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
+               class="absolute top-54/100 left-1/2 transform -translate-x-1/2
                             text-14px font-bold text-shadow-lg opacity-70 text-white">
-                  Congrats!<br>
-                  Power Up!
-                </div>
-                <div v-else-if="drawedBoxInfo.prizeType === 1"
-                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+            Congrats!<br>
+            Power Up!
+          </div>
+          <div v-else-if="drawedBoxInfo.prizeType === 1"
+               class="absolute top-55/100 left-1/2 transform -translate-x-1/2
                             text-20px font-bold text-shadow-lg opacity-70 text-white">
-                + {{ drawedBoxInfo.amount }} {{ drawedBoxInfo.tokenSymbol }}
-                </div>
-                <div v-else-if="drawedBoxInfo.prizeType === 2"
-                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+            + {{ drawedBoxInfo.amount }} {{ drawedBoxInfo.tokenSymbol }}
+          </div>
+          <div v-else-if="drawedBoxInfo.prizeType === 2"
+               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                             text-20px font-bold">
-                  + 1 NFT
-                </div>
-                <div v-else-if="drawedBoxInfo.prizeType === 3"
-                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+            + 1 NFT
+          </div>
+          <div v-else-if="drawedBoxInfo.prizeType === 3"
+               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                             text-20px font-bold">
-                  + {{ drawedBoxInfo.amount  }} NFT
-                </div>
-              </div>
-            </div>
+            + {{ drawedBoxInfo.amount  }} NFT
           </div>
         </div>
-        <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px">
+        <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px text-color4E my-1rem">
           {{ drawedBoxInfo.brandDesc ?? WormholeInfo }}
         </div>
       </div>
@@ -266,6 +260,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.text-color4E {
+  color: #4E5969;
+}
 .card-container {
   -ms-perspective: 800px;
   perspective: 800px;
