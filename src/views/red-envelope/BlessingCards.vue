@@ -16,9 +16,9 @@
             <img src="~@/assets/red-envelope/lucky-card.png" alt="">
             <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img v-if="blessCardBalance[index+1] > 0"
+              <img v-if="blessCardBalance[index+1] > 0" class="w-full rounded-8px"
                    :src="require(`@/assets/red-envelope/card${index}.png`)" alt="">
-              <img v-else class="w-full" src="~@/assets/red-envelope/card-default.png" alt="">
+              <img v-else class="w-full rounded-8px" src="~@/assets/red-envelope/card-default.png" alt="">
               <div class="flex flex-col items-center">
                 <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                   <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -34,19 +34,20 @@
             </div>
           </div>
           <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
-            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn"
+            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
                     :disabled="blessCardBalance[index+1]===0"
                     @click="onGive(index)">{{$t('ny.give')}}</button>
-            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn" @click="ask(index)">{{$t('ny.ask')}}</button>
+            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
+                    @click="ask(index)">{{$t('ny.ask')}}</button>
           </div>
         </div>
         <div class="col-span-1 ">
           <div class="relative text-white">
             <img src="~@/assets/red-envelope/rare-card.png" alt="">
             <div class="w-full px-18px absolute top-36px flex flex-col items-center">
-              <img v-if="blessCardBalance[5] > 0"
+              <img v-if="blessCardBalance[5] > 0" class="w-full rounded-8px"
                    :src="require(`@/assets/red-envelope/card4.png`)" alt="">
-              <img v-else class="w-full" src="~@/assets/red-envelope/card-default.png" alt="">
+              <img v-else class="w-full rounded-8px" src="~@/assets/red-envelope/card-default.png" alt="">
               <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                 <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
                 <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
@@ -60,10 +61,10 @@
             </div>
           </div>
           <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
-            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn"
+            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
                     :disabled="blessCardBalance[5]===0"
                     @click="onGive(4)">{{$t('ny.give')}}</button>
-            <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn"
+            <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn font-bold"
                     @click="buyCardVisible=true">{{$t('ny.buy')}}</button>
           </div>
         </div>

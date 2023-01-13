@@ -89,10 +89,10 @@
                    :src="require(`@/assets/red-envelope/mystery-power-${card.weights || 10}.png`)"
                    alt="">
               <img v-if="card?.logo"
-                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px logo"
                    :src="card.logo" alt="">
               <img v-else
-                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                   class="w-3/10 max-w-3/10 absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-12px logo"
                    src="~@/assets/red-envelope/mystery-logo.png" alt="">
               <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
                           text-14px lg:text-16px font-bold">

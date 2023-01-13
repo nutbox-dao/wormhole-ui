@@ -12,7 +12,7 @@
             <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
             <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full" :src="item.img" alt="">
+              <img class="w-full rounded-8px" :src="item.img" alt="">
               <div class="flex flex-col items-center">
                 <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                   <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -33,7 +33,7 @@
             <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
             <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full" :src="cards[0].img" alt="">
+              <img class="w-full rounded-8px" :src="cards[0].img" alt="">
               <div class="flex flex-col items-center">
                 <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                   <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
