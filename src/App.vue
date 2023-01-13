@@ -26,12 +26,13 @@
                      src="~@/assets/icon-add-white.svg" alt="">
               </button>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/curations`">
-                <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.8rem"
+                <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.4rem"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
-              <router-link to="/red-envelope">
-                <img class="w-22px h-22px xl:h-1.4rem xl:w-1.4rem mr-0.8rem"
-                     src="~@/assets/red-envelope/icon-red-envelope.png" @error="replaceEmptyImg" alt="">
+              <router-link to="/red-envelope" >
+                <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
+                  <div class="ny-btn"></div>
+                </div>
               </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.8rem icon-wallet"></i>
@@ -174,6 +175,8 @@ import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
 import {showError} from "@/utils/notify";
 import GetCardModal from "@/views/red-envelope/GetCardModal";
+import lottie from 'lottie-web'
+import NavbarPage from '@/assets/animation/navbar.json'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login, GetCardModal},
@@ -207,6 +210,15 @@ export default {
     },
   },
   methods: {
+    showNyAnimation() {
+      lottie.loadAnimation({
+        container: document.querySelector('.ny-btn'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: NavbarPage
+      });
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -290,6 +302,7 @@ export default {
     }
   },
   async mounted() {
+    this.showNyAnimation()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
 

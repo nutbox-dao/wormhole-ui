@@ -1,6 +1,6 @@
 <template>
   <div class="relative text-left pb-1.5rem  flex flex-col text-14px 2xl:text-0.8rem overflow-auto ny-modal-bg">
-    <button class="absolute right-20px top-20px"
+    <button class="fixed right-20px top-20px z-99"
             @click="close">
       <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
@@ -11,11 +11,11 @@
       <img class="h-100px absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
            src="~@/assets/red-envelope/modal-title-bg.png" alt="">
     </div>
-    <div class="px-15px sm:w-8/10 mx-auto text-center">
-      <div class="relative w-220px mx-auto ny-card-text get-card">
+    <div class="px-15px sm:w-8/10 mx-auto text-center flex flex-col items-center">
+      <div class="relative w-220px ny-card-text get-card">
         <img src="~@/assets/red-envelope/lucky-card.png" alt="">
         <div class="w-full px-18px absolute top-36px flex flex-col items-center">
-          <img class="w-full"
+          <img class="w-full rounded-8px"
                :src="require(`@/assets/red-envelope/card${newCardId}.png`)" alt="">
           <div class="flex items-center justify-between px-10px mt-20px w-full">
             <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
@@ -26,11 +26,14 @@
             {{ $t('common.balance') }}: {{ balance }}
           </div>
         </div>
+        <button class="absolute bottom-16px right-20px" @click="onDownload">
+          <img class="w-20px h-20px" src="~@/assets/red-envelope/icon-download.svg" alt="">
+        </button>
       </div>
       <div class="my-20px text-left whitespace-pre-line ny-color4E sm:px-1/10">
         {{ BLESS_CARD_DESC[newCardId] }}
       </div>
-      <div class="flex gap-6px xs:gap-16px">
+      <div class="flex gap-6px xs:gap-16px w-full">
         <button class="flex-1 h-44px 2xl:h-2.2rem font-bold text-color62 rounded-full
                        border-1 border-color62"
                 @click="goteCollection">
@@ -46,7 +49,6 @@
         <img src="~@/assets/icon-twitter-blue.svg" alt="">
         <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
       </button>
-
     </div>
   </div>
 </template>
@@ -56,13 +58,13 @@ import { mapState, mapGetters } from 'vuex';
 import { BLESS_CARD_NAME, BLESS_CARD_DESC } from '@/ny-config'
 import { getUserNYCards } from '@/utils/new-year'
 
-
 export default {
   name: "GetCardModal",
   data() {
     return {
       BLESS_CARD_NAME,
-      BLESS_CARD_DESC
+      BLESS_CARD_DESC,
+      downloadImgUrl: 'https://pbs.twimg.com/profile_images/1438449614642835456/r9XnhclV_200x200.jpg'
     }
   },
   computed: {
@@ -75,12 +77,33 @@ export default {
   },
   methods: {
     close() {
+      this.$emit('close')
       this.$store.commit('saveGetCardVisible', false)
     },
     goteCollection() {
       this.$router.push('/red-envelope');
       this.close();
-    }
+    },
+    onDownload() {
+      let canvas = document.createElement('canvas')
+      let context = canvas.getContext('2d')
+
+      let aLink = document.createElement('a')
+      aLink.download = 'card'
+      aLink.style.display = 'none'
+      let img = new Image;
+      img.setAttribute('crossOrigin', 'anonymous')
+      img.src= this.downloadImgUrl
+      img.onload = function(){
+        canvas.width = img.width
+        canvas.height = img.height
+        context.drawImage(img,0,0);
+        aLink.href = canvas.toDataURL('image/jpeg')
+        document.body.appendChild(aLink)
+        aLink.click();
+        document.body.removeChild(aLink)
+      }
+    },
   },
   mounted () {
     if(this.getAccountInfo && this.getAccountInfo.ethAddress) {

@@ -62,6 +62,7 @@ export default defineConfig({
         color15: '#151515',
         colorEF: '#EFE7FF',
         colorDF: '#DFD5FF',
+        colorA0: '#A0A0A0',
         colorBlue: '#1DA1F2',
         blueDark: '#1A1E25'
       },

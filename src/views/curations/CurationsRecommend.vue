@@ -1,7 +1,11 @@
 <template>
   <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-    <div class="mt-2rem">
-      <el-carousel height="14rem" :autoplay="false" indicator-position="outside">
+    <div class="my-2rem">
+      <el-carousel height="14rem" :autoplay="true"
+                   ref="bannerRef"
+                   indicator-position="none"
+                   :initial-index="bannerIndex"
+                   @change="bannerChange">
         <el-carousel-item>
           <div @click="gotoUrl(wh3Info)"
                class="cursor-pointer gradient-bg-color3 rounded-8px overflow-hidden
@@ -23,6 +27,16 @@
           </div>
         </el-carousel-item>
       </el-carousel>
+      <div class="flex justify-center items-center gap-8px mt-1rem">
+        <button @click="$refs.bannerRef.setActiveItem(0)">
+          <img v-if="bannerIndex===0" class="w-20px h-20px" src="~@/assets/logo.png" alt="">
+          <img v-else class="w-20px h-20px" src="~@/assets/icon-logo-grey.svg" alt="">
+        </button>
+        <button v-for="(banner, index) of banners" :key="index"
+                @click="$refs.bannerRef.setActiveItem(index+1)"
+                class="w-20px h-12px rounded-4px block"
+                :class="index+1===bannerIndex?'bg-color62':'border-1 border-colorA0'"></button>
+      </div>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
          v-if="loading && (!curations || curations.length === 0)">
@@ -74,6 +88,7 @@ export default {
     return {
       curations:[],
       banners: [],
+      bannerIndex: 0,
       wh3Info: {
         poster: '',
         url: 'https://alpha.wormhole3.io'
@@ -89,6 +104,9 @@ export default {
 
   },
   methods: {
+    bannerChange(value) {
+      this.bannerIndex = value
+    },
     gotoDetail(curation) {
       this.$store.commit('curation/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
