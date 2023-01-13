@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="relative">
-      <div class="px-15px pt-10px bg-blockBg light:bg-white mb-20px rounded-15px shadow-card"
+      <div class="px-15px py-10px bg-blockBg light:bg-white mb-10px rounded-15px shadow-card"
            :class="showBtnGroup?'pb-15px':''">
         <div v-if="contentType==='tweet'">
           <BlogRecommend :post="curation"
