@@ -1,27 +1,56 @@
 <template>
-  <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max">
+  <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max overflow-auto ny-modal-bg">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
-      <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+      <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
-    <div v-if="step===0" class="mt-4rem text-center px-15px sm:px-1/10">
-      <div class="grid grid-cols-2 gap-1rem relative">
-        <div class="relative w-4/5 sm:2/3 mx-auto text-white" v-for="(item, index) of cards.slice(1)" :key="index">
-          <img class="w-full" :src="item.img" alt="">
-          <div class="absolute top-15px left-10px font-bold text-shadow-lg opacity-70">{{BLESS_CARD_NAME[index]}}</div>
-          <div class="absolute bottom-20px right-15px text-shadow-lg font-bold opacity-70 text-white">
-            {{$t('common.balance')}}: {{blessCardBalance[index + 1]}}
+    <div v-if="step===0" class="mt-4rem text-center px-15px sm:px-1/10 overflow-hidden">
+      <div class="flex justify-center relative py-20px px-50px">
+        <div :class="index>0?'-ml-120px sm:-ml-170px':''" class="card-item"
+             v-for="(item, index) of cards.slice(1)" :key="index">
+          <div class="relative text-white transform">
+            <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+            <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+                        flex flex-col justify-between items-center">
+              <img class="w-full" :src="item.img" alt="">
+              <div class="flex flex-col items-center">
+                <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                  <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                  {{BLESS_CARD_NAME[index]}}
+                </span>
+                  <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                </div>
+                <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                  {{$t('common.balance')}}: {{blessCardBalance[index + 1]}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/5 sm:1/3 mx-auto text-white">
-          <img class="w-full" :src="cards[0].img" alt="">
-          <div class="absolute top-15px left-10px font-bold text-shadow-lg opacity-70">{{BLESS_CARD_NAME[4]}}</div>
-          <div class="absolute bottom-20px right-15px text-shadow-lg font-bold opacity-70 text-white">
-            {{$t('common.balance')}}: {{blessCardBalance[5]}}
+        <div class="-ml-120px sm:-ml-170px card-item">
+          <div class="relative text-white">
+            <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+            <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+                        flex flex-col justify-between items-center">
+              <img class="w-full" :src="cards[0].img" alt="">
+              <div class="flex flex-col items-center">
+                <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                  <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                  {{BLESS_CARD_NAME[4]}}
+                </span>
+                  <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                </div>
+                <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                  {{$t('common.balance')}}: {{blessCardBalance[5]}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="mt-2rem">{{$t('ny.chanceTip', {count: enableChange})}}</div>
+      <div class="mt-2rem text-blueDark">{{$t('ny.chanceTip', {count: enableChange})}}</div>
       <!-- <button @click="approve">approve</button> -->
       <ConnectMainchainBTNVue class="mx-auto my-1rem" v-if="chainId !== CHAIN_ID"/>
         <button v-else
@@ -33,7 +62,7 @@
           {{$t('ny.drawCard')}}
           <c-spinner v-show="isDrawing" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
-        <div v-if="accountMismatch">
+        <div v-if="accountMismatch" class="text-blueDark">
           {{ $t('ny.accountMismatch') }}
         </div>
     </div>
@@ -231,5 +260,19 @@ export default {
 .mystery-card.flipped {
   transform: rotateY(-180deg);
 }
-
+.card-item:nth-child(1) {
+  transform: rotate(-26deg)
+}
+.card-item:nth-child(2) {
+  transform: rotate(-13deg)
+}
+.card-item:nth-child(3) {
+  //transform: rotate(0deg)
+}
+.card-item:nth-child(4) {
+  transform: rotate(13deg)
+}
+.card-item:nth-child(5) {
+  transform: rotate(26deg)
+}
 </style>

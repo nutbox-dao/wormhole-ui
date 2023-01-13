@@ -19,11 +19,12 @@
             </div>
             <template v-else>
               <button class="flex items-center justify-center bg-color62 hidden sm:flex
-                       h-34px px-15px rounded-full mr-0.8rem
-                       font-bold text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem"
+                       h-30px px-15px rounded-full mr-0.8rem
+                       font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
                       @click="createCuration">
                 <span class="whitespace-nowrap text-white">Create curation</span>
-                <img class="ml-5px w-14px min-w-14px h-14px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+                <img class="ml-5px w-14px min-w-14px h-14px"
+                     src="~@/assets/icon-add-white.svg" alt="">
               </button>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/curations`">
                 <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.8rem"

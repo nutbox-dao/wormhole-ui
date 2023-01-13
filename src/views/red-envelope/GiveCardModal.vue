@@ -83,7 +83,7 @@
           <img class="max-w-220px" src="~@/assets/red-envelope/lucky-card.png" alt="">
           <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-            <img class="h-240px" :src="cards[cardIndex].img" alt="">
+            <img class="" :src="cards[cardIndex].img" alt="">
             <div class="flex flex-col items-center">
               <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
                 <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
