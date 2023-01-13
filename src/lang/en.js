@@ -364,7 +364,8 @@ export default {
     p1: 'Happy Lunar New Year to You！👋',
     p2: 'Here’s what’s happening with your collections today.',
     price: 'Price',
-    compoundBox: 'Compound blind box'
+    compoundBox: 'Compound blind box',
+    expectedGet: 'Expected to get'
   },
   err: {
     serverErr: 'Server error',

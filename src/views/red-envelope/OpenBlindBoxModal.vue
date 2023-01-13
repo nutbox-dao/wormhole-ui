@@ -78,14 +78,14 @@
         <div class="card-container w-28vh h-45vh min-w-200px min-h-300px max-h-380px relative">
           <div class="mystery-card cursor-pointer w-full h-full flipped">
             <div class="back absolute">
-              <div class="relative text-white">
+              <div class="relative text-white w-220px">
                 <img class="w-full cursor-pointer"
                      :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
                 <img v-if="drawedBoxInfo?.logo"
-                     class="w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                     class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                      :src="drawedBoxInfo.logo" alt="">
                 <img v-else
-                     class="w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                     class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                      src="~@/assets/red-envelope/mystery-logo.png" alt="">
                 <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2
                             text-16px text-shadow-lg font-bold opacity-70 text-white">
