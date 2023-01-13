@@ -28,7 +28,7 @@
         </el-carousel-item>
       </el-carousel>
       <div class="flex justify-center items-center gap-8px mt-1rem">
-        <button @click="$refs.bannerRef.setActiveItem(0)">
+        <button v-if="wh3Info" @click="$refs.bannerRef.setActiveItem(0)">
           <img v-if="bannerIndex===0" class="w-20px h-20px" src="~@/assets/logo.png" alt="">
           <img v-else class="w-20px h-20px" src="~@/assets/icon-logo-grey.svg" alt="">
         </button>

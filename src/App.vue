@@ -188,7 +188,8 @@ export default {
         'zh': zhCn
       },
       isDark: false,
-      closeLoginTipVisible: false
+      closeLoginTipVisible: false,
+      nyAnimation: null
     }
   },
   computed: {
@@ -209,10 +210,25 @@ export default {
       }
     },
   },
+  watch: {
+    'getAccountInfo.twitterUsername'(val) {
+      if(!val) {
+        this.nyAnimation.destroy()
+        this.nyAnimation = null
+      } else {
+        setTimeout(() => {
+          this.showNyAnimation()
+        }, 500)
+      }
+    }
+  },
   methods: {
     showNyAnimation() {
-      lottie.loadAnimation({
-        container: document.querySelector('.ny-btn'),
+      const el = document.querySelector('.ny-btn')
+      if(el===null || this.nyAnimation!==null) return
+      console.log('create animation')
+      this.nyAnimation = lottie.loadAnimation({
+        container: el,
         renderer: 'svg',
         loop: true,
         autoplay: true,
@@ -357,6 +373,10 @@ export default {
       await sleep(15)
     }
   },
+  unmounted() {
+    this.nyAnimation.destroy()
+    this.nyAnimation = null
+  }
 }
 </script>
 
