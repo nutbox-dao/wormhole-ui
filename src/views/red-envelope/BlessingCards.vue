@@ -37,7 +37,7 @@
             <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn"
                     :disabled="blessCardBalance[index+1]===0"
                     @click="onGive(index)">{{$t('ny.give')}}</button>
-            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn">{{$t('ny.ask')}}</button>
+            <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn" @click="ask(index)">{{$t('ny.ask')}}</button>
           </div>
         </div>
         <div class="col-span-1 ">
@@ -139,6 +139,13 @@ export default {
       this.giveCardVisible = true
     },
     onRefresh() {
+      getUserNYCards(this.getAccountInfo.ethAddress).catch(e => {
+        console.log('get lucky card balance fail:', e);
+      })
+    },
+    ask(index) {
+      const name = BLESS_CARD_NAME[index];
+      window.open(`https://twitter.com/intent/tweet?text=@ %0aI need some ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCould you send me some?`);
     }
   },
   mounted () {

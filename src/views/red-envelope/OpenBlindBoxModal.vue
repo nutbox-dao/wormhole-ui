@@ -95,6 +95,16 @@
                      class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                             text-20px font-bold">
                 + 1 {{ drawedBoxInfo.symbol }}
+                <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
+                     class="absolute top-53/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
+                  Congrats!<br>
+                  Power Up!
+                </div>
+                <div v-else-if="drawedBoxInfo.prizeType === 1"
+                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
+                + {{ drawedBoxInfo.amount }} {{ drawedBoxInfo.tokenSymbol }}
                 </div>
                 <div v-else-if="drawedBoxInfo.prizeType === 2"
                      class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
@@ -127,7 +137,8 @@
           </button>
         </div>
         <button class="flex justify-center items-center max-w mx-auto h-38px 2xl:h-1.8rem mt-10px
-                     border-b-2px border-colorBlue">
+                     border-b-2px border-colorBlue"
+                     @click="onShare">
           <img src="~@/assets/icon-twitter-blue.svg" alt="">
           <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
         </button>
@@ -239,6 +250,10 @@ export default {
       }else {
         this.$emit('close')
       }
+    },
+    onShare() {
+      window.open(`https://twitter.com/intent/tweet?text=I opened a ${this.drawedBoxInfo.weights}X mystery card in the @wormhole_3 Lunar New Year campaign, Come join us here: https://alpha.wormhole3.io.`)
+      this.get();
     }
   },
   mounted () {

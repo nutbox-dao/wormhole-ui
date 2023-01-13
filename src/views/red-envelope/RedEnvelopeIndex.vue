@@ -41,13 +41,15 @@
             <b>Participation</b> - Participate in the project's tasks during the event <br>
             <b>Trading/Giving</b> - All cards can be traded and gifted <br>
             <b>Recommendation</b> - Refer 1 new user with more than 30 reputations (Rare only)<br>
-            <b>Mint</b> - Per price at 0.2 $usdt (Rare only)
+            <b>Mint</b> - Per price at 0.2 $USDT (Rare only)
       </div>
       <div v-if="tabIndex===1"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
            Mystery box cards have 5 levels, each level represents weight 1, 2, 3, 5, 10. The ultimate reward is determined by the sum of the mystery box card levels held.<br>
             How to obtain the mystery box card? <br>
-            <b>Combination</b> - A mystery box card combined with 4 normal luck cards and 1 rare luck card
+            <b>Combination</b> - A mystery box card combined with 4 normal luck cards and 1 rare luck card <br>
+            How to promote me or my project through mystery box cards? <br>
+            <b>Mint</b> - You can promote your project by inserting prizes and project information into the mystery box card, which costs 1 $USDT per card mint.
       </div>
       <div class="card-box mt-1rem mb-2rem">
         <div class="flex justify-start gap-x-10px pt-10px px-1/10
