@@ -51,13 +51,13 @@ export async function getUserBlindBox(ethAddress, start, end) {
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)
 
     let [boxIds, boxes, weights] = await contract.getUserOpendBox(ethAddress, start, end);
+    if (boxIds.length === 0) return [];
     const boxInfo = await gbcbi(boxIds.map(id => id / 1));
     boxes = boxes.map((box, idx) => ({
         ...box,
         weights: weights[idx],
         ...boxInfo[idx],
     }));
-    console.log(453, boxes);
     return boxes;
 }
 
@@ -68,6 +68,9 @@ export async function getBlindBoxByIds(ids) {
     let [[boxes, weights], boxInfo] = await Promise.all([ contract.getBoxsByIds(ids), gbcbi(ids)]);
     boxInfo = boxInfo ?? {}
     console.log(boxes, weights);
+    if (boxes.length === 0) {
+        return []
+    }
     boxes = boxes.map((box, idx) => ({
         ...box,
         weights: weights[idx],

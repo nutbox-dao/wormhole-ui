@@ -165,7 +165,7 @@ export default {
       refreshing: false,
       listLoading: false,
       listFinished: false,
-      list: []
+      list: [],
     }
   },
   mounted() {
@@ -176,7 +176,6 @@ export default {
     }
     getUserActivityInfo(account).catch();
     getUserBlindBox(account, 0, 48).then(res => {
-      console.log(3, res);
       if (res && res.length > 0) {
         this.$store.commit('newYear/saveBlindBoxBalance', res)
       }
@@ -189,13 +188,36 @@ export default {
       getUserBlindBox(this.getAccountInfo.ethAddress, 0, 48).then(res => {
         if (res && res.length > 0) {
           this.$store.commit('newYear/saveBlindBoxBalance', res)
+          if (res.length < 48) {
+            this.listFinished = true;
+          }
         }
         this.loading = false;
         this.refreshing = false;
-      }).catch()
+      }).catch().finally(() => {
+        this.loading = false;
+        this.refreshing = false;
+      })
     },
-    onLoad() {
+    async onLoad() {
       if(this.listLoading) return
+      try{
+        this.listLoading = true;
+        const count = this.blindBoxBalance?.length ?? 0;
+        const res = await getUserBlindBox(this.getAccountInfo?.ethAddress, count, count + 48);
+        if (res && res.length > 0) {
+          this.$store.commit('newYear/saveBlindBoxBalance', res)
+          if (res.length < 48) {
+            this.listFinished = true;
+          }
+        }else{
+          this.listFinished = true;
+        }
+      } catch (e) {
+        
+      } finally {
+        this.listLoading = false;
+      }
     }
   }
 }
