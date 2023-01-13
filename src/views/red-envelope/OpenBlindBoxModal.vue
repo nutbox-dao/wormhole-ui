@@ -91,10 +91,6 @@
                             text-16px font-bold">
                   {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
                 </div>
-                <div v-if="drawedBoxInfo.prizeType === 1"
-                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-                            text-20px font-bold">
-                + 1 {{ drawedBoxInfo.symbol }}
                 <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
                      class="absolute top-53/100 left-1/2 transform -translate-x-1/2
                             text-20px font-bold text-shadow-lg opacity-70 text-white">
