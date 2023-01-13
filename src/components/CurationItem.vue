@@ -272,10 +272,6 @@ export default {
       this.isRepling = false
     },
     async like() {
-
-      this.$store.commit('saveNewCardId', 2)
-          this.$store.commit('saveGetCardVisible', true)
-          return;
       if (!this.checkLogin() || this.liked || this.isLiking) return
       try{
         this.isLiking = true

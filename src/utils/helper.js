@@ -292,8 +292,6 @@ const QN_UPLOAD_URL = "https://api-walnut.nutbox.app/qiNiu/upload";
  */
 export const uploadImage = async (img) => {
   return new Promise((resolve, reject) => {
-    resolve('https://cdn.wherein.mobi/nutbox/v2/1636516942582');
-    return;
     let param = new FormData();
     param.append("file", img);
     if (img.size > 2048000) {
