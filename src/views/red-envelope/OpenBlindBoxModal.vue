@@ -122,7 +122,7 @@
             {{$t('ny.checkCollections')}}
           </button>
           <button class="flex-1 ny-gradient-btn rounded-full font-bold h-44px 2xl:h-2.2rem"
-                  @click="close">
+                  @click="get">
             {{$t('ny.get')}}
           </button>
         </div>
