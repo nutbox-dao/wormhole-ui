@@ -23,9 +23,26 @@
                           text-14px lg:text-16px font-bold">
           {{cardDetail.brandName || 'Wormhole3'}}
         </div>
-        <div class="absolute top-54/100 left-1/2 transform -translate-x-1/2 amount
-                          font-bold text-14px lg:text-18px">
-          + {{cardDetail.amount}} {{cardDetail.tokenName}}
+        <div v-if="!cardDetail.tokenSymbol && cardDetail.nftId === 0"
+              class="absolute top-54/100 left-1/2 transform -translate-x-1/2
+              font-bold text-12px lg:text-18px">
+          Congrats!<br>
+          Power Up!
+        </div>
+        <div v-else-if="cardDetail.prizeType === 1"
+              class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+              font-bold text-12px lg:text-18px">
+        + {{ cardDetail.amount }} {{ cardDetail.tokenSymbol }}
+        </div>
+        <div v-else-if="cardDetail.prizeType === 2"
+              class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+              font-bold text-12px lg:text-18px">
+          + 1 NFT
+        </div>
+        <div v-else-if="cardDetail.prizeType === 3"
+              class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+              font-bold text-12px lg:text-18px">
+          + {{ cardDetail.amount  }} NFT
         </div>
       </div>
       <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem">
@@ -60,8 +77,7 @@ export default {
   },
   methods: {
     onShare() {
-      this.tweetContent = this.formatElToTextContent(this.$refs.contentRef)
-      window.open('https://twitter.com/intent/tweet?text=' + this.tweetContent + '%0a%23iweb3 %23Spring_Festival')
+      window.open(`https://twitter.com/intent/tweet?text=I opened a ${this.cardDetail.weights}X mystery card in the @wormhole_3 Lunar New Year campaign, Come join us here: https://alpha.wormhole3.io.`)
       this.$emit('close')
     },
   }

@@ -14,7 +14,7 @@
               <div class="text-colorDF light:text-blueDark font-bold">
                 {{$t('ny.expectedGet')}}
               </div>
-              <div class="c-text-black text-18px sm:text-1.2rem">$30.12</div>
+              <div class="c-text-black text-18px sm:text-1.2rem">${{ rewards }}</div>
             </div>
           </div>
           <div v-else class="ny-box-shadow bg-color36 rounded-6px flex items-center">
@@ -22,7 +22,7 @@
               {{$t('ny.claimReward')}}
             </button>
             <span class="px-16px c-text-black text-18px sm:text-1.2rem flex items-center text-white">
-              $30
+              ${{ rewards }}
             </span>
           </div>
           <div class="h-45px w-1px bg-color62 mx-20px"></div>
@@ -73,7 +73,7 @@
                   :finished-text="showingBox.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1rem py-1rem">
-            <div v-if="showingBox.length===0 && !refreshing"
+            <div v-if="showingBox.length===0 && !refreshing && !loading"
                  class="py-2rem bg-blockBg light:bg-white rounded-12px col-span-2 xs:col-span-4">
               <div class="flex flex-col items-center max-w-600px mx-auto">
                 <img class="max-w-200px w-10rem" src="~@/assets/red-envelope/no-card.png" alt="">
@@ -98,9 +98,30 @@
                           text-14px lg:text-16px font-bold">
                 {{card.brandName || 'Wormhole3'}}
               </div>
-              <div class="absolute top-55/100 sm:top-54/100 left-1/2 transform -translate-x-1/2 amount
+              <!-- <div class="absolute top-55/100 sm:top-54/100 left-1/2 transform -translate-x-1/2 amount
                           font-bold text-12px lg:text-18px">
                 + {{card.amount}} {{card.tokenName}}
+              </div> -->
+              <div v-if="!card.tokenSymbol && card.nftId === 0"
+                    class="absolute top-54/100 left-1/2 transform -translate-x-1/2
+                    font-bold text-12px lg:text-18px">
+                Congrats!<br>
+                Power Up!
+              </div>
+              <div v-else-if="card.prizeType === 1"
+                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                    font-bold text-12px lg:text-18px">
+              + {{ card.amount }} {{ card.tokenSymbol }}
+              </div>
+              <div v-else-if="card.prizeType === 2"
+                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                    font-bold text-12px lg:text-18px">
+                + 1 NFT
+              </div>
+              <div v-else-if="card.prizeType === 3"
+                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                    font-bold text-12px lg:text-18px">
+                + {{ card.amount  }} NFT
               </div>
             </div>
           </div>
@@ -139,6 +160,7 @@ import RedeemCardModal from "@/views/red-envelope/RedeemCardModal";
 import CardLogo from '@/assets/red-envelope/mystery-logo.png'
 import { getUserActivityInfo, getUserBlindBox } from '@/utils/new-year'
 import { mapGetters, mapState } from "vuex";
+import { formatAmount } from "@/utils/helper";
 
 
 export default {
@@ -156,6 +178,12 @@ export default {
         return this.blindBoxBalance.sort((b,a) => a.weights - b.weights)
       }
       return [];
+    },
+    rewards() {
+      if (this.userActivityInfo) {
+        return formatAmount(this.userActivityInfo.userWeights / (this.userActivityInfo.totalWeights ?? 1) * this.userActivityInfo.prizeTotalAmount) 
+      }
+      return 0
     }
   },
   data() {
