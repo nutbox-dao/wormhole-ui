@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
     <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
       <div class="flex py-20px">
-        <button v-for="(tag, index) of subTagList" :key="index" v-show="index!==1"
+        <button v-for="(tag, index) of subTagList" :key="index"
                 class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
                 :class="subActiveTagIndex===index?'light:text-color18':'text-color59/50'"
                 @click="changeSubIndex(index)">{{tag}}</button>
@@ -84,7 +84,7 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations } from '@/api/api'
+import { getCurations, getCurationsByTrend } from '@/api/api'
 import { showError } from '@/utils/notify'
 
 export default {
@@ -95,9 +95,8 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: false,
-      subTagList: ['Ongoing', 'Ended', 'Completed'],
+      subTagList: ['Trending', 'New'],
       subActiveTagIndex: 0,
-      subActiveTag: 'Ongoing',
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0
@@ -106,12 +105,12 @@ export default {
   computed: {
     ...mapGetters('curation', ['getDraft']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['ongoingList', 'endList', 'closeList']),
+    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList']),
     curationsList() {
       if (this.subActiveTagIndex === 0) {
-        return this.ongoingList
+        return this.trendingList
       }else if(this.subActiveTagIndex === 1) {
-        return this.endList
+        return this.ongoingList
       }else if(this.subActiveTagIndex === 2) {
         return this.closeList
       }
@@ -134,38 +133,43 @@ export default {
       if(this.refreshing || this.listLoading) return
       try{
         let curations;
-        let time;
+        let cursor;
         const sel = this.subActiveTagIndex
         if (this.subActiveTagIndex === 0) {
-          curations = this.ongoingList
-          time = curations[curations.length - 1].createdTime
+          curations = this.trendingList
+          cursor = curations[curations.length - 1].score
         }else if(this.subActiveTagIndex === 1) {
-          curations = this.endList
-          time = curations[curations.length - 1].endtime
+          curations = this.ongoingList
+          cursor = curations[curations.length - 1].createdTime
         }else if(this.subActiveTagIndex === 2) {
-          curations = this.closeList
-          time = curations[curations.length - 1].endtime
+          curations = this.trendingList
+          cursor = curations[curations.length - 1].score
         }
         if (!curations || curations.length === 0) {
           this.listFinished = true
           return;
         }
 
-        const moreCurations = await getCurations(sel, time, this.getAccountInfo?.twitterId)
+        let moreCurations = [];
+         
+       
+        let mutationStr = ''
+        if (sel === 0) {
+          mutationStr = 'saveTrendingList'
+          moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
+        }else if(sel === 1) {
+          mutationStr = 'saveOngoingList'
+          moreCurations = await getCurations(0, cursor, this.getAccountInfo?.twitterId)
+        }else if(sel === 2) {
+          mutationStr = 'saveTrendingList'
+          moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
+        }
         if (moreCurations.length < 12) {
           this.listFinished = true
         }else {
           this.listFinished = false
         }
         curations = curations.concat(moreCurations);
-        let mutationStr = ''
-        if (sel === 0) {
-          mutationStr = 'saveOngoingList'
-        }else if(sel === 1) {
-          mutationStr = 'saveEndList'
-        }else if(sel === 2) {
-          mutationStr = 'saveCloseList'
-        }
         this.$store.commit('curation/'+mutationStr, curations)
       } catch(e) {
         console.log('Get more curations fail:', e);
@@ -178,15 +182,16 @@ export default {
       this.refreshing = true
       try{
         let sel = this.subActiveTagIndex;
-        let curations = await getCurations(sel, null, this.getAccountInfo?.twitterId)
-        curations = curations;
+        let curations = []
         let mutationStr = ''
         if (sel === 0) {
-          mutationStr = 'saveOngoingList'
+          curations = await getCurationsByTrend(0, null, this.getAccountInfo?.twitterId)
+          mutationStr = 'saveTrendingList'
         }else if(sel === 1) {
-          mutationStr = 'saveEndList'
+          curations = await getCurations(0, null, this.getAccountInfo?.twitterId)
+          mutationStr = 'saveOngoingList'
         }else if(sel === 2) {
-          mutationStr = 'saveCloseList'
+          mutationStr = 'saveTrendingList'
         }
         this.$store.commit('curation/'+mutationStr, curations ?? [])
         if (!curations || curations.length < 12) {
