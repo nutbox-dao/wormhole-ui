@@ -201,25 +201,38 @@
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
             <div class="flex flex-wrap items-center">
-              <button v-for="sTag of selectedTagList" :key="sTag"
+              <button v-for="(sTag, index) of selectedTagList" :key="sTag"
                       class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
-                             mx-4px my-3px bg-tag-gradient">
-                {{sTag}}
+                             mx-4px my-3px bg-tag-gradient relative">
+                #{{sTag}}
+                <img class="w-16px h-16px absolute -top-4px -right-4px bg-white rounded-full cursor-pointer"
+                     @click.stop="deleteTag(index)"
+                     src="~@/assets/icon-close-primary.svg" alt="">
               </button>
-              <div class="min-w-4rem h-24px ml-8px">
-                <input class="w-full h-full min-w-0 bg-transparent px-4px"
-                       type="text" placeholder="#">
+              <div class="min-w-4rem h-24px ml-8px flex items-center">
+                <span>#</span>
+                <input class="w-full h-full min-w-0 bg-transparent pr-4px"
+                       v-model="inputTagValue"
+                       type="text">
               </div>
             </div>
             <div class="w-full h-1px bg-color8B/30 light:border-colorF4 my-12px"></div>
+            <div v-if="inputTagValue.trim()">
+              <button class="rounded-full h-24px px-12px min-w-4rem border-1 border-dashed border-color62
+                             whitespace-nowrap mx-4px my-3px"
+                      @click="selectInputTag">
+                {{inputTagValue}}
+              </button>
+            </div>
             <div>
               <button v-for="dTag of defaultTagList" :key="dTag"
-                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px"
+                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
                       :class="selectedTagList.indexOf(dTag)>=0?
-                      'bg-tag-gradient':
-                      'border-1 border-color8B/30 light:border-colorF4'"
+                      'bg-tag-gradient text-white':
+                      'border-1 border-color8B/30 light:border-colorF4 text-color8B light:text-color7D'"
+                      :disabled="selectedTagList.length===5"
                       @click="onSelectTag(dTag)">
-                {{dTag}}
+                #{{dTag}}
               </button>
             </div>
           </div>
@@ -565,7 +578,8 @@ export default {
       selectCategory: '',
       createdTipVisible: false,
       defaultTagList: ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'],
-      selectedTagList: []
+      selectedTagList: [],
+      inputTagValue: ''
     }
   },
   computed: {
@@ -589,8 +603,18 @@ export default {
   },
   methods: {
     onSelectTag(tag) {
+      if(this.selectedTagList.length===5) return
       if(this.selectedTagList.indexOf(tag)>=0) return
       this.selectedTagList.push(tag)
+    },
+    selectInputTag() {
+      if(this.selectedTagList.length===5) return
+      this.defaultTagList.unshift(this.inputTagValue)
+      this.selectedTagList.push(this.inputTagValue)
+      this.inputTagValue = ''
+    },
+    deleteTag(index) {
+      this.selectedTagList.splice(index, 1)
     },
     formatEmojiText,
     formatAmount,
