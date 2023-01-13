@@ -42,7 +42,7 @@
         </div>
         <div class="col-span-1 ">
           <div class="relative text-white">
-            <img src="~@/assets/red-envelope/lucky-card.png" alt="">
+            <img src="~@/assets/red-envelope/rare-card.png" alt="">
             <div class="w-full px-18px absolute top-36px flex flex-col items-center">
               <img v-if="blessCardBalance[5] > 0"
                    :src="require(`@/assets/red-envelope/card4.png`)" alt="">
@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <div class="absolute right-20px bottom-3rem flex flex-col items-center">
+      <div class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center">
         <img class="w-8rem max-w-120px" src="~@/assets/red-envelope/icon-box.png" alt="">
         <button class="buy-btn rounded-full font-bold px-12px h-34px text-12px"
                 @click="openBoxVisible=true">

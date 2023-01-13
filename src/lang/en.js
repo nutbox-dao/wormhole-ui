@@ -278,7 +278,8 @@ export default {
     tweetSpaceAuthorDismatch: "The initiator of Twitter space and Tweet has to be the same person ",
     endedAt: 'Ended At',
     expire: 'Expiration',
-    recommendedCurations: 'Recommended curations'
+    recommendedCurations: 'Recommended curations',
+    tag: 'Tag'
   },
   popup: {
     create: 'Create a Pop-up reply action',

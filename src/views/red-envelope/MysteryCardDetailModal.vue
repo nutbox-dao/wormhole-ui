@@ -24,24 +24,24 @@
           {{cardDetail.brandName || 'Wormhole3'}}
         </div>
         <div v-if="!cardDetail.tokenSymbol && cardDetail.nftId === 0"
-              class="absolute top-54/100 left-1/2 transform -translate-x-1/2
-              font-bold text-12px lg:text-18px">
+              class="absolute top-53/100 left-1/2 transform -translate-x-1/2
+              font-bold text-12px xl:text-14px">
           Congrats!<br>
           Power Up!
         </div>
         <div v-else-if="cardDetail.prizeType === 1"
               class="absolute top-55/100 left-1/2 transform -translate-x-1/2
-              font-bold text-12px lg:text-18px">
+              font-bold text-12px xl:text-14px">
         + {{ cardDetail.amount }} {{ cardDetail.tokenSymbol }}
         </div>
         <div v-else-if="cardDetail.prizeType === 2"
               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-              font-bold text-12px lg:text-18px">
+              font-bold text-12px xl:text-14px">
           + 1 NFT
         </div>
         <div v-else-if="cardDetail.prizeType === 3"
               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-              font-bold text-12px lg:text-18px">
+              font-bold text-12px xl:text-14px">
           + {{ cardDetail.amount  }} NFT
         </div>
       </div>

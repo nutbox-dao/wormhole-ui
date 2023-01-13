@@ -1,7 +1,7 @@
 <template>
   <div class="pb-2rem relative px-15px text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem">
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="loading">
+         v-if="listLoading && showingBox.length===0">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <template v-else>
@@ -70,7 +70,7 @@
                   :finished="listFinished"
                   :immediate-check="false"
                   :loading-text="$t('common.loading')"
-                  :finished-text="showingBox.length!==0?$t('common.noMore'):''"
+                  :finished-text="''"
                   @load="onLoad">
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1rem py-1rem">
             <div v-if="showingBox.length===0 && !refreshing && !loading"
@@ -103,24 +103,24 @@
                 + {{card.amount}} {{card.tokenName}}
               </div> -->
               <div v-if="!card.tokenSymbol && card.nftId === 0"
-                    class="absolute top-54/100 left-1/2 transform -translate-x-1/2
-                    font-bold text-12px lg:text-18px">
+                    class="absolute top-53/100 left-1/2 transform -translate-x-1/2
+                    font-bold text-12px xl:text-14px">
                 Congrats!<br>
                 Power Up!
               </div>
               <div v-else-if="card.prizeType === 1"
                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2
-                    font-bold text-12px lg:text-18px">
+                    font-bold text-12px xl:text-14px">
               + {{ card.amount }} {{ card.tokenSymbol }}
               </div>
               <div v-else-if="card.prizeType === 2"
                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-                    font-bold text-12px lg:text-18px">
+                    font-bold text-12px xl:text-14px">
                 + 1 NFT
               </div>
               <div v-else-if="card.prizeType === 3"
                     class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-                    font-bold text-12px lg:text-18px">
+                    font-bold text-12px xl:text-14px">
                 + {{ card.amount  }} NFT
               </div>
             </div>
@@ -181,7 +181,7 @@ export default {
     },
     rewards() {
       if (this.userActivityInfo) {
-        return formatAmount(this.userActivityInfo.userWeights / (this.userActivityInfo.totalWeights ?? 1) * this.userActivityInfo.prizeTotalAmount) 
+        return formatAmount(this.userActivityInfo.userWeights / (this.userActivityInfo.totalWeights ?? 1) * this.userActivityInfo.prizeTotalAmount)
       }
       return 0
     }
@@ -245,7 +245,7 @@ export default {
           this.listFinished = true;
         }
       } catch (e) {
-        
+
       } finally {
         this.listLoading = false;
       }

@@ -192,6 +192,38 @@
                       :placeholder="$t('curation.createDescTip')"/>
           </div>
         </div>
+        <!-- tag -->
+        <div class="mt-1.8rem">
+          <div class="flex justify-between items-center">
+            <div class="mb-6px font-bold">{{$t('curation.tag')}}</div>
+          </div>
+          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+                      light:bg-white light:border-colorE3 hover:border-primaryColor
+                      rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
+            <div class="flex flex-wrap items-center">
+              <button v-for="sTag of selectedTagList" :key="sTag"
+                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
+                             mx-4px my-3px bg-tag-gradient">
+                {{sTag}}
+              </button>
+              <div class="min-w-4rem h-24px ml-8px">
+                <input class="w-full h-full min-w-0 bg-transparent px-4px"
+                       type="text" placeholder="#">
+              </div>
+            </div>
+            <div class="w-full h-1px bg-color8B/30 light:border-colorF4 my-12px"></div>
+            <div>
+              <button v-for="dTag of defaultTagList" :key="dTag"
+                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px"
+                      :class="selectedTagList.indexOf(dTag)>=0?
+                      'bg-tag-gradient':
+                      'border-1 border-color8B/30 light:border-colorF4'"
+                      @click="onSelectTag(dTag)">
+                {{dTag}}
+              </button>
+            </div>
+          </div>
+        </div>
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
           <div class="mb-6px font-bold">{{$t('curation.speakers')}}</div>
@@ -531,7 +563,9 @@ export default {
       expandPreview: false,
       rewardsTipCollapse: false,
       selectCategory: '',
-      createdTipVisible: false
+      createdTipVisible: false,
+      defaultTagList: ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'],
+      selectedTagList: []
     }
   },
   computed: {
@@ -554,6 +588,10 @@ export default {
     }
   },
   methods: {
+    onSelectTag(tag) {
+      if(this.selectedTagList.indexOf(tag)>=0) return
+      this.selectedTagList.push(tag)
+    },
     formatEmojiText,
     formatAmount,
     checkLogin() {
