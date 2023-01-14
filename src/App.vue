@@ -11,15 +11,10 @@
           <div class="flex items-center">
             <div class="md:flex" v-if="!getAccountInfo">
               <button @click="login"
-                  class="flex justify-center items-center mr-3 min-w-70px px-13px bg-color62
+                      class="flex justify-center items-center mr-1 min-w-70px px-13px bg-color62
                          text-white c-text-black text-0.8rem h-25px 2xl:h-1.4rem rounded-full">
-                  {{$t('signIn')}}
+                {{$t('signIn')}}
               </button>
-              <router-link to="/red-envelope" >
-                <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
-                  <div class="ny-btn"></div>
-                </div>
-              </router-link>
             </div>
             <template v-else>
               <button class="flex items-center justify-center bg-color62 hidden sm:flex
@@ -34,15 +29,15 @@
                 <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.4rem"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
-              <router-link to="/red-envelope" >
-                <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
-                  <div class="ny-btn"></div>
-                </div>
-              </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
-                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.8rem icon-wallet"></i>
+                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.2rem icon-wallet"></i>
               </router-link>
             </template>
+            <router-link to="/red-envelope" class="mb-2px">
+              <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
+                <div class="ny-btn"></div>
+              </div>
+            </router-link>
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">

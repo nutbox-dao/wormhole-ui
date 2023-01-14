@@ -1,6 +1,6 @@
 <template>
   <div class="relative text-left pb-3rem sm:pb-2rem flex flex-col text-14px 2xl:text-0.8rem
-              text-color4E bg-white">
+              text-color4E bg-white rounded-20px">
     <button class="absolute right-20px top-20px"
             @click="$emit('close')">
       <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
@@ -93,7 +93,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="font-bold mb-4px">{{$t('ny.cardType')}}</div>
             <div class="flex rounded-8px overflow-hidden mb-10px gap-1px bg-colorF2 py-3px px-4px h-34px">
               <button class="flex-1 rounded-8px h-full"
@@ -342,7 +342,7 @@
                :show-close="false"
                :close-on-click-modal="true"
                class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
-      <div class="h-500px">
+      <div class="h-400px">
         <vueCropper
             ref="cropper"
             :infoTrue="true"
@@ -357,7 +357,7 @@
       </div>
       <div class="flex justify-center items-center gap-10px my-20px">
         <button class="font-bold w-10rem rounded-8px border-1 border-color8B/30 light:border-colorF4 h-34px 2xl:h-1.7rem"
-                @click="cropperModalVisible=false">{{ $t('ny.cancel') }}</button>
+                @click="cancelCropImg">{{ $t('ny.cancel') }}</button>
         <button class="bg-tag-gradient text-white font-bold rounded-8px w-10rem border-1 border-color8B/30 light:border-colorF4
                        h-34px 2xl:h-1.7rem"
                 @click="completeCropAndUpload">{{ $t('ny.complete') }}</button>
@@ -507,7 +507,7 @@ export default {
       }
     },
     onUploadLogo(file) {
-      console.log('=========',file)
+      // console.log('=========',file)
       this.logoUploadLoading = true
       const reader = new FileReader()
       reader.readAsDataURL(file.raw)
@@ -515,6 +515,11 @@ export default {
         this.cropperImgSrc = res.target.result
         this.cropperModalVisible = true
       }
+    },
+    cancelCropImg() {
+      this.$refs.uploadLogoRef.clearFiles()
+      this.logoUploadLoading = false
+      this.cropperModalVisible = false
     },
     completeCropAndUpload() {
       this.$refs.uploadLogoRef.clearFiles()

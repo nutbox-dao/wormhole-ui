@@ -80,14 +80,14 @@
                  destroy-on-close
                  :show-close="false"
                  :close-on-click-modal="true"
-                 class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+                 class="c-dialog c-dialog-center max-w-500px c-dialog-no-bg c-dialog-no-shadow rounded-20px">
         <BuyCardModal @close="buyCardVisible=false"/>
       </el-dialog>
       <el-dialog v-model="giveCardVisible"
                  destroy-on-close
                  :show-close="false"
                  :close-on-click-modal="true"
-                 class="c-dialog c-dialog-center max-w-500px bg-white">
+                 class="c-dialog c-dialog-center max-w-500px c-dialog-no-bg c-dialog-no-shadow rounded-20px">
         <GiveCardModal :select-index="giveCardIndex"
                        @close="giveCardVisible=false"/>
       </el-dialog>
@@ -95,7 +95,7 @@
                  destroy-on-close
                  :show-close="false"
                  :close-on-click-modal="true"
-                 class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+                 class="c-dialog c-dialog-center max-w-500px c-dialog-no-bg c-dialog-no-shadow rounded-20px">
         <OpenBlindBoxModal @close="openBoxVisible=false" @gotoBlind="$emit('gotoBlind')"/>
       </el-dialog>
     </div>

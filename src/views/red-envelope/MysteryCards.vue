@@ -132,7 +132,8 @@
                destroy-on-close
                :show-close="false"
                :close-on-click-modal="true"
-               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+               class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-500px
+                      border-1 border-color84/30 rounded-20px">
       <MysteryCardDetailModal :card-detail="selectedCard"
                               @close="cardDetailVisible=false"/>
     </el-dialog>
@@ -140,14 +141,16 @@
                destroy-on-close
                :show-close="false"
                :close-on-click-modal="true"
-               class="c-dialog c-dialog-center max-w-800px bg-glass border-1 border-color84/30 rounded-1.6rem">
+               class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-800px
+                      border-1 border-color84/30 rounded-20px">
       <MakeMysteryCard @close="makeCardVisible=false"/>
     </el-dialog>
     <el-dialog v-model="redeemCardVisible"
                destroy-on-close
                :show-close="false"
                :close-on-click-modal="true"
-               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+               class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-500px
+                      border-1 border-color84/30 rounded-20px">
       <RedeemCardModal @close="redeemCardVisible=false"/>
     </el-dialog>
   </div>
