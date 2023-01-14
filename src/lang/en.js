@@ -191,6 +191,8 @@ export default {
     relatedTweet: 'Related Tweet',
     description: 'This content is for the tweet you want to promote. After successfully creating the curation reward pool, we provide a Go tweet button, so that you can easily publish tweets to activate the curation. We will add some necessary tags and links in the generated tweet. Please do not delete these contents and post them, otherwise the curator will not be activated',
     inputDes: "Enter the detail of your curation",
+    descriptionDesc: 'Please describe this curation. For example: why do you want to curate this content、what is the suitable target readers for this content and etc.',
+    tagDesc: 'Create a category index for this curation. You can create a maximum of five category hashtags ',
     connectWallet: "Connect Wallet",
     maxCount: 'Max reward users',
     maxCountTip: 'The top count of curators can earn reward',

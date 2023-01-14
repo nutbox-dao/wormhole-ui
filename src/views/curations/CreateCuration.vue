@@ -182,6 +182,9 @@
             <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
             <span class="text-color8B light:text-color7D/50">{{form.description.length}}/2048</span>
           </div>
+          <div class="mb-6px text-color62 italic">
+            {{ $t('curation.descriptionDesc') }}
+          </div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
@@ -197,11 +200,14 @@
           <div class="flex justify-between items-center">
             <div class="mb-6px font-bold">{{$t('curation.tag')}}</div>
           </div>
+          <div class="mb-6px text-color62 italic">
+            {{ $t('curation.tagDesc') }}
+          </div>
           <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
             <div class="flex flex-wrap items-center">
-              <button v-for="(sTag, index) of selectedTagList" :key="sTag"
+              <button v-for="(sTag, index) of form.tags" :key="sTag"
                       class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
                              mx-4px my-3px bg-tag-gradient relative">
                 #{{sTag}}
@@ -227,10 +233,10 @@
             <div>
               <button v-for="dTag of defaultTagList" :key="dTag"
                       class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
-                      :class="selectedTagList.indexOf(dTag)>=0?
+                      :class="form.tags.indexOf(dTag)>=0?
                       'bg-tag-gradient text-white':
                       'border-1 border-color8B/30 light:border-colorF4 text-color8B light:text-color7D'"
-                      :disabled="selectedTagList.length===5"
+                      :disabled="form.tags.length===5"
                       @click="onSelectTag(dTag)">
                 #{{dTag}}
               </button>
@@ -545,7 +551,8 @@ export default {
         postData: {},
         space: {},
         author: {},
-        address: null
+        address: null,
+        tags: []
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -577,15 +584,22 @@ export default {
       rewardsTipCollapse: false,
       selectCategory: '',
       createdTipVisible: false,
-      defaultTagList: ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'],
-      selectedTagList: [],
       inputTagValue: ''
     }
   },
   computed: {
     ...mapState('web3', ['account', 'chainId']),
+    ...mapState('curation', ['customTags']),
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
+    defaultTagList() {
+      const custom = this.customTags;
+      let temp = ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'];
+      if (custom && custom.length > 0){
+        temp = Array.from(new Set(custom.concat(temp)))
+      }
+      return temp
+    },
     showAccount() {
       if (this.form.address)
         return this.form.address.slice(0, 12) + '...' + this.form.address.slice(this.form.address.length - 12, this.form.address.length);
@@ -603,18 +617,18 @@ export default {
   },
   methods: {
     onSelectTag(tag) {
-      if(this.selectedTagList.length===5) return
-      if(this.selectedTagList.indexOf(tag)>=0) return
-      this.selectedTagList.push(tag)
+      if(this.form.tags.length===5) return
+      if(this.form.tags.indexOf(tag)>=0) return
+      this.form.tags.push(tag)
     },
     selectInputTag() {
-      if(this.selectedTagList.length===5) return
+      if(this.form.tags.length===5) return
       this.defaultTagList.unshift(this.inputTagValue)
-      this.selectedTagList.push(this.inputTagValue)
+      this.form.tags.push(this.inputTagValue)
       this.inputTagValue = ''
     },
     deleteTag(index) {
-      this.selectedTagList.splice(index, 1)
+      this.form.tags.splice(index, 1)
     },
     formatEmojiText,
     formatAmount,
@@ -972,7 +986,8 @@ export default {
             authorId: this.form.author.id ?? this.getAccountInfo.twitterId,
             chainId: EVM_CHAINS[this.form.chain].id,
             tasks,
-            content: this.form.description
+            content: this.form.description,
+            tags: this.form.tags
           }
         }else {
           pendingCuration = {
@@ -996,7 +1011,7 @@ export default {
             speakerIds: this.form.speakers ? this.form.speakers.map(s => s.id) : [],
             tweetContent: this.form.postData?.content,
             content: this.form.description,
-            tags: this.form.postData?.tags,
+            tags: this.form.tags,
           }
         }
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId) {
@@ -1011,6 +1026,19 @@ export default {
 
         this.$store.commit('curation/savePendingTweetCuration', pendingCuration)
         this.$store.commit('curation/saveDraft', null);
+
+        // store custom tags
+        let nowTags = this.defaultTagList;
+        let newTags = []
+        for (let tag of this.form.tags) {
+          if (nowTags.indexOf(tag) === -1) {
+            newTags.push(tag)
+          }
+        }
+        if (newTags.length > 0) {
+          this.$store.commit('curation/saveCustomTags', newTags.concat(this.customTags))
+        }
+
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           const result = await newCuration(pendingCuration);

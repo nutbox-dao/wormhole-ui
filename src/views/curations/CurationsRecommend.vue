@@ -4,6 +4,7 @@
       <el-carousel :height="`${bannerHeight}px`" :autoplay="true"
                    ref="bannerRef"
                    indicator-position="none"
+                   :interval="8000"
                    :initial-index="bannerIndex"
                    @change="bannerChange">
         <el-carousel-item>
