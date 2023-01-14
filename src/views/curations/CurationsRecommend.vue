@@ -10,14 +10,14 @@
           <div @click="gotoUrl(wh3Info)"
                class="cursor-pointer gradient-bg-color3 rounded-8px overflow-hidden
                       h-full flex justify-between items-center">
-            <img class="w-full h-full" :src="wh3Info.poster" alt="">
+            <img class="w-full h-full object-cover object-center" :src="wh3Info.poster" alt="">
           </div>
         </el-carousel-item>
         <el-carousel-item v-for="item in banners" :key="item">
           <div @click="gotoUrl(item)"
                class="cursor-pointer gradient-bg-color3 rounded-8px overflow-hidden
                       h-full flex justify-between items-center">
-            <img class="w-full h-full" :src="item.poster" alt="">
+            <img class="w-full h-full object-cover object-center" :src="item.poster" alt="">
             <!-- <div class="w-full xs:w-2/3 text-left z-2">
               This first banner is reserved for wormhole3 to introduce itself.
               The 2nd to 4th banners are used for project owners who want to advertise themselves.
