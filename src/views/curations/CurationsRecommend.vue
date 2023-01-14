@@ -1,7 +1,7 @@
 <template>
   <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-    <div class="my-2rem">
-      <el-carousel height="14rem" :autoplay="true"
+    <div class="my-2rem" ref="bannerBoxRef">
+      <el-carousel :height="`${bannerHeight}px`" :autoplay="true"
                    ref="bannerRef"
                    indicator-position="none"
                    :initial-index="bannerIndex"
@@ -89,6 +89,7 @@ export default {
       curations:[],
       banners: [],
       bannerIndex: 0,
+      bannerHeight: 0,
       wh3Info: {
         poster: '',
         url: 'https://alpha.wormhole3.io'
@@ -101,7 +102,7 @@ export default {
     setInterval(() => {
       this.updatePage()
     }, 60000);
-
+    this.bannerHeight = Math.floor(this.$refs.bannerBoxRef.clientWidth * 0.25)
   },
   methods: {
     bannerChange(value) {
