@@ -103,7 +103,7 @@
                 + {{card.amount}} {{card.tokenName}}
               </div> -->
               <div v-if="!card.brandName || (!card.tokenSymbol && card.nftId === 0)"
-                    class="absolute top-59/100 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                    class="absolute top-58/100 left-1/2 transform -translate-x-1/2 -translate-y-1/2
                     font-bold text-12px xl:text-14px">
                 Congrats!<br>
                 Power Up!
