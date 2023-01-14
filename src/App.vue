@@ -15,6 +15,11 @@
                          text-white c-text-black text-0.8rem h-25px 2xl:h-1.4rem rounded-full">
                   {{$t('signIn')}}
               </button>
+              <router-link to="/red-envelope" >
+                <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
+                  <div class="ny-btn"></div>
+                </div>
+              </router-link>
             </div>
             <template v-else>
               <button class="flex items-center justify-center bg-color62 hidden sm:flex
@@ -69,7 +74,7 @@
 <!--                      </div>-->
 <!--                    </template>-->
 <!--                  </el-popover>-->
-                  <div @click="onCopy('https://alpha.wormhole3.io/#/square/' + getAccountInfo.twitterId)"
+                  <div @click="onCopy('https://alpha.wormhole3.io/#/square?referee=' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
                     <span>{{$t('ref.referre')}}</span>
@@ -210,18 +215,18 @@ export default {
       }
     },
   },
-  watch: {
-    'getAccountInfo.twitterUsername'(val) {
-      if(!val) {
-        this.nyAnimation.destroy()
-        this.nyAnimation = null
-      } else {
-        setTimeout(() => {
-          this.showNyAnimation()
-        }, 500)
-      }
-    }
-  },
+  // watch: {
+  //   'getAccountInfo.twitterUsername'(val) {
+  //     if(!val) {
+  //       this.nyAnimation.destroy()
+  //       this.nyAnimation = null
+  //     } else {
+  //       setTimeout(() => {
+  //         this.showNyAnimation()
+  //       }, 500)
+  //     }
+  //   }
+  // },
   methods: {
     showNyAnimation() {
       const el = document.querySelector('.ny-btn')
@@ -318,6 +323,10 @@ export default {
     }
   },
   async mounted() {
+    const referee = this.$route.query.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
     this.showNyAnimation()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'

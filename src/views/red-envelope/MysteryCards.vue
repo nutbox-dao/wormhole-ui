@@ -186,6 +186,14 @@ export default {
       return 0
     }
   },
+  watch: {
+    'getAccountInfo.twitterUsername'(val) {
+      if(!val) {
+      } else {
+        this.onRefresh()
+      }
+    }
+  },
   data() {
     return {
       loading: false,

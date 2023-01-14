@@ -101,7 +101,7 @@ export async function getBlindBoxByIds(ids) {
 
 export async function getUserActivityInfo(ethAddress) {
     if (!ethers.utils.isAddress(ethAddress)) {
-        return;
+        ethAddress = ethers.constants.AddressZero;
     }
     let calls = [
         {

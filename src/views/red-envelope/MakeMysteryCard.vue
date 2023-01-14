@@ -404,7 +404,7 @@ export default {
         nftId: '',
         cardNum: '',
         logoUrl: '',
-        brandDesc: 'This is advertisement for project owner.',
+        brandDesc: '',
         creator: ''
       },
       nftNumDisabled: false,

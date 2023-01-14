@@ -85,7 +85,7 @@ import BlessingCards from "@/views/red-envelope/BlessingCards";
 import MysteryCards from "@/views/red-envelope/MysteryCards";
 import { mapGetters, mapState } from 'vuex'
 import { chainChanged } from '@/utils/web3/web3'
-import { getUserActivityInfo } from '@/utils/new-year'
+import { getUserActivityInfo, getUserNYCards } from '@/utils/new-year'
 import { parseTimestampToUppercase } from '@/utils/helper'
 import {isNumeric} from "@/utils/tool";
 
@@ -99,6 +99,17 @@ export default {
       showTab1Desc: false
     }
   },
+  watch: {
+    'getAccountInfo.twitterUsername'(val) {
+      if(!val) {
+      } else {
+        chainChanged().catch()
+        const ethAddress = this.getAccountInfo.ethAddress
+        getUserActivityInfo(ethAddress).catch();
+        getUserNYCards(ethAddress).catch();
+      }
+    }
+  },
   computed: {
     ...mapGetters(['getAccountInfo']),
     ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance', 'userActivityInfo', 'blindBoxBalance']),
@@ -110,7 +121,8 @@ export default {
   },
   mounted () {
     if (!this.getAccountInfo || !this.getAccountInfo.ethAddress) {
-      this.$router.replace('/')
+      // this.$router.replace('/')
+    getUserActivityInfo().catch();
       return;
     }
     chainChanged().catch()

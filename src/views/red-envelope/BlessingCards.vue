@@ -28,14 +28,14 @@
                   <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
                 </div>
                 <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
-                  {{$t('common.balance')}}: {{ blessCardBalance[index+1] }}
+                  {{$t('common.balance')}}: {{ blessCardBalance[index+1] ?? 0 }}
                 </div>
               </div>
             </div>
           </div>
           <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
             <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
-                    :disabled="blessCardBalance[index+1]===0"
+                    :disabled="!blessCardBalance[index+1] || blessCardBalance[index+1]===0"
                     @click="onGive(index)">{{$t('ny.give')}}</button>
             <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
                     @click="ask(index)">{{$t('ny.ask')}}</button>
@@ -56,13 +56,13 @@
                 <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
               </div>
               <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
-                {{$t('common.balance')}}: {{ blessCardBalance[5] }}
+                {{$t('common.balance')}}: {{ blessCardBalance[5] ?? 0 }}
               </div>
             </div>
           </div>
           <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
             <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
-                    :disabled="blessCardBalance[5]===0"
+                    :disabled="!blessCardBalance[index+1] || blessCardBalance[5]===0"
                     @click="onGive(4)">{{$t('ny.give')}}</button>
             <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn font-bold"
                     @click="buyCardVisible=true">{{$t('ny.buy')}}</button>
@@ -145,6 +145,10 @@ export default {
       })
     },
     ask(index) {
+      if (!this.getAccountInfo?.twitterId) {
+        this.$store.commit('saveShowLogin', true);
+        return;
+      }
       const name = BLESS_CARD_NAME[index];
       window.open(`https://twitter.com/intent/tweet?text=@ %0aI need some ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCould you send me some?`);
     }

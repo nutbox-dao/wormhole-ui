@@ -31,7 +31,7 @@
                     <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
                   </div>
                   <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
-                    {{$t('common.balance')}}: {{ blessCardBalance[index + 1] }}
+                    {{$t('common.balance')}}: {{ blessCardBalance[index + 1] ?? 0 }}
                   </div>
                 </div>
               </div>
