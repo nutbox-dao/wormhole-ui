@@ -21,7 +21,7 @@ async function getAbi() {
 
 export async function getUserNYCards(ethAddress) {
     if (!ethers.utils.isAddress(ethAddress)) {
-        return;
+        ethAddress = ethers.constants.AddressZero;
     }
 
     let ids = [1,2,3,4,5]

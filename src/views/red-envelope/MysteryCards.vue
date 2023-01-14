@@ -37,7 +37,7 @@
         </div>
         <div class="flex justify-start">
           <div v-if="!isOver" class="flex flex-col justify-between items-center mt-20px xs:mt-0"
-               @click="makeCardVisible=true">
+               @click="makeCard">
             <button class="font-bold ny-red-gradient text-white h-34px 2xl:h-1.7rem px-20px max-w-12rem
                            border-2 border-white rounded-full whitespace-nowrap">
               {{$t('ny.makeCard')}}
@@ -223,6 +223,13 @@ export default {
     this.onLoad()
   },
   methods: {
+    makeCard() {
+      if (!this.getAccountInfo?.twitterId) {
+        this.$store.commit('saveShowLogin', true);
+        return;
+      }
+      this.makeCardVisible=true
+    },
     onRefresh() {
       getUserBlindBox(this.getAccountInfo.ethAddress, 0, 48).then(res => {
         if (res && res.length > 0) {

@@ -65,14 +65,14 @@
                     :disabled="!blessCardBalance[index+1] || blessCardBalance[5]===0"
                     @click="onGive(4)">{{$t('ny.give')}}</button>
             <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn font-bold"
-                    @click="buyCardVisible=true">{{$t('ny.buy')}}</button>
+                    @click="buyCard">{{$t('ny.buy')}}</button>
           </div>
         </div>
       </div>
       <div class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center">
         <img class="w-8rem max-w-120px" src="~@/assets/red-envelope/icon-box.png" alt="">
         <button class="buy-btn rounded-full font-bold px-12px h-34px text-12px"
-                @click="openBoxVisible=true">
+                @click="compoundBox">
           {{$t('ny.compoundBox')}}
         </button>
       </div>
@@ -151,6 +151,20 @@ export default {
       }
       const name = BLESS_CARD_NAME[index];
       window.open(`https://twitter.com/intent/tweet?text=@ %0aI need some ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCould you send me some?`);
+    },
+    buyCard() {
+      if (!this.getAccountInfo?.twitterId) {
+        this.$store.commit('saveShowLogin', true);
+        return;
+      }
+      this.buyCardVisible=true
+    },
+    compoundBox() {
+      if (!this.getAccountInfo?.twitterId) {
+        this.$store.commit('saveShowLogin', true);
+        return;
+      }
+      this.openBoxVisible=true
     }
   },
   mounted () {

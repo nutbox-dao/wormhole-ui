@@ -215,18 +215,15 @@ export default {
       }
     },
   },
-  // watch: {
-  //   'getAccountInfo.twitterUsername'(val) {
-  //     if(!val) {
-  //       this.nyAnimation.destroy()
-  //       this.nyAnimation = null
-  //     } else {
-  //       setTimeout(() => {
-  //         this.showNyAnimation()
-  //       }, 500)
-  //     }
-  //   }
-  // },
+  watch: {
+    'getAccountInfo.twitterUsername'(val) {
+      if(val) {
+        setTimeout(() => {
+          this.showNyAnimation()
+        }, 500)
+      }
+    }
+  },
   methods: {
     showNyAnimation() {
       const el = document.querySelector('.ny-btn')
