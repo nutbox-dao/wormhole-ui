@@ -57,7 +57,7 @@
                 class="ny-gradient-btn gradient-btn-disabled-grey my-1rem mx-auto
                        flex items-center justify-center
                        min-w-10rem px-20px rounded-12px h-44px 2xl:h-2.2rem text-white font-bold"
-                :disabled="isDrawing || accountMismatch"
+                :disabled="isDrawing || accountMismatch || !enableChange"
                 @click="onDrawCard">
           {{$t('ny.drawCard')}}
           <c-spinner v-show="isDrawing" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
