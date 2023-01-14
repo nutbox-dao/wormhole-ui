@@ -84,7 +84,7 @@
             <div class="relative text-14px leading-18px 2xl:text-1rem 2xl:leading-1.2rem text-white cursor-pointer"
                  :class="`ny-power-${card.weights}`"
                  v-for="(card, index) of showingBox" :key="index"
-                 @click="selectedCard=card, cardDetailVisible=true">
+                 @click="selectedCardIndex=index, cardDetailVisible=true">
               <img class="w-full cursor-pointer"
                    :src="require(`@/assets/red-envelope/mystery-power-${card.weights || 10}.png`)"
                    alt="">
@@ -134,7 +134,8 @@
                :close-on-click-modal="true"
                class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-500px
                       border-1 border-color84/30 rounded-20px">
-      <MysteryCardDetailModal :card-detail="selectedCard"
+      <MysteryCardDetailModal :card-list="showingBox"
+                              :selected-index="selectedCardIndex"
                               @close="cardDetailVisible=false"/>
     </el-dialog>
     <el-dialog v-model="makeCardVisible"
@@ -201,7 +202,7 @@ export default {
     return {
       loading: false,
       cardDetailVisible: false,
-      selectedCard: {},
+      selectedCardIndex: 0,
       makeCardVisible: false,
       redeemCardVisible: false,
       refreshing: false,

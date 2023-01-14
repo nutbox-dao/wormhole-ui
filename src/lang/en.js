@@ -373,7 +373,14 @@ export default {
     brandDefaultDesc: 'This is advertisement for project owner.',
     description: 'Description',
     noMysteryCard: 'No Mystery cards yet～',
-    noCardDesc: 'By compond five lucky cards you can get a mystery box card to win rewards'
+    noCardDesc: 'By compond five lucky cards you can get a mystery box card to win rewards',
+    downloadImg: 'Download Image',
+    tokenAmount: 'Token Amount',
+    enterAmountTip: 'Enter the number of tokens',
+    enterCardNumTip: 'Enter number of Mystery card...',
+    enterNftAddressTip: 'Enter the address of NFT',
+    enterNftNumTip: 'Enter number of NFT',
+    enterNftIdTip: 'Enter the ID of NFT'
   },
   err: {
     serverErr: 'Server error',
