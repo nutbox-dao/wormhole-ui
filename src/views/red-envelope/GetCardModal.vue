@@ -13,7 +13,8 @@
     </div>
     <div class="px-15px sm:w-8/10 mx-auto text-center flex flex-col items-center">
       <div class="relative w-220px ny-card-text get-card">
-        <img src="~@/assets/red-envelope/lucky-card.png" alt="">
+        <img v-if="newCardId === 4" src="~@/assets/red-envelope/rare-card.png" alt="">
+        <img v-else src="~@/assets/red-envelope/lucky-card.png" alt="">
         <div class="w-full px-18px absolute top-36px flex flex-col items-center">
           <img class="w-full rounded-8px"
                :src="require(`@/assets/red-envelope/card${newCardId}.png`)" alt="">
@@ -64,7 +65,13 @@ export default {
     return {
       BLESS_CARD_NAME,
       BLESS_CARD_DESC,
-      downloadImgUrl: 'https://pbs.twimg.com/profile_images/1438449614642835456/r9XnhclV_200x200.jpg'
+      cardUrls: [
+        'https://cdn.wherein.mobi/wormhole3/newyear/card0.png',
+        'https://cdn.wherein.mobi/wormhole3/newyear/card1.png',
+        'https://cdn.wherein.mobi/wormhole3/newyear/card2.png',
+        'https://cdn.wherein.mobi/wormhole3/newyear/card3.png',
+        'https://cdn.wherein.mobi/wormhole3/newyear/card4.png',
+      ]
     }
   },
   computed: {
@@ -97,7 +104,7 @@ export default {
       aLink.style.display = 'none'
       let img = new Image;
       img.setAttribute('crossOrigin', 'anonymous')
-      img.src= this.downloadImgUrl
+      img.src= this.cardUrls[this.newCardId]
       img.onload = function(){
         canvas.width = img.width
         canvas.height = img.height

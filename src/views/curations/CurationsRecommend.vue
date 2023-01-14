@@ -91,7 +91,7 @@ export default {
       bannerIndex: 0,
       bannerHeight: 0,
       wh3Info: {
-        poster: '',
+        poster: 'https://cdn.wherein.mobi/wormhole3/newyear/banner.png',
         url: 'https://alpha.wormhole3.io'
       },
       loading: true
@@ -113,6 +113,9 @@ export default {
       this.$router.push('/curation-detail/' + curation.curationId);
     },
     gotoUrl(banner) {
+      this.$store.commit('saveNewCardId', 4)
+          this.$store.commit('saveGetCardVisible', true)
+      return;
       window.open(banner.url)
     },
     updatePage() {

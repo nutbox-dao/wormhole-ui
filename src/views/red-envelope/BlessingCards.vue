@@ -62,7 +62,7 @@
           </div>
           <div class="flex gap-5px mx-10px mt-10px text-14px xl:text-0.8rem">
             <button class="flex-1 py-6px bg-color62 text-white rounded-full card-btn font-bold"
-                    :disabled="!blessCardBalance[index+1] || blessCardBalance[5]===0"
+                    :disabled="!blessCardBalance[5] || blessCardBalance[5]===0"
                     @click="onGive(4)">{{$t('ny.give')}}</button>
             <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn font-bold"
                     @click="buyCard">{{$t('ny.buy')}}</button>

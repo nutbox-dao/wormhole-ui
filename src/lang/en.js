@@ -352,6 +352,7 @@ export default {
     accountMismatch: 'You must use your wormhole3 account to operate.',
     endTime: 'Time to end',
     verify: 'Verify',
+    verified: 'Verified',
     select: 'Please select',
     inputBrandInfo: 'Please compelete your brand infos',
     inputTokenInfo: 'Please compelete your rewards infos',

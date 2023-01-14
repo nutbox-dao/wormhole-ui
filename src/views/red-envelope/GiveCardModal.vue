@@ -57,7 +57,7 @@
                     :disabled="verifyLoading"
                     @click="verify">
               <c-spinner v-if="verifyLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem"></c-spinner>
-              <span v-else>{{$t('ny.verify')}}</span>
+              <span v-else>{{ isVerified ? $t('ny.verified') : $t('ny.verify')}}</span>
             </button>
           </div>
         </div>
@@ -207,7 +207,10 @@ export default {
   computed: {
     ...mapState('newYear', ['blessCardBalance']),
     ...mapState('web3', ['chainId']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    isVerified() {
+      return ethers.utils.isAddress(this.toAddress)
+    }
   },
   mounted() {
     this.cardIndex = this.selectIndex
@@ -294,6 +297,7 @@ export default {
       }else if (match) {
         try{
           this.isChecking = true
+          this.verifyLoading = true
           const user = await getUserInfo(this.giveTo.replace('@', ''));
           if (user && user.code === 3) {
             const account = user.account;
@@ -310,6 +314,7 @@ export default {
           }
         } finally {
           this.isChecking = false
+          this.verifyLoading = false
         }
       }
     }
