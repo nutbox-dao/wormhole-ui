@@ -46,7 +46,8 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1 h-full flex flex-col justify-between mt-10px sm:mt-0" ref="formRef">
+        <div class="col-span-1 h-full flex flex-col justify-between mt-10px sm:mt-0"
+             ref="formRef">
           <div>
             <div class="font-bold mb-4px">{{$t('ny.brandName')}}</div>
             <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
@@ -113,114 +114,123 @@
               </button>
             </div>
             <template v-if="type==='token'">
-              <button class="w-full bg-colorF2 rounded-8px overflow-hidden h-34px mb-10px">
-                <el-popover popper-class="c-popper"
-                            placement="bottom-end"
-                            :width="popperWidth"
-                            trigger="click" ref="tokenPopover">
-                  <template #reference>
-                    <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px">
+              <div class="font-bold mb-4px">{{$t('ny.tokenAmount')}}</div>
+              <div class="flex items-center justify-between mb-4px">
+                <div class="flex-1 bg-colorF2 rounded-8px h-34px">
+                  <input class="bg-transparent h-full w-full px-15px text-color86"
+                         v-model="form.tokenNum"
+                         type="number"
+                         :placeholder="$t('ny.enterAmountTip')">
+                </div>
+                <button class="flex-1 ml-5px max-w-130px bg-colorF2 rounded-8px overflow-hidden h-34px">
+                  <el-popover popper-class="c-popper"
+                              placement="bottom-end"
+                              :width="popperWidth"
+                              trigger="click" ref="tokenPopover">
+                    <template #reference>
+                      <button class="h-full w-full flex justify-between items-center cursor-pointer px-12px">
                   <span class="flex items-center">
-                    <span v-if="Object.keys(selectedToken).length===0" class="text-color8B/70">{{$t('ny.select')}}</span>
+                    <span v-if="Object.keys(selectedToken).length===0" class="text-color8B/70 whitespace-nowrap">
+                      {{$t('ny.select')}}
+                    </span>
                     <template v-else>
-                      <img v-if="TokenIcon[selectedToken.symbol]" class="w-22px min-w-22px h-22px mr-15px rounded-full"
+                      <img v-if="TokenIcon[selectedToken.symbol]" class="w-22px min-w-22px h-22px mr-5px rounded-full"
                            :src="TokenIcon[selectedToken.symbol]" alt="">
-                      <img v-else class="w-22px min-w-22px mr-15px rounded-full"
+                      <img v-else class="w-22px min-w-22px mr-5px rounded-full"
                            src="~@/assets/icon-token-default.svg" alt="">
-                      <span class="text-color8B text-15px">{{ selectedToken.symbol }}</span>
+                      <span class="text-color8B text-15px whitespace-nowrap">{{ selectedToken.symbol }}</span>
                     </template>
                   </span>
-                      <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
-                    </button>
-                  </template>
-                  <template #default>
-                    <div class="border-1 border-color8B/30 bg-white max-h-240px flex flex-col overflow-hidden
+                        <img class="w-16px" src="~@/assets/icon-select-arrow.svg" alt="">
+                      </button>
+                    </template>
+                    <template #default>
+                      <div class="border-1 border-color8B/30 bg-white max-h-240px flex flex-col overflow-hidden
                               light:bg-white light:border-colorE3 hover:border-primaryColor
                               rounded-12px py-10px overflow-x-hidden">
-                      <div class="px-10px mb-10px">
-                        <div class="w-full border-1 bg-white border-1 border-color8B/30
+                        <div class="px-10px mb-10px">
+                          <div class="w-full border-1 bg-white border-1 border-color8B/30
                                   light:border-colorE3 hover:border-primaryColor
                                   rounded-12px h-40px 2xl:h-2rem text-color4E">
-                          <input class="bg-transparent h-full w-full px-0.5rem text-color4E"
-                                 v-model="searchToken"
-                                 @input="updateToken"
-                                 type="text" :placeholder="$t('curation.inputErc20')">
+                            <input class="bg-transparent h-full w-full px-0.5rem text-color4E"
+                                   v-model="searchToken"
+                                   @input="updateToken"
+                                   type="text" :placeholder="$t('curation.inputErc20')">
+                          </div>
                         </div>
-                      </div>
-                      <div class="flex-1 overflow-auto">
-                        <div v-if="customToken"
-                             class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
+                        <div class="flex-1 overflow-auto">
+                          <div v-if="customToken"
+                               class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
                               py-3 px-10px overflow-x-hidden hover:bg-black/10">
-                          <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
-                          <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                          <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                               @click="selectedToken = customToken;$refs.tokenPopover.hide()">
-                            <span class="text-15px">{{customToken.symbol}}</span>
-                            <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
+                            <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                            <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
+                                 @click="selectedToken = customToken;$refs.tokenPopover.hide()">
+                              <span class="text-15px">{{customToken.symbol}}</span>
+                              <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
                           </span>
+                            </div>
                           </div>
-                        </div>
-                        <div v-for="token of tokenList" :key="token.address"
-                             @click="selectedToken=token;$refs.tokenPopover.hide()"
-                             class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                          <div v-for="token of tokenList" :key="token.address"
+                               @click="selectedToken=token;$refs.tokenPopover.hide()"
+                               class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
                            overflow-x-hidden hover:bg-black/10">
-                          <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
-                          <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                          <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                            <span class="text-15px">{{token.symbol}}</span>
-                            <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
+                            <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                            <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                              <span class="text-15px">{{token.symbol}}</span>
+                              <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{token.address}}
                           </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </template>
-                </el-popover>
-              </button>
-
-              <div class="w-full bg-colorF2 rounded-8px h-34px mb-4px">
-                <input class="bg-transparent h-full w-full px-15px text-color86"
-                       v-model="form.tokenNum"
-                       type="number"
-                       :placeholder="$t('ny.tokenNum')">
+                    </template>
+                  </el-popover>
+                </button>
               </div>
               <div v-if="type!=='none'" class="text-right text-color8B light:text-color7D mb-10px">
                 {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
               </div>
             </template>
             <template v-if="type==='nft'">
-              <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
+              <div class="font-bold mb-4px">{{$t('ny.nftAddress')}}</div>
+              <div class="flex-1 bg-colorF2 rounded-8px h-34px mb-10px">
                 <input class="bg-transparent h-full w-full px-15px"
                        v-model="form.nftAddress"
-                       :placeholder="$t('ny.nftAddress')">
+                       :placeholder="$t('ny.enterNftAddressTip')">
               </div>
-              <div class="flex gap-10px">
-                <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
-                  <input class="bg-transparent h-full w-full px-15px"
-                         v-model="form.nftNum"
-                         :disabled="nftNumDisabled"
-                         :placeholder="$t('ny.nftNum')">
+              <div class="flex gap-10px mb-10px">
+                <div>
+                  <div class="font-bold mb-4px">{{$t('ny.nftId')}}</div>
+                  <div class="flex-1 bg-colorF2 rounded-8px h-34px">
+                    <input class="bg-transparent h-full w-full px-15px"
+                           v-model="form.nftId"
+                           :placeholder="$t('ny.enterNftIdTip')">
+                  </div>
                 </div>
-                <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-34px mb-10px">
-                  <input class="bg-transparent h-full w-full px-15px"
-                         v-model="form.nftId"
-                         :placeholder="$t('ny.nftId')">
+                <div>
+                  <div class="font-bold mb-4px">{{$t('ny.nftNum')}}</div>
+                  <div class="flex-1 bg-colorF2 rounded-8px h-34px">
+                    <input class="bg-transparent h-full w-full px-15px"
+                           v-model="form.nftNum"
+                           :disabled="nftNumDisabled"
+                           :placeholder="$t('ny.enterNftNumTip')">
+                  </div>
                 </div>
+              </div>
+              <div v-if="type!=='none'" class="text-right text-color8B light:text-color7D mb-10px">
+                {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
               </div>
             </template>
+            <div class="font-bold mb-4px">{{$t('ny.cardNum')}}</div>
             <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
               <input class="bg-transparent h-full w-full px-15px"
                      v-model="form.cardNum"
                      type="number"
-                     :placeholder="$t('ny.cardNum')">
+                     :placeholder="$t('ny.enterCardNumTip')">
             </div>
             <div class="mt-10px text-right font-bold text-16px">
               {{$t('ny.mintTip1', {amount: form.cardNum + '*1 USDT'})}}
@@ -701,4 +711,7 @@ export default {
     border-radius: 14px;
   }
 }
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+input[type="number"]{ -moz-appearance: textfield; }
 </style>

@@ -23,13 +23,12 @@
             <span class=" text-20px">{{ BLESS_CARD_NAME[newCardId] }}</span>
             <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
           </div>
-          <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-14px">
-            {{ $t('common.balance') }}: {{ balance }}
-          </div>
+          <button class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
+                  @click="onDownload">
+            <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-red.svg" alt="">
+            <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
+          </button>
         </div>
-        <button class="absolute bottom-16px right-20px" @click="onDownload">
-          <img class="w-20px h-20px" src="~@/assets/red-envelope/icon-download.svg" alt="">
-        </button>
       </div>
       <div class="my-20px text-left whitespace-pre-line ny-color4E sm:px-1/10">
         {{ BLESS_CARD_DESC[newCardId] }}
@@ -125,5 +124,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.get-card {}
+.red-download-btn {
+  box-shadow: 0px 2px 10px rgba(201, 7, 85, 0.69);
+  span {
+    background: linear-gradient(180deg, #F5319D 0%, #FC6767 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+}
 </style>
