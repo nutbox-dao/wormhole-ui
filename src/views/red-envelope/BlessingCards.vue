@@ -133,7 +133,12 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('newYear', ['blessCardBalance'])
+    ...mapState('newYear', ['blessCardBalance', 'userActivityInfo']),
+    isOver() {
+      if (this.userActivityInfo) {
+        return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime 
+      }
+    }
   },
   methods: {
     onGive(index) {
@@ -166,9 +171,6 @@ export default {
         return;
       }
       this.openBoxVisible=true
-    },
-    isOver() {
-      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime 
     }
   },
   mounted () {
