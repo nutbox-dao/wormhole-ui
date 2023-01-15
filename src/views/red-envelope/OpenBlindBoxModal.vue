@@ -203,7 +203,7 @@ export default {
       let c = bs[0];
       for (let i = 0; i < bs.length; i++) {
         if (bs[i] < c) {
-          c = bs[b]
+          c = bs[i]
         }
       }
       return c
@@ -250,8 +250,8 @@ export default {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
       return;
     }
-    // getAccounts(true).catch();
-    // accountChanged().catch()
+    getAccounts(true).catch();
+    accountChanged().catch()
   },
 }
 </script>

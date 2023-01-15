@@ -25,7 +25,7 @@ export default {
                 this.connecting = true
                 await setupNetwork(CHAIN_NAME)
                 getAccounts(true).catch()
-                accountChanged().catch()
+                // accountChanged().catch()
             } catch(e) {
                 console.log('connect wallet fail:', e);
             } finally {
