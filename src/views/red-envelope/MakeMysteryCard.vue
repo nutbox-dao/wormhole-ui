@@ -683,9 +683,7 @@ export default {
     getUSDTBalance(account).catch();
     checkUSDTApproved(account).catch();
     accountChanged().catch()
-    getAccounts(true).then(wallet => {
-      this.account = wallet
-    }).catch();
+    getAccounts(true).catch();
     getUserActivityInfo(account).catch();
   },
 }

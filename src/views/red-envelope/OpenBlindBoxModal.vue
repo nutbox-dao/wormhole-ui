@@ -250,10 +250,8 @@ export default {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
       return;
     }
-    getAccounts(true).then(wallet => {
-      this.account = wallet
-    }).catch();
-    accountChanged().catch()
+    // getAccounts(true).catch();
+    // accountChanged().catch()
   },
 }
 </script>
