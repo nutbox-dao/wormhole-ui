@@ -23,11 +23,20 @@
             <span class=" text-20px">{{ BLESS_CARD_NAME[cardIndex] }}</span>
             <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
           </div>
-          <button class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
+          <button v-if="newCardId === 4"
+                  class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
                   @click="onDownload">
             <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-red.svg" alt="">
             <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
           </button>
+          <template v-else>
+            <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-14px">
+              {{ $t('common.balance') }}: {{ balance }}
+            </div>
+            <button class="absolute bottom-0 right-20px" @click="onDownload">
+              <img class="w-20px h-20px" src="~@/assets/red-envelope/icon-download.svg" alt="">
+            </button>
+          </template>
         </div>
       </div>
       <div class="my-20px text-left whitespace-pre-line ny-color4E sm:px-1/10">

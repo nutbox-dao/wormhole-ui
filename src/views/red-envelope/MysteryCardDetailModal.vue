@@ -10,7 +10,7 @@
     </div>
     <el-carousel indicator-position="none"
                  :autoplay="false" arrow="always"
-                 height="330px"
+                 height="310px"
                  :initial-index="cardIndex"
                  class="ny-card-carousel"
                  @change="cardChange">
@@ -52,12 +52,14 @@
               + {{ cardItem.amount  }} NFT
             </div>
           </div>
-          <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem">
-            {{cardItem.brandDesc}}
-          </div>
         </div>
       </el-carousel-item>
     </el-carousel>
+    <div class="flex justify-center">
+      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem">
+        {{cardList[cardIndex].brandDesc}}
+      </div>
+    </div>
     <button class="bg-colorBlue gradient-btn-disabled-grey mt-1.5rem mx-auto
                      flex items-center justify-center whitespace-nowrap px-20px
                      min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
