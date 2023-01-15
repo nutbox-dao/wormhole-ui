@@ -56,8 +56,8 @@
       </el-carousel-item>
     </el-carousel>
     <div class="flex justify-center">
-      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem">
-        {{cardList[cardIndex].brandDesc}}
+      <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px mt-1rem whitespace-pre-line"
+           v-html="formatUrl(cardList[cardIndex].brandDesc)">
       </div>
     </div>
     <button class="bg-colorBlue gradient-btn-disabled-grey mt-1.5rem mx-auto
@@ -102,6 +102,16 @@ export default {
     },
     cardChange(index) {
       this.cardIndex = index
+    },
+    formatUrl(content) {
+      this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+      if (!content) return '';
+      const urls = content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+      for (let url of urls){
+        content = content.replace(url,
+            `<a href="${url}" target="_blank" class="text-colorBlue underline">${url}</a>`)
+      }
+      return content
     }
   }
 }
