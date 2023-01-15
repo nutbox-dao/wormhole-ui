@@ -30,9 +30,10 @@
             <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
           </button>
           <template v-else>
-            <button class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px" @click="onDownload">
-              <img class="w-20px h-20px" src="~@/assets/red-envelope/icon-download.svg" alt="">
-              <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
+            <button class="bg-white px-15px h-30px purple-download-btn flex justify-center items-center rounded-full mt-4px"
+                    @click="onDownload">
+              <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-purple.svg" alt="">
+              <span class="whitespace-nowrap font-bold text-14px text-color62">{{$t('ny.downloadImg')}}</span>
             </button>
           </template>
         </div>
@@ -143,5 +144,8 @@ export default {
     background-clip: text;
     text-fill-color: transparent;
   }
+}
+.purple-download-btn {
+  box-shadow: 0px 2px 10px #7A42ED;
 }
 </style>
