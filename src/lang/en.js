@@ -326,6 +326,7 @@ export default {
     opened: 'opened',
     power: 'Power',
     makeMysteryCard: 'Make Mystery Card',
+    makeMysterySuccess: 'Mystery card mint succesfull!', 
     brandName: 'Brand name',
     cardType: 'Special rewards type',
     tokenAddress: 'Token address',

@@ -6,7 +6,7 @@
       <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>
     <div class="mx-auto c-text-black text-20px xl:text-1.2rem mt-2rem mb-1.5rem text-blueDark">
-      {{$t('ny.makeMysteryCard')}}
+      {{ step===0 ? $t('ny.makeMysteryCard') : $t('ny.makeMysterySuccess') }}
     </div>
     <div v-if="step===0" class="px-15px xs:px-40px">
       <div class="grid grid-cols-1 sm:grid-cols-2">
@@ -280,10 +280,10 @@
               <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
               <img class="w-57px absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-14px"
                    :src="logoPreviewSrc" alt="">
-              <div v-if="form.tokenNum > 0"
+              <!-- <div v-if="form.tokenNum > 0"
                    class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
                 + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
-              </div>
+              </div> -->
               <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
                           text-16px font-bold text-color62">
                 {{form.brandName || 'Brand name'}}
@@ -291,7 +291,7 @@
               <div v-if="type==='token'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                           font-bold text-14px lg:text-16px text-color62">
-                + {{ formatAmount(form.tokenNum) }} {{form.tokenSymbol}}
+                + {{ formatAmount(form.tokenNum / (form.cardNum ?? 1)) }} {{form.tokenSymbol}}
               </div>
               <div v-if="type==='nft'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
