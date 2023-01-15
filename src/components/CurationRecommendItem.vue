@@ -196,57 +196,6 @@ export default {
       }
       this.isQuoting = false
       this.isRepling = false
-    },
-    async like() {
-
-      this.$store.commit('saveNewCardId', 2)
-          this.$store.commit('saveGetCardVisible', true)
-          return;
-      if (!this.checkLogin() || this.liked || this.isLiking) return
-      try{
-        this.isLiking = true
-        const result = await likeCuration({...this.curation, twitterId: this.getAccountInfo.twitterId});
-        let nyCard = result.nyCard;
-
-        if (nyCard && nyCard.cardId > 0) {
-          this.$store.commit('saveNewCardId', nyCard.cardId)
-          this.$store.commit('saveGetCardVisible', true)
-        }
-        this.curation.taskRecord = this.curation.taskRecord | 4
-      } catch (e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-          return;
-        }else if (e === errCode.TWEET_NOT_FOUND) {
-          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
-          return
-        }
-        notify({message:this.$t('err.serverErr'), type:'error'})
-      } finally {
-        this.isLiking = false
-      }
-    },
-    async follow() {
-      if (!this.checkLogin() || this.followed || this.isFollowing) return
-      try{
-        this.isFollowing = true
-        const result = await followCuration({...this.curation, twitterId: this.getAccountInfo.twitterId})
-        let nyCard = result.nyCard;
-
-        if (nyCard && nyCard.cardId > 0) {
-          this.$store.commit('saveNewCardId', nyCard.cardId)
-          this.$store.commit('saveGetCardVisible', true)
-        }
-        this.curation.taskRecord = this.curation?.taskRecord | 8
-      } catch (e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-          return;
-        }
-        notify({message:this.$t('err.serverErr'), type:'error'})
-      } finally {
-        this.isFollowing = false
-      }
     }
   },
   mounted() {
