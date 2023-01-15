@@ -13,14 +13,14 @@
     </div>
     <div class="px-15px sm:w-8/10 mx-auto text-center flex flex-col items-center">
       <div class="relative w-220px ny-card-text get-card">
-        <img v-if="newCardId === 4" src="~@/assets/red-envelope/rare-card.png" alt="">
+        <img v-if="newCardId === 5" src="~@/assets/red-envelope/rare-card.png" alt="">
         <img v-else src="~@/assets/red-envelope/lucky-card.png" alt="">
         <div class="w-full px-18px absolute top-36px flex flex-col items-center">
           <img class="w-full rounded-8px"
-               :src="require(`@/assets/red-envelope/card${newCardId}.png`)" alt="">
+               :src="require(`@/assets/red-envelope/card${cardIndex}.png`)" alt="">
           <div class="flex items-center justify-between px-10px mt-20px w-full">
             <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-            <span class=" text-20px">{{ BLESS_CARD_NAME[newCardId] }}</span>
+            <span class=" text-20px">{{ BLESS_CARD_NAME[cardIndex] }}</span>
             <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
           </div>
           <button class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="my-20px text-left whitespace-pre-line ny-color4E sm:px-1/10">
-        {{ BLESS_CARD_DESC[newCardId] }}
+        {{ BLESS_CARD_DESC[cardIndex] }}
       </div>
       <div class="flex gap-6px xs:gap-16px w-full">
         <button class="flex-1 h-44px 2xl:h-2.2rem font-bold text-color62 rounded-full
@@ -65,20 +65,23 @@ export default {
       BLESS_CARD_NAME,
       BLESS_CARD_DESC,
       cardUrls: [
-        'https://cdn.wherein.mobi/wormhole3/newyear/card0.png',
-        'https://cdn.wherein.mobi/wormhole3/newyear/card1.png',
-        'https://cdn.wherein.mobi/wormhole3/newyear/card2.png',
-        'https://cdn.wherein.mobi/wormhole3/newyear/card3.png',
-        'https://cdn.wherein.mobi/wormhole3/newyear/card4.png',
+        'https://cdn.wherein.mobi/wormhole3/newyear/trader.jpg',
+        'https://cdn.wherein.mobi/wormhole3/newyear/dealer.jpg',
+        'https://cdn.wherein.mobi/wormhole3/newyear/miner.jpg',
+        'https://cdn.wherein.mobi/wormhole3/newyear/builder.jpg',
+        'https://cdn.wherein.mobi/wormhole3/newyear/holder.jpg',
       ]
     }
   },
   computed: {
-    ...mapState(['newCardId']),
+    ...mapState(['newCardId']), // 1-5
     ...mapState('newYear', ['blessCardBalance']),
     ...mapGetters(['getAccountInfo']),
     balance() {
       return this.blessCardBalance[this.newCardId] + 1;
+    },
+    cardIndex() {
+      return parseInt(this.newCardId) - 1
     }
   },
   methods: {
@@ -91,7 +94,7 @@ export default {
       this.close();
     },
     share() {
-      const name = BLESS_CARD_NAME[this.newCardId];
+      const name = BLESS_CARD_NAME[this.cardIndex];
       window.open(`https://twitter.com/intent/tweet?text=I get a ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCome join us here: https://alpha.wormhole3.io.`);
       this.close()
     },
@@ -103,7 +106,7 @@ export default {
       aLink.style.display = 'none'
       let img = new Image;
       img.setAttribute('crossOrigin', 'anonymous')
-      img.src= this.cardUrls[this.newCardId]
+      img.src= this.cardUrls[this.cardIndex]
       img.onload = function(){
         canvas.width = img.width
         canvas.height = img.height

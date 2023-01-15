@@ -36,8 +36,8 @@
       <div v-if="tabIndex===0"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
         <div :class="showTab0Desc?'':'min-h-60px max-h-60px overflow-hidden'">
-          The five lucky cards are combined with 4 Common cards and 1 Rare card. <br>
-          How to obtain the lucky cards?<br>
+          The five Lucky Cards are combined with 4 Common Cards and 1 Rare Card. <br>
+          How to obtain the Lucky Cards?<br>
           <b>Interaction</b> - You will get a chance to win the Five Lucky Cards by using Wormhole3 during the campaign period <br>
           <b>Participation</b> - Participate in the project's tasks during the event <br>
           <b>Trading/Giving</b> - All cards can be traded and gifted <br>
@@ -51,7 +51,7 @@
         <div :class="showTab1Desc?'':'min-h-60px max-h-60px overflow-hidden'">
           Mystery box cards have 5 levels, each level represents weight 1, 2, 3, 5, 10. The ultimate reward is determined by the sum of the mystery box card levels held.<br>
           How to obtain the mystery box card? <br>
-          <b>Combination</b> - A mystery box card combined with 4 normal luck cards and 1 rare luck card <br>
+          <b>Combination</b> - A mystery box card combined with 4 normal Luck Cards and 1 rare Luck Card <br>
           How to promote me or my project through mystery box cards? <br>
           <b>Mint</b> - You can promote your project by inserting prizes and project information into the mystery box card, which costs 1 $USDT per card mint.
         </div>

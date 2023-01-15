@@ -92,7 +92,6 @@ export default {
   },
   mounted() {
     this.cardIndex = this.selectedIndex
-    console.log(this.cardList)
   },
   methods: {
     onShare(cardDetail) {
