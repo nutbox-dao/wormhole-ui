@@ -18,11 +18,13 @@
             </div>
           </div>
           <div v-else class="ny-box-shadow bg-color36 rounded-6px flex items-center">
-            <button class="font-bold ny-red-gradient text-white h-45px 2xl:h-1.7rem px-20px rounded-6px">
-              {{$t('ny.claimReward')}}
+            <button class="font-bold ny-red-gradient text-white h-45px 2xl:h-1.7rem px-20px rounded-6px"
+              :disabled="claimed"
+              @click="claimRewardVisible=true">
+              {{ claimed ? $t('curation.claimed') : $t('ny.claimReward')}}
             </button>
             <span class="px-16px c-text-black text-18px sm:text-1.2rem flex items-center text-white">
-              ${{ rewards }}
+              ${{ claimed ? claimedRewards : rewards }}
             </span>
           </div>
           <div class="h-45px w-1px bg-color62 mx-20px"></div>
@@ -36,17 +38,19 @@
           </div>
         </div>
         <div class="flex justify-start">
-          <div v-if="!isOver" class="flex flex-col justify-between items-center mt-20px xs:mt-0"
+          <div class="flex flex-col justify-between items-center mt-20px xs:mt-0"
                @click="makeCard">
             <button class="font-bold ny-red-gradient text-white h-34px 2xl:h-1.7rem px-20px max-w-12rem
-                           border-2 border-white rounded-full whitespace-nowrap">
+                           border-2 border-white rounded-full whitespace-nowrap"
+                           :disabled="isOver"
+                           @click="makeCard">
               {{$t('ny.makeCard')}}
             </button>
             <div class="text-12px leading-14px mt-3px">
               {{ userActivityInfo.openBoxCounts }} / {{ userActivityInfo.mintBoxCounts }} {{$t('ny.opened')}}
             </div>
           </div>
-          <div v-else
+          <!-- <div v-else-if="userActivityInfo.openBoxCounts != userActivityInfo.mintBoxCounts"
                class="flex flex-col justify-between items-center mt-20px xs:mt-0"
                @click="redeemCardVisible=true">
             <button class="font-bold bg-color62 text-white h-34px 2xl:h-1.7rem px-20px max-w-12rem
@@ -57,7 +61,7 @@
             <div class="text-12px leading-14px mt-3px">
               {{ userActivityInfo.openBoxCounts }} / {{ userActivityInfo.mintBoxCounts }} {{$t('ny.opened')}}
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <van-pull-refresh class="min-h-full"
@@ -154,6 +158,14 @@
                       border-1 border-color84/30 rounded-20px">
       <RedeemCardModal @close="redeemCardVisible=false"/>
     </el-dialog>
+    <el-dialog v-model="claimRewardVisible"
+               destroy-on-close
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog c-dialog-center c-dialog-no-bg c-dialog-no-shadow max-w-500px
+                      border-1 border-color84/30 rounded-20px">
+    <ClaimRewardsModal @close="claimRewardVisible=false"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -161,6 +173,7 @@
 import MysteryCardDetailModal from "@/views/red-envelope/MysteryCardDetailModal";
 import MakeMysteryCard from "@/views/red-envelope/MakeMysteryCard";
 import RedeemCardModal from "@/views/red-envelope/RedeemCardModal";
+import ClaimRewardsModal from "./ClaimRewardsModal.vue";
 import CardLogo from '@/assets/red-envelope/mystery-logo.png'
 import { getUserActivityInfo, getUserBlindBox } from '@/utils/new-year'
 import { mapGetters, mapState } from "vuex";
@@ -169,7 +182,7 @@ import { formatAmount } from "@/utils/helper";
 
 export default {
   name: "MysteryCards",
-  components: {MysteryCardDetailModal, MakeMysteryCard, RedeemCardModal},
+  components: {MysteryCardDetailModal, MakeMysteryCard, RedeemCardModal, ClaimRewardsModal},
   computed: {
     ...mapState('newYear', ['blessCardBalance', 'getUSDTBalance', 'approvedUSDT', 'usdtBalance', 'userActivityInfo', 'blindBoxBalance']),
     ...mapState('web3', ['chainId', 'account']),
@@ -188,6 +201,18 @@ export default {
         return formatAmount(this.userActivityInfo.userWeights / (this.userActivityInfo.totalWeights ?? 1) * this.userActivityInfo.prizeTotalAmount)
       }
       return 0
+    },
+    claimedRewards() {
+      if (this.userActivityInfo) {
+        return formatAmount(this.userActivityInfo.alreadyReceived)
+      }
+      return 0
+    },
+    claimed() {
+      if (this.userActivityInfo.alreadyReceived > 0) {
+        return true
+      }
+      return false
     }
   },
   watch: {
@@ -205,6 +230,7 @@ export default {
       selectedCardIndex: 0,
       makeCardVisible: false,
       redeemCardVisible: false,
+      claimRewardVisible: false,
       refreshing: false,
       listLoading: false,
       listFinished: false,

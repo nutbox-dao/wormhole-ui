@@ -351,6 +351,7 @@ export default {
     notOpen: 'not open',
     redeemCardDesc: 'You made {totalNum} mystery cards, {notOpenNum} of them are not open, now you can redeem to get back the special rewards in these cards.',
     redeem: 'Redeem',
+    claimRewardsDesc: "You can claim {rewards} &USDT from the final reward pool, claim them now.",
     userNotExist: 'User not registerd wormhole3',
     accountMismatch: 'You must use your wormhole3 account to operate.',
     endTime: 'Time to end',

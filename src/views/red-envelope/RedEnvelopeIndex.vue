@@ -11,7 +11,10 @@
             <img class="w-45px mr-10px" src="~@/assets/red-envelope/icon-time.svg" alt="">
             <div class="flex flex-col items-start justify-between">
               <div class="text-color8C">{{$t('ny.endTime')}}</div>
-              <van-count-down class="text-color7D"
+              <div v-if="isOver" class="c-text-black text-18px">
+                Event has ended
+              </div>
+              <van-count-down v-else class="text-color7D"
                               :time="endTime">
                 <template #default="timeData">
                 <span class="flex items-center font-bold">
@@ -117,6 +120,9 @@ export default {
       // return parseTimestampToUppercase(this.userActivityInfo.eventEndTime)
       if(!this.userActivityInfo.eventEndTime || !isNumeric(this.userActivityInfo.eventEndTime)) return 0
       return this.userActivityInfo.eventEndTime*1000 - new Date().getTime()
+    },
+    isOver() {
+      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime 
     }
   },
   mounted () {

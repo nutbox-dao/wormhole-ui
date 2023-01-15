@@ -8,7 +8,7 @@
       {{$t('ny.redeemCards')}}
     </div>
     <div class="px-20px xs:px-1/10 leading-20px">
-      {{$t('ny.redeemCardDesc', {totalNum: userActivityInfo.mintBoxCounts, notOpenNum: userActivityInfo.mintBoxCounts - userActivityInfo.openBoxCounts})}}
+      {{$t('ny.claimRewardsDesc', {rewards: rewards})}}
     </div>
     <ConnectMainchainBTNVue class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
                    flex items-center justify-center px-20px
@@ -17,8 +17,8 @@
                    flex items-center justify-center px-20px
                    min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
             :disabled="loading || accountMismatch"
-            @click="onRedeem">
-      {{$t('ny.redeem')}}
+            @click="claim">
+      {{$t('curation.claim')}}
       <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
     </button>
     <div v-if="accountMismatch" class="text-center mt-6px">
@@ -32,9 +32,11 @@ import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 import { mapState, mapGetters } from 'vuex'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID } from '@/ny-config'
 import { accountChanged } from '@/utils/web3/account'
+import { formatAmount } from '@/utils/helper'
+import { claimPrize, getUserActivityInfo } from '@/utils/new-year'
 
 export default {
-  name: "RedeemCardModal",
+  name: "ClaimRewardsModal",
   components: {
     ConnectMainchainBTNVue,
   },
@@ -45,6 +47,12 @@ export default {
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
     },
+    rewards() {
+      if (this.userActivityInfo) {
+        return formatAmount(this.userActivityInfo.userWeights / (this.userActivityInfo.totalWeights ?? 1) * this.userActivityInfo.prizeTotalAmount)
+      }
+      return 0
+    }
   },
   data() {
     return {
@@ -53,12 +61,15 @@ export default {
     }
   },
   methods: {
-    async onRedeem() {
+    formatAmount,
+    async claim() {
       try{
         this.loading = true
+        await claimPrize();
+        await getUserActivityInfo(this.getAccountInfo.ethAddress);
         this.$emit('close')
       } catch(e) {
-        console.log('redeem fail:', e);
+        console.log('claim fail:', e);
       } finally {
         this.loading = false
       }

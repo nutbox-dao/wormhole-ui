@@ -65,11 +65,12 @@
                     :disabled="!blessCardBalance[5] || blessCardBalance[5]===0"
                     @click="onGive(4)">{{$t('ny.give')}}</button>
             <button class="flex-1 py-6px bg-color62 text-white rounded-full buy-btn font-bold"
+                    :disabled="isOver"
                     @click="buyCard">{{$t('ny.buy')}}</button>
           </div>
         </div>
       </div>
-      <div class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center">
+      <div v-if="!isOver" class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center">
         <img class="w-8rem max-w-120px" src="~@/assets/red-envelope/icon-box.png" alt="">
         <button class="buy-btn rounded-full font-bold px-12px h-34px text-12px"
                 @click="compoundBox">
@@ -165,6 +166,9 @@ export default {
         return;
       }
       this.openBoxVisible=true
+    },
+    isOver() {
+      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime 
     }
   },
   mounted () {
