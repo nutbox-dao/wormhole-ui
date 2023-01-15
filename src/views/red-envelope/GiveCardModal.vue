@@ -67,11 +67,14 @@
         <button v-else class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem
                      flex items-center justify-center
                      w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
-                :disabled="!giveEnable || giveLoading"
+                :disabled="!giveEnable || giveLoading || accountMismatch"
                 @click="onGive">
           {{$t('ny.give')}}
           <c-spinner v-show="giveLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
+        <div v-if="accountMismatch" class="text-blueDark">
+          {{ $t('ny.accountMismatch') }}
+        </div>
       </div>
     </template>
     <template v-if="step===1">
@@ -140,6 +143,7 @@
         {{$t('ny.shareTweet')}}
         <c-spinner v-show="shareLoading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
       </button>
+      
     </template>
   </div>
 </template>
@@ -160,6 +164,7 @@ import { ethers } from 'ethers'
 import { notify } from '@/utils/notify'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME } from '@/ny-config'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
+import { accountChanged } from '@/utils/web3/account'
 
 export default {
   name: "GiveCardModal",
@@ -206,14 +211,18 @@ export default {
   },
   computed: {
     ...mapState('newYear', ['blessCardBalance']),
-    ...mapState('web3', ['chainId']),
+    ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
     isVerified() {
       return ethers.utils.isAddress(this.toAddress)
-    }
+    },
+    accountMismatch() {
+      return this.getAccountInfo.ethAddress !== this.account
+    },
   },
   mounted() {
     this.cardIndex = this.selectIndex
+    accountChanged().catch()
   },
   methods: {
     getBlur() {
