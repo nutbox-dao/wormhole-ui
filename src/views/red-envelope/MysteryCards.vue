@@ -40,15 +40,17 @@
         <div class="flex justify-start">
           <div class="flex flex-col justify-between items-center mt-20px xs:mt-0"
                @click="makeCard">
-            <button class="font-bold ny-red-gradient text-white h-34px 2xl:h-1.7rem px-20px max-w-12rem
-                           border-2 border-white rounded-full whitespace-nowrap"
+            <button class="font-bold ny-red-gradient text-white h-full px-20px py-6px max-w-12rem
+                           flex flex-col items-center justify-center
+                           border-2 border-white rounded-10px whitespace-nowrap"
                            :disabled="isOver"
                            @click="makeCard">
-              {{$t('ny.makeCard')}}
-            </button>
-            <div class="text-12px leading-14px mt-3px">
+              <span>{{$t('ny.makeCard')}}</span>
+              <span class="text-12px leading-14px mt-3px">
               {{ userActivityInfo.openBoxCounts }} / {{ userActivityInfo.mintBoxCounts }} {{$t('ny.opened')}}
-            </div>
+            </span>
+            </button>
+
           </div>
           <!-- <div v-else-if="userActivityInfo.openBoxCounts != userActivityInfo.mintBoxCounts"
                class="flex flex-col justify-between items-center mt-20px xs:mt-0"

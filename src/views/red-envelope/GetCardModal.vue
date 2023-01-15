@@ -12,30 +12,43 @@
            src="~@/assets/red-envelope/modal-title-bg.png" alt="">
     </div>
     <div class="px-15px sm:w-8/10 mx-auto text-center flex flex-col items-center">
-      <div class="relative w-220px ny-card-text get-card">
-        <img v-if="newCardId === 5" src="~@/assets/red-envelope/rare-card.png" alt="">
-        <img v-else src="~@/assets/red-envelope/lucky-card.png" alt="">
-        <div class="w-full px-18px absolute top-36px flex flex-col items-center">
-          <img class="w-full rounded-8px"
-               :src="require(`@/assets/red-envelope/card${cardIndex}.png`)" alt="">
-          <div class="flex items-center justify-between px-10px mt-20px w-full">
-            <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-            <span class=" text-20px">{{ BLESS_CARD_NAME[cardIndex] }}</span>
-            <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+      <div class="card-container w-220px h-320px relative">
+        <div class="card-content cursor-pointer w-full h-full get-card">
+          <div class="front absolute">
+            <div class="relative w-220px ny-card-text">
+              <img v-if="newCardId === 5" src="~@/assets/red-envelope/rare-card.png" alt="">
+              <img v-else src="~@/assets/red-envelope/lucky-card.png" alt="">
+              <div class="w-full px-18px absolute top-36px flex flex-col items-center">
+                <img class="w-full rounded-8px"
+                     :src="require(`@/assets/red-envelope/card${cardIndex}.png`)" alt="">
+                <div class="flex items-center justify-between px-10px mt-20px w-full">
+                  <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  <span class=" text-20px">{{ BLESS_CARD_NAME[cardIndex] }}</span>
+                  <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                </div>
+                <button v-if="cardIndex === 4"
+                        class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
+                        @click="onDownload">
+                  <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-red.svg" alt="">
+                  <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
+                </button>
+                <template v-else>
+                  <button class="bg-white px-15px h-30px purple-download-btn flex justify-center items-center rounded-full mt-4px"
+                          @click="onDownload">
+                    <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-purple.svg" alt="">
+                    <span class="whitespace-nowrap font-bold text-14px text-color62">{{$t('ny.downloadImg')}}</span>
+                  </button>
+                </template>
+              </div>
+            </div>
           </div>
-          <button v-if="cardIndex === 4"
-                  class="bg-white px-15px h-30px red-download-btn flex justify-center items-center rounded-full mt-4px"
-                  @click="onDownload">
-            <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-red.svg" alt="">
-            <span class="whitespace-nowrap font-bold text-14px">{{$t('ny.downloadImg')}}</span>
-          </button>
-          <template v-else>
-            <button class="bg-white px-15px h-30px purple-download-btn flex justify-center items-center rounded-full mt-4px"
-                    @click="onDownload">
-              <img class="w-14px h-14px mr-4px" src="~@/assets/red-envelope/icon-download-purple.svg" alt="">
-              <span class="whitespace-nowrap font-bold text-14px text-color62">{{$t('ny.downloadImg')}}</span>
-            </button>
-          </template>
+          <div class="back absolute">
+            <div class="relative text-white">
+              <img v-if="newCardId === 5" class="w-full cursor-pointer"
+                   src="~@/assets/red-envelope/rare-card.png" alt="">
+              <img class="w-full cursor-pointer" src="~@/assets/red-envelope/card-back.png" alt="">
+            </div>
+          </div>
         </div>
       </div>
       <div class="my-20px text-left whitespace-pre-line ny-color4E sm:px-1/10">
@@ -148,4 +161,40 @@ export default {
 .purple-download-btn {
   box-shadow: 0px 2px 10px #7A42ED;
 }
+.card-container {
+  -ms-perspective: 800px;
+  perspective: 800px;
+  border-radius: 4px;
+}
+.card-content {
+  transform-style: preserve-3d;
+}
+.card-content .back, .card-content .front {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.card-content .back {
+  transform: rotateY(-180deg);
+}
+.get-card {
+  animation: flipCard 1.5s forwards, scaleCard 2s 1s forwards;
+  transform: scale(0.2) rotateY(-180deg);
+}
+@keyframes flipCard {
+  0% {
+    transform: scale(0.2) rotateY(-180deg);
+  }
+  100% {
+    transform: scale(0.2) rotateY(0deg);
+  }
+}
+@keyframes scaleCard {
+  0% {
+    transform: scale(0.2) rotateY(0deg);
+  }
+  100% {
+    transform: scale(1) rotateY(0deg);
+  }
+}
+
 </style>
