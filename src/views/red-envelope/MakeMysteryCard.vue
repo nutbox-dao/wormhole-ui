@@ -17,10 +17,10 @@
               <img class="w-full cursor-pointer" src="~@/assets/red-envelope/mystery-card.png" alt="">
               <img class="w-57px absolute top-16/100 left-1/2 transform -translate-x-1/2 rounded-14px"
                    :src="logoPreviewSrc" alt="">
-              <div v-if="form.tokenNum > 0"
+              <!-- <div v-if="form.tokenNum > 0"
                    class="absolute top-10px right-10px font-bold text-shadow-lg opacity-70">
                 + {{formatAmount(form.tokenNum / (form.cardNum ?? 1))}} {{selectedToken.symbol}}
-              </div>
+              </div> -->
               <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
                           text-16px font-bold text-color62">
                 {{form.brandName || 'Brand name'}}
@@ -561,7 +561,6 @@ export default {
           await approveUSDTToCollect(this.getAccountInfo.ethAddress)
           getUSDTBalance(this.getAccountInfo.ethAddress).catch();
         }else if (this.tokenApproveNum < this.form.tokenNum) {
-
           getApprovement(CHAIN_NAME, this.form.tokenAddress,this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(t => {
               this.tokenApproveNum = t
           })

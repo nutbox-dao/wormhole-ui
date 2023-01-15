@@ -220,7 +220,6 @@ export default {
         const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         if (drawedBoxInfo && drawedBoxInfo.length > 0) {
           this.drawedBoxInfo = drawedBoxInfo[0];
-          console.log(35, this.drawedBoxInfo);
           getUserNYCards(this.getAccountInfo.ethAddress).catch()
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1
@@ -251,10 +250,10 @@ export default {
     if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
       return;
     }
-    accountChanged().catch()
     getAccounts(true).then(wallet => {
       this.account = wallet
     }).catch();
+    accountChanged().catch()
   },
 }
 </script>
