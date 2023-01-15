@@ -391,7 +391,8 @@ export default {
     wrongTweetLink: 'Please input correct tweet link',
     wrongUserNumber: 'Please input correct users count',
     contractError: 'Interactive with contract fail.',
-    loginTimeout: 'Login time out'
+    loginTimeout: 'Login time out',
+    uploadLogoFail: "Upload fail, please try again."
   },
   common: {
     none: 'None',

@@ -542,6 +542,7 @@ export default {
           await this.uploadImage(data)
           this.logoUploadLoading = false
         } catch (e) {
+          notify({message: this.$t('err.uploadLogoFail'), type: 'error'})
           console.log(53, e);
           this.coverImg = null
           this.form.poster = null
