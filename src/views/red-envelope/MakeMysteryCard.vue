@@ -33,7 +33,7 @@
               <div v-if="type==='nft'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                           font-bold text-14px lg:text-16px text-color62">
-                + {{form.nftNum}} NFT
+                + 1 NFT
               </div>
               <div v-if="type==='none'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
@@ -202,16 +202,19 @@
                        v-model="form.nftAddress"
                        :placeholder="$t('ny.enterNftAddressTip')">
               </div>
-              <div class="flex gap-10px mb-10px">
+              <div v-if="notNft" class="text-right text-color8B light:text-color7D mb-10px">
+                This is not a NFT token
+              </div>
+              <div class="gap-10px mb-10px">
                 <div>
                   <div class="font-bold mb-4px">{{$t('ny.nftId')}}</div>
-                  <div class="flex-1 bg-colorF2 rounded-8px h-34px">
+                  <div class="flex-1 bg-colorF2 rounded-8px h-34px mb-10px">
                     <input class="bg-transparent h-full w-full px-15px"
                            v-model="form.nftId"
                            :placeholder="$t('ny.enterNftIdTip')">
                   </div>
                 </div>
-                <div>
+                <!-- <div>
                   <div class="font-bold mb-4px">{{$t('ny.nftNum')}}</div>
                   <div class="flex-1 bg-colorF2 rounded-8px h-34px">
                     <input class="bg-transparent h-full w-full px-15px"
@@ -219,16 +222,20 @@
                            :disabled="nftNumDisabled"
                            :placeholder="$t('ny.enterNftNumTip')">
                   </div>
-                </div>
+                </div> -->
               </div>
-              <div v-if="type!=='none'" class="text-right text-color8B light:text-color7D mb-10px">
+              <div v-if="type === 'token'" class="text-right text-color8B light:text-color7D mb-10px">
                 {{$t('ny.tokenBalance')}}: {{ formatAmount(tokenBalance) }}
+              </div>
+              <div v-if="type === 'nft'" class="text-right text-color8B light:text-color7D mb-10px">
+                {{$t('ny.tokenBalance')}}: {{ nftType === 'erc721' ? balance721 : balance1155 }}
               </div>
             </template>
             <div class="font-bold mb-4px">{{$t('ny.cardNum')}}</div>
             <div class="w-full bg-colorF2 rounded-8px h-34px mb-10px">
               <input class="bg-transparent h-full w-full px-15px"
                      v-model="form.cardNum"
+                     :disabled="nftType === 'erc721'"
                      type="number"
                      :placeholder="$t('ny.enterCardNumTip')">
             </div>
@@ -296,7 +303,7 @@
               <div v-if="type==='nft'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
                           font-bold text-14px lg:text-16px text-color62">
-                + {{form.nftNum}} NFT
+                + 1 NFT
               </div>
               <div v-if="type==='none'"
                    class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
@@ -387,7 +394,9 @@ import { ethers } from 'ethers'
 import { newBlindCards, getBlindCardsByIds } from '@/api/api'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME, COLLECT_BLESS_CONTRACT, USDT_CONTRACT, WormholeInfo } from '@/ny-config'
 import { TokenIcon, EVM_CHAINS } from "@/config";
-import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance, getERC1155Approvment, getERC721Approvement } from "@/utils/asset";
+import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance, approve,
+  getERC1155Approvment, getERC721Approvement, getUserOwnERC721Id, getERC1155TokenBalance,
+  approveERC1155, approveERC721} from "@/utils/asset";
 import { notify } from '@/utils/notify'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
@@ -410,7 +419,7 @@ export default {
         tokenAmount: 0,
         tokenNum: '',
         nftAddress: '',
-        nftNum: '',
+        nftNum: 1,
         nftId: '',
         cardNum: '',
         logoUrl: '',
@@ -419,8 +428,13 @@ export default {
       },
       test1155: '0xeD9012740c9F35BD0155E9B3997503195187FF02',
       test721: '0x92B49D7435CEB07b732954091d46D8a359DfC6e9',
-      
-      nftNumDisabled: false,
+      balance1155: 0,
+      balance721: 0,
+      approved1155: false,
+      approved721: false,
+      notNft: false,
+      nftType: '',
+      nftNumDisabled: true,
       cropperModalVisible: false,
       cropperImgSrc: '',
       cropFixedNumber: [1, 1],
@@ -452,7 +466,7 @@ export default {
       return (this.form.cardNum * 1)
     },
     usdtApprovement() {
-      return this.buyAmount <= parseFloat(this.approvedUSDT) && this.buyAmount !== 0
+      return this.buyAmount <= parseFloat(this.approvedUSDT)
     },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
@@ -467,9 +481,15 @@ export default {
       }
       if (this.type === 'none') {
         count++
-      }else {
+      }else if (this.type === 'token') {
         if (this.tokenApproveNum >= this.form.tokenNum) {
           count++
+        }
+      }else if (this.type === 'nft') {
+        if (this.nftType === 'erc1155' && this.approved1155) {
+          count++;
+        }else if (this.nftType === 'erc721' && this.approved721) {
+          count++;
         }
       }
       return count
@@ -499,19 +519,69 @@ export default {
     },
     'form.nftAddress'(val) {
       if (ethers.utils.isAddress(val)) {
-
+        this.approved1155 = false;
+        this.approved721 = false;
+        this.nftType = '';
+        this.form.cardNum = 1;
+        this.form.nftNum = 1;
+        this.balance1155 = 0;
+        this.balance721 = 0;
         checkNFTType(CHAIN_NAME, val).then(res => {
-          console.log(6656, res);
+          this.notNft = false;
+          const nftId = parseInt(this.form.nftId)
           if (res === 'ERC1155') {
+            this.nftType = 'erc1155'
             getERC1155Approvment(CHAIN_NAME, val, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved1155 => {
-
-            })
+              this.approved1155 = approved1155
+            }).catch()
+            if (nftId > 0) {
+              // get balance
+              getERC1155TokenBalance(CHAIN_NAME, val, nftId, this.getAccountInfo.ethAddress).then(b => {
+                this.balance1155 = b
+              }).catch()
+            }
           }else if (res === 'ERC721') {
+            this.nftType = 'erc721'
             getERC721Approvement(CHAIN_NAME, val, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved721 => {
-
-            })
+              this.approved721 = approved721;
+            }).catch()
+            if (nftId > 0) {
+              //get balance
+              getUserOwnERC721Id(CHAIN_NAME, val, nftId, this.getAccountInfo.ethAddress).then(re => {
+                if (re) {
+                  this.balance721 = 1
+                }else{
+                  this.balance721 = 0
+                }
+              }).catch()
+            }
+          }else {
+            this.notNft = true
           }
-        })
+        }).catch()
+      }else {
+        this.notNft = true
+      }
+    },
+    'form.nftId'(val) {
+      if (ethers.utils.isAddress(this.form.nftAddress)) {
+        const nftId = parseInt(val)
+        if (nftId > 0) {
+          // get banlance
+          if (this.nftType === 'erc1155') {
+            getERC1155TokenBalance(CHAIN_NAME, this.form.nftAddress, nftId, this.getAccountInfo.ethAddress).then(b => {
+                this.balance1155 = b
+              }).catch()
+          }else if(this.nftType === 'erc721') {
+            getUserOwnERC721Id(CHAIN_NAME, this.form.nftAddress, nftId, this.getAccountInfo.ethAddress).then(re => {
+                if (re) {
+                  this.balance721 = 1
+                }else{
+                  this.balance721 = 0
+                }
+              }).catch()
+          }
+        }
       }
     }
   },
@@ -581,10 +651,24 @@ export default {
         if (!this.usdtApprovement) {
           await approveUSDTToCollect(this.getAccountInfo.ethAddress)
           getUSDTBalance(this.getAccountInfo.ethAddress).catch();
-        }else if (this.tokenApproveNum < this.form.tokenNum) {
-          getApprovement(CHAIN_NAME, this.form.tokenAddress,this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(t => {
-              this.tokenApproveNum = t
-          })
+        }else { 
+          const nftId = parseInt(this.form.nftId)
+          if (this.type === 'token' && this.tokenApproveNum < this.form.tokenNum) {
+            await approve(this.form.tokenAddress, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT)
+            getApprovement(CHAIN_NAME, this.form.tokenAddress,this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(t => {
+                this.tokenApproveNum = t
+            })
+          }else if (this.nftType === 'erc1155') {
+            const tx = await approveERC1155(this.form.nftAddress, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT);
+            getERC1155Approvment(CHAIN_NAME, this.form.nftAddress, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved1155 => {
+              this.approved1155 = approved1155
+            }).catch()
+          }else if (this.nftType === 'erc721') {
+            await approveERC721(this.form.nftAddress, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT);
+            getERC721Approvement(CHAIN_NAME, this.form.nftAddress, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved721 => {
+              this.approved721 = approved721;
+            }).catch()
+          }
         }
       } catch (e) {
         console.log('approve fail:', e``);
@@ -639,6 +723,12 @@ export default {
         if (this.tokenBalance < this.form.tokenNum && this.type === 'token') {
           insufficientBalance = true;
         }
+        if (this.nftType === 'erc721' && this.balance721 === 0) {
+          insufficientBalance = true;
+        }
+        if (this.nftType ==='erc1155' && this.balance1155 < this.form.cardNum) {
+          insufficientBalance = true;
+        }
       }
       if (insufficientBalance) {
         notify({message: this.$t('curation.insuffientBalance'), type: 'error'});
@@ -648,7 +738,6 @@ export default {
     },
 
     async mint() {
-      let id = 0
       if (this.type === 'none') {
         this.form.type = 'none'
         this.form.nftId = 0
@@ -656,15 +745,16 @@ export default {
         this.form.type = 'erc20'
         this.form.nftId = 0
       }else if(this.type === 'nft') {
-        this.form.type = 'erc1155'
-        thif.form.tokenAddress = this.form.nftAddress
+        this.form.type = this.nftType
+        this.form.tokenAddress = this.form.nftAddress
       }
       if (!this.checkInfo()) {
         return;
       }
       try{
         this.mintLoading = true
-        const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, id, this.form.cardNum, this.type==='token' ? ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals) : 0)
+        console.log(534, this.form.tokenAddress, this.form.type, this.form.nftId, this.form.cardNum);
+        const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, this.form.nftId, this.form.cardNum, this.type==='token' ? ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals) : 0)
         this.form.ids = ids
         this.form.twitterId = this.getAccountInfo.twitterId;
         this.form.hash = hash

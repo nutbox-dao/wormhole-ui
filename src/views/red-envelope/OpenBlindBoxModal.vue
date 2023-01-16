@@ -235,9 +235,9 @@ export default {
         const startTime = new Date().getTime()
         this.startAnimation = true
         this.isDrawing = true;
-        // const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
-        const drawedBoxInfo = [4]
+        const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         if (drawedBoxInfo && drawedBoxInfo.length > 0) {
+          this.drawedBoxInfo = drawedBoxInfo[0]
           getUserNYCards(this.getAccountInfo.ethAddress).catch()
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1

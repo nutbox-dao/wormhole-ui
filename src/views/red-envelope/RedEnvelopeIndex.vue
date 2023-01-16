@@ -91,7 +91,7 @@ import MysteryCards from "@/views/red-envelope/MysteryCards";
 import { mapGetters, mapState } from 'vuex'
 import { chainChanged } from '@/utils/web3/web3'
 import { getUserActivityInfo, getUserNYCards } from '@/utils/new-year'
-import { parseTimestampToUppercase } from '@/utils/helper'
+import { parseTimestampToUppercase, formatAmount } from '@/utils/helper'
 import {isNumeric} from "@/utils/tool";
 import lottie from "lottie-web";
 import CoinAnimation from "@/assets/animation/coin.json";
@@ -140,6 +140,7 @@ export default {
     this.showCoinAnimation()
   },
   methods: {
+    formatAmount,
     showCoinAnimation() {
       console.log('create animation')
       this.coinAnimation = lottie.loadAnimation({
