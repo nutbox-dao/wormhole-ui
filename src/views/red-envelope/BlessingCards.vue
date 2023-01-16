@@ -70,10 +70,10 @@
           </div>
         </div>
       </div>
-      <div v-if="!isOver" class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center">
+      <div v-if="!isOver" class="fixed sm:absolute right-20px bottom-3rem flex flex-col items-center cursor-pointer"
+        @click="compoundBox">
         <img class="w-8rem max-w-120px" src="~@/assets/red-envelope/icon-box.png" alt="">
-        <button class="buy-btn rounded-full font-bold px-12px h-34px text-12px"
-                @click="compoundBox">
+        <button class="buy-btn rounded-full font-bold px-12px h-34px text-12px">
           {{$t('ny.compoundBox')}}
         </button>
       </div>
