@@ -233,7 +233,7 @@ export default {
     async onDrawCard() {
       try{
         const startTime = new Date().getTime()
-        this.startAnimation = true
+        // this.startAnimation = true
         this.isDrawing = true;
         const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         if (drawedBoxInfo && drawedBoxInfo.length > 0) {
@@ -242,9 +242,9 @@ export default {
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1
           // 显示卡片
-          const getCardTime = new Date().getTime() - startTime
-          const delayTime = getCardTime>3500? 0:(4000 - getCardTime)
-          this.$refs.mysteryCard.style.animationDelay = `${delayTime}ms`
+          // const getCardTime = new Date().getTime() - startTime
+          // const delayTime = getCardTime>3500? 0:(4000 - getCardTime)
+          // this.$refs.mysteryCard.style.animationDelay = `${delayTime}ms`
         }else {
           console.log('open box fail:');
           this.$emit('close');

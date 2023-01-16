@@ -753,7 +753,6 @@ export default {
       }
       try{
         this.mintLoading = true
-        console.log(534, this.form.tokenAddress, this.form.type, this.form.nftId, this.form.cardNum);
         const [ids, hash] = await mintBlindBox(this.getAccountInfo.ethAddress, this.form.tokenAddress, this.form.type, this.form.nftId, this.form.cardNum, this.type==='token' ? ethers.utils.parseUnits(this.form.tokenNum.toString(), this.form.tokenDecimals) : 0)
         this.form.ids = ids
         this.form.twitterId = this.getAccountInfo.twitterId;
