@@ -17,7 +17,7 @@
               </button>
             </div>
             <template v-else>
-              <button class="flex items-center justify-center bg-color62 hidden sm:flex
+              <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
                        h-30px px-15px rounded-full mr-0.8rem
                        font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
                       @click="createCuration">

@@ -40,9 +40,9 @@
         <div class="flex justify-start">
           <div class="flex flex-col justify-between items-center mt-20px xs:mt-0"
                @click="makeCard">
-            <button class="font-bold ny-red-gradient text-white h-full px-20px py-6px max-w-12rem
+            <button class="font-bold ny-red-gradient text-white h-full px-30px py-6px max-w-12rem
                            flex flex-col items-center justify-center
-                           border-2 border-white rounded-10px whitespace-nowrap"
+                           border-1 border-white rounded-10px whitespace-nowrap"
                            :disabled="isOver"
                            @click="makeCard">
               <span>{{$t('ny.makeCard')}}</span>
