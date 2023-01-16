@@ -62,13 +62,14 @@
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
               <img class="w-70/100 mx-auto" src="https://cdn.wherein.mobi/wormhole3/newyear/card4.png" alt="">
-              <div class="text-12px scale-text leading-14px text-white">Lucky Cards</div>
+              <div class="text-12px scale-text leading-14px text-white">2023 New Year Lucky Cards</div>
             </div>
           </div>
         </div>
       </div>
 <!--      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>-->
-      <template  v-if="reputation>0 || showingStellarTreks.length > 0">
+      <template  v-if="reputation>0 || showingStellarTreks.length > 0 || showingWC2022.length > 0
+          || showingChristmasNFT.length > 0 || showingLuckyCards.length > 0">
 
     </template>
       <div class="my-2rem" v-else>
