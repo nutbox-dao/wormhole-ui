@@ -130,6 +130,7 @@ export default {
     }
   },
   mounted () {
+    this.showCoinAnimation()
     if (!this.getAccountInfo || !this.getAccountInfo.ethAddress) {
       // this.$router.replace('/')
     getUserActivityInfo().catch();
@@ -137,7 +138,6 @@ export default {
     }
     chainChanged().catch()
     getUserActivityInfo(this.getAccountInfo.ethAddress).catch();
-    this.showCoinAnimation()
   },
   methods: {
     formatAmount,
