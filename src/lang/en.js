@@ -382,7 +382,8 @@ export default {
     enterCardNumTip: 'Enter number of Mystery card...',
     enterNftAddressTip: 'Enter the address of NFT',
     enterNftNumTip: 'Enter number of NFT',
-    enterNftIdTip: 'Enter the ID of NFT'
+    enterNftIdTip: 'Enter the ID of NFT',
+    openBoxFail: 'Open box fail'
   },
   err: {
     serverErr: 'Server error',
