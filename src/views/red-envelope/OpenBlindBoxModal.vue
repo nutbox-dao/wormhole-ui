@@ -1,6 +1,6 @@
 <template>
   <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max overflow-auto ny-modal-bg rounded-20px">
-    <button class="absolute right-20px top-20px"
+    <button class="fixed right-20px top-20px z-99"
             @click="$emit('close')">
       <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
     </button>

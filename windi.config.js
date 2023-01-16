@@ -85,7 +85,8 @@ export default defineConfig({
         'tip-gradient':'linear-gradient(94.28deg, rgba(129, 45, 226, 0.3) 0%, rgba(58, 73, 249, 0.3) 100%)',
         'end-gradient': 'linear-gradient(135deg, rgba(0, 0, 0, 0.1075) 0%, rgba(174, 174, 174, 0.0675) 0.01%, rgba(34, 34, 34, 0.0675) 100%)',
         'red-gradient': 'linear-gradient(94.4deg, #F90D0D 0.8%, #FF9393 105.21%)',
-        'btn-gradient': 'linear-gradient(96.05deg, #781FC4 4.97%, rgba(248, 244, 251, 0.9) 171.05%)'
+        'btn-gradient': 'linear-gradient(96.05deg, #781FC4 4.97%, rgba(248, 244, 251, 0.9) 171.05%)',
+        'ny-btn-gradient': 'linear-gradient(90deg, #8E2DE2 0%, #4A00E0 100%)'
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)',

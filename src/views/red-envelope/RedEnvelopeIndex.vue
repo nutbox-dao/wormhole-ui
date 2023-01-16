@@ -27,11 +27,13 @@
               </van-count-down>
             </div>
           </div>
-          <div class="flex data-box">
-            <img class="w-45px mr-10px" src="~@/assets/red-envelope/icon-coin.svg" alt="">
-            <div class="flex flex-col items-start justify-between">
-              <div class="text-color8C whitespace-nowrap">{{$t('ny.poolRewards')}}</div>
-              <span class="c-text-black text-18px">${{ userActivityInfo.prizeTotalAmount }}</span>
+          <div class="flex coin-data-box overflow-hidden p-2px rounded-20px">
+            <div class="bg-primaryBg light:bg-white rounded-18px py-13px px-16px flex items-center">
+              <div class="amount-coin w-45px mr-10px"></div>
+              <div class="flex flex-col items-start justify-between">
+                <div class="whitespace-nowrap text-white light:text-blueDark">{{$t('ny.poolRewards')}}</div>
+                <span class="c-text-black text-18px amount-text">${{ userActivityInfo.prizeTotalAmount }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -91,6 +93,8 @@ import { chainChanged } from '@/utils/web3/web3'
 import { getUserActivityInfo, getUserNYCards } from '@/utils/new-year'
 import { parseTimestampToUppercase } from '@/utils/helper'
 import {isNumeric} from "@/utils/tool";
+import lottie from "lottie-web";
+import CoinAnimation from "@/assets/animation/coin.json";
 
 export default {
   name: "RedEnvelopeIndex",
@@ -122,7 +126,7 @@ export default {
       return this.userActivityInfo.eventEndTime*1000 - new Date().getTime()
     },
     isOver() {
-      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime 
+      return (new Date().getTime() / 1000) > this.userActivityInfo.eventEndTime
     }
   },
   mounted () {
@@ -133,6 +137,20 @@ export default {
     }
     chainChanged().catch()
     getUserActivityInfo(this.getAccountInfo.ethAddress).catch();
+    this.showCoinAnimation()
+  },
+  methods: {
+    showCoinAnimation() {
+      console.log('create animation')
+      this.coinAnimation = lottie.loadAnimation({
+        container: document.querySelector('.amount-coin'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        // animationData: require('@/assets/animation/coin.json')
+        animationData: CoinAnimation
+      });
+    },
   }
 }
 </script>
@@ -160,6 +178,17 @@ export default {
   background: #161B22;
   border-radius: 20px;
   padding: 13px 16px;
+}
+.coin-data-box {
+  background-image: linear-gradient(150deg, #FBECC6, #F4D677, #FACD5A);
+  border-radius: 20px;
+  .amount-text {
+    background: linear-gradient(157.12deg, #FBECC6 4.89%, #F4D677 64.08%, #FACD5A 105.66%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
 }
 .card-box {
   border: 1px solid rgba(138, 104, 255, 0.4);
