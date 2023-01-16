@@ -7,6 +7,16 @@
           <div class="text-color8B light:text-color7D mt-4px">{{$t('ny.p2')}}</div>
         </div>
         <div class="flex-1 flex flex-col xs:flex-row lg:justify-end gap-x-20px gap-y-10px">
+
+          <div class="flex coin-data-box overflow-hidden p-2px rounded-20px">
+            <div class="bg-primaryBg light:bg-white rounded-18px py-13px px-16px flex items-center">
+              <div class="amount-coin w-45px mr-10px"></div>
+              <div class="flex flex-col items-start justify-between">
+                <div class="whitespace-nowrap text-white light:text-blueDark">{{$t('ny.poolRewards')}}</div>
+                <span class="c-text-black text-22px amount-text">${{ userActivityInfo.prizeTotalAmount }}</span>
+              </div>
+            </div>
+          </div>
           <div class="flex data-box">
             <img class="w-45px mr-10px" src="~@/assets/red-envelope/icon-time.svg" alt="">
             <div class="flex flex-col items-start justify-between">
@@ -25,15 +35,6 @@
                 </span>
                 </template>
               </van-count-down>
-            </div>
-          </div>
-          <div class="flex coin-data-box overflow-hidden p-2px rounded-20px">
-            <div class="bg-primaryBg light:bg-white rounded-18px py-13px px-16px flex items-center">
-              <div class="amount-coin w-45px mr-10px"></div>
-              <div class="flex flex-col items-start justify-between">
-                <div class="whitespace-nowrap text-white light:text-blueDark">{{$t('ny.poolRewards')}}</div>
-                <span class="c-text-black text-18px amount-text">${{ userActivityInfo.prizeTotalAmount }}</span>
-              </div>
             </div>
           </div>
         </div>
