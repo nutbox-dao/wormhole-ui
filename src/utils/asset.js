@@ -181,7 +181,7 @@ export async function getERC1155TokenBalance(chainName, token, id, account) {
     let calls = [{
         target: token,
         call: [
-            'balanceOf(adderss,uint256)(uint256)',
+            'balanceOf(address,uint256)(uint256)',
             account, id
         ],
         returns: [
@@ -362,7 +362,7 @@ export async function getERC721Approvement(chainName, token, account, spender) {
     }
     let calls = [{
         target: token,
-        calls: [
+        call: [
             'isApprovedForAll(address,address)(bool)',
             account,
             spender
