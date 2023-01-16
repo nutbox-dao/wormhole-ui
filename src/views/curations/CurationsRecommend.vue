@@ -120,9 +120,9 @@ export default {
       this.$router.push('/curation-detail/' + curation.curationId);
     },
     gotoUrl(banner) {
-      // this.$store.commit('saveNewCardId', 4);
-      // this.$store.commit('saveGetCardVisible', true)
-      // return;
+      this.$store.commit('saveNewCardId', 4);
+      this.$store.commit('saveGetCardVisible', true)
+      return;
       window.open(banner.url)
     },
     updatePage() {

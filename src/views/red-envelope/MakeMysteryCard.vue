@@ -102,11 +102,11 @@
                       @click="type='token'">
                 Token
               </button>
-              <!--            <button class="flex-1 rounded-8px h-full"-->
-              <!--                    :class="type==='nft'?'bg-white text-color62':''"-->
-              <!--                    @click="type='nft'">-->
-              <!--              NFT-->
-              <!--            </button>-->
+              <button class="flex-1 rounded-8px h-full"
+                      :class="type==='nft'?'bg-white text-color62':''"
+                      @click="type='nft'">
+                NFT
+              </button>
               <button class="flex-1 rounded-8px h-full"
                       :class="type==='none'?'bg-white text-color62':''"
                       @click="type='none';clearTokenInput()">
@@ -387,7 +387,7 @@ import { ethers } from 'ethers'
 import { newBlindCards, getBlindCardsByIds } from '@/api/api'
 import { NEW_YEAR_CARD_CONTRACT, CHAIN_ID, BLESS_CARD_NAME, CHAIN_NAME, COLLECT_BLESS_CONTRACT, USDT_CONTRACT, WormholeInfo } from '@/ny-config'
 import { TokenIcon, EVM_CHAINS } from "@/config";
-import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance } from "@/utils/asset";
+import { getTokenInfo, checkNFTType, getApprovement, getERC20TokenBalance, getERC1155Approvment, getERC721Approvement } from "@/utils/asset";
 import { notify } from '@/utils/notify'
 import ConnectMainchainBTNVue from './ConnectMainchainBTN.vue'
 
@@ -417,6 +417,9 @@ export default {
         brandDesc: '',
         creator: ''
       },
+      test1155: '0xeD9012740c9F35BD0155E9B3997503195187FF02',
+      test721: '0x92B49D7435CEB07b732954091d46D8a359DfC6e9',
+      
       nftNumDisabled: false,
       cropperModalVisible: false,
       cropperImgSrc: '',
@@ -449,7 +452,7 @@ export default {
       return (this.form.cardNum * 1)
     },
     usdtApprovement() {
-      return this.buyAmount <= parseFloat(this.approvedUSDT)
+      return this.buyAmount <= parseFloat(this.approvedUSDT) && this.buyAmount !== 0
     },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
@@ -492,6 +495,23 @@ export default {
       }else {
         this.tokenApproveNum = 0;
         this.tokenBalance = 0;
+      }
+    },
+    'form.nftAddress'(val) {
+      if (ethers.utils.isAddress(val)) {
+
+        checkNFTType(CHAIN_NAME, val).then(res => {
+          console.log(6656, res);
+          if (res === 'ERC1155') {
+            getERC1155Approvment(CHAIN_NAME, val, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved1155 => {
+
+            })
+          }else if (res === 'ERC721') {
+            getERC721Approvement(CHAIN_NAME, val, this.getAccountInfo.ethAddress, COLLECT_BLESS_CONTRACT).then(approved721 => {
+
+            })
+          }
+        })
       }
     }
   },

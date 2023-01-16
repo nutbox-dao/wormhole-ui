@@ -88,7 +88,7 @@
                             text-16px font-bold">
             {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
           </div>
-          <div v-if="drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0"
+          <div v-if="!drawedBoxInfo.brandName || (drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0)"
                class="absolute top-54/100 left-1/2 transform -translate-x-1/2
                             text-14px font-bold text-shadow-lg opacity-70 text-white">
             Congrats!<br>
@@ -217,9 +217,9 @@ export default {
     async onDrawCard() {
       try{
         this.isDrawing = true;
-        const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
+        // const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
+        const drawedBoxInfo = [4]
         if (drawedBoxInfo && drawedBoxInfo.length > 0) {
-          this.drawedBoxInfo = drawedBoxInfo[0];
           getUserNYCards(this.getAccountInfo.ethAddress).catch()
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1
