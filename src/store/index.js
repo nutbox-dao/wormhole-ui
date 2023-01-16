@@ -31,6 +31,7 @@ export default Vuex.createStore({
     stellarTreks: {},
     worldCupNFT: {},
     christmasNFT: {},
+    luckyCardsNFT: {},
     showLogin: false,
     getCardVisible: false,
     newCardId: 0
@@ -131,6 +132,9 @@ export default Vuex.createStore({
     },
     saveStellarTreks: (state, stellarTreks) => {
       state.stellarTreks = stellarTreks
+    },
+    saveLuckyCardsNFT: (state, luckyCardsNFT) => {
+      state.luckyCardsNFT = luckyCardsNFT
     },
     saveWorldCupNFT: (state, worldCupNFT) => {
       state.worldCupNFT = worldCupNFT

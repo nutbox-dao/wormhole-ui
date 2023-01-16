@@ -56,6 +56,16 @@
             </div>
           </div>
         </div>
+
+        <div class="col-span-1" v-if="showingLuckyCards.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=5">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://cdn.wherein.mobi/wormhole3/newyear/card4.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">Lucky Cards</div>
+            </div>
+          </div>
+        </div>
       </div>
 <!--      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>-->
       <template  v-if="reputation>0 || showingStellarTreks.length > 0">
@@ -159,6 +169,24 @@
             </div>
           </div>
         </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===5">
+          <div v-if="showingLuckyCards.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingLuckyCards" :key="st">
+            <div class="relative min-w cursor-pointer">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </el-dialog>
 <!--    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
@@ -178,12 +206,14 @@ import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
 import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT } from '@/utils/asset'
 import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/config'
+import { getUserNYCards } from '@/utils/new-year'
+import { BLESS_CARD_NAME, BLESS_CARD_DESC } from '@/ny-config'
 
 export default {
   name: "NFT",
   components: {GetNft},
   computed: {
-    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT']),
+    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT', 'luckyCardsNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
       return this.getAccountInfo?.twitterUsername
@@ -200,6 +230,12 @@ export default {
       }
       return sts
     },
+    showingLuckyCards() {
+      if (this.luckyCardsNFT && this.luckyCardsNFT.length > 0) {
+        return this.luckyCardsNFT
+      }
+      return []
+    },  
     showingWC2022() {
       let sts = []
       if (this.worldCupNFT && Object.keys(this.worldCupNFT).length > 0) {
@@ -277,6 +313,19 @@ export default {
     }).catch(e => {
       console.log(65, e);
     })
+    getUserNYCards(ethAddress).then(balances => {
+      let res = []
+      for (let b of [1,2,3,4,5]) {
+        if (balances[b] > 0) {
+          res.push({
+            name: BLESS_CARD_NAME[b - 1],
+            description: BLESS_CARD_DESC[b-1],
+            image: `https://cdn.wherein.mobi/wormhole3/newyear/card${b-1}.png`
+          })
+        }
+      }
+      this.$store.commit('saveLuckyCardsNFT', res)
+    }).catch()
   }
 }
 </script>
