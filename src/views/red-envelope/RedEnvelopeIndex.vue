@@ -7,6 +7,15 @@
           <div class="text-color8B light:text-color7D mt-4px">{{$t('ny.p2')}}</div>
         </div>
         <div class="flex-1 flex flex-col xs:flex-row lg:justify-end gap-x-20px gap-y-10px">
+          <div class="flex coin-data-box overflow-hidden p-2px rounded-20px">
+            <div class="w-full bg-primaryBg light:bg-white rounded-18px py-13px px-16px flex items-center">
+              <div class="amount-coin w-45px mr-10px"></div>
+              <div class="flex flex-col items-start justify-between">
+                <div class="whitespace-nowrap text-white light:text-blueDark">{{$t('ny.poolRewards')}}</div>
+                <span class="c-text-black text-18px amount-text">${{ userActivityInfo.prizeTotalAmount }}</span>
+              </div>
+            </div>
+          </div>
           <div class="flex data-box">
             <img class="w-45px mr-10px" src="~@/assets/red-envelope/icon-time.svg" alt="">
             <div class="flex flex-col items-start justify-between">
@@ -27,20 +36,11 @@
               </van-count-down>
             </div>
           </div>
-          <div class="flex coin-data-box overflow-hidden p-2px rounded-20px">
-            <div class="bg-primaryBg light:bg-white rounded-18px py-13px px-16px flex items-center">
-              <div class="amount-coin w-45px mr-10px"></div>
-              <div class="flex flex-col items-start justify-between">
-                <div class="whitespace-nowrap text-white light:text-blueDark">{{$t('ny.poolRewards')}}</div>
-                <span class="c-text-black text-18px amount-text">${{ userActivityInfo.prizeTotalAmount }}</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div v-if="tabIndex===0"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
-        <div :class="showTab0Desc?'':'min-h-60px max-h-60px overflow-hidden'">
+        <div :class="showTab0Desc?'':'multi-content'">
           The five Lucky Cards are combined with 4 Common Cards and 1 Rare Card. <br>
           How to obtain the Lucky Cards?<br>
           <b>Interaction</b> - You will get a chance to win the Five Lucky Cards by using Wormhole3 during the campaign period <br>
@@ -53,7 +53,7 @@
       </div>
       <div v-if="tabIndex===1"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
-        <div :class="showTab1Desc?'':'min-h-60px max-h-60px overflow-hidden'">
+        <div :class="showTab1Desc?'':'multi-content'">
           Mystery box cards have 5 levels, each level represents weight 1, 2, 3, 5, 10. The ultimate reward is determined by the sum of the mystery box card levels held.<br>
           How to obtain the mystery box card? <br>
           <b>Combination</b> - A mystery box card combined with 4 normal Luck Cards and 1 rare Luck Card <br>

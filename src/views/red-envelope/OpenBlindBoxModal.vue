@@ -1,58 +1,60 @@
 <template>
-  <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max overflow-auto ny-modal-bg rounded-20px">
-    <button class="fixed right-20px top-20px z-99"
-            @click="$emit('close')">
-      <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
-    </button>
-    <div v-if="step===0" class="mt-4rem text-center px-15px sm:px-1/10 overflow-hidden">
-      <div class="flex justify-center relative py-20px px-50px">
-        <div :class="index>0?'-ml-120px sm:-ml-170px':''" class="card-item"
-             v-for="(item, index) of cards.slice(1)" :key="index">
-          <div class="relative text-white transform">
-            <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
-            <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+  <div class="relative" :class="startAnimation?'card-animation':''">
+    <div class="step1 relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max
+                overflow-auto ny-modal-bg rounded-20px no-scroll-bar">
+      <button class="fixed right-20px top-20px z-99"
+              @click="$emit('close')">
+        <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
+      </button>
+      <div class="mt-4rem text-center px-15px sm:px-1/10 overflow-hidden">
+        <div class="relative px-50px w-0 h-240px sm:h-310px mx-auto mb-40px">
+          <div class="card-item"
+               v-for="(item, index) of cards.slice(1)" :key="index">
+            <div class="relative text-white transform">
+              <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+              <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full rounded-8px" :src="item.img" alt="">
-              <div class="flex flex-col items-center">
-                <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
-                  <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-                  <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                <img class="w-full rounded-8px" :src="item.img" alt="">
+                <div class="flex flex-col items-center">
+                  <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                    <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                    <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
                   {{BLESS_CARD_NAME[index]}}
                 </span>
-                  <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-                </div>
-                <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
-                  {{$t('common.balance')}}: {{blessCardBalance[index + 1]}}
+                    <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  </div>
+                  <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                    {{$t('common.balance')}}: {{blessCardBalance[index + 1]}}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="-ml-120px sm:-ml-170px card-item">
-          <div class="relative text-white">
-            <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
-            <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
+          <div class="card-item">
+            <div class="relative text-white">
+              <img class="max-w-150px sm:max-w-200px" src="~@/assets/red-envelope/lucky-card.png" alt="">
+              <div class="w-full h-full px-18px absolute top-0 pt-1/6 pb-1/9
                         flex flex-col justify-between items-center">
-              <img class="w-full rounded-8px" :src="cards[0].img" alt="">
-              <div class="flex flex-col items-center">
-                <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
-                  <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-                  <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
+                <img class="w-full rounded-8px" :src="cards[0].img" alt="">
+                <div class="flex flex-col items-center">
+                  <div class="flex items-center justify-between sm:px-10px mt-10px w-full">
+                    <img src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                    <span class="text-12px xs:text-18px xs:whitespace-nowrap px-2px">
                   {{BLESS_CARD_NAME[4]}}
                 </span>
-                  <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
-                </div>
-                <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
-                  {{$t('common.balance')}}: {{blessCardBalance[5]}}
+                    <img class="transform rotate-180" src="~@/assets/red-envelope/icon-title-tag.svg" alt="">
+                  </div>
+                  <div class="bg-white/10 w-max px-12px py-2px text-14px leading-18px rounded-full mt-6px xs:mt-10px">
+                    {{$t('common.balance')}}: {{blessCardBalance[5]}}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="mt-2rem text-blueDark">{{$t('ny.chanceTip', {count: enableChange})}}</div>
-      <!-- <button @click="approve">approve</button> -->
-      <ConnectMainchainBTNVue class="mx-auto my-1rem" v-if="chainId !== CHAIN_ID"/>
+        <div class="mt-2rem text-blueDark">{{$t('ny.chanceTip', {count: enableChange})}}</div>
+        <!-- <button @click="approve">approve</button> -->
+        <ConnectMainchainBTNVue class="mx-auto my-1rem" v-if="chainId !== CHAIN_ID"/>
         <button v-else
                 class="ny-gradient-btn gradient-btn-disabled-grey my-1rem mx-auto
                        flex items-center justify-center
@@ -62,78 +64,92 @@
           {{$t('ny.drawCard')}}
           <c-spinner v-show="isDrawing" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
+        <button @click="onDrawCard">test</button>
         <div v-if="accountMismatch" class="text-blueDark">
           {{ $t('ny.accountMismatch') }}
         </div>
+      </div>
     </div>
-    <template v-if="step===1">
-      <div class="relative h-100px min-h-100px flex items-center justify-center mt-1rem">
-        <div class="ny-gradient-text italic mx-auto c-text-black text-36px xl:text-1.8rem">
-          {{$t('ny.congratulations')}}
-        </div>
-        <img class="h-100px absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-             src="~@/assets/red-envelope/modal-title-bg.png" alt="">
-      </div>
-      <div class="flex flex-col justify-center items-center relative">
-        <div class="relative text-white w-220px" :class="`ny-power-${drawedBoxInfo.weights || 10}`">
-          <img class="w-full cursor-pointer"
-               :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
-          <img v-if="drawedBoxInfo?.logo"
-               class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
-               :src="drawedBoxInfo.logo" alt="">
-          <img v-else
-               class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
-               src="~@/assets/red-envelope/mystery-logo.png" alt="">
-          <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
-                            text-16px font-bold">
-            {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
-          </div>
-          <div v-if="!drawedBoxInfo.brandName || (drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0)"
-               class="absolute top-54/100 left-1/2 transform -translate-x-1/2
-                            text-14px font-bold text-shadow-lg opacity-70 text-white">
-            Congrats!<br>
-            Power Up!
-          </div>
-          <div v-else-if="drawedBoxInfo.prizeType === 1"
-               class="absolute top-55/100 left-1/2 transform -translate-x-1/2
-                            text-20px font-bold text-shadow-lg opacity-70 text-white">
-            + {{ drawedBoxInfo.amount }} {{ drawedBoxInfo.tokenSymbol }}
-          </div>
-          <div v-else-if="drawedBoxInfo.prizeType === 2"
-               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-                            text-20px font-bold">
-            + 1 NFT
-          </div>
-          <div v-else-if="drawedBoxInfo.prizeType === 3"
-               class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
-                            text-20px font-bold">
-            + {{ drawedBoxInfo.amount  }} NFT
-          </div>
-        </div>
-        <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px text-color4E my-1rem">
-          {{ drawedBoxInfo.brandDesc ?? WormholeInfo }}
-        </div>
-      </div>
-      <div class="px-15px sm:w-8/10 mx-auto text-center">
-        <div class="flex gap-6px xs:gap-16px">
-          <button class="flex-1 h-44px 2xl:h-2.2rem font-bold text-color62 rounded-full
-                       border-1 border-color62"
-                  @click="$emit('gotoBlind')">
-            {{$t('ny.checkCollections')}}
-          </button>
-          <button class="flex-1 ny-gradient-btn rounded-full font-bold h-44px 2xl:h-2.2rem"
-                  @click="get">
-            {{$t('ny.get')}}
-          </button>
-        </div>
-        <button class="flex justify-center items-center max-w mx-auto h-38px 2xl:h-1.8rem mt-10px
-                     border-b-2px border-colorBlue"
-                     @click="onShare">
-          <img src="~@/assets/icon-twitter-blue.svg" alt="">
-          <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
+    <div class="step2">
+      <div class="relative text-left pb-3rem text-14px 2xl:text-0.8rem h-max
+                overflow-auto ny-modal-bg rounded-20px no-scroll-bar">
+        <button class="fixed right-20px top-20px z-99"
+                @click="$emit('close')">
+          <img class="w-26px h-26px min-w-26px" src="~@/assets/red-envelope/icon-close.svg" alt="">
         </button>
+        <div class="relative h-100px min-h-100px flex items-center justify-center mt-1rem">
+          <div class="ny-gradient-text italic mx-auto c-text-black text-36px xl:text-1.8rem">
+            {{$t('ny.congratulations')}}
+          </div>
+          <img class="h-100px absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+               src="~@/assets/red-envelope/modal-title-bg.png" alt="">
+        </div>
+        <div class="flex flex-col justify-center items-center relative">
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+               v-show="isDrawing">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
+          <div v-show="!isDrawing" class="relative text-white w-220px min-h-300px immediate-show" ref="mysteryCard"
+               :class="[`ny-power-${drawedBoxInfo.weights || 10}`]">
+            <img class="w-full cursor-pointer"
+                 :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
+            <img v-if="drawedBoxInfo?.logo"
+                 class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                 :src="drawedBoxInfo.logo" alt="">
+            <img v-else
+                 class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
+                 src="~@/assets/red-envelope/mystery-logo.png" alt="">
+            <div class="absolute top-40/100 left-1/2 transform -translate-x-1/2 brand-name
+                            text-16px font-bold">
+              {{ drawedBoxInfo.brandName ?? 'Wormhole3' }}
+            </div>
+            <div v-if="!drawedBoxInfo.brandName || (drawedBoxInfo.amount === 0 && drawedBoxInfo.nftId === 0)"
+                 class="absolute top-54/100 left-1/2 transform -translate-x-1/2
+                            text-14px font-bold text-shadow-lg opacity-70 text-white">
+              Congrats!<br>
+              Power Up!
+            </div>
+            <div v-else-if="drawedBoxInfo.prizeType === 1"
+                 class="absolute top-55/100 left-1/2 transform -translate-x-1/2
+                            text-20px font-bold text-shadow-lg opacity-70 text-white">
+              + {{ drawedBoxInfo.amount }} {{ drawedBoxInfo.tokenSymbol }}
+            </div>
+            <div v-else-if="drawedBoxInfo.prizeType === 2"
+                 class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                            text-20px font-bold">
+              + 1 NFT
+            </div>
+            <div v-else-if="drawedBoxInfo.prizeType === 3"
+                 class="absolute top-55/100 left-1/2 transform -translate-x-1/2 amount
+                            text-20px font-bold">
+              + {{ drawedBoxInfo.amount  }} NFT
+            </div>
+          </div>
+          <div class="px-15px sm:px-1/10 whitespace-pre-line leading-20px text-color4E my-1rem">
+            {{ drawedBoxInfo.brandDesc ?? WormholeInfo }}
+          </div>
+        </div>
+        <div class="px-15px sm:w-8/10 mx-auto text-center">
+          <div class="flex gap-6px xs:gap-16px">
+            <button class="flex-1 h-44px 2xl:h-2.2rem font-bold text-color62 rounded-full
+                       border-1 border-color62"
+                    @click="$emit('gotoBlind')">
+              {{$t('ny.checkCollections')}}
+            </button>
+            <button class="flex-1 ny-gradient-btn rounded-full font-bold h-44px 2xl:h-2.2rem"
+                    @click="get">
+              {{$t('ny.get')}}
+            </button>
+          </div>
+          <button class="flex justify-center items-center max-w mx-auto h-38px 2xl:h-1.8rem mt-10px
+                     border-b-2px border-colorBlue"
+                  @click="onShare">
+            <img src="~@/assets/icon-twitter-blue.svg" alt="">
+            <span class="text-colorBlue font-bold">{{$t('ny.shareTweet')}}</span>
+          </button>
+        </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -182,7 +198,8 @@ export default {
        * amount
        * nftId
        */
-      drawedBoxInfo: {}
+      drawedBoxInfo: {},
+      startAnimation: false
     }
   },
   computed: {
@@ -216,6 +233,8 @@ export default {
     },
     async onDrawCard() {
       try{
+        const startTime = new Date().getTime()
+        this.startAnimation = true
         this.isDrawing = true;
         // const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         const drawedBoxInfo = [4]
@@ -223,12 +242,17 @@ export default {
           getUserNYCards(this.getAccountInfo.ethAddress).catch()
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1
+          // 显示卡片
+          const getCardTime = new Date().getTime() - startTime
+          const delayTime = getCardTime>3500? 0:(4000 - getCardTime)
+          this.$refs.mysteryCard.style.animationDelay = `${delayTime}ms`
         }else {
           console.log('open box fail:');
           this.$emit('close');
           return;
         }
       } catch (e) {
+        this.$refs.mysteryCard.style.animationDelay = '4000ms'
         console.log('open box fail:', e);
       } finally {
         this.isDrawing = false
@@ -265,33 +289,92 @@ export default {
   perspective: 800px;
   border-radius: 4px;
 }
-.mystery-card {
-  transform-style: preserve-3d;
-  transition: transform 0.8s;
-}
-.mystery-card .back, .mystery-card .front {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-.mystery-card .back {
-  transform: rotateY(-180deg);
-}
-.mystery-card.flipped {
-  transform: rotateY(-180deg);
+
+.card-item {
+  //margin-left: -170px;
+  position: absolute;
+  bottom: 0;
 }
 .card-item:nth-child(1) {
-  transform: rotate(-26deg)
+  left: 0;
+  transform: translateX(-50%) rotate(-26deg);
 }
 .card-item:nth-child(2) {
-  transform: rotate(-13deg)
+  left: 25%;
+  transform: translateX(-50%) rotate(-13deg);
 }
 .card-item:nth-child(3) {
-  //transform: rotate(0deg)
+  left: 50%;
+  transform: translateX(-50%);
 }
 .card-item:nth-child(4) {
-  transform: rotate(13deg)
+  left: 75%;
+  transform: translateX(-50%) rotate(13deg);
 }
 .card-item:nth-child(5) {
-  transform: rotate(26deg)
+  left: 100%;
+  transform: translateX(-50%) rotate(26deg);
+}
+.card-animation .card-item {
+  animation: rotateCard 1s forwards, moveCard .8s 1s forwards;
+}
+@keyframes rotateCard {
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+}
+@keyframes moveCard {
+  100% {
+    left: 50%;
+  }
+}
+.card-animation .step1 {
+  animation: step1Scale 1s 1.8s forwards, step1Hide 0.1s 2.8s forwards;
+}
+.step2 {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.card-animation .step2 {
+  animation: step2Show 0.1s 2.9s forwards, step2Scale 1s 3s forwards ease-in-out;
+}
+@keyframes step1Scale {
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes step1Hide {
+  100% {
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+@keyframes step2Show {
+  100% {
+    transform: scale(0);
+    max-height: 100vh;
+  }
+}
+@keyframes step2Scale {
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.immediate-show {
+  opacity: 0;
+  animation: showMysteryCard 1s 100s forwards;
+}
+.card-animation .delay-show {
+  opacity: 0;
+}
+@keyframes showMysteryCard {
+  100% {
+    opacity: 1;
+  }
 }
 </style>
