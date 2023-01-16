@@ -84,11 +84,7 @@
                src="~@/assets/red-envelope/modal-title-bg.png" alt="">
         </div>
         <div class="flex flex-col justify-center items-center relative">
-          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-               v-show="isDrawing">
-            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-          </div>
-          <div v-show="!isDrawing" class="relative text-white w-220px min-h-300px immediate-show" ref="mysteryCard"
+          <div class="relative text-white w-220px min-h-300px show-mystery-card" ref="mysteryCard"
                :class="[`ny-power-${drawedBoxInfo.weights || 10}`]">
             <img class="w-full cursor-pointer"
                  :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
@@ -232,8 +228,6 @@ export default {
     },
     async onDrawCard() {
       try{
-        const startTime = new Date().getTime()
-        this.startAnimation = true
         this.isDrawing = true;
         const drawedBoxInfo = await openBox(this.getAccountInfo.ethAddress)
         if (drawedBoxInfo && drawedBoxInfo.length > 0) {
@@ -241,10 +235,8 @@ export default {
           getUserNYCards(this.getAccountInfo.ethAddress).catch()
           getUserActivityInfo(this.getAccountInfo.ethAddress).catch()
           this.step=1
-          // 显示卡片
-          const getCardTime = new Date().getTime() - startTime
-          const delayTime = getCardTime>3500? 0:(4000 - getCardTime)
-          this.$refs.mysteryCard.style.animationDelay = `${delayTime}ms`
+          // 开始动画
+          this.startAnimation = true
         }else {
           console.log('open box fail:');
           this.$emit('close');
@@ -364,9 +356,9 @@ export default {
     transform: scale(1);
   }
 }
-.immediate-show {
+.show-mystery-card {
   opacity: 0;
-  animation: showMysteryCard 1s 100s forwards;
+  animation: showMysteryCard 1s 5s forwards;
 }
 .card-animation .delay-show {
   opacity: 0;
