@@ -35,7 +35,7 @@
           <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
         </button>
         <el-select v-model="rankValue"
-                   class="w-80px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
+                   class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
                    size="small">
           <el-option
               v-for="item in rankOptions"
@@ -133,29 +133,38 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: false,
-      subTagList: ['Trending', 'New'],
+      subTagList: ['All'],
       subActiveTagIndex: 0,
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0,
       showMoreTag: false,
-      moreTag: ['Elon Musk', 'Play2Earn', 'Uniswap', 'FTX', 'Huobi', 'Luna'],
-      rankOptions: [{value: 0, label: 'Time'}, {value: 1, label: 'Trend'}],
+      rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
       rankValue: 0
     }
   },
   computed: {
     ...mapGetters('curation', ['getDraft']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag']),
+    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag', 'ongoingListByTag', 'trendingListByTag']),
     curationsList() {
       if (this.subActiveTagIndex === 0) {
-        return this.trendingList
-      }else if(this.subActiveTagIndex === 1) {
+        if (this.rankValue === 0) {
+          return this.trendingList
+        }else{
+          return this.ongoingList
+        }
+      }else {
         return this.ongoingList
-      }else if(this.subActiveTagIndex === 2) {
-        return this.closeList
       }
+    },
+    moreTag() {
+      return ['Elon Musk', 'Play2Earn', 'Uniswap', 'FTX', 'Huobi', 'Luna']
+    }
+  },
+  watch: {
+    rankValue(newValue, oldValue) {
+      this.onRefresh();
     }
   },
   // activated() {
@@ -231,13 +240,17 @@ export default {
         let curations = []
         let mutationStr = ''
         if (sel === 0) {
-          curations = await getCurationsByTrend(0, null, this.getAccountInfo?.twitterId)
-          mutationStr = 'saveTrendingList'
-        }else if(sel === 1) {
-          curations = await getCurations(0, null, this.getAccountInfo?.twitterId)
-          mutationStr = 'saveOngoingList'
-        }else if(sel === 2) {
-          mutationStr = 'saveTrendingList'
+          if (this.rankValue === 0) {
+            curations = await getCurationsByTrend(0, null, this.getAccountInfo?.twitterId)
+            mutationStr = 'saveTrendingList'
+          }else{
+            curations = await getCurations(0, null, this.getAccountInfo?.twitterId)
+            mutationStr = 'saveOngoingList'
+          }
+        }else {
+          const tag = this.subTagList[sel];
+          console.log(53, tag);
+          return;
         }
         this.$store.commit('curation/'+mutationStr, curations ?? [])
         if (!curations || curations.length < 12) {
