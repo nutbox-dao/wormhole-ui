@@ -7,6 +7,8 @@ export default {
         draft: localStorage.getItem('curation-draft'),
         ongoingList: [],
         trendingList: [],
+        ongoingListByTag: {},
+        trendingListByTag: {},
         closeList: [],
         detailCuration: {},
         detailRecords: [],
@@ -33,6 +35,12 @@ export default {
         },
         saveTrendingList: (state, trendingList) => {
             state.trendingList = trendingList
+        },
+        saveOngoingListByTag: (state, ongoingListByTag) => {
+            state.ongoingListByTag = ongoingListByTag
+        },
+        saveTrendingListByTag: (state, trendingListByTag) => {
+            state.trendingListByTag = trendingListByTag
         },
         saveCloseList: (state, closeList) => {
             state.closeList = closeList
