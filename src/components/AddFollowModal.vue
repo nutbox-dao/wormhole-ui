@@ -5,7 +5,7 @@
       <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
     </button>
     <div class="flex-1">
-      <div class="c-text-black mt-50px xl:mt-2rem mb-2rem text-20px 2xl:text-1rem">{{$t('curation.'+speakerType)}}</div>
+      <div class="c-text-black mt-50px xl:mt-2rem mb-2rem text-20px 2xl:text-1rem">{{$t('curation.follow')}}</div>
       <div class="flex items-start">
         <img v-if="formData.avatar"
              class="w-54px h-54px rounded-27px"
@@ -35,7 +35,7 @@
     </div>
     <button class="gradient-btn gradient-btn-disabled-grey
                        h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-            :disabled="loading"
+            :disabled="loading || !formData.name"
             @click="confirm">
       <span>{{$t('common.confirm')}}</span>
       <c-spinner v-show="loading" class="w-1.5rem h-1.5rem ml-0.5rem"></c-spinner>
@@ -48,13 +48,7 @@ import { getUserInfoByUserId } from '@/utils/twitter'
 import { notify } from '@/utils/notify'
 
 export default {
-  name: "AddSpeakerModal",
-  props: {
-    speakerType: {
-      type: String,
-      default: 'host'
-    },
-  },
+  name: "AddFollowModal",
   data() {
     return {
       formData: {

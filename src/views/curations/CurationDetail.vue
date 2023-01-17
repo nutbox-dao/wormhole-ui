@@ -35,7 +35,8 @@
                     <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
                       <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
                                      whitespace-nowrap cursor-pointer text-white light:text-blueDark"
-                              v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
+                              v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag"
+                              @click.stop="onSelectTag(cTag)">
                         {{cTag}}
                       </button>
                     </div>
@@ -48,7 +49,8 @@
                 <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
                   <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
                                      whitespace-nowrap cursor-pointer text-white light:text-blueDark"
-                          v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
+                          v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag"
+                          @click.stop="onSelectTag(cTag)">
                     {{cTag}}
                   </button>
                 </div>
@@ -561,6 +563,10 @@ export default {
     formatEmojiText,
     onCopy,
     formatAmount,
+    onSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+      this.$router.go(-1)
+    },
     gotoTweet() {
       window.open('https://twitter.com/' + this.detailCuration.username + '/status/' + this.detailCuration.tweetId)
     },

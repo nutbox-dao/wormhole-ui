@@ -79,7 +79,7 @@
             <div v-if="linkIsVerified" class="overflow-hidden relative rounded-12px"
                  :class="expandPreview?'':'max-h-134px'">
               <Blog :post="form.postData"
-                    class="bg-blockBg light:bg-white rounded-8px border-1 border-listBgBorder light:border-colorE3">
+                    class="bg-blockBg light:bg-white rounded-13px border-1 border-listBgBorder light:border-colorE3">
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
@@ -156,16 +156,37 @@
               <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
             </div>
           </div>
-          <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
+          <div class="min-h-44px 2xl:min-h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px mt-5px
-                      flex justify-between items-center relative px-15px"
-               @click="form.isFollow=!form.isFollow">
-            <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
-               :class="form.isFollow?'icon-radio-primary border-0':'bg-black light:bg-white'"></i>
-            <div class="flex-1 flex justify-between items-center pl-15px">
-              <span>{{$t('curation.follow')}}</span>
-              <span>@{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}</span>
+                      flex justify-between relative px-15px"
+               :class="followList.length>0?'items-start':'items-center'">
+            <div class="flex items-center min-h-44px 2xl:min-h-2rem" >
+              <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
+                 :class="form.isFollow?'icon-radio-primary border-0':'bg-black light:bg-white'"
+                 @click="form.isFollow=!form.isFollow"></i>
+              <span class="px-15px">{{$t('curation.follow')}}</span>
             </div>
+            <div class="flex-1 flex flex-wrap items-center justify-end gap-y-8px
+                        min-h-44px 2xl:min-h-2rem relative"
+                 :class="followList.length>0?'py-4px':''">
+              <button class="">
+                @{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}
+              </button>
+              <div class="flex items-center"
+                   v-for="(fItem, fIndex) of followList" :key="fItem.id">
+                <button class="ml-10px bg-color62 text-white rounded-full px-4px py-2px relative">
+                  @{{fItem.username}}
+                  <img class="w-14px h-14px bg-white rounded-full absolute -right-6px -top-4px"
+                       @click.stop="deleteFollow(fIndex)"
+                       src="~@/assets/icon-close-primary.svg" alt="">
+                </button>
+              </div>
+
+              <button v-if="followList.length<3" @click="addFollowVisible=true" class="ml-16px">
+                <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
+              </button>
+            </div>
+
           </div>
           <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px mt-5px
@@ -486,6 +507,15 @@
                class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
       <CreatedTipModal @onPost="reply" @close="cancelReply"/>
     </el-dialog>
+    <el-dialog v-model="addFollowVisible"
+               destroy-on-close
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog c-dialog-center max-w-500px bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <AddFollowModal class="p-2rem"
+                      @close="addFollowVisible=false"
+                      @confirm="onConfirmAddFollow"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -514,11 +544,12 @@ import { parseTweet } from '@/utils/twitter-tool'
 import AssetsOptions from "@/components/AssetsOptions";
 import SelectCategoryTip from "@/components/SelectCategoryTip";
 import CreatedTipModal from "@/components/CreatedTipModal";
+import AddFollowModal from "@/components/AddFollowModal";
 
 export default {
   name: "CreateCuration",
   components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
-    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip, CreatedTipModal},
+    EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip, CreatedTipModal, AddFollowModal},
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -584,7 +615,9 @@ export default {
       rewardsTipCollapse: false,
       selectCategory: '',
       createdTipVisible: false,
-      inputTagValue: ''
+      inputTagValue: '',
+      addFollowVisible: false,
+      followList: []
     }
   },
   computed: {
@@ -616,6 +649,17 @@ export default {
     }
   },
   methods: {
+    onConfirmAddFollow(followUser) {
+      this.addFollowVisible = false
+      console.log(followUser)
+      for(let user of this.followList) {
+        if(user.id === followUser.id) return
+      }
+      this.followList.push(followUser)
+    },
+    deleteFollow(index) {
+      this.followList.splice(index, 1)
+    },
     onSelectTag(tag) {
       if(this.form.tags.length===5) return
       if(this.form.tags.indexOf(tag)>=0) return
