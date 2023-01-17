@@ -8,17 +8,17 @@
                   :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
                   @click="setSelectTag(tag)">{{tag}}</button>
         </div>
-        <button class="c-text-black text-white" @click="showMoreTag=!showMoreTag">
+        <button class="c-text-black text-white light:text-blueDark" @click="showMoreTag=!showMoreTag">
          More >>>
         </button>
       </div>
       <el-collapse-transition>
         <div v-show="showMoreTag" class="mt-1rem">
-          <div class="flex flex-wrap items-center gap-25px bg-blockBg light:bg-white rounded-12px p-1.5rem">
+          <div class="flex flex-wrap items-center gap-25px bg-blockBg light:bg-white rounded-12px shadow-sm p-1.5rem">
             <button v-for="(mTag, index) of moreTag" :key="index"
                     class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
                          whitespace-nowrap"
-                    :class="mTag===selectedTag?'text-white':'text-color59/50'"
+                    :class="mTag===selectedTag?'text-white light:text-blueDark':'text-color59/50'"
                     @click="setSelectTag(mTag)">
               {{mTag}}
             </button>
@@ -35,6 +35,16 @@
           </div>
         </div>
       </el-collapse-transition>
+      <div v-if="customizeTag"
+           class="flex items-center bg-blockBg light:bg-white rounded-12px px-1.5rem py-12px mb-10px shadow-sm mt-10px">
+        <span class="mr-10px">Selected Topic: </span>
+        <button class="text-14px 2xl:text-0.8rem border-1 border-color62 rounded-4px px-12px py-4px
+                       flex items-center whitespace-nowrap text-color62"
+                @click="addCustomizeTag(selectedTag)">
+          <span>{{selectedTag}}</span>
+          <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
+        </button>
+      </div>
       <div class="flex justify-end items-center my-10px">
         <button class="mr-10px">
           <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
@@ -49,16 +59,6 @@
               :value="item.value"
           />
         </el-select>
-      </div>
-      <div v-if="customizeTag"
-           class="flex items-center bg-blockBg light:bg-white rounded-12px px-1.5rem py-12px mb-10px">
-        <span class="mr-10px">Selected Topic: </span>
-        <button class="text-14px 2xl:text-0.8rem border-1 border-color62 rounded-4px px-12px py-4px
-                       flex items-center whitespace-nowrap text-color62"
-                @click="addCustomizeTag(selectedTag)">
-          <span>{{selectedTag}}</span>
-          <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
-        </button>
       </div>
     </div>
     <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">

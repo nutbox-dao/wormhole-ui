@@ -19,17 +19,17 @@
           </div>
         </div>
       </div>
-      <ChainTokenIcon class="bg-primaryColor/20"
-                      height="20px" width="20px"
+      <ChainTokenIconLarge class="bg-primaryColor/20"
+                      height="24px" width="24px"
                       :chain-name="curation.chainId.toString()"
                       :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
         <template #amount>
-            <span class="px-8px h-20px whitespace-nowrap
+            <span class="pl-30px pr-8px h-20px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-color62">
               {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
             </span>
         </template>
-      </ChainTokenIcon>
+      </ChainTokenIconLarge>
     </div>
     <div class="text-left mt-20px pb-8px px-15px text-12px xl:text-0.75rem">
       <div class="c-text-black">{{$t('curation.desc')}}</div>
@@ -103,7 +103,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { parseTimestamp } from '@/utils/helper'
 import { mapGetters } from "vuex";
 import {formatEmojiText, isNumeric} from "@/utils/tool";
-import ChainTokenIcon from "@/components/ChainTokenIcon";
+import ChainTokenIconLarge from "@/components/ChainTokenIcon";
 import ContentTags from "@/components/ContentTags";
 import {parseTimestampToUppercase} from "@/utils/helper";
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
@@ -111,7 +111,7 @@ import { CURATION_SHORT_URL } from '@/config'
 
 export default {
   name: "RelatedCurationItem",
-  components: {ChainTokenIcon, ContentTags, TweetAndStartCuration},
+  components: {ChainTokenIconLarge, ContentTags, TweetAndStartCuration},
   props: {
     curation: {
       type: Object,

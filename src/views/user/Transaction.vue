@@ -42,17 +42,17 @@
                     <div class="text-0.7rem mt-0.5rem text-color8B text-12px xl:text-0.7rem">{{ parseTime(item.postTime) }}</div>
                   </div>
                   <div class="flex flex-col justify-between items-end">
-                    <ChainTokenIcon class="bg-black light:bg-colorD9"
-                                    height="24px" width="24px"
+                    <ChainTokenIconLarge class="bg-black light:bg-colorD9"
+                                         height="28px" width="28px"
                                     :chain-name="item.chainName.toString()"
                                     :token="{address: item.token, symbol: item.symbol}">
                       <template #amount>
-                        <span class="px-8px h-24px whitespace-nowrap text-color8B light:text-blueDark
+                        <span class="pl-30px pr-8px h-24px whitespace-nowrap text-color8B light:text-blueDark
                                      flex items-center text-12px 2xl:text-0.8rem font-bold">
                           {{ isReceive(item) ? '+' : '-' }} {{ formatAmount(item) }} {{ item.symbol }}
                         </span>
                       </template>
-                    </ChainTokenIcon>
+                    </ChainTokenIconLarge>
                     <a v-if="item.tipResult === 0"
                        class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem w-max
                                 light:text-blueDark light:border-colorE3 light:text-color7D"
@@ -63,7 +63,7 @@
                   </div>
                   </div>
                 </div>
-                
+
               </div>
             </div>
         </van-list>
@@ -78,11 +78,11 @@ import { EVM_CHAINS, SteemScan } from '@/config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
 import { getUsersTips } from '@/utils/account'
-import ChainTokenIcon from "@/components/ChainTokenIcon";
+import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 
 export default {
   name: "Transaction",
-  components: {ChainTokenIcon},
+  components: {ChainTokenIconLarge},
   data() {
     return {
       refreshing: true,
