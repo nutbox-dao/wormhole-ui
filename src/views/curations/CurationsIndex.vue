@@ -1,11 +1,49 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
-    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-      <div class="flex py-20px">
-        <button v-for="(tag, index) of subTagList" :key="index"
-                class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
-                :class="subActiveTagIndex===index?'light:text-color18':'text-color59/50'"
-                @click="changeSubIndex(index)">{{tag}}</button>
+    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem pt-20px">
+      <div class="flex flex-wrap gap-y-10px xs:flex-row justify-between items-center">
+        <div class="flex">
+          <button v-for="(tag, index) of subTagList" :key="index"
+                  class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
+                  :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
+                  @click="changeSubIndex(index)">{{tag}}</button>
+        </div>
+        <button class="" @click="showMoreTag=!showMoreTag">
+          <img v-if="moreTag.indexOf(selectedTag)>=0"
+               class="h-18px w-18px lg:w-1.2rem lg:h-1.2rem"
+               src="~@/assets/icon-tag-white.png" alt="">
+          <img v-else
+               class="h-18px w-18px lg:w-1.2rem lg:h-1.2rem"
+               src="~@/assets/icon-tag.png" alt="">
+        </button>
+      </div>
+      <el-collapse-transition>
+        <div v-show="showMoreTag" class="mt-1rem">
+          <div class="flex flex-wrap items-center gap-25px bg-blockBg light:bg-white rounded-12px p-1.5rem">
+            <button v-for="(mTag, index) of moreTag" :key="index"
+                    class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
+                         whitespace-nowrap"
+                    :class="mTag===selectedTag?'text-white':'text-color59/50'"
+                    @click="setSelectTag(mTag)">
+              #{{mTag}}
+            </button>
+          </div>
+        </div>
+      </el-collapse-transition>
+      <div class="flex justify-end items-center mt-10px">
+        <button class="mr-10px">
+          <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
+        </button>
+        <el-select v-model="rankValue"
+                   class="w-80px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
+                   size="small">
+          <el-option
+              v-for="item in rankOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+          />
+        </el-select>
       </div>
     </div>
     <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
@@ -26,7 +64,7 @@
                   :loading-text="$t('common.loading')"
                   :finished-text="curationsList.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
-          <div class="sm:px-15px sm:pt-1rem">
+          <div class="sm:px-15px">
             <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
                  :class="curationsList && curationsList.length>0?'md:p-1rem':''">
               <div v-if="curationsList && curationsList.length === 0"
@@ -99,13 +137,17 @@ export default {
       subActiveTagIndex: 0,
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
-      scroll: 0
+      scroll: 0,
+      showMoreTag: false,
+      moreTag: ['Elon Musk', 'Play2Earn', 'Uniswap', 'FTX', 'Huobi', 'Luna'],
+      rankOptions: [{value: 0, label: 'Time'}, {value: 1, label: 'Trend'}],
+      rankValue: 0
     }
   },
   computed: {
     ...mapGetters('curation', ['getDraft']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList']),
+    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag']),
     curationsList() {
       if (this.subActiveTagIndex === 0) {
         return this.trendingList
@@ -120,6 +162,9 @@ export default {
   //   if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
   // },
   methods: {
+    setSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+    },
     pageScroll() {
       this.scroll = this.$refs.curationPageRef.scrollTop
     },
@@ -127,6 +172,7 @@ export default {
       if(this.subActiveTagIndex===index) return
       this.listFinished = false
       this.subActiveTagIndex = index
+      this.$store.commit('curation/saveSelectedTag', this.subTagList[index])
       this.onRefresh()
     },
     async onLoad() {
@@ -151,8 +197,8 @@ export default {
         }
 
         let moreCurations = [];
-         
-       
+
+
         let mutationStr = ''
         if (sel === 0) {
           mutationStr = 'saveTrendingList'

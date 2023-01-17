@@ -54,7 +54,7 @@
           <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
             <div v-show="tag != 'iweb3'"
                  class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px
-                        whitespace-nowrap"
+                        whitespace-nowrap cursor-pointer"
                  v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
               #{{ tag }}
             </div>

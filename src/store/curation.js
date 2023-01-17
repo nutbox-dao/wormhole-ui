@@ -17,9 +17,13 @@ export default {
         pendingTweetCuration: localStorage.getItem('pending-cache-curation'),
         pendingTip: localStorage.getItem('pending-cache-tip'),
         pendingPopup: localStorage.getItem('pending-cache-popup'),
-        customTokens: localStorage.getItem('custom-tokens')
+        customTokens: localStorage.getItem('custom-tokens'),
+        selectedTag: 'Elon Musk'
     },
     mutations: {
+        saveSelectedTag: (state, tag) => {
+            state.selectedTag = tag
+        },
         saveDraft: (state, draft) => {
             if (draft && Object.keys(draft).length > 0) {
                 state.draft = JSON.stringify(draft);
