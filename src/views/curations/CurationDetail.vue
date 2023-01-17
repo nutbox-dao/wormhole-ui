@@ -4,7 +4,7 @@
     <div class="container mx-auto max-w-50rem pb-2rem pt-1rem">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-1.5rem">
         <div class="col-span-1 xl:col-span-2 px-15px">
-          <div class="h-min min-h-146px text-left rounded-12px overflow-hidden relative">
+          <div class="h-min min-h-146px text-left  overflow-hidden relative">
             <!-- curation info -->
             <div v-if="detailCuration">
               <div v-if="detailCuration.creatorTwitter !== detailCuration.authorId" class="flex items-center mb-1rem">
@@ -31,15 +31,6 @@
                       avatar-class="w-30px min-w-30px h-30px md:w-2.4rem md:h-2.4rem md:w-min-2.4rem"
                       class="border-1 border-color8B/30 light:border-black light:bg-white px-15px pt-10px pb-15px rounded-15px">
                   <template #bottom-btn-bar><div></div></template>
-                  <template #curation-tag>
-                    <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
-                      <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
-                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
-                              v-for="cTag of detailCuration.topics || ['Web3', 'test']" :key="cTag">
-                        {{cTag}}
-                      </button>
-                    </div>
-                  </template>
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
@@ -61,6 +52,13 @@
                   </div>
                 </div>
               </template>
+              <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
+                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
+                        v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
+                  {{cTag}}
+                </button>
+              </div>
             </div>
             <div v-if="loading1"
                  class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">

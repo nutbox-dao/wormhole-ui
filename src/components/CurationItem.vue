@@ -23,22 +23,23 @@
                 avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
             <template #bottom-btn-bar><div></div></template>
             <template #blog-tag><div></div></template>
-            <template #curation-tag>
-              <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
-                <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
-                        whitespace-nowrap cursor-pointer"
-                        :class="selectedTag.indexOf(cTag)>=0?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                        v-for="cTag of curation.topics || ['Web3', 'test']" :key="cTag"
-                        @click.stop="onSelectTag(cTag)">
-                  {{cTag}}
-                </button>
-              </div>
-            </template>
           </Blog>
         </div>
         <div v-if="contentType==='space'"
              class="h-140px md:h-10rem overflow-hidden relative my-10px">
           <Space :space="curation" class="rounded-15px h-full bg-tag-gradient"/>
+        </div>
+        <div class="flex">
+          <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
+          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+            <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
+                        whitespace-nowrap cursor-pointer"
+                    :class="selectedTag.indexOf(cTag)>=0?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                    v-for="cTag of JSON.parse(curation.topics || '[]')" :key="cTag"
+                    @click.stop="onSelectTag(cTag)">
+              {{cTag}}
+            </button>
+          </div>
         </div>
         <div class="flex justify-between items-center mt-1rem" @click.stop>
           <template v-if="showBtnGroup">
@@ -53,7 +54,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px">111</span>
+                <span class="ml-2px font-700 text-12px" :class="replyed?'text-color62':''">111</span>
               </div>
               <!-- quote-->
               <div v-if="isQuote" class="flex items-center mr-24px">
@@ -64,7 +65,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px">111</span>
+                <span class="ml-2px font-700 text-12px" :class="quoted?'text-color62':''">111</span>
               </div>
               <!-- like-->
               <div v-if="isLike" class="flex items-center mr-24px">
@@ -76,7 +77,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px">111</span>
+                <span class="ml-2px font-700 text-12px" :class="liked?'text-color62':''">111</span>
               </div>
               <!-- follow-->
 <!--              <button v-if="isFollow"-->

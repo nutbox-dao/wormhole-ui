@@ -13,7 +13,7 @@
                               :chain-name="curation.chainId.toString()"
                               :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
                 <template #amount>
-              <span class="pl-30px pr-8px h-20px whitespace-nowrap
+              <span class="pl-30px pr-8px h-20px 2xl:h-24px whitespace-nowrap
                            flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
                 {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
               </span>
@@ -21,6 +21,7 @@
               </ChainTokenIconLarge>
             </template>
             <template #bottom-btn-bar><div></div></template>
+            <template #blog-tag><div></div></template>
           </BlogRecommend>
         </div>
         <div v-if="contentType==='space'"
