@@ -31,6 +31,15 @@
                       avatar-class="w-30px min-w-30px h-30px md:w-2.4rem md:h-2.4rem md:w-min-2.4rem"
                       class="border-1 border-color8B/30 light:border-black light:bg-white px-15px pt-10px pb-15px rounded-15px">
                   <template #bottom-btn-bar><div></div></template>
+                  <template #curation-tag>
+                    <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                      <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
+                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
+                              v-for="cTag of detailCuration.topics || ['Web3', 'test']" :key="cTag">
+                        {{cTag}}
+                      </button>
+                    </div>
+                  </template>
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
@@ -200,18 +209,21 @@
                   {{$t('curation.allParticipants')}} >>
                 </button>
               </div>
-              <ChainTokenIconVue height="18px" width="18px" class="bg-color62 p-2px"
-                                 :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
-                                 :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
+              <ChainTokenIconLarge height="26px" width="26px"
+                                   class="bg-color62"
+                                   :token="{symbol: detailCuration?.tokenSymbol, address: detailCuration?.token}"
+                                   :chainName="detailCuration ? detailCuration.chainId?.toString() : ''">
                 <template #amount>
-                      <span v-if="detailCuration?.curationStatus > 0 && (detailCuration?.taskRecord === detailCuration?.tasks)" class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                      <span v-if="detailCuration?.curationStatus > 0 && (detailCuration?.taskRecord === detailCuration?.tasks)"
+                            class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                         {{formatAmount(detailCuration?.myRewardAmount / (10 ** detailCuration?.decimals))+'/'+formatAmount(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
                       </span>
-                      <span v-else class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
+                      <span v-else
+                            class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
                         {{formatAmount(detailCuration?.amount / ( 10 ** detailCuration?.decimals)) + " " + detailCuration?.tokenSymbol}}
                       </span>
                 </template>
-              </ChainTokenIconVue>
+              </ChainTokenIconLarge>
             </div>
           </div>
           <!-- Details -->
@@ -363,7 +375,7 @@ import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
-import ChainTokenIconVue from "@/components/ChainTokenIcon.vue";
+import ChainTokenIconLarge from "@/components/ChainTokenIconLarge.vue";
 import Space from "@/components/Space";
 import CurationItem from "@/components/CurationItem";
 import RelatedCurationItemVue from "@/components/RelatedCurationItem.vue";
@@ -384,7 +396,7 @@ export default {
   components: {
     TweetAttendTip, Submissions, Blog, Space, TipModalVue,
     CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
-    CreatePopUpModal, PopUpsCard, ChainTokenIconVue,ContentTags
+    CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags
   },
   data() {
     return {

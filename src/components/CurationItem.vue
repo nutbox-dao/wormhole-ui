@@ -22,6 +22,18 @@
                 content-class="multi-content"
                 avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
             <template #bottom-btn-bar><div></div></template>
+            <template #blog-tag><div></div></template>
+            <template #curation-tag>
+              <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
+                        whitespace-nowrap cursor-pointer"
+                        :class="selectedTag.indexOf(cTag)>=0?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                        v-for="cTag of curation.topics || ['Web3', 'test']" :key="cTag"
+                        @click.stop="onSelectTag(cTag)">
+                  {{cTag}}
+                </button>
+              </div>
+            </template>
           </Blog>
         </div>
         <div v-if="contentType==='space'"
@@ -33,41 +45,49 @@
             <div v-if="!isEnd" class="flex-1 flex items-center">
               <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
               <!-- reply-->
-              <button v-if="isReply" @click.stop="quoteOrReply"
-                      class="text-white flex justify-center items-center w-24px h-24px rounded-full mr-24px">
-                <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
-                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                </i>
-                <i v-else class="w-20px h-20px min-w-20px" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
-              </button>
+              <div v-if="isReply" class="flex items-center mr-24px">
+                <button @click.stop="quoteOrReply"
+                        class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                  <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
+                </button>
+                <span class="ml-2px font-700 text-12px">111</span>
+              </div>
               <!-- quote-->
-              <button v-if="isQuote" @click.stop="quoteOrReply"
-                      class="text-white flex justify-center items-center w-20px h-20px rounded-full mr-24px">
-                <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
-                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                </i>
-                <i v-else class="w-20px h-20px min-w-20px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-              </button>
+              <div v-if="isQuote" class="flex items-center mr-24px">
+                <button @click.stop="quoteOrReply"
+                        class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                  <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                </button>
+                <span class="ml-2px font-700 text-12px">111</span>
+              </div>
               <!-- like-->
-              <button v-if="isLike"
-                      :disabled="isLiking"
-                      @click.stop="like"
-                      class="flex items-center mr-24px">
-                <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
-                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                </i>
-                <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
-              </button>
+              <div v-if="isLike" class="flex items-center mr-24px">
+                <button :disabled="isLiking"
+                        @click.stop="like"
+                        class="flex items-center">
+                  <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
+                </button>
+                <span class="ml-2px font-700 text-12px">111</span>
+              </div>
               <!-- follow-->
-              <button v-if="isFollow"
-                      :disabled="isFollowing"
-                      @click.stop="follow"
-                      class="flex items-center" >
-                <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
-                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                </i>
-                <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
-              </button>
+<!--              <button v-if="isFollow"-->
+<!--                      :disabled="isFollowing"-->
+<!--                      @click.stop="follow"-->
+<!--                      class="flex items-center" >-->
+<!--                <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">-->
+<!--                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">-->
+<!--                </i>-->
+<!--                <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>-->
+<!--              </button>-->
             </div>
             <div v-else>
               <div v-if="curation.curatorProfile" class="flex items-center ml-10px">
@@ -94,7 +114,7 @@
                             :chain-name="curation.chainId.toString()"
                             :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
               <template #amount>
-            <span class="pl-34px pr-8px h-20px whitespace-nowrap
+            <span class="pl-30px pr-8px h-20px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
               {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
             </span>
@@ -110,7 +130,7 @@
 <script>
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { parseTimestamp, sleep } from '@/utils/helper'
-import { mapGetters } from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
 import Repost from "@/components/Repost";
@@ -149,6 +169,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+    ...mapState('curation', ['selectedTag']),
     profileImg() {
       return this.curation.creatorProfileImg.replace('normal', '200x200')
     },
@@ -207,6 +228,9 @@ export default {
     },
   },
   methods: {
+    onSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+    },
     formatEmojiText,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
