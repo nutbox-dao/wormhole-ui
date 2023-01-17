@@ -53,9 +53,11 @@
           </div>
           <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
             <div v-show="tag != 'iweb3'"
-                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px
+                 class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
                         whitespace-nowrap cursor-pointer"
-                 v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
+                 :class="selectedTag.indexOf(tag)>=0?'bg-color62 text-white':'light:text-color46'"
+                 v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
+                 @click.stop="onSelectTag(tag)">
               #{{ tag }}
             </div>
           </div>
@@ -157,6 +159,7 @@ export default {
   },
   computed: {
     ...mapState(['accountInfo']),
+    ...mapState('curation', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     profileImg() {
       if (!this.post.profileImg) return null
@@ -286,6 +289,9 @@ export default {
         this.imgViewDialog = true
       }
     },
+    onSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+    }
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
