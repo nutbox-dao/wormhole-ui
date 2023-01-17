@@ -54,7 +54,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px" :class="replyed?'text-color62':''">111</span>
+                <span class="ml-6px font-700 text-12px" :class="replyed?'text-color62':''">{{ curation.replied }}</span>
               </div>
               <!-- quote-->
               <div v-if="isQuote" class="flex items-center mr-24px">
@@ -65,7 +65,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px" :class="quoted?'text-color62':''">111</span>
+                <span class="ml-6px font-700 text-12px" :class="quoted?'text-color62':''">{{ curation.quoted }}</span>
               </div>
               <!-- like-->
               <div v-if="isLike" class="flex items-center mr-24px">
@@ -77,7 +77,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
                 </button>
-                <span class="ml-2px font-700 text-12px" :class="liked?'text-color62':''">111</span>
+                <span class="ml-6px font-700 text-12px" :class="liked?'text-color62':''">{{ curation.liked }}</span>
               </div>
               <!-- follow-->
 <!--              <button v-if="isFollow"-->
