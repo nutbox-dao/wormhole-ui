@@ -35,7 +35,7 @@
                     <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
                       <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
                                      whitespace-nowrap cursor-pointer text-white light:text-blueDark"
-                              v-for="cTag of detailCuration.topics || ['Web3', 'test']" :key="cTag">
+                              v-for="cTag of JSON.parse(detailCuration.topics ?? '[]') || ['Web3', 'test']" :key="cTag">
                         {{cTag}}
                       </button>
                     </div>

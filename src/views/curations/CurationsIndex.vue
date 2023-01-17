@@ -164,7 +164,7 @@ export default {
     ...mapGetters(['getAccountInfo']),
     ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag', 'ongoingListByTag', 'trendingListByTag']),
     curationsList() {
-      if (this.subActiveTagIndex === 0) {
+      if (this.selectedTag === 'All') {
         if (this.rankValue === 0) {
           return this.trendingList
         }else{
@@ -288,6 +288,7 @@ export default {
           }
           this.$store.commit('curation/'+mutationStr, curations ?? [])
         }else {
+          console.log(66, tag, this.rankValue);
           if (this.rankValue === 0) {
             curations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
             this.trendingListByTag[tag] = curations;

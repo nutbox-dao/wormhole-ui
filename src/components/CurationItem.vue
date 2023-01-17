@@ -28,7 +28,7 @@
                 <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
                         whitespace-nowrap cursor-pointer"
                         :class="selectedTag.indexOf(cTag)>=0?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                        v-for="cTag of curation.topics || ['Web3', 'test']" :key="cTag"
+                        v-for="cTag of JSON.parse(curation.topics ?? '[]') || ['Web3', 'test']" :key="cTag"
                         @click.stop="onSelectTag(cTag)">
                   {{cTag}}
                 </button>
