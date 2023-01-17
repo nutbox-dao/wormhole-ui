@@ -37,7 +37,7 @@
       </el-collapse-transition>
       <div v-if="customizeTag"
            class="flex items-center bg-blockBg light:bg-white rounded-12px px-1.5rem py-12px mb-10px shadow-sm mt-10px">
-        <span class="mr-10px">Selected Topic: </span>
+        <span class="mr-10px c-text-black">Selected Topic: </span>
         <button class="text-14px 2xl:text-0.8rem border-1 border-color62 rounded-4px px-12px py-4px
                        flex items-center whitespace-nowrap text-color62"
                 @click="addCustomizeTag(selectedTag)">

@@ -50,14 +50,16 @@
               <img :src="JSON.parse(post.pageInfo).images[0]" alt="">
             </div>
           </div>
-          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
-            <div v-show="tag != 'iweb3'"
-                 class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px
+          <slot name="blog-tag">
+            <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+              <div v-show="tag != 'iweb3'"
+                   class="border-1 border-color62 py-3px px-6px rounded-6px light:text-color46 mt-10px
                         whitespace-nowrap"
-                 v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
-              #{{ tag }}
+                   v-for="tag of JSON.parse(post.tags || '[]')" :key="tag">
+                #{{ tag }}
+              </div>
             </div>
-          </div>
+          </slot>
           <div v-if="location" class="flex mt-0.8rem">
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>

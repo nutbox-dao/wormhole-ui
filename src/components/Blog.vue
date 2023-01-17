@@ -63,7 +63,6 @@
               </div>
             </div>
           </slot>
-          <slot name="curation-tag"></slot>
           <div v-if="location" class="flex mt-0.8rem">
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
