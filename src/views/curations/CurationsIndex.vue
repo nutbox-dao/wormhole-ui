@@ -227,18 +227,25 @@ export default {
       try{
         let curations;
         let cursor;
-        const sel = this.subActiveTagIndex
         const tag = this.selectedTag;
-        if (this.subActiveTagIndex === 0) {
-          curations = this.trendingList
-          cursor = curations[curations.length - 1].score
-        }else if(this.subActiveTagIndex === 1) {
-          curations = this.ongoingList
-          cursor = curations[curations.length - 1].createdTime
-        }else if(this.subActiveTagIndex === 2) {
-          curations = this.trendingList
-          cursor = curations[curations.length - 1].score
+        if (tag === 'All') {
+          if (this.rankValue === 0) {
+            curations = this.trendingList
+            cursor = curations[curations.length - 1].score
+          }else {
+            curations = this.ongoingList
+            cursor = curations[curations.length - 1].createdTime
+          }
+        }else {
+          if (this.rankValue === 0) {
+            curations = this.trendingListByTag[tag]
+            cursor = curations[curations.length - 1].score
+          }else {
+            curations = this.ongoingListByTag[tag]
+            cursor = curations[curations.length - 1].createdTime
+          }
         }
+        
         if (!curations || curations.length === 0) {
           this.listsFinished[tag] = true
           return;
@@ -246,25 +253,34 @@ export default {
 
         let moreCurations = [];
 
-
         let mutationStr = ''
-        if (sel === 0) {
-          mutationStr = 'saveTrendingList'
-          moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
-        }else if(sel === 1) {
-          mutationStr = 'saveOngoingList'
-          moreCurations = await getCurations(0, cursor, this.getAccountInfo?.twitterId)
-        }else if(sel === 2) {
-          mutationStr = 'saveTrendingList'
-          moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
+        if (tag === 'All') {
+          if (this.rankValue === 0) {
+            mutationStr = 'saveTrendingList'
+            moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
+          }else {
+            mutationStr = 'saveOngoingList'
+            moreCurations = await getCurations(0, cursor, this.getAccountInfo?.twitterId)
+          }
+          curations = curations.concat(moreCurations);
+          this.$store.commit('curation/'+mutationStr, curations)
+        }else {
+          if (this.rankValue === 0) {
+            moreCurations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, cursor, tag);
+            this.trendingListByTag[tag] = curations.concat(moreCurations);
+            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag)
+          }else {
+            moreCurations = await getNewCurationsByTag(this.getAccountInfo?.twitterId, 0, cursor, tag);
+            this.ongoingListByTag[tag] = curations.concat(moreCurations);
+            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
+          }
+          
         }
         if (moreCurations.length < 12) {
           this.listsFinished[tag] = true
         }else {
           this.listsFinished[tag] = false
         }
-        curations = curations.concat(moreCurations);
-        this.$store.commit('curation/'+mutationStr, curations)
       } catch(e) {
         console.log('Get more curations fail:', e);
         showError(501)
