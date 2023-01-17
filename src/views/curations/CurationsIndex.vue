@@ -8,13 +8,8 @@
                   :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
                   @click="changeSubIndex(index)">{{tag}}</button>
         </div>
-        <button class="" @click="showMoreTag=!showMoreTag">
-          <img v-if="moreTag.indexOf(selectedTag)>=0"
-               class="h-18px w-18px lg:w-1.2rem lg:h-1.2rem"
-               src="~@/assets/icon-tag-white.png" alt="">
-          <img v-else
-               class="h-18px w-18px lg:w-1.2rem lg:h-1.2rem"
-               src="~@/assets/icon-tag.png" alt="">
+        <button class="c-text-black text-white" @click="showMoreTag=!showMoreTag">
+         More >>>
         </button>
       </div>
       <el-collapse-transition>
@@ -25,14 +20,14 @@
                          whitespace-nowrap"
                     :class="mTag===selectedTag?'text-white':'text-color59/50'"
                     @click="setSelectTag(mTag)">
-              #{{mTag}}
+              {{mTag}}
             </button>
             <button v-for="(cTag, cIndex) of customizeTagList" :key="cIndex"
                     class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
                            flex items-center whitespace-nowrap"
                     :class="cTag===selectedTag?'text-white':'text-color59/50'"
                     @click="setSelectTag(cTag)">
-              #{{cTag}}
+              {{cTag}}
               <img class="w-14px h-14px ml-4px"
                    @click.stop="deleteCustomizeTag(cIndex)"
                    src="~@/assets/icon-delete-primary.svg" alt="">
