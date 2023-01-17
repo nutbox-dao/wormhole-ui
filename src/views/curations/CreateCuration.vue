@@ -159,7 +159,7 @@
           <div class="min-h-44px 2xl:min-h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px mt-5px
                       flex justify-between relative px-15px"
-               :class="followList.length>0?'items-start':'items-center'">
+               :class="form.followers.length>0?'items-start':'items-center'">
             <div class="flex items-center min-h-44px 2xl:min-h-2rem" >
               <i class="w-16px h-16px min-w-16px min-h-16px rounded-full border-1 border-color8B/30 light:border-colorE3"
                  :class="form.isFollow?'icon-radio-primary border-0':'bg-black light:bg-white'"
@@ -168,12 +168,12 @@
             </div>
             <div class="flex-1 flex flex-wrap items-center justify-end gap-y-8px
                         min-h-44px 2xl:min-h-2rem relative"
-                 :class="followList.length>0?'py-4px':''">
+                 :class="form.followers.length>0?'py-4px':''">
               <button class="">
                 @{{(form.category === 'tweet' && form.createType==='new') ? getAccountInfo.twitterUsername : form.author.username}}
               </button>
               <div class="flex items-center"
-                   v-for="(fItem, fIndex) of followList" :key="fItem.id">
+                   v-for="(fItem, fIndex) of form.followers" :key="fItem.id">
                 <button class="ml-10px bg-color62 text-white rounded-full px-4px py-2px relative">
                   @{{fItem.username}}
                   <img class="w-14px h-14px bg-white rounded-full absolute -right-6px -top-4px"
@@ -182,7 +182,7 @@
                 </button>
               </div>
 
-              <button v-if="followList.length<3" @click="addFollowVisible=true" class="ml-16px">
+              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
               </button>
             </div>
@@ -583,7 +583,8 @@ export default {
         space: {},
         author: {},
         address: null,
-        tags: []
+        tags: [],
+        followers: []
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -616,8 +617,7 @@ export default {
       selectCategory: '',
       createdTipVisible: false,
       inputTagValue: '',
-      addFollowVisible: false,
-      followList: []
+      addFollowVisible: false
     }
   },
   computed: {
@@ -652,13 +652,13 @@ export default {
     onConfirmAddFollow(followUser) {
       this.addFollowVisible = false
       console.log(followUser)
-      for(let user of this.followList) {
+      for(let user of this.form.followers) {
         if(user.id === followUser.id) return
       }
-      this.followList.push(followUser)
+      this.form.followers.push(followUser)
     },
     deleteFollow(index) {
-      this.followList.splice(index, 1)
+      this.form.followers.splice(index, 1)
     },
     onSelectTag(tag) {
       if(this.form.tags.length===5) return
@@ -795,8 +795,9 @@ export default {
       this.form.postData = {}
       this.form.space = {};
       this.form.author = {};
-      this.modalVisible = false,
-      this.form.tags = []
+      this.modalVisible = false;
+      this.form.tags = [];
+      this.form.followers = [];
     },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
@@ -1032,7 +1033,8 @@ export default {
             chainId: EVM_CHAINS[this.form.chain].id,
             tasks,
             content: this.form.description,
-            tags: this.form.tags
+            tags: this.form.tags,
+            followers: this.form.followers
           }
         }else {
           pendingCuration = {
@@ -1057,6 +1059,7 @@ export default {
             tweetContent: this.form.postData?.content,
             content: this.form.description,
             tags: this.form.tags,
+            followers: this.form.followers
           }
         }
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId) {
