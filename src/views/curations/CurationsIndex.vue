@@ -3,10 +3,10 @@
     <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem pt-20px">
       <div class="flex flex-wrap gap-y-10px xs:flex-row justify-between items-center">
         <div class="flex">
-          <button v-for="(tag, index) of subTagList" :key="index"
+          <button v-for="(tag, index) of subTagList.slice(0, 5)" :key="index"
                   class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
                   :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
-                  @click="changeSubIndex(index)">{{tag}}</button>
+                  @click="setSelectTag(tag)">{{tag}}</button>
         </div>
         <button class="c-text-black text-white" @click="showMoreTag=!showMoreTag">
          More >>>
@@ -146,7 +146,7 @@ export default {
   data() {
     return {
       listLoading: false,
-      listFinished: false,
+      listsFinished: [],
       refreshing: false,
       subTagList: ['All'],
       subActiveTagIndex: 0,
@@ -171,18 +171,28 @@ export default {
           return this.ongoingList
         }
       }else {
-        return this.ongoingList
+        if (this.rankValue === 0) {
+          return this.trendingListByTag[this.selectedTag] ?? []
+        }else{
+          return this.ongoingListByTag[this.selectedTag] ?? []
+        }
       }
     },
     moreTag() {
-      return ['Web3', 'wallet', '600元宇宙', 'collaboration']
+      return this.subTagList.slice(5)
     },
     customizeTag() {
-      return this.selectedTag && this.subTagList.indexOf(this.selectedTag) <0 && this.moreTag.indexOf(this.selectedTag) < 0
+      return this.selectedTag && this.subTagList.indexOf(this.selectedTag) <0 && this.moreTag.indexOf(this.selectedTag) < 0 && this.customizeTagList.indexOf(this.selectedTag) < 0
+    },
+    listFinished() {
+      return this.listsFinished[this.selectedTag];
     }
   },
   watch: {
     rankValue(newValue, oldValue) {
+      this.onRefresh();
+    },
+    selectedTag(val) {
       this.onRefresh();
     }
   },
@@ -194,6 +204,7 @@ export default {
       this.$store.commit('curation/saveSelectedTag', tag)
     },
     addCustomizeTag(tag) {
+      if (this.customizeTagList.indexOf(tag) > 0) return;
       this.customizeTagList.push(tag)
       localStorage.setItem('customizeTagList', JSON.stringify(this.customizeTagList))
     },
@@ -204,19 +215,20 @@ export default {
     pageScroll() {
       this.scroll = this.$refs.curationPageRef.scrollTop
     },
-    changeSubIndex(index) {
-      if(this.subActiveTagIndex===index) return
-      this.listFinished = false
-      this.subActiveTagIndex = index
-      this.$store.commit('curation/saveSelectedTag', this.subTagList[index])
-      this.onRefresh()
-    },
+    // changeSubIndex(index) {
+    //   if(this.subActiveTagIndex===index) return
+    //   this.listFinished = false
+    //   this.subActiveTagIndex = index
+    //   this.$store.commit('curation/saveSelectedTag', this.subTagList[index])
+    //   this.onRefresh()
+    // },
     async onLoad() {
       if(this.refreshing || this.listLoading) return
       try{
         let curations;
         let cursor;
         const sel = this.subActiveTagIndex
+        const tag = this.selectedTag;
         if (this.subActiveTagIndex === 0) {
           curations = this.trendingList
           cursor = curations[curations.length - 1].score
@@ -228,7 +240,7 @@ export default {
           cursor = curations[curations.length - 1].score
         }
         if (!curations || curations.length === 0) {
-          this.listFinished = true
+          this.listsFinished[tag] = true
           return;
         }
 
@@ -247,9 +259,9 @@ export default {
           moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
         }
         if (moreCurations.length < 12) {
-          this.listFinished = true
+          this.listsFinished[tag] = true
         }else {
-          this.listFinished = false
+          this.listsFinished[tag] = false
         }
         curations = curations.concat(moreCurations);
         this.$store.commit('curation/'+mutationStr, curations)
@@ -263,10 +275,10 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try{
-        let sel = this.subActiveTagIndex;
+        let tag = this.selectedTag;
         let curations = []
         let mutationStr = ''
-        if (sel === 0) {
+        if (tag === 'All') {
           if (this.rankValue === 0) {
             curations = await getCurationsByTrend(0, null, this.getAccountInfo?.twitterId)
             mutationStr = 'saveTrendingList'
@@ -274,16 +286,22 @@ export default {
             curations = await getCurations(0, null, this.getAccountInfo?.twitterId)
             mutationStr = 'saveOngoingList'
           }
+          this.$store.commit('curation/'+mutationStr, curations ?? [])
         }else {
-          const tag = this.subTagList[sel];
-          console.log(53, tag);
-          return;
+          if (this.rankValue === 0) {
+            curations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
+            this.trendingListByTag[tag] = curations;
+            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag);
+          }else {
+            curations = await getNewCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
+            this.ongoingListByTag[tag] = curations;
+            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
+          }
         }
-        this.$store.commit('curation/'+mutationStr, curations ?? [])
         if (!curations || curations.length < 12) {
-          this.listFinished = true
+          this.listsFinished[tag] = true
         }else {
-          this.listFinished = false
+          this.listsFinished[tag] = false
         }
       } catch(e) {
         console.log('Refresh curations fail:', e);
