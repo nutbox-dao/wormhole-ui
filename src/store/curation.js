@@ -18,7 +18,7 @@ export default {
         pendingTip: localStorage.getItem('pending-cache-tip'),
         pendingPopup: localStorage.getItem('pending-cache-popup'),
         customTokens: localStorage.getItem('custom-tokens'),
-        selectedTag: 'Elon Musk'
+        selectedTag: ''
     },
     mutations: {
         saveSelectedTag: (state, tag) => {

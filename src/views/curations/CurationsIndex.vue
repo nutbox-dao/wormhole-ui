@@ -27,10 +27,20 @@
                     @click="setSelectTag(mTag)">
               #{{mTag}}
             </button>
+            <button v-for="(cTag, cIndex) of customizeTagList" :key="cIndex"
+                    class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
+                           flex items-center whitespace-nowrap"
+                    :class="cTag===selectedTag?'text-white':'text-color59/50'"
+                    @click="setSelectTag(cTag)">
+              #{{cTag}}
+              <img class="w-14px h-14px ml-4px"
+                   @click.stop="deleteCustomizeTag(cIndex)"
+                   src="~@/assets/icon-delete-primary.svg" alt="">
+            </button>
           </div>
         </div>
       </el-collapse-transition>
-      <div class="flex justify-end items-center mt-10px">
+      <div class="flex justify-end items-center my-10px">
         <button class="mr-10px">
           <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
         </button>
@@ -44,6 +54,16 @@
               :value="item.value"
           />
         </el-select>
+      </div>
+      <div v-if="customizeTag"
+           class="flex items-center bg-blockBg light:bg-white rounded-12px px-1.5rem py-12px mb-10px">
+        <span class="mr-10px">Selected Topic: </span>
+        <button class="text-14px 2xl:text-0.8rem border-1 border-color62 rounded-4px px-12px py-4px
+                       flex items-center whitespace-nowrap text-color62"
+                @click="addCustomizeTag(selectedTag)">
+          <span>{{selectedTag}}</span>
+          <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
+        </button>
       </div>
     </div>
     <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
@@ -140,7 +160,8 @@ export default {
       scroll: 0,
       showMoreTag: false,
       rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
-      rankValue: 0
+      rankValue: 0,
+      customizeTagList: []
     }
   },
   computed: {
@@ -159,7 +180,10 @@ export default {
       }
     },
     moreTag() {
-      return ['Elon Musk', 'Play2Earn', 'Uniswap', 'FTX', 'Huobi', 'Luna']
+      return ['Web3', 'wallet', '600元宇宙', 'collaboration']
+    },
+    customizeTag() {
+      return this.selectedTag && this.subTagList.indexOf(this.selectedTag) <0 && this.moreTag.indexOf(this.selectedTag) < 0
     }
   },
   watch: {
@@ -173,6 +197,14 @@ export default {
   methods: {
     setSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
+    },
+    addCustomizeTag(tag) {
+      this.customizeTagList.push(tag)
+      localStorage.setItem('customizeTagList', JSON.stringify(this.customizeTagList))
+    },
+    deleteCustomizeTag(index) {
+      console.log(index)
+      this.customizeTagList.splice(index, 1)
     },
     pageScroll() {
       this.scroll = this.$refs.curationPageRef.scrollTop
@@ -279,6 +311,8 @@ export default {
   },
   mounted () {
     console.log('mounted')
+    this.customizeTagList = localStorage.getItem('customizeTagList')?
+        JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {
       this.subTagList = ['All'].concat(topics.map(t => t.topic))
       console.log(53, topics);
