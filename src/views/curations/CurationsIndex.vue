@@ -347,9 +347,6 @@ export default {
       this.subTagList = ['All'].concat(topics.map(t => t.topic))
       console.log(53, topics);
     })
-    getNewCurationsByTag(this.getAccountInfo.twitterId, 0, null, 'web3').then(res => {
-      console.log(66, res);
-    })
     this.onRefresh();
   },
   activated() {
