@@ -30,10 +30,11 @@
         </div>
         <div class="flex justify-between items-center mt-1rem" @click.stop>
           <template v-if="showBtnGroup">
-            <div v-if="!isEnd" class="flex-1 flex justify-end gap-x-24px">
+            <div v-if="!isEnd" class="flex-1 flex items-center">
+              <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
               <!-- reply-->
               <button v-if="isReply" @click.stop="quoteOrReply"
-                      class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                      class="text-white flex justify-center items-center w-24px h-24px rounded-full mr-24px">
                 <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
                   <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
                 </i>
@@ -41,7 +42,7 @@
               </button>
               <!-- quote-->
               <button v-if="isQuote" @click.stop="quoteOrReply"
-                      class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                      class="text-white flex justify-center items-center w-20px h-20px rounded-full mr-24px">
                 <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
                   <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
                 </i>
@@ -51,7 +52,7 @@
               <button v-if="isLike"
                       :disabled="isLiking"
                       @click.stop="like"
-                      class="flex items-center">
+                      class="flex items-center mr-24px">
                 <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
                   <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
                 </i>
@@ -88,17 +89,17 @@
           </template>
           <div class="flex items-center justify-center ml-20px"
                :class="showBtnGroup?'':' absolute right-0 -top-2px'">
-            <ChainTokenIcon class="bg-color62 p-2px"
-                            height="16px" width="16px"
+            <ChainTokenIconLarge class="bg-color62"
+                            height="26px" width="26px"
                             :chain-name="curation.chainId.toString()"
                             :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
               <template #amount>
-            <span class="px-8px h-20px whitespace-nowrap
+            <span class="pl-34px pr-8px h-20px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
               {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
             </span>
               </template>
-            </ChainTokenIcon>
+            </ChainTokenIconLarge>
           </div>
         </div>
       </div>
@@ -114,7 +115,7 @@ import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
 import Repost from "@/components/Repost";
 import Space from "@/components/Space";
-import ChainTokenIcon from "@/components/ChainTokenIcon";
+import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
@@ -123,7 +124,7 @@ import { errCode } from "@/config";
 
 export default {
   name: "CurationItem",
-  components: {Blog,Repost, Space, ChainTokenIcon, ContentTags},
+  components: {Blog,Repost, Space, ChainTokenIconLarge, ContentTags},
   props: {
     curation: {
       type: Object,

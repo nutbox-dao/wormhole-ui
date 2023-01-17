@@ -8,17 +8,17 @@
                          content-class="multi-content"
                          avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
             <template #token>
-              <ChainTokenIcon class="bg-color62 p-2px"
-                              height="16px" width="16px"
+              <ChainTokenIconLarge class="bg-color62"
+                              height="26px" width="26px"
                               :chain-name="curation.chainId.toString()"
                               :token="{address: curation?.token, symbol: curation?.tokenSymbol}">
                 <template #amount>
-              <span class="px-8px h-20px whitespace-nowrap
+              <span class="pl-34px pr-8px h-20px whitespace-nowrap
                            flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
                 {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
               </span>
                 </template>
-              </ChainTokenIcon>
+              </ChainTokenIconLarge>
             </template>
             <template #bottom-btn-bar><div></div></template>
           </BlogRecommend>
@@ -40,7 +40,7 @@ import {formatEmojiText} from "@/utils/tool";
 import BlogRecommend from "@/components/BlogRecommend";
 import Repost from "@/components/Repost";
 import Space from "@/components/Space";
-import ChainTokenIcon from "@/components/ChainTokenIcon";
+import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
 import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
@@ -49,7 +49,7 @@ import { errCode } from "@/config";
 
 export default {
   name: "CurationRecommendItem",
-  components: {BlogRecommend,Repost, Space, ChainTokenIcon, ContentTags},
+  components: {BlogRecommend,Repost, Space, ChainTokenIconLarge, ContentTags},
   props: {
     curation: {
       type: Object,
