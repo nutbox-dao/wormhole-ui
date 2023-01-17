@@ -31,11 +31,27 @@
                       avatar-class="w-30px min-w-30px h-30px md:w-2.4rem md:h-2.4rem md:w-min-2.4rem"
                       class="border-1 border-color8B/30 light:border-black light:bg-white px-15px pt-10px pb-15px rounded-15px">
                   <template #bottom-btn-bar><div></div></template>
+                  <template #curation-tag>
+                    <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                      <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
+                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
+                              v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
+                        {{cTag}}
+                      </button>
+                    </div>
+                  </template>
                 </Blog>
               </template>
               <template v-else-if="contentType==='space'">
                 <Space :space="space" @click="gotoTweet"
                        class="h-146px md:min-h-10rem dark:bg-tag-gradient light:bg-color15 rounded-15px cursor-pointer "></Space>
+                <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                  <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
+                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
+                          v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
+                    {{cTag}}
+                  </button>
+                </div>
               </template>
               <template v-else>
                 <div class="px-1.25rem pb-2rem border-b-1 border-color8B/30">
@@ -52,13 +68,7 @@
                   </div>
                 </div>
               </template>
-              <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
-                <button class="border-1 border-white light:border-blueDark py-3px px-6px rounded-full mt-10px
-                                     whitespace-nowrap cursor-pointer text-white light:text-blueDark"
-                        v-for="cTag of JSON.parse(detailCuration.topics || '[]')" :key="cTag">
-                  {{cTag}}
-                </button>
-              </div>
+
             </div>
             <div v-if="loading1"
                  class="bg-color62/20 absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">

@@ -49,7 +49,7 @@
         <button class="mr-10px">
           <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
         </button>
-        <el-select v-model="rankValue"
+        <el-select v-model="rankValue" placement="bottom-end"
                    class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
                    size="small">
           <el-option
