@@ -593,7 +593,7 @@ export default {
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     defaultTagList() {
-      const custom = this.customTags;
+      const custom = this.customTags ?? [];
       let temp = ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'];
       if (custom && custom.length > 0){
         temp = Array.from(new Set(custom.concat(temp)))
@@ -751,7 +751,8 @@ export default {
       this.form.postData = {}
       this.form.space = {};
       this.form.author = {};
-      this.modalVisible = false
+      this.modalVisible = false,
+      this.form.tags = []
     },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
@@ -1125,6 +1126,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
   async mounted () {
     if (this.getDraft) {
       this.form = this.getDraft
+      this.form.tags = this.form.tags ?? [];
       this.linkIsVerified = true;
     }
 

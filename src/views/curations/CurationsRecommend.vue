@@ -99,7 +99,7 @@ export default {
       bannerHeight: 0,
       wh3Info: {
         poster: 'https://cdn.wherein.mobi/wormhole3/newyear/banner1.png',
-        url: 'https://alpha.wormhole3.io'
+        url: 'https://medium.com/@wormhole3/wormhole3-lunar-new-year-campaign-start-it-off-the-decentralized-way-faa6848f7f84'
       },
       loading: true
     }

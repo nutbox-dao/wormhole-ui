@@ -84,7 +84,7 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations, getCurationsByTrend } from '@/api/api'
+import { getCurations, getCurationsByTrend, getPopularTopics, getNewCurationsByTag, getTrendingCurationsByTag } from '@/api/api'
 import { showError } from '@/utils/notify'
 
 export default {
@@ -220,6 +220,13 @@ export default {
   },
   mounted () {
     console.log('mounted')
+    getPopularTopics().then(topics => {
+      this.subTagList = ['All'].concat(topics.map(t => t.topic))
+      console.log(53, topics);
+    })
+    getNewCurationsByTag(this.getAccountInfo.twitterId, 0, null, 'web3').then(res => {
+      console.log(66, res);
+    })
     this.onRefresh();
   },
   activated() {

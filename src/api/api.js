@@ -137,6 +137,17 @@ export const checkMyCurationRecord = async (twitterId, curationId) =>
 export const replyToCurationByWH3 = async (twitterId, twitterUsername, curationId, tweetId, amount, symbol, chainName) =>
     post(BACKEND_API_URL + '/curation/replyByWh3', {twitterId, twitterUsername, curationId, tweetId, amount, symbol, chainName})
 
+/****************************************  topics  ***********************************************/
+export const getPopularTopics = async () =>
+    get(BACKEND_API_URL + '/curation/getPopularTopics')
+
+export const getNewCurationsByTag = async (twitterId, status, endtime, tag) =>
+    get(BACKEND_API_URL + '/curation/getNewCurationsByTag', {twitterId, status, endtime, tag})
+
+export const getTrendingCurationsByTag = async (twitterId, status, score, tag) =>
+    get(BACKEND_API_URL + '/curation/getTrendingCurationsByTag', {twitterId, status, score, tag})
+
+
 /****************************************  popup  ***********************************************/
 export const popupsOfCuration = async (twitterId, curationId) =>
     get(BACKEND_API_URL + '/popup/popupsOfCuration', {twitterId, curationId})
