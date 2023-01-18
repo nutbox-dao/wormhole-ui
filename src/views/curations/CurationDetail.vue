@@ -644,7 +644,7 @@ export default {
       while(count++ < 20) {
         try {
           let record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.detailCuration.curationId)
-          if (record && record.record && record.taskRecord) {
+          if (record && record.record && record.record.taskRecord) {
             const nyCard = record.nyCard;
 
             if (nyCard && nyCard.cardId > 0) {
