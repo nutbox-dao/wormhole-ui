@@ -155,7 +155,6 @@ export default {
         notify({message, duration, type})
     },
     async signup() {
-      console.log('signup');
       this.isSigningup = true
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
@@ -186,7 +185,7 @@ export default {
             this.step = 3;
           }
         }catch(e) {
-          console.log(532, e);
+          console.log('register fail', e);
         }finally {
           this.isSigningup = false
         }

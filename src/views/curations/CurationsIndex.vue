@@ -210,7 +210,6 @@ export default {
       localStorage.setItem('customizeTagList', JSON.stringify(this.customizeTagList))
     },
     deleteCustomizeTag(index) {
-      console.log(index)
       this.customizeTagList.splice(index, 1)
     },
     pageScroll() {
@@ -305,7 +304,6 @@ export default {
           }
           this.$store.commit('curation/'+mutationStr, curations ?? [])
         }else {
-          console.log(66, tag, this.rankValue);
           if (this.rankValue === 0) {
             curations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
             this.trendingListByTag[tag] = curations;
@@ -341,7 +339,6 @@ export default {
     }
   },
   mounted () {
-    console.log('mounted')
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {

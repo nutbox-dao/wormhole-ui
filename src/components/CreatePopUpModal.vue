@@ -242,7 +242,6 @@ export default {
       this.form.contentEl = this.$refs.contentRef.innerHTML
       this.form.content = this.formatElToTextContent(this.$refs.contentRef)
       this.step = 2
-      console.log(this.form.content, this.form.contentEl, this.tweetLength)
     },
     selectChain(chain){
       this.form.chain = chain

@@ -27,7 +27,6 @@ export const getAccounts = async (update=false) => {
     let account = accounts[0]
     account = ethers.utils.getAddress(account)
     store.commit('web3/saveAccount', account)
-    console.log(accounts[0]);
     return accounts[0]
 }
 

@@ -174,7 +174,6 @@ export default {
       })
     },
     onLoad() {
-      console.log('load more')
       if (this.finished || this.loading) return;
       let time;
       if (this.tips && this.tips.length > 0) {

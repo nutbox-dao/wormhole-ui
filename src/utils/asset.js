@@ -631,7 +631,7 @@ export async function getUserTokensFromCuration(twitterId) {
         }], Multi_Config);
         return res.results.transformed;
     }catch(e) {
-        console.log(6, e);
+        console.log('get user token from curation fail', e);
         return false
     }
 }

@@ -684,7 +684,6 @@ export default {
         }
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
       } catch (e) {
-        console.log(123, e);
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
           return;

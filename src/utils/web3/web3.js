@@ -46,7 +46,7 @@ export const setupNetwork = async (chainName) => {
       store.commit('web3/saveChainId', parseInt(id))
       return true
     }catch(error){
-      console.log(43256, error);
+      console.log('connect wallet fail', error);
       store.commit('web3/saveAccount', null)
       return false
     }

@@ -180,7 +180,6 @@ export async function getUserActivityInfo(ethAddress) {
 
 export async function buyRareCard(counts, account) {
     const abi = await getAbi();
-    console.log(677, counts, account);
     const metamask = await getEthWeb()
     const provider = new ethers.providers.Web3Provider(metamask)
     let contract = new ethers.Contract(COLLECT_BLESS_CONTRACT, abi, provider)

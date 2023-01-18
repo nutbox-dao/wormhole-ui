@@ -372,7 +372,7 @@ export default {
         this.$store.commit('curation/saveCustomTokens', customToken)
         this.selectedToken = this.customToken
       }catch(e) {
-        console.log(63, e);
+        console.log('Get token info from chain fail', e);
       }
     },
     selectGift(gift) {

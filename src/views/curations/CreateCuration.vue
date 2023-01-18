@@ -767,7 +767,6 @@ export default {
       } catch (e) {
         console.log('Fetch data from twitter fail:', e);
         if (e === 'log out') {
-          console.log(5);
           this.$router.replace('/square')
         }
       } finally {

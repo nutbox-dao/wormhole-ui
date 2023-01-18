@@ -224,7 +224,6 @@ export default {
   methods: {
     async approve() {
       const tx = await approve1155ToCollect(NEW_YEAR_CARD_CONTRACT, this.getAccountInfo.ethAddress)
-      console.log(3, tx);
     },
     async onDrawCard() {
       try{

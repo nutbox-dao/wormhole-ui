@@ -120,7 +120,7 @@ export default {
         await Promise.all([ getUSDTBalance(this.account), getUserNYCards(this.account)])
         this.$emit('close')
       } catch (e) {
-        console.log(35, e);
+        console.log('buy rare card fail', e);
         notify({message: this.$t('curation.approveFail'), duration: 5000, type: 'error'})
       } finally {
         this.isBuying = false

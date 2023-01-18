@@ -190,7 +190,7 @@ export default {
         this.walletAddress = ethers.utils.getAddress(acc[0])
         this.authStep = 'metamask'
       }catch(e) {
-        console.log(554, e);
+        console.log('connect metamask fail', e);
         this.showNotify(e, 5000, 'error')
       }finally{
         this.connecting = false
