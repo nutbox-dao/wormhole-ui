@@ -1176,6 +1176,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
     if (this.getDraft) {
       this.form = this.getDraft
       this.form.tags = this.form.tags ?? [];
+      this.form.followers = this.form.followers ?? []
       this.linkIsVerified = true;
     }
 

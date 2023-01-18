@@ -196,9 +196,10 @@ export default {
       this.onRefresh();
     }
   },
-  // activated() {
-  //   if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
-  // },
+  activated() {
+    if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
+    this.onRefresh()
+  },
   methods: {
     setSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
@@ -347,9 +348,6 @@ export default {
       this.subTagList = ['All'].concat(topics.map(t => t.topic))
     })
     this.onRefresh();
-  },
-  activated() {
-    this.onRefresh()
   }
 }
 </script>
