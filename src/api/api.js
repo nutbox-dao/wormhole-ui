@@ -137,6 +137,9 @@ export const checkMyCurationRecord = async (twitterId, curationId) =>
 export const replyToCurationByWH3 = async (twitterId, twitterUsername, curationId, tweetId, amount, symbol, chainName) =>
     post(BACKEND_API_URL + '/curation/replyByWh3', {twitterId, twitterUsername, curationId, tweetId, amount, symbol, chainName})
 
+export const curation_test = async (twitterId) =>
+    post(BACKEND_API_URL + '/curation/test', {twitterId})
+
 /****************************************  topics  ***********************************************/
 export const getPopularTopics = async () =>
     get(BACKEND_API_URL + '/curation/getPopularTopics')
