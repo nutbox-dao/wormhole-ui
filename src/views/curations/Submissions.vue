@@ -54,7 +54,6 @@
 
 <script>
 import { mapState } from "vuex";
-import ConfirmRewardTip from "@/components/ConfirmRewardTip";
 import { parseTimestamp, formatAmount } from "@/utils/helper";
 import { getCurationRecord } from '@/api/api'
 import ChainTokenIconVue from "@/components/ChainTokenIcon";

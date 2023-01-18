@@ -173,7 +173,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
             interval: 3000,
         },
-        curation: '0x5a837723924EdBB365f85e76870450FF1D44e31a',
+        curation: '0x603D00d2E2C8ebF4fbD05b4Ddd07366504C04Cf2',
         popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB'
     },
     Polygon: {
@@ -198,7 +198,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
             interval: 3000,
         },
-        curation: '0x4C524F03Bdf073A0a064Cd20c0bD9330c0FEab93',
+        curation: '0x97F0736aa1D3E61AfF4994B560cFecD0006BDdAD',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
     // Aurora: {
@@ -243,7 +243,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
             interval: 3000
         },
-        curation: '0xc53A46d6Ba6C9115Ab4D10afb499Aee2e46aa2F9',
+        curation: '0x38C3Aa843850a50939D493bCc407a2d4B8068013',
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
     },
     // 'BSC Testnet': {

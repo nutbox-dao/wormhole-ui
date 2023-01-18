@@ -145,11 +145,6 @@ const routes = [
     component: UserPostDetailView,
   },
   {
-    path: '/confirm-reward',
-    name: 'confirm-reward',
-    component: () => import('@/views/curations/ConfirmReward'),
-  },
-  {
     path: '/red-envelope',
     name: 'red-envelope',
     component: RedEnvelopeIndex,

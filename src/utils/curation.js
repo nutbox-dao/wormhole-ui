@@ -12,25 +12,6 @@ const abi = [
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "taskIds",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
           "name": "id",
           "type": "uint256"
         },
@@ -51,11 +32,6 @@ const abi = [
         },
         {
           "internalType": "uint256",
-          "name": "topCount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "maxCount",
           "type": "uint256"
         }
@@ -63,100 +39,6 @@ const abi = [
       "name": "newTask",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_limit",
-          "type": "uint256"
-        }
-      ],
-      "name": "distribute",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "taskInfo",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "endTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "token",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "amount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "enum Task.TaskState",
-              "name": "taskState",
-              "type": "uint8"
-            },
-            {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "currentIndex",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "topCount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "maxCount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "feedTotal",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct Task.TaskInfo",
-          "name": "task",
-          "type": "tuple"
-        },
-        {
-          "internalType": "uint256",
-          "name": "userCount",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -218,7 +100,7 @@ export const creteNewCuration = async (chainName, curation) => {
             let contract = new ethers.Contract(curationContract, abi, provider)
             contract = contract.connect(provider.getSigner())
             const {curationId, endtime, token, amount, maxCount} = curation
-            const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, 30, maxCount, {
+            const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, maxCount, {
               gasLimit: 500000
             })
             await waitForTx(provider, tx.hash)
@@ -228,19 +110,6 @@ export const creteNewCuration = async (chainName, curation) => {
             reject(errCode.TRANSACTION_FAIL)
         }
     })
-}
-
-export const getCurationInfo = async (chainName, curationId) => {
-  try {
-    const curationContract = EVM_CHAINS[chainName].curation
-    curationId = ethers.BigNumber.from('0x' + curationId);
-    const provider = new ethers.providers.JsonRpcProvider(RPC_NODE)
-    let contract = new ethers.Contract(curationContract, abi, provider)
-    const info = await contract.taskInfo(curationId);
-    return info;
-  } catch (error) {
-    console.log('Get curation info from chain fail:', error);
-  }
 }
 
 export const randomCurationId = () => {
