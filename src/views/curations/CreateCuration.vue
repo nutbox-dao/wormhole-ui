@@ -182,7 +182,7 @@
                 </button>
               </div>
 
-              <button v-if="form.followers.length<2 && linkIsVerified" @click="addFollowVisible=true" class="ml-16px">
+              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
               </button>
             </div>
@@ -1176,8 +1176,8 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
   async mounted () {
     if (this.getDraft) {
       this.form = this.getDraft
-      this.form.tags = this.form.tags ?? [];
-      this.form.followers = this.form.followers ?? []
+      this.form.topics = this.form.topics ?? [];
+      this.form.followers = this.form.followers ?? [];
       this.linkIsVerified = true;
     }
     getPopularTopics().then(res => {
