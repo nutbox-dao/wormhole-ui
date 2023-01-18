@@ -34,7 +34,7 @@
           <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
             <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
                         whitespace-nowrap cursor-pointer"
-                    :class="selectedTag.indexOf(cTag)>=0?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                    :class="selectedTag === cTag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
                     v-for="cTag of JSON.parse(curation.topics || '[]')" :key="cTag"
                     @click.stop="onSelectTag(cTag)">
               {{cTag}}
