@@ -1,14 +1,14 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
     <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem pt-20px">
-      <div class="flex flex-wrap gap-y-10px xs:flex-row justify-between items-center">
-        <div class="flex">
+      <div class="flex justify-between items-center">
+        <div class="flex flex-1 overflow-x-auto overflow-y-hidden no-scroll-bar">
           <button v-for="(tag, index) of subTagList.slice(0, 5)" :key="index"
                   class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
                   :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
                   @click="setSelectTag(tag)">{{tag}}</button>
         </div>
-        <button class="c-text-black text-white light:text-blueDark" @click="showMoreTag=!showMoreTag">
+        <button class="c-text-black text-white light:text-blueDark pl-8px" @click="showMoreTag=!showMoreTag">
          More >>>
         </button>
       </div>
@@ -245,7 +245,7 @@ export default {
             cursor = curations[curations.length - 1].createdTime
           }
         }
-        
+
         if (!curations || curations.length === 0) {
           this.listsFinished[tag] = true
           return;
@@ -274,7 +274,7 @@ export default {
             this.ongoingListByTag[tag] = curations.concat(moreCurations);
             this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
           }
-          
+
         }
         if (moreCurations.length < 12) {
           this.listsFinished[tag] = true
