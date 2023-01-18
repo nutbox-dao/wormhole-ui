@@ -190,7 +190,7 @@
                   <i v-else class="w-16px min-w-16px h-16px mr-10px"
                      :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
                   <span class="text-12px xl:text-0.7rem text-left leading-14px">
-                      Follow @{{detailCuration.username + (followers ? followers.reduce((s, f) => s + '&@' + f.username, '') : '')}} (or Verify your Follow)
+                      Follow @{{detailCuration.username + (followers ? followers.reduce((s, f) => s + ' & @' + f.username, '') : '')}} (or Verify your Follow)
                     </span>
                 </button>
               </div>

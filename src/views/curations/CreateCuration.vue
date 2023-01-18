@@ -228,7 +228,7 @@
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
             <div class="flex flex-wrap items-center">
-              <button v-for="(sTag, index) of form.tags" :key="sTag"
+              <button v-for="(sTag, index) of form.topics" :key="sTag"
                       class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
                              mx-4px my-3px bg-tag-gradient relative">
                 #{{sTag}}
@@ -254,10 +254,10 @@
             <div>
               <button v-for="dTag of defaultTagList" :key="dTag"
                       class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
-                      :class="form.tags.indexOf(dTag)>=0?
+                      :class="form.topics.indexOf(dTag)>=0?
                       'bg-tag-gradient text-white':
                       'border-1 border-color8B/30 light:border-colorF4 text-color8B light:text-color7D'"
-                      :disabled="form.tags.length===5"
+                      :disabled="form.topics.length===5"
                       @click="onSelectTag(dTag)">
                 #{{dTag}}
               </button>
@@ -583,7 +583,7 @@ export default {
         space: {},
         author: {},
         address: null,
-        tags: [],
+        topics: [],
         followers: []
       },
       addSpeakerVisible: false,
@@ -664,18 +664,18 @@ export default {
       this.form.followers.splice(index, 1)
     },
     onSelectTag(tag) {
-      if(this.form.tags.length===5) return
-      if(this.form.tags.indexOf(tag)>=0) return
-      this.form.tags.push(tag)
+      if(this.form.topics.length===5) return
+      if(this.form.topics.indexOf(tag)>=0) return
+      this.form.topics.push(tag)
     },
     selectInputTag() {
-      if(this.form.tags.length===5) return
+      if(this.form.topics.length===5) return
       this.defaultTagList.unshift(this.inputTagValue)
-      this.form.tags.push(this.inputTagValue)
+      this.form.topics.push(this.inputTagValue)
       this.inputTagValue = ''
     },
     deleteTag(index) {
-      this.form.tags.splice(index, 1)
+      this.form.topics.splice(index, 1)
     },
     formatEmojiText,
     formatAmount,
@@ -1036,7 +1036,7 @@ export default {
             chainId: EVM_CHAINS[this.form.chain].id,
             tasks,
             content: this.form.description,
-            tags: this.form.tags,
+            topics: this.form.topics ?? [],
             followers: JSON.stringify(this.form.followers ?? [])
           }
         }else {
@@ -1061,7 +1061,7 @@ export default {
             speakerIds: this.form.speakers ? this.form.speakers.map(s => s.id) : [],
             tweetContent: this.form.postData?.content,
             content: this.form.description,
-            tags: this.form.tags,
+            topics: this.form.topics ?? [],
             followers: JSON.stringify(this.form.followers ?? [])
           }
         }
