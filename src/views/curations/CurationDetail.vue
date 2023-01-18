@@ -190,7 +190,7 @@
                   <i v-else class="w-16px min-w-16px h-16px mr-10px"
                      :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
                   <span class="text-12px xl:text-0.7rem text-left leading-14px">
-                      Follow @{{detailCuration.username}} (or Verify your Follow)
+                      Follow @{{detailCuration.username + (followers ? followers.reduce((s, f) => s + '&@' + f.username, '') : '')}} (or Verify your Follow)
                     </span>
                 </button>
               </div>
@@ -461,6 +461,14 @@ export default {
         return '---'
       }
     },
+    followers() {
+      if (this.detailCuration && this.detailCuration.followers && this.detailCuration.followers.length > 2) {
+        console.log(453, JSON.parse(this.detailCuration.followers));
+        let followers = JSON.parse(this.detailCuration.followers) 
+        return followers;
+      }
+      return []
+    },
     // 已结束未完成
     endAndNotComplete() {
       return this.detailCuration?.endtime < (new Date().getTime() / 1000)
@@ -695,6 +703,9 @@ export default {
       try{
         this.isFollowing = true
         const result = await followCuration({...this.detailCuration, twitterId: this.getAccountInfo.twitterId})
+        if (!result) {
+          return;
+        }
         let nyCard = result.nyCard;
 
         if (nyCard && nyCard.cardId > 0) {

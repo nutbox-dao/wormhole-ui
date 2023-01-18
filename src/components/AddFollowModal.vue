@@ -71,7 +71,7 @@ export default {
       if (match) {
         try{
           this.isChecking = true
-          const user = await getUserInfoByUserId(this.formData.username);
+          const user = await getUserInfoByUserId(this.formData.username.replace('@', ''));
           if (user.data) {
             this.formData = {
               id: user.data.id,

@@ -345,7 +345,6 @@ export default {
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {
       this.subTagList = ['All'].concat(topics.map(t => t.topic))
-      console.log(53, topics);
     })
     this.onRefresh();
   },
