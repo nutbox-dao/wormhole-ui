@@ -1081,7 +1081,7 @@ export default {
         // store custom tags
         let nowTags = this.defaultTagList;
         let newTags = []
-        for (let tag of this.form.tags) {
+        for (let tag of this.form.topics) {
           if (nowTags.indexOf(tag) === -1) {
             newTags.push(tag)
           }
