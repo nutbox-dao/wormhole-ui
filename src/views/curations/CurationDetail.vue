@@ -463,7 +463,6 @@ export default {
     },
     followers() {
       if (this.detailCuration && this.detailCuration.followers && this.detailCuration.followers.length > 2) {
-        console.log(453, JSON.parse(this.detailCuration.followers));
         let followers = JSON.parse(this.detailCuration.followers) 
         return followers;
       }
