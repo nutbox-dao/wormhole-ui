@@ -182,7 +182,7 @@
                 </button>
               </div>
 
-              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
+              <button v-if="form.followers.length<2 && linkIsVerified" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
               </button>
             </div>
@@ -651,11 +651,13 @@ export default {
   methods: {
     onConfirmAddFollow(followUser) {
       this.addFollowVisible = false
-      console.log(followUser)
       for(let user of this.form.followers) {
-        if(user.id === followUser.id) return
+        if(user.id === followUser.twitterId) return
       }
-      this.form.followers.push(followUser)
+      this.form.followers.push({
+        twitterId: followUser.id,
+        username: followUser.username
+      })
     },
     deleteFollow(index) {
       this.form.followers.splice(index, 1)
@@ -1034,7 +1036,7 @@ export default {
             tasks,
             content: this.form.description,
             tags: this.form.tags,
-            followers: this.form.followers
+            followers: JSON.stringify(this.form.followers ?? [])
           }
         }else {
           pendingCuration = {
@@ -1059,7 +1061,7 @@ export default {
             tweetContent: this.form.postData?.content,
             content: this.form.description,
             tags: this.form.tags,
-            followers: this.form.followers
+            followers: JSON.stringify(this.form.followers ?? [])
           }
         }
         if (!pendingCuration.curationId || !pendingCuration.amount || !pendingCuration.maxCount || !pendingCuration.endtime || !pendingCuration.twitterId || !pendingCuration.authorId) {
