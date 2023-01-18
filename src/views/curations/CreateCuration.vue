@@ -528,7 +528,7 @@ import { getTweetById, getSpaceById, getUserInfoByUserId, userReply } from '@/ut
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
-import { replyToCurationByWH3 } from '@/api/api'
+import { replyToCurationByWH3, getPopularTopics } from '@/api/api'
 import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
@@ -617,7 +617,8 @@ export default {
       selectCategory: '',
       createdTipVisible: false,
       inputTagValue: '',
-      addFollowVisible: false
+      addFollowVisible: false,
+      commenTopics: []
     }
   },
   computed: {
@@ -626,8 +627,8 @@ export default {
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     defaultTagList() {
-      const custom = this.customTags ?? [];
-      let temp = ['nft', 'metaverse', 'web3', 'Elon Musk', 'BTC', 'Etherum', 'Uniswap', 'Luna', 'FTX', 'Binance'];
+      const custom = this.customTags ? this.customTags.slice(0,10) : [];
+      let temp = this.commenTopics;
       if (custom && custom.length > 0){
         temp = Array.from(new Set(custom.concat(temp)))
       }
@@ -1179,6 +1180,9 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
       this.form.followers = this.form.followers ?? []
       this.linkIsVerified = true;
     }
+    getPopularTopics().then(res => {
+
+    }).catch()
 
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {

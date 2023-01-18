@@ -146,13 +146,13 @@
           </div>
         </div>
       </el-dialog>
-      <!-- <el-dialog v-model="getCardVisible"
+      <el-dialog v-model="getCardVisible"
                  destroy-on-close
                  :show-close="false"
                  :close-on-click-modal="true"
                  class="c-dialog c-dialog-center max-w-540px border-1 border-color84/30 rounded-1.6rem">
         <GetCardModal/>
-      </el-dialog> -->
+      </el-dialog>
     </div>
   </el-config-provider>
 </template>
