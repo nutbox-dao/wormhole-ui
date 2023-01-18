@@ -246,27 +246,27 @@ export const EVM_CHAINS = {
         curation: '0xc53A46d6Ba6C9115Ab4D10afb499Aee2e46aa2F9',
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
     },
-    'BSC Testnet': {
-        rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
-        scan: '',
-        id: 97,
-        main: {
-            name: 'BNB',
-            symbol: 'BNB',
-            decimals: 18,
-            icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
-        },
-        assets: {
-          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2358F9255d2b31dc05cEC4249C612CA6FA9179a', decimals: 18}
-        },
-        Multi_Config: {
-            rpcUrl: 'https://data-seed-prebsc-2-s3.binance.org:8545',
-            multicallAddress: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
-            interval: 3000
-        },
-        curation: '',
-        popup: ''
-    },
+    // 'BSC Testnet': {
+    //     rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
+    //     scan: '',
+    //     id: 97,
+    //     main: {
+    //         name: 'BNB',
+    //         symbol: 'BNB',
+    //         decimals: 18,
+    //         icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
+    //     },
+    //     assets: {
+    //       USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xc2358F9255d2b31dc05cEC4249C612CA6FA9179a', decimals: 18}
+    //     },
+    //     Multi_Config: {
+    //         rpcUrl: 'https://data-seed-prebsc-2-s3.binance.org:8545',
+    //         multicallAddress: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
+    //         interval: 3000
+    //     },
+    //     curation: '',
+    //     popup: ''
+    // },
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'
