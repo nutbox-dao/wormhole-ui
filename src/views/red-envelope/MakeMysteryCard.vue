@@ -771,7 +771,7 @@ export default {
       }
     },
     onShare() {
-      window.open(`https://twitter.com/intent/tweet?text=I hive minted ${this.form.cardNum} mystery cards on @wormhole_3 with some prize. You can join the game to draw these cards from: https://alpha.wormhole3.io.
+      window.open(`https://twitter.com/intent/tweet?text=I have minted ${this.form.cardNum} mystery cards on @wormhole_3 with some prize. You can join the game to draw these cards from: https://alpha.wormhole3.io.
       #iweb3`)
       this.$emit('close')
     }
