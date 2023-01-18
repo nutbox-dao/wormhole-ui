@@ -1181,7 +1181,9 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
       this.linkIsVerified = true;
     }
     getPopularTopics().then(res => {
-
+      if (res && res.length > 0) {
+        this.commenTopics = res.map(t => t.topic)
+      }
     }).catch()
 
     const pendingCuration = this.getPendingTweetCuration;
