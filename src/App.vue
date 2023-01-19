@@ -314,6 +314,7 @@ export default {
       }
     },
     createCuration() {
+      this.$router.push('/create-curation')
       if (this.getAccountInfo && this.getAccountInfo.twitterId) {
         this.$router.push('/create-curation')
       }else {
