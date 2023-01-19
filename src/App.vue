@@ -21,7 +21,7 @@
                        h-30px px-15px rounded-full mr-0.8rem
                        font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
                       @click="createCuration">
-                <span class="whitespace-nowrap text-white">Create curation</span>
+                <span class="whitespace-nowrap text-white">{{ $t('curationsView.createCuration') }}</span>
                 <img class="ml-5px w-14px min-w-14px h-14px"
                      src="~@/assets/icon-add-white.svg" alt="">
               </button>
