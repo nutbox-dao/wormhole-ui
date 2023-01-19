@@ -530,7 +530,7 @@ export default {
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    max-height: 260px;
+    max-height: 300px;
   }
 }
 .link-btn {
