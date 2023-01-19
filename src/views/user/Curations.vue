@@ -191,6 +191,8 @@ export default {
     },
     async onLoad() {
       console.log('on load');
+      if (this.finished) return;
+      if (this.loading) return;
       this.finished = false;
       this.loading = true;
       try{
@@ -199,13 +201,13 @@ export default {
         const twitterId = this.getAccountInfo.twitterId;
         let endtime;
         if (this.subActiveTagIndex === 0) {
-          curations = this.joinedCurations;
+          curations = this.joinedCurations ?? [];
           m = getMyJoinedCurations;
           if (curations && curations.length > 0) {
             endtime = curations[curations.length - 1].joinTime
           }
         }else {
-          curations = this.createdCuration;
+          curations = this.createdCurations ?? [];
           m = getMyCreatedCurations;
           if (curations && curations.length > 0) {
             endtime = curations[curations.length - 1].createdTime

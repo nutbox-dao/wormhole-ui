@@ -33,11 +33,11 @@
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.2rem icon-wallet"></i>
               </router-link>
             </template>
-            <!-- <router-link to="/red-envelope" class="mb-2px">
+            <router-link to="/red-envelope" class="mb-2px">
               <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
                 <div class="ny-btn"></div>
               </div>
-            </router-link> -->
+            </router-link>
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
@@ -146,13 +146,13 @@
           </div>
         </div>
       </el-dialog>
-      <!-- <el-dialog v-model="getCardVisible"
+      <el-dialog v-model="getCardVisible"
                  destroy-on-close
                  :show-close="false"
                  :close-on-click-modal="true"
                  class="c-dialog c-dialog-center max-w-540px border-1 border-color84/30 rounded-1.6rem">
         <GetCardModal/>
-      </el-dialog> -->
+      </el-dialog>
     </div>
   </el-config-provider>
 </template>

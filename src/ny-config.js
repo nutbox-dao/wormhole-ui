@@ -1,13 +1,13 @@
 
 
-export const COLLECT_BLESS_CONTRACT = '0x308b166f7Fa074Af9A7B51B8109f8710E12BEB69'
-export const NEW_YEAR_CARD_CONTRACT = '0xeD9012740c9F35BD0155E9B3997503195187FF02'
-export const USDT_CONTRACT = '0xc2358F9255d2b31dc05cEC4249C612CA6FA9179a'
+export const COLLECT_BLESS_CONTRACT = '0x26EE1F2Bf27aF7535553b3d166BB958321523984'
+export const NEW_YEAR_CARD_CONTRACT = '0x7c8DA85A5E8DB221DC8C8561C4Bf61B007987849'
+export const USDT_CONTRACT = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
 
-export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
-export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-export const CHAIN_NAME = 'BSC Testnet'
-export const CHAIN_ID = 97
+export const RPC_NODE = 'https://polygon-rpc.com'
+export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
+export const CHAIN_NAME = 'Polygon'
+export const CHAIN_ID = 137
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,

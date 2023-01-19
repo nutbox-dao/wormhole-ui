@@ -129,7 +129,7 @@ export async function getUserActivityInfo(ethAddress) {
                 'prizePoolAmount()(uint256)'
             ],
             returns: [
-                ['prizeTotalAmount', val => val.toString() / (10**18)]
+                ['prizeTotalAmount', val => val.toString() / (10**6)]
             ]
         },
         {
@@ -168,7 +168,7 @@ export async function getUserActivityInfo(ethAddress) {
                 ethAddress
             ],
             returns: [
-                ['alreadyReceived', val => val.toString() / 1e18]
+                ['alreadyReceived', val => val.toString() / 1e6]
             ]
         }
     ]
