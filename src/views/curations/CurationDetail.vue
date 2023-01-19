@@ -518,7 +518,7 @@ export default {
         if (curationStatus === 0) {
           return this.$t('curation.ongoing')
         }else if(curationStatus === 1) {
-          return this.$t('curation.end')
+          return this.$t('curation.complete')
         } else if (curationStatus === 2) {
           return this.$t('curation.complete')
         }
