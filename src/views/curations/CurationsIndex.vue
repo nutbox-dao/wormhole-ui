@@ -100,7 +100,7 @@
 
       </van-pull-refresh>
     </div>
-    <van-popup class="c-tip-drawer 2xl:w-2/5"
+    <!-- <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
       <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem md:px-4rem">
@@ -113,7 +113,7 @@
                         @close="modalVisible=false"/>
         </div>
       </div>
-    </van-popup>
+    </van-popup> -->
     <!-- back top  -->
     <button v-show="scroll>100"
             @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
