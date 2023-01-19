@@ -84,7 +84,7 @@
 
 <script>
 import CurationRecommendItem from "@/components/CurationRecommendItem";
-import {mapState} from "vuex";
+import {mapState, mapGetters} from "vuex";
 import { getRecommendedCurations, getBanner } from "@/api/api";
 import {showError} from "@/utils/notify";
 
@@ -103,6 +103,9 @@ export default {
       },
       loading: true
     }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
   },
   mounted() {
     this.updatePage()
