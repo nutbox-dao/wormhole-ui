@@ -41,7 +41,7 @@
       <div v-if="tabIndex===0"
            class="min-h-120px ny-banner-bg text-left rounded-20px py-1rem px-15px sm:p-2rem ny-color36">
         <div :class="showTab0Desc?'':'multi-content'">
-          {{ $t('ny.luckyCardDes1') }} <br>{{ $t('ny.luckyCardDes2') }}
+          {{ $t('ny.luckyCardDes1') }} <br>
           {{ $t('ny.luckyCardDes3') }}<br>
           <b>{{ $t('ny.luckyCardDes4') }}</b> - {{ $t('ny.luckyCardDes5') }} <br>
           <b>{{ $t('ny.luckyCardDes6') }}</b> - {{ $t('ny.luckyCardDes7') }} <br>
