@@ -151,7 +151,7 @@ export default {
       })
     },
     ask(index) {
-      if (!this.getAccountInfo?.twitterId) {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
         return;
       }
@@ -159,14 +159,14 @@ export default {
       window.open(`https://twitter.com/intent/tweet?text=@ %0aI need some ${name} cards to participate in @wormhole_3 Lunar New Year campaign.%0aCould you send me some?`);
     },
     buyCard() {
-      if (!this.getAccountInfo?.twitterId) {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
         return;
       }
       this.buyCardVisible=true
     },
     compoundBox() {
-      if (!this.getAccountInfo?.twitterId) {
+      if (!this.getAccountInfo || this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
         return;
       }

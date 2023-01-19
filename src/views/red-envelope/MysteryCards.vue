@@ -256,7 +256,7 @@ export default {
   },
   methods: {
     makeCard() {
-      if (!this.getAccountInfo?.twitterId) {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
         return;
       }

@@ -217,7 +217,7 @@ export default {
     ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT', 'luckyCardsNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
-      return this.getAccountInfo?.twitterUsername
+      return this.getAccountInfo ? this.getAccountInfo.twitterUsername : '';
     },
     reputation() {
       return this.getAccountInfo?.reputation

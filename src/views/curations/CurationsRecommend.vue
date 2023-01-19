@@ -136,7 +136,7 @@ export default {
       }).catch();
     },
     createCuration() {
-      if (this.getAccountInfo?.twitterId) {
+      if (this.getAccountInfo && this.getAccountInfo.twitterId) {
         this.$router.push('/create-curation')
       }else {
         this.$store.commit('saveShowLogin', true)

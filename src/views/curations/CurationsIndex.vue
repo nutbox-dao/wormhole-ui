@@ -254,23 +254,24 @@ export default {
         let moreCurations = [];
 
         let mutationStr = ''
+        const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null;
         if (tag === 'All') {
           if (this.rankValue === 0) {
             mutationStr = 'saveTrendingList'
-            moreCurations = await getCurationsByTrend(0, cursor, this.getAccountInfo?.twitterId)
+            moreCurations = await getCurationsByTrend(0, cursor, twitterId)
           }else {
             mutationStr = 'saveOngoingList'
-            moreCurations = await getCurations(0, cursor, this.getAccountInfo?.twitterId)
+            moreCurations = await getCurations(0, cursor, twitterId)
           }
           curations = curations.concat(moreCurations);
           this.$store.commit('curation/'+mutationStr, curations)
         }else {
           if (this.rankValue === 0) {
-            moreCurations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, cursor, tag);
+            moreCurations = await getTrendingCurationsByTag(twitterId, 0, cursor, tag);
             this.trendingListByTag[tag] = curations.concat(moreCurations);
             this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag)
           }else {
-            moreCurations = await getNewCurationsByTag(this.getAccountInfo?.twitterId, 0, cursor, tag);
+            moreCurations = await getNewCurationsByTag(twitterId, 0, cursor, tag);
             this.ongoingListByTag[tag] = curations.concat(moreCurations);
             this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
           }
@@ -294,22 +295,23 @@ export default {
         let tag = this.selectedTag;
         let curations = []
         let mutationStr = ''
+        const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null
         if (tag === 'All') {
           if (this.rankValue === 0) {
-            curations = await getCurationsByTrend(0, null, this.getAccountInfo?.twitterId)
+            curations = await getCurationsByTrend(0, null, twitterId)
             mutationStr = 'saveTrendingList'
           }else{
-            curations = await getCurations(0, null, this.getAccountInfo?.twitterId)
+            curations = await getCurations(0, null, twitterId)
             mutationStr = 'saveOngoingList'
           }
           this.$store.commit('curation/'+mutationStr, curations ?? [])
         }else {
           if (this.rankValue === 0) {
-            curations = await getTrendingCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
+            curations = await getTrendingCurationsByTag(twitterId, 0, null, tag);
             this.trendingListByTag[tag] = curations;
             this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag);
           }else {
-            curations = await getNewCurationsByTag(this.getAccountInfo?.twitterId, 0, null, tag);
+            curations = await getNewCurationsByTag(twitterId, 0, null, tag);
             this.ongoingListByTag[tag] = curations;
             this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
           }
@@ -331,7 +333,7 @@ export default {
       this.$router.push('/curation-detail/' + curation.curationId);
     },
     createCuration() {
-      if (this.getAccountInfo?.twitterId) {
+      if (this.getAccountInfo && this.getAccountInfo.twitterId) {
         this.$router.push('/create-curation')
       }else {
         this.$store.commit('saveShowLogin', true)

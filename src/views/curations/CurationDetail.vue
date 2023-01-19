@@ -742,7 +742,7 @@ export default {
         })
 
         // update popup info
-        popupsOfCuration(this.getAccountInfo?.twitterId, id).then(res => {
+        popupsOfCuration(this.getAccountInfo ? this.getAccountInfo.twitterId : null, id).then(res => {
           this.popups = res
         }).catch(console.log).finally(() => {
           this.loading3 = false
