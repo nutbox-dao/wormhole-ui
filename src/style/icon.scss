@@ -207,6 +207,16 @@
   background-image: url("~@/assets/menu-logout-light.svg");
 }
 
+.icon-exchange {
+  @extend .icon;
+  background-image: url("~@/assets/menu-exchange.svg");
+}
+.light .icon-exchange {
+  @extend .icon;
+  background-image: url("~@/assets/menu-exchange-light.svg");
+}
+
+
 .icon-popups {
   @extend .icon;
   background-image: url("~@/assets/icon-popups-white.svg");

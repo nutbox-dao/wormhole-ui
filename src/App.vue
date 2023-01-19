@@ -87,6 +87,11 @@
                     <span>{{$t('logout')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-logout"></i>
                   </div>
+                  <button class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
+                          @click="onSelectLang">
+                    <span>CN / EN</span>
+                    <i class="w-14px min-w-14px h-14px icon-exchange"></i>
+                  </button>
                   <div class="flex items-center">
                     <button class="h-24px w-24px mr-20px" @click="gotoDC">
                       <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">
@@ -189,7 +194,8 @@ export default {
       },
       isDark: false,
       closeLoginTipVisible: false,
-      nyAnimation: null
+      nyAnimation: null,
+      lang: localStorage.getItem('language')
     }
   },
   computed: {
@@ -286,10 +292,11 @@ export default {
       // }
     },
     onCopy,
-    onSelectLang(lang) {
-      this.$refs.langRef.hide()
-      i18n.global.locale = lang
-      localStorage.setItem('language', lang)
+    onSelectLang() {
+      // this.$refs.langRef.hide()
+      this.lang = this.lang === 'en'? 'zh':'en'
+      i18n.global.locale = this.lang
+      localStorage.setItem('language', this.lang)
       this.showMenu = false
     },
     changeTheme() {
