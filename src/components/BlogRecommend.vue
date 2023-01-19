@@ -10,12 +10,10 @@
         <img class="mr-10px md:mr-1rem rounded-full gradient-border"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex items-center flex-wrap justify-between">
-          <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
-               @click.stop="gotoUserPage()">{{ post.name }}</a>
-          </div>
+        <div class="flex-1 flex items-center justify-between overflow-hidden min-h-28px">
+          <a class="c-text-black text-left mr-3 cursor-pointer truncate flex-1
+                    text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
+             @click.stop="gotoUserPage()">{{ post.name }}</a>
           <slot name="token"></slot>
         </div>
       </div>
