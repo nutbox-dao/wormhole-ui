@@ -384,7 +384,7 @@ export default {
     enterNftNumTip: '输入 NFT 数量',
     enterNftIdTip: '输入NFT ID',
     openBoxFail: '盒子开启失败',
-		luckyCardDes1: '五张福卡卡由四张普通卡和一张稀有卡组合而成.',
+		luckyCardDes1: '五福卡由四张普通卡和一张稀有卡组合而成.',
     luckyCardDes2: '福卡Des1',
     luckyCardDes3: '如何获得福卡?',
     luckyCardDes4: '交互',
