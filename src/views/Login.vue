@@ -129,55 +129,39 @@ export default {
         console.log(53, isIOS, isAndroid);
 
         this.loging = true
-        if (isAndroid || isIOS) {
+        if (isIOS && this.$route.query?.utm_source==="tokenpocket") {
+          console.log('token pocket');
+        }else if (isAndroid || isIOS) {
           const res = await twitterAuth(true);
           window.location.href = res;
-        }else {
-          const res = await twitterAuth();
-          const params = res.split('?')[1].split('&')
-          let state;
-          for (let p of params) {
-            const [key, value] = p.split('=');
-            if (key === 'state') {
-              state = value;
-              break;
-            }
+          return;
+        }
+        
+        const res = await twitterAuth();
+        const params = res.split('?')[1].split('&')
+        let state;
+        for (let p of params) {
+          const [key, value] = p.split('=');
+          if (key === 'state') {
+            state = value;
+            break;
           }
-          
-          setTimeout(() => {
-            window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
-          })
-          
-          await sleep(1)
-          randomWallet().then(wallet => this.wallet = wallet)
-          createKeypair().then(pair => this.pair = pair)
-          await sleep(5)
+        }
+        
+        setTimeout(() => {
+          window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+        })
+        
+        await sleep(1)
+        randomWallet().then(wallet => this.wallet = wallet)
+        createKeypair().then(pair => this.pair = pair)
+        await sleep(5)
 
-          let count = 0;
-          let userInfo = await twitterLogin(state)
-          if (userInfo.code === 1) {
-            while(count < 80) {
-              userInfo = await twitterLogin(state)
-              if (userInfo.code === 0) {
-                // not registry
-                // store auth info
-                console.log('not register')
-                Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
-                this.pendingAccount = userInfo.account
-                this.authStep = 'select';
-                return;
-              }else if (userInfo.code === 3) { // log in
-                this.$store.commit('saveAccountInfo', userInfo.account)
-                this.$emit('close')
-                return;
-              }
-              count++;
-              await sleep(1)
-            }
-            // time out
-            this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
-            return;
-          }else {
+        let count = 0;
+        let userInfo = await twitterLogin(state)
+        if (userInfo.code === 1) {
+          while(count < 80) {
+            userInfo = await twitterLogin(state)
             if (userInfo.code === 0) {
               // not registry
               // store auth info
@@ -185,10 +169,29 @@ export default {
               Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
               this.pendingAccount = userInfo.account
               this.authStep = 'select';
+              return;
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
               this.$emit('close')
+              return;
             }
+            count++;
+            await sleep(1)
+          }
+          // time out
+          this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
+          return;
+        }else {
+          if (userInfo.code === 0) {
+            // not registry
+            // store auth info
+            console.log('not register')
+            Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+            this.pendingAccount = userInfo.account
+            this.authStep = 'select';
+          }else if (userInfo.code === 3) { // log in
+            this.$store.commit('saveAccountInfo', userInfo.account)
+            this.$emit('close')
           }
         }
       }catch(e) {
