@@ -270,7 +270,7 @@
                            class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
             </div>
-            <div v-if="accountMismatch" class="text-center">
+            <div v-if="accountMismatch" class="text-center text-redColor">
               {{ $t('ny.accountMismatch') }}
             </div>
           </div>

@@ -57,7 +57,7 @@
           {{ $t('common.balance') }}: {{ formatAmount(usdtBalance) }}
         </div>
       </div>
-      <div v-if="accountMismatch" class="text-color8B">
+      <div v-if="accountMismatch" class="text-redColor">
         {{ $t('ny.accountMismatch') }}
       </div>
     </div>

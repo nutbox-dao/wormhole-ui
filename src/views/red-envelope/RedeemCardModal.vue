@@ -21,7 +21,7 @@
       {{$t('ny.redeem')}}
       <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
     </button>
-    <div v-if="accountMismatch" class="text-center mt-6px">
+    <div v-if="accountMismatch" class="text-center mt-6px text-redColor">
       {{ $t('ny.accountMismatch') }}
     </div>
   </div>
