@@ -127,18 +127,19 @@ export default {
         let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
 
 
-        console.log(53, navigator.userAgent);
+        console.log(navigator.userAgent);
 
         this.loging = true
         if (isIOS && (this.$route.query?.utm_source==="tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
           console.log('token pocket');
         }else if (isAndroid || isIOS) {
-          const res = await twitterAuth(true);
-          window.location.href = res;
-          return;
+          // const res = await twitterAuth(true);
+          // window.location.href = res;
+          // return;
         }
         
         const res = await twitterAuth();
+        console.log(536, res);
         const params = res.split('?')[1].split('&')
         let state;
         for (let p of params) {
