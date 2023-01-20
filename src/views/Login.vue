@@ -128,7 +128,7 @@ export default {
 
 
         console.log(navigator.userAgent);
-        const source = route.query?.utm_source
+        const source = this.$route.query?.utm_source
 
         this.loging = true
         if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
