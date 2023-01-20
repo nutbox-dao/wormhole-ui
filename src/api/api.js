@@ -13,8 +13,8 @@ export const getPrice = async () =>
     get("https://api-walnut.nutbox.app/token/getPrices")
 
 /****************************************  auth  ***********************************************/
-export const twitterAuth = async() => 
-    get(BACKEND_API_URL + '/auth/login')
+export const twitterAuth = async(needLogin) => 
+    get(BACKEND_API_URL + '/auth/login', {needLogin})
 
 export const twitterLogin = async(state) =>
     get(BACKEND_API_URL + '/users/login', {state})
