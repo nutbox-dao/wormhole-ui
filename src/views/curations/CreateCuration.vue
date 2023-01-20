@@ -630,7 +630,7 @@ export default {
       const custom = this.customTags ? this.customTags.slice(0,10) : [];
       let temp = this.commenTopics;
       if (custom && custom.length > 0){
-        temp = Array.from(new Set(custom.concat(temp)))
+        temp = Array.from(new Set(custom.concat(temp.slice(0,10))))
       }
       return temp
     },
