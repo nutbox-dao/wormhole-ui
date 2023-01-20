@@ -166,7 +166,7 @@ export default {
       this.buyCardVisible=true
     },
     compoundBox() {
-      if (!this.getAccountInfo || this.getAccountInfo.twitterId) {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
         return;
       }
