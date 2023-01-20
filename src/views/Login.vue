@@ -128,9 +128,10 @@ export default {
 
 
         console.log(navigator.userAgent);
+        const source = route.query?.utm_source
 
         this.loging = true
-        if (isIOS && (this.$route.query?.utm_source==="tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
+        if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
           console.log('token pocket');
         }else if (isAndroid || isIOS) {
           // const res = await twitterAuth(true);
@@ -149,10 +150,13 @@ export default {
             break;
           }
         }
-        
-        setTimeout(() => {
-          window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
-        })
+        if (isIOS) {
+          window.location.href = res
+        }else {
+          setTimeout(() => {
+            window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+          })
+        }
         
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
