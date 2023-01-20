@@ -130,7 +130,7 @@ export default {
         console.log(53, navigator.userAgent);
 
         this.loging = true
-        if (isIOS && this.$route.query?.utm_source==="tokenpocket") {
+        if (isIOS && (this.$route.query?.utm_source==="tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
           console.log('token pocket');
         }else if (isAndroid || isIOS) {
           const res = await twitterAuth(true);
