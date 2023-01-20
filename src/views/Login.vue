@@ -126,7 +126,8 @@ export default {
         let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
         let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
 
-        console.log(53, isIOS, isAndroid);
+
+        console.log(53, navigator.userAgent);
 
         this.loging = true
         if (isIOS && this.$route.query?.utm_source==="tokenpocket") {
