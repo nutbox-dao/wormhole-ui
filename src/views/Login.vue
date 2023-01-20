@@ -126,6 +126,8 @@ export default {
         let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
         let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
 
+        console.log(53, isIOS, isAndroid);
+
         this.loging = true
         if (isAndroid || isIOS) {
           const res = await twitterAuth(true);
