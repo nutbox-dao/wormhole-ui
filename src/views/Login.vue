@@ -150,7 +150,7 @@ export default {
             break;
           }
         }
-        if (isIOS) {
+        if (isIOS || isAndroid) {
           window.location.href = res
         }else {
           setTimeout(() => {
