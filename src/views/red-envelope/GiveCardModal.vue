@@ -291,7 +291,7 @@ export default {
     },
     onShare() {
       this.tweetContent = this.formatElToTextContent(this.$refs.contentRef)
-      window.open('https://twitter.com/intent/tweet?text=' + this.tweetContent + '%0a%23iweb3 %23Spring_Festival')
+      window.open(`https://twitter.com/intent/tweet?text=@${this.giveTo.replace('@', '')} ` + this.tweetContent + '%0a%23iweb3 %23Spring_Festival')
       this.$emit('close')
     },
     async verify() {

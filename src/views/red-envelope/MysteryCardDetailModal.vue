@@ -105,11 +105,13 @@ export default {
     },
     formatUrl(content) {
       this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
-      if (!content) return '';
+      if (!content || content.length === 0) return '';
       const urls = content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
-      for (let url of urls){
-        content = content.replace(url,
-            `<a href="${url}" target="_blank" class="text-colorBlue underline">${url}</a>`)
+      if (urls && urls.length > 0) {
+        for (let url of urls){
+          content = content.replace(url,
+              `<a href="${url}" target="_blank" class="text-colorBlue underline">${url}</a>`)
+        }
       }
       return content
     }

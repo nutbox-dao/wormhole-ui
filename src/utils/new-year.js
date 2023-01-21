@@ -60,7 +60,7 @@ export async function getUserBlindBox(ethAddress, start, end) {
             return {
                 ...box,
                 weights: weights[idx],
-                ...boxInfo[idx],
+                ...info,
             }
         }else {
             return {
@@ -87,7 +87,7 @@ export async function getBlindBoxByIds(ids) {
             return {
                 ...box,
                 weights: weights[idx],
-                ...boxInfo[idx],
+                ...info,
             }
         }else {
             return {
