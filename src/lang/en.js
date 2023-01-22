@@ -281,7 +281,9 @@ export default {
     endedAt: 'Ended At',
     expire: 'Expiration',
     recommendedCurations: 'Recommended curations',
-    tag: 'Tag'
+    tag: 'Tag',
+    prize: 'Prize',
+    maxCount: 'Max Count'
   },
   popup: {
     create: 'Create a Pop-up reply action',
@@ -427,6 +429,7 @@ export default {
     submit: 'Submit',
     confirm: 'Confirm',
     send: 'Send',
+    max: 'Max',
     sendAndCreate: 'Send and create',
     option: 'Option',
     approve: 'Approve',

@@ -243,9 +243,15 @@
                       rounded-15px overflow-hidden relative">
             <div class="px-1.25rem py-13px text-left relative">
               <div class="flex justify-between items-center">
-                <span class="text-16px 2xl:text-0.9rem c-text-black">Prize</span>
+                <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.prize') }}</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
                   {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
+                </button>
+              </div>
+              <div class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.maxCount') }}</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+                  {{detailCuration ? (detailCuration.maxCount > 1e6 ? $t('common.max') : detailCuration.maxCount) : '0'}}
                 </button>
               </div>
               <!-- ended -->

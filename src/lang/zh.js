@@ -281,7 +281,9 @@ export default {
     endedAt: '结束于',
     expire: '过期',
     recommendedCurations: '推荐策展',
-    tag: '标签'
+    tag: '标签',
+    prize: '奖励',
+    maxCount: '最多获奖人数'
   },
   popup: {
     create: '创建快闪回复操作',
@@ -427,6 +429,7 @@ export default {
     submit: '提交',
     confirm: '确认',
     send: '发送',
+    max: '不限',
     sendAndCreate: '发送并创建',
     option: '选项',
     approve: '批准',
