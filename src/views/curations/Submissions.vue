@@ -28,10 +28,10 @@
                    :src="record.profileImg" alt="">
               <div class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem ml-15px">
                 <div>{{record.twitterUsername}} </div>
-                <div v-if="state===2" class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
+                <div v-if="state > 0" class="text-color8B">{{parseTimestamp(record.createAt)}}</div>
               </div>
             </div>
-            <div v-if="state!==2" class="flex items-center">
+            <div v-if="state === 0" class="flex items-center">
               {{parseTimestamp(record.createAt)}}
             </div>
             <div v-else class="flex items-center">
