@@ -25,13 +25,13 @@
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col">
         <div class="py-1rem mx-1.5rem sm:mx-0 relative">
           <div class="flex tabs mx-36px relative min-h-30px">
-            <button class="tab flex-1 h-30px" :class="timeTab===0?'active':''" @click="timeTab=0">
+            <button class="tab h-30px text-12px sm:text-14px" :class="timeTab===0?'active':''" @click="timeTab=0">
               Today
             </button>
-            <button class="tab flex-1 h-30px" :class="timeTab===1?'active':''" @click="timeTab=1">
+            <button class="tab h-30px text-12px sm:text-14px" :class="timeTab===1?'active':''" @click="timeTab=1">
               Last week
             </button>
-            <button class="tab flex-1 h-30px" :class="timeTab===2?'active':''" @click="timeTab=2">
+            <button class="tab h-30px text-12px sm:text-14px" :class="timeTab===2?'active':''" @click="timeTab=2">
               Last month
             </button>
           </div>
@@ -125,6 +125,7 @@ export default {
   font-weight: bold;
   min-width: 120px;
   margin: 0 12px;
+  padding: 0 12px;
   &.active {
     z-index: 1;
     position: relative;
@@ -151,7 +152,19 @@ export default {
   min-width: 15px;
   top: 0;
 }
-@media (max-width: 550px) {
+.tab:nth-child(1) {
+  z-index: 9;
+}
+.tab:nth-child(2) {
+  z-index: 8;
+}
+.tab:nth-child(3) {
+  z-index: 7;
+}
+.tab.active {
+  z-index: 99;
+}
+@media (max-width: 580px) {
   .tabs {
     position: relative;
   }
@@ -166,7 +179,7 @@ export default {
   }
   .tab:nth-child(3) {
     position: absolute;
-    right: 0%;
+    right: 0;
   }
 }
 </style>
