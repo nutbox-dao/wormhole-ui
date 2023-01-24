@@ -26,13 +26,13 @@
         <div class="py-1rem mx-1.5rem sm:mx-0 relative">
           <div class="flex tabs mx-36px relative min-h-30px">
             <button class="tab flex-1 h-30px" :class="timeTab===0?'active':''" @click="timeTab=0">
-              Today
+              Polygon
             </button>
             <button class="tab flex-1 h-30px" :class="timeTab===1?'active':''" @click="timeTab=1">
-              Last week
+              BNB Smart Chaim
             </button>
             <button class="tab flex-1 h-30px" :class="timeTab===2?'active':''" @click="timeTab=2">
-              Last month
+              Moonbeam
             </button>
           </div>
           <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
