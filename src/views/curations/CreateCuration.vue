@@ -1072,6 +1072,7 @@ export default {
         // write in contract
         transHash = await creteNewCuration(this.form.chain, curation);
         pendingCuration.transHash = transHash;
+        pendingCuration.contract = EVM_CHAINS[this.form.chain].curation;
         this.curation = pendingCuration
 
         this.$store.commit('curation/savePendingTweetCuration', pendingCuration)

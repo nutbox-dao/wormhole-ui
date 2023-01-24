@@ -81,17 +81,17 @@
                     <i v-if="isDark" class="w-16px min-w-16px h-16px icon-theme-light"></i>
                     <i v-else class="w-14px min-w-14px h-14px icon-theme-dark"></i>
                   </div>
+                  <button class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
+                          @click="onSelectLang">
+                    <span>CN / EN</span>
+                    <i class="w-14px min-w-14px h-14px icon-exchange"></i>
+                  </button>
                   <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
                       @click="signout">
                     <span>{{$t('logout')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-logout"></i>
                   </div>
-                  <button class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
-                          @click="onSelectLang">
-                    <span>CN / EN</span>
-                    <i class="w-14px min-w-14px h-14px icon-exchange"></i>
-                  </button>
                   <div class="flex items-center">
                     <button class="h-24px w-24px mr-20px" @click="gotoDC">
                       <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">

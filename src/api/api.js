@@ -182,7 +182,14 @@ export const getUsersTips = async (params) =>
     post(BACKEND_API_URL + '/tip/tipsByTwitterId', params)
 
 /****************************************  rewards  ***********************************************/
+export const getCurationRewardList = async (twitterId, chainId, createAt) => 
+    post(BACKEND_API_URL + '/users/curationRewardList', {twitterId, chainId, createAt})
 
+export const getClaimParas = async (twitterId, chainId, ids) =>
+    post(BACKEND_API_URL + '/curation/getClaimParas', {twitterId, chainId, ids})
+
+export const setCurationIsFeed = async (twitterId, curationIds) =>
+    post(BACKEND_API_URL + '/curation/setCurationIsFeed', {twitterId, curationIds})
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {

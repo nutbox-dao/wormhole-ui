@@ -250,11 +250,7 @@ export default {
       }
     },
     get() {
-      if (this.enableChange) {
-        this.step = 0
-      }else {
-        this.$emit('close')
-      }
+      this.$emit('close')
     },
     onShare() {
       window.open(`https://twitter.com/intent/tweet?text=I opened a ${this.drawedBoxInfo.weights}X mystery card in the @wormhole_3 Lunar New Year campaign, Come join us here: https://alpha.wormhole3.io.`)

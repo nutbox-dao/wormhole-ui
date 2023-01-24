@@ -1,4 +1,5 @@
-import { getUserInfo as gui, getNftReceivedState, getUsersTips as gut, logout as lo, twitterRefreshAccessToken } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, getUsersTips as gut, logout as lo, twitterRefreshAccessToken,
+    getCurationRewardList as gcrl } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 
@@ -117,6 +118,21 @@ export const getUserInfo = async (username) => {
             resolve(account.account)
         }else {
             reject(500)
+        }
+    })
+}
+
+export const getCurationRewardList = async (twitterId, chainId, createAt) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const records = await gcrl(twitterId, chainId, createAt);
+            resolve(records)
+        } catch (e) {
+            if (e === 401) {
+                await logout(twitterId)
+                throw 'log out'
+            }
+            reject(e)
         }
     })
 }

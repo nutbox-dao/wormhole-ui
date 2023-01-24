@@ -4,8 +4,9 @@ import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
 import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
-import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, 
+import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr } from '@/api/api'
+import { aggregate } from '@makerdao/multicall';
 
 const abi = [
     {
@@ -79,6 +80,132 @@ const abi = [
       "stateMutability": "payable",
       "type": "function"
     },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "twitterId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "curationIds",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "checkClaim",
+      "outputs": [
+        {
+          "internalType": "bool[]",
+          "name": "",
+          "type": "bool[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "twitterId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "curationIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "amounts",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sign",
+          "type": "bytes"
+        }
+      ],
+      "name": "claimPrize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "chainId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "taskInfo",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "endTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "claimedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "userCount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Curation.TaskInfo",
+          "name": "task",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
   ]
 
   /**
@@ -134,9 +261,92 @@ export const createPopup = async (chainName, popup) => {
         console.log('create new popup fail:', e);
         reject(errCode.TRANSACTION_FAIL)
     }
-})
+  })
 }
 
+export const checkCurationRewards = async (chainName, twitterId, ids) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const curationContract = EVM_CHAINS[chainName].curation;
+      const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+      let contract = new ethers.Contract(curationContract, abi, provider);
+      const results = await contract.checkClaim(twitterId, ids.map(id => ethers.BigNumber.from('0x' + id)));
+      resolve(results);
+    } catch (e) {
+      console.log('chech curation rewards fail:', e);
+      reject(errCode.BLOCK_CHAIN_ERR)
+    }
+  })
+}
+
+export const getClaimParas = async (chainName, twitterId, ids) => {
+  await checkAccessToken();
+  return await gcp(twitterId, EVM_CHAINS[chainName].id, ids);
+}
+
+export const claimRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+        const curationContract = EVM_CHAINS[chainName].curation
+        const metamask = await getEthWeb()
+        const provider = new ethers.providers.Web3Provider(metamask)
+        let contract = new ethers.Contract(curationContract, abi, provider)
+        contract = contract.connect(provider.getSigner())
+        const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig)
+        await waitForTx(provider, tx.hash)
+        resolve(tx.hash)
+    }catch(e) {
+        console.log('create new popup fail:', e);
+        reject(errCode.TRANSACTION_FAIL)
+    }
+  })
+}
+
+export const getChainIdOfCurationContract = async (chainName) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].curation
+    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc)
+    let contract = new ethers.Contract(curationContract, abi, provider)
+    const res = await contract.chainId();
+    console.log('chain id:', chainName, res);
+  } catch (e) {
+      console.log(90, e);
+  }
+}
+
+export const getCurationDetail = async (chainName, curationId) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].curation
+    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc)
+    let contract = new ethers.Contract(curationContract, abi, provider)
+    const res = await contract.taskInfo(ethers.BigNumber.from('0x' + curationId));
+    console.log('task info:', curationId, res);
+  } catch (e) {
+      console.log(90, e);
+  }
+}
+
+export const getSingerOfCuration = async (chainName) => {
+  try {
+    let calls = [
+      {
+        target: EVM_CHAINS[chainName].curation,
+        call: [
+          'signAddress()(address)',
+        ],
+        returns: [
+          ['address']
+        ]
+      }
+    ]
+
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+    console.log('singer:', res.results.transformed.address);
+    return res.results.transformed.address
+  } catch (e) {
+      console.log(91, e);
+  }
+}
 
 /**
  * 

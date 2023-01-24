@@ -4,7 +4,7 @@
       <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2 bg-primaryBg light:bg-white">
         <div class="px-1.5rem pt-25px sm:px-0 container mx-auto sm:max-w-600px lg:max-w-35rem">
           <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold ">
-            <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
+            <router-link v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
                          :to="`/profile/${$route.params.user}/wallet`" v-slot="{isActive}"
                          class="flex-1 cursor-pointer">
               <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
@@ -94,7 +94,12 @@ export default {
         })
       }
     }
-  }
+  },
+  mounted () {
+    if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+      this.$router.replace('/')
+    }
+  },
 }
 </script>
 

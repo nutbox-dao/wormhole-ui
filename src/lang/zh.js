@@ -107,7 +107,8 @@ export default {
   },
   walletView: {
     totalBalance: '总余额',
-    tipHistory: '打赏历史'
+    tipHistory: '打赏历史',
+    claimedAllRewards: `没有可以收取的奖励`
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -447,7 +448,7 @@ export default {
     account: '账号',
     cancel: '取消',
     previous: '预览',
-    summary: '概括',
+    summary: '汇总',
     viewMore: '查看更多'
   }
 }
