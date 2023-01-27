@@ -344,7 +344,7 @@ export default {
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {
-      this.subTagList = ['All'].concat(topics.map(t => t.topic))
+      this.subTagList = ['All'].concat(topics.map(t => t.topic).filter(t => t !== 'iweb3'))
     })
     this.onRefresh();
   }
