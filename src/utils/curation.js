@@ -320,7 +320,6 @@ export const getCurationDetail = async (chainName, curationId) => {
     const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc)
     let contract = new ethers.Contract(curationContract, abi, provider)
     const res = await contract.taskInfo(ethers.BigNumber.from('0x' + curationId));
-    console.log('task info:', curationId, res);
   } catch (e) {
       console.log(90, e);
   }

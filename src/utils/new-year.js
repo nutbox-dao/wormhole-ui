@@ -7,6 +7,7 @@ import { waitForTx } from './ethers'
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 import { getERC20TokenBalance, getApprovement, approve, approveERC1155, approveERC721 } from './asset'
 import { getBlindCardsByIds as gbcbi } from '@/api/api'
+import { sleep } from './helper';
 
 async function getAbi() {
     let abi = store.state.newYear?.collectBlessAbi;
@@ -242,6 +243,10 @@ export async function openBox(account, count = 1) {
                     try {
                         if (ids && ids.length > 0){
                             let box = await getBlindBoxByIds(ids.map(id => id / 1));
+                            if (!box || box.length === 0 || box[0].weights === 0) {
+                                await sleep(2);
+                                box = await getBlindBoxByIds(ids.map(id => id / 1));
+                            }
                             resolve(box);
                         }else {
                             resolve();

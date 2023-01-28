@@ -85,9 +85,9 @@
         </div>
         <div class="flex flex-col justify-center items-center relative">
           <div class="relative text-white w-220px min-h-300px show-mystery-card" ref="mysteryCard"
-               :class="[`ny-power-${drawedBoxInfo.weights || 10}`]">
+               :class="[`ny-power-${drawedBoxInfo.weights || 1}`]">
             <img class="w-full cursor-pointer"
-                 :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 10}.png`)" alt="">
+                 :src="require(`@/assets/red-envelope/mystery-power-${drawedBoxInfo.weights || 1}.png`)" alt="">
             <img v-if="drawedBoxInfo?.logo"
                  class="w-3/10 max-w-3/10 absolute top-15/100 left-1/2 transform -translate-x-1/2 rounded-12px"
                  :src="drawedBoxInfo.logo" alt="">
