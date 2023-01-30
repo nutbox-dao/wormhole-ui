@@ -7,7 +7,7 @@
             <div class="flex flex-col justify-between items-start cursor-pointer light:text-color59
                         c-text-black text-14px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
                  @click.stop="gotoUserPage()">
-              <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}} create a curation</a>
+              <a class="c-text-black text-left mr-3 text-1rem leading-1.5rem">{{curation.creatorTwitterUsername}} created a curation</a>
 <!--              <span class="text-orangeColor light:text-color62 text-12px xl:text-0.75rem">{{endtime}}</span>-->
             </div>
             <ContentTags v-if="showBtnGroup" :is-quote="isQuote" :is-reply="isReply" :content-type="contentType"/>
