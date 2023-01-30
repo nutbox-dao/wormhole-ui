@@ -110,6 +110,9 @@ export const getCurations = async (status, endtime, twitterId) =>
 export const getCurationsByTrend = async (status, score, twitterId) =>
     get(BACKEND_API_URL + '/curation/getCurationsByTrend', { status, score, twitterId })
 
+export const getTrendingCurationsNew = async (tag, pageIndex, twitterId) =>
+    get(BACKEND_API_URL + '/curation/getTrendingCurationsNew', { tag, pageIndex, twitterId })
+
 export const getRecommendedCurations = async () =>
     get(BACKEND_API_URL + '/curation/getRecommendedCurations')
 

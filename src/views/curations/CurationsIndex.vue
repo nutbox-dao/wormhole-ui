@@ -137,7 +137,8 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations, getCurationsByTrend, getPopularTopics, getNewCurationsByTag, getTrendingCurationsByTag } from '@/api/api'
+import { getCurations, getCurationsByTrend, getPopularTopics, 
+  getNewCurationsByTag, getTrendingCurationsByTag, getTrendingCurationsNew } from '@/api/api'
 import { showError } from '@/utils/notify'
 
 export default {
@@ -228,6 +229,7 @@ export default {
         let curations;
         let cursor;
         const tag = this.selectedTag;
+        this.listLoading = true;
         if (tag === 'All') {
           if (this.rankValue === 0) {
             curations = this.trendingList
@@ -245,6 +247,7 @@ export default {
             cursor = curations[curations.length - 1].createdTime
           }
         }
+        cursor = Math.floor(curations.length / 12);
 
         if (!curations || curations.length === 0) {
           this.listsFinished[tag] = true
@@ -258,7 +261,7 @@ export default {
         if (tag === 'All') {
           if (this.rankValue === 0) {
             mutationStr = 'saveTrendingList'
-            moreCurations = await getCurationsByTrend(0, cursor, twitterId)
+            moreCurations = await getTrendingCurationsNew(null, cursor, twitterId)
           }else {
             mutationStr = 'saveOngoingList'
             moreCurations = await getCurations(0, cursor, twitterId)
@@ -267,7 +270,7 @@ export default {
           this.$store.commit('curation/'+mutationStr, curations)
         }else {
           if (this.rankValue === 0) {
-            moreCurations = await getTrendingCurationsByTag(twitterId, 0, cursor, tag);
+            moreCurations = await getTrendingCurationsNew(tag, cursor, twitterId);
             this.trendingListByTag[tag] = curations.concat(moreCurations);
             this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag)
           }else {
@@ -298,7 +301,7 @@ export default {
         const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null
         if (tag === 'All') {
           if (this.rankValue === 0) {
-            curations = await getCurationsByTrend(0, null, twitterId)
+            curations = await getTrendingCurationsNew(null, null, twitterId)
             mutationStr = 'saveTrendingList'
           }else{
             curations = await getCurations(0, null, twitterId)
@@ -307,7 +310,7 @@ export default {
           this.$store.commit('curation/'+mutationStr, curations ?? [])
         }else {
           if (this.rankValue === 0) {
-            curations = await getTrendingCurationsByTag(twitterId, 0, null, tag);
+            curations = await getTrendingCurationsNew(tag, null, twitterId);
             this.trendingListByTag[tag] = curations;
             this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag);
           }else {
@@ -344,7 +347,7 @@ export default {
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {
-      this.subTagList = ['All'].concat(topics.map(t => t.topic).filter(t => t !== 'iweb3'))
+      this.subTagList = ['All'].concat(topics.map(t => t.topic))
     })
     this.onRefresh();
   }

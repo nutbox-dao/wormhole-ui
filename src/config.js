@@ -201,6 +201,22 @@ export const EVM_CHAINS = {
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
+    // 'ENULS-BETA': {
+    //     rpc: 'https://beta.evmapi.nuls.io',
+    //     scan: 'https://beta.evmscan.nuls.io',
+    //     id: 120,
+    //     main: {
+    //         name: 'ENULS-BETA',
+    //         symbol: 'NULS',
+    //         decimals: 18,
+    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
+    //     },
+    //     assets: {
+
+    //     },
+    //     curation: '',
+    //     popup: ''
+    // },
     // Aurora: {
     //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
     //     scan: 'https://aurorascan.dev/',
@@ -245,7 +261,7 @@ export const EVM_CHAINS = {
         },
         curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
-    },
+    }
     // 'BSC Testnet': {
     //     rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
     //     scan: '',
