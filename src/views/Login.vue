@@ -140,7 +140,6 @@ export default {
         }
         
         const res = await twitterAuth();
-        console.log(536, res);
         const params = res.split('?')[1].split('&')
         let state;
         for (let p of params) {
