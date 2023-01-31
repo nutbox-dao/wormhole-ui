@@ -233,7 +233,7 @@ export default {
         if (tag === 'All') {
           if (this.rankValue === 0) {
             curations = this.trendingList
-            cursor = curations[curations.length - 1].score
+            cursor = Math.floor(curations.length / 12);
           }else {
             curations = this.ongoingList
             cursor = curations[curations.length - 1].createdTime
@@ -241,13 +241,12 @@ export default {
         }else {
           if (this.rankValue === 0) {
             curations = this.trendingListByTag[tag]
-            cursor = curations[curations.length - 1].score
+            cursor = Math.floor(curations.length / 12);
           }else {
             curations = this.ongoingListByTag[tag]
             cursor = curations[curations.length - 1].createdTime
           }
         }
-        cursor = Math.floor(curations.length / 12);
 
         if (!curations || curations.length === 0) {
           this.listsFinished[tag] = true
