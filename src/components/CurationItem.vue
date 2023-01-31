@@ -47,7 +47,7 @@
               <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
               <!-- reply-->
               <div v-if="isReply" class="flex items-center mr-24px">
-                <button @click.stop="quoteOrReply"
+                <button @click.stop="preQuoteOrReply"
                         class="text-white flex justify-center items-center w-24px h-24px rounded-full">
                   <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -58,7 +58,7 @@
               </div>
               <!-- quote-->
               <div v-if="isQuote" class="flex items-center mr-24px">
-                <button @click.stop="quoteOrReply"
+                <button @click.stop="preQuoteOrReply"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -125,6 +125,36 @@
         </div>
       </div>
     </div>
+
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               v-model:show="showLowerReputation"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <div class="text-left px-1.25rem pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+            <div class="flex-1">
+              <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Attention</div>
+              <div>
+                {{ $t('curation.lowerReputation') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center gap-x-1rem mt-1rem">
+              <button class="gradient-btn gradient-btn-disabled-grey
+                            h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                      @click.stop="showLowerReputation=false">{{ $t('common.cancel') }}</button>
+              <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
+                            h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                      @click.stop="quoteOrReply">
+                      {{ $t('common.confirm') }}
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
+
   </div>
 </template>
 
@@ -158,6 +188,7 @@ export default {
   },
   data () {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       testData,
       enableFold: true,
       isFold: false,
@@ -165,7 +196,8 @@ export default {
       isFollowing: false,
       isEnd: false,
       isQuoting: false,
-      isRepling: false
+      isRepling: false,
+      showLowerReputation: false
     }
   },
   computed: {
@@ -252,9 +284,20 @@ export default {
     getCard() {
       this.$emit('getCard')
     },
+    async preQuoteOrReply() {
+      if (!this.checkLogin()) return
+      if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
+      // check reputation
+      if (this.curation.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.curation.minReputation) {
+          this.showLowerReputation = true;
+          return;
+        }
+      }
+      await this.quoteOrReply();
+    },
     async quoteOrReply() {
-      if (!this.checkLogin() || this.quoted || this.replyed || this.isQuoting || this.isRepling) return
-
+      this.showLowerReputation = false;
       let url;
       if (this.isQuote) {
         url = `https://twitter.com/intent/tweet?text=%0a%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`

@@ -157,7 +157,7 @@
               <div v-show="quotesCollapse"
                    :class="endAndNotComplete?'opacity-90':''"
                    class="text-white py-0.5rem font-bold">
-                <button @click="quoteOrReply"
+                <button @click="preQuoteOrReply"
                         :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
                   <i v-if="isQuoting || isRepling" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
@@ -248,10 +248,18 @@
                   {{detailCuration ? formatAmount(detailCuration.amount / (10 ** detailCuration.decimals)) + ' ' + detailCuration.tokenSymbol : ''}}
                 </button>
               </div>
+              <!-- max count -->
               <div class="flex justify-between items-center mt-1rem">
                 <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.maxCount') }}</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
                   {{detailCuration ? (detailCuration.maxCount > 1e6 ? $t('common.max') : detailCuration.maxCount) : '0'}}
+                </button>
+              </div>
+              <!-- min reputation -->
+              <div class="flex justify-between items-center mt-1rem">
+                <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.minReputation') }}</span>
+                <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+                  {{detailCuration ? (detailCuration.minReputation <= 0 ? $t('common.max') : detailCuration.minReputation) : '0'}}
                 </button>
               </div>
               <!-- ended -->
@@ -308,6 +316,35 @@
     </div>
 
     <!-- modals -->
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               v-model:show="showLowerReputation"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <div class="text-left px-1.25rem pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
+            <div class="flex-1">
+              <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Attention</div>
+              <div>
+                {{ $t('curation.lowerReputation') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center gap-x-1rem mt-1rem">
+              <button class="gradient-btn gradient-btn-disabled-grey
+                            h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                      @click="showLowerReputation=false">{{ $t('common.cancel') }}</button>
+              <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
+                            h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                      @click="quoteOrReply">
+                      {{ $t('common.confirm') }}
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
+
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">
@@ -434,6 +471,7 @@ export default {
       speakerTipVisible: false,
       createPopUpVisible: false,
       showTip: false,
+      showLowerReputation: false,
       updateInterval: null,
       timeIntrerval: null,
       tipCollapse: false,
@@ -632,9 +670,20 @@ export default {
       }else
         this.speakerTipVisible=true
     },
-    async quoteOrReply() {
+    async preQuoteOrReply() {
       if (!this.checkLogin()) return
       if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
+      // check reputation
+      if (this.detailCuration.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.detailCuration.minReputation) {
+          this.showLowerReputation = true;
+          return;
+        }
+      }
+      await this.quoteOrReply();
+    },
+    async quoteOrReply() {
+      this.showLowerReputation = false;
       let url;
       if (this.isQuote) {
         this.isQuoting = true

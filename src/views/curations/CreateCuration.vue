@@ -152,6 +152,7 @@
                          class="w-1/3 c-small-select rounded-8px bg-transparent" size="small">
                 <el-option label="Quote" value="quote"></el-option>
                 <el-option label="Reply" value="reply"></el-option>
+                <!-- <el-option label="Retweet" value="retweet"></el-option> -->
               </el-select>
               <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
             </div>
@@ -405,6 +406,24 @@
             </div>
           </div>
         </div>
+        <div class="mt-1.8rem">
+          <div class="mb-6px font-bold">{{$t('curation.minReputation')}}</div>
+          <div class="mb-6px text-primaryColor italic">{{$t('curation.minReputationTip')}}</div>
+          <div class="flex items-center flex-col sm:flex-row">
+            <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
+                        light:bg-white light:border-colorE3 hover:border-primaryColor
+                        rounded-8px h-44px 2xl:h-2rem">
+              <input class="bg-transparent h-full w-full px-15px"
+                    v-model="form.minReputation"
+                     type="number" :placeholder="$t('curation.inputMinReputation')">
+            </div>
+            <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
+              <el-switch v-model="form.isLimitReputation" />
+              <span class="ml-10px font-600 whitespace-nowrap"
+                    :class="form.isLimitReputation?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
+            </div>
+          </div>
+        </div>
         <AssetsOptions :chain="form.chain"
                        :address="form.address"
                        :token="form.token"
@@ -564,7 +583,9 @@ export default {
         title: '',
         endtime: '',
         isLimit: true,
+        isLimitReputation: true,
         maxCount: '',
+        minReputation: '',
         tweetId: '',
         description: '',
         newContent: '',  // this is for new tweet content
@@ -967,7 +988,7 @@ export default {
       this.selectedBalance = balance
     },
     checkRewardData() {
-      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
+      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || (this.form.minReputation <= 0 && !this.form.isLimitReputation) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -1013,6 +1034,7 @@ export default {
           content: this.form.description,
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
+          minReputation: this.form.isLimitReputation ? 0 : this.form.minReputation,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
           token: this.form.token
         }
