@@ -406,7 +406,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="mt-1.8rem">
+        <div class="mt-1.8rem">
           <div class="mb-6px font-bold">{{$t('curation.minReputation')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.minReputationTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
@@ -423,7 +423,7 @@
                     :class="form.isLimitReputation?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
-        </div> -->
+        </div>
         <AssetsOptions :chain="form.chain"
                        :address="form.address"
                        :token="form.token"
@@ -988,7 +988,7 @@ export default {
       this.selectedBalance = balance
     },
     checkRewardData() {
-      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || !this.form.amount) {
+      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || (this.form.minReputation <= 0 && !this.form.isLimitReputation) || !this.form.amount) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -1034,6 +1034,7 @@ export default {
           content: this.form.description,
           amount: ethers.utils.parseUnits(this.form.amount.toString(), this.selectedToken.decimals ?? 18),
           maxCount: this.form.isLimit ? 9999999 : this.form.maxCount,
+          minReputation: this.form.isLimitReputation ? 0 : this.form.minReputation,
           endtime: parseInt(new Date(this.form.endtime).getTime() / 1000),
           token: this.form.token
         }

@@ -288,12 +288,12 @@ export default {
       if (!this.checkLogin()) return
       if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
       // check reputation
-      // if (this.curation.minReputation > 0) {
-      //   if (this.getAccountInfo.reputation < this.curation.minReputation) {
-      //     this.showLowerReputation = true;
-      //     return;
-      //   }
-      // }
+      if (this.curation.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.curation.minReputation) {
+          this.showLowerReputation = true;
+          return;
+        }
+      }
       await this.quoteOrReply();
     },
     async quoteOrReply() {

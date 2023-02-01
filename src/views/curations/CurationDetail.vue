@@ -256,12 +256,12 @@
                 </button>
               </div>
               <!-- min reputation -->
-              <!-- <div class="flex justify-between items-center mt-1rem">
+              <div class="flex justify-between items-center mt-1rem">
                 <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.minReputation') }}</span>
                 <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
                   {{detailCuration ? (detailCuration.minReputation <= 0 ? $t('common.max') : detailCuration.minReputation) : '0'}}
                 </button>
-              </div> -->
+              </div>
               <!-- ended -->
               <div v-if="detailCuration?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem">
                 <span class="text-16px 2xl:text-0.9rem c-text-black">End Time</span>
@@ -674,12 +674,12 @@ export default {
       if (!this.checkLogin()) return
       if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
       // check reputation
-      // if (this.detailCuration.minReputation > 0) {
-      //   if (this.getAccountInfo.reputation < this.detailCuration.minReputation) {
-      //     this.showLowerReputation = true;
-      //     return;
-      //   }
-      // }
+      if (this.detailCuration.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.detailCuration.minReputation) {
+          this.showLowerReputation = true;
+          return;
+        }
+      }
       await this.quoteOrReply();
     },
     async quoteOrReply() {

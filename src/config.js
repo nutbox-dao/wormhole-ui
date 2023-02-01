@@ -201,12 +201,12 @@ export const EVM_CHAINS = {
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
-    // 'ENULS-BETA': {
-    //     rpc: 'https://beta.evmapi.nuls.io',
-    //     scan: 'https://beta.evmscan.nuls.io',
-    //     id: 120,
+    // 'ENULS': {
+    //     rpc: 'https://evmapi.nuls.io',
+    //     scan: 'https://evmscan.nuls.io',
+    //     id: 119,
     //     main: {
-    //         name: 'ENULS-BETA',
+    //         name: 'ENULS',
     //         symbol: 'NULS',
     //         decimals: 18,
     //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
@@ -214,6 +214,11 @@ export const EVM_CHAINS = {
     //     assets: {
 
     //     },
+    //     Multi_Config: {
+    //         rpcUrl: 'https://evmapi.nuls.io',
+    //         multicallAddress: '',
+    //         interval: 3000
+    //     }
     //     curation: '',
     //     popup: ''
     // },
