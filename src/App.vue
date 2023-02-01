@@ -199,7 +199,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
       return !this.hasReceivedNft
@@ -323,10 +323,12 @@ export default {
     }
   },
   async mounted() {
+    await this.$router.isReady();
     const referee = this.$route.query.referee;
     if (referee) {
       this.$store.commit('saveReferee', referee);
     }
+
     this.showNyAnimation()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
