@@ -167,9 +167,9 @@ export default {
     curationsList() {
       if (this.selectedTag === 'All') {
         if (this.rankValue === 0) {
-          return this.trendingList
+          return this.trendingList ?? []
         }else{
-          return this.ongoingList
+          return this.ongoingList ?? []
         }
       }else {
         if (this.rankValue === 0) {
@@ -199,6 +199,7 @@ export default {
   },
   activated() {
     if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
+    if (this.curationsList.length > 0) return;
     this.onRefresh()
   },
   methods: {

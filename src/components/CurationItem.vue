@@ -169,7 +169,7 @@ import Space from "@/components/Space";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
-import { likeCuration, followCuration, checkMyCurationRecord } from "@/utils/curation";
+import { likeCuration, followCuration, retweetCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
 
@@ -288,12 +288,12 @@ export default {
       if (!this.checkLogin()) return
       if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
       // check reputation
-      if (this.curation.minReputation > 0) {
-        if (this.getAccountInfo.reputation < this.curation.minReputation) {
-          this.showLowerReputation = true;
-          return;
-        }
-      }
+      // if (this.curation.minReputation > 0) {
+      //   if (this.getAccountInfo.reputation < this.curation.minReputation) {
+      //     this.showLowerReputation = true;
+      //     return;
+      //   }
+      // }
       await this.quoteOrReply();
     },
     async quoteOrReply() {

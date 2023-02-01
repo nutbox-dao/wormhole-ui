@@ -5,7 +5,8 @@ import { waitForTx } from './ethers'
 import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
-        likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr } from '@/api/api'
+        likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
+        retweetCuration as retc} from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -413,6 +414,20 @@ export const followCuration = async (curation) => {
     const res = await fc(twitterId, authorId, curationId)
     return res
   }catch(e) {
+    if (e === 401) {
+      await logout(twitterId)
+      throw 'log out'
+    }
+    return false
+  }
+}
+
+export const retweetCuration = async (twitterId, curationId) => {
+  await checkAccessToken();
+  try {
+    const res = await retc(twitterId, curationId);
+    return res;
+  } catch (e) {
     if (e === 401) {
       await logout(twitterId)
       throw 'log out'
