@@ -156,6 +156,7 @@
     </van-popup>
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="showTweetEditor"
+               teleport="body"
                :position="position">
       <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
@@ -311,7 +312,7 @@ export default {
     retweeted() {
       if (!this.curation || !this.getAccountInfo) return false
       return (this.curation?.taskRecord & 16) / 16
-    },  
+    },
     liked() {
       if(!this.curation || !this.getAccountInfo) return false
       return (this.curation?.taskRecord & 4) / 4
@@ -396,9 +397,9 @@ export default {
         this.isRepling = true
       }
       try{
-        
+
       } catch (e) {
-        
+
       } finally {
         this.isQuoting = false
         this.isRepling = false
