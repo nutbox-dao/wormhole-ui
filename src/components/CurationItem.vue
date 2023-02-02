@@ -154,6 +154,55 @@
         </div>
       </div>
     </van-popup>
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               v-model:show="showTweetEditor"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <div class="flex-1 px-1.5rem mt-0.5rem flex flex-col">
+            <div class="flex-1">
+              <div class="mt-0.5rem mb-2rem text-color7D">{{$t('curation.quoteOrReplyTip')}}</div>
+              <div class="border-1 bg-black/40 border-1 border-color8B/30
+                          light:bg-white light:border-colorE3 hover:border-primaryColor
+                          rounded-8px">
+                <div contenteditable
+                    class="desc-input px-1rem pt-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
+                    ref="contentRef"
+                    @blur="getBlur('desc')"
+                    @paste="onPasteEmojiContent"
+                    v-html="contentEl"></div>
+                <div class="py-2 border-color8B/30 flex justify-between">
+                  <el-popover ref="descEmojiPopover" :placement="position"
+                              trigger="click" width="300"
+                              :teleported="false"
+                              :persistent="false">
+                    <template #reference>
+                      <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+                    </template>
+                    <div class="h-310px">
+                      <EmojiPicker :options="{
+                                      imgSrc:'/emoji/',
+                                      locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                      hasSkinTones:false,
+                                      hasGroupIcons:false}"
+                                      @select="selectEmoji" />
+                    </div>
+                  </el-popover>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mb-1.4rem mt-2rem">
+              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                      @click.stop="quoteOrReply">
+                      {{ $t('common.next') }}
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
 
   </div>
 </template>
@@ -162,7 +211,6 @@
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { parseTimestamp, sleep } from '@/utils/helper'
 import {mapGetters, mapState} from "vuex";
-import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
 import Repost from "@/components/Repost";
 import Space from "@/components/Space";
@@ -172,6 +220,7 @@ import { notify } from "@/utils/notify";
 import { likeCuration, followCuration, retweetCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
+import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
 export default {
   name: "CurationItem",
@@ -197,7 +246,10 @@ export default {
       isEnd: false,
       isQuoting: false,
       isRepling: false,
-      showLowerReputation: false
+      isRetweeting: false,
+      showLowerReputation: false,
+      showTweetEditor: false,
+      contentEl: ''
     }
   },
   computed: {
@@ -235,6 +287,10 @@ export default {
       if (!this.curation) return false;
       return (this.curation.tasks & 2) / 2
     },
+    isRetweet() {
+      if (!this.curation) return false;
+      return (this.curation.tasks & 16) / 16
+    },
     isLike() {
       if (!this.curation) return false;
       return (this.curation.tasks & 4) / 4
@@ -251,6 +307,10 @@ export default {
       if(!this.curation || !this.getAccountInfo) return false
       return (this.curation?.taskRecord & 2) / 2
     },
+    retweeted() {
+      if (!this.curation || !this.getAccountInfo) return false
+      return (this.curation?.taskRecord & 16) / 16
+    },  
     liked() {
       if(!this.curation || !this.getAccountInfo) return false
       return (this.curation?.taskRecord & 4) / 4
@@ -261,6 +321,12 @@ export default {
     },
   },
   methods: {
+    onPasteEmojiContent,
+    formatEmojiText,
+    getBlur() {
+      const sel = window.getSelection();
+      this.contentRange = sel.getRangeAt(0);
+    },
     onSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
     },
@@ -286,7 +352,7 @@ export default {
     },
     async preQuoteOrReply() {
       if (!this.checkLogin()) return
-      if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
+      if (this.isRepling || this.isQuoting || this.isRetweeting || this.retweeted || this.quoted || this.replyed) return;
       // check reputation
       if (this.curation.minReputation > 0) {
         if (this.getAccountInfo.reputation < this.curation.minReputation) {
@@ -294,51 +360,30 @@ export default {
           return;
         }
       }
-      await this.quoteOrReply();
+      if (this.isRetweet) {
+        this.quoteOrReply()
+      }else {
+        this.showTweetEditor = true;
+      }
     },
     async quoteOrReply() {
       this.showLowerReputation = false;
-      let url;
+      const content = this.formatElToTextContent(this.$refs.contentRef)
+      console.log(53, content);
+      return;
       if (this.isQuote) {
-        url = `https://twitter.com/intent/tweet?text=%0a%23iweb3&url=https://twitter.com/${this.curation.username}/status/${this.curation.tweetId}`
-       this.isQuoting = true
-      }else {
-        url = `https://twitter.com/intent/tweet?in_reply_to=${this.curation.tweetId}&text=%0a%23iweb3`
-        this.isRepling = true;
+        this.isQuoting = true;
+      }else if (this.isReply) {
+        this.isRepling = true
       }
-      window.open(url, '__blank');
-
-      await sleep(6)
-      let count = 0;
-      while(count++ < 20) {
-        try {
-          let record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.curation.curationId)
-          if (record && record.record && record.record.taskRecord) {
-            const nyCard = record.nyCard;
-
-            if (nyCard && nyCard.cardId > 0) {
-              this.$store.commit('saveNewCardId', nyCard.cardId)
-              this.$store.commit('saveGetCardVisible', true)
-            }
-            record = record.record;
-            this.curation.taskRecord = record.taskRecord;
-            if (this.isQuote && (record.taskRecord & 1 === 1)) {
-              break;
-            }
-            if (this.isReply && (record.taskRecord & 2 === 2)) {
-              break;
-            }
-          }
-        }catch(e) {
-          if (e === 'log out') {
-            notify({message: this.$t('tips.accessTokenExpire')})
-            break;
-          }
-        }
-        await sleep(4)
+      try{
+        
+      } catch (e) {
+        
+      } finally {
+        this.isQuoting = false
+        this.isRepling = false
       }
-      this.isQuoting = false
-      this.isRepling = false
     },
     async like() {
       if (!this.checkLogin() || this.liked || this.isLiking) return

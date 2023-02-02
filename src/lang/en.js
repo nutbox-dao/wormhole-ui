@@ -288,7 +288,8 @@ export default {
     recommendedCurations: 'Recommended curations',
     tag: 'Tag',
     prize: 'Prize',
-    maxCount: 'Max Count'
+    maxCount: 'Max Count',
+    quoteOrReplyTip: 'Say something abount this curation'
   },
   popup: {
     create: 'Create a Pop-up reply action',

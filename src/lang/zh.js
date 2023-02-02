@@ -288,7 +288,8 @@ export default {
     recommendedCurations: '推荐策展',
     tag: '标签',
     prize: '奖励',
-    maxCount: '最多获奖人数'
+    maxCount: '最多获奖人数',
+    quoteOrReplyTip: '写下您对该策展的看法'
   },
   popup: {
     create: '创建快闪回复操作',

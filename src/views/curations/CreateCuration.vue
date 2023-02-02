@@ -152,7 +152,7 @@
                          class="w-1/3 c-small-select rounded-8px bg-transparent" size="small">
                 <el-option label="Quote" value="quote"></el-option>
                 <el-option label="Reply" value="reply"></el-option>
-                <!-- <el-option label="Retweet" value="retweet"></el-option> -->
+                <el-option label="Retweet" value="retweet"></el-option>
               </el-select>
               <div class="text-color62 ml-10px">{{$t('curation.required')}}*</div>
             </div>
@@ -1041,7 +1041,14 @@ export default {
 
         let pendingCuration;
 
-        let tasks = this.form.mandatoryTask === 'quote' ? 1 : 2;
+        let tasks = 1;
+        if(this.form.mandatoryTask === 'quote') {
+          tasks = 1
+        }else if(this.form.mandatoryTask === 'reply') {
+          tasks = 2
+        }else if(this.form.mandatoryTask === 'retweet') {
+          tasks = 16
+        }
         tasks = tasks | (this.form.isLike ? 4 : 0);
         tasks = tasks | (this.form.isFollow ? 8 : 0);
         let transHash = '';
