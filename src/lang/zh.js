@@ -291,7 +291,9 @@ export default {
     maxCount: '最多获奖人数',
     quoteOrReplyTip: '写下您对该策展的看法',
     quote: '引用',
-    reply: '回复'
+    reply: '回复',
+    inputMoreWords: '请输入至少10个字符的内容',
+    inputRelatedWords: '请输入和该策展相关的内容'
   },
   popup: {
     create: '创建快闪回复操作',

@@ -104,6 +104,12 @@ export const likeCuration = async (twitterId, tweetId, curationId) =>
 export const followCuration = async (twitterId, authorId, curationId) =>
     post(BACKEND_API_URL + '/curation/followCuration', {twitterId, authorId, curationId})
 
+export const quoteCuration = async (twitterId, userInfo, content, curationId) =>
+    post(BACKEND_API_URL + '/curation/quoteCuration', {twitterId, userInfo, content, curationId})
+
+export const replyCuration = async (twitterId, userInfo, content, curationId) =>
+    post(BACKEND_API_URL + '/curation/replyCuration', {twitterId, userInfo, content, curationId})
+
 export const retweetCuration = async (twitterId, curationId) => 
     post(BACKEND_API_URL + '/curation/retweetCuration', {twitterId, curationId})
 

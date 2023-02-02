@@ -59,6 +59,7 @@
               <!-- quote-->
               <div v-if="isQuote" class="flex items-center mr-24px">
                 <button @click.stop="preQuoteOrReply"
+                        :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -66,6 +67,18 @@
                   <i v-else class="w-20px h-20px min-w-20px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
                 <span class="ml-6px font-700 text-12px" :class="quoted?'text-color62':''">{{ curation.quoted }}</span>
+              </div>
+              <!-- retweet -->
+              <div v-if="isRetweet" class="flex items-center mr-24px">
+                <button @click.stop="preQuoteOrReply"
+                        :disabled="isRepling || isQuoting || isRetweeting"
+                        class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                  <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="retweeted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                </button>
+                <span class="ml-6px font-700 text-12px" :class="retweeted?'text-color62':''">{{ curation.retweeted }}</span>
               </div>
               <!-- like-->
               <div v-if="isLike" class="flex items-center mr-24px">
@@ -173,6 +186,7 @@
                     ref="contentRef"
                     @blur="getBlur('desc')"
                     @paste="onPasteEmojiContent"
+                    @keydown="showQuoteContentTip=false"
                     v-html="contentEl"></div>
                 <div class="py-2 border-color8B/30 flex justify-between">
                   <el-popover ref="descEmojiPopover" :placement="position"
@@ -194,10 +208,21 @@
                 </div>
               </div>
             </div>
-            <div class="text-center mb-1.4rem mt-2rem">
-              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                      @click.stop="quoteOrReply">
+            <span v-show="showQuoteContentTip" class="mt-0.4rem text-redColor text-0.8rem">
+              {{ quoteTipStr }}
+            </span>
+            <div class="text-center mb-1.4rem mt-1.6rem flex items-center justify-center">
+              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
+                         w-full h-44px 2xl:h-2.2rem px-2.5rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"  
+                  @click.stop="showTweetEditor=false">
+                    {{ $t('common.cancel') }}
+              </button>
+              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem 
+                          flex items-center justify-center mx-auto"
+                    :disabled="isQuoting || isRepling"  
+                    @click.stop="quoteOrReply">
                       {{ isQuote ? $t('curation.quote') : $t('curation.reply') }}
+                    <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isQuoting || isRepling"></c-spinner>
                 </button>
             </div>
           </div>
@@ -210,22 +235,23 @@
 
 <script>
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { parseTimestamp, sleep } from '@/utils/helper'
+import { parseTimestamp, sleep, stringLength } from '@/utils/helper'
 import {mapGetters, mapState} from "vuex";
 import Blog from "@/components/Blog";
 import Repost from "@/components/Repost";
 import Space from "@/components/Space";
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {testData} from "@/views/square/test-data";
 import { notify } from "@/utils/notify";
-import { likeCuration, followCuration, retweetCuration, checkMyCurationRecord } from "@/utils/curation";
+import { likeCuration, followCuration, quoteCuration, replyCuration, retweetCuration, checkMyCurationRecord } from "@/utils/curation";
 import ContentTags from "@/components/ContentTags";
 import { errCode } from "@/config";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 
 export default {
   name: "CurationItem",
-  components: {Blog,Repost, Space, ChainTokenIconLarge, ContentTags},
+  components: {Blog,Repost, Space, ChainTokenIconLarge, ContentTags, EmojiPicker},
   props: {
     curation: {
       type: Object,
@@ -251,7 +277,10 @@ export default {
       showLowerReputation: false,
       showTweetEditor: false,
       contentEl: '',
-      tweetLength: 0
+      tweetLength: 0,
+      contentRange: null,
+      showQuoteContentTip: false,
+      quoteTipStr: ''
     }
   },
   computed: {
@@ -352,6 +381,15 @@ export default {
     getCard() {
       this.$emit('getCard')
     },
+    selectEmoji(e) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
+      if(!this.contentRange) return
+      this.contentRange.insertNode(newNode)
+      this.$refs.descEmojiPopover.hide()
+    },
     formatElToTextContent(el) {
       el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
       el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
@@ -383,23 +421,60 @@ export default {
       if (this.isRetweet) {
         this.quoteOrReply()
       }else {
+        this.contentRange = null;
+        this.contentEl = '';
         this.showTweetEditor = true;
       }
     },
     async quoteOrReply() {
       this.showLowerReputation = false;
       const content = this.formatElToTextContent(this.$refs.contentRef)
-      console.log(53, content);
-      return;
-      if (this.isQuote) {
-        this.isQuoting = true;
-      }else if (this.isReply) {
-        this.isRepling = true
+      if (content.length < 10) {
+        this.showQuoteContentTip = true;
+        this.quoteTipStr = this.$t('curation.inputMoreWords')
+        return;
       }
+      
+      
       try{
+        const twitterId = this.getAccountInfo?.twitterId;
+        const userInfo = {
+          name: this.getAccountInfo?.twitterName,
+          username: this.getAccountInfo?.twitterUsername,
+          profileImg: this.getAccountInfo?.profileImg,
+          steemId: this.getAccountInfo?.steemId
+        }
+        if (this.isQuote) {
+          this.isQuoting = true;
+          const result = await quoteCuration(twitterId, userInfo, content, this.curation.curationId)
+          let nyCard = result.nyCard;
 
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 1
+          this.showTweetEditor = false
+        }else if (this.isReply) {
+          this.isRepling = true
+          const result = await replyCuration(twitterId, userInfo, content, this.curation.curationId)
+          let nyCard = result.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 2
+          this.showTweetEditor = false
+        }else if(this.isRetweet) {
+          this.isRetweeting = true;
+        }
       } catch (e) {
-
+        if (e === 303) {
+          this.showQuoteContentTip = true;
+          this.quoteTipStr = this.$t('curation.inputRelatedWords')
+          return
+        }
       } finally {
         this.isQuoting = false
         this.isRepling = false

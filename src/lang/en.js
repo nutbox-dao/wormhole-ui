@@ -291,7 +291,9 @@ export default {
     maxCount: 'Max Count',
     quoteOrReplyTip: 'Say something about this curation',
     quote: 'Quote',
-    reply: 'Reply'
+    reply: 'Reply',
+    inputMoreWords: 'You must input more than 10 words',
+    inputRelatedWords: 'You must input content about this curation'
   },
   popup: {
     create: 'Create a Pop-up reply action',

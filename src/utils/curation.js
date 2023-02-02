@@ -6,7 +6,7 @@ import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
-        retweetCuration as retc} from '@/api/api'
+        retweetCuration as retc, quoteCuration as qc, replyCuration as rc} from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -417,6 +417,39 @@ export const followCuration = async (curation) => {
     if (e === 401) {
       await logout(twitterId)
       throw 'log out'
+    }
+    return false
+  }
+}
+
+export const quoteCuration = async (twitterId, userInfo, content, curationId) => {
+  await checkAccessToken();
+  try {
+    const res = await qc(twitterId, userInfo, content, curationId);
+    return res;
+  } catch (e) {
+    if (e === 401) {
+      await logout(twitterId)
+      throw 'log out'
+    }
+    if (e === 303) {
+      throw 303
+    }
+    return false
+  }
+}
+export const replyCuration = async (twitterId, userInfo, content, curationId) => {
+  await checkAccessToken();
+  try {
+    const res = await rc(twitterId, userInfo, content, curationId);
+    return res;
+  } catch (e) {
+    if (e === 401) {
+      await logout(twitterId)
+      throw 'log out'
+    }
+    if (e === 303) {
+      throw 303
     }
     return false
   }
