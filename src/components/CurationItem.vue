@@ -76,7 +76,7 @@
                   <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
                   </i>
-                  <i v-else class="w-20px h-20px min-w-20px" :class="retweeted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
                 </button>
                 <span class="ml-6px font-700 text-12px" :class="retweeted?'text-color62':''">{{ curation.retweeted }}</span>
               </div>
@@ -485,6 +485,7 @@ export default {
       } finally {
         this.isQuoting = false
         this.isRepling = false
+        this.isRetweeting = false
       }
     },
     async like() {

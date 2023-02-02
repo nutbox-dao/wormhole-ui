@@ -487,7 +487,7 @@ import CreatePopUpModal from "@/components/CreatePopUpModal";
 import PopUpsCard from "@/components/PopUpsCard";
 import TipModalVue from "@/components/TipModal.vue";
 import { notify } from "@/utils/notify";
-import { newPopups, likeCuration, followCuration, checkMyCurationRecord} from '@/utils/curation'
+import { newPopups, likeCuration, followCuration, quoteCuration, replyCuration, retweetCuration, checkMyCurationRecord} from '@/utils/curation'
 import iconTop1 from '@/assets/icon-top1.svg'
 import iconTop2 from '@/assets/icon-top2.svg'
 import iconTop3 from '@/assets/icon-top3.svg'
@@ -772,59 +772,84 @@ export default {
     },
     async preQuoteOrReply() {
       if (!this.checkLogin()) return
-      if (this.isRepling || this.isQuoting || this.quoted || this.replyed) return;
+      if (this.isRepling || this.isQuoting || this.isRetweeting || this.retweeted || this.quoted || this.replyed) return;
       // check reputation
-      if (this.detailCuration.minReputation > 0) {
-        if (this.getAccountInfo.reputation < this.detailCuration.minReputation) {
+      if (this.curation.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.curation.minReputation) {
           this.showLowerReputation = true;
           return;
         }
       }
-      await this.quoteOrReply();
+      if (this.isRetweet) {
+        this.quoteOrReply()
+      }else {
+        this.contentRange = null;
+        this.contentEl = '';
+        this.showTweetEditor = true;
+      }
     },
     async quoteOrReply() {
       this.showLowerReputation = false;
-      let url;
-      if (this.isQuote) {
-        this.isQuoting = true
-        url = `https://twitter.com/intent/tweet?text=%0a%23iweb3&url=https://twitter.com/${this.detailCuration.username}/status/${this.detailCuration.tweetId}`
-      }else {
-        this.isRepling = true;
-        url = `https://twitter.com/intent/tweet?in_reply_to=${this.detailCuration.tweetId}&text=%0a%23iweb3`
+      const content = this.formatElToTextContent(this.$refs.contentRef)
+      if (content.length < 10) {
+        this.showQuoteContentTip = true;
+        this.quoteTipStr = this.$t('curation.inputMoreWords')
+        return;
       }
-      window.open(url, '__blank');
-
-      await sleep(6)
-      let count = 0;
-      while(count++ < 20) {
-        try {
-          let record = await checkMyCurationRecord(this.getAccountInfo.twitterId, this.detailCuration.curationId)
-          if (record && record.record && record.record.taskRecord) {
-            const nyCard = record.nyCard;
-
-            if (nyCard && nyCard.cardId > 0) {
-              this.$store.commit('saveNewCardId', nyCard.cardId)
-              this.$store.commit('saveGetCardVisible', true)
-            }
-            record = record.record;
-            this.detailCuration.taskRecord = record.taskRecord
-            if (this.isQuote && (record.taskRecord & 1 === 1)) {
-              break;
-            }
-            if (this.isReply && (record.taskRecord & 2 === 2)) {
-              break;
-            }
-          }
-        }catch(e) {
-          if (e === 'log out') {
-            notify({message: this.$t('tips.accessTokenExpire')})
-            break;
-          }
+      
+      
+      try{
+        const twitterId = this.getAccountInfo?.twitterId;
+        const userInfo = {
+          name: this.getAccountInfo?.twitterName,
+          username: this.getAccountInfo?.twitterUsername,
+          profileImg: this.getAccountInfo?.profileImg,
+          steemId: this.getAccountInfo?.steemId
         }
-        await sleep(4)
+        if (this.isQuote) {
+          this.isQuoting = true;
+          const result = await quoteCuration(twitterId, userInfo, content, this.curation.curationId)
+          let nyCard = result.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 1
+          this.showTweetEditor = false
+        }else if (this.isReply) {
+          this.isRepling = true
+          const result = await replyCuration(twitterId, userInfo, content, this.curation.curationId)
+          let nyCard = result.nyCard;
+
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 2
+          this.showTweetEditor = false
+        }else if(this.isRetweet) {
+          this.isRetweeting = true;
+          const result = await retweetCuration(twitterId, this.curation.curationId);
+          let nyCard = result.nyCard;
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 16
+          this.showTweetEditor = false
+        }
+      } catch (e) {
+        if (e === 303) {
+          this.showQuoteContentTip = true;
+          this.quoteTipStr = this.$t('curation.inputRelatedWords')
+          return
+        }
+      } finally {
+        this.isQuoting = false
+        this.isRepling = false
+        this.isRetweeting = false
       }
-      this.isQuoting = false
-      this.isRepling = false
     },
     async like() {
       if (!this.checkLogin() || this.liked || this.isLiking) return
