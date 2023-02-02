@@ -114,6 +114,10 @@
   @extend .icon;
   background-image: url("~@/assets/icon-checked-green.svg");
 }
+.icon-retweet-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-circle.svg");
+}
 
 .icon-quote-circle {
   @extend .icon;
@@ -160,6 +164,15 @@
 .light .icon-add {
   @extend .icon;
   background-image: url("~@/assets/icon-add.svg");
+}
+
+.icon-retweet-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-tag.svg");
+}
+.light .icon-retweet-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-tag-light.svg");
 }
 
 .icon-quote-tag {
@@ -253,6 +266,16 @@
 .icon-radio-primary {
   @extend .icon;
   background-image: url("~@/assets/icon-radio-primary.svg");
+}
+
+.btn-icon-retweet {
+  @extend .icon;
+  background-image: url("~@/assets/btn-retweet.svg");
+}
+
+.btn-icon-retweet-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-retweet-active.svg");
 }
 
 .btn-icon-quote {
