@@ -361,7 +361,6 @@ export default {
     onSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
     },
-    formatEmojiText,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -468,6 +467,14 @@ export default {
           this.showTweetEditor = false
         }else if(this.isRetweet) {
           this.isRetweeting = true;
+          const result = await retweetCuration(twitterId, this.curation.curationId);
+          let nyCard = result.nyCard;
+          if (nyCard && nyCard.cardId > 0) {
+            this.$store.commit('saveNewCardId', nyCard.cardId)
+            this.$store.commit('saveGetCardVisible', true)
+          }
+          this.curation.taskRecord = this.curation.taskRecord | 16
+          this.showTweetEditor = false
         }
       } catch (e) {
         if (e === 303) {

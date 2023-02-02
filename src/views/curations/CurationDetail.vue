@@ -134,7 +134,7 @@
             <div class="flex justify-between items-center">
               <div class="h-40px flex items-center c-text-black">
                 <span class="text-16px xl:text-0.9rem whitespace-nowrap">
-                  {{ isQuote === 1 ? 'Quote': 'Reply' }} to Earn
+                  {{ isQuote === 1 ? 'Quote': (isReply ? 'Reply' : 'Retweet') }} to Earn
                 </span>
                 <button class="ml-20px" @click="quotesCollapse=!quotesCollapse">
                   <img class="w-14px"
@@ -142,15 +142,15 @@
                        src="~@/assets/icon-arrow.svg" alt="">
                 </button>
               </div>
-              <img v-if="(quoted+replyed+liked+followed)===(isQuote+isReply+isLike+isFollow)"
+              <img v-if="(quoted+replyed+retweeted+liked+followed)===(isQuote+isReply+isRetweet+isLike+isFollow)"
                    class="w-26px min-w-26px"
                    src="~@/assets/icon-progress-down.svg" alt="">
               <el-progress v-else type="circle" width="26"
                            color="#7851FF"
                            class="task-progress"
                            stroke-width="2"
-                           :percentage="(quoted+replyed+liked+followed)/(isQuote+isReply+isLike+isFollow)*100">
-                <span class="text-white text-12px">{{quoted+replyed+liked+followed}}/{{isQuote+isReply+isLike+isFollow}}</span>
+                           :percentage="(quoted+replyed+retweeted+liked+followed)/(isQuote+isReply+isRetweet+isLike+isFollow)*100">
+                <span class="text-white text-12px">{{quoted+replyed+retweeted+liked+followed}}/{{isQuote+isReply+isRetweet+isLike+isFollow}}</span>
               </el-progress>
             </div>
             <el-collapse-transition>
@@ -160,16 +160,18 @@
                 <button @click="preQuoteOrReply"
                         :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
-                  <i v-if="isQuoting || isRepling" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
+                  <i v-if="isQuoting || isRepling || isRetweeting" class="w-16px h-16px rounded-full bg-colorEA mr-10px">
                     <img class="w-16px h-16px" src="~@/assets/icon-loading.svg" alt="">
                   </i>
                   <template v-else>
                     <i v-if="isQuote===1" class="w-16px min-w-16px h-16px mr-10px"
                        :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-                    <i v-else class="w-16px min-w-16px h-16px mr-10px"
+                    <i v-else-if="isReply===1" class="w-16px min-w-16px h-16px mr-10px"
                        :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
+                    <i v-else-if="isRetweet===1" class="w-16px min-w-16px h-16px mr-10px"
+                       :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
                   </template>
-                  <span class="text-12px xl:text-0.7rem leading-18px 2xl:leading-0.9rem">Click to {{isQuote === 1 ? 'Quote' : 'Reply'}}</span>
+                  <span class="text-12px xl:text-0.7rem leading-18px 2xl:leading-0.9rem">Click to {{isQuote === 1 ? 'Quote' : (isReply ? 'Reply' : 'Retweet')}}</span>
                 </button>
                 <button v-if="isLike" @click="like" :disabled="endAndNotComplete"
                         class="bg-color1D w-full min-h-40px py-11px px-12px flex items-center rounded-10px mb-10px">
@@ -333,28 +335,14 @@
             <div class="flex items-center justify-center gap-x-1rem mt-1rem">
               <button class="gradient-btn gradient-btn-disabled-grey
                             h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                      @click="showLowerReputation=false">{{ $t('common.cancel') }}</button>
+                      @click.stop="showLowerReputation=false">{{ $t('common.cancel') }}</button>
               <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
                             h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                      @click="quoteOrReply">
+                      @click.stop="quoteOrReply">
                       {{ $t('common.confirm') }}
                 </button>
             </div>
           </div>
-        </div>
-      </div>
-    </van-popup>
-
-    <van-popup class="c-tip-drawer 2xl:w-2/5"
-               v-model:show="modalVisible"
-               :position="position">
-      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
-      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
-      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
-        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
-          <TweetAttendTip class="py-2rem md:py-0"
-                          :curation="detailCuration"
-                          @close="modalVisible=false"/>
         </div>
       </div>
     </van-popup>
@@ -413,6 +401,69 @@
         </div>
       </transition>
     </van-popup>
+    <!-- quote & reply -->
+    <van-popup class="c-tip-drawer 2xl:w-2/5"
+               v-model:show="showTweetEditor"
+               teleport="body"
+               :position="position">
+      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
+      rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
+        <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <div class="flex-1 px-1.5rem mt-0.5rem flex flex-col">
+            <div class="flex-1">
+              <div class="mt-0.5rem mb-2rem">{{$t('curation.quoteOrReplyTip')}}</div>
+              <div class="border-1 bg-black/40 border-1 border-color8B/30
+                          light:bg-white light:border-colorE3 hover:border-primaryColor
+                          rounded-8px">
+                <div contenteditable
+                    class="desc-input px-1rem pt-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
+                    ref="contentRef"
+                    @blur="getBlur('desc')"
+                    @paste="onPasteEmojiContent"
+                    @keydown="showQuoteContentTip=false"
+                    v-html="contentEl"></div>
+                <div class="py-2 border-color8B/30 flex justify-between">
+                  <el-popover ref="descEmojiPopover" :placement="position"
+                              trigger="click" width="300"
+                              :teleported="false"
+                              :persistent="false">
+                    <template #reference>
+                      <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
+                    </template>
+                    <div class="h-310px">
+                      <EmojiPicker :options="{
+                                      imgSrc:'/emoji/',
+                                      locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                      hasSkinTones:false,
+                                      hasGroupIcons:false}"
+                                      @select="selectEmoji" />
+                    </div>
+                  </el-popover>
+                </div>
+              </div>
+            </div>
+            <span v-show="showQuoteContentTip" class="mt-0.4rem text-redColor text-0.8rem">
+              {{ quoteTipStr }}
+            </span>
+            <div class="text-center mb-1.4rem mt-1.6rem flex items-center justify-center">
+              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
+                         w-full h-44px 2xl:h-2.2rem px-2.5rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"  
+                  @click.stop="showTweetEditor=false">
+                    {{ $t('common.cancel') }}
+              </button>
+              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem 
+                          flex items-center justify-center mx-auto"
+                    :disabled="isQuoting || isRepling"  
+                    @click.stop="quoteOrReply">
+                      {{ isQuote ? $t('curation.quote') : $t('curation.reply') }}
+                    <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isQuoting || isRepling"></c-spinner>
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -421,12 +472,10 @@ import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
    getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
-import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep } from '@/utils/helper'
+import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep, stringLength } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, errCode, EVM_CHAINS } from "@/config";
-import {onCopy} from "@/utils/tool";
 import Submissions from "@/views/curations/Submissions";
-import {formatEmojiText} from "@/utils/tool";
 import Blog from "@/components/Blog";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge.vue";
 import Space from "@/components/Space";
@@ -443,18 +492,19 @@ import iconTop1 from '@/assets/icon-top1.svg'
 import iconTop2 from '@/assets/icon-top2.svg'
 import iconTop3 from '@/assets/icon-top3.svg'
 import ContentTags from "@/components/ContentTags";
+import {onCopy, formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
 
 export default {
   name: "CurationDetail",
   components: {
     TweetAttendTip, Submissions, Blog, Space, TipModalVue,
     CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
-    CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags
+    CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags,EmojiPicker
   },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
-      modalVisible: false,
       showSubmissions: false,
       isExpand: false,
       loading1: false, // curation total
@@ -478,10 +528,17 @@ export default {
       quotesCollapse: true,
       isQuoting: false,
       isRepling: false,
+      isRetweeting: false,
       isLiking: false,
       isFollowing:false,
       top3Icons: [iconTop1, iconTop2, iconTop3],
-      endtime: ''
+      endtime: '',
+      showTweetEditor: false,
+      contentEl: '',
+      tweetLength: 0,
+      contentRange: null,
+      showQuoteContentTip: false,
+      quoteTipStr: ''
     }
   },
   computed: {
@@ -528,6 +585,10 @@ export default {
       if (!this.detailCuration) return false;
       return (this.detailCuration.tasks & 2) / 2
     },
+    isRetweet() {
+      if (!this.detailCuration) return false;
+      return (this.detailCuration.tasks & 16) /16
+    },
     isLike() {
       if (!this.detailCuration) return false;
       return (this.detailCuration.tasks & 4) / 4
@@ -543,6 +604,10 @@ export default {
     replyed() {
       if(!this.detailCuration || !this.getAccountInfo) return false
       return (this.detailCuration?.taskRecord & 2) / 2
+    },
+    retweeted() {
+      if(!this.detailCuration || !this.getAccountInfo) return false
+      return (this.detailCuration?.taskRecord & 16) / 16
     },
     liked() {
       if(!this.detailCuration || !this.getAccountInfo) return false
@@ -611,9 +676,44 @@ export default {
     }
   },
   methods: {
-    formatEmojiText,
     onCopy,
     formatAmount,
+    onPasteEmojiContent,
+    formatEmojiText,
+    getBlur() {
+      const sel = window.getSelection();
+      this.contentRange = sel.getRangeAt(0);
+    },
+    selectEmoji(e) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
+      if(!this.contentRange) return
+      this.contentRange.insertNode(newNode)
+      this.$refs.descEmojiPopover.hide()
+    },
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      let tweetLength = 0;
+      for(let i of el.childNodes) {
+        if(i.nodeName==='#text') {
+          tweetLength += stringLength(i.textContent);
+          content += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          tweetLength+=2;
+          content += i.alt
+        }
+      }
+      this.tweetLength = tweetLength
+      return content
+    },
+    onSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+    },
     onSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
       this.$router.go(-1)
