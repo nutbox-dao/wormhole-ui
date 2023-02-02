@@ -289,7 +289,9 @@ export default {
     tag: 'Tag',
     prize: 'Prize',
     maxCount: 'Max Count',
-    quoteOrReplyTip: 'Say something abount this curation'
+    quoteOrReplyTip: 'Say something about this curation',
+    quote: 'Quote',
+    reply: 'Reply'
   },
   popup: {
     create: 'Create a Pop-up reply action',

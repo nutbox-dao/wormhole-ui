@@ -163,7 +163,7 @@
         <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
           <div class="flex-1 px-1.5rem mt-0.5rem flex flex-col">
             <div class="flex-1">
-              <div class="mt-0.5rem mb-2rem text-color7D">{{$t('curation.quoteOrReplyTip')}}</div>
+              <div class="mt-0.5rem mb-2rem">{{$t('curation.quoteOrReplyTip')}}</div>
               <div class="border-1 bg-black/40 border-1 border-color8B/30
                           light:bg-white light:border-colorE3 hover:border-primaryColor
                           rounded-8px">
@@ -196,7 +196,7 @@
             <div class="text-center mb-1.4rem mt-2rem">
               <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
                       @click.stop="quoteOrReply">
-                      {{ $t('common.next') }}
+                      {{ isQuote ? $t('curation.quote') : $t('curation.reply') }}
                 </button>
             </div>
           </div>
@@ -249,7 +249,8 @@ export default {
       isRetweeting: false,
       showLowerReputation: false,
       showTweetEditor: false,
-      contentEl: ''
+      contentEl: '',
+      tweetLength: 0
     }
   },
   computed: {
@@ -349,6 +350,24 @@ export default {
     // 获取卡片
     getCard() {
       this.$emit('getCard')
+    },
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      let tweetLength = 0;
+      for(let i of el.childNodes) {
+        if(i.nodeName==='#text') {
+          tweetLength += stringLength(i.textContent);
+          content += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          tweetLength+=2;
+          content += i.alt
+        }
+      }
+      this.tweetLength = tweetLength
+      return content
     },
     async preQuoteOrReply() {
       if (!this.checkLogin()) return

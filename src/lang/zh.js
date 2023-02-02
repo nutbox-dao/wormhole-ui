@@ -289,7 +289,9 @@ export default {
     tag: '标签',
     prize: '奖励',
     maxCount: '最多获奖人数',
-    quoteOrReplyTip: '写下您对该策展的看法'
+    quoteOrReplyTip: '写下您对该策展的看法',
+    quote: '引用',
+    reply: '回复'
   },
   popup: {
     create: '创建快闪回复操作',
