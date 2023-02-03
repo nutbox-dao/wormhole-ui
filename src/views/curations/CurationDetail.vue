@@ -448,7 +448,7 @@
             </span>
             <div class="text-center mb-1.4rem mt-1.6rem flex items-center justify-center">
               <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
-                         w-full h-44px 2xl:h-2.2rem px-2.5rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"  
+                         w-full h-44px 2xl:h-2.2rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"  
                   @click.stop="showTweetEditor=false">
                     {{ $t('common.cancel') }}
               </button>
