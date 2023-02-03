@@ -31,6 +31,7 @@ import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import RedEnvelopeIndex from "@/views/red-envelope/RedEnvelopeIndex";
 import CurationsRecommend from "@/views/curations/CurationsRecommend";
+import UserGuide from '@/views/UserGuide';
 
 const routes = [
   {
@@ -78,6 +79,11 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQView,
+  },
+  {
+    path: '/userguide',
+    name: 'user-guide',
+    component: UserGuide
   },
   {
     path: '/about',

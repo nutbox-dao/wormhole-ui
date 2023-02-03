@@ -5,6 +5,7 @@ export default {
   square: '广场',
   curations: '策展',
   faq: '常见问题',
+  userguide: '用户指南',
   aboutUs: '关于我们',
   discord: 'Discord',
   twitter: 'Twitter',

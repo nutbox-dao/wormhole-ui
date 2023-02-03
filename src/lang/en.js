@@ -5,6 +5,7 @@ export default {
   square: 'Square',
   curations: 'Curations',
   faq: 'FAQs',
+  userguide: 'User Guides',
   aboutUs: 'About Us',
   discord: 'Discord',
   twitter: 'Twitter',
