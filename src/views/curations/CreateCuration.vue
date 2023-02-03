@@ -439,7 +439,7 @@
         <div class="mt-1.8rem">
           <div class="mb-6px font-bold">{{$t('curation.rewardsMethod')}}</div>
           <div class="border-1 border-color8B/30 light:border-colorE3 rounded-8px 2xl:2.5rem"
-               :class="rewardsTipCollapse?'bg-colorF7':''">
+               :class="rewardsTipCollapse?'bg-black/40 light:bg-colorF7':''">
             <div class="flex items-center h-44px 2xl:h-2.2rem px-15px">
               <span class="text-15px 2xl:text-0.75rem">
                 {{$t('curation.autoMethod')}}
@@ -450,8 +450,8 @@
             </div>
             <el-collapse-transition>
               <div v-show="rewardsTipCollapse"
-                  style="white-space: pre-line;"
-                   class="px-15px mb-10px text-color8B light:text-color7D text-12px leading-20px 2xl:text-0.7rem 2xl:leading-1rem">
+                   class="px-15px mb-10px text-color8B light:text-color7D whitespace-pre-line
+                          text-12px leading-20px 2xl:text-0.7rem 2xl:leading-1rem">
                 {{$t('curation.autoMethodTip')}}
               </div>
             </el-collapse-transition>
