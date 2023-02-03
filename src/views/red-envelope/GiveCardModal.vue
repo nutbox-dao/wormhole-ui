@@ -192,7 +192,7 @@ export default {
       cardIndex: 0,
       BLESS_CARD_NAME,
       contentRange: null,
-      tweetContent: '默认内容',
+      tweetContent: '',
       shareLoading: false,
       toAddress: '',
       giveEnable: false,

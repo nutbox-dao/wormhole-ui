@@ -333,12 +333,12 @@
               </div>
             </div>
             <div class="flex items-center justify-center gap-x-1rem mt-1rem">
-              <button class="gradient-btn gradient-btn-disabled-grey
-                            h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
+                         w-full h-44px 2xl:h-2.2rem px-2.5rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"
                       @click.stop="showLowerReputation=false">{{ $t('common.cancel') }}</button>
               <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
                             h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                      @click.stop="quoteOrReply">
+                      @click.stop="isRetweet ? retweet() : confirmQuest()">
                       {{ $t('common.confirm') }}
                 </button>
             </div>
@@ -774,18 +774,47 @@ export default {
       if (!this.checkLogin()) return
       if (this.isRepling || this.isQuoting || this.isRetweeting || this.retweeted || this.quoted || this.replyed) return;
       // check reputation
-      if (this.curation.minReputation > 0) {
-        if (this.getAccountInfo.reputation < this.curation.minReputation) {
+      if (this.detailCuration.minReputation > 0) {
+        if (this.getAccountInfo.reputation < this.detailCuration.minReputation) {
           this.showLowerReputation = true;
           return;
         }
       }
       if (this.isRetweet) {
-        this.quoteOrReply()
+        this.retweet()
       }else {
         this.contentRange = null;
         this.contentEl = '';
         this.showTweetEditor = true;
+      }
+    },
+    async confirmQuest() {
+      this.showLowerReputation = false;
+      this.showTweetEditor = true
+    },
+    async retweet() {
+      this.showLowerReputation = false;
+      try{
+        this.isRetweeting = true;
+        const result = await retweetCuration(twitterId, this.detailCuration.curationId);
+        let nyCard = result.nyCard;
+        if (nyCard && nyCard.cardId > 0) {
+          this.$store.commit('saveNewCardId', nyCard.cardId)
+          this.$store.commit('saveGetCardVisible', true)
+        }
+        this.detailCuration.taskRecord = this.detailCuration.taskRecord | 16
+        this.showTweetEditor = false
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return;
+        }else if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: 'info', duration: 5000})
+          return;
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
+      } finally {
+        this.isRetweeting = false
       }
     },
     async quoteOrReply() {
@@ -808,35 +837,25 @@ export default {
         }
         if (this.isQuote) {
           this.isQuoting = true;
-          const result = await quoteCuration(twitterId, userInfo, content, this.curation.curationId)
+          const result = await quoteCuration(twitterId, userInfo, content, this.detailCuration.curationId)
           let nyCard = result.nyCard;
 
           if (nyCard && nyCard.cardId > 0) {
             this.$store.commit('saveNewCardId', nyCard.cardId)
             this.$store.commit('saveGetCardVisible', true)
           }
-          this.curation.taskRecord = this.curation.taskRecord | 1
+          this.detailCuration.taskRecord = this.detailCuration.taskRecord | 1
           this.showTweetEditor = false
         }else if (this.isReply) {
           this.isRepling = true
-          const result = await replyCuration(twitterId, userInfo, content, this.curation.curationId)
+          const result = await replyCuration(twitterId, userInfo, content, this.detailCuration.curationId)
           let nyCard = result.nyCard;
 
           if (nyCard && nyCard.cardId > 0) {
             this.$store.commit('saveNewCardId', nyCard.cardId)
             this.$store.commit('saveGetCardVisible', true)
           }
-          this.curation.taskRecord = this.curation.taskRecord | 2
-          this.showTweetEditor = false
-        }else if(this.isRetweet) {
-          this.isRetweeting = true;
-          const result = await retweetCuration(twitterId, this.curation.curationId);
-          let nyCard = result.nyCard;
-          if (nyCard && nyCard.cardId > 0) {
-            this.$store.commit('saveNewCardId', nyCard.cardId)
-            this.$store.commit('saveGetCardVisible', true)
-          }
-          this.curation.taskRecord = this.curation.taskRecord | 16
+          this.detailCuration.taskRecord = this.detailCuration.taskRecord | 2
           this.showTweetEditor = false
         }
       } catch (e) {
@@ -845,6 +864,14 @@ export default {
           this.quoteTipStr = this.$t('curation.inputRelatedWords')
           return
         }
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return;
+        }else if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: 'info', duration: 5000})
+          return;
+        }
+        notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
         this.isQuoting = false
         this.isRepling = false

@@ -418,7 +418,7 @@ export const followCuration = async (curation) => {
       await logout(twitterId)
       throw 'log out'
     }
-    return false
+    throw e
   }
 }
 
@@ -435,7 +435,7 @@ export const quoteCuration = async (twitterId, userInfo, content, curationId) =>
     if (e === 303) {
       throw 303
     }
-    return false
+    throw e
   }
 }
 export const replyCuration = async (twitterId, userInfo, content, curationId) => {
@@ -451,7 +451,7 @@ export const replyCuration = async (twitterId, userInfo, content, curationId) =>
     if (e === 303) {
       throw 303
     }
-    return false
+    throw e
   }
 }
 
@@ -465,7 +465,7 @@ export const retweetCuration = async (twitterId, curationId) => {
       await logout(twitterId)
       throw 'log out'
     }
-    return false
+    throw e
   }
 }
 
