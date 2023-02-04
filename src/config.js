@@ -218,7 +218,7 @@ export const EVM_CHAINS = {
     //         rpcUrl: 'https://evmapi.nuls.io',
     //         multicallAddress: '',
     //         interval: 3000
-    //     }
+    //     },
     //     curation: '',
     //     popup: ''
     // },
