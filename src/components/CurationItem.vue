@@ -418,7 +418,7 @@ export default {
         }
       }
       if (this.isRetweet) {
-        this.quoteOrReply()
+        this.retweet()
       }else {
         this.contentRange = null;
         this.contentEl = '';
@@ -433,6 +433,7 @@ export default {
       this.showLowerReputation = false;
       try{
         this.isRetweeting = true;
+        const twitterId = this.getAccountInfo?.twitterId;
         const result = await retweetCuration(twitterId, this.curation.curationId);
         let nyCard = result.nyCard;
         if (nyCard && nyCard.cardId > 0) {

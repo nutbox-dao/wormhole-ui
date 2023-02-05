@@ -796,6 +796,7 @@ export default {
       this.showLowerReputation = false;
       try{
         this.isRetweeting = true;
+        const twitterId = this.getAccountInfo?.twitterId;
         const result = await retweetCuration(twitterId, this.detailCuration.curationId);
         let nyCard = result.nyCard;
         if (nyCard && nyCard.cardId > 0) {
@@ -812,6 +813,7 @@ export default {
           notify({message: this.$t('tips.tweetNotFound'), type: 'info', duration: 5000})
           return;
         }
+        console.log(2354, e);
         notify({message:this.$t('err.serverErr'), type:'error'})
       } finally {
         this.isRetweeting = false
