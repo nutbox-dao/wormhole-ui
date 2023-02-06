@@ -223,6 +223,11 @@ export default {
         this.$store.commit('curation/saveRewardLists', this.rewardLists);
         this.getRecords();
       } catch(e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          this.$route.push('/')
+          return;
+        }
         console.log('Claim failed:', e);
         notify({message: this.$t('err.transErr'), type: 'error'})
       } finally {

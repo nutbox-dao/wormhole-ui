@@ -200,6 +200,9 @@ export const getCurationRewardList = async (twitterId, chainId, createAt) =>
 export const getClaimParas = async (twitterId, chainId, ids) =>
     post(BACKEND_API_URL + '/curation/getClaimParas', {twitterId, chainId, ids})
 
+export const getPromotionCurationClaimParas = async (twitterId, chainId, createdAt) =>
+    post(BACKEND_API_URL + '/curation/getPromotionCurationClaimParas', {twitterId, chainId, createdAt})
+
 export const setCurationIsFeed = async (twitterId, curationIds) =>
     post(BACKEND_API_URL + '/curation/setCurationIsFeed', {twitterId, curationIds})
 

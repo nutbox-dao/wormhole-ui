@@ -103,7 +103,9 @@ export const TokenIcon = {
     'WGLMR': 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png',
     'PNUT': 'https://cdn.wherein.mobi/nutbox/v2/1645760918196',
     'NUT': "https://cdn.wherein.mobi/nutbox-v2/token/logo/nutcoin1.png",
-    'WIN': 'https://cdn.wherein.mobi/nutbox/v2/1650853172818'
+    'WIN': 'https://cdn.wherein.mobi/nutbox/v2/1650853172818',
+    'WENULS': 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png',
+    'NULS': 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
 }
 
 export const TokenName = {
@@ -122,7 +124,9 @@ export const TokenName = {
     'AURORA': 'Aurora',
     'GLMR': 'GLMR',
     'WGLMR': 'Wrapped GLMR',
-    'PNUT': 'Peanut'
+    'PNUT': 'Peanut',
+    'WENULS': 'Wrapped ENULS',
+    'NULS': 'ENULS'
 }
 
 /**
@@ -201,27 +205,27 @@ export const EVM_CHAINS = {
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
     },
-    // 'ENULS': {
-    //     rpc: 'https://evmapi.nuls.io',
-    //     scan: 'https://evmscan.nuls.io',
-    //     id: 119,
-    //     main: {
-    //         name: 'ENULS',
-    //         symbol: 'NULS',
-    //         decimals: 18,
-    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
-    //     },
-    //     assets: {
-
-    //     },
-    //     Multi_Config: {
-    //         rpcUrl: 'https://evmapi.nuls.io',
-    //         multicallAddress: '',
-    //         interval: 3000
-    //     },
-    //     curation: '',
-    //     popup: ''
-    // },
+    'ENULS': {
+        rpc: 'https://evmapi.nuls.io',
+        scan: 'https://evmscan.nuls.io',
+        id: 119,
+        main: {
+            name: 'ENULS',
+            symbol: 'NULS',
+            decimals: 18,
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
+        },
+        assets: {
+            WENULS: {symbol: 'WENULS', name: 'Wrapped ENULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'}
+        },
+        Multi_Config: {
+            rpcUrl: 'https://evmapi.nuls.io',
+            multicallAddress: '0x383870Ae4E834155192cEce2fb5B0528CE0790E9',
+            interval: 3000
+        },
+        curation: '',
+        popup: ''
+    },
     // Aurora: {
     //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
     //     scan: 'https://aurorascan.dev/',

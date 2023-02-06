@@ -57,11 +57,11 @@
                     <span>{{$t('faq')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-faq"></i>
                   </router-link>
-                  <!-- <router-link to="/userguide" @click.stop="showMenu=false"
+                  <router-link to="/userguide" @click.stop="showMenu=false"
                                class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
                     <span>{{$t('userguide')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-faq"></i>
-                  </router-link> -->
+                  </router-link>
 <!--                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">-->
 <!--                    <template #reference>-->
 <!--                      <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>-->

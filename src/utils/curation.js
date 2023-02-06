@@ -6,7 +6,7 @@ import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
-        retweetCuration as retc, quoteCuration as qc, replyCuration as rc} from '@/api/api'
+        retweetCuration as retc, quoteCuration as qc, replyCuration as rc, getPromotionCurationClaimParas as gpccp} from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -283,6 +283,11 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
 export const getClaimParas = async (chainName, twitterId, ids) => {
   await checkAccessToken();
   return await gcp(twitterId, EVM_CHAINS[chainName].id, ids);
+}
+
+export const getPromotionCurationClaimParas = async (chainName, twitterId, ids) => {
+  await checkAccessToken();
+  return await gpccp(twitterId, EVM_CHAINS[chainName].id, ids);
 }
 
 export const claimRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {
