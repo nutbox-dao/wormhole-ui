@@ -202,6 +202,15 @@
   background-image: url("~@/assets/menu-faq-light.svg");
 }
 
+.icon-userguide {
+  @extend .icon;
+  background-image: url("~@/assets/menu-guide.svg");
+}
+.light .icon-userguide {
+  @extend .icon;
+  background-image: url("~@/assets/menu-guide-light.svg");
+}
+
 .icon-referral {
   @extend .icon;
   background-image: url("~@/assets/menu-referral.svg");

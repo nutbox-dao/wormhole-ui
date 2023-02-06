@@ -60,7 +60,7 @@
                   <!-- <router-link to="/userguide" @click.stop="showMenu=false"
                                class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
                     <span>{{$t('userguide')}}</span>
-                    <i class="w-14px min-w-14px h-14px icon-faq"></i>
+                    <i class="w-14px min-w-14px h-14px icon-userguide"></i>
                   </router-link> -->
 <!--                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">-->
 <!--                    <template #reference>-->
