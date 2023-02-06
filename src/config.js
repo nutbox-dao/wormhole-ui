@@ -223,8 +223,8 @@ export const EVM_CHAINS = {
             multicallAddress: '0x383870Ae4E834155192cEce2fb5B0528CE0790E9',
             interval: 3000
         },
-        curation: '',
-        popup: ''
+        curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
+        popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268'
     },
     // Aurora: {
     //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',

@@ -41,7 +41,7 @@
                  :src="icons[erc20]" alt="">
             <div class="text-left ml-1rem">
               <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
-              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.Polygon[erc20]) }} {{erc20}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances[chain][erc20]) }} {{erc20}}</div>
             </div>
           </div>
           <div class="flex flex-col items-end justify-end">
