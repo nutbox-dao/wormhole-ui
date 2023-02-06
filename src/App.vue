@@ -43,7 +43,7 @@
                       @click.stop="showMenu=!showMenu">
                 <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem" src="~@/assets/icon-menu-toggle.svg" alt="">
               </button>
-              <div class="menu-box w-150px 2xl:w-10rem z-99" @click.stop
+              <div class="menu-box w-150px 2xl:w-10rem z-9999" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">
                 <div class="px-12px py-8px border-1 border-listBgBorder
                             bg-blockBg light:bg-white light:border-0 light:shadow-popper-tip
@@ -537,7 +537,7 @@ export default {
   overflow: hidden;
   box-sizing: border-box;
   &.active {
-    max-height: 300px;
+    max-height: 1300px;
   }
 }
 .link-btn {

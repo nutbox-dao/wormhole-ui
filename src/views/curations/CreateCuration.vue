@@ -389,7 +389,7 @@
       <!-- reward -->
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
-          <div class="mb-6px font-bold">{{$t('curation.maxCount')}}</div>
+          <div class="mb-6px font-bold">{{$t('curation.maxRewardCount')}}</div>
           <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30

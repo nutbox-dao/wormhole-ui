@@ -196,7 +196,7 @@ export default {
     descriptionDesc: 'Please describe this curation. For example: why do you want to curate this content、what is the suitable target readers for this content and etc.',
     tagDesc: 'Create a category index for this curation. You can create a maximum of five category hashtags ',
     connectWallet: "Connect Wallet",
-    maxCount: 'Max reward users',
+    maxRewardCount: 'Max reward users',
     maxCountTip: 'The top count of curators can earn reward',
     inputMaxCount: 'Enter max reward users',
     minReputation: 'Min participation reputation',
@@ -339,7 +339,7 @@ export default {
     opened: 'opened',
     power: 'Power',
     makeMysteryCard: 'Make Mystery Card',
-    makeMysterySuccess: 'Mystery card mint succesfull!', 
+    makeMysterySuccess: 'Mystery card mint succesfull!',
     brandName: 'Brand name',
     cardType: 'Special rewards type',
     tokenAddress: 'Token address',
@@ -417,6 +417,11 @@ export default {
     mysteryCard5: 'How to promote me or my project through mystery box cards?',
     mysteryCard6: 'Mint',
     mysteryCard7: 'You can promote your project by inserting prizes and project information into the mystery box card, which costs 1 $USDT per card mint.'
+  },
+  guide: {
+    registrationGuide: 'Registration Guide',
+    userGuide: 'User guide',
+    curatorialGuide: 'Project Party Curatorial Guide'
   },
   err: {
     serverErr: 'Server error',
