@@ -28,11 +28,15 @@
                       loosing-text="Release to refresh">
         <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col">
           <div class="py-1rem mx-1.5rem sm:mx-0 relative">
-            <div class="flex tabs mx-36px relative min-h-30px">
-              <button class="tab h-30px text-12px sm:text-14px" :class="chainTab===index?'active':''" @click="selectTab(index)"
-                v-for="(name, index) of chainNames" :key="name">
-                {{ name }}
-              </button>
+            <div class="px-16px relative min-h-30px overflow-hidden">
+              <div class="flex tabs overflow-x-auto no-scroll-bar" ref="tabsRef">
+                <button class="tab h-30px text-12px sm:text-14px"
+                        :class="chainTab===index?'active':''"
+                        @click="selectTab(index)"
+                        v-for="(name, index) of chainNames" :key="name">
+                  {{ name }}
+                </button>
+              </div>
             </div>
             <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
               <div class="mb-1rem flex items-center justify-between cursor-pointer">
@@ -72,7 +76,7 @@
                 <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
               </div>
               <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-                <div class="c-text-black text-color7D text-1.3rem mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
+                <div class="c-text-black text-white/50 text-1.3rem mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
               </div>
             </div>
           </div>
@@ -158,7 +162,7 @@ export default {
             amount: sum + (reward.amount.toString() / (10 ** reward.decimals))
           }
         }
-        
+
         return Object.values(result)
       }
       return []
@@ -258,7 +262,13 @@ export default {
   color: white!important;
   border: none;
 }
+.tabs {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
 .tab {
+  scroll-snap-align: center;
   // text-transform: uppercase;
   display: inline-block;
   filter: opacity(0.2);
@@ -269,8 +279,8 @@ export default {
   white-space: nowrap;
   cursor: pointer;
   font-weight: bold;
-  min-width: 120px;
-  margin: 0 12px;
+  min-width: fit-content;
+  margin: 0 16px;
   padding: 0 12px;
   &.active {
     z-index: 1;
@@ -278,13 +288,13 @@ export default {
     filter: opacity(1);
   }
   &::before{
-    right: -5%;
+    right: -8px;
     transform: skew(25deg);
     border-radius: 0 8px 0 0;
   }
   &::after{
     transform: skew(-25deg);
-    left: -5%;
+    left: -8px;
     border-radius: 8px 0 0 0;
   }
 }
@@ -294,8 +304,8 @@ export default {
   position: absolute;
   background: var(--primary-custom);
   border-radius: 8px 8px 0 0;
-  width: 10%;
-  min-width: 15px;
+  width: 16px;
+  min-width: 16px;
   top: 0;
 }
 .tab:nth-child(1) {
@@ -313,22 +323,22 @@ export default {
 .top-level {
   z-index: 100;
 }
-@media (max-width: 580px) {
-  .tabs {
-    position: relative;
-  }
-  .tab:nth-child(1) {
-    position: absolute;
-    left: 0;
-  }
-  .tab:nth-child(2) {
-    position: absolute;
-    left: 47%;
-    transform: translateX(-50%);
-  }
-  .tab:nth-child(3) {
-    position: absolute;
-    right: 0;
-  }
-}
+//@media (max-width: 580px) {
+//  .tabs {
+//    position: relative;
+//  }
+//  .tab:nth-child(1) {
+//    position: absolute;
+//    left: 0;
+//  }
+//  .tab:nth-child(2) {
+//    position: absolute;
+//    left: 47%;
+//    transform: translateX(-50%);
+//  }
+//  .tab:nth-child(3) {
+//    position: absolute;
+//    right: 0;
+//  }
+//}
 </style>

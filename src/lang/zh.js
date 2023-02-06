@@ -134,7 +134,7 @@ export default {
   },
   aboutView: {
     q1: '1. 如何生成一个新地址, 您是否将私钥保存在平台上?',
-    a1: '待更新... 通过石墨烯技术, Wormhole3 可以为每个用户生成一个 Web3 id, 并导出其低权限 Web3_social id. Web3 id的私钥由用户唯一持有, 并且 Web3_social id 以去中心化的方式委托给用户的\Web2账号 (比如Twitter). 这带来了巨大的变化. 在 Web2 平台上, 用户可以控制Web3_social id，比如在Twitter页面发推上链，发推可以传输加密货币。 全程无需安装任何Web3插件钱包, 且无需考虑手续费等问题.😎'
+    a1: '待更新... 通过石墨烯技术, Wormhole3 可以为每个用户生成一个 Web3 id, 并导出其低权限 Web3_social id. Web3 id的私钥由用户唯一持有, 并且 Web3_social id 以去中心化的方式委托给用户的Web2账号 (比如Twitter). 这带来了巨大的变化. 在 Web2 平台上, 用户可以控制Web3_social id，比如在Twitter页面发推上链，发推可以传输加密货币。 全程无需安装任何Web3插件钱包, 且无需考虑手续费等问题.😎'
   },
   faqView: {
     q1: '如何生成一个新地址, 您是否将私钥保存在平台上?',
@@ -196,7 +196,7 @@ export default {
     descriptionDesc: '请描述这个策展. 例如：你为什么要策展这个内容、该内容适合的目标读者是什么等等.',
     tagDesc: '为此策展创建类别索引. 你最多可以创建五个类别标签 ',
     connectWallet: "链接钱包",
-    maxCount: '最大奖励用户数',
+    maxRewardCount: '最大奖励用户数',
     maxCountTip: '策展人数量最多可获得奖励',
     inputMaxCount: '输入最大奖励用户数',
     minReputation: '最小参与声誉分',
@@ -339,7 +339,7 @@ export default {
     opened: '已开启',
     power: '权重',
     makeMysteryCard: '铸造盲盒卡',
-    makeMysterySuccess: '盲盒卡mint成功!', 
+    makeMysterySuccess: '盲盒卡mint成功!',
     brandName: '品牌名字',
     cardType: '特别奖励',
     tokenAddress: '代币地址',
@@ -417,6 +417,11 @@ export default {
     mysteryCard5: '如何通过盲盒卡传播我或我的项目?',
     mysteryCard6: 'Mint',
     mysteryCard7: '您可以通过将奖品和项目信息放入盲盒卡来宣传您的项目，每张卡片铸造成本为1 $USDT一张.'
+  },
+  guide: {
+    registrationGuide: '注册指南',
+    userGuide: '用户指南',
+    curatorialGuide: '项目方策展指南'
   },
   err: {
     serverErr: '内部错误',
