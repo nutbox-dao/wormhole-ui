@@ -140,6 +140,7 @@ import { mapGetters, mapState } from 'vuex'
 import { getCurations, getCurationsByTrend, getPopularTopics,
   getNewCurationsByTag, getTrendingCurationsByTag, getTrendingCurationsNew } from '@/api/api'
 import { showError } from '@/utils/notify'
+import mitt from 'mitt'
 
 export default {
   name: "CurationsIndex",
@@ -160,6 +161,7 @@ export default {
       customizeTagList: [],
       selectedCuration: null,
       selectedCurationIndex: 0,
+      emitter: null
     }
   },
   computed: {
@@ -200,12 +202,6 @@ export default {
     }
   },
   activated() {
-    // 修改数据
-    if(this.selectedCuration) {
-      console.log('============', this.selectedCuration)
-      this.selectedCuration.liked = 9999
-      this.curationsList[this.selectedCurationIndex] = this.selectedCuration
-    }
     if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
     if (this.curationsList.length > 0) return;
     this.onRefresh()
@@ -354,6 +350,14 @@ export default {
     }
   },
   mounted () {
+    this.$bus.on('updateCuration', (curationDetail) => {
+      console.log('update curation', curationDetail)
+      // 修改数据
+      if(this.selectedCuration.curationId === curationDetail.curationId) {
+        console.log('============', this.selectedCuration)
+        this.curationsList[this.selectedCurationIndex] = curationDetail
+      }
+    })
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getPopularTopics().then(topics => {

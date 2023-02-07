@@ -333,7 +333,7 @@
               </div>
             </div>
             <div class="flex items-center justify-center gap-x-1rem mt-1rem">
-              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
+              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white
                          w-full h-44px 2xl:h-2.2rem px-2.5rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"
                       @click.stop="showLowerReputation=false">{{ $t('common.cancel') }}</button>
               <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
@@ -447,14 +447,14 @@
               {{ quoteTipStr }}
             </span>
             <div class="text-center mb-1.4rem mt-1.6rem flex items-center justify-center">
-              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white 
-                         w-full h-44px 2xl:h-2.2rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"  
+              <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white
+                         w-full h-44px 2xl:h-2.2rem mx-auto rounded-full text-16px 2xl:text-0.8rem mr-1.25rem"
                   @click.stop="showTweetEditor=false">
                     {{ $t('common.cancel') }}
               </button>
-              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem 
+              <button class="gradient-btn h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem
                           flex items-center justify-center mx-auto"
-                    :disabled="isQuoting || isRepling"  
+                    :disabled="isQuoting || isRepling"
                     @click.stop="quoteOrReply">
                       {{ isQuote ? $t('curation.quote') : $t('curation.reply') }}
                     <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isQuoting || isRepling"></c-spinner>
@@ -564,7 +564,7 @@ export default {
     },
     followers() {
       if (this.detailCuration && this.detailCuration.followers && this.detailCuration.followers.length > 2) {
-        let followers = JSON.parse(this.detailCuration.followers) 
+        let followers = JSON.parse(this.detailCuration.followers)
         return followers;
       }
       return []
@@ -827,8 +827,8 @@ export default {
         this.quoteTipStr = this.$t('curation.inputMoreWords')
         return;
       }
-      
-      
+
+
       try{
         const twitterId = this.getAccountInfo?.twitterId;
         const userInfo = {
@@ -892,6 +892,8 @@ export default {
           this.$store.commit('saveGetCardVisible', true)
         }
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 4
+        // 更新
+        this.$bus.emit('updateCuration', {curation: this.detailCuration})
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
