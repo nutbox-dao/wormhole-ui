@@ -93,7 +93,7 @@
                             :curation="curation"
                             :content-type="curation.curationType === 1?'tweet':'space'"
                             @getCard="getCardVisible=true"
-                            @click="gotoDetail(curation)"/>
+                            @click="gotoDetail(curation, index)"/>
             </div>
           </div>
         </van-list>
@@ -137,7 +137,7 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations, getCurationsByTrend, getPopularTopics, 
+import { getCurations, getCurationsByTrend, getPopularTopics,
   getNewCurationsByTag, getTrendingCurationsByTag, getTrendingCurationsNew } from '@/api/api'
 import { showError } from '@/utils/notify'
 
@@ -157,7 +157,9 @@ export default {
       showMoreTag: false,
       rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
       rankValue: 0,
-      customizeTagList: []
+      customizeTagList: [],
+      selectedCuration: null,
+      selectedCurationIndex: 0,
     }
   },
   computed: {
@@ -198,6 +200,12 @@ export default {
     }
   },
   activated() {
+    // 修改数据
+    if(this.selectedCuration) {
+      console.log('============', this.selectedCuration)
+      this.selectedCuration.liked = 9999
+      this.curationsList[this.selectedCurationIndex] = this.selectedCuration
+    }
     if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
     if (this.curationsList.length > 0) return;
     this.onRefresh()
@@ -331,7 +339,9 @@ export default {
         this.refreshing = false
       }
     },
-    gotoDetail(curation) {
+    gotoDetail(curation, index) {
+      this.selectedCuration = curation
+      this.selectedCurationIndex = index
       this.$store.commit('curation/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
     },
