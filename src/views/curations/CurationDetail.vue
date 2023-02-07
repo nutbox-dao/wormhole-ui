@@ -804,6 +804,7 @@ export default {
           this.$store.commit('saveGetCardVisible', true)
         }
         this.detailCuration.taskRecord = this.detailCuration.taskRecord | 16
+        this.$bus.emit('updateCuration', {curation: this.detailCuration})
         this.showTweetEditor = false
       } catch (e) {
         if (e === 'log out') {
@@ -860,6 +861,7 @@ export default {
           this.detailCuration.taskRecord = this.detailCuration.taskRecord | 2
           this.showTweetEditor = false
         }
+        this.$bus.emit('updateCuration', {curation: this.detailCuration})
       } catch (e) {
         if (e === 303) {
           this.showQuoteContentTip = true;
@@ -922,6 +924,7 @@ export default {
           this.$store.commit('saveGetCardVisible', true)
         }
         this.detailCuration.taskRecord = this.detailCuration?.taskRecord | 8
+        this.$bus.emit('updateCuration', {curation: this.detailCuration})
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
