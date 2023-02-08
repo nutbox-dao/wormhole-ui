@@ -33,11 +33,11 @@
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.2rem icon-wallet"></i>
               </router-link>
             </template>
-            <router-link to="/red-envelope" class="mb-2px">
+            <!-- <router-link to="/red-envelope" class="mb-2px">
               <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
                 <div class="ny-btn"></div>
               </div>
-            </router-link>
+            </router-link> -->
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
@@ -177,12 +177,11 @@ import { getProfile, getCommon, getPrice } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { getTweetById } from '@/utils/twitter'
 import {showError} from "@/utils/notify";
-import GetCardModal from "@/views/red-envelope/GetCardModal";
 import lottie from 'lottie-web'
 import NavbarPage from '@/assets/animation/navbar.json'
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login, GetCardModal},
+  components: {NFTAnimation, ElConfigProvider, Login},
   data: () => {
     return {
       pubKey: '',

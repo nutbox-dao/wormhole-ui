@@ -29,7 +29,6 @@ import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
-import RedEnvelopeIndex from "@/views/red-envelope/RedEnvelopeIndex";
 import CurationsRecommend from "@/views/curations/CurationsRecommend";
 import UserGuide from '@/views/UserGuide';
 
@@ -149,11 +148,6 @@ const routes = [
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
-  },
-  {
-    path: '/red-envelope',
-    name: 'red-envelope',
-    component: RedEnvelopeIndex,
   },
 ]
 

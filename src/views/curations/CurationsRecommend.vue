@@ -66,10 +66,10 @@
       </div>
     </div>
     <div class="fixed bottom-2rem right-1.2rem sm:right-2.5rem z-9999 flex flex-col justify-center items-center">
-      <router-link to="/red-envelope" class="mb-1rem">
+      <!-- <router-link to="/red-envelope" class="mb-1rem">
         <img class="w-120px min-w-70px 2xl:w-6rem 2xl:min-w-6rem"
              src="~@/assets/red-envelope/gate.gif" alt="">
-      </router-link>
+      </router-link> -->
       <button
           class="flex items-center justify-center bg-color62 sm:hidden
                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
