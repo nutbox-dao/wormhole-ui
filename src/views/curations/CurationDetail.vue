@@ -502,11 +502,6 @@ export default {
     CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
     CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags,EmojiPicker
   },
-  metaInfo: {
-    title: 'Wormhole3 curation',
-    // override the parent template and just use the above title only
-    titleTemplate: this.detailCuration.content,
-  },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',

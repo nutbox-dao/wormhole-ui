@@ -124,6 +124,14 @@ import { notify } from '@/utils/notify';
 export default {
   name: "Blog",
   components: {LinkPreview, Repost},
+  metaInfo: {
+    title: 'Wormhole3 curation',
+    // override the parent template and just use the above title only
+    titleTemplate: '',
+    'twtter:title': 'Wormhole3',
+    'twitter:image': (this.imgurls && this.imgurls.length > 0) ? this.imgurls[0] : 'https://cdn.wherein.mobi/wormhole3/logo/logo.png',
+    'twitter:description': this.post.content
+  },
   props: {
     post: {
       type: Object,
