@@ -383,6 +383,7 @@ export default {
     }
   },
   unmounted() {
+    console.log('destroy');
     this.nyAnimation.destroy()
     this.nyAnimation = null
   }
