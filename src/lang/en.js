@@ -420,8 +420,10 @@ export default {
   },
   guide: {
     registrationGuide: 'Registration Guide',
-    userGuide: 'User guide',
-    curatorialGuide: 'Project Party Curatorial Guide'
+    attendGuide: '参与策展指南',
+    curationTweetGuide: '为tweet创建策展',
+    curationSpaceGuide: '为space创建策展',
+    otherGuide: '其他玩法'
   },
   err: {
     serverErr: 'Server error',

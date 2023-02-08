@@ -14,32 +14,65 @@
                            border-b-2 md:border-b-4 whitespace-nowrap"
                     :class="tabIndex===1?'text-color62 border-color62':'text-color7D border-transparent'"
                     @click="tabIndex=1">
-              {{$t('guide.userGuide')}}
+              {{$t('guide.attendGuide')}}
             </button>
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
                            border-b-2 md:border-b-4 whitespace-nowrap"
                     :class="tabIndex===2?'text-color62 border-color62':'text-color7D border-transparent'"
                     @click="tabIndex=2">
-              {{$t('guide.curatorialGuide')}}
+              {{$t('guide.curationTweetGuide')}}
+            </button>
+            <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
+                           border-b-2 md:border-b-4 whitespace-nowrap"
+                    :class="tabIndex===3?'text-color62 border-color62':'text-color7D border-transparent'"
+                    @click="tabIndex=3">
+              {{$t('guide.curationSpaceGuide')}}
+            </button>
+            <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
+                           border-b-2 md:border-b-4 whitespace-nowrap"
+                    :class="tabIndex===4?'text-color62 border-color62':'text-color7D border-transparent'"
+                    @click="tabIndex=4">
+              {{$t('guide.otherGuide')}}
             </button>
           </div>
         </div>
       </div>
       <div class="sm:pt-25px container mx-auto sm:max-w-600px lg:max-w-35rem
                    ">
-        <img v-show="tabIndex===0" src="~@/assets/guide1.jpeg" alt="">
-        <img v-show="tabIndex===1" src="~@/assets/guide2.jpeg" alt="">
-        <img v-show="tabIndex===2" src="~@/assets/guide3.jpeg" alt="">
+        <keep-alive>
+          <component :is="tabContent"></component>
+        </keep-alive>
       </div>
     </div>
 </template>
 
 <script>
+import GuideRegister from "@/views/guide/GuideRegister";
+import GuideAttend from "@/views/guide/GuideAttend";
+import GuideCurationTweet from "@/views/guide/GuideCurationTweet";
+import GuideCurationSpace from "@/views/guide/GuideCurationSpace";
+import GuideOther from "@/views/guide/GuideOther";
+import {markRaw} from "vue";
 export default {
+  components: {GuideRegister, GuideAttend, GuideCurationTweet, GuideCurationSpace, GuideOther},
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      tabContent: markRaw(GuideRegister)
     }
+  },
+  watch: {
+    tabIndex(val){
+      if(val===0) this.tabContent = markRaw(GuideRegister)
+      if(val===1) this.tabContent = markRaw(GuideAttend)
+      if(val===2) this.tabContent = markRaw(GuideCurationTweet)
+      if(val===3) this.tabContent = markRaw(GuideCurationSpace)
+      if(val===4) this.tabContent = markRaw(GuideOther)
+    }
+  },
+  mounted() {
+  },
+  methods: {
   }
 }
 </script>
