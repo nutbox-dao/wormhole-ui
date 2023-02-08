@@ -21,7 +21,7 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-0.5rem">
-            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark">
+            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark" :class="contentClass">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <el-dialog custom-class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
+    <el-dialog class="c-img-dialog" v-model="imgViewDialog" :fullscreen="true" title="&nbsp;">
       <el-carousel height="70vh" indicator-position="none" :autoplay="false" :initial-index="imgIndex">
         <el-carousel-item v-for="item in imgurls" :key="item">
           <img class="absolute transform top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 max-h-70vh"
@@ -53,7 +53,6 @@
 <script>
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS } from '@/config'
 import { ImagePreview } from 'vant';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
@@ -64,6 +63,10 @@ export default {
       type: String,
       default: {}
     },
+    contentClass: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {

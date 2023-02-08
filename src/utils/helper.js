@@ -1,4 +1,6 @@
 import { Base64 } from 'js-base64'
+import { errCode } from '@/config'
+import axios from 'axios';
 
 const b64uLookup = {
     "/": "_",
@@ -74,11 +76,15 @@ export const formatAmount = function (value) {
   if (!value) return "0.00";
   let unit = ''
   let digit = 3
-  if(Number(value) < 1) {
+  const nm = Number(value)
+  if(nm < 1) {
     digit = 4
   }
-  if (Number(value) > 1000) {
+  if (nm > 1000) {
     digit = 2
+  }
+  if (Number.isInteger(nm)) {
+    digit = 0
   }
   value = Number(value)
   if (value < 1e6) {
@@ -89,7 +95,7 @@ export const formatAmount = function (value) {
     value = value / 1e9
     unit = 'B'
   }
-  const str = Number(value).toFixed(digit).toString();
+  const str = value.toFixed(digit).toString();
   let integer = str;
   let fraction = "";
   if (str.includes(".")) {
@@ -205,3 +211,109 @@ export function parseTimestamp(time) {
     }
   }
 }
+
+/**
+ * 
+ * @param {*} time timeinterval(second)
+ */
+export function parseTimestampToUppercase(time) {
+  if (!time) return ''
+  let timestamp = new Date().getTime() / 1000
+  if (time - timestamp > 0) {
+    let sec = time - timestamp;
+    let days = Math.floor(sec / (24 * 3600))
+    let leave1 = sec % (24 * 3600)
+    let hours = Math.floor(leave1 / (3600))
+    let leave2 = leave1 % 3600
+    let minutes = Math.floor(leave2 / 60)
+    let leave3 = leave2%60
+    let seconds = Math.round(leave3)
+    if (days > 0) {
+      return `${days} DAY ${hours} HOURS ${minutes} MIN`
+    }else {
+      if (hours > 0) {
+        return `${hours} HOURS ${minutes} MIN ${seconds} S`
+      }else {
+        return `${minutes} MIN ${seconds} S`
+      }
+    }
+  }else {
+    let monthMap = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+    let d1 = new Date(time * 1000)
+    return `${d1.getUTCHours() >= 12 ? (d1.getUTCHours() - 12) + 'PM' : (d1.getUTCHours()) + 'AM'},${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()},${d1.getUTCFullYear()}(UTC)`
+  }
+}
+
+export function parseSpaceStartTime(time) {
+  let monthMap = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ]
+  let d1 = new Date(time)
+  return `${d1.getUTCHours() >= 12 ? prefixInteger(d1.getUTCHours() - 12, 2) + ":" + prefixInteger(d1.getMinutes(), 2) + 'PM' : prefixInteger(d1.getUTCHours(), 2) + ':' + prefixInteger(d1.getMinutes(), 2) + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
+}
+
+export function stringLength(str) {
+  if (!str || str.length === 0) return 0;
+  let len = 0;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      len++;
+    }else {
+      len += 2;
+    }
+  }
+  return len;
+}
+
+export function prefixInteger(num, length) {
+  var i = (num + "").length;
+  while(i++ < length) num = "0" + num;
+  return num;
+}
+
+export function sortCurations(curations) {
+  if (curations && curations.length > 0){
+    const now = (new Date().getTime() / 1000).toFixed(0)
+    const pending = curations.filter(c => c.endtime > now)
+    const ended = curations.filter(c => c.endtime <= now)
+    return pending.reverse().concat(ended)
+  }
+  return []
+}
+
+const QN_UPLOAD_URL = "https://api-walnut.nutbox.app/qiNiu/upload";
+/**
+ * upload pic url
+ * @param {*} img
+ * @returns
+ */
+export const uploadImage = async (img) => {
+  return new Promise((resolve, reject) => {
+    let param = new FormData();
+    param.append("file", img);
+    if (img.size > 2048000) {
+      reject(errCode.LARGE_IMG)
+      return;
+    }
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios
+      .post(QN_UPLOAD_URL, param, config)
+      .then((res) => {
+        resolve(res?.data?.url);
+      })
+      .catch((err) => {
+        if (err.toJSON().message.indexOf('Request failed with status code 429') !== -1) {
+          reject(errCode.OUT_OF_USAGE)
+          return;
+        }
+        reject(errCode.UPLOAD_FAIL);
+      });
+  });
+};

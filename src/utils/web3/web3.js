@@ -6,67 +6,59 @@ import {
   RPC_NODE,
   CHAIN_NAME,
   MainToken,
-  BLOCK_CHAIN_BROWER
+  BLOCK_CHAIN_BROWER,
+  EVM_CHAINS
 } from '@/config'
 import store from '@/store'
+import { ethers } from 'ethers'
 
 /**
  * Add bsc to metamask
  * @returns 
  */
-export const setupNetwork = async () => {
+export const setupNetwork = async (chainName) => {
   await connectMetamask();
+  const { id, rpc, scan, main } = EVM_CHAINS[chainName]
   const eth = await getEthWeb()
-  const chainId = parseInt(CHAIN_ID)
   try {
     const res = await eth.request({
       method: 'wallet_switchEthereumChain',
       params: [{
-        chainId: `0x${chainId.toString(16)}`
+        chainId: `0x${id.toString(16)}`
       }],
     })
-    store.commit('web3/saveChainId', parseInt(chainId))
+    store.commit('web3/saveChainId', parseInt(id))
     return true
   } catch (error) {
     if (error.code === 4001) return;
+    if (error.code === -32002) return;
     try{
-      await eth.request({
+      const n = await eth.request({
         method: 'wallet_addEthereumChain',
         params: [{
-          chainId: `0x${chainId.toString(16)}`,
-          chainName: CHAIN_NAME,
-          rpcUrls:[RPC_NODE],
-          nativeCurrency: MainToken,
-          blockExplorerUrls: [BLOCK_CHAIN_BROWER]
+          chainId: `0x${id.toString(16)}`,
+          chainName,
+          rpcUrls:[rpc],
+          nativeCurrency: main,
+          blockExplorerUrls: [scan]
         }],
       })
-      store.commit('web3/saveChainId', parseInt(chainId))
+      store.commit('web3/saveChainId', parseInt(id))
       return true
     }catch(error){
-      console.log(43256, error);
+      console.log('connect wallet fail', error);
       store.commit('web3/saveAccount', null)
       return false
     }
   }
 }
 
-export const checkNetwork = async () => {
-  const eth = await getEthWeb()
-  const chainId = parseInt(CHAIN_ID)
-  if (!eth) {
-    store.commit('web3/saveAccount', null)
-    store.commit('saveMetamaskConnected', false)
-  }
-  while(!eth.networkVersion) {
-    await sleep(0.3)
-  }
-  if (parseInt(eth.networkVersion) == chainId) {
-    store.commit('web3/saveChainId', chainId)
-    store.commit('saveMetamaskConnected', true)
-  }else {
-    store.commit('web3/saveChainId', parseInt(eth.networkVersion))
-    store.commit('web3/saveAccount', null)
-    store.commit('saveMetamaskConnected', false)
+export const signMessage = async (message, address) => {
+  const metamask = await getEthWeb()
+  const provider = new ethers.providers.Web3Provider(metamask)
+  const signer = provider.getSigner();
+  if (await signer.getAddress() === address) {
+    return await signer.signMessage(message)
   }
 }
 
@@ -78,15 +70,20 @@ export const getEthWeb = async () => {
     if (!window.ethereum.isMetaMask) {
       console.log('Not metamask wallet');
     }
+    if (window.ethereum.overrideIsMetaMask) {
+      return window.ethereum.selectedProvider ?? window.ethereum.providers.find(p => p.isMetaMask)
+    }
     return window.ethereum
   }
   var metamask = window.ethereum
   for (let i = 0; i < 10; i++) {
-    if (typeof metamask !== 'undefined') {
-      return metamask
+    if (typeof window.ethereum !== 'undefined') {
+      if (window.ethereum.overrideIsMetaMask) {
+        return window.ethereum.selectedProvider ?? window.ethereum.providers.find(p => p.isMetaMask)
+      }
+      return window.ethereum
     }
     await sleep(0.5)
-    metamask = window.ethereum
   }
   
   return metamask
@@ -97,9 +94,10 @@ export const getEthWeb = async () => {
  */
 export const connectMetamask = async () => {
   const metamask = await getEthWeb()
-  await metamask.request({
+  const accounts = await metamask.request({
     method: 'eth_requestAccounts'
   });
+  return accounts
 }
 
 /**

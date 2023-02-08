@@ -136,24 +136,10 @@ export default {
     }
   },
   mounted() {
-    getTagAggregation().then(tags => {
-      if (this.getAccountInfo && this.getAccountInfo.twitterId) {
-        getUserFavTag(this.getAccountInfo.twitterId).then(favTags => {
-          let newTags = {}
-          for (let t of favTags) {
-            newTags[t.tag] = tags[t.tag] ? tags[t.tag].c : t.c;
-          }
-          this.$store.commit('postsModule/saveTagsAggregation', {...newTags, ...tags})
-          this.onRefresh();
-        }).catch(e => {
-          console.log(3, e);
-        })
-      }else {
-        this.$store.commit('postsModule/saveTagsAggregation', tags)
-        this.onRefresh()
-      }
-    })
-
+    const referee = this.$route.params.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
   },
   activated() {
     document.getElementById('square-index').scrollTo({top: this.scroll})

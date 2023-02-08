@@ -56,6 +56,7 @@ export const generateBrainKey = (key) => {
               resolve()
           }else{
               console.log('tx fail status:', trx.status);
+              console.log('tx fail status:', trx);
               reject(errCode.TRANSACTION_FAIL)
           }
       }catch(err) {
@@ -69,7 +70,7 @@ export const randomWallet = async () => {
   return new Promise(async (resolve) => {
     try {
       const wallet = ethers.Wallet.createRandom();
-      const nemonic = wallet.mnemonic;
+      const nemonic = wallet.mnemonic.phrase;
       const privateKey = wallet.privateKey;
       const address = await wallet.getAddress();
       resolve({nemonic, privateKey, address})

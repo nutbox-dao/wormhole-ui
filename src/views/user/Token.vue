@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-2rem">
+  <div class="pb-2rem pt-1rem px-1.5rem">
     <!-- <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
          v-if="erc20Balances && erc20Balances.ETH" v-for="erc20 of Object.keys(erc20Balances.ETH)" :key="erc20 + 'eth'">
       <div class="flex items-center">
@@ -29,48 +29,118 @@
         <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.BNB[erc20] * prices[erc20.toLowerCase()])}}</div>
       </div>
     </div> -->
-
-    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder"
-         v-if="erc20Balances && erc20Balances.MATIC" v-for="erc20 of Object.keys(erc20Balances.MATIC)" :key="erc20 + 'matic'">
-      <div class="flex items-center">
-        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
-             :src="icons[erc20]" alt="">
-        <div class="text-left ml-1rem">
-          <div class="c-text-black text-1.3rem md:text-1rem light:text-blueDark">{{names[erc20]}}</div>
-          <div class="text-color8B light:text-color7D text-0.75rem font-bold mt-0.5rem">{{ formatAmount(erc20Balances.MATIC[erc20]) }} {{erc20}}</div>
-        </div>
-      </div>
-      <div class="flex flex-col items-end justify-end">
-        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.MATIC[erc20] * prices[erc20.toLowerCase()])}}</div>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center py-1rem px-1.5rem border-b-1 border-listBgBorder">
-      <div class="flex items-center">
-        <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-2px gradient-border"
-            src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
-        <div class="text-left ml-1rem">
+    <el-collapse :model-value="Object.keys(erc20Balances).concat('steem')" class="no-border-collapse border-0">
+      <el-collapse-item :name="chain" v-for="(chain, idx) of Object.keys(erc20Balances)" :key="idx">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">{{ chain }}</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances[chain])" :key="erc20 + idx">
           <div class="flex items-center">
-            <div class="c-text-black text-1.3rem md:text-1rem light:text-blueDark">Steem</div>
-            <el-tooltip popper-class="shadow-popper-tip">
-              <template #content>
-                <div class="max-w-14rem text-white light:text-blueDark">
-                  {{$t('common.whatsSteem')}}
-                </div>
-              </template>
-              <button>
-                <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
-              </button>
-            </el-tooltip>
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances[chain][erc20]) }} {{erc20}}</div>
+            </div>
           </div>
-          <div class="text-color8B light:text-color7D text-0.75rem font-bold mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances[chain][erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col items-end justify-end">
-        <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">{{ steemValue }}</div>
-        <button class="gradient-btn c-text-bold px-10px mt-8px rounded-full" @click="sendSteem">{{$t('common.send')}}</button>
-      </div>
-    </div>
+      </el-collapse-item>
+
+
+      <!-- <el-collapse-item name="polygon" v-if="(erc20Balances && erc20Balances.Polygon)">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Polygon</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances.Polygon)" :key="erc20 + 'matic'">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances.Polygon[erc20]) }} {{erc20}}</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances.Polygon[erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="bsc" v-if="(erc20Balances && erc20Balances['BNB Smart Chain'])">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">BNB Smart Chain</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances['BNB Smart Chain'])" :key="erc20 + 'bsc'">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['BNB Smart Chain'][erc20]) }} {{erc20}}</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['BNB Smart Chain'][erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="moonbeam" v-if="(erc20Balances && erc20Balances['Moonbeam'])">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Moonbeam</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item"
+             v-for="erc20 of Object.keys(erc20Balances['Moonbeam'])" :key="erc20 + 'moonbeam'">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 :src="icons[erc20]" alt="">
+            <div class="text-left ml-1rem">
+              <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">{{names[erc20]}}</div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(erc20Balances['Moonbeam'][erc20]) }} {{erc20}}</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">${{formatAmount(erc20Balances['Moonbeam'][erc20] * prices[erc20.toLowerCase()])}}</div>
+          </div>
+        </div>
+      </el-collapse-item> -->
+      <el-collapse-item title="Steem" name="steem">
+        <template #title>
+          <div class="text-white light:text-blueDark c-text-black">Steem</div>
+        </template>
+        <div class="flex justify-between items-center py-1rem border-b-1 border-listBgBorder c-list-item">
+          <div class="flex items-center">
+            <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full border-1px gradient-border"
+                 src="https://cdn.wherein.mobi/nutbox/token/logo/steem.png" alt="">
+            <div class="text-left ml-1rem">
+              <div class="flex items-center">
+                <div class="font-600 text-1.3rem md:text-1rem text-white light:text-blueDark">Steem</div>
+                <el-tooltip popper-class="shadow-popper-tip">
+                  <template #content>
+                    <div class="max-w-14rem text-white light:text-blueDark">
+                      {{$t('common.whatsSteem')}}
+                    </div>
+                  </template>
+                  <button>
+                    <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
+                  </button>
+                </el-tooltip>
+              </div>
+              <div class="text-color8B light:text-color7D text-0.75rem mt-0.5rem">{{ formatAmount(steemBalance) }} STEEM</div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-end">
+            <div class="text-1.5rem md:text-1rem text-primaryColor light:text-blueDark c-text-black">{{ steemValue }}</div>
+            <button class="c-text-bold mt-8px rounded-full text-color62" @click="sendSteem">{{$t('common.send')}}</button>
+          </div>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+
   </div>
 </template>
 
@@ -114,10 +184,10 @@ export default {
       return formatAmount(a)
     },
     sendSteem() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send  STEEM to', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send 1 STEEM to @', '__blank')
     },
     sendToken(token, chain) {
-      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send  ${token}${token === chain ? '' : ('('+chain +')')} to`, '__blank')
+      window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send ${token}${token === chain ? '' : ('('+chain +')')} to `, '__blank')
     },
     copy(address) {
       if (ethers.utils.isAddress(address)) {
@@ -135,7 +205,7 @@ export default {
   },
   async mounted () {
       if (this.getAccountInfo) {
-        const { steemId, ethAddress, web25ETH, steemAmount, isRegistry, twitterId } = this.getAccountInfo
+        const { steemId, ethAddress, steemAmount, isRegistry, twitterId } = this.getAccountInfo
 
         if (!isRegistry) {
           getUserTokensFromCuration(twitterId).then(res => {
@@ -178,5 +248,7 @@ export default {
 </script>
 
 <style scoped>
-
+.c-list-item:last-child {
+  border: none;
+}
 </style>

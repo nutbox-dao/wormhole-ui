@@ -3,24 +3,30 @@
     <template v-if="this.reputation > 0">
       <img src="~@/assets/nft.png" alt="">
       <div class="absolute w-4/5 h-25/40 top-21/100 left-0">
-        <div class="flex items-center justify-center mt-2rem md:mt-1.5rem nft-text">
+        <div class="flex items-center justify-center mt-0.5rem nft-text transform"
+             :class="textScale">
           <img class="w-20px md:w-1.2rem" src="~@/assets/icon-twitter-nft.svg" alt="">
           <span class="c-text-bold text-16px md:text-0.9rem">@{{username}}</span>
         </div>
       </div>
       <div class="absolute w-4/5 h-25/40 top-21/100 left-0 flex items-center justify-center">
-        <div class="number c-text-black text-4rem xl:text-78px" :data-text="prefixInteger(reputation, 6)">{{prefixInteger(reputation, 6)}}</div>
+        <div class="number c-text-black text-4rem xl:text-78px transform whitespace-nowrap"
+             :class="textScale"
+             :data-text="prefixInteger(reputation, 6)">{{prefixInteger(reputation, 6)}}</div>
       </div>
     </template>
     <template v-if="this.liquidation >= 0">
       <img src="~@/assets/liquidation.png" alt="">
       <div class="absolute w-5/5 h-25/40 top-65/100 left-0">
-        <div class="flex items-center justify-center mt-2rem md:mt-1.5rem nft-text">
+        <div class="flex items-center justify-center mt-2rem md:mt-1.5rem nft-text transform"
+             :class="textScale">
           <span class="c-text-bold text-26px md:text-1.5rem">@{{username}}</span>
         </div>
       </div>
       <div class="absolute w-5/5 h-25/40 top-56/100 left-0 flex items-center justify-center">
-        <div class="number c-text-black text-3rem xl:text-58px" :data-text="formatAmount(liquidation)">${{formatAmount(liquidation)}}</div>
+        <div class="number c-text-black text-3rem xl:text-58px transform scale-25 whitespace-nowrap"
+             :class="textScale"
+             :data-text="formatAmount(liquidation)">${{formatAmount(liquidation)}}</div>
       </div>
     </template>
   </div>
@@ -42,6 +48,10 @@ export default {
     liquidation: {
       type: Number,
       default: -1
+    },
+    textScale: {
+      type: String,
+      default: 'scale-100'
     }
   },
   data() {

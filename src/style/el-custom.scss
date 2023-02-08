@@ -18,10 +18,8 @@ html.light {
   width: 90%;
   max-height: 90%;
   overflow: hidden;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.43) 0%, rgba(174, 174, 174, 0.27) 0.01%, rgba(34, 34, 34, 0.27) 100%);
-  border: 1px solid rgba(132, 131, 145, 0.3);
-  backdrop-filter: blur(20px);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   &-no-bg {
@@ -118,6 +116,12 @@ html.light {
   }
 }
 
+.el-dialog.c-dialog-pop-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .c-notification.el-notification{
   background-color: var(--primary-bg);
   border: 1px solid rgba(132, 131, 145, 0.3);
@@ -141,7 +145,7 @@ html.light {
 }
 .c-checkbox.el-checkbox {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 .c-img-dialog.el-dialog {
   background-color: transparent;
@@ -159,15 +163,14 @@ html.light {
   background-color: #333333;
 }
 .light .c-progress .el-progress-bar__outer {
-  background-color: #6246EA;
+  background: linear-gradient(93.5deg, #7B01DF 0%, #4900E3 122.7%);
 }
 .c-progress .el-progress-bar__inner {
   background-color: var(--gradient-primary-color1);
   background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
 }
 .light .c-progress .el-progress-bar__inner {
-  background-color: #6246EA;
-  background-image: linear-gradient(93.5deg, #7B01DF 0%, #4900E3 122.7%);
+  background: white;
 }
 .c-progress .el-progress-bar__innerText {
   color: #1B1B1B;
@@ -207,4 +210,109 @@ html.light {
 }
 .el-alert {
   border-radius: 0;
+}
+.no-border-collapse .el-collapse-item__header,
+.no-border-collapse .el-collapse-item__wrap {
+  border: none;
+}
+.no-border-collapse .el-collapse-item__arrow {
+  color: white;
+}
+.light .no-border-collapse .el-collapse-item__arrow {
+  color: #1A1E25;
+}
+.el-collapse-item__content {
+  padding-bottom: 0;
+}
+
+.el-collapse-item__header {
+  height: fit-content;
+  align-items: flex-start;
+  min-height: 48px;
+}
+.el-collapse-item__arrow {
+  min-height: 48px;
+}
+.speaker-collapse .el-collapse-item__header .header-avatar {
+  height: 6.5rem;
+  overflow: hidden;
+  transition: height 300ms;
+}
+.speaker-collapse .el-collapse-item__header.is-active .header-avatar {
+  height: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  transition: height 300ms;
+}
+.el-select .el-input .el-input__wrapper {
+  box-shadow: none!important;
+  background: none;
+}
+.el-select .el-input.is-focus .el-input__wrapper {
+  box-shadow: none!important;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #F1F1FE;
+}
+.el-select .el-input .el-select__caret {
+  color: #8B949EB2;
+}
+.el-select .el-input .el-select__caret.is-reverse {
+  color: #6246EA;
+}
+.el-select .el-input__prefix-inner>:last-child {
+  margin-right: 0;
+}
+.collapse-no-arrow .el-collapse-item__arrow{
+  display: none;
+}
+.c-select-popper {
+  //transform: translateX(0) !important;
+}
+.c-small-select.el-select .el-icon {
+  color: #8B949E;
+}
+.light .c-small-select.el-select .el-icon {
+  color: #1A1E25;
+}
+.light .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background: #F2EEFF;
+}
+.c-small-select.el-select .el-input__inner {
+  font-size: 14px;
+  font-weight: 500;
+}
+.el-progress__text {
+  min-width: 0;
+}
+.c-textarea .el-textarea__inner {
+  border: none;
+  box-shadow: none;
+}
+.task-progress .el-progress-circle__track{
+  stroke: #7D7F88;
+}
+.el-select-dropdown__item.selected {
+  background-color: transparent;
+}
+.dark .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #000000;
+}
+.c-number-input .el-input-number__increase, .c-number-input .el-input-number__decrease{
+  background: transparent;
+  border: none;
+  font-size: 20px;
+}
+.c-number-input .el-input__wrapper {
+  box-shadow: none;
+}
+.c-number-input .el-input__inner {
+  min-width: 30px;
+  border-radius: 4px;
+  background: #F2F3F5;
+  color: #4E5969;
+  font-weight: bold;
+}
+.light .c-number-input .el-input__inner {
+  border-color: #F4F3FD;
 }

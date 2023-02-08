@@ -23,33 +23,34 @@
     </div>
     <!--  Verify modal -->
     <el-dialog :destroy-on-close="true" v-model="showPrivateKey"
-               custom-class="c-dialog c-dialog-lg c-dialog-center">
-      <Verify :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></Verify>
+               class="c-dialog c-dialog-lg c-dialog-center">
+      <CreateAccount :ethAccount="accountInfo" :referee="referee" @send="sendTwitter($event)"></CreateAccount>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Verify from "@/views/Verify";
+import CreateAccount from "@/views/CreateAccount";
 import { TWITTER_MONITOR_RULE } from '@/config'
 import { randomEthAccount } from '@/utils/ethers'
 import { notify } from "@/utils/notify";
+import { mapState } from "vuex"
 
 export default {
   name: 'HomeView',
   components: {
-    Verify
+    CreateAccount
   },
   data: () => {
     return {
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
-      accountInfo: {},
-      referee: ''
+      accountInfo: {}
     }
   },
   computed: {
+    ...mapState(['referee'])
   },
   methods: {
     showNotify(message, duration, type) {
@@ -72,15 +73,9 @@ export default {
     },
   },
   async mounted() {
-    this.$store.commit('saveAccountInfo', {})
-    this.$store.commit('savePosts', [])
-    this.$store.commit('saveTransactions', [])
-    this.$store.commit('saveTips', [])
-    this.$store.commit('saveERC20Balances', {})
-    this.$store.commit('saveStellarTreks', {})
     const referee = this.$route.params
     if (referee.referee && referee.referee.length > 0) {
-      this.referee = referee.referee
+      this.$store.commit('saveReferee', referee.referee)
     }
   },
 }

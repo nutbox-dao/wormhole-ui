@@ -1,5 +1,5 @@
 import { ElNotification } from 'element-plus'
-import $t from 'vue-i18n'
+import i18n from "@/lang";
 import { errCode } from '@/config'
 
 export const notify = (options) => {
@@ -14,9 +14,9 @@ export const notify = (options) => {
 export const showError = (code) => {
   let message ='';
   if (code === 500 || code === 501) {
-    message = $t('err.serverErr')
+    message = i18n.global.t('err.serverErr')
   }else if (code === errCode.TRANSACTION_FAIL) {
-    message = $t('err.transErr')
+    message = i18n.global.t('err.transErr')
   }
   return ElNotification({
     title: 'Wormhole3',

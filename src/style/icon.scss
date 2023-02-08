@@ -85,18 +85,244 @@
 
 .icon-theme-light {
   @extend .icon;
-  background-image: url("~@/assets/icon-theme-light-primary.svg");
+  background-image: url("~@/assets/menu-light.svg");
 }
-.light .icon-theme-light {
-  @extend .icon;
-  background-image: url("~@/assets/icon-theme-light-white.svg");
-}
-
 .icon-theme-dark {
   @extend .icon;
-  background-image: url("~@/assets/icon-theme-dark-white.svg");
+  background-image: url("~@/assets/menu-dark.svg");
 }
-.light .icon-theme-dark {
+
+.icon-close {
   @extend .icon;
-  background-image: url("~@/assets/icon-theme-dark-primary.svg");
+  background-image: url("~@/assets/icon-close.svg");
+}
+.light .icon-close {
+  @extend .icon;
+  background-image: url("~@/assets/icon-close-light.svg");
+}
+
+.icon-wallet {
+  @extend .icon;
+  background-image: url("~@/assets/icon-wallet.svg");
+}
+.light .icon-wallet {
+  @extend .icon;
+  background-image: url("~@/assets/icon-wallet-light.svg");
+}
+
+.icon-checked {
+  @extend .icon;
+  background-image: url("~@/assets/icon-checked-green.svg");
+}
+.icon-retweet-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-circle.svg");
+}
+
+.icon-quote-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-circle.svg");
+}
+
+.icon-reply-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-circle.svg");
+}
+
+.icon-like-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-like-circle.svg");
+}
+
+.icon-follow-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-follow-circle.svg");
+}
+
+.icon-back {
+  @extend .icon;
+  background-image: url("~@/assets/icon-back.svg");
+}
+.light .icon-back {
+  @extend .icon;
+  background-image: url("~@/assets/icon-back-light.svg");
+}
+
+.icon-add-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-circle.svg");
+}
+.light .icon-add-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-circle-light.svg");
+}
+
+.icon-add {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add-white.svg");
+}
+.light .icon-add {
+  @extend .icon;
+  background-image: url("~@/assets/icon-add.svg");
+}
+
+.icon-retweet-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-tag.svg");
+}
+.light .icon-retweet-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-tag-light.svg");
+}
+
+.icon-quote-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-tag.svg");
+}
+.light .icon-quote-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-tag-light.svg");
+}
+
+.icon-reply-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-tag.svg");
+}
+.light .icon-reply-tag {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-tag-light.svg");
+}
+
+.icon-faq {
+  @extend .icon;
+  background-image: url("~@/assets/menu-faq.svg");
+}
+.light .icon-faq {
+  @extend .icon;
+  background-image: url("~@/assets/menu-faq-light.svg");
+}
+
+.icon-userguide {
+  @extend .icon;
+  background-image: url("~@/assets/menu-guide.svg");
+}
+.light .icon-userguide {
+  @extend .icon;
+  background-image: url("~@/assets/menu-guide-light.svg");
+}
+
+.icon-referral {
+  @extend .icon;
+  background-image: url("~@/assets/menu-referral.svg");
+}
+.light .icon-referral {
+  @extend .icon;
+  background-image: url("~@/assets/menu-referral-light.svg");
+}
+
+.icon-logout {
+  @extend .icon;
+  background-image: url("~@/assets/menu-logout.svg");
+}
+.light .icon-logout {
+  @extend .icon;
+  background-image: url("~@/assets/menu-logout-light.svg");
+}
+
+.icon-exchange {
+  @extend .icon;
+  background-image: url("~@/assets/menu-exchange.svg");
+}
+.light .icon-exchange {
+  @extend .icon;
+  background-image: url("~@/assets/menu-exchange-light.svg");
+}
+
+
+.icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups-white.svg");
+}
+.light .icon-popups {
+  @extend .icon;
+  background-image: url("~@/assets/icon-popups.svg");
+}
+
+.icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-white.svg");
+}
+.light .icon-collapse {
+  @extend .icon;
+  background-image: url("~@/assets/icon-collapse-black.svg");
+}
+
+.icon-selected {
+  @extend .icon;
+  background-image: url("~@/assets/icon-selected-primary.svg");
+}
+
+.icon-unselected {
+  @extend .icon;
+  background-image: url("~@/assets/icon-unselected.svg");
+}
+
+.icon-radio-default {
+  @extend .icon;
+  background-image: url("~@/assets/icon-radio-default.svg");
+}
+
+.icon-radio-primary {
+  @extend .icon;
+  background-image: url("~@/assets/icon-radio-primary.svg");
+}
+
+.btn-icon-retweet {
+  @extend .icon;
+  background-image: url("~@/assets/btn-retweet.svg");
+}
+
+.btn-icon-retweet-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-retweet-active.svg");
+}
+
+.btn-icon-quote {
+  @extend .icon;
+  background-image: url("~@/assets/btn-quote.svg");
+}
+
+.btn-icon-quote-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-quote-active.svg");
+}
+
+.btn-icon-reply {
+  @extend .icon;
+  background-image: url("~@/assets/btn-reply.svg");
+}
+
+.btn-icon-reply-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-reply-active.svg");
+}
+
+.btn-icon-like {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like.svg");
+}
+
+.btn-icon-like-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like-active.svg");
+}
+
+.btn-icon-follow {
+  @extend .icon;
+  background-image: url("~@/assets/btn-follow.svg");
+}
+
+.btn-icon-follow-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-follow-active.svg");
 }

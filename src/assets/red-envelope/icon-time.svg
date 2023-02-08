@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组">
+            <rect id="矩形" fill="#5171FF" fill-rule="nonzero" x="0" y="0" width="45" height="45" rx="10"></rect>
+            <g transform="translate(12.000003, 11.020000)" id="路径" stroke="#F2EEFF" stroke-width="1.91">
+                <polygon stroke-linecap="square" points="0 6.69 21 6.69 21 1.92 0 1.92"></polygon>
+                <line x1="16.2305" y1="-1.77635684e-15" x2="16.2305" y2="3.82"></line>
+                <line x1="4.7695" y1="-1.77635684e-15" x2="4.7695" y2="3.82"></line>
+                <polygon stroke-linecap="square" points="21 11.46 21 6.69 0 6.69 0 21.96 21 21.96 21 15.27"></polygon>
+                <line x1="7.6396" y1="10.5" x2="9.5496" y2="10.5"></line>
+                <line x1="11.4502" y1="10.5" x2="13.3602" y2="10.5"></line>
+                <line x1="15.2695" y1="10.5" x2="17.1795" y2="10.5"></line>
+                <line x1="7.6396" y1="14.32" x2="9.5496" y2="14.32"></line>
+                <line x1="3.8203" y1="14.32" x2="5.7303" y2="14.32"></line>
+                <line x1="11.4502" y1="14.32" x2="13.3602" y2="14.32"></line>
+                <line x1="15.2695" y1="14.32" x2="17.1795" y2="14.32"></line>
+                <line x1="7.6396" y1="18.14" x2="9.5496" y2="18.14"></line>
+                <line x1="3.8203" y1="18.14" x2="5.7303" y2="18.14"></line>
+                <line x1="11.4502" y1="18.14" x2="13.3602" y2="18.14"></line>
+            </g>
+        </g>
+    </g>
+</svg>

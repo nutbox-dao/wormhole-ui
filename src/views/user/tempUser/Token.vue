@@ -59,7 +59,7 @@
                 </div>
               </template>
               <button>
-                <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-primary.svg" alt="">
+                <img class="w-1rem ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
               </button>
             </el-tooltip>
           </div>

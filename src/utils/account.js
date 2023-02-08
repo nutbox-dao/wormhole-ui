@@ -1,4 +1,5 @@
-import { getUserInfo as gui, getNftReceivedState, readNft } from '@/api/api'
+import { getUserInfo as gui, getNftReceivedState, getUsersTips as gut, logout as lo, twitterRefreshAccessToken,
+    getCurationRewardList as gcrl } from '@/api/api'
 import store from '@/store'
 import { sleep } from '@/utils/helper'
 
@@ -119,4 +120,88 @@ export const getUserInfo = async (username) => {
             reject(500)
         }
     })
+}
+
+export const getCurationRewardList = async (twitterId, chainId, createAt) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const records = await gcrl(twitterId, chainId, createAt);
+            resolve(records)
+        } catch (e) {
+            if (e === 401) {
+                await logout(twitterId)
+                throw 'log out'
+            }
+            reject(e)
+        }
+    })
+}
+
+export const logout = async (twitterId) => {
+    return new Promise(async (resolve, reject) => {
+        try{
+            lo(twitterId);
+
+            store.commit('saveAccountInfo', {})
+            store.commit('savePosts', [])
+            store.commit('saveTransactions', [])
+            store.commit('saveTips', [])
+            store.commit('saveERC20Balances', {})
+            store.commit('saveStellarTreks', {})
+            resolve()
+        } catch (e) {
+            console.log('Log out fail:', e);
+            resolve(false);
+        }
+    })
+}
+
+export const getUsersTips = async (params) => {
+    await checkAccessToken();
+    const tips = await gut(params)
+    return tips;
+}
+
+export const refreshToken = async () => {
+    const acc = store.getters.getAccountInfo;
+    if (acc && acc.twitterId) {
+        const token = await twitterRefreshAccessToken(acc.twitterId);
+        store.commit('saveAccountInfo', {...acc, ...token})
+    } else {
+        throw 'log out'
+    }
+  }
+
+export const isTokenExpired = async () => {
+    const acc = store.getters.getAccountInfo;
+    if (acc && acc.expiresAt) {
+        const timestamp = new Date().getTime();
+        if (acc.expiresAt - timestamp < 10000) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+    return false
+}
+
+export async function checkAccessToken() {
+    let acc = store.getters.getAccountInfo;
+    if (acc && acc.accessToken) {
+        const { expiresAt } = acc;
+        if (expiresAt - new Date().getTime() < 600000) {
+            // refresh token 
+            try {
+                await refreshToken();
+                acc = store.getters.getAccountInfo;
+            }catch(e) {
+                throw 'log out';
+            }
+        }
+        return acc.accessToken
+    }else {
+        // need auth again
+        await logout();
+        throw 'log out';
+    }
 }

@@ -7,65 +7,217 @@
 <!--        By depositing into this account, you are agreeing to our terms of service.-->
 <!--      </div>-->
 <!--    </div>-->
-    <div>
-      <template  v-if="reputation>0 || showingStellarTreks.length > 0">
-        <div class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-            @click="modalVisible=true">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              src="~@/assets/icon-nft.svg" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">Twitter Reputation NFT</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">From @wormhole3 official</div>
+    <div class="pt-1rem px-1.5rem pb-2rem">
+      <div class="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-20px">
+        <div class="col-span-1">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=0">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <div class="w-80/100 mx-auto">
+                <GetNft :username="username" :reputation="reputation" text-scale="scale-20"></GetNft>
+              </div>
+              <div class="text-12px scale-text leading-14px text-white">Reputation<br>{{prefixInteger(reputation, 6)}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="liquidation.image">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=1">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/20 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="~@/assets/nft-collection1.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">The Fastest <br> Way <br> To Da Moon</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="showingWC2022.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=2">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="~@/assets/nft-collection2.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">FIFA World Cup<br>Qatar 2022</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="showingChristmasNFT.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=3">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmVudQSy1hvGgigAvZtP1x7qj6Vg6j7WD8bJykG8pg6WKF" alt="">
+              <div class="text-12px scale-text leading-14px text-white">2022 Christmas Campaign</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-1" v-if="showingStellarTreks.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=4">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://gateway.nutbox.app/ipfs/QmcuJyKGuSfSh7SQgKhvympxUPQmix4mwKzymBJ68w21Su" alt="">
+              <div class="text-12px scale-text leading-14px text-white">Stellar Trek</div>
+            </div>
           </div>
         </div>
 
-        <div v-if="this.liquidation.liquidation" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-            @click="showLiquidation">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              src="~@/assets/icon-liquidation.png" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">Liquidation NFT</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">register wormhole3, Tweet (picture and text) to show your liquidation experience and add the hashtags #iweb3 #liquidation</div>
+        <div class="col-span-1" v-if="showingLuckyCards.length > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=5">
+            <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" src="https://cdn.wherein.mobi/wormhole3/newyear/card4.png" alt="">
+              <div class="text-12px scale-text leading-14px text-white">2023 New Year Lucky Cards</div>
+            </div>
           </div>
         </div>
+      </div>
+<!--      <div class="h-1px w-full bg-primaryBg light:bg-colorF2 my-2rem"></div>-->
+      <template  v-if="reputation>0 || showingStellarTreks.length > 0 || showingWC2022.length > 0
+          || showingChristmasNFT.length > 0 || showingLuckyCards.length > 0">
 
-        <div v-for="st of  showingStellarTreks" :key="st" class="flex items-center py-1rem px-1.5rem border-b-1 border-listBgBorder cursor-pointer"
-         @click="showTrek(st.image)">
-          <img class="w-43px h-43px 2xl:w-2rem 2xl:h-2rem rounded-full"
-              :src="st.image" alt="">
-          <div class="text-left ml-1rem">
-            <div class="c-text-black text-1.3rem md:text-1rem">{{st.name}}</div>
-            <div class="text-color8B text-0.8rem mt-0.5rem">{{st.description}}</div>
-          </div>
-        </div>
     </template>
-      <div class="mt-2rem" v-else>
+      <div class="my-2rem" v-else>
         <div class="text-center">{{$t('token.noNft')}}</div>
       </div>
     </div>
-    <el-dialog v-model="modalVisible" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
-      <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>
+    <el-dialog v-model="collectionVisible" fullscreen class=" c-dialog-fullscreen" :show-close="false">
+      <div class="py-4rem px-15px max-w-50rem mx-auto relative">
+        <button class="absolute top-1rem left-15px" @click="collectionVisible=false">
+          <i class="icon-back w-30px h-30px"></i>
+        </button>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===0">
+          <div class="col-span-1 text-left hover-scale">
+            <div class="relative min-w cursor-pointer" @click="modalVisible=true">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-90/100 mx-auto">
+                  <GetNft :username="username" :reputation="reputation" text-scale="scale-30"></GetNft>
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px mt-5px">Twitter Reputation NFT</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">From @wormhole3 official</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===1">
+          <div v-if="liquidation.image"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale">
+            <div class="relative min-w cursor-pointer " @click="showTrek(liquidation.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="liquidation.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{liquidation.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{liquidation.description}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===2">
+          <div v-if="showingWC2022.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingWC2022" :key="st">
+            <div class="relative min-w cursor-pointer" @click="showTrek(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===3">
+          <div v-if="showingChristmasNFT.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingChristmasNFT" :key="st">
+            <div class="relative min-w cursor-pointer" @click="showChristmas(st.image)">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===4">
+          <div v-if="showingStellarTreks.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingStellarTreks" :key="st">
+            <div class="relative min-w cursor-pointer">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===5">
+          <div v-if="showingLuckyCards.length===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale" v-for="st of showingLuckyCards" :key="st">
+            <div class="relative min-w cursor-pointer">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="st.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{st.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{st.description}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </el-dialog>
-    <el-dialog v-model="showTrekImage" custom-class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
-      <img :src="showingTrekImage" alt="">
-    </el-dialog>
+<!--    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
+<!--      <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>-->
+<!--    </el-dialog>-->
+<!--    <el-dialog v-model="showTrekImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
+<!--      <img :src="showingTrekImage" alt="">-->
+<!--    </el-dialog>-->
+<!--    <el-dialog v-model="showWcImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
+<!--      <img :src="showingWcImage" alt="">-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
-import { getStellarTreks, getLiquidationNft } from '@/utils/asset'
-import { STELLAR_TREK_NFT } from '@/config'
+import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT } from '@/utils/asset'
+import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/config'
+import { getUserNYCards } from '@/utils/new-year'
+import { BLESS_CARD_NAME, BLESS_CARD_DESC } from '@/ny-config'
 
 export default {
   name: "NFT",
   components: {GetNft},
   computed: {
-    ...mapState(['stellarTreks']),
+    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT', 'luckyCardsNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
-      return this.getAccountInfo?.twitterUsername
+      return this.getAccountInfo ? this.getAccountInfo.twitterUsername : '';
     },
     reputation() {
       return this.getAccountInfo?.reputation
@@ -79,15 +231,48 @@ export default {
       }
       return sts
     },
+    showingLuckyCards() {
+      if (this.luckyCardsNFT && this.luckyCardsNFT.length > 0) {
+        return this.luckyCardsNFT
+      }
+      return []
+    },  
+    showingWC2022() {
+      let sts = []
+      if (this.worldCupNFT && Object.keys(this.worldCupNFT).length > 0) {
+        for (let id in this.worldCupNFT) {
+          sts.push(WC2022_NFT[id])
+        }
+      }
+      return sts
+    },
+    showingChristmasNFT() {
+      let chr = []
+      if (this.christmasNFT && Object.keys(this.christmasNFT).length > 0) {
+        for (let id in this.christmasNFT) {
+          chr.push(Christmas_NFT[id])
+        }
+      }
+      return chr
+    }
   },
   data() {
     return {
       dataList: [],
       modalVisible: false,
       modalVisibleLiq: false,
+      // stellar treck
       showTrekImage: false,
       showingTrekImage: '',
-      liquidation:{}
+      liquidation:{},
+      // world cup 2022
+      showingWcImage: '',
+      showWcImage: false,
+      // christmas
+      showingChristmasImage: '',
+      showChristmasImage: false,
+      collectionIndex: 0,
+      collectionVisible: false
     }
   },
   methods: {
@@ -98,6 +283,17 @@ export default {
     showLiquidation() {
       this.showingTrekImage = this.liquidation.image;
       this.showTrekImage = true
+    },
+    showWC2022(url) {
+      this.showingWcImage = url;
+      this.showWcImage = true;
+    },
+    showChristmas(url) {
+      this.showingChristmasImage = url;
+      this.showChristmasImage = true;
+    },
+    prefixInteger(num, length) {
+      return num.toString().padStart(length, '0')
     }
   },
   mounted() {
@@ -108,17 +304,50 @@ export default {
       console.log(60, e);
     })
     getLiquidationNft(ethAddress).then(res => this.liquidation = res).catch(console.log)
+    getWc2022(ethAddress).then(balances => {
+      this.$store.commit('saveWorldCupNFT', balances)
+    }).catch(e => {
+      console.log(64, e);
+    })
+    getChritmasNFT(ethAddress).then(balances => {
+      this.$store.commit('saveChristmasNFT', balances)
+    }).catch(e => {
+      console.log(65, e);
+    })
+    getUserNYCards(ethAddress).then(balances => {
+      let res = []
+      for (let b of [1,2,3,4,5]) {
+        if (balances[b] > 0) {
+          res.push({
+            name: BLESS_CARD_NAME[b - 1],
+            description: BLESS_CARD_DESC[b-1],
+            image: `https://cdn.wherein.mobi/wormhole3/newyear/card${b-1}.png`
+          })
+        }
+      }
+      this.$store.commit('saveLuckyCardsNFT', res)
+    }).catch()
   }
 }
 </script>
 
-<style scoped>
-.top-box {
-  background: linear-gradient(99.28deg, rgba(83, 83, 83, 0.8) 0.41%, rgba(78, 72, 61, 0.8) 75.78%);
-  border: 1px solid #323436;
-  border-radius: 12px;
+<style scoped lang="scss">
+.c-list-item:last-child {
+  border: none;
 }
-.router-link-exact-active {
-  background-color: var(--primary-custom);
+.scale-text {
+  transform: scale(0.7);
+}
+.multi-content {
+  word-break: break-word;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.hover-scale:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
 </style>

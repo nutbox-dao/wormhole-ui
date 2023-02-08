@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-2rem pb-3rem sm:pt-1rem sm:pb-1rem">
     <slot name="title">
       <div class="text-left font-600 text-15px 2xl:text-0.75rem mb-6px">{{$t('curation.startCuration')}}</div>
     </slot>
@@ -15,8 +15,8 @@
       tips: Twitter content must include the #iweb3 hashtag and the curation short URL.
     </div> -->
     <div class="mt-1.5rem">
-      <button class="flex items-center justify-center rounded-full gradient-btn mr-0 ml-auto
-                  text-12px 2xl:text-0.9rem h-40px 2xl:h-2.2rem px-1rem"
+      <button class="flex items-center justify-center rounded-full gradient-btn mr-0 ml-auto w-full
+                  text-12px 2xl:text-0.9rem h-44px 2xl:h-2.2rem px-1rem"
               @click="$emit('onPost')">
         <img class="w-1rem h-1rem mr-0.4rem"
              src="~@/assets/icon-twitter-white.svg" alt=""/>

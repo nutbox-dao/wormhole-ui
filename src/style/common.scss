@@ -1,5 +1,9 @@
 .c-text-black {
-  font-family: PoppinsBold, Avenir, Helvetica, Arial, sans-serif;
+  font-family: RobotoBold, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+.break-word {
+  word-break: break-word;
 }
 .gradient-line {
   background: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
@@ -18,6 +22,10 @@ button:disabled {
   &:disabled {
     cursor: not-allowed;
     opacity: 0.7;
+  }
+  &-disabled-grey:disabled {
+    background-image: none;
+    background-color: rgba(132, 131, 145, 0.3);
   }
   &-shadow {
     box-shadow: 0 0 0 0.3rem rgba(174, 136, 254, 0.4);
@@ -60,6 +68,12 @@ button:disabled {
   &-color3 {
     background-image: linear-gradient(96.99deg, var(--gradient-primary-color1) -31.47%, var(--gradient-primary-color2) 55.23%, var(--gradient-primary-color3) 147.53%);
   }
+  &-colorCB {
+    background-image: linear-gradient(to right, #CBBEE7, #FFFFFF);
+  }
+  &-color91 {
+    background-image: linear-gradient(to right, #917AFD33, #6246EA33);
+  }
 }
 .light .gradient-border {
   box-shadow: 2px 1000px 2px var(--primary-bg-light) inset;
@@ -82,6 +96,9 @@ button:disabled {
   }
   &-purple-white {
     background-image: linear-gradient(99.51deg, #CBBEE7 9.03%, #FFFFFF 89.53%);
+  }
+  &-light {
+    background-image: linear-gradient(99.51deg, #170F49 9.03%, #170F49 89.53%);
   }
 }
 .hover {
@@ -112,7 +129,7 @@ input::placeholder, textarea::placeholder {
 }
 .emoji-picker {
   padding: 0!important;
-  width: 18rem;
+  width: 100% !important;
 }
 .emoji-body .emojis-wrap .emoji-block {
   padding: 4px!important;
@@ -140,7 +157,7 @@ div[contenteditable] {
   -webkit-user-modify: read-write-plaintext-only;
 }
 .light .van-overlay {
-  background: rgba(225, 225, 225, 0.4);
+  background: rgba(0, 0, 0, 0.3);
 }
 .light .van-popup {
   box-shadow: 0px 15px 41px rgba(36, 3, 84, 0.2);
@@ -151,4 +168,152 @@ div[contenteditable] {
     border-radius: unset;
     box-shadow: none;
   }
+}
+
+.multi-content {
+  word-break: break-word;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.recommend-curation {
+  .id-time {
+    display: none;
+  }
+  .ml-block {
+    display: none;
+  }
+  .blog-tag {
+    height: 30px;
+    overflow: hidden;
+  }
+  .blog-avatar {
+    width: 34px;
+    height: 34px;
+  }
+  .blog-content {
+    margin-top: 5px;
+  }
+}
+.ny-gradient-text {
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  width: fit-content;
+  background-image: linear-gradient(90.31deg, #8C2CE3 14.62%, #4C02E1 100.37%);
+  text-shadow: 0px 0px 1.79466px rgba(146, 60, 255, 0.58), 0px 0px 10.7679px rgba(194, 166, 255, 0.86);
+}
+.ny-card-text {
+  color: #FFF4D7;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
+}
+.ny-color4E {
+  color: #4E5969;
+}
+.ny-color36 {
+  color: #362473;
+}
+.ny-gradient-btn {
+  color: white;
+  background-image: linear-gradient(90deg, #8E2DE2 0%, #4A00E0 100%);
+}
+.ny-red-gradient {
+  background-image: linear-gradient(180deg, #F5319D 0%, #FC6767 100%);
+}
+.ny-modal-bg {
+  background-image: url("~@/assets/red-envelope/modal-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.ny-banner-bg {
+  background-image: url("~@/assets/red-envelope/banner-bg1.png"), url("~@/assets/red-envelope/banner-bg0.png");
+  background-size: 120px auto, 100% 100%;
+  background-position: right bottom, center;
+  background-repeat: no-repeat;
+}
+.ny-card-carousel .el-carousel__arrow{
+  background: #DFD5FF;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  &:hover {
+    background: #DFD5FF;
+    color: #7850FF;
+  }
+}
+.ny-box-shadow {
+  box-shadow: inset 0px 2px 3px rgba(0, 0, 0, 0.12);
+}
+.ny-power-1 {
+  .brand-name {
+    color: #3D4E72;
+  }
+  .amount {
+    color: #3D4E72;
+  }
+  .logo {
+    background: white;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.ny-power-2 {
+  .brand-name {
+    color: #771F06;
+  }
+  .amount {
+    color: #771F06;
+  }
+  .logo {
+    background: white;
+    box-shadow: -2px -1px 18px rgba(255, 254, 251, 0.84), 0px 2px 4px #CD7C03;
+  }
+}
+
+.ny-power-3 {
+  .brand-name {
+    color: #A1151E;
+  }
+  .amount {
+    color: #A1151E;
+  }
+  .logo {
+    background: white;
+    box-shadow: -2px -1px 20px rgba(253, 236, 217, 0.85), 0px 2px 4px rgba(161, 21, 30, 0.62);
+  }
+}
+
+.ny-power-5 {
+  .brand-name {
+    color: #0048E1;
+  }
+  .amount {
+    color: #0048E1;
+  }
+  .logo {
+    background: white;
+    box-shadow: 1px 3px 5px rgba(51, 111, 245, 0.43), -2px -2px 25px #FCFDF5;
+  }
+}
+
+.ny-power-10 {
+  .brand-name {
+    color: #DDE2FC;
+  }
+  .amount {
+    color: #DDE2FC;
+  }
+  .logo {
+    background: white;
+    box-shadow: 1px 3px 4px rgba(0, 20, 64, 0.43), -3px -8px 24px rgba(255, 244, 238, 0.59);
+  }
+}
+.ny-c-textarea .el-textarea__inner{
+  border: none;
+  box-shadow: none !important;
+  min-height: 100% !important;
+  border-radius: 8px;
+  background: transparent;
+  color: #86909C;
 }

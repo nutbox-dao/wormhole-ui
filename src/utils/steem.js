@@ -1,30 +1,31 @@
 import axios from "axios"
 import steem from "steem"
 const { auth } = require("steem");
-const { key_utils, hash } = require("steem/lib/auth/ecc");
 import { sha256 } from 'js-sha256'
-import { u8arryToHex, hexTou8array, hexToString, stringToHex } from '@/utils/helper'
+import { hexTou8array, stringToHex } from '@/utils/helper'
 import base58 from 'bs58'
+import { BACKEND_API_URL } from '@/config'
 
 steem.api.setOptions({ url: 'https://api.steemit.com' })
+// use vue proxy to hide CORS issue
+const steem_api = 'https://steem.wh3.io'
 
 export const getAccountInfo = async (account) => {
     return new Promise((resolve, reject) => {
-        axios.post('https://api.steemit.com', '{"jsonrpc":"2.0", "method":"condenser_api.get_accounts", "params":[["' + account + '"]], "id":1}').then(res => {
-            if (res.data.result)
-                resolve(res.data.result[0])
-            else
+        steem.api.getAccounts([account], (err, result) => {
+            if (err) {
+                console.log('Get steem account data fail:', err)
                 resolve()
-        }).catch(err => {
-            console.log('Get steem account data fail:', err)
-            resolve()
+            }else {
+                resolve(result[0])
+            }
         })
     })
 }
 
 export async function getGlobalProperties() {
     return new Promise(async (resolve, reject) => {
-        axios.post('https://api.steemit.com', '{"jsonrpc":"2.0", "method":"database_api.get_dynamic_global_properties", "id":1}').then(res => {
+        axios.post(steem_api, '{"jsonrpc":"2.0", "method":"database_api.get_dynamic_global_properties", "id":1}').then(res => {
             if (res.data.result)
                 resolve(res.data.result)
             else
@@ -45,7 +46,8 @@ export async function vestsToSteem(vests) {
 
 export const getAccountRC = async (account) => {
     return new Promise((resolve, reject) => {
-        axios.post('https://api.steemit.com', '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}').then(res => {
+        axios.post(steem_api, '{"jsonrpc":"2.0", "method":"rc_api.find_rc_accounts", "params":{"accounts":["' + account + '"]}, "id":1}')
+        .then(res => {
             if (res.data.result) {
                 const rc = res.data.result.rc_accounts[0]
                 var elapsed = Date.now() / 1000 - rc.rc_manabar.last_update_time;

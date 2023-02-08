@@ -1,5 +1,6 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT, STELLAR_TREK_NFT, LIQUIDATION_NFT } from "@/config";
+import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT,
+     STELLAR_TREK_NFT, LIQUIDATION_NFT, WC2022_NFT, Christmas_NFT } from "@/config";
 import store from '@/store'
 import { getLiquidationMetaBy as getLiqMeta } from '@/api/api'
 import { ethers } from 'ethers'
@@ -70,7 +71,7 @@ async function multicallBalances(address, chain) {
     return balances
 }
 
-export async function getTokenInfo(token) {
+export async function getTokenInfo(chainName, token) {
     if (!ethers.utils.isAddress(token)){
         return null
     }
@@ -103,12 +104,47 @@ export async function getTokenInfo(token) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
     return infos
 }
 
-export async function getERC20TokenBalance(token, account) {
+export async function checkNFTType(chainName, token) {
+    if(!ethers.utils.isAddress(token)){
+        return false;
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'supportsInterface(bytes4)(bool)',
+            '0x80ac58cd'
+        ],
+        returns:[
+            ['isERC721']
+        ]
+    }, {
+        target: token,
+        call: [
+            'supportsInterface(bytes4)(bool)',
+            '0xd9b67a26'
+        ],
+        returns: [
+            ['isERC1155']
+        ]
+    }]
+
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+    const typeInfo = res.results.transformed;
+    if (typeInfo.isERC721) {
+        return 'ERC721'
+    }
+    if (typeInfo.isERC1155) {
+        return 'ERC1155'
+    }
+    return false;
+}
+
+export async function getERC20TokenBalance(chainName, token, account) {
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account)){
         return null
     }
@@ -133,12 +169,73 @@ export async function getERC20TokenBalance(token, account) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls,  EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
     return infos.balance.toString() / (10 ** infos.decimals)
 }
 
-export async function getApprovement(token, account, spender) {
+export async function getERC1155TokenBalance(chainName, token, id, account) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account)){
+        return null
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            account, id
+        ],
+        returns: [
+            ['balance']
+        ]
+    }]
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
+    const infos = res.results.transformed;
+    return infos.balance;
+}
+
+export async function getERC721Balance(chainName, token, account) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account)){
+        return null
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'balanceOf(adderss)(uint256)',
+            account
+        ],
+        returns: [
+            ['balance']
+        ]
+    }]
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
+    const infos = res.results.transformed;
+    return infos.balance;
+}
+
+export async function getUserOwnERC721Id(chainName, token, id, account) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account)){
+        return null
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'ownerOf(uint256)(address)',
+            id
+        ],
+        returns: [
+            ['address']
+        ]
+    }]
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+    const infos = res.results.transformed;
+    const address = infos.address;
+    if (account.toLowerCase() == address.toLowerCase()) {
+        return true;
+    }
+    return false;
+}
+
+export async function getApprovement(chainName, token, account, spender) {
     if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
         return null
     }
@@ -164,9 +261,9 @@ export async function getApprovement(token, account, spender) {
             ]
         }
     ]
-    const res = await aggregate(calls, Multi_Config)
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config)
     const infos = res.results.transformed;
-    return infos.allowance.toString() / (10 ** infos.decimals) > 1e12
+    return infos.allowance.toString() / (10 ** infos.decimals)
 }
 
 export async function approve(token, account, spender) {
@@ -202,8 +299,191 @@ export async function approve(token, account, spender) {
     let contract = new ethers.Contract(token, abi, provider)
     contract = contract.connect(provider.getSigner())
 
-    const tx = await contract.approve(spender, ethers.constants.MaxUint256);
+    const tx = await contract.approve(spender, ethers.constants.MaxUint256, {gasLimit: 90000});
     await waitForTx(provider, tx.hash)
+    return true;
+}
+
+export async function getERC1155Approvment(chainName, token, account, spender) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
+        return null
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'isApprovedForAll(address,address)(bool)',
+            account,
+            spender
+        ],
+        returns: [
+            ['approvement']
+        ]
+    }]
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+    return res.results.transformed.approvement;
+}
+
+export async function approveERC1155(token, account, spender) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
+        return null
+    }
+    const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "operator",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "approved",
+            "type": "bool"
+          }
+        ],
+        "name": "setApprovalForAll",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }]
+
+      const metamask = await getEthWeb();
+      const provider = new ethers.providers.Web3Provider(metamask);
+      let contract = new ethers.Contract(token, abi, provider);
+      contract = contract.connect(provider.getSigner());
+
+      const tx = await contract.setApprovalForAll(spender, true);
+      await waitForTx(provider, tx.hash);
+      return true;
+}
+
+export async function getERC721Approvement(chainName, token, account, spender) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
+        return null
+    }
+    let calls = [{
+        target: token,
+        call: [
+            'isApprovedForAll(address,address)(bool)',
+            account,
+            spender
+        ],
+        returns:[
+            ['approvement']
+        ]
+    }]
+    const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+    return res.results.transformed.approvement;
+}
+
+export async function approveERC721(token, account, spender) {
+    if (!ethers.utils.isAddress(token) || !ethers.utils.isAddress(account) || !ethers.utils.isAddress(spender)){
+        return null
+    }
+    const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "operator",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "approved",
+            "type": "bool"
+          }
+        ],
+        "name": "setApprovalForAll",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }];
+    const metamask = await getEthWeb();
+    const provider = new ethers.providers.Web3Provider(metamask);
+    let contract = new ethers.Contract(token, abi, provider);
+    contract = contract.connect(provider.getSigner());
+
+    const tx = await contract.setApprovalForAll(spender, true);
+    await waitForTx(provider, tx.hash);
+    return true;
+}
+
+export async function sendTokenToUser(token, amount, to) {
+    const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }]
+    const metamask = await getEthWeb()
+    const provider = new ethers.providers.Web3Provider(metamask);
+    let contract = new ethers.Contract(token.address, abi, provider);
+    contract = contract.connect(provider.getSigner())
+
+    const tx = await contract.transfer(to, ethers.utils.parseUnits(amount.toString(), token.decimals));
+    await waitForTx(provider, tx.hash);
+    return tx.hash;
+}
+
+export async function send11155ToUser(token, id, amount, from, to) {
+    const abi = [{
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "name": "safeTransferFrom",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }]
+    const metamask = await getEthWeb()
+    const provider = new ethers.providers.Web3Provider(metamask);
+    let contract = new ethers.Contract(token, abi, provider);
+    contract = contract.connect(provider.getSigner())
+
+    const tx = await contract.safeTransferFrom(from, to, id, amount, 0x00);
+    await waitForTx(provider, tx.hash);
+    return tx.hash;
 }
 
 export async function getStellarTreks(address) {
@@ -220,6 +500,60 @@ export async function getStellarTreks(address) {
         ],
         returns: [
             [id-21, val => parseInt(val)]
+        ]
+    }));
+    const res = await aggregate(call, Multi_Config);
+    const infos = res.results.transformed;
+    let balances = {}
+    for (let b in infos) {
+        if (infos[b] > 0) {
+            balances[b] = infos[b]
+        }
+    }
+    return balances
+}
+
+export async function getWc2022(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let ids = WC2022_NFT.map((s, i) => i + 31)
+    let call = ids.map(id => ({
+        target: REPUTATION_NFT,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            address,
+            id
+        ],
+        returns: [
+            [id-31, val => parseInt(val)]
+        ]
+    }));
+    const res = await aggregate(call, Multi_Config);
+    const infos = res.results.transformed;
+    let balances = {}
+    for (let b in infos) {
+        if (infos[b] > 0) {
+            balances[b] = infos[b]
+        }
+    }
+    return balances
+}
+
+export async function getChritmasNFT(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let ids = Christmas_NFT.map((s, i) => i + 50)
+    let call = ids.map(id => ({
+        target: REPUTATION_NFT,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            address,
+            id
+        ],
+        returns: [
+            [id-50, val => parseInt(val)]
         ]
     }));
     const res = await aggregate(call, Multi_Config);
@@ -297,7 +631,7 @@ export async function getUserTokensFromCuration(twitterId) {
         }], Multi_Config);
         return res.results.transformed;
     }catch(e) {
-        console.log(6, e);
+        console.log('get user token from curation fail', e);
         return false
     }
 }

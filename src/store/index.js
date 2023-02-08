@@ -5,11 +5,13 @@ import { b64uEnc, b64uDec } from '@/utils/helper'
 import postsModule from './postsModule'
 import web3 from './web3'
 import curation from './curation'
+import newYear from './newYear'
+import {testAccount} from "@/views/square/test-data";
 
 export default Vuex.createStore({
   state: {
     rsaKey: Cookie.get('keyPair'),
-    accountInfo: Cookie.get('accountInfo'),
+    accountInfo: localStorage.getItem('accountInfo'),
     monitorNftInserval: {},
     hasReceivedNft: true,
     steemBalance: 0,
@@ -26,7 +28,13 @@ export default Vuex.createStore({
     tips: [],
     vestsToSteem: 1,
     referee: '',
-    stellarTreks: {}
+    stellarTreks: {},
+    worldCupNFT: {},
+    christmasNFT: {},
+    luckyCardsNFT: {},
+    showLogin: false,
+    getCardVisible: false,
+    newCardId: 0
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -44,6 +52,9 @@ export default Vuex.createStore({
         }
         return JSON.parse(acc)
       }else {
+        const accInfo = localStorage.getItem('accountInfo')
+        if (accInfo)
+          return JSON.parse(accInfo)
         return null
       }
     }
@@ -59,16 +70,17 @@ export default Vuex.createStore({
     saveAccountInfo: (state, accountInfo) => {
       if (!accountInfo || Object.keys(accountInfo).length === 0) {
         state.accountInfo = null;
-        state.posts = []
-        try{
-          clearInterval(state.monitorNftInserval)
-        }catch(e){}
-        Cookie.remove('accountInfo')
+        // to do
+        // try{
+        //   clearInterval(state.monitorNftInserval)
+        // }catch(e){}
+        localStorage.removeItem('accountInfo')
       }else {
         state.accountInfo = JSON.stringify(accountInfo);
-        Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d')
+        // Cookie.set('accountInfo', JSON.stringify(accountInfo), '30d');
+        localStorage.setItem('accountInfo', JSON.stringify(accountInfo))
       }
-      
+
     },
     saveMonitorNftInserval: (state, monitorNftInserval) => {
       state.monitorNftInserval = monitorNftInserval
@@ -120,11 +132,30 @@ export default Vuex.createStore({
     },
     saveStellarTreks: (state, stellarTreks) => {
       state.stellarTreks = stellarTreks
+    },
+    saveLuckyCardsNFT: (state, luckyCardsNFT) => {
+      state.luckyCardsNFT = luckyCardsNFT
+    },
+    saveWorldCupNFT: (state, worldCupNFT) => {
+      state.worldCupNFT = worldCupNFT
+    },
+    saveChristmasNFT: (state, christmasNFT) => {
+      state.christmasNFT = christmasNFT
+    },
+    saveShowLogin: (state, showLogin) => {
+      state.showLogin = showLogin
+    },
+    saveGetCardVisible: (state, getCardVisible) => {
+      state.getCardVisible = getCardVisible
+    },
+    saveNewCardId: (state, newCardId) => {
+      state.newCardId = newCardId
     }
   },
   modules: {
     postsModule,
     web3,
-    curation
+    curation,
+    newYear
   },
 })

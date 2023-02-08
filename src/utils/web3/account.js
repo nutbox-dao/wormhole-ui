@@ -1,7 +1,6 @@
 import { getEthWeb } from './web3.js'
 import store from '@/store'
 import { ethers } from 'ethers'
-import { getNonce as gn } from '@/api/api'
 import { sleep } from '../helper.js'
 import { CHAIN_ID } from '@/config.js'
 
@@ -28,7 +27,6 @@ export const getAccounts = async (update=false) => {
     let account = accounts[0]
     account = ethers.utils.getAddress(account)
     store.commit('web3/saveAccount', account)
-    console.log(accounts[0]);
     return accounts[0]
 }
 
@@ -37,28 +35,13 @@ export const getAccounts = async (update=false) => {
  */
 export const accountChanged = async (refresh) => {
     const metamask = await getEthWeb()
-    metamask.on('accountsChanged', (accounts) => {
+    metamask?.on('accountsChanged', (accounts) => {
         console.log('Changed accounts', accounts);
         store.commit('web3/saveAccount', ethers.utils.getAddress(accounts[0]))
         if (refresh)
-        refresh();
+            refresh(accounts[0]);
     })
 }
-
-/**
- * Get User's nonce
- * @param {*} update
- */
- export const getNonce = async (update = false) => {
-    let nonce = store.state.web3.nonce;
-    const account = await getAccounts();
-    if (!update && nonce) {
-      return nonce;
-    }
-    nonce = await gn(account);
-    store.commit("web3/saveNonce", nonce);
-    return nonce;
-  };
 
   /**
  * Sining message

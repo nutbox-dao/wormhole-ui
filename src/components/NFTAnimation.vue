@@ -53,14 +53,13 @@ export default {
   methods: {
     getNft(){
         // read NFT
-        console.log(111, this.$store.getters.getAccountInfo.twitterId);
         readNft(this.$store.getters.getAccountInfo.twitterId)
         this.$store.commit('saveHasReceivedNft', true)
     },
     prefixInteger(num, length) {
-      var i = (num + "").length; 
-      while(i++ < length) num = "0" + num; 
-      return num; 
+      var i = (num + "").length;
+      while(i++ < length) num = "0" + num;
+      return num;
     }
   },
 }
@@ -161,8 +160,8 @@ $box-shadow: ();
 $box-shadow2: ();
 @for $i from 0 through $particles {
   $box-shadow: $box-shadow,
-  random($width)-$width / 2 + px
-  random($height)-$height / 1.2 + px
+  random($width)- calc( $width / 2) + px
+  random($height)- calc($height / 1.2) + px
   hsl(random(360), 100, 50);
   $box-shadow2: $box-shadow2, 0 0 #fff;
 }

@@ -1,8 +1,9 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import VerifyView from '@/views/Verify'
+import VerifyView from '@/views/CreateAccount'
 import LoginView from '@/views/Login'
+import LoginCodeView from '@/views/LoginCode'
 import FAQView from '@/views/FAQ'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
@@ -27,6 +28,9 @@ import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
+import RewardView from "@/views/user/RewardView";
+import CurationsRecommend from "@/views/curations/CurationsRecommend";
+import UserGuide from '@/views/UserGuide';
 
 const routes = [
   {
@@ -34,20 +38,10 @@ const routes = [
     redirect: '/square',
   },
   {
-    path: '/square',
+    path: '/square/:referee?',
     name: 'square',
-    component: SquareIndex,
+    component: CurationsRecommend,
     meta: {keepAlive: true}
-  },
-  {
-    path: '/square/tag/:tag',
-    name: 'tag',
-    component: TagView,
-  },
-  {
-    path: '/square/topics',
-    name: 'topics',
-    component: TopicsView,
   },
   {
     path: '/curations',
@@ -66,19 +60,14 @@ const routes = [
     component: CurationDetail
   },
   {
-    path: '/verify',
-    name: 'verify',
-    component: VerifyView,
+    path: '/recommended',
+    name: 'recommended',
+    component: CurationsRecommend,
   },
   {
-    path: '/signup/:referee?',
-    name: 'signup',
-    component: HomeView
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
+    path: '/logincode/:code?',
+    name: 'login-code',
+    component: LoginCodeView
   },
   {
     path: '/account-info/:user',
@@ -91,6 +80,11 @@ const routes = [
     component: FAQView,
   },
   {
+    path: '/userguide',
+    name: 'user-guide',
+    component: UserGuide
+  },
+  {
     path: '/about',
     name: 'about',
     component: AboutUsView,
@@ -101,61 +95,60 @@ const routes = [
     component: FaucetView,
   },
   {
+    path: '/profile/:user/wallet',
+    name: 'wallet',
+    component: WalletView,
+    meta: {gotoHome: true},
+    children: [
+      {
+        path: '',
+        name: 'nft',
+        component: UserNftView
+      },
+      {
+        path: 'token',
+        name: 'token',
+        component: UserTokenView
+      },
+    ]
+  },
+  {
+    path: '/profile/:user/reward',
+    name: 'reward',
+    component: RewardView,
+    meta: {gotoHome: true}
+  },
+  {
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
+    meta: {gotoHome: true},
     children: [
-      {
-        path: '/profile/:user/wallet',
-        name: 'wallet',
-        component: WalletView,
-        children: [
-          {
-            path: '',
-            name: 'token',
-            component: UserTokenView
-          },
-          {
-            path: 'nft',
-            name: 'nft',
-            component: UserNftView
-          },
-        ]
-      },
       {
         path: '/profile/:user/post',
         name: 'post',
         component: UserPostView,
-        meta: {keepAlive: true}
+        meta: {keepAlive: true, gotoHome: true}
       },
       {
         path: '/profile/:user/curations',
         name: 'profile-curations',
         component: CurationsView,
-        meta: {keepAlive: true}
+        meta: {keepAlive: true, gotoHome: true}
       }
     ]
   },
   {
-    path: '/transaction/:user',
+    path: '/transaction',
     name: 'transaction',
-    component: UserTransactionView
+    component: UserTransactionView,
+    meta: {gotoHome: true},
   },
   {
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
   },
-  {
-    path: '/confirm-reward',
-    name: 'confirm-reward',
-    component: () => import('@/views/curations/ConfirmReward'),
-  },
-  {
-    path: '/submissions/:state',
-    name: 'submissions',
-    component: () => import('@/views/curations/Submissions'),
-  }
 ]
 
 const router = VueRouter.createRouter({
