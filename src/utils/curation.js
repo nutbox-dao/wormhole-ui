@@ -302,7 +302,7 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         await waitForTx(provider, tx.hash)
         resolve(tx.hash)
     }catch(e) {
-        console.log('create new popup fail:', e);
+        console.log('claim rewards fail:', e);
         reject(errCode.TRANSACTION_FAIL)
     }
   })

@@ -290,7 +290,7 @@ export default {
         this.creating = true
         // tweet
         this.form.tweetId = await userTweet(this.form.content + '\n#iweb3 #popup\nSee more here:' + CURATION_SHORT_URL + this.detailCuration.curationId)
-        this.modalVisible =true
+        console.log(111, this.form.tweetId)
         if (this.form.tweetId) {
           this.modalVisible = true
         }else {

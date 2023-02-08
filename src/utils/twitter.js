@@ -106,6 +106,7 @@ export const userTweet = async (text) => {
     try {
         const twitterId = store.getters.getAccountInfo.twitterId;
         const r = await ut(twitterId, text)
+        console.log('user tweet result:', r);
         if(r) {
             return r.id
         }
