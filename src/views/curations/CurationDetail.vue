@@ -699,7 +699,6 @@ export default {
         ]
         this.metaInfo.meta.title = 'Wormhole3 curation'
         this.metaInfo.meta.description = val.content
-        this.metaInfo.meta['twitter:image'] = this.imageUrl
       }
     },
     immediate: true
