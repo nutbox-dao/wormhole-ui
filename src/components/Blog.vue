@@ -126,20 +126,12 @@ export default {
   name: "Blog",
   components: {LinkPreview, Repost},
   setup() {
-    useMeta({
-      title: 'Wormhole3 curation',
-      description: 'curation detail',
-      'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
-      'twitter:description': this.post.content
-    })
-  },
-  metaInfo: {
-    title: 'Wormhole3 curation',
-    // override the parent template and just use the above title only
-    titleTemplate: null,
-    'twtter:title': 'Wormhole3',
-    'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
-    'twitter:description': 'test twitter description'
+    // useMeta({
+    //   title: 'Wormhole3 curation',
+    //   description: 'curation detail',
+    //   'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
+    //   'twitter:description': this.post.content
+    // })
   },
   props: {
     post: {
