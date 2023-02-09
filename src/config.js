@@ -104,8 +104,8 @@ export const TokenIcon = {
     'PNUT': 'https://cdn.wherein.mobi/nutbox/v2/1645760918196',
     'NUT': "https://cdn.wherein.mobi/nutbox-v2/token/logo/nutcoin1.png",
     'WIN': 'https://cdn.wherein.mobi/nutbox/v2/1650853172818',
-    'WENULS': 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png',
-    'NULS': 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
+    'WNULS': 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png',
+    'NULS': 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png'
 }
 
 export const TokenName = {
@@ -125,8 +125,8 @@ export const TokenName = {
     'GLMR': 'GLMR',
     'WGLMR': 'Wrapped GLMR',
     'PNUT': 'Peanut',
-    'WENULS': 'Wrapped ENULS',
-    'NULS': 'ENULS'
+    'WNULS': 'Wrapped NULS',
+    'NULS': 'NULS'
 }
 
 /**
@@ -210,13 +210,13 @@ export const EVM_CHAINS = {
         scan: 'https://evmscan.nuls.io',
         id: 119,
         main: {
-            name: 'ENULS',
+            name: 'NULS',
             symbol: 'NULS',
             decimals: 18,
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
         },
         assets: {
-            WENULS: {symbol: 'WENULS', name: 'Wrapped ENULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'}
+            WNULS: {symbol: 'WNULS', name: 'Wrapped NULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png'}
         },
         Multi_Config: {
             rpcUrl: 'https://evmapi.nuls.io',
