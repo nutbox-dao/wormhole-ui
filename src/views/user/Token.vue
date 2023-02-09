@@ -58,37 +58,57 @@
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="showDeposit"
                :position="position">
-      <div class="modal-bg w-full md:w-560px 2xl:max-w-28rem
+      <div class="modal-bg w-full md:w-460px 2xl:max-w-25rem
       max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col
       rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem">
         <div class="flex-1 overflow-auto px-1rem xl:px-2.5rem no-scroll-bar">
+          <button class="absolute right-20px top-20px"
+                  @click="showDeposit=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
           <div class="text-left px-1.25rem pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
-            <div class="text-20px 2xl:text-1rem c-text-black mb-1rem">Deposit</div>
-            <div>
-              <input class="bg-transparent h-full w-full px-0.5rem"
+            <div class="text-20px 2xl:text-1rem c-text-black mb-1.5rem">Deposit</div>
+            <div class="text-right mb-4px">{{$t('common.balance')}}: {{ formatAmount(balance) }}</div>
+<!--            <div class="text-right mb-4px text-redColor">{{$t('curation.insuffientBalance')}}</div>-->
+            <div class="bg-black border-1 border-color8B/30
+                      light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
+                      rounded-full h-44px 2xl:h-2rem flex items-center relative">
+              <input class="bg-transparent h-full w-full px-1.2rem"
                              v-model="amount"
                              type="number" :placeholder="$t('curation.inputErc20')">
-              <span>{{ formatAmount(balance) }}</span>
-              <input class="bg-transparent h-full w-full px-0.5rem"
-                          v-model="amount"
-                          disabled
-                          type="text">
             </div>
-            <div class="flex items-center justify-center gap-x-1rem mt-1rem">
-              <ConnectMainchainBTNVue :chain-name="depositTokenInfo && depositTokenInfo[0]" class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
-                   flex items-center justify-center px-20px
-                   min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold" v-if="chainId !== selectedChainId"/>
-              <button v-else class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
+            <div class="flex justify-center items-center my-1rem">
+              <div class="w-40px min-w-40px h-40px min-h-40px rounded-full bg-color62 flex items-center justify-center">
+                <img class="transform rotate-180 h-20px" src="~@/assets/icon-arrow-top.svg" alt="">
+              </div>
+            </div>
+            <div class="bg-black border-1 border-color8B/30 cursor-not-allowed
+                      light:bg-colorF2 light:border-colorE3 opacity-50
+                      rounded-full h-44px 2xl:h-2rem flex items-center relative">
+              <input class="bg-transparent h-full w-full px-1.2rem cursor-not-allowed"
+                     v-model="amount"
+                     disabled
+                     type="text">
+            </div>
+            <div>
+              <ConnectMainchainBTNVue
+                  :chain-name="depositTokenInfo && depositTokenInfo[0]"
+                  class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
+                         flex items-center justify-center px-20px
+                         min-w-10rem w-full rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                                      v-if="chainId !== selectedChainId"/>
+              <button v-else
+                      class="ny-gradient-btn gradient-btn-disabled-grey mt-2rem mx-auto
                             flex items-center justify-center px-20px
-                            min-w-10rem rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                            min-w-10rem w-full rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
                       :disabled="isDepositing || accountMismatch || insuffientBalance"
                       @click="deposit">
                 {{$t('common.confirm')}}
                 <c-spinner v-show="isDepositing" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
-              <div v-if="accountMismatch" class="text-redColor mt-6px">
-                {{ $t('ny.accountMismatch') }}
-              </div>
+            </div>
+            <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
+              {{ $t('ny.accountMismatch') }}
             </div>
           </div>
         </div>
@@ -151,7 +171,7 @@ export default {
       if (this.balance <= this.amount){
         return true
       }
-    },  
+    },
     selectedChainId() {
       if (this.depositTokenInfo) {
         return EVM_CHAINS[this.depositTokenInfo[0]].id
