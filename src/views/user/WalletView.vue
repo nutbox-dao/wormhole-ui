@@ -56,7 +56,7 @@
             <router-link :to="`/profile/${$route.params.user}/wallet/token`"
                          class="flex items-center rounded-full
                      border-1 border-white/20 leading-14px text-14px py-10px px-24px
-                     light:bg-colorF2 light:text-color7D">{{$t('common.token')}}</router-link>
+                     light:bg-colorF2 light:text-color7D whitespace-nowrap">{{$t('common.token')}}</router-link>
           </div>
           <router-view></router-view>
         </div>

@@ -200,7 +200,7 @@ export default {
     maxCountTip: 'The top count of curators can earn reward',
     inputMaxCount: 'Enter max reward users',
     minReputation: 'Min participation reputation',
-    minReputationTip: `Only the users who's reputation more than this can share the rewards. Reputation represents the influence of participants, suggestion setting: 5.`,
+    minReputationTip: `Only the users whose reputation more than this can share the rewards. Reputation represents the influence of participants, suggestion setting: 5.`,
     inputMinReputation: 'Enter min participation reputation',
     lowerReputation: 'Your reputation score is less than the minimum score set by this curation, you can continue to participate in this curation, but you will not be awarded，do you want to continue?',
     noLimited: 'No limited',
@@ -420,10 +420,10 @@ export default {
   },
   guide: {
     registrationGuide: 'Registration Guide',
-    attendGuide: '参与策展指南',
-    curationTweetGuide: '为tweet创建策展',
-    curationSpaceGuide: '为space创建策展',
-    otherGuide: '其他玩法'
+    attendGuide: 'Attend Curation',
+    curationTweetGuide: 'Curate Tweet',
+    curationSpaceGuide: 'Curate Space',
+    otherGuide: 'Other Guides'
   },
   err: {
     serverErr: 'Server error',
