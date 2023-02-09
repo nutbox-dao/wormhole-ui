@@ -1,7 +1,5 @@
 <template>
-  <metainfo>
-    <template v-slot:title="{ content }">{{ content ? `${content}`:`Wormhole3` }}</template>
-  </metainfo>
+  <metainfo></metainfo>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-white bg-img"

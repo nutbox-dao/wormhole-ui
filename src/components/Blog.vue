@@ -120,19 +120,10 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import { userLike } from '@/utils/twitter'
 import { notify } from '@/utils/notify';
-import { useMeta } from 'vue-meta'
 
 export default {
   name: "Blog",
   components: {LinkPreview, Repost},
-  setup() {
-    // useMeta({
-    //   title: 'Wormhole3 curation',
-    //   description: 'curation detail',
-    //   'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
-    //   'twitter:description': this.post.content
-    // })
-  },
   props: {
     post: {
       type: Object,
