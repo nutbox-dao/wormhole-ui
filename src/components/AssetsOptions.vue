@@ -171,7 +171,10 @@
                       <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
                       <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
                       <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
-                        <span class="text-15px">{{token.symbol}}</span>
+                        <div class="flex items-center">
+                          <span class="text-15px">{{token.symbol}}</span>
+                          <span v-show="isWrappedToken[token.address]" class="ml-1rem cursor-pointer text-color62 text-14px" @click.stop="$router.push('/profile/' + '@' + this.getAccountInfo.twitterUsername + '/wallet/token')">{{ $t('common.get') }}</span>
+                        </div>
                         <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{token.address}}
                           </span>
@@ -199,7 +202,7 @@ import {setupNetwork} from "@/utils/web3/web3";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import {notify} from "@/utils/notify";
 import {getERC20TokenBalance, getTokenInfo} from "@/utils/asset";
-import {TokenIcon} from "@/config";
+import {TokenIcon, isWrappedToken} from "@/config";
 import {formatAddress} from "@/utils/tool";
 import {formatAmount} from "@/utils/helper";
 import {ethers} from "ethers";
@@ -240,6 +243,7 @@ export default {
     return {
       EVM_CHAINS,
       TokenIcon,
+      isWrappedToken,
       connectLoading: false,
       popperWidth: 200,
       selectedChainName: '',

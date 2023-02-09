@@ -635,3 +635,47 @@ export async function getUserTokensFromCuration(twitterId) {
         return false
     }
 }
+
+export async function depositWrappedToken(tokenInfo, amount) {
+    const abi = [
+        {
+            "constant":false,
+            "inputs":[
+                {
+                    "name":"wad",
+                    "type":"uint256"
+                }
+            ],
+            "name":"withdraw",
+            "outputs":[
+    
+            ],
+            "payable":false,
+            "stateMutability":"nonpayable",
+            "type":"function"
+        },{
+            "constant":false,
+            "inputs":[
+    
+            ],
+            "name":"deposit",
+            "outputs":[
+    
+            ],
+            "payable":true,
+            "stateMutability":"payable",
+            "type":"function"
+        }
+    ]
+    const metamask = await getEthWeb()
+    const provider = new ethers.providers.Web3Provider(metamask);
+    const token = EVM_CHAINS[tokenInfo[0]]
+    const decimals = token.main.decimals
+    let contract = new ethers.Contract(token.assets[tokenInfo[1]].address, abi, provider);
+    contract = contract.connect(provider.getSigner())
+    const tx = await contract.deposit({
+        value: ethers.utils.parseUnits(amount.toString(), decimals)
+    });
+    await waitForTx(provider, tx.hash);
+    return tx.hash;
+}
