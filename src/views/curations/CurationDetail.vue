@@ -494,6 +494,7 @@ import iconTop3 from '@/assets/icon-top3.svg'
 import ContentTags from "@/components/ContentTags";
 import {onCopy, formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {useMeta} from "vue-meta";
 
 export default {
   name: "CurationDetail",
@@ -538,7 +539,8 @@ export default {
       tweetLength: 0,
       contentRange: null,
       showQuoteContentTip: false,
-      quoteTipStr: ''
+      quoteTipStr: '',
+      metaInfo: null
     }
   },
   computed: {
@@ -665,7 +667,17 @@ export default {
       let start = new Date(this.detailCuration.createdTime);
       let end = new Date(this.detailCuration.endtime * 1000)
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
-    }
+    },
+    imageUrl() {
+      let urlReg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+      const imgurls = this.detailCuration.content.replace(' ', '').replace('\r', '').replace('\t', '').match(urlReg)
+      if (imgurls && imgurls.length > 0) {
+        console.log(44, imgurls[0]);
+        return imgurls[0]
+      }
+      console.log(23, imgurls, this.detailCuration.content);
+      return 'https://cdn.wherein.mobi/wormhole3/logo/logo.png'
+    },
   },
   watch: {
     $route(newValue, oldValue) {
@@ -673,7 +685,23 @@ export default {
       if (this.$route.name == 'curation-detail' && newId && newId.match(/^[0-9a-fA-F]+$/)) {
         this.loadCuration()
       }
-    }
+    },
+    detailCuration(val) {
+      if(val) {
+        this.metaInfo.meta.meta = [
+          {name: 'title', content: 'Wormhole3 curation'},
+          {name: 'description', content: val.content},
+          {property: 'twitter:title', content: 'Wormhole3 curation'},
+          {property: 'twitter:image', content: this.imageUrl},
+          {property: 'twitter:description', content: val.content},
+          {property: 'og:image', content: this.imageUrl},
+          {property: 'og:description', content: val.content}
+        ]
+        this.metaInfo.meta.title = 'Wormhole3 curation'
+        this.metaInfo.meta.description = val.content
+      }
+    },
+    immediate: true
   },
   methods: {
     onCopy,
@@ -1029,6 +1057,8 @@ export default {
     }
   },
   mounted () {
+    this.metaInfo = useMeta({meta: []})
+
     this.loadCuration()
     this.updateInterval = setInterval(this.updateCurationInfos, 10000);
     this.timeIntrerval = setInterval(() => {
@@ -1042,6 +1072,7 @@ export default {
   unmounted() {
     clearInterval(this.updateInterval)
     clearInterval(this.timeIntrerval)
+    this.metaInfo.unmounted()
   }
 }
 </script>

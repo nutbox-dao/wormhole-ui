@@ -1,4 +1,5 @@
 <template>
+  <metainfo></metainfo>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-white bg-img"
