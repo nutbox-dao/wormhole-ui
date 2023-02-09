@@ -30,6 +30,7 @@
     "tweetnacl": "^1.0.3",
     "vant": "^3.5.2",
     "vue": "^3.2.36",
+    "vue-3-meta": "^2.4.0",
     "vue-cookies": "^1.8.1",
     "vue-cropper": "^1.0.5",
     "vue-i18n": "^9.2.2",
