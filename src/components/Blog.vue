@@ -127,7 +127,10 @@ export default {
   components: {LinkPreview, Repost},
   setup() {
     useMeta({
-      title: 'Wormhole3 curation'
+      title: 'Wormhole3 curation',
+      description: 'curation detail',
+      'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
+      'twitter:description': this.post.content
     })
   },
   metaInfo: {
