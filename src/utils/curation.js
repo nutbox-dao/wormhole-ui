@@ -6,7 +6,8 @@ import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
-        retweetCuration as retc, quoteCuration as qc, replyCuration as rc, getPromotionCurationClaimParas as gpccp} from '@/api/api'
+        retweetCuration as retc, quoteCuration as qc, replyCuration as rc, getPromotionCurationClaimParas as gpccp,
+        preNewCuration as pnc} from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -370,6 +371,11 @@ export const newPopups = async (popup) => {
   await checkAccessToken();
   const res = await npp(popup);
   return res;
+}
+
+export const preNewCuration = async (curation) => {
+  await checkAccessToken();
+  return await pnc(curation)
 }
 
 /**
