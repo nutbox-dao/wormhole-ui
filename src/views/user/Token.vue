@@ -68,20 +68,22 @@
           </button>
           <div class="text-left px-1.25rem pb-3rem sm:pb-1.5rem flex flex-col text-14px 2xl:text-0.8rem overflow-auto">
             <div class="text-20px 2xl:text-1rem c-text-black mb-1.5rem">Deposit</div>
-            <div class="text-right mb-4px">{{$t('common.balance')}}: {{ formatAmount(balance) }}</div>
 <!--            <div class="text-right mb-4px text-redColor">{{$t('curation.insuffientBalance')}}</div>-->
+            <div class="text-left mb-4px ml-10px" :class="insuffientBalance ? 'text-redColor' : ''">{{ symbol.substring(1) }}</div>
             <div class="bg-black border-1 border-color8B/30
                       light:bg-colorF2 light:border-colorE3 hover:border-primaryColor
                       rounded-full h-44px 2xl:h-2rem flex items-center relative">
               <input class="bg-transparent h-full w-full px-1.2rem"
                              v-model="amount"
-                             type="number" :placeholder="$t('curation.inputErc20')">
+                             type="number" :placeholder="$t('walletView.inputAmount')">
             </div>
-            <div class="flex justify-center items-center my-1rem">
+            <div class="text-right mt-4px" :class="insuffientBalance ? 'text-redColor' : ''">{{$t('common.balance')}}: {{ formatAmount(balance) }}</div>
+            <div class="flex justify-center items-center">
               <div class="w-40px min-w-40px h-40px min-h-40px rounded-full bg-color62 flex items-center justify-center">
                 <img class="transform rotate-180 h-20px" src="~@/assets/icon-arrow-top.svg" alt="">
               </div>
             </div>
+            <div class="text-left mb-4px ml-10px" :class="insuffientBalance ? 'text-redColor' : ''">{{ symbol}}</div>
             <div class="bg-black border-1 border-color8B/30 cursor-not-allowed
                       light:bg-colorF2 light:border-colorE3 opacity-50
                       rounded-full h-44px 2xl:h-2rem flex items-center relative">
@@ -141,7 +143,7 @@ export default {
       showDeposit: false,
       depositTokenInfo: null,
       isDepositing: false,
-      amount: 0,
+      amount: null,
       balance: 0
     }
   },
@@ -178,6 +180,12 @@ export default {
       }else {
         return 0
       }
+    },
+    symbol() {
+      if (this.depositTokenInfo) {
+        return this.depositTokenInfo[1]
+      }
+      return ''
     }
   },
   methods: {

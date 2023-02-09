@@ -109,7 +109,8 @@ export default {
   walletView: {
     totalBalance: 'Total balance',
     tipHistory: 'Tip History',
-    claimedAllRewards: `There's no curation rewards to claim.`
+    claimedAllRewards: `There's no curation rewards to claim.`,
+    inputAmount: 'Enter token amount'
   },
   token: {
     noNft: "You havn't got any NFTs.",

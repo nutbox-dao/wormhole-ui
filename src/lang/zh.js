@@ -109,7 +109,8 @@ export default {
   walletView: {
     totalBalance: '总余额',
     tipHistory: '打赏历史',
-    claimedAllRewards: `没有可以收取的奖励`
+    claimedAllRewards: `没有可以收取的奖励`,
+    inputAmount: '请输入token数量'
   },
   token: {
     noNft: "你当前没有任何NFT.",
