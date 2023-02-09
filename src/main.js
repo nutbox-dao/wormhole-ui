@@ -12,13 +12,12 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './style/el-custom.scss'
 import 'windi.css'
-import * as VueMeta from 'vue-3-meta'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
 window.$vueApp.component('c-spinner', Spinner)
 window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(List)
-.use(PullRefresh).use(ImagePreview).use(Popup).use(VueMeta)
+.use(PullRefresh).use(ImagePreview).use(Popup)
 window.$vueApp.mount('#app')
 window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
   return path + (path.endsWith('/') ? '' : '/') + pathToAppend
