@@ -495,8 +495,6 @@ import ContentTags from "@/components/ContentTags";
 import {onCopy, formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {useMeta} from "vue-meta";
-import { createMetaManager} from 'vue-meta'
-import {watch} from "vue";
 
 export default {
   name: "CurationDetail",
@@ -505,18 +503,6 @@ export default {
     CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
     CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags,EmojiPicker
   },
-  // setup() {
-  //   const {meta} = useMeta(
-  //     {
-  //       meta: [
-  //         { property: 'twitter:image', content: '', vmid: 'curationDetail' },
-  //       ],
-  //     }
-  //   )
-  //   watch([this.detailCuration], () => {
-  //     console.log('sssssss')
-  //   }, {immediate: true})
-  // },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -693,11 +679,20 @@ export default {
     detailCuration(val) {
       if(val) {
         this.metaInfo.meta.meta = [
+          {name: 'title', content: 'Wormhole3 curation'},
           {name: 'description', content: val.content},
-          {property: 'twitter:image', content: 'https://cdn.wherein.mobi/AmXpUlQogoso978307200'},
+          {property: 'twitter:image', content: imageUrl},
           {property: 'twitter:description', content: val.content},
         ]
       }
+    },
+    imageUrl() {
+      let urlReg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+      const imgurls = this.detailCuration.content.replace(' ', '').replace('\r', '').replace('\t', '').match(urlReg)
+      if (imgurls && imgurls.length > 0) {
+        return imgurls[0]
+      }
+      return 'https://cdn.wherein.mobi/wormhole3/logo/logo.png'
     },
     immediate: true
   },
