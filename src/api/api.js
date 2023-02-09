@@ -91,7 +91,9 @@ export const getUserFavTag = async (twitterId) =>
     get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
 /****************************************  curation  ***********************************************/
-
+export const preNewCuration = async (curation) =>
+    post(BACKEND_API_URL + '/curation/preCreate', curation)
+    
 export const newCuration = async (curation) =>
     post(BACKEND_API_URL + '/curation/newCuration', curation)
 

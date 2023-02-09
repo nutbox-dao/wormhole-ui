@@ -551,7 +551,7 @@ import { replyToCurationByWH3, getPopularTopics } from '@/api/api'
 import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
-import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration } from '@/utils/curation'
+import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration, preNewCuration } from '@/utils/curation'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import {formatEmojiText} from "@/utils/tool";
@@ -1118,7 +1118,9 @@ export default {
         if (newTags.length > 0) {
           this.$store.commit('curation/saveCustomTags', newTags.concat(this.customTags))
         }
+        preNewCuration(pendingCuration).catch()
 
+        await sleep(2)
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           const result = await newCuration(pendingCuration);
