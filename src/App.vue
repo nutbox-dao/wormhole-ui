@@ -189,7 +189,7 @@ export default {
   components: {NFTAnimation, ElConfigProvider, Login, GetCardModal},
   setup () {
     useMeta({
-      title: 'Meta test',
+      title: 'Wormhole3',
     })
   },
   data: () => {
