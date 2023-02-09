@@ -494,6 +494,9 @@ import iconTop3 from '@/assets/icon-top3.svg'
 import ContentTags from "@/components/ContentTags";
 import {onCopy, formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import {useMeta} from "vue-meta";
+import { createMetaManager} from 'vue-meta'
+import {watch} from "vue";
 
 export default {
   name: "CurationDetail",
@@ -502,6 +505,18 @@ export default {
     CurationItem, SpeakerCollapse, SpeakerTipModal,RelatedCurationItemVue,
     CreatePopUpModal, PopUpsCard, ChainTokenIconLarge,ContentTags,EmojiPicker
   },
+  // setup() {
+  //   const {meta} = useMeta(
+  //     {
+  //       meta: [
+  //         { property: 'twitter:image', content: '', vmid: 'curationDetail' },
+  //       ],
+  //     }
+  //   )
+  //   watch([this.detailCuration], () => {
+  //     console.log('sssssss')
+  //   }, {immediate: true})
+  // },
   data() {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
@@ -538,7 +553,8 @@ export default {
       tweetLength: 0,
       contentRange: null,
       showQuoteContentTip: false,
-      quoteTipStr: ''
+      quoteTipStr: '',
+      metaInfo: null
     }
   },
   computed: {
@@ -673,7 +689,17 @@ export default {
       if (this.$route.name == 'curation-detail' && newId && newId.match(/^[0-9a-fA-F]+$/)) {
         this.loadCuration()
       }
-    }
+    },
+    detailCuration(val) {
+      if(val) {
+        this.metaInfo.meta.meta = [
+          {name: 'description', content: val.content},
+          {property: 'twitter:image', content: 'https://cdn.wherein.mobi/AmXpUlQogoso978307200'},
+          {property: 'twitter:description', content: val.content},
+        ]
+      }
+    },
+    immediate: true
   },
   methods: {
     onCopy,
@@ -1029,6 +1055,8 @@ export default {
     }
   },
   mounted () {
+    this.metaInfo = useMeta({meta: []})
+
     this.loadCuration()
     this.updateInterval = setInterval(this.updateCurationInfos, 10000);
     this.timeIntrerval = setInterval(() => {
@@ -1042,6 +1070,7 @@ export default {
   unmounted() {
     clearInterval(this.updateInterval)
     clearInterval(this.timeIntrerval)
+    this.metaInfo.unmounted()
   }
 }
 </script>
