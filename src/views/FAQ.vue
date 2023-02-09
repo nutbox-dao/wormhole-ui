@@ -42,8 +42,15 @@
 </template>
 
 <script>
+import {useMeta} from "vue-meta";
+
 export default {
-  name: "FAQ"
+  name: "FAQ",
+  setup () {
+    useMeta({
+      title: 'Wormhole3 FAQ',
+    })
+  },
 }
 </script>
 

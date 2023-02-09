@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{ content ? `${content}`:`Wormhole3` }}</template>
+  </metainfo>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-white bg-img"
@@ -180,9 +183,15 @@ import {showError} from "@/utils/notify";
 import GetCardModal from "@/views/red-envelope/GetCardModal";
 import lottie from 'lottie-web'
 import NavbarPage from '@/assets/animation/navbar.json'
+import { useMeta } from 'vue-meta'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login, GetCardModal},
+  setup () {
+    useMeta({
+      title: 'Meta test',
+    })
+  },
   data: () => {
     return {
       pubKey: '',

@@ -7,6 +7,7 @@ import Cookie from 'vue-cookies'
 import Spinner from "@/components/Spinner";
 import { List, PullRefresh, ImagePreview, Popup } from 'vant'
 import mitt from 'mitt'
+import { createMetaManager } from 'vue-meta'
 import 'vant/es/image-preview/style';
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
@@ -16,7 +17,7 @@ import 'windi.css'
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
 window.$vueApp.component('c-spinner', Spinner)
-window.$vueApp.use(store).use(router).use(i18n).use(Cookie)
+window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(createMetaManager())
   .use(List).use(PullRefresh).use(ImagePreview).use(Popup)
 window.$vueApp.mount('#app')
 window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
