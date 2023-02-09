@@ -109,7 +109,8 @@ export default {
   walletView: {
     totalBalance: '总余额',
     tipHistory: '打赏历史',
-    claimedAllRewards: `没有可以收取的奖励`
+    claimedAllRewards: `没有可以收取的奖励`,
+    inputAmount: '请输入token数量'
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -457,7 +458,7 @@ export default {
     loosingRefresh: '释放以刷新',
     loading: '加载中...',
     serverError: '服务器错误',
-    get: '收到',
+    get: '获得',
     balance: '余额',
     registerNow: '前往注册',
     whatsSteem: 'Steem 是一个以社区为中心的区块链，为网络用户创造即时赚钱的机会s.',

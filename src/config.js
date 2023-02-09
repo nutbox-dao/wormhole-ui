@@ -88,6 +88,7 @@ export const ERC20List = [
 export const TokenIcon = {
     'ETH': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
     'BNB': 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+    'WBNB': 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
     'USDT': 'https://cdn.wherein.mobi/wormhole3/logo/usdt.png',
     'TEST-U': 'https://cdn.wherein.mobi/wormhole3/logo/t-usdt.png',
     'USDC': 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png',
@@ -111,6 +112,7 @@ export const TokenIcon = {
 export const TokenName = {
     'ETH': 'Ethereum',
     'BNB': 'BSC Token',
+    'WBNB': 'Wrapped BNB',
     'USDT': 'Tether USD',
     'USDC': 'USD Coin',
     'UNI': 'Uniswap',
@@ -127,6 +129,13 @@ export const TokenName = {
     'PNUT': 'Peanut',
     'WNULS': 'Wrapped NULS',
     'NULS': 'NULS'
+}
+
+export const isWrappedToken = {
+    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c': true,
+    '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270': true,
+    '0x217dffF57E3b855803CE88a1374C90759Ea071bD': true,
+    '0xAcc15dC74880C9944775448304B263D191c6077F': true
 }
 
 /**
@@ -167,6 +176,7 @@ export const EVM_CHAINS = {
         },
         assets: {
             // WETH: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+            WBNB: {symbol: 'WBNB', name: 'Wrapped BNB', address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'},
             BUSD: {symbol: 'BUSD', name: 'BSC USD', address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
             USDT: {symbol: 'USDT', name: 'Tether USD', address: '0x55d398326f99059fF775485246999027B3197955', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
@@ -258,10 +268,10 @@ export const EVM_CHAINS = {
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
         },
         assets: {
+          WGLMR: {symbol: 'WGLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18},
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
           USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-          WGLMR: {symbol: 'WGLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18}
         },
         Multi_Config: {
             rpcUrl: 'https://rpc.api.moonbeam.network',
