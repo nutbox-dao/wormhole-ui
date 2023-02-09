@@ -259,7 +259,8 @@ export default {
         busd: 1,
         't-usdt': 0,
         'test-u': 0,
-        nuls: prices.NULS ?? prices.nuls
+        nuls: prices.NULS ?? prices.nuls,
+        wnuls: prices.NULS ?? prices.nuls
       }
 
       if (res2 && res2.length > 0) {

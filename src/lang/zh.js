@@ -200,7 +200,7 @@ export default {
     maxCountTip: '策展人数量最多可获得奖励',
     inputMaxCount: '输入最大奖励用户数',
     minReputation: '最小参与声誉分',
-    minReputationTip: `只有声誉分大于该值的用户才能分得奖励`,
+    minReputationTip: `只有声誉分大于该值的用户才能分得奖励。声誉分来自参与用户的推特影响力，影响力越大，分值越高，建议设置值：5。`,
     inputMinReputation: '请填写最小参与的声誉分数',
     lowerReputation: '您的声誉分低于了该策展设置的分数，您可以参加该策展，但是不会分得策展的奖励，继续吗？',
     noLimited: '不设限制',
