@@ -17,10 +17,7 @@ import VueMeta from 'vue-meta'
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
 window.$vueApp.component('c-spinner', Spinner)
-window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(VueMeta, {
-  // optional pluginOptions
-  refreshOnceOnNavigation: true
-}).use(List).use(PullRefresh).use(ImagePreview).use(Popup)
+window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(List).use(PullRefresh).use(ImagePreview).use(Popup)
 window.$vueApp.mount('#app')
 window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
   return path + (path.endsWith('/') ? '' : '/') + pathToAppend
