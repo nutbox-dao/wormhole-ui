@@ -691,9 +691,15 @@ export default {
         this.metaInfo.meta.meta = [
           {name: 'title', content: 'Wormhole3 curation'},
           {name: 'description', content: val.content},
+          {property: 'twitter:title', content: 'Wormhole3 curation'},
           {property: 'twitter:image', content: this.imageUrl},
           {property: 'twitter:description', content: val.content},
+          {property: 'og:image', content: this.imageUrl},
+          {property: 'og:description', content: val.content}
         ]
+        this.metaInfo.meta.title = 'Wormhole3 curation'
+        this.metaInfo.meta.description = val.content
+        this.metaInfo.meta['twitter:image'] = this.imageUrl
       }
     },
     immediate: true
