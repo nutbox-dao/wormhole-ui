@@ -120,10 +120,16 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import { userLike } from '@/utils/twitter'
 import { notify } from '@/utils/notify';
+import { useMeta } from 'vue-meta'
 
 export default {
   name: "Blog",
   components: {LinkPreview, Repost},
+  setup() {
+    useMeta({
+      title: 'Wormhole3 curation'
+    })
+  },
   metaInfo: {
     title: 'Wormhole3 curation',
     // override the parent template and just use the above title only
