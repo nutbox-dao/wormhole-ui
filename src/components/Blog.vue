@@ -129,8 +129,8 @@ export default {
     // override the parent template and just use the above title only
     titleTemplate: '',
     'twtter:title': 'Wormhole3',
-    'twitter:image': (this.imgurls && this.imgurls.length > 0) ? this.imgurls[0] : 'https://cdn.wherein.mobi/wormhole3/logo/logo.png',
-    'twitter:description': this.post.content
+    'twitter:image': 'https://cdn.wherein.mobi/AmXpUlQogoso978307200',
+    'twitter:description': 'test twitter description'
   },
   props: {
     post: {
