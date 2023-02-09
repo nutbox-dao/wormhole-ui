@@ -33,11 +33,6 @@
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.2rem icon-wallet"></i>
               </router-link>
             </template>
-            <!-- <router-link to="/red-envelope" class="mb-2px">
-              <div class="w-36px h-36px xl:h-1.8rem xl:w-1.8rem">
-                <div class="ny-btn"></div>
-              </div>
-            </router-link> -->
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
@@ -57,23 +52,12 @@
                     <span>{{$t('faq')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-faq"></i>
                   </router-link>
-                  <!-- <router-link to="/userguide" @click.stop="showMenu=false"
+                  <router-link to="/userguide" @click.stop="showMenu=false"
                                class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
                     <span>{{$t('userguide')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-userguide"></i>
-                  </router-link> -->
-<!--                  <el-popover width="10.5rem" trigger="click" popper-class="c-popper c-popper-menu" ref="langRef" placement="left">-->
-<!--                    <template #reference>-->
-<!--                      <div class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">{{$t('language')}}</div>-->
-<!--                    </template>-->
-<!--                    <template #default>-->
-<!--                      <div class="flex flex-col items-center border-1 border-listBgBorder bg-blockBg-->
-<!--                            light:bg-white light:border-0 light:shadow-popper-tip rounded-12px py-0.5rem">-->
-<!--                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('en')">English</div>-->
-<!--                        <div class="py-0.6rem cursor-pointer hover:text-primaryColor" @click="onSelectLang('zh')">简体中文</div>-->
-<!--                      </div>-->
-<!--                    </template>-->
-<!--                  </el-popover>-->
+                  </router-link>
+                  
                   <div @click="onCopy('https://alpha.wormhole3.io/#/square?referee=' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
