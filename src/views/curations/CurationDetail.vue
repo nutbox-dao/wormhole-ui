@@ -1070,7 +1070,6 @@ export default {
   unmounted() {
     clearInterval(this.updateInterval)
     clearInterval(this.timeIntrerval)
-    this.metaInfo.unmounted()
   }
 }
 </script>
