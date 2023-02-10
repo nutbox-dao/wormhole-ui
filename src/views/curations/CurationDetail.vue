@@ -667,6 +667,14 @@ export default {
       let start = new Date(this.detailCuration.createdTime);
       let end = new Date(this.detailCuration.endtime * 1000)
       return getDateString(start, local, 0) + ' ~ ' + getDateString(end, local, 0)
+    },
+    imageUrl() {
+      let urlReg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+      const imgurls = this.detailCuration.content.replace(' ', '').replace('\r', '').replace('\t', '').match(urlReg)
+      if (imgurls && imgurls.length > 0) {
+        return imgurls[0]
+      }
+      return 'https://cdn.wherein.mobi/wormhole3/logo/logo.png'
     }
   },
   watch: {
@@ -681,18 +689,10 @@ export default {
         this.metaInfo.meta.meta = [
           {name: 'title', content: 'Wormhole3 curation'},
           {name: 'description', content: val.content},
-          {property: 'twitter:image', content: imageUrl},
+          {property: 'twitter:image', content: this.imageUrl},
           {property: 'twitter:description', content: val.content},
         ]
       }
-    },
-    imageUrl() {
-      let urlReg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
-      const imgurls = this.detailCuration.content.replace(' ', '').replace('\r', '').replace('\t', '').match(urlReg)
-      if (imgurls && imgurls.length > 0) {
-        return imgurls[0]
-      }
-      return 'https://cdn.wherein.mobi/wormhole3/logo/logo.png'
     },
     immediate: true
   },
@@ -1065,7 +1065,6 @@ export default {
   unmounted() {
     clearInterval(this.updateInterval)
     clearInterval(this.timeIntrerval)
-    this.metaInfo.unmounted()
   }
 }
 </script>
