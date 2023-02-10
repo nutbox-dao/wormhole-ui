@@ -40,7 +40,7 @@ const routes = [
   {
     path: '/square/:referee?',
     name: 'square',
-    component: CurationsRecommend,
+    component: CurationsIndex,
     meta: {keepAlive: true}
   },
   {
@@ -62,7 +62,7 @@ const routes = [
   {
     path: '/recommended',
     name: 'recommended',
-    component: CurationsRecommend,
+    component: CurationsIndex,
   },
   {
     path: '/logincode/:code?',
