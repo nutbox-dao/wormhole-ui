@@ -18,10 +18,7 @@ import AccountInfoView from '@/views/user/tempUser/AccountInfo'
 // import AccountNFTView from '@/views/user/tempUser/NFT'
 // import AccountWalletView from '@/views/user/tempUser/WalletView'
 
-import SquareIndex from "@/views/square/SquareIndex";
-import TagView from "@/views/square/TagView";
 import WalletView from "@/views/user/WalletView";
-import TopicsView from "@/views/square/TopicsView";
 import AboutUsView from "@/views/AboutView";
 import CurationsIndex from "@/views/curations/CurationsIndex";
 import CreateCuration from "@/views/curations/CreateCuration";
@@ -29,7 +26,6 @@ import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
-import CurationsRecommend from "@/views/curations/CurationsRecommend";
 import UserGuide from '@/views/UserGuide';
 
 const routes = [

@@ -160,11 +160,6 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile, getCommon, getPrice } from '@/api/api'
 import Login from '@/views/Login.vue'
-import { getTweetById } from '@/utils/twitter'
-import {showError} from "@/utils/notify";
-import lottie from 'lottie-web'
-import NavbarPage from '@/assets/animation/navbar.json'
-
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
   data: () => {
@@ -176,7 +171,6 @@ export default {
       },
       isDark: false,
       closeLoginTipVisible: false,
-      nyAnimation: null,
       lang: localStorage.getItem('language')
     }
   },
@@ -198,28 +192,7 @@ export default {
       }
     },
   },
-  watch: {
-    'getAccountInfo.twitterUsername'(val) {
-      if(val) {
-        setTimeout(() => {
-          this.showNyAnimation()
-        }, 500)
-      }
-    }
-  },
   methods: {
-    showNyAnimation() {
-      const el = document.querySelector('.ny-btn')
-      if(el===null || this.nyAnimation!==null) return
-      console.log('create animation')
-      this.nyAnimation = lottie.loadAnimation({
-        container: el,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: NavbarPage
-      });
-    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -314,7 +287,6 @@ export default {
       this.$store.commit('saveReferee', referee);
     }
 
-    this.showNyAnimation()
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
 
@@ -369,10 +341,6 @@ export default {
       await sleep(15)
     }
   },
-  unmounted() {
-    this.nyAnimation.destroy()
-    this.nyAnimation = null
-  }
 }
 </script>
 
