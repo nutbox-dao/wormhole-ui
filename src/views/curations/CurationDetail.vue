@@ -672,10 +672,8 @@ export default {
       let urlReg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
       const imgurls = this.detailCuration.content.replace(' ', '').replace('\r', '').replace('\t', '').match(urlReg)
       if (imgurls && imgurls.length > 0) {
-        console.log(44, imgurls[0]);
         return imgurls[0]
       }
-      console.log(23, imgurls, this.detailCuration.content);
       return 'https://cdn.wherein.mobi/wormhole3/logo/logo.png'
     },
   },
