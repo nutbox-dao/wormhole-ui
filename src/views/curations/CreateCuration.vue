@@ -648,10 +648,10 @@ export default {
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     defaultTagList() {
-      const custom = this.customTags ? this.customTags.slice(0,10) : [];
-      let temp = this.commenTopics;
+      const custom = this.customTags ? this.customTags.slice(0,8) : [];
+      let temp = this.commenTopics.slice(0,5);
       if (custom && custom.length > 0){
-        temp = Array.from(new Set(custom.concat(temp.slice(0,10))))
+        temp = Array.from(new Set(custom.concat(temp)))
       }
       return temp
     },
