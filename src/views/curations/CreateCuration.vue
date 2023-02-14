@@ -775,6 +775,13 @@ export default {
               this.form.postData = {};
               return;
             }
+            if (this.form.postData.retweetId) {
+              this.wrongLinkDes = this.$t('curation.cantCurateQuoteTweet');
+              this.linkIsError = true
+              this.form.tweetId = '';
+              this.form.postData = {};
+              return;
+            }
             this.form.author = this.form.postData;
             this.linkIsVerified = true;
           }

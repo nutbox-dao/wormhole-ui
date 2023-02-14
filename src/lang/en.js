@@ -283,6 +283,7 @@ export default {
     invalidLink: 'Invalid link',
     tweetNotExist: "Tweet not exists",
     replyCanntCurate: `Reply tweet can't be curated`,
+    cantCurateQuoteTweet: `Quote tweet can't be curated`,
     spaceIdWrong: "Tweet contain a wrong space ID",
     tweetSpaceAuthorDismatch: "The initiator of Twitter space and Tweet has to be the same person ",
     endedAt: 'Ended At',
