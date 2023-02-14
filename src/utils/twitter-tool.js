@@ -4,6 +4,7 @@
 
 const SpaceRex = /https:\/\/twitter\.com\/i\/spaces\/([0-9a-z-A-Z]+)/
 const regex_hive_tag = /#hive-[0-9]{4,7}/
+const regex_tweet_link = new RegExp("https://twitter.com/([a-zA-Z0-9\_]+)/status/([0-9]+)[/]?$")
 
 export const getSpaceIdFromUrls = (urls) => {
     if (!urls || urls.length === 0) return null;
@@ -49,6 +50,18 @@ export function getTags(tweet) {
     return ["iweb3"];
 }
 
+function getRetweetId(tweet) {
+    if ("data" in tweet && "entities" in tweet.data && "urls" in tweet.data.entities) {
+        for (let url of tweet.data.entities.urls.reverse()) {
+            const group = url.expanded_url.match(regex_tweet_link)
+            if (!!group) {
+                return group[2]
+            }
+        }
+    }
+    return null;
+}
+
 /**
  * tweet content contains the url which is redirect url transformed by twitter, we change them back to original page
  * @param {*} tweet 
@@ -86,6 +99,7 @@ export function parseTweet(tweet) {
     let tags = getTags(tweet);
     let user = getAuthor(tweet);
     let content = tweet.data.text.trim();
+    let retweetId = getRetweetId(tweet);
     let post = {
         parentTweetId: tweet.data.conversation_id,
         postId: tweet.data.id,
@@ -98,7 +112,8 @@ export function parseTweet(tweet) {
         following: user.public_metrics.following_count,
         content,
         postTime: tweet.data.created_at,
-        tags: JSON.stringify(tags)
+        tags: JSON.stringify(tags),
+        retweetId
     }
 
     if ("includes" in tweet && "media" in tweet.includes) {
