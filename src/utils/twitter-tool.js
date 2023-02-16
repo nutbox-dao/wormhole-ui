@@ -99,7 +99,6 @@ export function parseTweet(tweet) {
     let tags = getTags(tweet);
     let user = getAuthor(tweet);
     let content = tweet.data.text.trim();
-    let retweetId = getRetweetId(tweet);
     let post = {
         parentTweetId: tweet.data.conversation_id,
         postId: tweet.data.id,
@@ -112,8 +111,7 @@ export function parseTweet(tweet) {
         following: user.public_metrics.following_count,
         content,
         postTime: tweet.data.created_at,
-        tags: JSON.stringify(tags),
-        retweetId
+        tags: JSON.stringify(tags)
     }
 
     if ("includes" in tweet && "media" in tweet.includes) {
