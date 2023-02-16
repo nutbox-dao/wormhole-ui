@@ -63,7 +63,7 @@
     </div>
     <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-           v-if="refreshing && (!curationsList || curationsList.length === 0)">
+           v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
       <van-pull-refresh v-else
@@ -77,43 +77,114 @@
                   :finished="listFinished"
                   :immediate-check="false"
                   :loading-text="$t('common.loading')"
-                  :finished-text="curationsList.length!==0?$t('common.noMore'):''"
+                  :finished-text="postsList.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
           <div class="sm:px-15px">
             <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
-                 :class="curationsList && curationsList.length>0?'md:p-1rem':''">
-              <div v-if="curationsList && curationsList.length === 0"
+                 :class="postsList && postsList.length>0?'md:p-1rem':''">
+              <div v-if="postsList && postsList.length === 0"
                    class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
                 <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
-                            :curation="curation"
-                            :content-type="curation.curationType === 1?'tweet':'space'"
-                            @getCard="getCardVisible=true"
-                            @click="gotoDetail(curation, index)"/>
+              <template v-else>
+                <div v-for="(post, index) of postsList" :key="post.postId">
+                  <div v-if="!post.spaceId">
+                      <Blog :post="post"
+                          content-class="multi-content"
+                          avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+                      <template #bottom-btn-bar>
+                        <div class="flex-1 flex items-center" @click.stop>
+                          <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
+                          <!-- reply-->
+                          <div class="flex items-center mr-24px">
+                            <button @click.stop="preQuoteOrReply"
+                                    class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                              <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
+                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                              </i>
+                              <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
+                            </button>
+                            <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
+                          </div>
+                          <!-- quote-->
+                          <div class="flex items-center mr-24px">
+                            <button @click.stop="preQuoteOrReply"
+                                    :disabled="isRepling || isQuoting || isRetweeting"
+                                    class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                              <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
+                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                              </i>
+                              <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                            </button>
+                            <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
+                          </div>
+                          <!-- retweet -->
+                          <div class="flex items-center mr-24px">
+                            <button @click.stop="preQuoteOrReply"
+                                    :disabled="isRepling || isQuoting || isRetweeting"
+                                    class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                              <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
+                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                              </i>
+                              <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+                            </button>
+                            <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
+                          </div>
+                          <!-- like-->
+                          <div class="flex items-center mr-24px">
+                            <button :disabled="isLiking"
+                                    @click.stop="like"
+                                    class="flex items-center">
+                              <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
+                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                              </i>
+                              <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
+                            </button>
+                            <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
+                          </div>
+                          <!-- follow-->
+            <!--              <button v-if="isFollow"-->
+            <!--                      :disabled="isFollowing"-->
+            <!--                      @click.stop="follow"-->
+            <!--                      class="flex items-center" >-->
+            <!--                <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">-->
+            <!--                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">-->
+            <!--                </i>-->
+            <!--                <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>-->
+            <!--              </button>-->
+                        </div>
+                      </template>
+                      <template #blog-tag>
+                        <div class="flex">
+                          <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
+                          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+                            <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
+                                        whitespace-nowrap cursor-pointer"
+                                    :class="selectedTag === cTag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                                    v-for="cTag of JSON.parse(post.tags || '[]')" :key="cTag"
+                                    @click.stop="setSelectTag(cTag)">
+                              {{cTag}}
+                            </button>
+                          </div>
+                        </div>
+                      </template>
+                    </Blog>
+                  </div>
+                  <div v-else
+                      class="h-140px md:h-10rem overflow-hidden relative my-10px">
+                    <Space :space="post" class="rounded-15px h-full bg-tag-gradient"/>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </van-list>
 
       </van-pull-refresh>
     </div>
-    <!-- <van-popup class="c-tip-drawer 2xl:w-2/5"
-               v-model:show="modalVisible"
-               :position="position">
-      <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem md:px-4rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-          <CurationsTip class="py-2rem sm:py-0"
-                        @confirm="onCreate"
-                        @close="modalVisible=false"/>
-        </div>
-      </div>
-    </van-popup> -->
     <!-- back top  -->
     <button v-show="scroll>100"
             @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
@@ -137,18 +208,18 @@
 import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations, getCurationsByTrend, getPopularTopics,
-  getNewCurationsByTag, getTrendingCurationsByTag, getTrendingCurationsNew } from '@/api/api'
+import { getTrendingTags, getPostByTrending, getPostByTime } from '@/api/api'
 import { showError } from '@/utils/notify'
-import mitt from 'mitt'
+import Blog from "@/components/Blog";
+import Space from "@/components/Space";
 
 export default {
-  name: "CurationsIndex",
-  components: {CurationItem, CurationsTip},
+  name: "PostsIndex",
+  components: {CurationItem, CurationsTip, Blog, Space},
   data() {
     return {
       listLoading: false,
-      listsFinished: [],
+      listsFinished: {},
       refreshing: false,
       subTagList: ['All'],
       subActiveTagIndex: 0,
@@ -165,23 +236,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('curation', ['getDraft']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag', 'ongoingListByTag', 'trendingListByTag']),
-    curationsList() {
-      if (this.selectedTag === 'All') {
-        if (this.rankValue === 0) {
-          return this.trendingList ?? []
-        }else{
-          return this.ongoingList ?? []
-        }
-      }else {
+    ...mapState('postsModule', ['ongoingListByTag', 'trendingListByTag', 'selectedTag']),
+    postsList() {
         if (this.rankValue === 0) {
           return this.trendingListByTag[this.selectedTag] ?? []
         }else{
           return this.ongoingListByTag[this.selectedTag] ?? []
         }
-      }
     },
     moreTag() {
       return this.subTagList.slice(5)
@@ -203,12 +265,12 @@ export default {
   },
   activated() {
     if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
-    if (this.curationsList.length > 0) return;
+    if (this.postsList.length > 0) return;
     this.onRefresh()
   },
   methods: {
     setSelectTag(tag) {
-      this.$store.commit('curation/saveSelectedTag', tag)
+      this.$store.commit('postsModule/saveSelectedTag', tag)
     },
     addCustomizeTag(tag) {
       if (this.customizeTagList.indexOf(tag) > 0) return;
@@ -231,66 +293,46 @@ export default {
     async onLoad() {
       if(this.refreshing || this.listLoading) return
       try{
-        let curations;
+        let posts;
         let cursor;
         const tag = this.selectedTag;
         this.listLoading = true;
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            curations = this.trendingList
-            cursor = Math.floor(curations.length / 12);
-          }else {
-            curations = this.ongoingList
-            cursor = curations[curations.length - 1].createdTime
-          }
+        if (this.rankValue === 0) {
+          posts = this.trendingListByTag[tag]
+          cursor = Math.floor(posts.length / 12);
         }else {
-          if (this.rankValue === 0) {
-            curations = this.trendingListByTag[tag]
-            cursor = Math.floor(curations.length / 12);
-          }else {
-            curations = this.ongoingListByTag[tag]
-            cursor = curations[curations.length - 1].createdTime
-          }
+          posts = this.ongoingListByTag[tag]
+          cursor = Math.floor(posts.length / 12);
         }
 
-        if (!curations || curations.length === 0) {
+        if (!posts || posts.length === 0) {
           this.listsFinished[tag] = true
           return;
         }
 
-        let moreCurations = [];
+        let morePosts = [];
 
         let mutationStr = ''
         const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null;
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            mutationStr = 'saveTrendingList'
-            moreCurations = await getTrendingCurationsNew(null, cursor, twitterId)
-          }else {
-            mutationStr = 'saveOngoingList'
-            moreCurations = await getCurations(0, cursor, twitterId)
-          }
-          curations = curations.concat(moreCurations);
-          this.$store.commit('curation/'+mutationStr, curations)
-        }else {
-          if (this.rankValue === 0) {
-            moreCurations = await getTrendingCurationsNew(tag, cursor, twitterId);
-            this.trendingListByTag[tag] = curations.concat(moreCurations);
-            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag)
-          }else {
-            moreCurations = await getNewCurationsByTag(twitterId, 0, cursor, tag);
-            this.ongoingListByTag[tag] = curations.concat(moreCurations);
-            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
-          }
 
+        if (this.rankValue === 0) {
+          mutationStr = 'saveTrendingListByTag'
+          morePosts = await getPostByTrending(tag, cursor, null, twitterId)
+          this.trendingListByTag[tag] = posts.concat(morePosts)
+          this.$store.commit('postsModule/'+mutationStr, this.trendingListByTag ?? {})
+        }else {
+          mutationStr = 'saveOngoingListByTag'
+          morePosts = await getPostByTime(tag, cursor, null, twitterId)
+          this.ongoingListByTag[tag] = posts.concat(morePosts)
+         this.$store.commit('postsModule/'+mutationStr, this.ongoingListByTag ?? {})
         }
-        if (moreCurations.length < 12) {
+        if (morePosts.length < 12) {
           this.listsFinished[tag] = true
         }else {
           this.listsFinished[tag] = false
         }
       } catch(e) {
-        console.log('Get more curations fail:', e);
+        console.log('Get more posts fail:', e);
         showError(501)
       } finally {
         this.listLoading = false
@@ -300,36 +342,25 @@ export default {
       this.refreshing = true
       try{
         let tag = this.selectedTag;
-        let curations = []
-        let mutationStr = ''
+        let posts = []
         const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            curations = await getTrendingCurationsNew(null, null, twitterId)
-            mutationStr = 'saveTrendingList'
-          }else{
-            curations = await getCurations(0, null, twitterId)
-            mutationStr = 'saveOngoingList'
-          }
-          this.$store.commit('curation/'+mutationStr, curations ?? [])
-        }else {
-          if (this.rankValue === 0) {
-            curations = await getTrendingCurationsNew(tag, null, twitterId);
-            this.trendingListByTag[tag] = curations;
-            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag);
-          }else {
-            curations = await getNewCurationsByTag(twitterId, 0, null, tag);
-            this.ongoingListByTag[tag] = curations;
-            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
-          }
+        if (this.rankValue === 0) {
+          posts = await getPostByTrending(tag, null, null, twitterId)
+          this.trendingListByTag[tag] = posts
+          this.$store.commit('postsModule/saveTrendingListByTag', this.trendingListByTag ?? {})
+        }else{
+          posts = await getPostByTime(tag, null, null, twitterId)
+          this.ongoingListByTag[tag] = posts
+          this.$store.commit('postsModule/saveOngoingListByTag', this.ongoingListByTag ?? {})
         }
-        if (!curations || curations.length < 12) {
+        console.log(1, posts);
+        if (!posts || posts.length < 12) {
           this.listsFinished[tag] = true
         }else {
           this.listsFinished[tag] = false
         }
       } catch(e) {
-        console.log('Refresh curations fail:', e);
+        console.log('Refresh posts fail:', e);
         showError(501)
       } finally {
         this.refreshing = false
@@ -338,7 +369,7 @@ export default {
     gotoDetail(curation, index) {
       this.selectedCuration = curation
       this.selectedCurationIndex = index
-      this.$store.commit('curation/saveDetailCuration', curation);
+      this.$store.commit('postsModule/saveDetailCuration', curation);
       this.$router.push('/curation-detail/' + curation.curationId);
     },
     createCuration() {
@@ -355,13 +386,14 @@ export default {
       // 修改数据
       if(this.selectedCuration.curationId === curationDetail.curationId) {
         console.log('============', this.selectedCuration)
-        this.curationsList[this.selectedCurationIndex] = curationDetail
+        this.postsList[this.selectedCurationIndex] = curationDetail
       }
     })
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
-    getPopularTopics().then(topics => {
-      this.subTagList = ['All'].concat(topics.map(t => t.topic))
+    getTrendingTags().then(topics => {
+      console.log(2, topics);
+      this.subTagList = ['All'].concat(topics.map(t => t.tag))
     })
     this.onRefresh();
   }

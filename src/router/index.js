@@ -20,7 +20,7 @@ import AccountInfoView from '@/views/user/tempUser/AccountInfo'
 
 import WalletView from "@/views/user/WalletView";
 import AboutUsView from "@/views/AboutView";
-import CurationsIndex from "@/views/curations/CurationsIndex";
+import PostsIndex from "@/views/post/PostsIndex";
 import CreateCuration from "@/views/curations/CreateCuration";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
@@ -36,13 +36,7 @@ const routes = [
   {
     path: '/square/:referee?',
     name: 'square',
-    component: CurationsIndex,
-    meta: {keepAlive: true}
-  },
-  {
-    path: '/curations',
-    name: 'curations',
-    component: CurationsIndex,
+    component: PostsIndex,
     meta: {keepAlive: true}
   },
   {
@@ -54,11 +48,6 @@ const routes = [
     path: '/curation-detail/:id',
     name: 'curation-detail',
     component: CurationDetail
-  },
-  {
-    path: '/recommended',
-    name: 'recommended',
-    component: CurationsIndex,
   },
   {
     path: '/logincode/:code?',

@@ -67,28 +67,18 @@ export const getPostById = async (postId) => {
     get(BACKEND_API_URL + '/twitter/getPostById', {postId, myTwitterId})
 }
 
-export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
-    if (newPost) {
-        return get(BACKEND_API_URL + '/twitter/refreshByTagTime', {tag,pageSize, time})
-    }else {
-        return get(BACKEND_API_URL + '/twitter/moreByTagTime', {tag, pageSize, time})
-    }
-}
-
 export const getCommentsByPostid = async (postId) =>
     get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
 
-export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
-    get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
+export const getTrendingTags = async () => 
+    get(BACKEND_API_URL + '/post/getTrendingTags')
 
-export const getPostByTrend = async (tag, pageSize, pageNum) =>
-    get(BACKEND_API_URL + '/twitter/getPostByTrend', {tag, pageSize, pageNum})
+export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
+    get(BACKEND_API_URL + '/post/getPostByTrending', {tag, pageIndex, pageSize, twitterId})
 
-export const getTagAggregation = async () =>
-    get(BACKEND_API_URL + '/twitter/tags')
+export const getPostByTime = async (tag, pageIndex, pageSize, twitterId) =>
+    get(BACKEND_API_URL + '/post/getPostByTime', {tag, pageIndex, pageSize, twitterId})
 
-export const getUserFavTag = async (twitterId) => 
-    get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
 
 /****************************************  curation  ***********************************************/
 export const preNewCuration = async (curation) =>
