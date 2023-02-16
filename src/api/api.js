@@ -79,6 +79,18 @@ export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
 export const getPostByTime = async (tag, pageIndex, pageSize, twitterId) =>
     get(BACKEND_API_URL + '/post/getPostByTime', {tag, pageIndex, pageSize, twitterId})
 
+export const quotePost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/quotePost')
+
+export const replyPost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/replyPost')
+
+export const likePost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/likePost', {twitterId, tweetId})
+
+export const retweetPost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
+
 
 /****************************************  curation  ***********************************************/
 export const preNewCuration = async (curation) =>

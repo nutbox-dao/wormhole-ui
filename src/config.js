@@ -6,8 +6,8 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'http://localhost:3100'
 // export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'

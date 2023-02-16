@@ -68,26 +68,60 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <div class="flex gap-4rem mt-15px">
-              <div class="text-white flex items-center cursor-pointer" @click.stop="reply">
-                <i class="w-18px h-18px icon-msg"></i>
-                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
+            <div class="flex gap-4rem mt-15px flex-1">
+              <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
+              <!-- reply-->
+              <div class="flex items-center mr-24px">
+                <button @click.stop="userReply"
+                        :disabled="isRepling || isQuoting || isRetweeting"
+                        class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                  <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
+                </button>
+                <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount }}</span>
               </div>
-              <!-- <div class="text-text8F flex items-center">
-                <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
-                <span class="c-text-medium ml-2px">61</span>
-              </div> -->
-              <div class="flex items-center cursor-pointer" @click.stop="likeTweet">
-                <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                <img v-else-if="post.voted>0" src="~@/assets/icon-liked.svg" alt="">
-                <i v-else class="w-18px h-18px icon-like"></i>
-                <span class="ml-2px font-700"
-                      :class="post.voted>0?'text-colorCE':'text-white light:text-color7D'">{{ post.votes }}</span>
+              <!-- quote-->
+              <div class="flex items-center mr-24px">
+                <button @click.stop="userQuote"
+                        :disabled="isRepling || isQuoting || isRetweeting"
+                        class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                  <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+                </button>
+                <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount }}</span>
               </div>
-              <div class="text-white flex items-center">
+              <!-- retweet -->
+              <div class="flex items-center mr-24px">
+                <button @click.stop="userRetweet"
+                        :disabled="isRepling || isQuoting || isRetweeting"
+                        class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                  <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+                </button>
+                <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount }}</span>
+              </div>
+              <!-- like-->
+              <div class="flex items-center mr-24px">
+                <button :disabled="isLiking"
+                        @click.stop="userLike"
+                        class="flex items-center">
+                  <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
+                </button>
+                <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount }}</span>
+              </div>
+              <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
-              </div>
+              </div> -->
               <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
                 <i class="w-18px h-18px icon-twitter"></i>
               </div>
@@ -118,7 +152,7 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
-import { userLike } from '@/utils/twitter'
+import { likePost, retweetPost } from '@/utils/post'
 import { notify } from '@/utils/notify';
 
 export default {
@@ -156,6 +190,9 @@ export default {
       mapOptionsModalVisible: false,
       mapLoading: false,
       gdLocation: '',
+      isRepling: false,
+      isQuoting: false,
+      isRetweeting: false,
       isLiking: false
     }
   },
@@ -210,6 +247,7 @@ export default {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
       } else {
+        // goto detail
         this.$refs.blogRef.click()
       }
     },
@@ -235,24 +273,42 @@ export default {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
-    reply() {
-      const url = `https://twitter.com/intent/tweet?in_reply_to=${this.post.postId}&text=%0a%23iweb3`
-      window.open(url)
+    async userReply() {
     },
-    async likeTweet() {
+    async userQuote() {
+    },
+    async userRetweet() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isRetweeting = true
+        await retweetPost(this.post.postId)
+        this.post.retweeted = 1
+        this.post.retweetCount += 1
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+        }
+      } finally {
+        this.isRetweeting = false
+      }
+    },
+    async userLike() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
       }
       try{
         this.isLiking = true
-        const result = await userLike(this.post.postId)
-        let nyCard = result.nyCard;
-        if (nyCard && nyCard.cardId > 0) {
-          this.$store.commit('saveNewCardId', nyCard.cardId)
-          this.$store.commit('saveGetCardVisible', true)
-        }
-        this.post.voted = 1
+        const result = await likePost(this.post.postId)
+        this.post.liked = 1
+        this.post.likeCount += 1
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)

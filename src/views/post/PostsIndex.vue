@@ -92,85 +92,9 @@
               <template v-else>
                 <div v-for="(post, index) of postsList" :key="post.postId">
                   <div v-if="!post.spaceId">
-                      <Blog :post="post"
+                    <Blog :post="post"
                           content-class="multi-content"
                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
-                      <template #bottom-btn-bar>
-                        <div class="flex-1 flex items-center" @click.stop>
-                          <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
-                          <!-- reply-->
-                          <div class="flex items-center mr-24px">
-                            <button @click.stop="preQuoteOrReply"
-                                    class="text-white flex justify-center items-center w-24px h-24px rounded-full">
-                              <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
-                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                              </i>
-                              <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
-                            </button>
-                            <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
-                          </div>
-                          <!-- quote-->
-                          <div class="flex items-center mr-24px">
-                            <button @click.stop="preQuoteOrReply"
-                                    :disabled="isRepling || isQuoting || isRetweeting"
-                                    class="text-white flex justify-center items-center w-20px h-20px rounded-full">
-                              <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
-                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                              </i>
-                              <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-                            </button>
-                            <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
-                          </div>
-                          <!-- retweet -->
-                          <div class="flex items-center mr-24px">
-                            <button @click.stop="preQuoteOrReply"
-                                    :disabled="isRepling || isQuoting || isRetweeting"
-                                    class="text-white flex justify-center items-center w-20px h-20px rounded-full">
-                              <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
-                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                              </i>
-                              <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-                            </button>
-                            <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
-                          </div>
-                          <!-- like-->
-                          <div class="flex items-center mr-24px">
-                            <button :disabled="isLiking"
-                                    @click.stop="like"
-                                    class="flex items-center">
-                              <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
-                                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-                              </i>
-                              <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
-                            </button>
-                            <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
-                          </div>
-                          <!-- follow-->
-            <!--              <button v-if="isFollow"-->
-            <!--                      :disabled="isFollowing"-->
-            <!--                      @click.stop="follow"-->
-            <!--                      class="flex items-center" >-->
-            <!--                <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">-->
-            <!--                  <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">-->
-            <!--                </i>-->
-            <!--                <i v-else class="w-20px h-20px min-w-20px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>-->
-            <!--              </button>-->
-                        </div>
-                      </template>
-                      <template #blog-tag>
-                        <div class="flex">
-                          <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
-                          <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
-                            <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
-                                        whitespace-nowrap cursor-pointer"
-                                    :class="selectedTag === cTag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                                    v-for="cTag of JSON.parse(post.tags || '[]')" :key="cTag"
-                                    @click.stop="setSelectTag(cTag)">
-                              {{cTag}}
-                            </button>
-                          </div>
-                        </div>
-                      </template>
                     </Blog>
                   </div>
                   <div v-else
@@ -353,7 +277,6 @@ export default {
           this.ongoingListByTag[tag] = posts
           this.$store.commit('postsModule/saveOngoingListByTag', this.ongoingListByTag ?? {})
         }
-        console.log(1, posts);
         if (!posts || posts.length < 12) {
           this.listsFinished[tag] = true
         }else {
@@ -392,7 +315,6 @@ export default {
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getTrendingTags().then(topics => {
-      console.log(2, topics);
       this.subTagList = ['All'].concat(topics.map(t => t.tag))
     })
     this.onRefresh();
