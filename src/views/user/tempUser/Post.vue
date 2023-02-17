@@ -102,6 +102,7 @@ export default {
   },
   computed: {
     ...mapState(['prices']),
+    ...mapGetters(['getAccountInfo']),
     steemValue() {
       return formatPrice(this.steemBalance * this.prices['steem'])
     }
@@ -132,12 +133,7 @@ export default {
     onRefresh() {
       console.log('refresh')
       this.refreshing = true
-      let time;
-      if (this.posts && this.posts.length > 0) {
-        time = this.posts[0].postTime
-      }
-
-      getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, true).then(async (res) => {
+      getUsersPosts(this.getAccountInfo?.twitterId, this.accountInfo.twitterId).then(async (res) => {
         const posts = await getPosts(res)
         this.posts = posts.concat(this.posts)
         this.refreshing = false
@@ -147,12 +143,12 @@ export default {
     },
     onLoad() {
       console.log('load more')
-      if (this.finished || this.loading) return;
+      if (this.finished || this.loading || this.refreshing) return;
       let time;
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, false).then(async (res) => {
+        getUsersPosts(this.getAccountInfo?.twitterId, this.accountInfo.twitterId, time).then(async (res) => {
          const posts = await getPosts(res)
          this.posts = this.posts.concat(posts)
           if (res.length < this.pageSize) {

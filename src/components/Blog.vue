@@ -82,7 +82,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount }}</span>
+                <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
               </div>
               <!-- quote-->
               <div class="flex-1 flex items-center">
@@ -94,7 +94,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount }}</span>
+                <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
               </div>
               <!-- retweet -->
               <div class="flex-1 flex items-center">
@@ -106,7 +106,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount }}</span>
+                <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
               </div>
               <!-- like-->
               <div class="flex-1 flex items-center">
@@ -118,7 +118,7 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount }}</span>
+                <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
@@ -565,7 +565,7 @@ export default {
         this.isRetweeting = true
         await retweetPost(this.post.postId)
         this.post.retweeted = 1
-        this.post.retweetCount += 1
+        this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
@@ -587,7 +587,7 @@ export default {
         this.isLiking = true
         const result = await likePost(this.post.postId)
         this.post.liked = 1
-        this.post.likeCount += 1
+        this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
