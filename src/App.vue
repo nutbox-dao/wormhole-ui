@@ -19,8 +19,15 @@
             </div>
             <template v-else>
               <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
-                <input type="text" placeholder="Search . . ."
-                       class="bg-transparent z-9 relative px-10px rounded-full" >
+                <input type="text" :placeholder="$t('search')"
+                       v-model="searchText"
+                       @keypress="onSearch"
+                       class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
+                <button v-if="searchText.trim().length>0"
+                        @click="searchText=''"
+                        class="absolute right-5px bg-color8B/30 p-2px rounded-full">
+                  <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
+                </button>
               </div>
               <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
                        h-30px px-15px rounded-full mr-0.8rem
@@ -175,7 +182,8 @@ export default {
       },
       isDark: false,
       closeLoginTipVisible: false,
-      lang: localStorage.getItem('language')
+      lang: localStorage.getItem('language'),
+      searchText: ''
     }
   },
   computed: {
@@ -281,6 +289,11 @@ export default {
         this.$router.push('/create-curation')
       }else {
         this.$store.commit('saveShowLogin', true)
+      }
+    },
+    onSearch(e) {
+      if(this.searchText.trim().length > 0 && e.keyCode === 13) {
+
       }
     }
   },
@@ -595,6 +608,7 @@ export default {
   color: #D8D8D8;
   opacity: 0;
   transition: opacity 150ms ease-out;
+  font-size: 12px;
 }
 
 .search-bar > input:focus::placeholder {
