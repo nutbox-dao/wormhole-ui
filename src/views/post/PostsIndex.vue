@@ -90,10 +90,10 @@
                 </div>
               </div>
               <template v-else>
-                <div v-for="(post, index) of postsList" :key="post.postId">
+                <div v-for="(post, index) of postsList" :key="post.postId"
+                     class="py-20px border-b-1 border-color8B/30 light:border-colorF4">
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
-                          content-class="multi-content"
                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
                     </Blog>
                   </div>
@@ -110,7 +110,7 @@
       </van-pull-refresh>
     </div>
     <!-- back top  -->
-    <button v-show="scroll>100"
+    <button v-show="scroll>200"
             @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem

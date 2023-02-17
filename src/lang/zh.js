@@ -296,7 +296,11 @@ export default {
     quote: '引用',
     reply: '回复',
     inputMoreWords: '请输入至少10个字符的内容',
-    inputRelatedWords: '请输入和该策展相关的内容'
+    inputRelatedWords: '请输入和该策展相关的内容',
+    replyTo: '回复',
+    tweet: '发推',
+    tweetInputTip: '添加评论',
+    tweetReply: '发布你的回复'
   },
   popup: {
     create: '创建快闪回复操作',

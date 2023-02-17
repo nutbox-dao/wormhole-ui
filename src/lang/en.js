@@ -296,7 +296,11 @@ export default {
     quote: 'Quote',
     reply: 'Reply',
     inputMoreWords: 'You must input more than 10 words',
-    inputRelatedWords: 'You must input content about this curation'
+    inputRelatedWords: 'You must input content about this curation',
+    replyTo: 'Replying to',
+    tweet: 'Tweet',
+    tweetInputTip: 'Add a comment',
+    tweetReply: 'Tweet your reply'
   },
   popup: {
     create: 'Create a Pop-up reply action',

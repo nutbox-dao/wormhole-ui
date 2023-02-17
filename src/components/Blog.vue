@@ -18,11 +18,11 @@
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
           </div>
           <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
               @{{ post.username }}
             </span>
-            <span class="mx-4px text-color8B light:text-colorBD"> · </span>
-            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+            <span class="mx-4px text-color8B light:text-color7D"> · </span>
+            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
              {{ parseTimestamp(post.postTime) }}
             </span>
           </div>
@@ -35,7 +35,9 @@
             <div @click.stop="clickContent"
                  class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
-              <div class="whitespace-pre-line" :class="contentClass" v-else v-html="formatEmojiText(content)"></div>
+              <div class="whitespace-pre-line"
+                   :class="(imgurls && imgurls.length>0)?'multi-content':''"
+                   v-else v-html="formatEmojiText(content)"></div>
             </div>
           </div>
 
@@ -68,11 +70,11 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <div class="flex gap-4rem mt-15px flex-1">
+            <div class="flex justify-between mt-15px flex-1 sm:w-8/10">
               <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
               <!-- reply-->
-              <div class="flex items-center mr-24px">
-                <button @click.stop="userReply"
+              <div class="flex-1 flex items-center">
+                <button @click.stop="replyVisible=true, setInputFocus()"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-24px h-24px rounded-full">
                   <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
@@ -83,8 +85,8 @@
                 <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount }}</span>
               </div>
               <!-- quote-->
-              <div class="flex items-center mr-24px">
-                <button @click.stop="userQuote"
+              <div class="flex-1 flex items-center">
+                <button @click.stop="quoteVisible=true, setInputFocus()"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
@@ -95,7 +97,7 @@
                 <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount }}</span>
               </div>
               <!-- retweet -->
-              <div class="flex items-center mr-24px">
+              <div class="flex-1 flex items-center">
                 <button @click.stop="userRetweet"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
@@ -107,7 +109,7 @@
                 <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount }}</span>
               </div>
               <!-- like-->
-              <div class="flex items-center mr-24px">
+              <div class="flex-1 flex items-center">
                 <button :disabled="isLiking"
                         @click.stop="userLike"
                         class="flex items-center">
@@ -140,24 +142,238 @@
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
+<!--    reply-->
+    <van-popup class="md:w-600px bg-black light:bg-transparent w-full"
+               teleport="body"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="replyVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="replyVisible"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden max-h-80vh
+                    flex flex-col">
+          <div class="p-15px">
+            <button @click="replyVisible=false">
+              <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+            </button>
+          </div>
+          <div class="flex-1 overflow-auto px-15px no-scroll-bar">
+            <div class="flex justify-start items-stretch">
+              <div class="flex flex-col items-center mr-10px md:mr-1rem">
+                <img class="rounded-full gradient-border w-3.6rem h-3.6rem"
+                     :src="profileImg" alt="">
+                <div class="flex-1 my-10px w-2px bg-color8B/30 light:bg-color7D"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex-1 flex items-center flex-wrap">
+                  <div class="flex items-center flex-wrap">
+                <span class="c-text-black text-left mr-3 cursor-pointer
+                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark">
+                  {{ post.name }}
+                </span>
+                  </div>
+                  <div class="flex items-center id-time">
+                  <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+                    @{{ post.username }}
+                  </span>
+                    <span class="mx-4px text-color8B light:text-color7D"> · </span>
+                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem
+                               2xl:leading-1rem text-color8B light:text-color7D">
+                    {{ parseTimestamp(post.postTime) }}
+                  </span>
+                  </div>
+                </div>
+                <div class="text-left font-400 mt-0.5rem">
+                  <div class="text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem
+                            text-colorD9 light:text-color46">
+                    <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
+                    <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
+                  </div>
+                  <div v-if="imgurls" class="text-colorD9 light:text-color46">
+                  <span v-for="(url, index) of imgurls.slice(0,4)" :key="index"
+                        :title="url">[Pic]</span>
+                  </div>
+                  <Repost class="mt-10px"
+                          :content-class="contentClass"
+                          :is-reply="true"
+                          @click.stop="clickRetweetView()"
+                          v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount"
+                          :retweetInfo="post.retweetInfo"/>
+                </div>
+                <div class="py-10px">
+                  <span class="text-color8B light:text-color7D mr-10px">{{$t('curation.replyTo')}} </span>
+                  <span class="text-colorBlue">@{{ post.username }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3.6rem h-3.6rem"
+                   :src="userProfileImg" alt="">
+              <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px flex-1
+                      flex flex-col light:bg-white light:border-colorE3 rounded-8px">
+                <div class="flex-1 flex flex-col relative">
+                  <div v-show="showInputTip"
+                       class="absolute px-1rem top-5px leading-24px 2xl:leading-1rem opacity-50">
+                    {{$t('curation.tweetReply')}}
+                  </div>
+                  <div contenteditable
+                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                       ref="contentRef"
+                       @blur="getBlur"
+                       @paste="onPasteEmojiContent"
+                       @input="contentInputChange"
+                       v-html="formatEmojiText(inputContent)">
+                  </div>
+                </div>
+                <div class="py-2 flex justify-between items-center px-1rem">
+                  <el-popover ref="emojiPopover"
+                              trigger="click" width="300"
+                              :teleported="false" :persistent="false">
+                    <template #reference>
+                      <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
+                    </template>
+                    <template #default>
+                      <div class="h-310px lg:h-400px ">
+                        <EmojiPicker :options="{
+                                    imgSrc:'/emoji/',
+                                    locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                    hasSkinTones:false,
+                                    hasGroupIcons:false}"
+                                     @select="(e) =>selectEmoji(e)" />
+                      </div>
+                    </template>
+                  </el-popover>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end my-1rem">
+              <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
+                           h-44px 2xl:h-2.2rem min-w-8rem px-20px rounded-full text-16px 2xl:text-0.8rem"
+                      @click="userReply">
+                {{$t('curation.reply')}}
+                <c-spinner v-show="replying" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </van-popup>
+<!--    quote-->
+    <van-popup class="md:w-600px bg-black light:bg-transparent w-full"
+               teleport="body"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="quoteVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="quoteVisible"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden
+                    max-h-80vh flex flex-col">
+          <div class="p-15px">
+            <button @click="quoteVisible=false">
+              <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+            </button>
+          </div>
+          <div class="flex-1 flex overflow-auto px-15px no-scroll-bar">
+            <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3rem h-3rem"
+                 :src="userProfileImg" alt="">
+            <div class="flex-1">
+              <div class="flex flex-col relative">
+                <div v-show="showInputTip"
+                     class="absolute top-5px leading-24px 2xl:leading-1rem opacity-50">
+                  {{$t('curation.tweetInputTip')}}
+                </div>
+                <div contenteditable
+                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                     ref="contentRef"
+                     @blur="getBlur"
+                     @paste="onPasteEmojiContent"
+                     @input="contentInputChange"
+                     v-html="formatEmojiText(inputContent)">
+                </div>
+              </div>
+              <div class="mt-1rem border-1 border-listBgBorder bg-white/10 rounded-12px p-15px">
+                <div class="flex items-center flex-wrap">
+                  <img class="rounded-full gradient-border w-1.6rem h-1.6rem mr-5px"
+                       :src="profileImg" alt="">
+                  <div class="flex items-center flex-wrap">
+                      <span class="c-text-black text-left mr-3 cursor-pointer
+                        text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark">
+                        {{ post.name }}
+                      </span>
+                  </div>
+                  <div class="flex items-center id-time">
+                      <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+                        @{{ post.username }}
+                      </span>
+                    <span class="mx-4px text-color8B light:text-color7D"> · </span>
+                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem
+                               2xl:leading-1rem text-color8B light:text-color7D">
+                        {{ parseTimestamp(post.postTime) }}
+                      </span>
+                  </div>
+                </div>
+                <div class="text-left font-400 mt-0.5rem">
+                  <div class="text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem
+                            text-colorD9 light:text-color46">
+                    <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
+                    <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
+                  </div>
+                  <div v-if="imgurls" class="text-colorD9 light:text-color46">
+                    <span v-for="(url, index) of imgurls.slice(0,4)" :key="index" :title="url">[Pic]</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between py-1rem">
+                <div class="flex justify-between items-center">
+                  <el-popover ref="emojiPopover"
+                              trigger="click" width="300"
+                              :teleported="false" :persistent="false">
+                    <template #reference>
+                      <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
+                    </template>
+                    <template #default>
+                      <div class="h-310px lg:h-400px ">
+                        <EmojiPicker :options="{
+                                    imgSrc:'/emoji/',
+                                    locals: $i18n.locale==='zh'?'zh_CN':'en',
+                                    hasSkinTones:false,
+                                    hasGroupIcons:false}"
+                                     @select="(e) =>selectEmoji(e)" />
+                      </div>
+                    </template>
+                  </el-popover>
+                </div>
+                <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
+                               h-44px 2xl:h-2rem min-w-6rem px-20px rounded-full text-16px 2xl:text-0.8rem"
+                        @click="userQuote">
+                  {{$t('curation.tweet')}}
+                  <c-spinner v-show="replying" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { parseTimestamp, formatPrice } from '@/utils/helper'
+import {parseTimestamp, formatPrice, stringLength} from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { SteemScan, IgnoreAuthor, errCode } from '@/config'
 import { ImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import {formatEmojiText} from "@/utils/tool";
+import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { likePost, retweetPost } from '@/utils/post'
 import { notify } from '@/utils/notify';
+import { EmojiPicker } from 'vue3-twemoji-picker-final'
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost},
+  components: {LinkPreview, Repost, EmojiPicker},
   props: {
     post: {
       type: Object,
@@ -178,6 +394,7 @@ export default {
   },
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       like: true,
       urls: [],
       imgurls: [],
@@ -193,7 +410,14 @@ export default {
       isRepling: false,
       isQuoting: false,
       isRetweeting: false,
-      isLiking: false
+      isLiking: false,
+      replyVisible: false,
+      replying: false,
+      contentRange: null,
+      inputContent: '',
+      inputContentEl: '',
+      quoteVisible: false,
+      showInputTip: true
     }
   },
   computed: {
@@ -208,6 +432,17 @@ export default {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
      },
+    userProfileImg() {
+      if (!this.getAccountInfo) return "";
+      if (this.getAccountInfo.profileImg) {
+        return this.getAccountInfo.profileImg.replace("normal", "400x400");
+      } else {
+        return (
+            "https://profile-images.heywallet.com/" +
+            this.getAccountInfo.twitterId
+        );
+      }
+    },
     isIgnoreAccount() {
       const res = IgnoreAuthor.indexOf(this.post.steemId) !== -1
       return res
@@ -238,11 +473,52 @@ export default {
         content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px 2xl:text-0.8rem break-all">${url}</span>`)
       }
       return content
-    }
+    },
   },
   methods: {
     formatEmojiText,
     parseTimestamp,
+    getBlur() {
+      const sel = window.getSelection();
+      this.contentRange = sel.getRangeAt(0);
+    },
+    setInputFocus() {
+      setTimeout(() => {
+        document.getElementsByClassName('content-input-box')[0].focus()
+      }, 500)
+    },
+    onPasteEmojiContent,
+    contentInputChange() {
+      this.showInputTip = this.$refs.contentRef.innerHTML.length===0
+    },
+    selectEmoji(e) {
+      const newNode = document.createElement('img')
+      newNode.alt = e.i
+      newNode.src = e.imgSrc
+      newNode.className = 'inline-block w-18px h-18px mx-2px'
+      if(!this.contentRange) return
+      this.contentRange.insertNode(newNode)
+      this.$refs.emojiPopover.hide()
+      this.showInputTip = false
+    },
+    formatElToTextContent(el) {
+      el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('</div>', '\n')
+      el.innerHTML =el.innerHTML.replaceAll('<br>', '')
+      let content = ''
+      let tweetLength = 0;
+      for(let i of el.childNodes) {
+        if(i.nodeName==='#text') {
+          tweetLength += stringLength(i.textContent);
+          content += i.textContent
+        } else if(i.nodeName === 'IMG') {
+          tweetLength+=2;
+          content += i.alt
+        }
+      }
+      this.tweetLength = tweetLength
+      return content
+    },
     clickContent(e) {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
@@ -274,6 +550,9 @@ export default {
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
     async userReply() {
+      this.inputContentEl = this.$refs.contentRef.innerHTML
+      this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
+      console.log(this.inputContent)
     },
     async userQuote() {
     },
