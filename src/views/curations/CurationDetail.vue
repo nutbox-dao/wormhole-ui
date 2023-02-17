@@ -426,7 +426,7 @@
                 <div class="py-2 border-color8B/30 flex justify-between">
                   <el-popover ref="descEmojiPopover" :placement="position"
                               trigger="click" width="300"
-                              :teleported="false"
+                              :teleported="true"
                               :persistent="false">
                     <template #reference>
                       <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">

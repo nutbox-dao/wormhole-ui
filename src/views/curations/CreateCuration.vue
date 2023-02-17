@@ -53,7 +53,7 @@
             <div class="py-2 flex justify-between items-center px-1rem">
               <el-popover ref="descEmojiPopover"
                           trigger="click" width="300"
-                          :teleported="false" :persistent="false">
+                          :teleported="true" :persistent="false">
                 <template #reference>
                   <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
                 </template>
