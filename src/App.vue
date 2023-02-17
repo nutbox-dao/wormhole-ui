@@ -18,6 +18,10 @@
               </button>
             </div>
             <template v-else>
+              <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
+                <input type="text" placeholder="Search . . ."
+                       class="bg-transparent z-9 relative px-10px rounded-full" >
+              </div>
               <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
                        h-30px px-15px rounded-full mr-0.8rem
                        font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
@@ -58,7 +62,7 @@
                     <span>{{$t('userguide')}}</span>
                     <i class="w-14px min-w-14px h-14px icon-userguide"></i>
                   </router-link>
-                  
+
                   <div @click="onCopy('https://alpha.wormhole3.io/#/square?referee=' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
@@ -559,6 +563,52 @@ export default {
     &::after {
       height: 0.14rem;
     }
+  }
+}
+.search-bar {
+  box-sizing: border-box;
+  &::after {
+    content: "";
+    background: #848391;
+    width: 1px;
+    height: 8px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: rotate(135deg);
+  }
+}
+.light .search-bar::after {
+  background-color: #D8D8D8;
+}
+.search-bar > input {
+  width: 28px;
+  height: 28px;
+  outline: none;
+  transition: width 0.5s;
+  border: 1px solid #848391;
+}
+.light .search-bar >input {
+  border: 1px solid #D8D8D8;
+}
+.search-bar > input::placeholder {
+  color: #D8D8D8;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.search-bar > input:focus::placeholder {
+  opacity: 1;
+}
+.search-bar > input:focus,
+.search-bar > input:not(:placeholder-shown) {
+  width: 160px;
+}
+@media (max-width: 500px) {
+  .search-bar > input:focus,
+  .search-bar > input:not(:placeholder-shown) {
+    width: 120px;
+    max-width: 120px;
   }
 }
 </style>
