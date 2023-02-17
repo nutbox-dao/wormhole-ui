@@ -57,10 +57,8 @@ export const getUserByIds = async (twitterIds) =>
     get(BACKEND_API_URL + '/users/byTwitterIds', {twitterIds})
 
 /****************************************  posts  ***********************************************/
-export const getUsersPosts = async (twitterId, pageSize, time, newPost) => {
-    const myTwitterId = store.getters.getAccountInfo?.twitterId
-    return get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost, myTwitterId})
-}
+export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
+    get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
 
 export const getPostById = async (postId) => {
     const myTwitterId = store.getters.getAccountInfo?.twitterId

@@ -250,6 +250,7 @@ export default {
           this.ongoingListByTag[tag] = posts.concat(morePosts)
          this.$store.commit('postsModule/'+mutationStr, this.ongoingListByTag ?? {})
         }
+        console.log(3, morePosts.length);
         if (morePosts.length < 12) {
           this.listsFinished[tag] = true
         }else {
