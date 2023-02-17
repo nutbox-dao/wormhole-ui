@@ -15,6 +15,7 @@ export default {
   logout: '登出',
   myWallet: '我的钱包',
   myReward: '我的奖励',
+  search: '搜索',
   signUpView: {
     p1: '你还没有注册.',
     p2: '注册然后...',
