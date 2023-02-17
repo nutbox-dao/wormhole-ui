@@ -74,7 +74,7 @@
               <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
               <!-- reply-->
               <div class="flex-1 flex items-center">
-                <button @click.stop="replyVisible=true, setInputFocus()"
+                <button @click.stop="preReply"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-24px h-24px rounded-full">
                   <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
@@ -86,7 +86,7 @@
               </div>
               <!-- quote-->
               <div class="flex-1 flex items-center">
-                <button @click.stop="quoteVisible=true, setInputFocus()"
+                <button @click.stop="preQuote"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
@@ -548,6 +548,22 @@ export default {
     gotoTweet(e) {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
+    preQuote() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      this.quoteVisible = true
+      this.setInputFocus()
+    },
+    preReply() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      this.replyVisible = true;
+      this.setInputFocus()
     },
     async userReply() {
       this.inputContentEl = this.$refs.contentRef.innerHTML
