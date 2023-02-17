@@ -249,9 +249,10 @@
             <div class="flex justify-end my-1rem">
               <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
                            h-44px 2xl:h-2.2rem min-w-8rem px-20px rounded-full text-16px 2xl:text-0.8rem"
+                      :disabled="isRepling"
                       @click="userReply">
                 {{$t('curation.reply')}}
-                <c-spinner v-show="replying" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
+                <c-spinner v-show="isRepling" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
               </button>
             </div>
           </div>
@@ -345,9 +346,10 @@
                 </div>
                 <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
                                h-44px 2xl:h-2rem min-w-6rem px-20px rounded-full text-16px 2xl:text-0.8rem"
-                        @click="userQuote">
+                        :disabled="isQuoting"
+                               @click="userQuote">
                   {{$t('curation.tweet')}}
-                  <c-spinner v-show="replying" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
+                  <c-spinner v-show="isQuoting" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
                 </button>
               </div>
             </div>
@@ -367,7 +369,7 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
-import { likePost, retweetPost } from '@/utils/post'
+import { likePost, retweetPost, replyPost, quotePost } from '@/utils/post'
 import { notify } from '@/utils/notify';
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 
@@ -568,9 +570,51 @@ export default {
     async userReply() {
       this.inputContentEl = this.$refs.contentRef.innerHTML
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
-      console.log(this.inputContent)
+      try{
+        this.isRepling = true
+        console.log(1, this.post);
+        await replyPost(this.post.postId, this.inputContent, this.post.twitterId)
+        this.post.replied = 1;
+        this.post.replyCount = this.post.replyCount ? this.post.replyCount + 1 : 1
+        this.replyVisible = false
+      } catch (e) {
+        console.log('reply post fail:', e);
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isRepling = false
+      }
     },
     async userQuote() {
+      this.inputContentEl = this.$refs.contentRef.innerHTML
+      this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
+      try{
+        this.isQuoting = true
+        await quotePost(this.post.postId, this.inputContent)
+        this.post.quoted = 1;
+        this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
+        this.quoteVisible = false
+      } catch (e) {
+        console.log('quote post fail:', e);
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isQuoting = false
+      }
     },
     async userRetweet() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
@@ -583,13 +627,16 @@ export default {
         this.post.retweeted = 1
         this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
       } catch (e) {
+        console.log('retweet fail:', e);
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
           return
         }
         if (e === errCode.TWEET_NOT_FOUND) {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
         }
+        notify({message: e, type: 'error'})
       } finally {
         this.isRetweeting = false
       }
@@ -611,7 +658,9 @@ export default {
         }
         if (e === errCode.TWEET_NOT_FOUND) {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return; 
         }
+        notify({message: e, type: 'error'})
       } finally {
         this.isLiking = false
       }
