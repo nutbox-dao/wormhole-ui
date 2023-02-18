@@ -87,8 +87,7 @@
             <Post v-show="selectIndex === 1"
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
-                  :key="$route.params.user"
-                  @gotoDetail="gotoPostDetail"/>
+                  :key="$route.params.user"/>
           </div>
         </template>
         <div class="c-text-black text-1.8rem mb-3rem" v-else>
@@ -117,7 +116,6 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Post from './Post'
 import WalletView  from "./WalletView";
-import PostDetail from "./PostDetail";
 import Curations from './Curations'
 import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
@@ -132,7 +130,6 @@ export default {
   components: {
     Post,
     WalletView,
-    PostDetail,
     Curations,
     TipModalVue
   },
@@ -234,10 +231,6 @@ export default {
         "__blank"
       );
     },
-    gotoPostDetail(post) {
-      this.post = post
-      this.showDetail = true
-    },
     tip() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
@@ -268,15 +261,15 @@ export default {
       this.accountInfo = await getUserInfo(twitterUsername)
       const { steemId, ethAddress } = this.accountInfo;
 
-      // if (steemId) {
-      //   // get steem balance
-      //   getSteemBalance(steemId)
-      //     .then((balance) => {
-      //       this.steemBalance = balance.steemBalance
-      //     })
-      //     .catch((err) => console.log("get steem balance fail:", err));
-      // } else {
-      // }
+      if (steemId) {
+        // get steem balance
+        getSteemBalance(steemId)
+          .then((balance) => {
+            this.steemBalance = balance.steemBalance
+          })
+          .catch((err) => console.log("get steem balance fail:", err));
+      } else {
+      }
 
       // if (ethAddress) {
       //   this.erc20Balances = await getTokenBalance(ethAddress, false);

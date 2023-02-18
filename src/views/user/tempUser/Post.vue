@@ -71,7 +71,7 @@
           </div>
           <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
             <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="$emit('gotoDetail', p)"
+              <Blog @click="gotoDetail(p)"
                     :post="p"
                     class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder px-1.5rem py-1rem"/>
             </div>
@@ -123,7 +123,7 @@ export default {
     const twitterUsername = this.$route.params.user.startsWith("@")
       ? this.$route.params.user.substring(1)
       : this.$route.params.user;
-    while(!this.accountInfo || !this.accountInfo.twitterUsername || this.accountInfo.twitterUsername !== twitterUsername){
+    while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
 
@@ -164,6 +164,10 @@ export default {
         })
       }
     },
+    gotoDetail(p) {
+      this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+      this.$router.push(`/post-detail/${p.postId}`)
+    }
   }
 }
 </script>
