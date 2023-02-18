@@ -1,12 +1,12 @@
 <template>
-  <div class="">
+  <div class="mt-1.6rem">
     <template v-if="currentShowingDetail">
-      <div class="md:border-b-1 border-dividerColor light:border-colorF4 mb-1rem">
+      <!-- <div class="md:border-b-1 border-dividerColor light:border-colorF4 mb-1rem">
         <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
                     flex items-center md:justify-start justify-center h-2.8rem">
           <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem light:text-blueDark">{{$t('common.post')}}</div>
         </div>
-      </div>
+      </div> -->
       <div class="container px-15px mx-auto max-w-50rem pb-2rem md:px-1rem">
         <van-list :loading="listLoading"
                   :finished="listFinished"
