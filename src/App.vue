@@ -5,11 +5,11 @@
          class="bg-primaryBg light:bg-white bg-img"
          @click="showMenu=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
-        <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px">
-          <button @click="goBack">
+        <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
+          <button @click="goBack" class="absolute left-15px top-1/2 transform -translate-y-1/2">
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
           </button>
-          <div class="flex items-center">
+          <div class="flex-1 flex justify-end items-center relative">
             <div class="md:flex" v-if="!getAccountInfo">
               <button @click="login"
                       class="flex justify-center items-center mr-1 min-w-70px px-13px bg-color62
@@ -18,16 +18,39 @@
               </button>
             </div>
             <template v-else>
-              <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
-                <input type="text" :placeholder="$t('search')"
-                       v-model="searchText"
-                       @keypress="onSearch"
-                       class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
-                <button v-if="searchText.trim().length>0"
-                        @click="searchText=''"
-                        class="absolute right-5px bg-color8B/30 p-2px rounded-full">
-                  <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
-                </button>
+              <div class="relative flex-1 flex justify-end">
+                <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
+                  <input type="text" :placeholder="$t('search')"
+                         v-model="searchText"
+                         @keypress="onSearch"
+                         class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
+                  <button v-if="searchText.trim().length>0"
+                          @click="searchText='', searchList=[]"
+                          class="absolute right-5px bg-color8B/30 p-2px rounded-full">
+                    <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
+                  </button>
+                </div>
+                <el-collapse-transition>
+                  <div v-show="searchList.length>0"
+                       class="z-999 fixed right-15px left-15px top-55px
+                              xs:absolute xs:right-0 xs:left-auto xs:top-45px">
+                    <div class="w-300px mx-auto text-14px">
+                      <div class="bg-blockBg light:bg-white border-1 border-color8B/30
+                                  light:border-colorF4 rounded-12px p-12px shadow-lg
+                                  max-h-400px overflow-auto no-scroll-bar">
+                        <div v-for="(item,index) of searchList" :key="index"
+                             class="border-b-1 border-color8B/30 light:border-colorF4
+                                    flex items-center py-6px">
+                          <img class="w-40px h-40px rounded-full mr-10px" :src="item.profileImg" alt="">
+                          <div class="text-left text-color8B light:text-color7D">
+                            <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
+                            <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </el-collapse-transition>
               </div>
               <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
                        h-30px px-15px rounded-full mr-0.8rem
@@ -42,7 +65,7 @@
                      :src="profileImg" @error="replaceEmptyImg" alt="">
               </router-link>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/wallet`">
-                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.2rem icon-wallet"></i>
+                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.4rem icon-wallet"></i>
               </router-link>
             </template>
             <div class="relative">
@@ -183,7 +206,8 @@ export default {
       isDark: false,
       closeLoginTipVisible: false,
       lang: localStorage.getItem('language'),
-      searchText: ''
+      searchText: '',
+      searchList: []
     }
   },
   computed: {
@@ -293,7 +317,6 @@ export default {
     },
     onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-
       }
     }
   },
