@@ -13,8 +13,8 @@
         Replying to
         <a class="text-primaryColor" href="">@acsc</a>
       </div> -->
-      <div class="text-12px leading-20px text-colorE3 light:text-color46 mt-1rem">{{comment.content}}</div>
-      <div class="flex gap-4rem mt-15px">
+      <div class="text-14px leading-20px text-colorE3 light:text-color46 mt-1rem">{{comment.content}}</div>
+      <!-- <div class="flex gap-4rem mt-15px">
         <div class="flex items-center">
           <i class="w-18px h-18px icon-msg"></i>
           <span class="ml-2px font-700 text-white light:text-color7D">{{ comment.children }}</span>
@@ -27,7 +27,7 @@
           <i class="w-18px h-18px icon-coin"></i>
           <span class="ml-2px font-700 text-white light:text-color7D">{{value}}</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
