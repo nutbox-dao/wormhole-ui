@@ -27,6 +27,9 @@
             </span>
           </div>
         </div>
+        <div class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
+          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Cured</div>
+        </div>
       </div>
       <div class="flex blog-content">
         <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>

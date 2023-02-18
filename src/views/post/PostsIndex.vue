@@ -89,7 +89,7 @@
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <template v-else>
+              <div v-else class="-mt-25px">
                 <div v-for="(post, index) of postsList" :key="post.postId"
                      class="py-20px border-b-1 border-color8B/30 light:border-colorF4">
                   <div v-if="!post.spaceId">
@@ -103,7 +103,7 @@
                     <Space :space="post" class="rounded-15px h-full bg-tag-gradient"/>
                   </div>
                 </div>
-              </template>
+              </div>
             </div>
           </div>
         </van-list>
