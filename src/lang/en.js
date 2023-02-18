@@ -301,7 +301,11 @@ export default {
     replyTo: 'Replying to',
     tweet: 'Tweet',
     tweetInputTip: 'Add a comment',
-    tweetReply: 'Tweet your reply'
+    tweetReply: 'Tweet your reply',
+    all: 'All',
+    createdPromotion: 'Created Promotion',
+    createdCurations: 'Created Curations',
+    startTime: 'Start time'
   },
   popup: {
     create: 'Create a Pop-up reply action',

@@ -1,6 +1,6 @@
 <template>
   <div class="relative pt-1rem max-h-60vh min-h-60vh flex flex-col">
-    <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem">
+    <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem px-15px">
       {{$t('curation.participants')}}
     </div>
     <button class="absolute right-20px top-18px"

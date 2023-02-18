@@ -301,7 +301,11 @@ export default {
     replyTo: '回复',
     tweet: '发推',
     tweetInputTip: '添加评论',
-    tweetReply: '发布你的回复'
+    tweetReply: '发布你的回复',
+    all: '更多',
+    createdPromotion: 'Created Promotion',
+    createdCurations: 'Created Curations',
+    startTime: '开始时间'
   },
   popup: {
     create: '创建快闪回复操作',

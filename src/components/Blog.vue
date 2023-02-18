@@ -36,7 +36,7 @@
                  class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line"
-                   :class="(imgurls && imgurls.length>0)?'multi-content':''"
+                   :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"
                    v-else v-html="formatEmojiText(content)"></div>
             </div>
           </div>
@@ -664,7 +664,7 @@ export default {
         }
         if (e === errCode.TWEET_NOT_FOUND) {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
-          return; 
+          return;
         }
         notify({message: e, type: 'error'})
       } finally {
