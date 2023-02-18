@@ -1078,6 +1078,7 @@ export default {
             authorVerified: this.form.postData.verified,
             authorFollowers: this.form.postData.followers,
             authorFollowing: this.form.postData.following,
+            tags: this.form.postData.tags,
             amount: curation.amount.toString(),
             twitterId: this.getAccountInfo.twitterId,
             transHash,

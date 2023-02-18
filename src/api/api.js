@@ -56,6 +56,9 @@ export const getUserByEth = async (ethAddress) =>
 export const getUserByIds = async (twitterIds) => 
     get(BACKEND_API_URL + '/users/byTwitterIds', {twitterIds})
 
+export const searchUsers = async (text) => 
+    get(BACKEND_API_URL + '/users/searchUsers', {text})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})

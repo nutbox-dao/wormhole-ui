@@ -169,8 +169,9 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers } from '@/api/api'
 import Login from '@/views/Login.vue'
+
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
   data: () => {
@@ -291,9 +292,10 @@ export default {
         this.$store.commit('saveShowLogin', true)
       }
     },
-    onSearch(e) {
+    async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-
+        const users = await searchUsers(this.searchText)
+        console.log(53, this.searchText, users);
       }
     }
   },
