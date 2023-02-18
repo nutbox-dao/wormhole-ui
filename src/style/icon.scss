@@ -58,6 +58,15 @@
   background-image: url("~@/assets/icon-coin-light.svg");
 }
 
+.icon-tip-white {
+  @extend .icon;
+  background-image: url("~@/assets/icon-tip-white.svg");
+}
+.light .icon-tip-white {
+  @extend .icon;
+  background-image: url("~@/assets/icon-tip-white-light.svg");
+}
+
 .icon-twitter {
   @extend .icon;
   background-image: url("~@/assets/icon-twitter-white.svg");

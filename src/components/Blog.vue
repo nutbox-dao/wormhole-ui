@@ -121,7 +121,7 @@
                 <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
               <div class="text-white flex-1 items-center align-center cursor-pointer" @click.stop="tip($event)">
-                <i class="w-18px h-18px icon-twitter"></i>
+                <i class="w-18px h-18px icon-tip-white"></i>
               </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
@@ -583,6 +583,7 @@ export default {
         this.post.replied = 1;
         this.post.replyCount = this.post.replyCount ? this.post.replyCount + 1 : 1
         this.replyVisible = false
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         console.log('reply post fail:', e);
         if (e === 'log out') {
@@ -607,6 +608,7 @@ export default {
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         console.log('quote post fail:', e);
         if (e === 'log out') {
@@ -632,6 +634,7 @@ export default {
         await retweetPost(this.post.postId)
         this.post.retweeted = 1
         this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         console.log('retweet fail:', e);
         if (e === 'log out') {
@@ -657,6 +660,7 @@ export default {
         const result = await likePost(this.post.postId)
         this.post.liked = 1
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)

@@ -70,8 +70,8 @@
             </div>
           </div>
           <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
-            <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="gotoDetail(p)"
+            <div class="" v-for="(p, index) of posts" :key="p.postId">
+              <Blog @click="gotoDetail(p, index)"
                     :post="p"
                     class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder px-1.5rem py-1rem"/>
             </div>
@@ -116,13 +116,12 @@ export default {
       pageIndex: 0,
       scroll: 0,
       rcPercent: 0,
-      posts: []
+      posts: [],
+      selectedPost: {},
+      selectedPostIndex: 0
     }
   },
   async mounted () {
-    const twitterUsername = this.$route.params.user.startsWith("@")
-      ? this.$route.params.user.substring(1)
-      : this.$route.params.user;
     while(!this.accountInfo || !this.accountInfo.twitterUsername){
       await sleep(1)
     }
@@ -131,6 +130,14 @@ export default {
       this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
     }).catch()
     this.onRefresh()
+    this.$bus.on('updatePostIndetail', (postDetail) => {
+      console.log('update post', postDetail)
+      // 修改数据
+      if(this.selectedPost.postId === postDetail.postId) {
+        console.log('============', this.selectedPost)
+        this.posts[this.selectedPostIndex] = postDetail
+      }
+    })
   },
   methods: {
     onRefresh() {
@@ -164,7 +171,9 @@ export default {
         })
       }
     },
-    gotoDetail(p) {
+    gotoDetail(p, index) {
+      this.selectedPost = p;
+      this.selectedPostIndex = index
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)
       this.$router.push(`/post-detail/${p.postId}`)
     }
