@@ -6,7 +6,7 @@
          @click="showMenu=false,showSearchList=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
-          <button @click="goBack" class="absolute left-15px top-1/2 transform -translate-y-1/2">
+          <button @click="goBack">
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
           </button>
           <div class="flex-1 flex justify-end items-center relative">
