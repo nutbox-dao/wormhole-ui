@@ -57,15 +57,16 @@ export default {
     // this.onLoad()
     if (!this.currentShowingDetail) {
       // get post
-      getPostById(postId).then(async (p) => {
-        const posts = await getPosts([p])
-        this.$store.commit('postsModule/saveCurrentShowingDetail', posts[0])
-        getCommentsByPostid(postId).then(async comments => {
-          this.comments = await getPosts(comments.map(c => ({
-            ...c,
-            postId: c.commentId
-          })))
-        })
+      getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
+        if (p) {
+          this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+          getCommentsByPostid(postId).then(async comments => {
+            this.comments = await getPosts(comments.map(c => ({
+              ...c,
+              postId: c.commentId
+            })))
+          })
+        }
       })
     }else {
       getCommentsByPostid(postId).then(async comments => {
@@ -77,17 +78,6 @@ export default {
     }
   },
   methods: {
-    getData() {
-      return new Promise(resolve => {
-        const list = []
-        setTimeout(() => {
-          for (let i = 0; i < 4; i++) {
-            list.push(list.length + 1);
-          }
-          resolve(list)
-        }, 3000);
-      })
-    },
 
     // async onLoad() {
     //   if(this.listLoading || this.listFinished) return
