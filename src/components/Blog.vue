@@ -87,7 +87,7 @@
               <!-- quote-->
               <div class="flex-1 flex items-center">
                 <button @click.stop="preQuote"
-                        :disabled="isRepling || isQuoting || isRetweeting"
+                        :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -99,7 +99,7 @@
               <!-- retweet -->
               <div class="flex-1 flex items-center">
                 <button @click.stop="userRetweet"
-                        :disabled="isRepling || isQuoting || isRetweeting"
+                        :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
                   <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
                     <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -110,7 +110,7 @@
               </div>
               <!-- like-->
               <div class="flex-1 flex items-center">
-                <button :disabled="isLiking"
+                <button :disabled="isLiking || post.liked"
                         @click.stop="userLike"
                         class="flex items-center">
                   <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
@@ -120,11 +120,14 @@
                 </button>
                 <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
+              <div class="text-white flex-1 items-center align-center cursor-pointer" @click.stop="tip($event)">
+                <i class="w-18px h-18px icon-twitter"></i>
+              </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
               </div> -->
-              <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
+              <div class="text-white flex-1 items-center cursor-pointer" @click.stop="gotoTweet($event)">
                 <i class="w-18px h-18px icon-twitter"></i>
               </div>
             </div>
@@ -546,6 +549,9 @@ export default {
       if (!this.getAccountInfo || this.post.username !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.post.username})
       }
+    },
+    tip(e) {
+
     },
     gotoTweet(e) {
       e.stopPropagation();

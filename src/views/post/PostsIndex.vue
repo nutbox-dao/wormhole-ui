@@ -61,7 +61,7 @@
         </el-select>
       </div>
     </div>
-    <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
+    <div class="flex-1 overflow-auto" ref="postPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -94,6 +94,7 @@
                      class="py-20px border-b-1 border-color8B/30 light:border-colorF4">
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
+                    @click="gotoDetail(post, index)"
                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
                     </Blog>
                   </div>
@@ -111,7 +112,7 @@
     </div>
     <!-- back top  -->
     <button v-show="scroll>200"
-            @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+            @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-6rem right-1.5rem sm:right-2.5rem z-9999">
@@ -129,7 +130,6 @@
 </template>
 
 <script>
-import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
 import { getTrendingTags, getPostByTrending, getPostByTime } from '@/api/api'
@@ -139,7 +139,7 @@ import Space from "@/components/Space";
 
 export default {
   name: "PostsIndex",
-  components: {CurationItem, CurationsTip, Blog, Space},
+  components: {CurationsTip, Blog, Space},
   data() {
     return {
       listLoading: false,
@@ -154,8 +154,8 @@ export default {
       rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
       rankValue: 0,
       customizeTagList: [],
-      selectedCuration: null,
-      selectedCurationIndex: 0,
+      selectedPost: null,
+      selectedPostIndex: 0,
       emitter: null
     }
   },
@@ -188,7 +188,7 @@ export default {
     }
   },
   activated() {
-    if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
+    if(this.scroll > 0) this.$refs.postPageRef.scrollTo({top: this.scroll})
     if (this.postsList.length > 0) return;
     this.onRefresh()
   },
@@ -205,15 +205,8 @@ export default {
       this.customizeTagList.splice(index, 1)
     },
     pageScroll() {
-      this.scroll = this.$refs.curationPageRef.scrollTop
+      this.scroll = this.$refs.postPageRef.scrollTop
     },
-    // changeSubIndex(index) {
-    //   if(this.subActiveTagIndex===index) return
-    //   this.listFinished = false
-    //   this.subActiveTagIndex = index
-    //   this.$store.commit('curation/saveSelectedTag', this.subTagList[index])
-    //   this.onRefresh()
-    // },
     async onLoad() {
       if(this.refreshing || this.listLoading) return
       try{
@@ -290,11 +283,11 @@ export default {
         this.refreshing = false
       }
     },
-    gotoDetail(curation, index) {
-      this.selectedCuration = curation
-      this.selectedCurationIndex = index
-      this.$store.commit('postsModule/saveDetailCuration', curation);
-      this.$router.push('/curation-detail/' + curation.curationId);
+    gotoDetail(post, index) {
+      this.selectedPost = post
+      this.selectedPostIndex = index
+      this.$store.commit('postsModule/saveCurrentShowingDetail', post);
+      this.$router.push('/post-detail/' + post.postId);
     },
     createCuration() {
       if (this.getAccountInfo && this.getAccountInfo.twitterId) {
@@ -305,12 +298,12 @@ export default {
     }
   },
   mounted () {
-    this.$bus.on('updateCuration', (curationDetail) => {
-      console.log('update curation', curationDetail)
+    this.$bus.on('updatePostIndetail', (postDetail) => {
+      console.log('update post', postDetail)
       // 修改数据
-      if(this.selectedCuration.curationId === curationDetail.curationId) {
-        console.log('============', this.selectedCuration)
-        this.postsList[this.selectedCurationIndex] = curationDetail
+      if(this.selectedPost.postId === postDetail.postId) {
+        console.log('============', this.selectedPost)
+        this.postsList[this.selectedPostIndex] = postDetail
       }
     })
     this.customizeTagList = localStorage.getItem('customizeTagList')?
