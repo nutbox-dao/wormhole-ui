@@ -121,7 +121,7 @@
                 <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
               <div class="text-white flex-1 items-center align-center cursor-pointer" @click.stop="tip($event)">
-                <i class="w-18px h-18px icon-twitter"></i>
+                <i class="w-18px h-18px icon-tip-white"></i>
               </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
