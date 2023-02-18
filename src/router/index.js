@@ -17,6 +17,7 @@ import AccountInfoView from '@/views/user/tempUser/AccountInfo'
 // import AccountTokenView from '@/views/user/tempUser/Token'
 // import AccountNFTView from '@/views/user/tempUser/NFT'
 // import AccountWalletView from '@/views/user/tempUser/WalletView'
+import SearchView from '@/views/user/SearchView'
 
 import WalletView from "@/views/user/WalletView";
 import AboutUsView from "@/views/AboutView";
@@ -58,6 +59,11 @@ const routes = [
     path: '/account-info/:user',
     name: 'account-info',
     component: AccountInfoView
+  },
+  {
+    path: '/search-user/:user',
+    name: 'search-user',
+    component: SearchView
   },
   {
     path: '/faq',

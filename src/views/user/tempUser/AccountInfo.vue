@@ -268,22 +268,22 @@ export default {
       this.accountInfo = await getUserInfo(twitterUsername)
       const { steemId, ethAddress } = this.accountInfo;
 
-      if (steemId) {
-        // get steem balance
-        getSteemBalance(steemId)
-          .then((balance) => {
-            this.steemBalance = balance.steemBalance
-          })
-          .catch((err) => console.log("get steem balance fail:", err));
-      } else {
-      }
+      // if (steemId) {
+      //   // get steem balance
+      //   getSteemBalance(steemId)
+      //     .then((balance) => {
+      //       this.steemBalance = balance.steemBalance
+      //     })
+      //     .catch((err) => console.log("get steem balance fail:", err));
+      // } else {
+      // }
 
-      if (ethAddress) {
-        this.erc20Balances = await getTokenBalance(ethAddress, false);
+      // if (ethAddress) {
+      //   this.erc20Balances = await getTokenBalance(ethAddress, false);
 
-      }
+      // }
     } catch (e) {
-
+      console.log('get user info fail:', e);
     } finally {
       this.loading = false
     }

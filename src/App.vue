@@ -3,7 +3,7 @@
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-white bg-img"
-         @click="showMenu=false">
+         @click="showMenu=false,showSearchList=false">
       <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
           <button @click="goBack" class="absolute left-15px top-1/2 transform -translate-y-1/2">
@@ -31,7 +31,7 @@
                   </button>
                 </div>
                 <el-collapse-transition>
-                  <div v-show="searchList.length>0"
+                  <div v-show="showSearchList"
                        class="z-999 fixed right-15px left-15px top-55px
                               xs:absolute xs:right-0 xs:left-auto xs:top-45px">
                     <div class="w-300px mx-auto text-14px">
@@ -39,8 +39,9 @@
                                   light:border-colorF4 rounded-12px p-12px shadow-lg
                                   max-h-400px overflow-auto no-scroll-bar">
                         <div v-for="(item,index) of searchList" :key="index"
+                            @click="gotoUser(item)"
                              class="border-b-1 border-color8B/30 light:border-colorF4
-                                    flex items-center py-6px">
+                                    flex items-center py-6px cursor-pointer">
                           <img class="w-40px h-40px rounded-full mr-10px" :src="item.profileImg" alt="">
                           <div class="text-left text-color8B light:text-color7D">
                             <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
@@ -208,7 +209,8 @@ export default {
       closeLoginTipVisible: false,
       lang: localStorage.getItem('language'),
       searchText: '',
-      searchList: []
+      searchList: [],
+      showSearchList: false,
     }
   },
   computed: {
@@ -278,7 +280,11 @@ export default {
       this.showMenu = false
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
+    gotoUser(user) {
+      this.$router.push('/search-user/@' + user.twitterUsername)
+    },
     goBack() {
+      console.log(53);
       this.$router.push('/')
       // if (this.accountInfo && this.accountInfo.steemId) {
       //   this.$router.push('/profile/' + this.accountInfo.twitterUsername)
@@ -319,7 +325,10 @@ export default {
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
         const users = await searchUsers(this.searchText)
-        console.log(53, this.searchText, users);
+        if (users && users.length > 0) {
+          this.showSearchList = true
+          this.searchList = users
+        }
       }
     }
   },

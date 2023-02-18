@@ -120,7 +120,10 @@ export default {
     }
   },
   async mounted () {
-    while(!this.accountInfo || !this.accountInfo.twitterUsername){
+    const twitterUsername = this.$route.params.user.startsWith("@")
+      ? this.$route.params.user.substring(1)
+      : this.$route.params.user;
+    while(!this.accountInfo || !this.accountInfo.twitterUsername || this.accountInfo.twitterUsername !== twitterUsername){
       await sleep(1)
     }
 
