@@ -73,10 +73,10 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <div class="flex justify-between mt-15px flex-1 sm:w-8/10">
+            <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
               <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
               <!-- reply-->
-              <div class="flex-1 flex items-center">
+              <div class="flex justify-between items-center">
                 <button @click.stop="preReply"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-24px h-24px rounded-full">
@@ -85,10 +85,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
               </div>
               <!-- quote-->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button @click.stop="preQuote"
                         :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
@@ -97,10 +97,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
               </div>
               <!-- retweet -->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button @click.stop="userRetweet"
                         :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
@@ -109,10 +109,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
               </div>
               <!-- like-->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button :disabled="isLiking || post.liked"
                         @click.stop="userLike"
                         class="flex items-center">
@@ -121,16 +121,16 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
-              <div class="text-white flex-1 items-center align-center cursor-pointer" @click.stop="tip($event)">
+              <div class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
                 <i class="w-18px h-18px icon-tip-white"></i>
               </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
               </div> -->
-              <div class="text-white flex-1 items-center cursor-pointer" @click.stop="gotoTweet($event)">
+              <div class="text-white items-center cursor-pointer" @click.stop="gotoTweet($event)">
                 <i class="w-18px h-18px icon-twitter"></i>
               </div>
             </div>
