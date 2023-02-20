@@ -1,13 +1,13 @@
 <template>
-  <div class="text-14px xl:text-0.8rem px-15px">
-    <div class="md:border-b-1 border-dividerColor my-30px md:mt-0">
-      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
-                  flex items-center justify-start h-20px md:h-2.8rem">
-        <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">
-          {{$t('curationsView.createCuration')}}
-        </span>
-      </div>
-    </div>
+  <div class="text-14px xl:text-0.8rem px-15px pt-2rem">
+<!--    <div class="md:border-b-1 border-dividerColor my-30px md:mt-0">-->
+<!--      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px-->
+<!--                  flex items-center justify-start h-20px md:h-2.8rem">-->
+<!--        <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">-->
+<!--          {{$t('curationsView.createCuration')}}-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="container mx-auto max-w-600px xl:max-w-30rem">
       <Steps class="mx-15px" :total-step="2" :current-step="currentStep"/>
       <div class="text-left text-12px leading-18px xl:text-14px xl:leading-1rem
