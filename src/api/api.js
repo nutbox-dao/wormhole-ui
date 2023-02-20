@@ -66,8 +66,8 @@ export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) =>
 export const getPostById = async (twitterId, postId) => 
     get(BACKEND_API_URL + '/post/getPostById', {postId, twitterId})
 
-export const getCommentsByPostid = async (postId) =>
-    get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
+export const getCommentsByPostid = async (postId, lastCommentTime) =>
+    get(BACKEND_API_URL + '/post/getCommentsByPostid', {postId, lastCommentTime})
 
 export const getTrendingTags = async () => 
     get(BACKEND_API_URL + '/post/getTrendingTags')
@@ -89,6 +89,9 @@ export const likePost = async (twitterId, tweetId) =>
 
 export const retweetPost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
+
+export const userFollow = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/followPost', {twitterId, tweetId})
 
 
 /****************************************  curation  ***********************************************/

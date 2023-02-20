@@ -71,7 +71,7 @@
                 <button class="flex-1 h-40px c-text-black border-b-3"
                         :class="tabIndex===0?'border-color62':'border-transparent'"
                         @click="tabIndex=0">
-                  Comments ( {{ comments ? comments.length : 0 }} )
+                  Comments
                 </button>
                 <button class="flex-1 h-40px c-text-black border-b-3"
                         :class="tabIndex===1?'border-color62':'border-transparent'"
@@ -87,7 +87,7 @@
                 <div v-else-if="comments && comments.length > 0"
                      class="pt-1rem border-white/20 md:border-listBgBorder">
                   <div class="c-text-black text-left text-1.2rem hidden lg:block">
-                    Comments ( {{ comments ? comments.length : 0 }} )
+                    Comments
                   </div>
                   <div class="border-b-1 border-color8B/30 light:border-colorF4"
                        v-for="c of (comments || [])" :key="c.commentId">
@@ -200,6 +200,7 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: false,
+      postId: '',
       list: [1,2,3,4],
       tabIndex: 0,
       comments: [],
@@ -266,10 +267,12 @@ export default {
   },
   mounted() {
     const postId = this.$route.params.postId
+    this.postId = postId
     // this.onLoad()
     if (!this.currentShowingDetail) {
       // get post
       getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
+        console.log(53, p);
         if (p) {
           this.$store.commit('postsModule/saveCurrentShowingDetail', p)
           getCommentsByPostid(postId).then(async comments => {
@@ -290,23 +293,37 @@ export default {
         this.commentLoading = false
       })
     }
+
   },
   methods: {
     async onLoad() {
-      // if(this.listLoading || this.listFinished) return
-      // this.listLoading = true
-      // const res = await this.getData()
-      // if(this.refreshing) this.list = []
-      // this.listLoading = false
-      // this.refreshing = false
-      // this.list = this.list.concat(res)
-      // // 加载完成
-      // if (this.list.length >= 10) this.listFinished = true
+      if(this.listLoading || this.listFinished) return
+      try{
+        this.listLoading = true;
+        if (!this.comments || this.comments.length === 0) {
+          return;
+        }
+        const comments = await getCommentsByPostid(this.postId, this.comments[this.comments.length - 1].commentTime);
+        if (comments && comments.length > 0) {
+          this.comments = this.comments.concat(comments);
+        }
+        if (comments.length < 20) {
+          this.listFinished = true
+        }
+      } catch (e) {
+        console.log('get more comments fail:', e);
+      } finally {
+        this.listLoading = false
+      }
     },
     onRefresh() {
       // this.listFinished = false
       // this.onLoad()
     },
+    updateCurationInfo() {
+      const postId = this.$route.params.postId
+      
+    }
   },
   beforeDestroy () {
     this.$store.commit('postsModule/saveCurrentShowingDetail', null)

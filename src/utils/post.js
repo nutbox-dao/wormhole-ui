@@ -1,6 +1,6 @@
 import store from '@/store'
 import { checkAccessToken, logout } from '@/utils/account'
-import { likePost as lp, retweetPost as rtp, quotePost as qp, replyPost as rep } from '@/api/api'
+import { likePost as lp, retweetPost as rtp, quotePost as qp, replyPost as rep, userFollow as fp } from '@/api/api'
 
 export const likePost = async (tweetId) => {
     await checkAccessToken();
@@ -16,6 +16,24 @@ export const likePost = async (tweetId) => {
             await logout(twitterId)
             throw 'log out'
         }
+        throw e
+    }
+}
+
+export const followPost = async (tweetId) => {
+    await checkAccessToken();
+    const twitterId = store.getters.getAccountInfo.twitterId;
+    try {
+        const r = await fp(twitterId, tweetId)
+        if (r) {
+            return r
+        }
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
     }
 }
 
@@ -33,6 +51,7 @@ export const retweetPost = async (tweetId) => {
             await logout(twitterId)
             throw 'log out'
         }
+        throw e
     }
 }
 
@@ -50,6 +69,7 @@ export const replyPost = async (tweetId, content, parentTwitterId) => {
             await logout(twitterId)
             throw 'log out'
         }
+        throw e
     }
 }
 
@@ -67,5 +87,6 @@ export const quotePost = async (tweetId, content) => {
             await logout(twitterId)
             throw 'log out'
         }
+        throw e
     }
 }

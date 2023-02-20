@@ -27,8 +27,8 @@
             </span>
           </div>
         </div>
-        <div class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
-          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Cured</div>
+        <div v-if="post.isCurated" class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
+          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Curated</div>
         </div>
       </div>
       <div class="flex blog-content">
@@ -75,6 +75,18 @@
           <slot name="bottom-btn-bar">
             <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
               <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
+              <!-- follow-->
+              <div v-if="isDetail" class="flex justify-between items-center">
+                <button @click.stop="userFollow"
+                        :disabled="isFollowing"
+                        class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                  <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+                </button>
+                <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':''">{{ post.followCount ?? 0 }}</span>
+              </div>
               <!-- reply-->
               <div class="flex justify-between items-center">
                 <button @click.stop="preReply"
@@ -123,7 +135,7 @@
                 </button>
                 <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
-              <div class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
+              <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
                 <i class="w-18px h-18px icon-tip-white"></i>
               </div>
               <!-- <div class="text-white flex items-center">
@@ -375,7 +387,7 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
-import { likePost, retweetPost, replyPost, quotePost } from '@/utils/post'
+import { likePost, retweetPost, replyPost, quotePost, followPost } from '@/utils/post'
 import { notify } from '@/utils/notify';
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 
@@ -419,6 +431,7 @@ export default {
       isQuoting: false,
       isRetweeting: false,
       isLiking: false,
+      isFollowing: false,
       replyVisible: false,
       replying: false,
       contentRange: null,
@@ -676,6 +689,31 @@ export default {
         notify({message: e, type: 'error'})
       } finally {
         this.isLiking = false
+      }
+    },
+    async userFollow() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isFollowing = true
+        const result = await followPost(this.post.postId)
+        this.post.followed = 1
+        this.post.followCount  = this.post.followCount ? this.post.followCount + 1 : 1
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isFollowing = false
       }
     },
     clickLinkView() {
