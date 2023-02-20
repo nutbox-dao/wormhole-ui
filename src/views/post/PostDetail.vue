@@ -130,14 +130,18 @@
                 <PostRecommendItem class="mb-15px"
                                    v-for="(curation, i) of promotionList" :key="curation.curationId"
                                    :recommend-data="curation"/>
-                <button @click="createPromotion">
+                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
+                               w-full rounded-full text-16px 2xl:text-0.8rem"
+                        @click="createPromotion">
                   create new promotion
                 </button>
-                <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                <div class="c-text-black mr-1rem light:text-blueDark text-left mt-1.5rem">
                   {{$t('curation.createdCurations')}}
                 </div>
                 <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
-                <button @click="createCuration">
+                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
+                               w-full rounded-full text-16px 2xl:text-0.8rem"
+                        @click="createCuration">
                   create new curation
                 </button>
               </template>
@@ -395,7 +399,7 @@ export default {
       }else {
         console.log(64);
         this.$router.push({
-          name :'create-curation', 
+          name :'create-curation',
           state: {
             type: 'tweet',
             author: this.currentShowingDetail.username,
