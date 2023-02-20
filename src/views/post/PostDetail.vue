@@ -71,12 +71,12 @@
                 <button class="flex-1 h-40px c-text-black border-b-3"
                         :class="tabIndex===0?'border-color62':'border-transparent'"
                         @click="tabIndex=0">
-                  Comments ( {{ comments ? comments.length : 0 }} )
+                  {{ $t('common.comments') }}
                 </button>
                 <button class="flex-1 h-40px c-text-black border-b-3"
                         :class="tabIndex===1?'border-color62':'border-transparent'"
                         @click="tabIndex=1">
-                  Curation
+                  {{ $t('common.curation') }}
                 </button>
               </div>
               <div v-show="tabIndex===0 || isWeb"
@@ -87,7 +87,7 @@
                 <div v-else-if="comments && comments.length > 0"
                      class="pt-1rem border-white/20 md:border-listBgBorder">
                   <div class="c-text-black text-left text-1.2rem hidden lg:block">
-                    Comments ( {{ comments ? comments.length : 0 }} )
+                    {{ $t('common.comments') }}
                   </div>
                   <div class="border-b-1 border-color8B/30 light:border-colorF4"
                        v-for="c of (comments || [])" :key="c.commentId">

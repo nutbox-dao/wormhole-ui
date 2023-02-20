@@ -368,6 +368,8 @@ export default {
     cancel: '取消',
     previous: '预览',
     summary: '汇总',
-    viewMore: '查看更多'
+    viewMore: '查看更多',
+    comments: '评论',
+    curation: '策展'
   }
 }

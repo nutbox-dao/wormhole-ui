@@ -368,6 +368,8 @@ export default {
     cancel: 'Cancel',
     previous: 'Previous',
     summary: 'Summary',
-    viewMore: 'View more'
+    viewMore: 'View more',
+    comments: 'Comments',
+    curation: 'Curation'
   }
 }
