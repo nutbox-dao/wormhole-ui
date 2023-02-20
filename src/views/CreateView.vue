@@ -37,7 +37,12 @@ export default {
     return {
       tabIndex: 0
     }
-  }
+  },
+  mounted () {
+    if(history.state.author) {
+      this.tabIndex = 2
+    }
+  },
 }
 </script>
 
