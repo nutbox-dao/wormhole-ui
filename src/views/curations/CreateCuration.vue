@@ -1,13 +1,13 @@
 <template>
-  <div class="text-14px xl:text-0.8rem px-15px">
-    <div class="md:border-b-1 border-dividerColor my-30px md:mt-0">
-      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
-                  flex items-center justify-start h-20px md:h-2.8rem">
-        <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">
-          {{$t('curationsView.createCuration')}}
-        </span>
-      </div>
-    </div>
+  <div class="text-14px xl:text-0.8rem px-15px pt-2rem">
+<!--    <div class="md:border-b-1 border-dividerColor my-30px md:mt-0">-->
+<!--      <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px-->
+<!--                  flex items-center justify-start h-20px md:h-2.8rem">-->
+<!--        <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">-->
+<!--          {{$t('curationsView.createCuration')}}-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="container mx-auto max-w-600px xl:max-w-30rem">
       <Steps class="mx-15px" :total-step="2" :current-step="currentStep"/>
       <div class="text-left text-12px leading-18px xl:text-14px xl:leading-1rem
@@ -182,10 +182,9 @@
                        src="~@/assets/icon-close-primary.svg" alt="">
                 </button>
               </div>
-
-              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
+              <!-- <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
-              </button>
+              </button> -->
             </div>
 
           </div>
@@ -1206,7 +1205,12 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
     }
   },
   async mounted () {
-    if (this.getDraft) {
+    const { type, author, tweetId } = history.state;
+    if (type && author && tweetId) {
+      this.category  = type
+      this.form.link = `https://twitter.com/${author}/status/${tweetId}`
+      this.checkLink();
+    }else if (this.getDraft) {
       this.form = this.getDraft
       this.form.topics = this.form.topics ?? [];
       this.form.followers = this.form.followers ?? [];

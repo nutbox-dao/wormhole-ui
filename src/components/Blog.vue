@@ -27,8 +27,8 @@
             </span>
           </div>
         </div>
-        <div class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
-          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Cured</div>
+        <div v-if="post.isCurated" class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
+          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Curated</div>
         </div>
       </div>
       <div class="flex blog-content">
@@ -73,10 +73,22 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <div class="flex justify-between mt-15px flex-1 sm:w-8/10">
+            <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
               <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
+              <!-- follow-->
+              <div v-if="isDetail" class="flex justify-between items-center">
+                <button @click.stop="userFollow"
+                        :disabled="isFollowing"
+                        class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                  <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
+                    <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </i>
+                  <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+                </button>
+                <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':''">{{ post.followCount ?? 0 }}</span>
+              </div>
               <!-- reply-->
-              <div class="flex-1 flex items-center">
+              <div class="flex justify-between items-center">
                 <button @click.stop="preReply"
                         :disabled="isRepling || isQuoting || isRetweeting"
                         class="text-white flex justify-center items-center w-24px h-24px rounded-full">
@@ -85,10 +97,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
               </div>
               <!-- quote-->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button @click.stop="preQuote"
                         :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
@@ -97,10 +109,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
               </div>
               <!-- retweet -->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button @click.stop="userRetweet"
                         :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
                         class="text-white flex justify-center items-center w-20px h-20px rounded-full">
@@ -109,10 +121,10 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
               </div>
               <!-- like-->
-              <div class="flex-1 flex items-center">
+              <div class="flex items-center">
                 <button :disabled="isLiking || post.liked"
                         @click.stop="userLike"
                         class="flex items-center">
@@ -121,16 +133,16 @@
                   </i>
                   <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
                 </button>
-                <span class="ml-6px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
+                <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
               </div>
-              <div class="text-white flex-1 items-center align-center cursor-pointer" @click.stop="tip($event)">
+              <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
                 <i class="w-18px h-18px icon-tip-white"></i>
               </div>
               <!-- <div class="text-white flex items-center">
                 <i class="w-18px h-18px icon-coin"></i>
                 <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
               </div> -->
-              <div class="text-white flex-1 items-center cursor-pointer" @click.stop="gotoTweet($event)">
+              <div class="text-white items-center cursor-pointer" @click.stop="gotoTweet($event)">
                 <i class="w-18px h-18px icon-twitter"></i>
               </div>
             </div>
@@ -363,6 +375,27 @@
         </div>
       </transition>
     </van-popup>
+
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               teleport="body"
+               v-model:show="showTip"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showTip"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-60vh">
+          <button class="absolute right-20px top-24px"
+                  @click.stop="showTip=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
+          <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
+                       :tipToUser="post"
+                       :parent-tweet-id="post.postId"
+                       @close="showTip=false"
+                       @back="showTip=false"></TipModalVue>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 </template>
 
@@ -375,13 +408,14 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
-import { likePost, retweetPost, replyPost, quotePost } from '@/utils/post'
+import { likePost, retweetPost, replyPost, quotePost, followPost } from '@/utils/post'
 import { notify } from '@/utils/notify';
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import TipModalVue from "@/components/TipModal";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, EmojiPicker},
+  components: {LinkPreview, Repost, EmojiPicker, TipModalVue},
   props: {
     post: {
       type: Object,
@@ -419,13 +453,15 @@ export default {
       isQuoting: false,
       isRetweeting: false,
       isLiking: false,
+      isFollowing: false,
       replyVisible: false,
       replying: false,
       contentRange: null,
       inputContent: '',
       inputContentEl: '',
       quoteVisible: false,
-      showInputTip: true
+      showInputTip: true,
+      showTip: false
     }
   },
   computed: {
@@ -554,7 +590,7 @@ export default {
       }
     },
     tip(e) {
-
+      this.showTip = true
     },
     gotoTweet(e) {
       e.stopPropagation();
@@ -676,6 +712,31 @@ export default {
         notify({message: e, type: 'error'})
       } finally {
         this.isLiking = false
+      }
+    },
+    async userFollow() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isFollowing = true
+        const result = await followPost(this.post.postId)
+        this.post.followed = 1
+        this.post.followCount  = this.post.followCount ? this.post.followCount + 1 : 1
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isFollowing = false
       }
     },
     clickLinkView() {

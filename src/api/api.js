@@ -66,8 +66,8 @@ export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) =>
 export const getPostById = async (twitterId, postId) => 
     get(BACKEND_API_URL + '/post/getPostById', {postId, twitterId})
 
-export const getCommentsByPostid = async (postId) =>
-    get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
+export const getCommentsByPostid = async (postId, lastCommentTime) =>
+    get(BACKEND_API_URL + '/post/getCommentsByPostid', {postId, lastCommentTime})
 
 export const getTrendingTags = async () => 
     get(BACKEND_API_URL + '/post/getTrendingTags')
@@ -89,6 +89,9 @@ export const likePost = async (twitterId, tweetId) =>
 
 export const retweetPost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
+
+export const userFollow = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/followPost', {twitterId, tweetId})
 
 
 /****************************************  curation  ***********************************************/
@@ -146,6 +149,12 @@ export const getCurationsOfTweet = async (tweetId) =>
 export const getCurationRecord = async (curationId, createAt, isFeed) =>
     get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
 
+export const getCurationCreateRelation = async (tweetId) => 
+    get(BACKEND_API_URL + '/curation/getCurationCreateRelation', {tweetId})
+
+export const getMyParticipantionInCuration = async (twitterId, curationId) =>
+    post(BACKEND_API_URL + '/curation/getMyParticipantionInCuration', {twitterId, curationId})
+
 export const checkMyCurationRecord = async (twitterId, curationId) =>
     post(BACKEND_API_URL + '/curation/checkMyParticipantion', {twitterId, curationId})
 
@@ -190,8 +199,14 @@ export const tipEVM = async (tip) =>
 export const getAllTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/tipsByCurationId', {curationId})
 
+export const getAllTipsByTweetId = async (tweetId) =>
+    get(BACKEND_API_URL + '/tip/tipsByTweetId', {tweetId})
+
 export const getTopTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/topTipsByCurationId', {curationId})
+
+export const getTopTipsOfTweetId = async (tweetId) =>
+    get(BACKEND_API_URL + '/tip/topTipsByTweetId', {tweetId})
 
 export const getUsersTips = async (params) =>
     post(BACKEND_API_URL + '/tip/tipsByTwitterId', params)

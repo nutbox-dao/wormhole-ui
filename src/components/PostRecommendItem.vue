@@ -25,9 +25,11 @@
       {{recommendData?.description}}
     </div>
     <div class="flex items-center gap-2rem">
-      <i class="w-24px h-24px min-w-24px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-      <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
-      <i class="w-24px h-24px min-w-24px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      <i class="w-24px h-24px min-w-24px" v-if="isFollow" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      <i class="w-24px h-24px min-w-24px" v-if="isReply" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
+      <i class="w-24px h-24px min-w-24px" v-if="isQuote" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+      <i class="w-24px h-24px min-w-24px" v-if="isRetweet" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+      <i class="w-24px h-24px min-w-24px" v-if="isLike" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div>
     <div>
       <!-- max count -->
@@ -139,7 +141,7 @@ import {mapGetters} from "vuex";
 import {isNumeric} from "@/utils/tool";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
-import {getCurationRecord} from "@/api/api";
+import {getCurationRecord, getMyParticipantionInCuration } from "@/api/api";
 import Submissions from "@/views/curations/Submissions";
 
 export default {
@@ -157,7 +159,8 @@ export default {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
       participant: [],
-      showSubmissions: false
+      showSubmissions: false,
+      updateInterval: null
     }
   },
   computed: {
@@ -165,6 +168,10 @@ export default {
     quoted() {
       if(!this.recommendData || !this.getAccountInfo) return false
       return this.recommendData?.taskRecord & 1;
+    },
+    replyed() {
+      if(!this.recommendData || !this.getAccountInfo) return false
+      return (this.recommendData?.taskRecord & 2) / 2;
     },
     liked() {
       if(!this.recommendData || !this.getAccountInfo) return false
@@ -174,6 +181,30 @@ export default {
       if(!this.recommendData || !this.getAccountInfo) return false
       return (this.recommendData.taskRecord & 8) / 8
     },
+    retweeted() {
+      if (!this.recommendData || !this.getAccountInfo) return false 
+      return (this.recommendData.taskRecord & 16) / 16
+    },
+    isQuote() {
+      if (!this.recommendData) return false;
+      return this.recommendData.tasks & 1;
+    },
+    isReply() {
+      if (!this.recommendData) return false;
+      return (this.recommendData.tasks & 2) / 2
+    },
+    isRetweet() {
+      if (!this.recommendData) return false;
+      return (this.recommendData.tasks & 16) /16
+    },
+    isLike() {
+      if (!this.recommendData) return false;
+      return (this.recommendData.tasks & 4) / 4
+    },
+    isFollow() {
+      if (!this.recommendData) return false;
+      return (this.recommendData.tasks & 8) / 8
+    },
   },
   watch: {
     recommendData(val) {
@@ -181,9 +212,14 @@ export default {
     }
   },
   mounted() {
-    console.log(this.recommendData)
     this.updateCurationInfos()
+    this.updateInterval = setInterval(() => {
+      this.updateCurationInfos()
+    }, 10000);
   },
+  unmounted() {
+    clearInterval(this.updateInterval)
+  },  
   methods: {
     parseTimestamp,
     parseTimestampToUppercase,
@@ -208,6 +244,13 @@ export default {
         }).catch(console.log).finally(() => {
           this.loading2 = false
         })
+        if (this.getAccountInfo?.twitterId) {
+          getMyParticipantionInCuration(this.getAccountInfo.twitterId, id).then(res => {
+            if (res.taskRecord) {
+              this.recommendData.taskRecord = res.taskRecord
+            }
+          }).catch()
+        }
       }
     },
   }

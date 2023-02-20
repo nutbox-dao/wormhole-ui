@@ -28,6 +28,7 @@ import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
+import CreateView from "@/views/CreateView";
 
 const routes = [
   {
@@ -43,7 +44,7 @@ const routes = [
   {
     path: '/create-curation',
     name: 'create-curation',
-    component: CreateCuration
+    component: CreateView
   },
   {
     path: '/curation-detail/:id',

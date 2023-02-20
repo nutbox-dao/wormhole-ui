@@ -104,12 +104,18 @@
                     {{$t('curation.createdPromotion')}}
                   </div>
                   <PostRecommendItem class="mb-15px"
-                                     v-for="i of 3" :key="i"
-                                     :recommend-data="testData"/>
+                                     v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                     :recommend-data="curation"/>
+                  <button @click="createPromotion">
+                    create new promotion
+                  </button>
                   <div class="c-text-black mr-1rem light:text-blueDark text-left">
                     {{$t('curation.createdCurations')}}
                   </div>
-                  <PostCreatedCuration :curation-data="testData"/>
+                  <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
+                  <button @click="createCuration">
+                    create new curation
+                  </button>
                 </template>
               </div>
             </div>
@@ -122,12 +128,22 @@
                   {{$t('curation.createdPromotion')}}
                 </div>
                 <PostRecommendItem class="mb-15px"
-                                   v-for="i of 3" :key="i"
-                                   :recommend-data="testData"/>
-                <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                                   v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                   :recommend-data="curation"/>
+                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
+                               w-full rounded-full text-16px 2xl:text-0.8rem"
+                        @click="createPromotion">
+                  create new promotion
+                </button>
+                <div class="c-text-black mr-1rem light:text-blueDark text-left mt-1.5rem">
                   {{$t('curation.createdCurations')}}
                 </div>
-                <PostCreatedCuration :curation-data="testData"/>
+                <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
+                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
+                               w-full rounded-full text-16px 2xl:text-0.8rem"
+                        @click="createCuration">
+                  create new curation
+                </button>
               </template>
             </div>
           </div>
@@ -147,7 +163,7 @@
           </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
                        :tipToUser="currentShowingDetail"
-                       :parent-tweet-id="currentShowingDetail.tweetId"
+                       :parent-tweet-id="currentShowingDetail.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
         </div>
@@ -160,8 +176,10 @@
 import Blog from "@/components/Blog";
 import Comment from '@/views/user/components/Comment'
 import { mapState, mapGetters } from 'vuex'
-import { getPostById, getCommentsByPostid } from '@/api/api'
+import { getPostById, getCommentsByPostid, getCurationsOfTweet, getAllTipsByTweetId, getTopTipsOfTweetId } from '@/api/api'
 import { getPosts } from '@/utils/steem'
+import { EVM_CHAINS } from '@/config'
+import { formatAmount } from '@/utils/helper'
 import iconTop1 from "@/assets/icon-top1.svg";
 import iconTop2 from "@/assets/icon-top2.svg";
 import iconTop3 from "@/assets/icon-top3.svg";
@@ -177,6 +195,25 @@ export default {
   computed: {
     ...mapState('postsModule', ['currentShowingDetail']),
     ...mapGetters(['getAccountInfo']),
+    top3Tip() {
+      if (this.tips && this.tips.length > 0) {
+        const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
+        return steemTips.sort((a, b) => b.amount - a.amount).slice(0, 3)
+      }
+      return []
+    },
+    curationList() {
+      if (this.curations) {
+        return this.curations.filter(c => c.isPromotion)
+      }
+      return []
+    },
+    promotionList() {
+      if (this.curations) {
+        return this.curations.filter(c => !c.isPromotion)
+      }
+      return []
+    },
     top3Tip() {
       if (this.tips && this.tips.length > 0) {
         const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
@@ -200,6 +237,7 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: false,
+      postId: '',
       list: [1,2,3,4],
       tabIndex: 0,
       comments: [],
@@ -261,15 +299,19 @@ export default {
         "liked": 609,
         "followed": 529,
         "retweeted": 466
-      }
+      },
+      curations: [],
+      updateInterval: null
     }
   },
   mounted() {
     const postId = this.$route.params.postId
+    this.postId = postId
     // this.onLoad()
     if (!this.currentShowingDetail) {
       // get post
       getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
+        console.log(53, p);
         if (p) {
           this.$store.commit('postsModule/saveCurrentShowingDetail', p)
           getCommentsByPostid(postId).then(async comments => {
@@ -290,30 +332,104 @@ export default {
         this.commentLoading = false
       })
     }
+    getCurationsOfTweet(postId).then(curations => {
+      this.curations = curations
+    })
+    this.updateCurationInfo()
+    this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
   methods: {
+    formatAmount,
     async onLoad() {
-      // if(this.listLoading || this.listFinished) return
-      // this.listLoading = true
-      // const res = await this.getData()
-      // if(this.refreshing) this.list = []
-      // this.listLoading = false
-      // this.refreshing = false
-      // this.list = this.list.concat(res)
-      // // 加载完成
-      // if (this.list.length >= 10) this.listFinished = true
+      if(this.listLoading || this.listFinished) return
+      try{
+        this.listLoading = true;
+        if (!this.comments || this.comments.length === 0) {
+          return;
+        }
+        const comments = await getCommentsByPostid(this.postId, this.comments[this.comments.length - 1].commentTime);
+        if (comments && comments.length > 0) {
+          this.comments = this.comments.concat(comments);
+        }
+        if (comments.length < 20) {
+          this.listFinished = true
+        }
+      } catch (e) {
+        console.log('get more comments fail:', e);
+      } finally {
+        this.listLoading = false
+      }
     },
     onRefresh() {
       // this.listFinished = false
       // this.onLoad()
     },
+    updateCurationInfo() {
+      const postId = this.$route.params.postId
+      // update tip info
+      getAllTipsByTweetId(postId).then(res => {
+          if (!res) return;
+          this.tips = res
+        })
+    },
+    tipStr(tip) {
+      if (tip.chainName === 'STEEM') {
+        return `@${tip.fromUsername} tips ${tip.emoji ? (tip.emoji + '(' + tip.amount + ' STEEM)') : (tip.amount + ' STEEM')} to @${tip.toUsername}`
+      }else {
+        let chainName;
+        for (let chain in EVM_CHAINS) {
+          if (EVM_CHAINS[chain].id === parseInt(tip.chainName)) {
+            chainName = chain;
+            break;
+          }
+        }
+        return `@${tip.fromUsername} tips ${formatAmount(tip.amount / (10 ** tip.decimals))} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
+      }
+    },
+    createPromotion() {
+      if (this.currentShowingDetail.spaceId) {
+        this.$router.push({
+          name: 'create-curation',
+          state: {
+            type: 'space',
+            author: this.currentShowingDetail.username,
+            tweetId: this.currentShowingDetail.postId
+          }
+        })
+      }else {
+        console.log(64);
+        this.$router.push({
+          name :'create-curation',
+          state: {
+            type: 'tweet',
+            author: this.currentShowingDetail.username,
+            tweetId: this.currentShowingDetail.postId
+          }
+        })
+      }
+    },
+    createCuration() {
+      // check user nft
+      // quote to curate
+    }
   },
   beforeDestroy () {
     this.$store.commit('postsModule/saveCurrentShowingDetail', null)
   },
+  beforeUnmount () {
+    clearInterval(this.updateInterval)
+  },
+  unmounted() {
+    clearInterval(this.updateInterval)
+  }
 }
 </script>
 
 <style scoped>
-
+.tip-bg {
+  background-image: url("~@/assets/tips-img.svg");
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 18px 15px;
+}
 </style>

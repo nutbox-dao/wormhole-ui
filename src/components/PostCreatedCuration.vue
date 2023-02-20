@@ -52,26 +52,26 @@
         </template>
       </ChainTokenIconLarge>
     </div>
-    <div v-for="i of 2" :key="i" class="border-t-1 border-color8B/30 light:border-colorF4 py-8px">
+    <div v-for="c of allCurations" :key="c.twitterId" class="border-t-1 border-color8B/30 light:border-colorF4 py-8px">
       <div class="flex items-center mb-10px ">
         <img class="w-30px min-w-30px h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
                   mr-10px rounded-full cursor-pointer"
-             :src="curationData.profileImg && curationData.profileImg.replace('normal', '200x200')" alt="">
+             :src="c.profileImg && c.profileImg.replace('normal', '200x200')" alt="">
         <div class="flex-1 flex items-center flex-wrap">
           <div class="flex items-center flex-wrap">
             <a class="c-text-black text-left mr-2 cursor-pointer
                       text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
-               @click.stop="gotoUserPage()">{{ curationData.name }}</a>
+               @click.stop="gotoUserPage(c)">{{ c.twitterName }}</a>
           </div>
           <div class="flex items-center id-time">
           <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-            @{{ curationData.username }}
+            @{{ c.twitterUsername }}
           </span>
           </div>
         </div>
       </div>
       <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line">
-        {{curationData?.description}}
+        {{c?.content}}
       </div>
     </div>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
@@ -91,7 +91,7 @@
 
 <script>
 
-import {getCurationRecord} from "@/api/api";
+import {getCurationRecord, getCurationCreateRelation} from "@/api/api";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {formatAmount, parseTimestamp} from "@/utils/helper";
 import {mapGetters} from "vuex";
@@ -112,11 +112,13 @@ export default {
     return {
       position: document.body.clientWidth < 768?'bottom':'center',
       participant: [],
-      showSubmissions: false
+      showSubmissions: false,
+      allCurations: []
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+
   },
   mounted() {
     this.updateCurationInfos()
@@ -131,11 +133,16 @@ export default {
         }).catch(console.log).finally(() => {
           this.loading2 = false
         })
+        getCurationCreateRelation(this.curationData.tweetId).then(curations => {
+          this.allCurations = curations
+        }).catch(e => {
+          console.log('getCurationCreateRelation fail:', e);
+        })
       }
     },
-    gotoUserPage() {
-      if (!this.getAccountInfo || this.curationData.username !== this.getAccountInfo.twitterUsername){
-        this.$router.push({path : '/account-info/@' + this.curationData.username})
+    gotoUserPage(c) {
+      if (!this.getAccountInfo || c.twitterUsename !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + c.twitterUsername})
       }
     },
   }
