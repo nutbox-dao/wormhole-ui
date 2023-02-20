@@ -91,7 +91,7 @@
 
 <script>
 
-import {getCurationRecord} from "@/api/api";
+import {getCurationRecord, getCurationCreateRelation} from "@/api/api";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {formatAmount, parseTimestamp} from "@/utils/helper";
 import {mapGetters} from "vuex";
@@ -117,6 +117,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+
   },
   mounted() {
     this.updateCurationInfos()
@@ -130,6 +131,11 @@ export default {
           this.participant = res ?? []
         }).catch(console.log).finally(() => {
           this.loading2 = false
+        })
+        getCurationCreateRelation(this.curationData.tweetId).then(curations => {
+          console.log(3451, curations);
+        }).catch(e => {
+          console.log('getCurationCreateRelation fail:', e);
         })
       }
     },

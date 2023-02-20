@@ -182,10 +182,9 @@
                        src="~@/assets/icon-close-primary.svg" alt="">
                 </button>
               </div>
-
-              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
+              <!-- <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
-              </button>
+              </button> -->
             </div>
 
           </div>
@@ -1206,7 +1205,12 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
     }
   },
   async mounted () {
-    if (this.getDraft) {
+    const { type, author, tweetId } = history.state;
+    if (type && author && tweetId) {
+      this.category  = type
+      this.form.link = `https://twitter.com/${author}/status/${tweetId}`
+      this.checkLink();
+    }else if (this.getDraft) {
       this.form = this.getDraft
       this.form.topics = this.form.topics ?? [];
       this.form.followers = this.form.followers ?? [];
