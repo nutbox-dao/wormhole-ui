@@ -300,6 +300,40 @@ export default {
       updateInterval: null
     }
   },
+  mounted() {
+    const postId = this.$route.params.postId
+    this.postId = postId
+    // this.onLoad()
+    if (!this.currentShowingDetail) {
+      // get post
+      getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
+        console.log(53, p);
+        if (p) {
+          this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+          getCommentsByPostid(postId).then(async comments => {
+            this.comments = await getPosts(comments.map(c => ({
+              ...c,
+              postId: c.commentId
+            })))
+            this.commentLoading = false
+          })
+        }
+      })
+    }else {
+      getCommentsByPostid(postId).then(async comments => {
+        this.comments = await getPosts(comments.map(c => ({
+            ...c,
+            postId: c.commentId
+          })))
+        this.commentLoading = false
+      })
+    }
+    getCurationsOfTweet(postId).then(curations => {
+      this.curations = curations
+    })
+    this.updateCurationInfo()
+    this.updateInterval = setInterval(this.updateCurationInfo, 10000);
+  },
   methods: {
     formatAmount,
     async onLoad() {
@@ -375,41 +409,6 @@ export default {
       // quote to curate
     }
   },
-  mounted() {
-    const postId = this.$route.params.postId
-    this.postId = postId
-    // this.onLoad()
-    if (!this.currentShowingDetail) {
-      // get post
-      getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
-        console.log(53, p);
-        if (p) {
-          this.$store.commit('postsModule/saveCurrentShowingDetail', p)
-          getCommentsByPostid(postId).then(async comments => {
-            this.comments = await getPosts(comments.map(c => ({
-              ...c,
-              postId: c.commentId
-            })))
-            this.commentLoading = false
-          })
-        }
-      })
-    }else {
-      getCommentsByPostid(postId).then(async comments => {
-        this.comments = await getPosts(comments.map(c => ({
-            ...c,
-            postId: c.commentId
-          })))
-        this.commentLoading = false
-      })
-    }
-    getCurationsOfTweet(postId).then(curations => {
-      console.log(23, curations);
-      this.curations = curations
-    })
-    this.updateCurationInfo()
-    this.updateInterval = setInterval(this.updateCurationInfo, 10000);
-  },
   beforeDestroy () {
     this.$store.commit('postsModule/saveCurrentShowingDetail', null)
   },
@@ -423,5 +422,10 @@ export default {
 </script>
 
 <style scoped>
-
+.tip-bg {
+  background-image: url("~@/assets/tips-img.svg");
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 18px 15px;
+}
 </style>

@@ -212,7 +212,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.recommendData)
     this.updateCurationInfos()
     this.updateInterval = setInterval(() => {
       this.updateCurationInfos()
