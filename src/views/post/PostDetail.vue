@@ -24,7 +24,7 @@
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
                     <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
                         flex-1 flex justify-between items-center truncate relative"
-                         @click.stop="showTip=true">
+                         @click.stop="tip">
                       <el-carousel v-if="tips && tips.length>0"
                                    class="w-full hidden sm:block"
                                    height="54px" indicator-position="none" :loop="true"
@@ -107,14 +107,14 @@
                                      v-for="(curation, i) of promotionList" :key="curation.curationId"
                                      :recommend-data="curation"/>
                   <button @click="createPromotion">
-                    create new promotion
+                    {{ $t('postView.createNewPromotion') }}
                   </button>
                   <div class="c-text-black mr-1rem light:text-blueDark text-left">
                     {{$t('curation.createdCurations')}}
                   </div>
                   <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
                   <button @click="createCuration">
-                    create new curation
+                    {{ $t('postView.createNewCuration') }}
                   </button>
                 </template>
               </div>
@@ -133,7 +133,7 @@
                 <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
                                w-full rounded-full text-16px 2xl:text-0.8rem"
                         @click="createPromotion">
-                  create new promotion
+                    {{ $t('postView.createNewPromotion') }}
                 </button>
                 <div class="c-text-black mr-1rem light:text-blueDark text-left mt-1.5rem">
                   {{$t('curation.createdCurations')}}
@@ -142,7 +142,7 @@
                 <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
                                w-full rounded-full text-16px 2xl:text-0.8rem"
                         @click="createCuration">
-                  create new curation
+                    {{ $t('postView.createNewCuration') }}
                 </button>
               </template>
             </div>
@@ -188,6 +188,7 @@ import PostCreatedCuration from "@/components/PostCreatedCuration";
 import TipModalVue from "@/components/TipModal";
 import { useWindowSize } from '@vant/use';
 import {ref, watch} from 'vue';
+import { getCuratorNFT } from '@/utils/asset'
 
 export default {
   name: "PostDetail",
@@ -234,6 +235,7 @@ export default {
   },
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       listLoading: false,
       listFinished: false,
       refreshing: false,
@@ -247,59 +249,6 @@ export default {
       top3Icons: [iconTop1, iconTop2, iconTop3],
       tipCollapse: false,
       curationLoading:false,
-      testData: {
-        "curationId": "6f9ebb0fca5a",
-        "creatorTwitter": "1379879665343549440",
-        "creatorETH": "0x29f3121af1ce4a5cb874282fe53af0f41b59f2d1",
-        "description": "NFT it your way 丨Slash is a one-stop Web3 SaaS platform for NFTs.",
-        "token": "0x705931A83C9b22fB29985f28Aee3337Aa10EFE11",
-        "amount": "2000000000000000000000",
-        "decimals": 18,
-        "maxCount": 9999999,
-        "minReputation": 0,
-        "endtime": 1676800800,
-        "tweetId": "1625851685045428233",
-        "createdTime": "2023-02-15T13:35:37.000Z",
-        "topics": "[\"LunarNewYear\",\"NFT\",\"DAO\",\"NULS \"]",
-        "tasks": 28,
-        "authorId": "1379879665343549440",
-        "spaceId": null,
-        "curationType": 1,
-        "chainId": 56,
-        "followers": "[]",
-        "isPromotion": 0,
-        "tokenName": "Peanut",
-        "tokenSymbol": "PNUT",
-        "curationStatus": 0,
-        "createStatus": 1,
-        "creatorProfileImg": "https://pbs.twimg.com/profile_images/1541648464315969536/pKQB7HZF_normal.jpg",
-        "creatorTwitterName": "Slash.sg",
-        "creatorTwitterUsername": "Slash_DAO",
-        "creatorSteemId": "slashdao",
-        "username": "Slash_DAO",
-        "name": "Slash.sg",
-        "profileImg": "https://pbs.twimg.com/profile_images/1541648464315969536/pKQB7HZF_normal.jpg",
-        "ethAddress": "0x29F3121Af1ce4A5CB874282fe53af0f41b59F2d1",
-        "postId": "1625851685045428233",
-        "content": "📢 Partnership with @wormhole_3, a content distribution platform base on a decentralized curation protocol.\n\n🎁 20 Rabbit Holder NFT \n\n⏰ 2.15 - 2.19\n\nJoin curation to earn 💰\n\nsee details: FYI =&gt; https://alpha.wormhole3.io/#/curation-detail/6f9ebb0fca5a \n\nLet’s embrace Web3 together 🫂  #iweb3\nhttps://pbs.twimg.com/media/FpAvea0aYAAGt8_.jpg",
-        "postTime": "2023-02-15T13:37:03.000Z",
-        "tags": "[\"iweb3\"]",
-        "steemId": "slashdao",
-        "retweetInfo": null,
-        "pageInfo": null,
-        "hostIds": null,
-        "speakerIds": null,
-        "spaceTitle": null,
-        "spaceState": null,
-        "spaceStartedAt": null,
-        "spaceEndedAt": null,
-        "score": 31610,
-        "quoted": 0,
-        "replied": 0,
-        "liked": 609,
-        "followed": 529,
-        "retweeted": 466
-      },
       curations: [],
       updateInterval: null
     }
@@ -319,6 +268,7 @@ export default {
               ...c,
               postId: c.commentId
             })))
+          }).finally(() => {
             this.commentLoading = false
           })
         }
@@ -330,11 +280,13 @@ export default {
             postId: c.commentId
           })))
         this.commentLoading = false
+      }).finally(() => {
+        this.commentLoading = false
       })
     }
     getCurationsOfTweet(postId).then(curations => {
       this.curations = curations
-    })
+    }).catch(e => console.log('get curation of tweet fail:', e))
     this.updateCurationInfo()
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
@@ -386,7 +338,18 @@ export default {
         return `@${tip.fromUsername} tips ${formatAmount(tip.amount / (10 ** tip.decimals))} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
+    tip() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      this.showTip = true
+    },
     createPromotion() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
       if (this.currentShowingDetail.spaceId) {
         this.$router.push({
           name: 'create-curation',
@@ -408,9 +371,21 @@ export default {
         })
       }
     },
-    createCuration() {
-      // check user nft
-      // quote to curate
+    async createCuration() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        // check user nft
+        const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
+        console.log(4, balance);
+        // quote to curate
+      } catch(e) {
+        
+      } finally {
+        
+      }
     }
   },
   beforeDestroy () {

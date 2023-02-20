@@ -95,7 +95,9 @@ export default {
     p8: 'This service is still in Beta. Please be careful and do not deposit anything more than you can lose.\n' +
       '              By depositing into this account, you are agreeing to our terms of service.',
     p9: 'You can replace {\'{@vitalik}\'} with a twitter username.',
-    p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets."
+    p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets.",
+    createNewPromotion: 'Create new promotion',
+    createNewCuration: 'Create new curation'
   },
   profileView: {
     socialAsset: 'Social assets',

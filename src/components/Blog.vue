@@ -590,6 +590,10 @@ export default {
       }
     },
     tip(e) {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
       this.showTip = true
     },
     gotoTweet(e) {

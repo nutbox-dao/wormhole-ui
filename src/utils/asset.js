@@ -612,6 +612,27 @@ export async function getLiquidationNft(address) {
     }
 }
 
+export async function getCuratorNFT(address) {
+    if (!ethers.utils.isAddress(address)) {
+        return;
+    }
+    let call = [{
+        target: REPUTATION_NFT,
+        call: [
+            'balanceOf(address,uint256)(uint256)',
+            address,
+            2
+        ],
+        returns: [
+            ['curator', val => parseInt(val)]
+        ]
+    }]
+    const res = await aggregate(call, Multi_Config);
+    const infos = res.results.transformed;
+    let balances = infos.results.transformed.curator
+    return balances
+}
+
 export async function getLiquidationMetaBy(tokenId) {
 
 }
