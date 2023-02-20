@@ -375,6 +375,27 @@
         </div>
       </transition>
     </van-popup>
+
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               teleport="body"
+               v-model:show="showTip"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showTip"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-60vh">
+          <button class="absolute right-20px top-24px"
+                  @click.stop="showTip=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
+          <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
+                       :tipToUser="post"
+                       :parent-tweet-id="post.postId"
+                       @close="showTip=false"
+                       @back="showTip=false"></TipModalVue>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 </template>
 
@@ -390,10 +411,11 @@ import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import { likePost, retweetPost, replyPost, quotePost, followPost } from '@/utils/post'
 import { notify } from '@/utils/notify';
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
+import TipModalVue from "@/components/TipModal";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, EmojiPicker},
+  components: {LinkPreview, Repost, EmojiPicker, TipModalVue},
   props: {
     post: {
       type: Object,
@@ -438,7 +460,8 @@ export default {
       inputContent: '',
       inputContentEl: '',
       quoteVisible: false,
-      showInputTip: true
+      showInputTip: true,
+      showTip: false
     }
   },
   computed: {
@@ -567,7 +590,7 @@ export default {
       }
     },
     tip(e) {
-
+      this.showTip = true
     },
     gotoTweet(e) {
       e.stopPropagation();

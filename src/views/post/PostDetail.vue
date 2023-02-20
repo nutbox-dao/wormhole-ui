@@ -147,7 +147,7 @@
           </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
                        :tipToUser="currentShowingDetail"
-                       :parent-tweet-id="currentShowingDetail.tweetId"
+                       :parent-tweet-id="currentShowingDetail.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
         </div>
@@ -293,7 +293,6 @@ export default {
         this.commentLoading = false
       })
     }
-
   },
   methods: {
     async onLoad() {
