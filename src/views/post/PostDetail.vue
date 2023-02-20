@@ -234,6 +234,7 @@ export default {
   },
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       listLoading: false,
       listFinished: false,
       refreshing: false,

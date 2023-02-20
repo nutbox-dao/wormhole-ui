@@ -143,7 +143,7 @@
         <NFTAnimation/>
       </el-dialog>
 
-      <el-dialog :destroy-on-close="true" v-model="showLogin"
+      <el-dialog :destroy-on-close="true" :model-value="showLogin"
                  :show-close="false"
                  :close-on-click-modal="true"
                  :before-close="beforeCloseLogin"
