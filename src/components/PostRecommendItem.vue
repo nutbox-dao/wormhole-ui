@@ -1,6 +1,6 @@
 <template>
   <div class="p-15px bg-blockBg light:bg-white light:shadow-md rounded-12px text-14px xl:text-0.8rem">
-    <div class="flex items-center mb-10px">
+    <div class="flex items-center mb-10px"  @click.stop="gotoUserPage()">
       <img class="w-42px min-w-42px h-42px md:w-2.5rem md:h-2.5rem md:w-min-2.5rem
                   mr-15px rounded-full cursor-pointer"
            :src="recommendData.profileImg && recommendData.profileImg.replace('normal', '200x200')" alt="">
