@@ -321,7 +321,7 @@ export default {
     },
     updateCurationInfo() {
       const postId = this.$route.params.postId
-      
+
     }
   },
   beforeDestroy () {
@@ -331,5 +331,10 @@ export default {
 </script>
 
 <style scoped>
-
+.tip-bg {
+  background-image: url("~@/assets/tips-img.svg");
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 18px 15px;
+}
 </style>
