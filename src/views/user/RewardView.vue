@@ -69,7 +69,7 @@
                   <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
                 </button>
                 <div v-if="accountMismatch" class="text-redColor">
-                  {{ $t('ny.accountMismatch') }}
+                  {{ $t('walletView.accountMismatch') }}
                 </div>
               </div>
               <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">

@@ -189,6 +189,7 @@ import TipModalVue from "@/components/TipModal";
 import { useWindowSize } from '@vant/use';
 import {ref, watch} from 'vue';
 import { getCuratorNFT } from '@/utils/asset'
+import { notify } from "@/utils/notify";
 
 export default {
   name: "PostDetail",
@@ -260,7 +261,6 @@ export default {
     if (!this.currentShowingDetail) {
       // get post
       getPostById(this.getAccountInfo?.twitterId, postId).then(async (p) => {
-        console.log(53, p);
         if (p) {
           this.$store.commit('postsModule/saveCurrentShowingDetail', p)
           getCommentsByPostid(postId).then(async comments => {
@@ -379,10 +379,14 @@ export default {
       try{
         // check user nft
         const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
+        if (balance < 1) {
+          notify({message: this.$t('postView.notCurator'), type: 'info'})
+          return;
+        }
         console.log(4, balance);
         // quote to curate
       } catch(e) {
-        
+        console.log('create curation fail', e);
       } finally {
         
       }

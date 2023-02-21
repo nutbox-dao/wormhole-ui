@@ -31,6 +31,7 @@ export default Vuex.createStore({
     worldCupNFT: {},
     christmasNFT: {},
     luckyCardsNFT: {},
+    curatorNFT: 0,
     showLogin: false,
     getCardVisible: false,
     newCardId: 0
@@ -140,6 +141,9 @@ export default Vuex.createStore({
     },
     saveChristmasNFT: (state, christmasNFT) => {
       state.christmasNFT = christmasNFT
+    },
+    saveCuratorNFT: (state, curatorNFT) => {
+      state.curatorNFT = curatorNFT
     },
     saveShowLogin: (state, showLogin) => {
       state.showLogin = showLogin

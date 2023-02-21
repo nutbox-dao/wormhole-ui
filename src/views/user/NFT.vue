@@ -20,12 +20,12 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1" v-if="liquidation.image">
-          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=1">
+        <div class="col-span-1" v-if="curatorNFT > 0">
+          <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=6">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/20 flex flex-col justify-between">
-              <img class="w-70/100 mx-auto" src="~@/assets/nft-collection1.png" alt="">
-              <div class="text-12px scale-text leading-14px text-white">The Fastest <br> Way <br> To Da Moon</div>
+              <img class="w-70/100 mx-auto" :src="Curator_NFT.image" alt="">
+              <div class="text-12px scale-text leading-14px text-white">Certified <br> Curator</div>
             </div>
           </div>
         </div>
@@ -188,25 +188,34 @@
             </div>
           </div>
         </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===6">
+          <div v-if="curatorNFT===0"
+               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+          <div class="col-span-1 text-left hover-scale">
+            <div class="relative min-w cursor-pointer">
+              <img class="w-full " src="~@/assets/nft-bg.png" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
+                <div class="w-80/100 mx-auto">
+                  <img :src="Curator_NFT.image" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="w-120/100 mx-auto transform scale-70 relative -left-10/100">
+              <div class="text-14px leading-14px">{{Curator_NFT.name}}</div>
+              <div class="text-12px leading-13px text-color8B mt-6px">{{Curator_NFT.description}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </el-dialog>
-<!--    <el-dialog v-model="modalVisible" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
-<!--      <GetNft @close="modalVisible=false" :username="username" :reputation="reputation"></GetNft>-->
-<!--    </el-dialog>-->
-<!--    <el-dialog v-model="showTrekImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
-<!--      <img :src="showingTrekImage" alt="">-->
-<!--    </el-dialog>-->
-<!--    <el-dialog v-model="showWcImage" class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">-->
-<!--      <img :src="showingWcImage" alt="">-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
-import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT } from '@/utils/asset'
-import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/config'
+import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT, getCuratorNFT } from '@/utils/asset'
+import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT, Curator_NFT } from '@/config'
 import { getUserNYCards } from '@/utils/new-year'
 import { BLESS_CARD_NAME, BLESS_CARD_DESC } from '@/ny-config'
 
@@ -214,7 +223,7 @@ export default {
   name: "NFT",
   components: {GetNft},
   computed: {
-    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT', 'luckyCardsNFT']),
+    ...mapState(['stellarTreks', 'worldCupNFT', 'christmasNFT', 'luckyCardsNFT', 'curatorNFT']),
     ...mapGetters(['getAccountInfo']),
     username() {
       return this.getAccountInfo ? this.getAccountInfo.twitterUsername : '';
@@ -236,7 +245,7 @@ export default {
         return this.luckyCardsNFT
       }
       return []
-    },  
+    },
     showingWC2022() {
       let sts = []
       if (this.worldCupNFT && Object.keys(this.worldCupNFT).length > 0) {
@@ -272,7 +281,10 @@ export default {
       showingChristmasImage: '',
       showChristmasImage: false,
       collectionIndex: 0,
-      collectionVisible: false
+      collectionVisible: false,
+      showingCuratorImage: '',
+      showCuratorImage: false,
+      Curator_NFT
     }
   },
   methods: {
@@ -291,6 +303,10 @@ export default {
     showChristmas(url) {
       this.showingChristmasImage = url;
       this.showChristmasImage = true;
+    },
+    showCurator(url) {
+      this.showingCuratorImage = url;
+      this.showCuratorImage = true;
     },
     prefixInteger(num, length) {
       return num.toString().padStart(length, '0')
@@ -327,6 +343,11 @@ export default {
       }
       this.$store.commit('saveLuckyCardsNFT', res)
     }).catch()
+    getCuratorNFT(ethAddress).then(balance => {
+      this.$store.commit('saveCuratorNFT', balance)
+    }).catch(e => {
+      console.log(66, e);
+    })
   }
 }
 </script>

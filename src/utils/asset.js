@@ -628,8 +628,7 @@ export async function getCuratorNFT(address) {
         ]
     }]
     const res = await aggregate(call, Multi_Config);
-    const infos = res.results.transformed;
-    let balances = infos.results.transformed.curator
+    const balances = res.results.transformed.curator;
     return balances
 }
 

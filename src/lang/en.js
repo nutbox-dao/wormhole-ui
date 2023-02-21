@@ -97,7 +97,8 @@ export default {
     p9: 'You can replace {\'{@vitalik}\'} with a twitter username.',
     p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets.",
     createNewPromotion: 'Create new promotion',
-    createNewCuration: 'Create new curation'
+    createNewCuration: 'Create new curation',
+    notCurator: 'You are not a curator'
   },
   profileView: {
     socialAsset: 'Social assets',
@@ -113,7 +114,8 @@ export default {
     totalBalance: 'Total balance',
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
-    inputAmount: 'Enter token amount'
+    inputAmount: 'Enter token amount',
+    accountMismatch: 'You must use wormhole3 binded account to operate.'
   },
   token: {
     noNft: "You havn't got any NFTs.",

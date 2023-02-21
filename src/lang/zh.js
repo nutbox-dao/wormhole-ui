@@ -95,7 +95,10 @@ export default {
     p8: '此服务仍处于测试阶段. 请注意，不要存入超过损失的金额.\n' +
       '              存入此帐户即表示您同意我们的服务条款.',
     p9: '你可以将 {\'{@vitalik}\'} 替换成任意twitter用户名.',
-    p10: "你当前还未注册wormhole3, 请激活您的帐户以接收资产."
+    p10: "你当前还未注册wormhole3, 请激活您的帐户以接收资产.",
+    createNewPromotion: '创建新推广任务',
+    createNewCuration: '创建新策展',
+    notCurator: '您还不是一个策展人'
   },
   profileView: {
     socialAsset: '社交资产',
@@ -111,7 +114,8 @@ export default {
     totalBalance: '总余额',
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
-    inputAmount: '请输入token数量'
+    inputAmount: '请输入token数量',
+    accountMismatch: '您必须使用虫洞绑定的账号进行操作。'
   },
   token: {
     noNft: "你当前没有任何NFT.",
