@@ -31,6 +31,12 @@
       <i class="w-24px h-24px min-w-24px" v-if="isRetweet" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
       <i class="w-24px h-24px min-w-24px" v-if="isLike" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div>
+    <template v-if="recommendData.curationType===2 && popups.length>0">
+      <PopUpsCard :popups="popups"
+                  :space="popups"
+                  :showCreate="popups.spaceState === 2"
+                  @createPopUpVisible='createPopUpVisible=true'></PopUpsCard>
+    </template>
     <div>
       <!-- max count -->
       <div class="flex justify-between items-center mt-1rem">
@@ -132,6 +138,17 @@
         </div>
       </transition>
     </van-popup>
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="createPopUpVisible"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="createPopUpVisible"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-80vh">
+          <CreatePopUpModal @close="createPopUpVisible=false"/>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 </template>
 
@@ -143,10 +160,12 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {getCurationRecord, getMyParticipantionInCuration } from "@/api/api";
 import Submissions from "@/views/curations/Submissions";
+import PopUpsCard from "@/components/PopUpsCard";
+import CreatePopUpModal from "@/components/CreatePopUpModal";
 
 export default {
   name: "PostRecommendItem",
-  components: {ChainTokenIconLarge, Submissions},
+  components: {ChainTokenIconLarge, Submissions, PopUpsCard, CreatePopUpModal},
   props: {
     recommendData: {
       type: Object,
@@ -160,7 +179,9 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       participant: [],
       showSubmissions: false,
-      updateInterval: null
+      updateInterval: null,
+      popups: [],
+      createPopUpVisible: false
     }
   },
   computed: {
@@ -182,7 +203,7 @@ export default {
       return (this.recommendData.taskRecord & 8) / 8
     },
     retweeted() {
-      if (!this.recommendData || !this.getAccountInfo) return false 
+      if (!this.recommendData || !this.getAccountInfo) return false
       return (this.recommendData.taskRecord & 16) / 16
     },
     isQuote() {
@@ -219,7 +240,7 @@ export default {
   },
   unmounted() {
     clearInterval(this.updateInterval)
-  },  
+  },
   methods: {
     parseTimestamp,
     parseTimestampToUppercase,

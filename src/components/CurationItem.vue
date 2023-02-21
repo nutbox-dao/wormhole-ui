@@ -25,9 +25,11 @@
             <template #blog-tag><div></div></template>
           </Blog>
         </div>
-        <div v-if="contentType==='space'"
-             class="h-140px md:h-10rem overflow-hidden relative my-10px">
-          <Space :space="curation" class="rounded-15px h-full bg-tag-gradient"/>
+        <div v-if="contentType==='space'">
+          <Space :space="curation"
+                 avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+            <template #bottom-btn-bar><div></div></template>
+          </Space>
         </div>
         <div class="flex">
           <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
