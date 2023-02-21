@@ -124,6 +124,7 @@ import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
+import PostDetail from "@/views/post/PostDetail";
 
 export default {
   name: "AccountInfo",
@@ -131,7 +132,8 @@ export default {
     Post,
     WalletView,
     Curations,
-    TipModalVue
+    TipModalVue,
+    PostDetail
   },
   data() {
     return {

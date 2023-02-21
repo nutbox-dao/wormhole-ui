@@ -94,13 +94,14 @@
                      class="py-20px border-b-1 border-color8B/30 light:border-listBgBorder">
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
-                    @click="gotoDetail(post, index)"
+                          @click="gotoDetail(post, index)"
                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
                     </Blog>
                   </div>
-                  <div v-else
-                      class="h-140px md:h-10rem overflow-hidden relative my-10px">
-                    <Space :space="post" class="rounded-15px h-full bg-tag-gradient"/>
+                  <div v-else class="">
+                    <Space :space="post"
+                           @click="gotoDetail(post, index)"
+                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"/>
                   </div>
                 </div>
               </div>
@@ -284,6 +285,7 @@ export default {
       }
     },
     gotoDetail(post, index) {
+      console.log(post)
       this.selectedPost = post
       this.selectedPostIndex = index
       this.$store.commit('postsModule/saveCurrentShowingDetail', post);

@@ -11,14 +11,27 @@
         <van-list :loading="listLoading"
                   :finished="listFinished"
                   :immediate-check="false"
-                  :finished-text="$t('common.noMore')"
+                  :finished-text="''"
                   @load="onLoad">
           <div class="grid grid-cols-1 lg:grid-cols-5 gap-1.5rem">
             <div class="col-span-1 lg:col-span-3 h-max">
               <div class="md:bg-blockBg md:light:bg-white light:shadow-lg rounded-12px md:p-15px">
-                <Blog :post="currentShowingDetail"
+                <Space v-if="currentShowingDetail.spaceId"
+                       :space="currentShowingDetail"
+                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"></Space>
+                <Blog v-else
+                      :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
                       :isDetail='true'/>
+                <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D ">
+                  <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
+                                 whitespace-nowrap cursor-pointer"
+                          :class="selectedTag === cTag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                          v-for="cTag of JSON.parse(currentShowingDetail.topics || '[]')" :key="cTag"
+                          @click.stop="onSelectTag(cTag)">
+                    {{cTag}}
+                  </button>
+                </div>
                 <div class="border-0 light:border-1 gradient-border gradient-border-color91
                           my-1rem rounded-15px overflow-hidden">
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
@@ -80,19 +93,22 @@
                 </button>
               </div>
               <div v-show="tabIndex===0 || isWeb"
-                   class="md:bg-blockBg md:light:bg-white light:shadow-lg rounded-12px lg:mt-15px md:px-15px">
+                   class="lg:bg-blockBg lg:light:bg-white light:lg:shadow-lg rounded-12px lg:mt-15px lg:px-15px">
+                <div class="c-text-black text-left text-1.2rem hidden lg:block py-15px">
+                  {{ $t('common.comments') }}
+                </div>
                 <div v-if="commentLoading" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
                   <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
                 </div>
-                <div v-else-if="comments && comments.length > 0"
-                     class="pt-1rem border-white/20 md:border-listBgBorder">
-                  <div class="c-text-black text-left text-1.2rem hidden lg:block">
-                    {{ $t('common.comments') }}
-                  </div>
-                  <div class="border-b-1 border-color8B/30 light:border-colorF4"
+                <template v-else-if="comments.length > 0">
+                  <div class="border-b-1 lg:border-t-1 lg:border-b-0 border-color8B/30 light:border-colorF4
+                              px-15px lg:px-0"
                        v-for="c of (comments || [])" :key="c.commentId">
                     <Comment class="py-15px" :comment="c"/>
                   </div>
+                </template>
+                <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
+                  <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
               </div>
               <div v-show="tabIndex===1">
@@ -100,20 +116,40 @@
                   <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
                 </div>
                 <template v-else>
-                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
-                    {{$t('curation.createdPromotion')}}
+                  <div class="flex items-center mb-4px">
+                    <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                      {{$t('curation.createdPromotion')}}
+                    </div>
+                    <el-popover :width="200" trigger="hover">
+                      <template #reference>
+                        <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                      </template>
+                      <div>======描述======</div>
+                    </el-popover>
                   </div>
                   <PostRecommendItem class="mb-15px"
                                      v-for="(curation, i) of promotionList" :key="curation.curationId"
                                      :recommend-data="curation"/>
-                  <button @click="createPromotion">
+                  <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
+                                 w-full rounded-full text-16px 2xl:text-0.8rem"
+                          @click="createPromotion">
                     {{ $t('postView.createNewPromotion') }}
                   </button>
-                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
-                    {{$t('curation.createdCurations')}}
+                  <div class="flex items-center mb-4px mt-1.5rem">
+                    <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                      {{$t('curation.createdCurations')}}
+                    </div>
+                    <el-popover :width="200" trigger="hover">
+                      <template #reference>
+                        <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                      </template>
+                      <div>======描述======</div>
+                    </el-popover>
                   </div>
                   <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
-                  <button @click="createCuration">
+                  <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
+                                 w-full rounded-full text-16px 2xl:text-0.8rem"
+                          @click="createCuration">
                     {{ $t('postView.createNewCuration') }}
                   </button>
                 </template>
@@ -124,8 +160,16 @@
                 <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
               </div>
               <template v-else>
-                <div class="c-text-black mr-1rem light:text-blueDark text-left">
-                  {{$t('curation.createdPromotion')}}
+                <div class="flex items-center mb-4px">
+                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                    {{$t('curation.createdPromotion')}}
+                  </div>
+                  <el-popover placement="bottom" :width="200" trigger="hover">
+                    <template #reference>
+                      <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                    </template>
+                    <div>======描述======</div>
+                  </el-popover>
                 </div>
                 <PostRecommendItem class="mb-15px"
                                    v-for="(curation, i) of promotionList" :key="curation.curationId"
@@ -135,8 +179,16 @@
                         @click="createPromotion">
                     {{ $t('postView.createNewPromotion') }}
                 </button>
-                <div class="c-text-black mr-1rem light:text-blueDark text-left mt-1.5rem">
-                  {{$t('curation.createdCurations')}}
+                <div class="flex items-center mb-4px mt-1.5rem">
+                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                    {{$t('curation.createdCurations')}}
+                  </div>
+                  <el-popover placement="bottom" :width="200" trigger="hover">
+                    <template #reference>
+                      <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                    </template>
+                    <div>======描述======</div>
+                  </el-popover>
                 </div>
                 <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
                 <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
@@ -174,6 +226,7 @@
 
 <script>
 import Blog from "@/components/Blog";
+import Space from "@/components/Space";
 import Comment from '@/views/user/components/Comment'
 import { mapState, mapGetters } from 'vuex'
 import { getPostById, getCommentsByPostid, getCurationsOfTweet, getAllTipsByTweetId, getTopTipsOfTweetId } from '@/api/api'
@@ -190,20 +243,15 @@ import { useWindowSize } from '@vant/use';
 import {ref, watch} from 'vue';
 import { getCuratorNFT } from '@/utils/asset'
 import { notify } from "@/utils/notify";
+import PostButtonGroup from "@/components/PostButtonGroup";
 
 export default {
   name: "PostDetail",
-  components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue},
+  components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue, Space, PostButtonGroup},
   computed: {
     ...mapState('postsModule', ['currentShowingDetail']),
     ...mapGetters(['getAccountInfo']),
-    top3Tip() {
-      if (this.tips && this.tips.length > 0) {
-        const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
-        return steemTips.sort((a, b) => b.amount - a.amount).slice(0, 3)
-      }
-      return []
-    },
+    ...mapState('curation', ['selectedTag']),
     curationList() {
       if (this.curations) {
         return this.curations.filter(c => c.isPromotion)
@@ -388,9 +436,12 @@ export default {
       } catch(e) {
         console.log('create curation fail', e);
       } finally {
-        
+
       }
-    }
+    },
+    onSelectTag(tag) {
+      this.$store.commit('curation/saveSelectedTag', tag)
+    },
   },
   beforeDestroy () {
     this.$store.commit('postsModule/saveCurrentShowingDetail', null)
