@@ -42,6 +42,9 @@ export default {
     if(history.state.author) {
       this.tabIndex = 2
     }
+    if (history.state.type === 'curation') {
+      this.tabIndex = 1
+    }
   },
 }
 </script>

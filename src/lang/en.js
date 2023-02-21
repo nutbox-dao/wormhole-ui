@@ -98,7 +98,9 @@ export default {
     p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets.",
     createNewPromotion: 'Create new promotion',
     createNewCuration: 'Create new curation',
-    notCurator: 'You are not a curator'
+    notCurator: 'You are not a curator',
+    promotionTips: 'Anyone can create a promotion for one of his or others tweet with some ERC20 token. Here is the list showing all promotions about this tweet.',
+    curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`
   },
   profileView: {
     socialAsset: 'Social assets',

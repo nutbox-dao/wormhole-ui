@@ -18,11 +18,12 @@
               <div class="md:bg-blockBg md:light:bg-white light:shadow-lg rounded-12px md:p-15px">
                 <Space v-if="currentShowingDetail.spaceId"
                        :space="currentShowingDetail"
+                       :is-detail='true'
                        avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"></Space>
                 <Blog v-else
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
-                      :isDetail='true'/>
+                      :is-detail='true'/>
                 <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D ">
                   <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
                                  whitespace-nowrap cursor-pointer"
@@ -124,7 +125,7 @@
                       <template #reference>
                         <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
                       </template>
-                      <div>======描述======</div>
+                      <div>{{ $t('postView.promotionTips') }}</div>
                     </el-popover>
                   </div>
                   <PostRecommendItem class="mb-15px"
@@ -143,7 +144,7 @@
                       <template #reference>
                         <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
                       </template>
-                      <div>======描述======</div>
+                      <div>{{ $t('postView.curationTips') }}</div>
                     </el-popover>
                   </div>
                   <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
@@ -168,7 +169,7 @@
                     <template #reference>
                       <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
                     </template>
-                    <div>======描述======</div>
+                    <div>{{ $t('postView.promotionTips') }}</div>
                   </el-popover>
                 </div>
                 <PostRecommendItem class="mb-15px"
@@ -187,7 +188,7 @@
                     <template #reference>
                       <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
                     </template>
-                    <div>======描述======</div>
+                    <div>{{ $t('postView.curationTips') }}</div>
                   </el-popover>
                 </div>
                 <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
@@ -431,7 +432,12 @@ export default {
           notify({message: this.$t('postView.notCurator'), type: 'info'})
           return;
         }
-        console.log(4, balance);
+        this.$router.push({
+          name: 'create-curation',
+          state: {
+            type: 'curation'
+          }
+        })
         // quote to curate
       } catch(e) {
         console.log('create curation fail', e);

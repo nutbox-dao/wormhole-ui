@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
       <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
       <!-- follow-->
-      <div class="flex justify-between items-center">
+      <div v-if="isDetail" class="flex justify-between items-center">
         <button @click.stop="userFollow"
                 :disabled="isFollowing"
                 class="text-white flex justify-center items-center w-24px h-24px rounded-full">
@@ -62,7 +62,7 @@
         </button>
         <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
       </div>
-      <div class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
+      <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
         <i class="w-18px h-18px icon-tip-white"></i>
       </div>
       <!-- <div class="text-white flex items-center">
@@ -120,7 +120,7 @@
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
                     <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
                   </div>
-                  <Space :space="post" :show-avatar="false">
+                  <Space v-if="post.spaceId" :space="post" :show-avatar="false">
                     <template #bottom-btn-bar><div></div></template>
                   </Space>
                   <div v-if="imgurls" class="text-colorD9 light:text-color46">
@@ -252,7 +252,7 @@
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
                     <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
                   </div>
-                  <Space :space="post" :show-avatar="false">
+                  <Space v-if="post.spaceId" :space="post" :show-avatar="false">
                     <template #bottom-btn-bar><div></div></template>
                   </Space>
                   <div v-if="imgurls" class="text-colorD9 light:text-color46">
@@ -348,6 +348,10 @@ export default {
     content: {
       type: String,
       default: ''
+    },
+    isDetail: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -599,7 +603,7 @@ export default {
 
       }
     },
-  }
+  },
 }
 </script>
 

@@ -98,7 +98,9 @@ export default {
     p10: "你当前还未注册wormhole3, 请激活您的帐户以接收资产.",
     createNewPromotion: '创建新推广任务',
     createNewCuration: '创建新策展',
-    notCurator: '您还不是一个策展人'
+    notCurator: '您还不是一个策展人',
+    promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
+    curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。'
   },
   profileView: {
     socialAsset: '社交资产',

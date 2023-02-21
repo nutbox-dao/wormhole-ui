@@ -133,9 +133,9 @@ export default {
     this.$bus.on('updatePostIndetail', (postDetail) => {
       console.log('update post', postDetail)
       // 修改数据
-      if(this.selectedPost.postId === postDetail.postId) {
+      if(this.selectedPost && postDetail && (this.selectedPost.postId === postDetail.postDetail.postId)) {
         console.log('============', this.selectedPost)
-        this.posts[this.selectedPostIndex] = postDetail
+        this.posts[this.selectedPostIndex] = postDetail.postDetail
       }
     })
   },

@@ -59,7 +59,7 @@
           </button>
         </div>
         <slot name="bottom-btn-bar">
-          <PostButtonGroup :post="space"/>
+          <PostButtonGroup :post="space" :is-detail="isDetail"/>
         </slot>
       </div>
     </div>
@@ -87,6 +87,10 @@ export default {
     showAvatar: {
       type: Boolean,
       default: true
+    },
+    isDetail: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
