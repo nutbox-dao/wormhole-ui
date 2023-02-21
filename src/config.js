@@ -6,9 +6,9 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 // export const BACKEND_API_URL = 'http://localhost:3100'
-// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
@@ -532,3 +532,10 @@ export const Christmas_NFT = [
         image: "https://gateway.nutbox.app/ipfs/QmVudQSy1hvGgigAvZtP1x7qj6Vg6j7WD8bJykG8pg6WKF"
     },
 ]
+
+export const Curator_NFT = {
+        id: 2,
+        name: "Curator NFT",
+        description: `Certified curator: The owner of this NFT can curate any post to wormhole3 without input any tokens as rewards.`,
+        image: "https://gateway.nutbox.app/ipfs/QmdZH2BuwbFiuhtk16FTosvrW3DL4AXNfKgrSgyfqjW3wW"
+    }
