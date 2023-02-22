@@ -57,6 +57,9 @@
         </template>
       </ChainTokenIconLarge>
     </div>
+    <div class="flex text-14px my-10px">
+      <span>{{ $t('postView.curatorsList') }}</span>
+    </div>
     <div v-for="c of allCurations" :key="c.twitterId" class="border-t-1 border-color8B/30 light:border-colorF4 py-8px">
       <div class="flex items-center mb-10px ">
         <img class="w-30px min-w-30px h-30px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
@@ -96,7 +99,7 @@
 
 <script>
 
-import {getCurationRecord, getCurationCreateRelation} from "@/api/api";
+import {getCurationRecord, getCurationCreateRelation, getMyParticipantionInCuration} from "@/api/api";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {formatAmount, parseTimestamp, parseSpaceStartTime} from "@/utils/helper";
 import {mapGetters} from "vuex";
@@ -118,26 +121,31 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       participant: [],
       showSubmissions: false,
-      allCurations: []
+      allCurations: [],
+      updateInterval: null,
+      taskRecord: 0
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
     quoted() {
       if(!this.curationData || !this.getAccountInfo) return false
-      return this.curationData?.taskRecord & 1;
+      return this.taskRecord & 1;
     },
     liked() {
       if(!this.curationData || !this.getAccountInfo) return false
-      return (this.curationData?.taskRecord & 4) / 4
+      return (this.taskRecord & 4) / 4
     },
     followed() {
       if(!this.curationData || !this.getAccountInfo) return false
-      return (this.curationData.taskRecord & 8) / 8
+      return (this.taskRecord & 8) / 8
     },
   },
   mounted() {
     this.updateCurationInfos()
+    this.updateInterval = setInterval(() => {
+      this.updateCurationInfos()
+    }, 3000);
   },
   methods: {
     formatAmount,
@@ -151,11 +159,15 @@ export default {
           this.loading2 = false
         })
         getCurationCreateRelation(id).then(curations => {
-          console.log(53, curations);
           this.allCurations = curations
         }).catch(e => {
           console.log('getCurationCreateRelation fail:', e);
         })
+        if(this.getAccountInfo?.twitterId) {
+          getMyParticipantionInCuration(this.getAccountInfo?.twitterId, id).then(res => {
+            this.taskRecord = res.taskRecord
+          }).catch()
+        }
       }
     },
     gotoUserPage(c) {
@@ -163,6 +175,12 @@ export default {
         this.$router.push({path : '/account-info/@' + c.twitterUsername})
       }
     },
+  },
+  unmounted() {
+    clearInterval(this.updateInterval)
+  },
+  beforeUnmount() {
+    clearInterval(this.updateInterval)
   }
 }
 </script>

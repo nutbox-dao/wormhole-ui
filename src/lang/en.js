@@ -100,7 +100,8 @@ export default {
     createNewCuration: 'Create new curation',
     notCurator: 'You are not a curator',
     promotionTips: 'Anyone can create a promotion for one of his or others tweet with some ERC20 token. Here is the list showing all promotions about this tweet.',
-    curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`
+    curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
+    curatorsList: 'Curators list:'
   },
   profileView: {
     socialAsset: 'Social assets',
