@@ -22,17 +22,19 @@
     </div>
     <div class="container mx-auto max-w-50rem">
       <CreatePost v-if="tabIndex===0"/>
-      <CreateCuration v-if="tabIndex===2"/>
+      <CreateCuration v-if="tabIndex===1"/>
+      <CreateRecommend v-if="tabIndex===2"/>
     </div>
   </div>
 </template>
 
 <script>
-import CreateCuration from "@/views/curations/CreateCuration";
+import CreateRecommend from "@/views/curations/CreateRecommend";
 import CreatePost from "@/components/CreatePost";
+import CreateCuration from "@/views/curations/CreateCuration";
 export default {
   name: "CreateView",
-  components: {CreateCuration, CreatePost},
+  components: {CreateRecommend, CreatePost, CreateCuration},
   data() {
     return {
       tabIndex: 0

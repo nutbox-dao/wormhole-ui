@@ -12,7 +12,7 @@
         {{ parseSpaceStartTime(curationData.endtime * 1000) }}
       </button>
     </div>
-    <div class="flex items-center gap-2rem my-14px">
+    <div class="flex items-center gap-x-2rem py-14px">
       <i class="w-24px h-24px min-w-24px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
       <i class="w-24px h-24px min-w-24px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
       <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
@@ -59,7 +59,7 @@
     </div>
     <div v-for="c of allCurations" :key="c.twitterId" class="border-t-1 border-color8B/30 light:border-colorF4 py-8px">
       <div class="flex items-center mb-10px ">
-        <img class="w-30px min-w-30px h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
+        <img class="w-30px min-w-30px h-30px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
                   mr-10px rounded-full cursor-pointer"
              :src="c.profileImg && c.profileImg.replace('normal', '200x200')" alt="">
         <div class="flex-1 flex items-center flex-wrap">

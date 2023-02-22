@@ -149,7 +149,7 @@
                   </div>
                   <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]"/>
                   <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
-                                 w-full rounded-full text-16px 2xl:text-0.8rem"
+                                 w-full rounded-full text-16px 2xl:text-0.8rem mt-15px"
                           @click="createCuration">
                     {{ $t('postView.createNewCuration') }}
                   </button>

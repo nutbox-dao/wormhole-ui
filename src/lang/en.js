@@ -313,6 +313,15 @@ export default {
     createdCurations: 'Created Curations',
     startTime: 'Start time'
   },
+  createCuration: {
+    option1: '获得 Curation NFT',
+    option2: 'Twitter Quote 任意帖子',
+    option2A: '发现好帖',
+    option2B: '点击Quote',
+    option2C: '编写Curation推荐评论',
+    option2D: '编辑社区标签或话题标签',
+    option2E: '填写其他，点击发推',
+  },
   popup: {
     create: 'Create a Pop-up reply action',
     popupTip: 'Currently only support replying on tweets actions',
