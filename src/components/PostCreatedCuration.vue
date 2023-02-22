@@ -3,16 +3,21 @@
     <div class="flex justify-between items-center mb-1rem">
       <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.startTime') }}</span>
       <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
-        --
+      {{ parseSpaceStartTime(curationData.createdTime) }}
       </button>
     </div>
     <div class="flex justify-between items-center">
       <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.endTime') }}</span>
       <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
-        --
+        {{ parseSpaceStartTime(curationData.endtime * 1000) }}
       </button>
     </div>
-    <div class="flex items-center justify-between h-40px xl:h-2rem my-10px">
+    <div class="flex items-center gap-2rem my-14px">
+      <i class="w-24px h-24px min-w-24px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      <i class="w-24px h-24px min-w-24px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+      <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
+    </div>
+    <div v-if="curationData.curationStatus > 0" class="flex items-center justify-between h-40px xl:h-2rem my-10px">
       <div class="flex items-center ml-11px">
         <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
           <img v-if="p.profileImg"
@@ -71,7 +76,7 @@
         </div>
       </div>
       <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line">
-        {{c?.content}}
+        {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${curationData.username}/status/${curationData.tweetId}`, '').trim()}}
       </div>
     </div>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
@@ -93,7 +98,7 @@
 
 import {getCurationRecord, getCurationCreateRelation} from "@/api/api";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
-import {formatAmount, parseTimestamp} from "@/utils/helper";
+import {formatAmount, parseTimestamp, parseSpaceStartTime} from "@/utils/helper";
 import {mapGetters} from "vuex";
 import Submissions from "@/views/curations/Submissions";
 
@@ -118,13 +123,25 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-
+    quoted() {
+      if(!this.curationData || !this.getAccountInfo) return false
+      return this.curationData?.taskRecord & 1;
+    },
+    liked() {
+      if(!this.curationData || !this.getAccountInfo) return false
+      return (this.curationData?.taskRecord & 4) / 4
+    },
+    followed() {
+      if(!this.curationData || !this.getAccountInfo) return false
+      return (this.curationData.taskRecord & 8) / 8
+    },
   },
   mounted() {
     this.updateCurationInfos()
   },
   methods: {
     formatAmount,
+    parseSpaceStartTime,
     updateCurationInfos() {
       if (this.curationData && this.curationData.curationId) {
         const id = this.curationData.curationId;
@@ -133,7 +150,8 @@ export default {
         }).catch(console.log).finally(() => {
           this.loading2 = false
         })
-        getCurationCreateRelation(this.curationData.tweetId).then(curations => {
+        getCurationCreateRelation(id).then(curations => {
+          console.log(53, curations);
           this.allCurations = curations
         }).catch(e => {
           console.log('getCurationCreateRelation fail:', e);

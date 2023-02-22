@@ -334,6 +334,7 @@ export default {
       })
     }
     getCurationsOfTweet(postId).then(curations => {
+      console.log(64, curations);
       this.curations = curations
     }).catch(e => console.log('get curation of tweet fail:', e))
     this.updateCurationInfo()
@@ -409,7 +410,6 @@ export default {
           }
         })
       }else {
-        console.log(64);
         this.$router.push({
           name :'create-curation',
           state: {
