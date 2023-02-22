@@ -36,6 +36,11 @@
                         v-for="(name, index) of chainNames" :key="name">
                   {{ name }}
                 </button>
+                <button class="tab h-30px text-12px sm:text-14px"
+                        :class="chainTab===chainNames.length?'active':''"
+                        @click="selectTab(chainNames.length)">
+                  {{ $t('common.curation') }}
+                </button>
               </div>
             </div>
             <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
@@ -55,7 +60,7 @@
                     </template>
                   </ChainTokenIcon>
                 </div>
-                <button v-if="chainId !== chainIds[chainTab]" class="ny-gradient-btn gradient-btn-disabled-grey
+                <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)" class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
                               rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
                   {{ $t('common.connectMetamask') }}
@@ -118,16 +123,16 @@ import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
-import { getCurationRewardList } from "@/utils/account"
+import { getCurationRewardList, autoCurationRewardList } from "@/utils/account"
 import { EVM_CHAINS } from '@/config';
-import { checkCurationRewards, getClaimParas, claimRewards,
-   getChainIdOfCurationContract, getSingerOfCuration,
+import { checkCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
+   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards,
    getCurationDetail } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed } from '@/api/api'
+import { setCurationIsFeed, setAutoCurationIsDistributed } from '@/api/api'
 
 export default {
   components: {RewardCuration, RewardPost, ChainTokenIcon},
@@ -135,8 +140,9 @@ export default {
     return {
       tabIndex: 0,
       chainTab: 0,
-      loading: [false, false, false],
+      loading: [false, false, false, false],
       claiming: false,
+      connecting: false
     }
   },
   computed: {
@@ -189,21 +195,40 @@ export default {
           return;
         }
         this.loading[index] = true
-        const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
-        if (records && records.length > 0) {
-          const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
-          let result = [];
-          for (let i = 0; i < claimed.length; i++) {
-            if (!claimed[i]) {
-              result.push(records[i])
-              getCurationDetail(this.chainNames[index], records[i].curationId)
+        if (index === this.chainIds.length) {
+          const records = await autoCurationRewardList(this.getAccountInfo.twitterId);
+          if (records && records.length > 0) {
+            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r.curationId));
+            let result = [];
+            for (let i = 0; i < claimed.length; i++) {
+              if (claimed[i]) {
+                result.push(records[i]);
+              }
             }
+            this.rewardLists[index] = result;
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+          }else {
+            this.rewardLists[index] = [];
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
           }
-          this.rewardLists[index] = result
-          this.$store.commit('curation/saveRewardLists', this.rewardLists)
-
         }else {
-          this.rewardLists[index] = [];
+          const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
+          if (records && records.length > 0) {
+            const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
+            let result = [];
+            for (let i = 0; i < claimed.length; i++) {
+              if (!claimed[i]) {
+                result.push(records[i])
+                // getCurationDetail(this.chainNames[index], records[i].curationId)
+              }
+            }
+            this.rewardLists[index] = result
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+
+          }else {
+            this.rewardLists[index] = [];
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+          }
         }
       } catch(e) {
         if (e === 'log out') {
@@ -217,15 +242,27 @@ export default {
     async claimReward() {
       try{
         const index = this.chainTab
-        const chainName = this.chainNames[index]
-        this.claiming = true
-        const ids = this.showingList.map(r => r.curationId);
-        const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
-        const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-        await setCurationIsFeed(twitterId, ids);
-        this.rewardLists[index] = [];
-        this.$store.commit('curation/saveRewardLists', this.rewardLists);
-        this.getRecords();
+        if (index === this.chainNames.length) {
+          this.claiming = true
+          const chainName = 'BNB Smart Chain'
+          const ids = this.showingList.map(r => r.curationId);
+          const { amounts, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
+          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
+          await setAutoCurationIsDistributed(twitterId, ids);
+          this.rewardLists[inedx] = []
+          this.$store.commit('curation/saveRewardLists', this.rewardLists);
+          this.getRecords();
+        }else {
+          const chainName = this.chainNames[index]
+          this.claiming = true
+          const ids = this.showingList.map(r => r.curationId);
+          const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
+          const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
+          await setCurationIsFeed(twitterId, ids);
+          this.rewardLists[index] = [];
+          this.$store.commit('curation/saveRewardLists', this.rewardLists);
+          this.getRecords();
+        }
       } catch(e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
@@ -240,6 +277,7 @@ export default {
     },
     async connect() {
       try {
+        this.connecting = true
         const connected = await setupNetwork(this.chainNames[this.chainTab])
         if (connected) {
 
@@ -248,6 +286,8 @@ export default {
         }
       } catch (e) {
         console.log('connect wallet fail:', e);
+      } finally{
+        this.connecting = false
       }
     }
   },
