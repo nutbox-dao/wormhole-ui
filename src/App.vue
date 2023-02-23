@@ -10,42 +10,52 @@
             <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
           </button>
           <div class="flex-1 flex justify-end items-center relative">
-            <div class="flex justify-end items-center relative" v-if="!getAccountInfo">
-              <div class="relative flex-1 flex justify-end">
-                <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
-                  <input type="text" :placeholder="$t('search')"
-                         v-model="searchText"
-                         @keypress="onSearch"
-                         class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
-                  <button v-if="searchText.trim().length>0"
-                          @click="searchText='', searchList=[]"
-                          class="absolute right-5px bg-color8B/30 p-2px rounded-full">
-                    <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
-                  </button>
-                </div>
-                <el-collapse-transition>
-                  <div v-show="showSearchList"
-                       class="z-999 fixed right-15px left-15px top-55px
+            <div class="relative flex-1 flex justify-end">
+              <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
+                <input type="text" :placeholder="$t('search')"
+                       v-model="searchText"
+                       @keypress="onSearch"
+                       class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
+                <button v-if="searchText.trim().length>0"
+                        @click="searchText='', searchList=[]"
+                        class="absolute right-5px bg-color8B/30 p-2px rounded-full">
+                  <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
+                </button>
+              </div>
+              <el-collapse-transition>
+                <div v-show="showSearchList"
+                     class="z-999 fixed right-15px left-15px top-55px
                               xs:absolute xs:right-0 xs:left-auto xs:top-45px">
-                    <div class="w-300px mx-auto text-14px">
-                      <div class="bg-blockBg light:bg-white border-1 border-color8B/30
+                  <div class="w-300px mx-auto text-14px">
+                    <div class="bg-blockBg light:bg-white border-1 border-color8B/30
                                   light:border-colorF4 rounded-12px p-12px shadow-lg
-                                  max-h-400px overflow-auto no-scroll-bar">
-                        <div v-for="(item,index) of searchList" :key="index"
-                             @click="gotoUser(item)"
-                             class="border-b-1 border-color8B/30 light:border-colorF4
+                                  max-h-500px overflow-auto no-scroll-bar">
+                      <div v-for="(item,index) of searchList" :key="index"
+                           @click="gotoUser(item)"
+                           class="border-b-1 border-color8B/30 light:border-colorF4
                                     flex items-center py-6px cursor-pointer">
-                          <img class="w-40px h-40px rounded-full mr-10px" :src="item.profileImg" alt="">
-                          <div class="text-left text-color8B light:text-color7D">
-                            <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
-                            <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
-                          </div>
+                        <img class="w-40px h-40px rounded-full mr-10px"
+                             :src="item.profileImg" alt=""
+                             @error="replaceEmptyImg">
+                        <div class="text-left text-color8B light:text-color7D">
+                          <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
+                          <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
                         </div>
+                      </div>
+<!--                      tag-->
+                      <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
+                                  whitespace-nowrap cursor-pointer light:text-color46 w-max"
+                           :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                           v-for="tag of searchTags" :key="tag"
+                           @click.stop="setSelectTag(tag)">
+                        #{{ tag }}
                       </div>
                     </div>
                   </div>
-                </el-collapse-transition>
-              </div>
+                </div>
+              </el-collapse-transition>
+            </div>
+            <div class="flex justify-end items-center relative" v-if="!getAccountInfo">
               <button @click="login"
                       class="flex justify-center items-center mr-1 min-w-70px px-13px bg-color62
                          text-white c-text-black text-0.8rem h-25px 2xl:h-1.4rem rounded-full">
@@ -53,41 +63,6 @@
               </button>
             </div>
             <template v-else>
-              <div class="relative flex-1 flex justify-end">
-                <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
-                  <input type="text" :placeholder="$t('search')"
-                         v-model="searchText"
-                         @keypress="onSearch"
-                         class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
-                  <button v-if="searchText.trim().length>0"
-                          @click="searchText='', searchList=[]"
-                          class="absolute right-5px bg-color8B/30 p-2px rounded-full">
-                    <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
-                  </button>
-                </div>
-                <el-collapse-transition>
-                  <div v-show="showSearchList"
-                       class="z-999 fixed right-15px left-15px top-55px
-                              xs:absolute xs:right-0 xs:left-auto xs:top-45px">
-                    <div class="w-300px mx-auto text-14px">
-                      <div class="bg-blockBg light:bg-white border-1 border-color8B/30
-                                  light:border-colorF4 rounded-12px p-12px shadow-lg
-                                  max-h-400px overflow-auto no-scroll-bar">
-                        <div v-for="(item,index) of searchList" :key="index"
-                            @click="gotoUser(item)"
-                             class="border-b-1 border-color8B/30 light:border-colorF4
-                                    flex items-center py-6px cursor-pointer">
-                          <img class="w-40px h-40px rounded-full mr-10px" :src="item.profileImg" alt="">
-                          <div class="text-left text-color8B light:text-color7D">
-                            <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
-                            <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </el-collapse-transition>
-              </div>
               <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
                        h-30px px-15px rounded-full mr-0.8rem
                        font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
@@ -246,10 +221,12 @@ export default {
       searchText: '',
       searchList: [],
       showSearchList: false,
+      searchTags: []
     }
   },
   computed: {
     ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee']),
+    ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
       return !this.hasReceivedNft
@@ -269,6 +246,9 @@ export default {
   methods: {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
+    },
+    setSelectTag(tag) {
+      this.$store.commit('postsModule/saveSelectedTag', tag)
     },
     beforeCloseLogin(done) {
       if(this.$refs.loginRef.authStep === 'login') this.$store.commit('saveShowLogin', false)

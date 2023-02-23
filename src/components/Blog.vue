@@ -61,6 +61,7 @@
               <div v-show="tag != 'iweb3'"
                    class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
                         whitespace-nowrap cursor-pointer light:text-color46"
+                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -142,7 +143,7 @@ export default {
   },
   computed: {
     ...mapState(['accountInfo']),
-    ...mapState('curation', ['selectedTag']),
+    ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     profileImg() {
       if (!this.post.profileImg) return null
@@ -240,7 +241,7 @@ export default {
       }
     },
     onSelectTag(tag) {
-      this.$store.commit('curation/saveSelectedTag', tag)
+      this.$store.commit('postsModule/saveSelectedTag', tag)
     }
   },
   mounted () {
