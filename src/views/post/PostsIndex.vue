@@ -89,7 +89,7 @@
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <div v-else class="-mt-25px">
+              <div v-else class="-mt-18px md:-mt-25px">
                 <div v-for="(post, index) of postsList" :key="post.postId"
                      class="py-20px border-b-1 border-color8B/30 light:border-listBgBorder">
                   <div v-if="!post.spaceId">
