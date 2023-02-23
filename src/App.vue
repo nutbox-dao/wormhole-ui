@@ -30,6 +30,9 @@
                     <div class="bg-blockBg light:bg-white border-1 border-color8B/30
                                   light:border-colorF4 rounded-12px p-12px shadow-lg
                                   max-h-500px overflow-auto no-scroll-bar">
+                      <div v-show="searchList.length === 0">
+                        {{ $t('common.none') }}
+                      </div>
                       <div v-for="(item,index) of searchList" :key="index"
                            @click="gotoUser(item)"
                            class="border-b-1 border-color8B/30 light:border-colorF4
@@ -44,11 +47,11 @@
                       </div>
 <!--                      tag-->
                       <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
-                                  whitespace-nowrap cursor-pointer light:text-color46 w-max"
+                                  whitespace-nowrap cursor-pointer light:text-color46 w-max flex"
                            :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                           v-for="tag of searchTags" :key="tag"
+                           v-for="tag of seachTagList" :key="tag"
                            @click.stop="setSelectTag(tag)">
-                        #{{ tag }}
+                        #{{ tag.replace('#', '') }}
                       </div>
                     </div>
                   </div>
@@ -203,7 +206,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchTags } from '@/api/api'
 import Login from '@/views/Login.vue'
 
 export default {
@@ -221,7 +224,7 @@ export default {
       searchText: '',
       searchList: [],
       showSearchList: false,
-      searchTags: []
+      seachTagList: []
     }
   },
   computed: {
@@ -339,10 +342,15 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const users = await searchUsers(this.searchText)
-        if (users && users.length > 0) {
+        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
           this.showSearchList = true
+          this.searchList = []
+          this.seachTagList = []
+        if (users && users.length > 0) {
           this.searchList = users
+        }
+        if (tags && tags.length > 0) {
+          this.seachTagList = tags
         }
       }
     }

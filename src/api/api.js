@@ -72,6 +72,9 @@ export const getCommentsByPostid = async (postId, lastCommentTime) =>
 export const getTrendingTags = async () => 
     get(BACKEND_API_URL + '/post/getTrendingTags')
 
+export const searchTags = async (tag) =>
+    get(BACKEND_API_URL + '/post/searchTags', {tag})
+
 export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
     get(BACKEND_API_URL + '/post/getPostByTrending', {tag, pageIndex, pageSize, twitterId})
 
