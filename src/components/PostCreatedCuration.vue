@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line break-word">
-        {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${curationData.username}/status/${curationData.tweetId}`, '').trim()}}
+        {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${post.username}/status/${post.postId}`, '').trim()}}
       </div>
     </div>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
@@ -114,6 +114,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    post: {
+      type: Object,
+      default: {}
     }
   },
   data() {
