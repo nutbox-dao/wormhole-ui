@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line">
+    <div class="light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line break-word">
       {{recommendData?.description}}
     </div>
     <div class="flex items-center gap-2rem">

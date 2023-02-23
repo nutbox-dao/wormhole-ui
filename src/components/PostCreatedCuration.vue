@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line">
+      <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line break-word">
         {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${curationData.username}/status/${curationData.tweetId}`, '').trim()}}
       </div>
     </div>
