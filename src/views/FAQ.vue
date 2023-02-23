@@ -94,7 +94,7 @@ export default {
   name: "FAQ",
   data() {
     return {
-      tabIndex: 1
+      tabIndex: 0
     }
   }
 }
