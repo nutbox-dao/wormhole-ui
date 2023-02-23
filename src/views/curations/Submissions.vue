@@ -37,10 +37,10 @@
             <div v-else class="flex items-center">
               <ChainTokenIconVue height="20px" width="20px"
                                  :token="{symbol: record?.tokenSymbol, address: record?.token}"
-                                 :chainName="detailCuration.chainId.toString()">
+                                 :chainName="curation.chainId.toString()">
                 <template #amount>
               <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
-                {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}
+                {{ formatAmount(record.amount / (10 ** curation.decimals)) }} {{ curation.tokenSymbol }}
               </span>
                 </template>
               </ChainTokenIconVue>
@@ -72,6 +72,10 @@ export default {
     state: {
       type: Number,
       default: 0
+    },
+    curation: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -103,7 +107,7 @@ export default {
       if (this.list.length > 0 && !this.refreshing) {
         time = this.list[this.list.length - 1].createAt
       }
-      getCurationRecord(this.detailCuration.curationId, time).then(list=>{
+      getCurationRecord(this.curation.curationId, time).then(list=>{
         if(this.refreshing) this.list = []
         this.refreshing = false
         this.finished = list.length<30

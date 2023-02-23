@@ -134,7 +134,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showSubmissions"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <Submissions :records="participant" :state="recommendData.curationStatus" @close="showSubmissions=false"></Submissions>
+          <Submissions :records="participant" :curation="recommendData" :state="recommendData.curationStatus" @close="showSubmissions=false"></Submissions>
         </div>
       </transition>
     </van-popup>
@@ -181,7 +181,8 @@ export default {
       showSubmissions: false,
       updateInterval: null,
       popups: [],
-      createPopUpVisible: false
+      createPopUpVisible: false,
+      count: 0
     }
   },
   computed: {
@@ -236,7 +237,7 @@ export default {
     this.updateCurationInfos()
     this.updateInterval = setInterval(() => {
       this.updateCurationInfos()
-    }, 10000);
+    }, 3000);
   },
   unmounted() {
     clearInterval(this.updateInterval)
@@ -260,11 +261,13 @@ export default {
     updateCurationInfos() {
       if (this.recommendData && this.recommendData.curationId) {
         const id = this.recommendData.curationId;
-        getCurationRecord(id).then(res => {
-          this.participant = res ?? []
-        }).catch(console.log).finally(() => {
-          this.loading2 = false
-        })
+        if (this.count++ % 3 === 0){
+          getCurationRecord(id).then(res => {
+            this.participant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.loading2 = false
+          })
+        }
         if (this.getAccountInfo?.twitterId) {
           getMyParticipantionInCuration(this.getAccountInfo.twitterId, id).then(res => {
             if (res.taskRecord) {

@@ -37,11 +37,11 @@
                        light:border-white light:bg-color62 light:text-white text-10px">
             +{{ participant[0].totalCount - 3 }}
           </span>
-        <button class="ml-10px whitespace-nowrap" v-if="participant.length>0" @click="showSubmissions=true">
+        <button class="ml-10px whitespace-nowrap" v-if="participant.length>3" @click="showSubmissions=true">
           {{$t('curation.all')}} >>
         </button>
       </div>
-      <ChainTokenIconLarge height="26px" width="26px"
+      <ChainTokenIconLarge  v-if="curationData.curationStatus > 0" height="26px" width="26px"
                            class="bg-color62"
                            :token="{symbol: curationData?.tokenSymbol, address: curationData?.token}"
                            :chainName="curationData ? curationData.chainId?.toString() : ''">
@@ -90,7 +90,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showSubmissions"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <Submissions :records="participant" :state="curationData.curationStatus" @close="showSubmissions=false"></Submissions>
+          <Submissions :records="participant" :curation="curationData" :state="curationData.curationStatus" @close="showSubmissions=false"></Submissions>
         </div>
       </transition>
     </van-popup>
@@ -123,7 +123,8 @@ export default {
       showSubmissions: false,
       allCurations: [],
       updateInterval: null,
-      taskRecord: 0
+      taskRecord: 0,
+      count: 0
     }
   },
   computed: {
@@ -153,11 +154,13 @@ export default {
     updateCurationInfos() {
       if (this.curationData && this.curationData.curationId) {
         const id = this.curationData.curationId;
-        getCurationRecord(id).then(res => {
-          this.participant = res ?? []
-        }).catch(console.log).finally(() => {
-          this.loading2 = false
-        })
+        if (this.count++ % 3 === 0){
+          getCurationRecord(id).then(res => {
+            this.participant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.loading2 = false
+          })
+        }
         getCurationCreateRelation(id).then(curations => {
           this.allCurations = curations
         }).catch(e => {
