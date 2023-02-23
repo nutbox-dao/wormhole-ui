@@ -43,12 +43,14 @@
                         </div>
                       </div>
 <!--                      tag-->
-                      <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
+                      <div class="flex flex-wrap items-center gap-5px">
+                        <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
                                   whitespace-nowrap cursor-pointer light:text-color46 w-max"
-                           :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                           v-for="tag of searchTags" :key="tag"
-                           @click.stop="setSelectTag(tag)">
-                        #{{ tag }}
+                             :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                             v-for="tag of searchTags" :key="tag"
+                             @click.stop="setSelectTag(tag)">
+                          #{{ tag }}
+                        </div>
                       </div>
                     </div>
                   </div>
