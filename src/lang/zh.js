@@ -16,6 +16,7 @@ export default {
   myWallet: '我的钱包',
   myReward: '我的奖励',
   search: '搜索',
+  noRelatedUser: '没有相关的用户信息',
   signUpView: {
     p1: '你还没有注册.',
     p2: '注册然后...',

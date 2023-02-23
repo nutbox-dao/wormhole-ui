@@ -31,7 +31,7 @@
                                   light:border-colorF4 rounded-12px p-12px shadow-lg
                                   max-h-500px overflow-auto no-scroll-bar">
                       <div v-show="searchList.length === 0">
-                        {{ $t('common.none') }}
+                        {{ $t('noRelatedUser') }}
                       </div>
                       <div v-for="(item,index) of searchList" :key="index"
                            @click="gotoUser(item)"

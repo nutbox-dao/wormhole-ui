@@ -16,6 +16,7 @@ export default {
   myWallet: 'My wallet',
   myReward: 'My reward',
   search: 'Search',
+  noRelatedUser: 'No related user info',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
