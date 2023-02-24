@@ -29,6 +29,7 @@ import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/CreateView";
+import WalletIndex from "@/views/user/WalletIndex";
 
 const routes = [
   {
@@ -87,28 +88,42 @@ const routes = [
     component: FaucetView,
   },
   {
-    path: '/profile/:user/wallet',
+    path: '/wallet/:user',
     name: 'wallet',
-    component: WalletView,
+    component: WalletIndex,
     meta: {gotoHome: true},
     children: [
       {
-        path: '',
-        name: 'nft',
-        component: UserNftView
+        path: '/wallet/:user/wallet',
+        name: 'wallet',
+        component: WalletView,
+        meta: {gotoHome: true},
+        children: [
+          {
+            path: '',
+            name: 'nft',
+            component: UserNftView
+          },
+          {
+            path: 'token',
+            name: 'token',
+            component: UserTokenView
+          },
+        ]
       },
       {
-        path: 'token',
-        name: 'token',
-        component: UserTokenView
+        path: '/wallet/:user/reward',
+        name: 'reward',
+        component: RewardView,
+        meta: {gotoHome: true}
+      },
+      {
+        path: '/wallet/:user/transaction',
+        name: 'transaction',
+        component: UserTransactionView,
+        meta: {gotoHome: true},
       },
     ]
-  },
-  {
-    path: '/profile/:user/reward',
-    name: 'reward',
-    component: RewardView,
-    meta: {gotoHome: true}
   },
   {
     path: '/profile/:user',
@@ -129,12 +144,6 @@ const routes = [
         meta: {keepAlive: true, gotoHome: true}
       }
     ]
-  },
-  {
-    path: '/transaction',
-    name: 'transaction',
-    component: UserTransactionView,
-    meta: {gotoHome: true},
   },
   {
     path: '/post-detail/:postId',

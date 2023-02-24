@@ -1,11 +1,6 @@
 <template>
-  <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-15px pb-2rem text-14px xl:text-0.8rem">
-    <div class="pt-25px sm:px-0 container mx-auto max-w-53rem md:max-w-48rem text-left">
-      <span class="text-16px xl:text-1rem c-text-black relative whitespace-nowrap light:text-black">
-        {{$t('walletView.tipHistory')}}
-      </span>
-    </div>
-    <div class="bg-blockBg light:bg-white rounded-1rem mt-3rem">
+  <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-15px sm:px-0 pt-1rem pb-2rem text-14px xl:text-0.8rem">
+    <div class="bg-blockBg light:bg-white rounded-1rem ">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                 loading-text="Loading"
                 pulling-text="Pull to refresh data"
