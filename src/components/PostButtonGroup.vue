@@ -214,7 +214,7 @@
               <div class="flex flex-col relative">
                 <div v-show="showInputTip"
                      class="absolute top-5px leading-24px 2xl:leading-1rem opacity-50">
-                  {{$t('curation.tweetInputTip')}}
+                  {{isDefaultQuote?$t('curation.tweetInputTip'):'其他描述'}}
                 </div>
                 <div contenteditable
                      class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
@@ -369,6 +369,7 @@ export default {
       contentRange: null,
       inputContent: '',
       inputContentEl: '',
+      isDefaultQuote: true
     }
   },
   computed: {
@@ -583,6 +584,11 @@ export default {
       }
       this.quoteVisible = true
       this.setInputFocus()
+      this.isDefaultQuote = true
+    },
+    otherPreQuote() {
+      this.preQuote()
+      this.isDefaultQuote = false
     },
     tip(e) {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
