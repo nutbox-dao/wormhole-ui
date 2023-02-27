@@ -150,7 +150,7 @@
                     {{$t('curation.tweetReply')}}
                   </div>
                   <div contenteditable
-                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
                        ref="contentRef"
                        @blur="getBlur"
                        @paste="onPasteEmojiContent"
@@ -217,7 +217,7 @@
                   {{$t('curation.tweetInputTip')}}
                 </div>
                 <div contenteditable
-                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
                      ref="contentRef"
                      @blur="getBlur"
                      @paste="onPasteEmojiContent"
@@ -365,7 +365,7 @@ export default {
       replyVisible: false,
       quoteVisible: false,
       showTip: false,
-      showInputTip: false,
+      showInputTip: true,
       contentRange: null,
       inputContent: '',
       inputContentEl: '',
