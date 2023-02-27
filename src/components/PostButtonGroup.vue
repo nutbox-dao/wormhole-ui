@@ -6,7 +6,7 @@
       <div v-if="isDetail" class="flex justify-between items-center">
         <button @click.stop="userFollow"
                 :disabled="isFollowing"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -18,7 +18,7 @@
       <div class="flex justify-between items-center">
         <button @click.stop="preReply"
                 :disabled="isRepling || isQuoting || isRetweeting"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -30,7 +30,7 @@
       <div class="flex items-center">
         <button @click.stop="preQuote"
                 :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
           <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -42,7 +42,7 @@
       <div class="flex items-center">
         <button @click.stop="userRetweet"
                 :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
           <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -54,7 +54,7 @@
       <div class="flex items-center">
         <button :disabled="isLiking || post.liked"
                 @click.stop="userLike"
-                class="flex items-center">
+                class="flex items-center disabled-no-opacity">
           <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
