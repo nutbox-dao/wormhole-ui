@@ -36,7 +36,7 @@
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
-                 class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
+                 class="cursor-pointer text-14px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line"
                    :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"

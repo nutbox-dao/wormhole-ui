@@ -14,7 +14,9 @@
     </div>
     <div class="flex items-center gap-x-2rem py-14px">
       <i class="w-24px h-24px min-w-24px" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      <i class="w-24px h-24px min-w-24px" :class="replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
       <i class="w-24px h-24px min-w-24px" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+      <i class="w-24px h-24px min-w-24px" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
       <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div>
     <div v-if="curationData.curationStatus > 0" class="flex items-center justify-between h-40px xl:h-2rem my-10px">
@@ -136,6 +138,14 @@ export default {
     quoted() {
       if(!this.curationData || !this.getAccountInfo) return false
       return this.taskRecord & 1;
+    },
+    replied() {
+      if(!this.curationData || !this.getAccountInfo) return false
+      return this.taskRecord & 2;
+    },
+    retweeted() {
+      if(!this.curationData || !this.getAccountInfo) return false
+      return this.taskRecord & 16;
     },
     liked() {
       if(!this.curationData || !this.getAccountInfo) return false
