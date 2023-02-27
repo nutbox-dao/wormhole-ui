@@ -194,6 +194,7 @@
                 <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]" :post="currentShowingDetail"/>
                 <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
                                w-full rounded-full text-16px 2xl:text-0.8rem"
+                               :disabled="creatingCuration"
                         @click="createCuration">
                     {{ $t('postView.createNewCuration') }}
                 </button>
@@ -300,7 +301,8 @@ export default {
       tipCollapse: false,
       curationLoading:false,
       curations: [],
-      updateInterval: null
+      updateInterval: null,
+      creatingCuration: false
     }
   },
   mounted() {
@@ -421,30 +423,24 @@ export default {
       }
     },
     async createCuration() {
-      this.$refs.postRef.onQuote()
-      // if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-      //   this.$store.commit('saveShowLogin', true)
-      //   return
-      // }
-      // try{
-      //   // check user nft
-      //   const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
-      //   if (balance < 1) {
-      //     notify({message: this.$t('postView.notCurator'), type: 'info'})
-      //     return;
-      //   }
-      //   this.$router.push({
-      //     name: 'create-curation',
-      //     state: {
-      //       type: 'curation'
-      //     }
-      //   })
-      //   // quote to curate
-      // } catch(e) {
-      //   console.log('create curation fail', e);
-      // } finally {
-      //
-      // }
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        // check user nft
+        const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
+        this.creatingCuration = true
+        if (balance < 1) {
+          notify({message: this.$t('postView.notCurator'), type: 'info'})
+          return;
+        }
+        this.$refs.postRef.onQuote()
+      } catch(e) {
+        console.log('create curation fail', e);
+      } finally {
+        this.creatingCuration = false
+      }
     },
     onSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
