@@ -302,15 +302,15 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showTip"
              class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-60vh">
-          <button class="absolute right-20px top-24px"
-                  @click.stop="showTip=false">
-            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
-          </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
                        :tipToUser="post"
                        :parent-tweet-id="post.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
+          <button class="absolute right-20px top-24px"
+                  @click.stop="showTip=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
         </div>
       </transition>
     </van-popup>
