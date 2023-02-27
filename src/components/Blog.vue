@@ -244,7 +244,7 @@ export default {
       this.$store.commit('postsModule/saveSelectedTag', tag)
     },
     onQuote() {
-      this.$refs.postButtonRef.preQuote()
+      this.$refs.postButtonRef.otherPreQuote()
     }
   },
   mounted () {

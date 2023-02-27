@@ -146,7 +146,7 @@ export default {
       e.target.src = emptyAvatar;
     },
     onQuote() {
-      this.$refs.postButtonRef.preQuote()
+      this.$refs.postButtonRef.otherPreQuote()
     }
   },
 }
