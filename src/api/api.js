@@ -152,6 +152,9 @@ export const getCurationsOfTweet = async (tweetId) =>
 export const getCurationRecord = async (curationId, createAt, isFeed) =>
     get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
 
+export const getAutoCurationRecord = async (curationId, createAt, isFeed) =>
+    get(BACKEND_API_URL + '/curation/getAutoCurationRecord', { curationId, createAt, isFeed })
+
 export const getCurationCreateRelation = async (curationId) => 
     get(BACKEND_API_URL + '/curation/getCurationCreateRelation', {curationId})
 

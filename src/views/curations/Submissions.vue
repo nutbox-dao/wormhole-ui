@@ -55,7 +55,7 @@
 <script>
 import { mapState } from "vuex";
 import { parseTimestamp, formatAmount } from "@/utils/helper";
-import { getCurationRecord } from '@/api/api'
+import { getCurationRecord, getAutoCurationRecord } from '@/api/api'
 import ChainTokenIconVue from "@/components/ChainTokenIcon";
 
 export default {
@@ -107,15 +107,27 @@ export default {
       if (this.list.length > 0 && !this.refreshing) {
         time = this.list[this.list.length - 1].createAt
       }
-      getCurationRecord(this.curation.curationId, time).then(list=>{
-        if(this.refreshing) this.list = []
-        this.refreshing = false
-        this.finished = list.length<30
-        this.list = this.list.concat(list)
-      }).finally(r => {
-        this.loading = false
-        this.refreshing = false
-      })
+      if (this.curation.isPromotion) {
+        getAutoCurationRecord(this.curation.curationId, time).then(list=>{
+          if(this.refreshing) this.list = []
+          this.refreshing = false
+          this.finished = list.length<30
+          this.list = this.list.concat(list)
+        }).finally(r => {
+          this.loading = false
+          this.refreshing = false
+        })
+      }else{
+        getCurationRecord(this.curation.curationId, time).then(list=>{
+          if(this.refreshing) this.list = []
+          this.refreshing = false
+          this.finished = list.length<30
+          this.list = this.list.concat(list)
+        }).finally(r => {
+          this.loading = false
+          this.refreshing = false
+        })
+      }
     }
   }
 }

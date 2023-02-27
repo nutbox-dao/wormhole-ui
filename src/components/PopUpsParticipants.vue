@@ -53,7 +53,7 @@
 import { parseTimestamp, formatAmount } from "@/utils/helper";
 import ChainTokenIconVue from "@/components/ChainTokenIcon";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import {getCurationRecord, popupRecords} from '@/api/api'
+import {popupRecords} from '@/api/api'
 
 export default {
   name: "PopUpsParticipants",
