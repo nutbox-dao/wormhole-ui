@@ -59,7 +59,7 @@
           </button>
         </div>
         <slot name="bottom-btn-bar">
-          <PostButtonGroup :post="space" :is-detail="isDetail"/>
+          <PostButtonGroup ref="postButtonRef" :post="space" :is-detail="isDetail"/>
         </slot>
       </div>
     </div>
@@ -145,6 +145,9 @@ export default {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
+    onQuote() {
+      this.$refs.postButtonRef.preQuote()
+    }
   },
 }
 </script>
