@@ -6,7 +6,7 @@
       <div v-if="isDetail" class="flex justify-between items-center">
         <button @click.stop="userFollow"
                 :disabled="isFollowing"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -18,7 +18,7 @@
       <div class="flex justify-between items-center">
         <button @click.stop="preReply"
                 :disabled="isRepling || isQuoting || isRetweeting"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full">
+                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -30,7 +30,7 @@
       <div class="flex items-center">
         <button @click.stop="preQuote"
                 :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
           <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -42,7 +42,7 @@
       <div class="flex items-center">
         <button @click.stop="userRetweet"
                 :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full">
+                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
           <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -54,7 +54,7 @@
       <div class="flex items-center">
         <button :disabled="isLiking || post.liked"
                 @click.stop="userLike"
-                class="flex items-center">
+                class="flex items-center disabled-no-opacity">
           <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
@@ -150,7 +150,7 @@
                     {{$t('curation.tweetReply')}}
                   </div>
                   <div contenteditable
-                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
                        ref="contentRef"
                        @blur="getBlur"
                        @paste="onPasteEmojiContent"
@@ -217,7 +217,7 @@
                   {{$t('curation.tweetInputTip')}}
                 </div>
                 <div contenteditable
-                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box"
+                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
                      ref="contentRef"
                      @blur="getBlur"
                      @paste="onPasteEmojiContent"
@@ -302,15 +302,15 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showTip"
              class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden min-h-60vh">
-          <button class="absolute right-20px top-24px"
-                  @click.stop="showTip=false">
-            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
-          </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
                        :tipToUser="post"
                        :parent-tweet-id="post.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
+          <button class="absolute right-20px top-24px"
+                  @click.stop="showTip=false">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
         </div>
       </transition>
     </van-popup>
@@ -365,7 +365,7 @@ export default {
       replyVisible: false,
       quoteVisible: false,
       showTip: false,
-      showInputTip: false,
+      showInputTip: true,
       contentRange: null,
       inputContent: '',
       inputContentEl: '',
