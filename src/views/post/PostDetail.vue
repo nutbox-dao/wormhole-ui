@@ -16,11 +16,11 @@
           <div class="grid grid-cols-1 lg:grid-cols-5 gap-1.5rem">
             <div class="col-span-1 lg:col-span-3 h-max">
               <div class="md:bg-blockBg md:light:bg-white light:shadow-lg rounded-12px md:p-15px">
-                <Space v-if="currentShowingDetail.spaceId"
+                <Space v-if="currentShowingDetail.spaceId" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
                        avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"></Space>
-                <Blog v-else
+                <Blog v-else ref="postRef"
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
                       :is-detail='true'/>
@@ -421,29 +421,30 @@ export default {
       }
     },
     async createCuration() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
-      try{
-        // check user nft
-        const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
-        if (balance < 1) {
-          notify({message: this.$t('postView.notCurator'), type: 'info'})
-          return;
-        }
-        this.$router.push({
-          name: 'create-curation',
-          state: {
-            type: 'curation'
-          }
-        })
-        // quote to curate
-      } catch(e) {
-        console.log('create curation fail', e);
-      } finally {
-
-      }
+      this.$refs.postRef.onQuote()
+      // if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+      //   this.$store.commit('saveShowLogin', true)
+      //   return
+      // }
+      // try{
+      //   // check user nft
+      //   const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
+      //   if (balance < 1) {
+      //     notify({message: this.$t('postView.notCurator'), type: 'info'})
+      //     return;
+      //   }
+      //   this.$router.push({
+      //     name: 'create-curation',
+      //     state: {
+      //       type: 'curation'
+      //     }
+      //   })
+      //   // quote to curate
+      // } catch(e) {
+      //   console.log('create curation fail', e);
+      // } finally {
+      //
+      // }
     },
     onSelectTag(tag) {
       this.$store.commit('curation/saveSelectedTag', tag)
