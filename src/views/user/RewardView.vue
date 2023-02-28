@@ -32,7 +32,7 @@
                               :chainName="chainNames[chainTab]">
                 <template #amount>
                       <span class="px-8px c-text-black whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                        {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol }}
+                        {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
                       </span>
                 </template>
               </ChainTokenIcon>
@@ -99,8 +99,9 @@ import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
 import { getCurationRewardList, autoCurationRewardList } from "@/utils/account"
+import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
-import { checkCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
+import { checkCurationRewards, checkAutoCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
    getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards,
    getCurationDetail } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
@@ -117,7 +118,8 @@ export default {
       chainTab: 0,
       loading: [false, false, false, false],
       claiming: false,
-      connecting: false
+      connecting: false,
+      prices: []
     }
   },
   computed: {
@@ -199,6 +201,9 @@ export default {
             }
             this.rewardLists[index] = result
             this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            getPriceFromOracle(this.chainNames[index], result).then(res => {
+              this.prices[index] = res;
+            })
 
           }else {
             this.rewardLists[index] = [];

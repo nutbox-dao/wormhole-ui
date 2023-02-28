@@ -6,6 +6,7 @@ import { getLiquidationMetaBy as getLiqMeta } from '@/api/api'
 import { ethers } from 'ethers'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
+import axios from "axios";
 
 /**
  * get all tokens balance
@@ -698,4 +699,40 @@ export async function depositWrappedToken(tokenInfo, amount) {
     });
     await waitForTx(provider, tx.hash);
     return tx.hash;
+}
+
+export async function getPriceFromOracle(chainName, tokens) {
+    try {
+        if (!tokens || tokens.length === 0) return 
+        if (chainName === 'ENULS') {
+            let api = 'https://assets.nabox.io/api/price/list/';
+            const ts = Array.from(new Set(tokens.map(t => t.token)));
+            api = api + ts.reduce((s, t) => s + t + ',', '') + 'nuls'
+            let balance = await axios.get(api);
+            balance = balance.data
+            balance['0x217dffF57E3b855803CE88a1374C90759Ea071bD'] = balance.nuls
+            return balance
+        }else {
+            let oracle = EVM_CHAINS[chainName].oracle
+            if (!oracle) return;
+            let call = tokens.filter(t => t.token != EVM_CHAINS[chainName].assets.USDT.address).map(t => ({
+                target: oracle,
+                call: [
+                    'getRate(address,address,bool)(uint256)',
+                    t.token,
+                    EVM_CHAINS[chainName].assets.USDT.address,
+                    true
+                ],
+                returns: [
+                    [t.token, val => val.toString() / (10 ** (EVM_CHAINS[chainName].assets.USDT.decimals * 2 - t.decimals))]
+                ]
+            }))
+            const results = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
+            let balances = results.results.transformed;
+            balances[EVM_CHAINS[chainName].assets.USDT.address] = 1
+            return balances
+        }
+    } catch (e) {
+        console.log('Get prices fail:', e);
+    }
 }
