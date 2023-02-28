@@ -231,7 +231,11 @@ export default {
         if (index === this.chainNames.length) {
           this.claiming = true
           const chainName = 'BNB Smart Chain'
-          const ids = this.showingList.map(r => r.curationId);
+          const selectTokens = Object.values(this.checkRewardList);
+          if (selectTokens.length === 0) {
+            return;
+          }
+          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
           const { amounts, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
           const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
           await setAutoCurationIsDistributed(twitterId, ids);
@@ -277,7 +281,7 @@ export default {
       }
     },
     checkboxGroupChange() {
-      console.log(this.checkRewardList)
+      console.log(Object.values(this.checkRewardList))
     }
   },
   mounted () {
