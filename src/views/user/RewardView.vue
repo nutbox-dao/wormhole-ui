@@ -26,18 +26,23 @@
           </div>
           <div v-if="summaryList.length > 0" class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem
                             bg-primaryColor rounded-12px p-15px">
-            <div v-for="reward of summaryList" :key="reward.token">
-              <ChainTokenIcon height="30px" width="30px" class=" p-2px"
-                              :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                              :chainName="chainNames[chainTab]">
-                <template #amount>
-                      <span class="px-8px c-text-black whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
+            <el-checkbox-group class="c-checkbox-group"
+                               v-model="checkRewardList" @change="checkboxGroupChange">
+              <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
+                           :label="reward.token">
+                <ChainTokenIcon height="30px" width="30px" class=" p-2px"
+                                :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                                :chainName="chainNames[chainTab]">
+                  <template #amount>
+                      <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
                         {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
                       </span>
-                </template>
-              </ChainTokenIcon>
-            </div>
-            <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)" class="ny-gradient-btn gradient-btn-disabled-grey
+                  </template>
+                </ChainTokenIcon>
+              </el-checkbox>
+            </el-checkbox-group>
+            <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)"
+                    class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
                               rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
               {{ $t('common.connectMetamask') }}
@@ -119,7 +124,8 @@ export default {
       loading: [false, false, false, false],
       claiming: false,
       connecting: false,
-      prices: []
+      prices: [],
+      checkRewardList: []
     }
   },
   computed: {
@@ -148,7 +154,11 @@ export default {
 
         return Object.values(result)
       }
-      return []
+      return [
+        {token: '0x00e8D54C598d650800F4EB9A08c9e8d8A7E7D7c8', tokenSymbol: 'BNB', amount: '0'},
+        {token: '0x12a67fd0d58366D29283B9f7B2d6e9f7EbDF9FAA', tokenSymbol: 'PNUT', amount: '0'},
+        {token: '0x14d2b86eD5D9b32A03a4566daDcD9dc58d681E84', tokenSymbol: 'USDT', amount: '0'}
+      ]
     },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
@@ -269,6 +279,9 @@ export default {
       } finally{
         this.connecting = false
       }
+    },
+    checkboxGroupChange() {
+      console.log(this.checkRewardList)
     }
   },
   mounted () {
