@@ -1,6 +1,8 @@
 <template>
   <div class="w-min rounded-full cursor-pointer">
-    <el-tooltip popper-class="c-popper" effect="light" :auto-close="5000" ref="tokenTipRef" placement="bottom-end">
+    <el-tooltip popper-class="c-popper" effect="light" :auto-close="5000"
+                :show-after="1000"
+                ref="tokenTipRef" placement="bottom-end">
       <div class="flex items-center" @click="hideTip">
         <div class="flex items-end relative min-w-12px min-h-12px"
              :style="{height: height, width: width}">
