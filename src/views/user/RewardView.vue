@@ -154,11 +154,7 @@ export default {
 
         return Object.values(result)
       }
-      return [
-        {token: '0x00e8D54C598d650800F4EB9A08c9e8d8A7E7D7c8', tokenSymbol: 'BNB', amount: '0'},
-        {token: '0x12a67fd0d58366D29283B9f7B2d6e9f7EbDF9FAA', tokenSymbol: 'PNUT', amount: '0'},
-        {token: '0x14d2b86eD5D9b32A03a4566daDcD9dc58d681E84', tokenSymbol: 'USDT', amount: '0'}
-      ]
+      return []
     },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
