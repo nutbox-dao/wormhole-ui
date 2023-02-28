@@ -147,6 +147,24 @@ html.light {
   display: flex;
   align-items: flex-start;
 }
+.c-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.c-checkbox-group .el-checkbox {
+  flex: 1;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin: 0;
+}
+.c-checkbox-group .el-checkbox__label {
+  padding-left: 0;
+}
+.c-checkbox-group .el-checkbox__inner{
+  background-color: white;
+  border-color: white;
+}
 .c-img-dialog.el-dialog {
   background-color: transparent;
   display: flex;
