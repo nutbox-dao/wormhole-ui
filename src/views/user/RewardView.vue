@@ -231,7 +231,11 @@ export default {
         const index = this.chainTab
         const chainName = this.chainNames[index]
         this.claiming = true
-        const ids = this.showingList.map(r => r.curationId);
+        const selectTokens = Object.values(this.checkRewardList);
+        if (selectTokens.length === 0) {
+          return;
+        }
+        const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
         const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
         const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
         await setCurationIsFeed(twitterId, ids);
@@ -263,7 +267,7 @@ export default {
       }
     },
     checkboxGroupChange() {
-      console.log(this.checkRewardList)
+      console.log(Object.values(this.checkRewardList))
     }
   },
   mounted () {
