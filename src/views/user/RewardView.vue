@@ -236,6 +236,7 @@ export default {
           return;
         }
         const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
+        if (ids.length === 0) return;
         const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
         const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
         await setCurationIsFeed(twitterId, ids);
