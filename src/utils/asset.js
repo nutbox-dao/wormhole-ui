@@ -687,10 +687,9 @@ export async function getPriceFromOracle(chainName, tokens) {
         if (chainName === 'ENULS') {
             let api = 'https://assets.nabox.io/api/price/list/';
             const ts = Array.from(new Set(tokens.map(t => t.token)));
-            api = api + ts.reduce((s, t) => s + t + ',', '') + 'nuls'
+            api = api + ts.reduce((s, t) => s + t + ',', '')
             let balance = await axios.get(api);
             balance = balance.data
-            balance['0x217dffF57E3b855803CE88a1374C90759Ea071bD'] = balance.nuls
             return balance
         }else {
             let oracle = EVM_CHAINS[chainName].oracle
