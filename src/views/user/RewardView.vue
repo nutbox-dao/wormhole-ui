@@ -44,37 +44,39 @@
               </div>
               <div v-if="summaryList.length > 0" class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem
                             bg-primaryColor rounded-12px p-15px">
-            <el-checkbox-group class="c-checkbox-group"
-                               v-model="checkRewardList" @change="checkboxGroupChange">
-              <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
-                           :label="reward.token">
-                <ChainTokenIcon height="30px" width="30px" class=" p-2px"
-                                :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                :chainName="chainNames[chainTab]">
-                  <template #amount>
-                      <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                        {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
-                      </span>
-                  </template>
-                </ChainTokenIcon>
-              </el-checkbox>
-            </el-checkbox-group>
-            <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)"
+                <el-checkbox-group class="c-checkbox-group"
+                                  v-model="checkRewardList" @change="checkboxGroupChange">
+                  <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
+                              :label="reward.token">
+                    <ChainTokenIcon height="30px" width="30px" class=" p-2px"
+                                    :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                                    :chainName="chainNames[chainTab]">
+                      <template #amount>
+                          <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
+                            {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
+                          </span>
+                      </template>
+                    </ChainTokenIcon>
+                  </el-checkbox>
+                </el-checkbox-group>
+                <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)"
                     class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
-                              rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
+                              rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                              @click="connect">
                   {{ $t('common.connectMetamask') }}
                   <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
                 </button>
-                <button v-else class="flex items-center justify-center bg-ny-btn-gradient
-                       h-30px px-15px rounded-full mr-0.8rem"
-                       :disabled="claiming || accountMismatch"
-                       @click="claimReward">
+                <button v-else class="ny-gradient-btn gradient-btn-disabled-grey
+                              flex items-center justify-center min-w-10rem px-20px
+                              rounded-full h-44px 2xl:h-2.2rem text-white font-bold"
+                        :disabled="claiming || accountMismatch"
+                        @click="claimReward">
                       {{ $t('curation.claimReward') }}
                   <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
                 </button>
                 <div v-if="accountMismatch" class="text-redColor">
-                  {{ $t('ny.accountMismatch') }}
+                  {{ $t('walletView.accountMismatch') }}
                 </div>
               </div>
               <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">
