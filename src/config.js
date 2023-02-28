@@ -219,7 +219,8 @@ export const EVM_CHAINS = {
             interval: 3000,
         },
         curation: '0x4695c30907E95A2153486D7a6372f3FBc2a89056',
-        popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB'
+        popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB',
+        oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550'
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
@@ -244,7 +245,8 @@ export const EVM_CHAINS = {
             interval: 3000,
         },
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
-        popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4'
+        popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
+        oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9'
     },
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
