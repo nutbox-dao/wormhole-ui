@@ -63,7 +63,7 @@ export default {
       this.onLoad();
     },
     gotoDetail(curation) {
-      // this.$store.commit('curation/saveDetailCuration', curation);
+      this.$store.commit('postsModule/saveCurrentShowingDetail', null);
       this.$router.push('/post-detail/' + curation.tweetId);
     }
   }

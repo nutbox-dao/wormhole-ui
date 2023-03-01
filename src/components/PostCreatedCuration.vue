@@ -39,7 +39,7 @@
                        light:border-white light:bg-color62 light:text-white text-10px">
             +{{ participant[0].totalCount - 3 }}
           </span>
-        <button class="ml-10px whitespace-nowrap" v-if="participant.length>3" @click="showSubmissions=true">
+        <button class="ml-10px whitespace-nowrap" v-if="participant.length>0" @click="showSubmissions=true">
           {{$t('curation.all')}} >>
         </button>
       </div>
