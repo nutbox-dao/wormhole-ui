@@ -64,7 +64,7 @@ export default {
     },
     gotoDetail(curation) {
       // this.$store.commit('curation/saveDetailCuration', curation);
-      this.$router.push('/curation-detail/' + curation.curationId);
+      this.$router.push('/post-detail/' + curation.tweetId);
     }
   }
 }
