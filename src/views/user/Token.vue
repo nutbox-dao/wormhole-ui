@@ -191,7 +191,7 @@ export default {
   methods: {
     formatAmount,
     sendSteem() {
-      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !send 1 STEEM to @', '__blank')
+      window.open('https://twitter.com/intent/tweet?text=' + TWITTER_MONITOR_RULE + ' !tip 1 STEEM to @', '__blank')
     },
     sendToken(token, chain) {
       window.open(`https://twitter.com/intent/tweet?text=${TWITTER_MONITOR_RULE} !send ${token}${token === chain ? '' : ('('+chain +')')} to `, '__blank')
