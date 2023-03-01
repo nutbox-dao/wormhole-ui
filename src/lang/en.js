@@ -110,7 +110,8 @@ export default {
     totalBalance: 'Total balance',
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
-    inputAmount: 'Enter token amount'
+    inputAmount: 'Enter token amount',
+    accountMismatch: 'You must use wormhole3 binded account to operate.'
   },
   token: {
     noNft: "You havn't got any NFTs.",
