@@ -295,7 +295,7 @@ export const EVM_CHAINS = {
             
             KLAY: {symbol: 'KLAY', name: 'KLAY', address: '0x518111b3d78a11ff076f23f24fda1fae93f1c32f', decimals: 18, icon: ''}, 
             
-            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 8, icon: ''}, 
+            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 18, icon: ''}, 
             
             NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},  
         },
