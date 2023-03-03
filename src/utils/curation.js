@@ -284,7 +284,6 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
 export const checkAutoCurationRewards = async (twitterId, ids) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const autoCurationContract = AutoCurationContract;
       const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS['BNB Smart Chain'].rpc);
       let contract = new ethers.Contract(AutoCurationContract, abi, provider);
       const results = await contract.checkClaim(twitterId, ids.map(id => ethers.BigNumber.from('0x' + id)));

@@ -32,7 +32,7 @@
                            :label="reward.token">
                 <ChainTokenIcon height="30px" width="30px" class=" p-2px"
                                 :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                :chainName="chainNames[chainTab]">
+                                :chainName="chainTab === chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
                   <template #amount>
                       <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
                         {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
@@ -83,7 +83,7 @@
                   :class="tabIndex===1?'active-tab':''"
                   @click="tabIndex=1">{{$t('common.post')}}</button>
         </div> -->
-        <RewardCuration :rewards="showingList" :chain-name="chainNames[chainTab]"/>
+        <RewardCuration :rewards="showingList" :chain-name="chainTab === chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
         <!-- <RewardPost v-show="tabIndex===1"/> -->
       </div>
       <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
@@ -181,10 +181,11 @@ export default {
         if (index === this.chainIds.length) {
           const records = await autoCurationRewardList(this.getAccountInfo.twitterId);
           if (records && records.length > 0) {
-            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r.curationId));
+            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
+
             let result = [];
             for (let i = 0; i < claimed.length; i++) {
-              if (claimed[i]) {
+              if (!claimed[i]) {
                 result.push(records[i]);
               }
             }
