@@ -3,20 +3,20 @@
     <div class="flex items-center mb-10px"  @click.stop="gotoUserPage()">
       <img class="w-42px min-w-42px h-42px md:w-2.5rem md:h-2.5rem md:w-min-2.5rem
                   mr-15px rounded-full cursor-pointer"
-           :src="recommendData.profileImg && recommendData.profileImg.replace('normal', '200x200')" alt="">
+           :src="recommendData.creatorProfileImg && recommendData.creatorProfileImg.replace('normal', '200x200')" alt="">
       <div class="flex-1 flex items-center flex-wrap">
         <div class="flex items-center flex-wrap">
           <a class="c-text-black text-left mr-3 cursor-pointer
                       text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
-             @click.stop="gotoUserPage()">{{ recommendData.name }}</a>
+             @click.stop="gotoUserPage()">{{ recommendData.creatorTwitterName }}</a>
         </div>
         <div class="flex items-center id-time">
             <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-              @{{ recommendData.username }}
+              @{{ recommendData.creatorTwitterUsername }}
             </span>
           <span class="mx-4px text-color8B light:text-color7D"> · </span>
           <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-             {{ parseTimestamp(recommendData.postTime) }}
+             {{ parseTimestamp(recommendData.createdTime) }}
             </span>
         </div>
       </div>
