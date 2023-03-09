@@ -191,6 +191,9 @@ export default {
             }
             this.rewardLists[index] = result;
             this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            getPriceFromOracle('BNB Smart Chain', result).then(res => {
+              this.prices[index] = res;
+            })
           }else {
             this.rewardLists[index] = [];
             this.$store.commit('curation/saveRewardLists', this.rewardLists)

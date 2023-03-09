@@ -723,13 +723,13 @@ export async function getPriceFromOracle(chainName, tokens) {
                     true
                 ],
                 returns: [
-                    [t.token, val => val.toString() / (10 ** (EVM_CHAINS[chainName].assets.USDT.decimals * 2 - t.decimals))]
+                    [t.token, val => val.toString() / (10 ** (EVM_CHAINS[chainName].assets.USDT.decimals - t.decimals + 18))]
                 ]
             }))
             const results = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
-            let balances = results.results.transformed;
-            balances[EVM_CHAINS[chainName].assets.USDT.address] = 1
-            return balances
+            let prices = results.results.transformed;
+            prices[EVM_CHAINS[chainName].assets.USDT.address] = 1
+            return prices
         }
     } catch (e) {
         console.log('Get prices fail:', e);
