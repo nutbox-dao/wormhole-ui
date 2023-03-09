@@ -13,6 +13,7 @@ export default {
          */
         ongoingListByTag: {},
         trendingListByTag: {},
+        trendingCurationListByTag: {},
         selectedTag: 'All'
     },
     mutations: {
@@ -30,6 +31,9 @@ export default {
         },
         saveTrendingListByTag: (state, trendingListByTag) => {
             state.trendingListByTag = trendingListByTag
+        },
+        saveTrendingCurationListByTag: (state, trendingCurationListByTag) => {
+            state.trendingCurationListByTag = trendingCurationListByTag
         }
     },
     getters: {

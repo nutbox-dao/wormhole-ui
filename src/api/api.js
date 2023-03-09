@@ -81,6 +81,9 @@ export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
 export const getPostByTime = async (tag, pageIndex, pageSize, twitterId) =>
     get(BACKEND_API_URL + '/post/getPostByTime', {tag, pageIndex, pageSize, twitterId})
 
+export const getCuratedPostByTrending = async (tag, pageIndex, pageSize, twitterId) => 
+    get(BACKEND_API_URL + '/post/getCuratedPostByTrending', {tag, pageIndex, pageSize, twitterId})
+
 export const quotePost = async (twitterId, tweetId, content) =>
     post(BACKEND_API_URL + '/post/quotePost', {twitterId, tweetId, content})
 
@@ -172,7 +175,7 @@ export const curation_test = async (twitterId) =>
 
 /****************************************  topics  ***********************************************/
 export const getPopularTopics = async () =>
-    get(BACKEND_API_URL + '/curation/getPopularTopics')
+    get(BACKEND_API_URL + '/post/getTrendingTags')
 
 export const getNewCurationsByTag = async (twitterId, status, endtime, tag) =>
     get(BACKEND_API_URL + '/curation/getNewCurationsByTag', {twitterId, status, endtime, tag})

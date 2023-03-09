@@ -9,7 +9,7 @@
                   @click="setSelectTag(tag)">{{tag}}</button>
         </div>
         <button class="c-text-black text-white light:text-blueDark pl-8px" @click="showMoreTag=!showMoreTag">
-         More >>>
+         {{ $t('common.more') }} >>>
         </button>
       </div>
       <el-collapse-transition>
@@ -55,7 +55,7 @@
           <el-option
               v-for="item in rankOptions"
               :key="item.value"
-              :label="item.label"
+              :label="$t(`${item.label}`)"
               :value="item.value"
           />
         </el-select>
@@ -133,7 +133,7 @@
 <script>
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getTrendingTags, getPostByTrending, getPostByTime } from '@/api/api'
+import { getTrendingTags, getPostByTrending, getPostByTime, getCuratedPostByTrending } from '@/api/api'
 import { showError } from '@/utils/notify'
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
@@ -152,7 +152,7 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0,
       showMoreTag: false,
-      rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
+      rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'curated'}],
       rankValue: 0,
       customizeTagList: [],
       selectedPost: null,
@@ -162,12 +162,14 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('postsModule', ['ongoingListByTag', 'trendingListByTag', 'selectedTag']),
+    ...mapState('postsModule', ['ongoingListByTag', 'trendingListByTag', 'trendingCurationListByTag', 'selectedTag']),
     postsList() {
         if (this.rankValue === 0) {
           return this.trendingListByTag[this.selectedTag] ?? []
-        }else{
+        }else if (this.rankValue === 1){
           return this.ongoingListByTag[this.selectedTag] ?? []
+        }else {
+          return this.trendingCurationListByTag[this.selectedTag] ?? []
         }
     },
     moreTag() {
@@ -218,9 +220,12 @@ export default {
         if (this.rankValue === 0) {
           posts = this.trendingListByTag[tag]
           cursor = Math.floor(posts.length / 12);
-        }else {
+        }else if (this.rankValue == 1) {
           posts = this.ongoingListByTag[tag]
           cursor = Math.floor(posts.length / 12);
+        }else {
+          posts = this.trendingCurationListByTag[tag];
+          cursor = Math.floor(posts.length / 12)
         }
 
         if (!posts || posts.length === 0) {
@@ -238,11 +243,16 @@ export default {
           morePosts = await getPostByTrending(tag, cursor, null, twitterId)
           this.trendingListByTag[tag] = posts.concat(morePosts)
           this.$store.commit('postsModule/'+mutationStr, this.trendingListByTag ?? {})
-        }else {
+        }else if(this.rankValue === 1) {
           mutationStr = 'saveOngoingListByTag'
           morePosts = await getPostByTime(tag, cursor, null, twitterId)
           this.ongoingListByTag[tag] = posts.concat(morePosts)
          this.$store.commit('postsModule/'+mutationStr, this.ongoingListByTag ?? {})
+        }else {
+          mutationStr = 'saveTrendingCurationListByTag'
+          morePosts = await getCuratedPostByTrending(tag, cursor, null, twitterId)
+          this.trendingCurationListByTag[tag] = posts.concat(morePosts)
+         this.$store.commit('postsModule/'+mutationStr, this.trendingCurationListByTag ?? {})
         }
         console.log(3, morePosts.length);
         if (morePosts.length < 12) {
@@ -267,10 +277,14 @@ export default {
           posts = await getPostByTrending(tag, null, null, twitterId)
           this.trendingListByTag[tag] = posts
           this.$store.commit('postsModule/saveTrendingListByTag', this.trendingListByTag ?? {})
-        }else{
+        }else if (this.rankValue === 1) {
           posts = await getPostByTime(tag, null, null, twitterId)
           this.ongoingListByTag[tag] = posts
           this.$store.commit('postsModule/saveOngoingListByTag', this.ongoingListByTag ?? {})
+        }else {
+          posts = await getCuratedPostByTrending(tag, null, null, twitterId)
+          this.trendingCurationListByTag[tag] = posts
+          this.$store.commit('postsModule/saveTrendingCurationListByTag', this.trendingCurationListByTag ?? {})
         }
         if (!posts || posts.length < 12) {
           this.listsFinished[tag] = true

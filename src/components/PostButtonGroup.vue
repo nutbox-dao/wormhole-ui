@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="pr-1rem">
     <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
       <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
       <!-- follow-->
@@ -63,15 +63,12 @@
         <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
       </div>
       <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
-        <i class="w-18px h-18px icon-tip-white"></i>
+        <i class="w-18px h-18px icon-tip"></i>
       </div>
       <!-- <div class="text-white flex items-center">
         <i class="w-18px h-18px icon-coin"></i>
         <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
       </div> -->
-      <div class="text-white items-center cursor-pointer" @click.stop="gotoTweet($event)">
-        <i class="w-18px h-18px icon-twitter"></i>
-      </div>
     </div>
     <!--    reply-->
     <van-popup class="md:w-600px bg-black light:bg-transparent w-full"

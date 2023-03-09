@@ -1218,7 +1218,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/#/curation-det
     }
     getPopularTopics().then(res => {
       if (res && res.length > 0) {
-        this.commenTopics = res.map(t => t.topic)
+        this.commenTopics = res.map(t => t.tag)
       }
     }).catch()
 

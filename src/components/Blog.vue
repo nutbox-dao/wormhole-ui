@@ -26,10 +26,13 @@
              {{ parseTimestamp(post.postTime) }}
             </span>
           </div>
+          <div v-if="post.isCurated" class="ml-6px flex items-center">
+            <i class="icon-curated w-20px h-20px min-w-20px"></i>
+          </div>
         </div>
-        <div v-if="post.isCurated" class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
-          <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Curated</div>
-        </div>
+        <div class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+            <i class="w-18px h-18px icon-twitter"></i>
+          </div>
       </div>
       <div class="flex blog-content">
         <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
@@ -245,7 +248,11 @@ export default {
     },
     onQuote() {
       this.$refs.postButtonRef.otherPreQuote()
-    }
+    },
+    gotoTweet(e) {
+      e.stopPropagation();
+      window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g

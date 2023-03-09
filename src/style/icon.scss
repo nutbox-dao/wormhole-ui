@@ -335,3 +335,13 @@
   @extend .icon;
   background-image: url("~@/assets/btn-follow-active.svg");
 }
+
+.icon-tip {
+  @extend .icon;
+  background-image: url("~@/assets/icon-tip.svg");
+}
+
+.icon-curated {
+  @extend .icon;
+  background-image: url("~@/assets/icon-curated.svg");
+}

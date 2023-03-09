@@ -17,6 +17,9 @@ export default {
   myReward: 'My reward',
   search: 'Search',
   noRelatedUser: 'No related user info',
+  trending: 'Trending',
+  new: 'New',
+  curated: 'Curated',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
@@ -85,7 +88,7 @@ export default {
     tips: 'Tips',
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{wormhole3}\'} with a steem username.',
-    tweetTip: 'Tweet action tips',
+    tweetTip: 'Tweet to blockchain',
     tip1: '1. Add a post to web3',
     tip2: '2. Tip STEEM/SBD to a twitter account',
     tip3: "3. Transfer STEEM/SBD to a steem account",
