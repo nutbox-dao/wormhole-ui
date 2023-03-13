@@ -243,8 +243,8 @@ export default {
           if (ids.length === 0) return;
           const { amounts, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
           const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-          await setAutoCurationIsDistributed(twitterId, ids);
-          this.rewardLists[inedx] = []
+          await setAutoCurationIsDistributed(twitterId, curationIds);
+          this.rewardLists[index] = []
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
         }else {
@@ -253,7 +253,7 @@ export default {
           const ids = this.showingList.map(r => r.curationId);
           const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
           const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-          await setCurationIsFeed(twitterId, ids);
+          await setCurationIsFeed(twitterId, curationIds);
           this.rewardLists[index] = [];
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
