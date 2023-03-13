@@ -316,9 +316,8 @@ export default {
   mounted () {
     this.$bus.on('updatePostIndetail', (postDetail) => {
       console.log('update post', postDetail)
-      // 修改数据
+      // Modify data
       if(this.selectedPost && postDetail && (this.selectedPost.postId === postDetail.postDetail.postId)) {
-        console.log('============', this.selectedPost)
         this.postsList[this.selectedPostIndex] = postDetail.postDetail
       }
     })

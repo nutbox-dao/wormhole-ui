@@ -444,7 +444,6 @@ export default {
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
         this.isRepling = true
-        console.log(1, this.post);
         await replyPost(this.post.postId, this.inputContent, this.post.twitterId)
         this.post.replied = 1;
         this.post.replyCount = this.post.replyCount ? this.post.replyCount + 1 : 1
