@@ -81,6 +81,9 @@ export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
 export const getPostByTime = async (tag, pageIndex, pageSize, twitterId) =>
     get(BACKEND_API_URL + '/post/getPostByTime', {tag, pageIndex, pageSize, twitterId})
 
+export const getCuratedPostByNew = async (tag, pageIndex, pageSize, twitterId) => 
+get(BACKEND_API_URL + '/post/getCuratedPostByNew', {tag, pageIndex, pageSize, twitterId})
+
 export const getCuratedPostByTrending = async (tag, pageIndex, pageSize, twitterId) => 
     get(BACKEND_API_URL + '/post/getCuratedPostByTrending', {tag, pageIndex, pageSize, twitterId})
 

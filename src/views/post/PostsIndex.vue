@@ -133,7 +133,7 @@
 <script>
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getTrendingTags, getPostByTrending, getPostByTime, getCuratedPostByTrending } from '@/api/api'
+import { getTrendingTags, getPostByTrending, getPostByTime, getCuratedPostByNew } from '@/api/api'
 import { showError } from '@/utils/notify'
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
@@ -250,7 +250,7 @@ export default {
          this.$store.commit('postsModule/'+mutationStr, this.ongoingListByTag ?? {})
         }else {
           mutationStr = 'saveTrendingCurationListByTag'
-          morePosts = await getCuratedPostByTrending(tag, cursor, null, twitterId)
+          morePosts = await getCuratedPostByNew(tag, cursor, null, twitterId)
           this.trendingCurationListByTag[tag] = posts.concat(morePosts)
          this.$store.commit('postsModule/'+mutationStr, this.trendingCurationListByTag ?? {})
         }
@@ -282,7 +282,7 @@ export default {
           this.ongoingListByTag[tag] = posts
           this.$store.commit('postsModule/saveOngoingListByTag', this.ongoingListByTag ?? {})
         }else {
-          posts = await getCuratedPostByTrending(tag, null, null, twitterId)
+          posts = await getCuratedPostByNew(tag, null, null, twitterId)
           this.trendingCurationListByTag[tag] = posts
           this.$store.commit('postsModule/saveTrendingCurationListByTag', this.trendingCurationListByTag ?? {})
         }
