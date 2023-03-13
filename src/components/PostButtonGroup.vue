@@ -12,7 +12,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':''">{{ post.followCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
       </div>
       <!-- reply-->
       <div class="flex justify-between items-center">
@@ -24,7 +24,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color7D'">{{ post.replyCount ?? 0 }}</span>
       </div>
       <!-- quote-->
       <div class="flex items-center">
@@ -36,7 +36,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>
       </div>
       <!-- retweet -->
       <div class="flex items-center">
@@ -48,7 +48,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>
       </div>
       <!-- like-->
       <div class="flex items-center">
@@ -60,10 +60,10 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
       <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
-        <i class="w-18px h-18px icon-tip"></i>
+        <i class="w-18px h-18px btn-icon-tip"></i>
       </div>
       <!-- <div class="text-white flex items-center">
         <i class="w-18px h-18px icon-coin"></i>

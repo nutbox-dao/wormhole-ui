@@ -128,9 +128,19 @@
   background-image: url("~@/assets/icon-retweet-circle.svg");
 }
 
+.icon-retweet-circle-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-retweet-circle-active.svg");
+}
+
 .icon-quote-circle {
   @extend .icon;
   background-image: url("~@/assets/icon-quote-circle.svg");
+}
+
+.icon-quote-circle-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-quote-circle-active.svg");
 }
 
 .icon-reply-circle {
@@ -138,12 +148,26 @@
   background-image: url("~@/assets/icon-reply-circle.svg");
 }
 
+.icon-reply-circle-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-reply-circle-active.svg");
+}
+
 .icon-like-circle {
   @extend .icon;
   background-image: url("~@/assets/icon-like-circle.svg");
 }
 
+.icon-like-circle-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-like-circle-active.svg");
+}
+
 .icon-follow-circle {
+  @extend .icon;
+  background-image: url("~@/assets/icon-follow-circle.svg");
+}
+.icon-follow-circle-active {
   @extend .icon;
   background-image: url("~@/assets/icon-follow-circle.svg");
 }
@@ -336,9 +360,14 @@
   background-image: url("~@/assets/btn-follow-active.svg");
 }
 
-.icon-tip {
+.btn-icon-tip {
   @extend .icon;
-  background-image: url("~@/assets/icon-tip.svg");
+  background-image: url("~@/assets/btn-tip.svg");
+}
+
+.btn-icon-tip-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-tip-active.svg");
 }
 
 .icon-curated {

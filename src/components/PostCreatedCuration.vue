@@ -1,14 +1,14 @@
 <template>
-  <div class="p-15px bg-blockBg light:bg-white light:shadow-md rounded-12px text-14px xl:text-0.8rem">
-    <div class="flex justify-between items-center mb-1rem">
-      <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.startTime') }}</span>
-      <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+  <div class="text-14px">
+    <div class="flex justify-between items-center mb-10px">
+      <span class="text-14px c-text-black">{{ $t('curation.startTime') }}</span>
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
       {{ parseSpaceStartTime(curationData.createdTime) }}
       </button>
     </div>
     <div class="flex justify-between items-center">
-      <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.endTime') }}</span>
-      <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+      <span class="text-14px c-text-black">{{ $t('curation.endTime') }}</span>
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
         {{ parseSpaceStartTime(curationData.endtime * 1000) }}
       </button>
     </div>
@@ -19,7 +19,7 @@
       <i class="w-24px h-24px min-w-24px" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
       <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div> -->
-    <div v-if="participant.length > 0" class="flex items-center justify-between h-40px xl:h-2rem my-10px">
+    <div v-if="participant.length > 0" class="flex items-center justify-between my-10px">
       <div class="flex items-center ml-11px">
         <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
           <img v-if="p.profileImg"
@@ -59,28 +59,27 @@
         </template>
       </ChainTokenIconLarge>
     </div>
-    <div class="flex text-14px my-10px">
+    <div class="flex text-14px pt-10px pb-8px border-b border-color84/30">
       <span>{{ $t('postView.curatorsList') }}</span>
     </div>
-    <div v-for="c of allCurations" :key="c.twitterId" class="border-t-1 border-color8B/30 light:border-colorF4 py-8px">
-      <div class="flex items-center mb-10px ">
-        <img class="w-30px min-w-30px h-30px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
-                  mr-10px rounded-full cursor-pointer"
+    <div v-for="c of allCurations" :key="c.twitterId" class="mt-16px">
+      <div class="flex items-center mb-4px ">
+        <img class="w-28px min-w-28px h-28px mr-8px rounded-full cursor-pointer"
              :src="c.profileImg && c.profileImg.replace('normal', '200x200')" alt="">
         <div class="flex-1 flex items-center flex-wrap">
           <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-2 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
+            <a class="c-text-black text-left mr-4px cursor-pointer
+                      text-12px leading-14px text-white light:text-blueDark"
                @click.stop="gotoUserPage(c)">{{ c.twitterName }}</a>
           </div>
           <div class="flex items-center id-time">
-          <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+          <span class="text-12px leading-14px text-color8B light:text-color7D">
             @{{ c.twitterUsername }}
           </span>
           </div>
         </div>
       </div>
-      <div class="light:text-color21 text-left leading-18px text-12px whitespace-pre-line break-word">
+      <div class="text-color8B light:text-color21 text-left leading-16px text-12px whitespace-pre-line break-word">
         {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${post.username}/status/${post.postId}`, '').trim()}}
       </div>
     </div>

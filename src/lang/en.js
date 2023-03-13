@@ -330,7 +330,8 @@ export default {
     all: 'All',
     createdPromotion: 'Created Promotion',
     createdCurations: 'Created Curations',
-    startTime: 'Start time'
+    startTime: 'Start time',
+    tasks: 'Tasks'
   },
   createCuration: {
     option1: '获得 Curation NFT',

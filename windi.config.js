@@ -10,7 +10,7 @@ export default defineConfig({
         primaryColor1: '#7C3AED',
         redColor: '#D40000',
         greenColor: '#36D233',
-        orangeColor: '#FF8700',
+        orangeColor: '#FF9352',
         primaryBg: '#0D1117',
         primaryBgLight: '#F5F5F5',
         dialogBg: '#131313',

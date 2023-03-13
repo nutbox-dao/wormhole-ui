@@ -51,7 +51,7 @@
                             :token="{address: popup.token, symbol: popup.symbol}">
               <template #amount>
                 <span class="px-8px h-18px whitespace-nowrap
-                             flex items-center text-12px 2xl:text-0.8rem ">
+                             flex items-center text-12px 2xl:text-14px ">
                   {{(isEnded(popup) && isJoin(popup)) ? formatAmount(popup.myReward?.toString() / (10 ** popup.decimals)) + '/' + formatAmount(popup.bonus.toString() / (10 ** popup.decimals)) : formatAmount(popup.bonus.toString() / (10 ** popup.decimals))}} {{popup.symbol}}
                 </span>
               </template>

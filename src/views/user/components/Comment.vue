@@ -1,9 +1,10 @@
 <template>
-  <div class="flex text-14px xl:text-0.8rem">
-    <img class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem mr-10px md:mr-1rem rounded-full"
+  <div class="flex text-14px">
+    <img class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem mr-10px rounded-full
+                max-w-50px max-h-50px"
          :src="profile" alt="">
     <div class="flex-1 text-left">
-      <div class="flex items-center flex-wrap text-14px xl:text-0.8rem gap-y-4px">
+      <div class="flex items-center flex-wrap text-14px gap-y-4px">
         <span class="c-text-black mr-1rem light:text-blueDark">{{comment.name}}</span>
         <span class="text-color8B light:text-color7D">
           @{{comment.username}} · {{ parseTimestamp(comment.commentTime) }}

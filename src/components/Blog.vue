@@ -3,22 +3,22 @@
     <div class="sm:rounded-1rem">
       <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar"
+             class="mr-10px rounded-full gradient-border cursor-pointer blog-avatar max-w-56px max-h-56px"
              :class="avatarClass"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="mr-10px md:mr-1rem rounded-full gradient-border"
+        <img class="mr-10px rounded-full gradient-border max-w-56px max-h-56px"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex items-center flex-wrap">
           <div class="flex items-center flex-wrap">
             <a class="c-text-black text-left mr-3 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
+                      text-16px leading-18px  light:text-blueDark"
                @click.stop="gotoUserPage()">{{ post.name }}</a>
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
           </div>
           <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+            <span class="text-12px leading-18px  text-color8B light:text-color7D">
               @{{ post.username }}
             </span>
             <span class="mx-4px text-color8B light:text-color7D"> · </span>
@@ -26,20 +26,20 @@
              {{ parseTimestamp(post.postTime) }}
             </span>
           </div>
-          <div v-if="post.isCurated" class="ml-6px flex items-center">
-            <i class="icon-curated w-20px h-20px min-w-20px"></i>
+          <div v-if="post.isCurated && !isDetail" class="ml-6px flex items-center">
+            <i class="icon-curated w-16px h-16px min-w-16px"></i>
           </div>
         </div>
         <button @click="gotoTweet($event)" class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-            <i class="w-18px h-18px icon-twitter"></i>
+          <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
         </button>
       </div>
       <div class="flex blog-content">
-        <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
+        <div class="hidden sm:block mr-10px ml-block" :class="[avatarClass]"></div>
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
-                 class="cursor-pointer text-14px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
+                 class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line"
                    :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"
@@ -62,9 +62,9 @@
           <slot name="blog-tag">
             <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
               <div v-show="tag != 'iweb3'"
-                   class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
+                   class="py-3px px-6px rounded-6px mt-10px
                         whitespace-nowrap cursor-pointer light:text-color46"
-                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color8B bg-white/10 light:bg-color8B/10'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -183,7 +183,7 @@ export default {
       let content = this.post.content.replace(this.reg, '');
       // content = content.replace('\n', '</br>')
       for (let url of this.urls){
-        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px 2xl:text-0.8rem break-all">${url}</span>`)
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
       }
       return content
     },
