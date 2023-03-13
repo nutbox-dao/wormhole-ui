@@ -10,32 +10,40 @@
         <img class="mr-10px rounded-full gradient-border max-w-56px max-h-56px"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex items-center flex-wrap">
-          <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 cursor-pointer
+        <div class="flex-1 flex justify-between sm:items-center">
+          <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
+            <div class="flex items-center sm:mr-6px">
+              <div class="flex items-center flex-wrap">
+                <a class="c-text-black text-left cursor-pointer
                       text-16px leading-18px  light:text-blueDark"
-               @click.stop="gotoUserPage()">{{ post.name }}</a>
-            <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-          </div>
-          <div class="flex items-center id-time">
+                   @click.stop="gotoUserPage()">{{ post.name }}</a>
+                <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
+              </div>
+              <div v-if="post.isCurated && !isDetail" class="ml-4px flex items-center sm:hidden">
+                <i class="icon-curated w-16px h-16px min-w-16px"></i>
+              </div>
+            </div>
+            <div class="flex items-center id-time">
             <span class="text-12px leading-18px  text-color8B light:text-color7D">
               @{{ post.username }}
             </span>
-            <span class="mx-4px text-color8B light:text-color7D"> · </span>
-            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+              <span class="mx-4px text-color8B light:text-color7D"> · </span>
+              <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
              {{ parseTimestamp(post.postTime) }}
             </span>
+            </div>
+            <div v-if="post.isCurated && !isDetail" class="ml-4px items-center hidden sm:flex">
+              <i class="icon-curated w-16px h-16px min-w-16px"></i>
+            </div>
           </div>
-          <div v-if="post.isCurated && !isDetail" class="ml-6px flex items-center">
-            <i class="icon-curated w-16px h-16px min-w-16px"></i>
-          </div>
+          <button @click="gotoTweet($event)"
+                  class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+            <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+          </button>
         </div>
-        <button @click="gotoTweet($event)" class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-          <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
-        </button>
       </div>
       <div class="flex blog-content">
-        <div class="hidden sm:block mr-10px ml-block" :class="[avatarClass]"></div>
+        <div class="mr-10px max-w-56px max-h-56px" :class="[avatarClass]"></div>
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
