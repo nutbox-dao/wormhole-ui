@@ -326,6 +326,7 @@ export default {
     replyTo: 'Replying to',
     tweet: 'Tweet',
     tweetInputTip: 'Add a comment',
+    inputCurationDes: 'Input curation infomation',
     tweetReply: 'Tweet your reply',
     all: 'All',
     createdPromotion: 'Created Promotion',
