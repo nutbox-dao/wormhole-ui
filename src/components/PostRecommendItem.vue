@@ -27,11 +27,21 @@
     <div class="flex justify-between items-center">
       <span class="text-14px c-text-black">{{ $t('curation.tasks') }}</span>
       <div class="flex items-center gap-8px">
-        <i class="w-24px h-24px min-w-24px" v-if="isFollow" :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isReply" :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isQuote" :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isRetweet" :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isLike" :class="liked?'icon-like-circle-active':'icon-like-circle'"></i>
+        <i class="w-24px h-24px min-w-24px" v-if="isFollow"
+           @click="$emit('onFollow')"
+           :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></i>
+        <i class="w-24px h-24px min-w-24px" v-if="isReply"
+           @click="$emit('onReply')"
+           :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></i>
+        <i class="w-24px h-24px min-w-24px" v-if="isQuote"
+           @click="$emit('onQuote')"
+           :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></i>
+        <i class="w-24px h-24px min-w-24px" v-if="isRetweet"
+           @click="$emit('onRetweet')"
+           :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></i>
+        <i class="w-24px h-24px min-w-24px" v-if="isLike"
+           @click="$emit('onLike')"
+           :class="liked?'icon-like-circle-active':'icon-like-circle'"></i>
       </div>
     </div>
     <template v-if="recommendData.curationType===2 && popups.length>0">

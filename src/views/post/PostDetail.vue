@@ -137,6 +137,11 @@
                     <div v-else>
                       <PostRecommendItem class="py-15px border-b-1 border-color84/30 c-list-item"
                                          v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                         @onFollow="$refs.postRef.onFollow()"
+                                         @onReply="$refs.postRef.onReply()"
+                                         @onQuote="$refs.postRef.onQuote()"
+                                         @onRetweet="$refs.postRef.onRetweet()"
+                                         @onLike="$refs.postRef.onLike()"
                                          :recommend-data="curation"/>
                     </div>
                     <button class="bg-color62 text-white h-34px font-bold
@@ -204,6 +209,11 @@
                   <div v-else>
                     <PostRecommendItem class="py-15px border-b-1 border-color84/30 c-list-item"
                                        v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                       @onFollow="$refs.postRef.onFollow()"
+                                       @onReply="$refs.postRef.onReply()"
+                                       @onQuote="$refs.postRef.onQuote()"
+                                       @onRetweet="$refs.postRef.onRetweet()"
+                                       @onLike="$refs.postRef.onLike()"
                                        :recommend-data="curation"/>
                   </div>
                   <button class="bg-color62 text-white h-34px font-bold

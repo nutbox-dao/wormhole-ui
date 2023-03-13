@@ -20,7 +20,15 @@
                 <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
               <div v-if="post.isCurated && !isDetail" class="ml-4px flex items-center sm:hidden">
-                <i class="icon-curated w-16px h-16px min-w-16px"></i>
+                <el-tooltip :show-after="1500">
+                  <template #content>
+                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                    <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </template>
+                  <button @mouseover="getTip">
+                    <i class="icon-curated w-16px h-16px min-w-16px"></i>
+                  </button>
+                </el-tooltip>
               </div>
             </div>
             <div class="flex items-center id-time">
@@ -33,13 +41,26 @@
             </span>
             </div>
             <div v-if="post.isCurated && !isDetail" class="ml-4px items-center hidden sm:flex">
-              <i class="icon-curated w-16px h-16px min-w-16px"></i>
+              <el-tooltip :show-after="1500">
+                <template #content>
+                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                  <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
+                </template>
+                <button @mouseover="getTip">
+                  <i class="icon-curated w-16px h-16px min-w-16px"></i>
+                </button>
+              </el-tooltip>
             </div>
           </div>
-          <button @click="gotoTweet($event)"
-                  class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
-            <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
-          </button>
+          <el-tooltip>
+            <template #content>
+              <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+            </template>
+            <button @click="gotoTweet($event)"
+                    class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+              <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+            </button>
+          </el-tooltip>
         </div>
       </div>
       <div class="flex blog-content">
@@ -113,6 +134,7 @@ import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import PostButtonGroup from "@/components/PostButtonGroup";
+import debounce from 'lodash.debounce'
 
 export default {
   name: "Blog",
@@ -149,7 +171,8 @@ export default {
       imgIndex: 0,
       mapOptionsModalVisible: false,
       mapLoading: false,
-      gdLocation: ''
+      gdLocation: '',
+      showCuratedTip: false
     }
   },
   computed: {
@@ -254,13 +277,28 @@ export default {
     onSelectTag(tag) {
       this.$store.commit('postsModule/saveSelectedTag', tag)
     },
+    onFollow() {
+      this.$refs.postButtonRef.userFollow()
+    },
+    onReply() {
+      this.$refs.postButtonRef.preReply()
+    },
     onQuote() {
       this.$refs.postButtonRef.otherPreQuote()
+    },
+    onRetweet() {
+      this.$refs.postButtonRef.userRetweet()
+    },
+    onLike() {
+      this.$refs.postButtonRef.userLike()
     },
     gotoTweet(e) {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
+    getTip: debounce(() => {
+      console.log('get tip')
+    }, 1500)
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
@@ -275,6 +313,12 @@ export default {
       this.urls = urls
     }
     this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
+    // if(this.$refs.curatedTipRef) {
+    //   console.log('========', this.$refs.curatedTipRef.onOpen)
+    //   this.$refs.curatedTipRef.onOpen = () => {
+    //     console.log('test')
+    //   }
+    // }
   },
 }
 </script>
