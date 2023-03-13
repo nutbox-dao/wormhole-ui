@@ -253,6 +253,7 @@ export default {
       e.target.src = emptyAvatar;
     },
     setSelectTag(tag) {
+      this.$router.push('/')
       this.$store.commit('postsModule/saveSelectedTag', tag)
     },
     beforeCloseLogin(done) {
