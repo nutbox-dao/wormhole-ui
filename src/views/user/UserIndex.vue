@@ -54,19 +54,19 @@
           <div class="bg-blockBg sm:bg-transparent overflow-hidden
                       light:bg-white light:sm:bg-transparent pt-7px mt-30px">
             <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
+                           class="flex-1 cursor-pointer">
+                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
+                  {{$t('profileView.onChainTweet')}}
+                </div>
+              </router-link>
               <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                            :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
                            class="flex-1 cursor-pointer">
                 <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
                      :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
                   {{$t('profileView.curations')}}
-                </div>
-              </router-link>
-              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
-                           class="flex-1 cursor-pointer">
-                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
-                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
-                  {{$t('profileView.onChainTweet')}}
                 </div>
               </router-link>
             </div>
