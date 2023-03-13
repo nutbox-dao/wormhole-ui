@@ -1,6 +1,6 @@
 <template>
   <div class="relative pt-1rem max-h-60vh min-h-60vh flex flex-col">
-    <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem">
+    <div class="c-text-black text-20px 2xl:text-1rem leading-30px 2xl:leading-1.5rem pb-1rem px-15px">
       {{$t('curation.participants')}}
     </div>
     <button class="absolute right-20px top-18px"
@@ -37,10 +37,10 @@
             <div v-else class="flex items-center">
               <ChainTokenIconVue height="20px" width="20px"
                                  :token="{symbol: record?.tokenSymbol, address: record?.token}"
-                                 :chainName="detailCuration.chainId.toString()">
+                                 :chainName="curation.chainId.toString()">
                 <template #amount>
               <span class="px-8px h-17px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold">
-                {{ formatAmount(record.amount / (10 ** detailCuration.decimals)) }} {{ detailCuration.tokenSymbol }}
+                {{ formatAmount(record.amount / (10 ** curation.decimals)) }} {{ curation.tokenSymbol }}
               </span>
                 </template>
               </ChainTokenIconVue>
@@ -55,7 +55,7 @@
 <script>
 import { mapState } from "vuex";
 import { parseTimestamp, formatAmount } from "@/utils/helper";
-import { getCurationRecord } from '@/api/api'
+import { getCurationRecord, getAutoCurationRecord } from '@/api/api'
 import ChainTokenIconVue from "@/components/ChainTokenIcon";
 
 export default {
@@ -72,6 +72,10 @@ export default {
     state: {
       type: Number,
       default: 0
+    },
+    curation: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -103,15 +107,27 @@ export default {
       if (this.list.length > 0 && !this.refreshing) {
         time = this.list[this.list.length - 1].createAt
       }
-      getCurationRecord(this.detailCuration.curationId, time).then(list=>{
-        if(this.refreshing) this.list = []
-        this.refreshing = false
-        this.finished = list.length<30
-        this.list = this.list.concat(list)
-      }).finally(r => {
-        this.loading = false
-        this.refreshing = false
-      })
+      if (this.curation.isPromotion) {
+        getAutoCurationRecord(this.curation.curationId, time).then(list=>{
+          if(this.refreshing) this.list = []
+          this.refreshing = false
+          this.finished = list.length<30
+          this.list = this.list.concat(list)
+        }).finally(r => {
+          this.loading = false
+          this.refreshing = false
+        })
+      }else{
+        getCurationRecord(this.curation.curationId, time).then(list=>{
+          if(this.refreshing) this.list = []
+          this.refreshing = false
+          this.finished = list.length<30
+          this.list = this.list.concat(list)
+        }).finally(r => {
+          this.loading = false
+          this.refreshing = false
+        })
+      }
     }
   }
 }

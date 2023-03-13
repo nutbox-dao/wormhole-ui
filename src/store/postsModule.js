@@ -2,11 +2,6 @@
 export default {
     namespaced: true,
     state: {
-        tagsAggregation: {},
-        // store square posts, classify by tags
-        allPosts: {},
-        // in square page, this field stored which tag user alread chosed
-        currentTagIndex: 0,
         // post detail page data
         currentShowingDetail: null,
         /**
@@ -16,15 +11,14 @@ export default {
          *      posts: []
          * }
          */
-        allPostsTagValue: {},
-        allPostsTagTrend: {}
+        ongoingListByTag: {},
+        trendingListByTag: {},
+        trendingCurationListByTag: {},
+        selectedTag: 'All'
     },
     mutations: {
-        saveTagsAggregation: (state, tagsAggregation) => {
-            state.tagsAggregation = tagsAggregation
-        },
-        saveAllPosts: (state, allPosts) => {
-            state.allPosts = allPosts
+        saveSelectedTag: (state, tag) => {
+            state.selectedTag = tag
         },
         saveCurrentTagIndex: (state, currentTagIndex) => {
             state.currentTagIndex = currentTagIndex
@@ -32,23 +26,17 @@ export default {
         saveCurrentShowingDetail: (state, currentShowingDetail) => {
             state.currentShowingDetail = currentShowingDetail
         },
-        saveAllPostsTagValue: (state, allPostsTagValue) => {
-            state.allPostsTagValue = allPostsTagValue
+        saveOngoingListByTag: (state, ongoingListByTag) => {
+            state.ongoingListByTag = ongoingListByTag
         },
-        saveAllPostsTagTrend: (state, allPostsTagTrend) => {
-            state.allPostsTagTrend = allPostsTagTrend
+        saveTrendingListByTag: (state, trendingListByTag) => {
+            state.trendingListByTag = trendingListByTag
+        },
+        saveTrendingCurationListByTag: (state, trendingCurationListByTag) => {
+            state.trendingCurationListByTag = trendingCurationListByTag
         }
     },
     getters: {
-        getPostsByTag: (state) => (tag) => {
-            const posts = state.allPosts[tag]
-            return posts
-        },
-        getPostsByTagValue: (state) => (tag) => {
-            return state.allPostsTagValue[tag]
-        },
-        getPostsByTagTrend: (state) => (tag) => {
-            return state.allPostsTagTrend[tag]
-        },
+        
     }
 }

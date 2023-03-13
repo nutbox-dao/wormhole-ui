@@ -12,6 +12,9 @@ button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
+button.disabled-no-opacity {
+  opacity: 1;
+}
 .gradient-btn {
   color: white;
   font-weight: bold;

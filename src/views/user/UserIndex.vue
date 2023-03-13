@@ -54,6 +54,13 @@
           <div class="bg-blockBg sm:bg-transparent overflow-hidden
                       light:bg-white light:sm:bg-transparent pt-7px mt-30px">
             <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
+                           class="flex-1 cursor-pointer">
+                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
+                  {{$t('profileView.onChainTweet')}}
+                </div>
+              </router-link>
               <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
                            :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
                            class="flex-1 cursor-pointer">
@@ -62,30 +69,15 @@
                   {{$t('profileView.curations')}}
                 </div>
               </router-link>
-              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
-                           class="flex-1 cursor-pointer">
-                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
-                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
-                  {{$t('profileView.onChainTweet')}}
-                </div>
-              </router-link>
             </div>
           </div>
         </div>
         <div class="w-full absolute bottom-0">
           <div class="container max-w-50rem mx-auto relative">
-              <button v-if="getAccountInfo.isRegistry === 1 && $route.name === 'profile-curations'"
-                      class="flex items-center justify-center bg-color62
+              <button class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                                  rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
                       @click="$router.push('/create-curation')">
-                <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
-              </button>
-              <button v-else
-                      class="flex items-center justify-center bg-color62
-                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
-                      @click="tipDrawer = true">
                 <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
               </button>
           </div>

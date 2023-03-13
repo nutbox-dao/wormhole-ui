@@ -2,7 +2,7 @@ import { ethers } from  'ethers'
 import { u8arryToHex } from './helper'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
-import { errCode, EVM_CHAINS, RPC_NODE } from '@/config'
+import { errCode, EVM_CHAINS, RPC_NODE, AutoCurationContract } from '@/config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
@@ -281,6 +281,20 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
   })
 }
 
+export const checkAutoCurationRewards = async (twitterId, ids) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS['BNB Smart Chain'].rpc);
+      let contract = new ethers.Contract(AutoCurationContract, abi, provider);
+      const results = await contract.checkClaim(twitterId, ids.map(id => ethers.BigNumber.from('0x' + id)));
+      resolve(results);
+    } catch (e) {
+      console.log('chech auto curation rewards fail:', e);
+      reject(errCode.BLOCK_CHAIN_ERR)
+    }
+  })
+}
+
 export const getClaimParas = async (chainName, twitterId, ids) => {
   await checkAccessToken();
   return await gcp(twitterId, EVM_CHAINS[chainName].id, ids);
@@ -304,6 +318,23 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         resolve(tx.hash)
     }catch(e) {
         console.log('claim rewards fail:', e);
+        reject(errCode.TRANSACTION_FAIL)
+    }
+  })
+}
+
+export const claimPromotionCurationRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const metamask = await getEthWeb()
+      const provider = new ethers.providers.Web3Provider(metamask);
+      let contract = new ethers.Contract(AutoCurationContract, abi, provider)
+      contract = contract.connect(provider.getSigner());
+      const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig)
+      await waitForTx(provider, tx.hash);
+      resolve(tx.hash)
+    } catch (e) {
+      console.log('claim rewards fail:', e);
         reject(errCode.TRANSACTION_FAIL)
     }
   })

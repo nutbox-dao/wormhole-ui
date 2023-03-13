@@ -32,8 +32,8 @@
       </ChainTokenIconLarge>
     </div>
     <div class="text-left mt-20px pb-8px px-15px text-12px xl:text-0.75rem">
-      <div class="c-text-black">{{$t('curation.desc')}}</div>
-      <div class="text-color7D mt-8px leading-24px xl:leading-1.4rem whitespace-pre-line desc-content">{{curation?.description}}</div>
+<!--      <div class="c-text-black">{{$t('curation.desc')}}</div>-->
+      <div class="text-colorD9 light:text-color46 mt-8px leading-24px xl:leading-1.4rem whitespace-pre-line desc-content">{{curation?.description}}</div>
       <div class="w-full h-1px bg-color8B/30 light:bg-colorF2 my-8px"></div>
       <div v-if="curation?.endtime < (new Date().getTime() / 1000)"
            class="flex justify-between items-center c-text-black">

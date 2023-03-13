@@ -18,24 +18,32 @@
             <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
           </div>
           <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
               @{{ post.username }}
             </span>
-            <span class="mx-4px text-color8B light:text-colorBD"> · </span>
-            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-colorBD">
+            <span class="mx-4px text-color8B light:text-color7D"> · </span>
+            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
              {{ parseTimestamp(post.postTime) }}
             </span>
           </div>
+          <div v-if="post.isCurated" class="ml-6px flex items-center">
+            <i class="icon-curated w-20px h-20px min-w-20px"></i>
+          </div>
         </div>
+        <button @click="gotoTweet($event)" class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+            <i class="w-18px h-18px icon-twitter"></i>
+        </button>
       </div>
       <div class="flex blog-content">
         <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
-                 class="cursor-pointer text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
+                 class="cursor-pointer text-14px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
-              <div class="whitespace-pre-line" :class="contentClass" v-else v-html="formatEmojiText(content)"></div>
+              <div class="whitespace-pre-line"
+                   :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"
+                   v-else v-html="formatEmojiText(content)"></div>
             </div>
           </div>
 
@@ -56,6 +64,7 @@
               <div v-show="tag != 'iweb3'"
                    class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
                         whitespace-nowrap cursor-pointer light:text-color46"
+                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -68,30 +77,7 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <div class="flex gap-4rem mt-15px">
-              <div class="text-white flex items-center cursor-pointer" @click.stop="reply">
-                <i class="w-18px h-18px icon-msg"></i>
-                <span class="ml-2px font-700 text-white light:text-color7D">{{ post.children }}</span>
-              </div>
-              <!-- <div class="text-text8F flex items-center">
-                <img class="w-18px" src="~@/assets/icon-forward.svg" alt="">
-                <span class="c-text-medium ml-2px">61</span>
-              </div> -->
-              <div class="flex items-center cursor-pointer" @click.stop="likeTweet">
-                <img v-if="isLiking" class="w-24px h-24px rounded-full" src="~@/assets/icon-loading.svg" alt="">
-                <img v-else-if="post.voted>0" src="~@/assets/icon-liked.svg" alt="">
-                <i v-else class="w-18px h-18px icon-like"></i>
-                <span class="ml-2px font-700"
-                      :class="post.voted>0?'text-colorCE':'text-white light:text-color7D'">{{ post.votes }}</span>
-              </div>
-              <div class="text-white flex items-center">
-                <i class="w-18px h-18px icon-coin"></i>
-                <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
-              </div>
-              <div class="text-white flex items-center cursor-pointer" @click.stop="gotoTweet($event)">
-                <i class="w-18px h-18px icon-twitter"></i>
-              </div>
-            </div>
+            <PostButtonGroup ref="postButtonRef" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
           </slot>
         </div>
       </div>
@@ -110,7 +96,7 @@
 </template>
 
 <script>
-import { parseTimestamp, formatPrice } from '@/utils/helper'
+import {parseTimestamp, formatPrice, stringLength} from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { SteemScan, IgnoreAuthor, errCode } from '@/config'
 import { ImagePreview } from 'vant';
@@ -118,12 +104,11 @@ import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
-import { userLike } from '@/utils/twitter'
-import { notify } from '@/utils/notify';
+import PostButtonGroup from "@/components/PostButtonGroup";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost},
+  components: {LinkPreview, Repost, PostButtonGroup},
   props: {
     post: {
       type: Object,
@@ -144,6 +129,7 @@ export default {
   },
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       like: true,
       urls: [],
       imgurls: [],
@@ -155,13 +141,12 @@ export default {
       imgIndex: 0,
       mapOptionsModalVisible: false,
       mapLoading: false,
-      gdLocation: '',
-      isLiking: false
+      gdLocation: ''
     }
   },
   computed: {
     ...mapState(['accountInfo']),
-    ...mapState('curation', ['selectedTag']),
+    ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     profileImg() {
       if (!this.post.profileImg) return null
@@ -201,7 +186,7 @@ export default {
         content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px 2xl:text-0.8rem break-all">${url}</span>`)
       }
       return content
-    }
+    },
   },
   methods: {
     formatEmojiText,
@@ -210,6 +195,7 @@ export default {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
       } else {
+        // goto detail
         this.$refs.blogRef.click()
       }
     },
@@ -229,40 +215,6 @@ export default {
     gotoUserPage() {
       if (!this.getAccountInfo || this.post.username !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + this.post.username})
-      }
-    },
-    gotoTweet(e) {
-      e.stopPropagation();
-      window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
-    },
-    reply() {
-      const url = `https://twitter.com/intent/tweet?in_reply_to=${this.post.postId}&text=%0a%23iweb3`
-      window.open(url)
-    },
-    async likeTweet() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
-      try{
-        this.isLiking = true
-        const result = await userLike(this.post.postId)
-        let nyCard = result.nyCard;
-        if (nyCard && nyCard.cardId > 0) {
-          this.$store.commit('saveNewCardId', nyCard.cardId)
-          this.$store.commit('saveGetCardVisible', true)
-        }
-        this.post.voted = 1
-      } catch (e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-          return
-        }
-        if (e === errCode.TWEET_NOT_FOUND) {
-          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
-        }
-      } finally {
-        this.isLiking = false
       }
     },
     clickLinkView() {
@@ -292,8 +244,15 @@ export default {
       }
     },
     onSelectTag(tag) {
-      this.$store.commit('curation/saveSelectedTag', tag)
-    }
+      this.$store.commit('postsModule/saveSelectedTag', tag)
+    },
+    onQuote() {
+      this.$refs.postButtonRef.otherPreQuote()
+    },
+    gotoTweet(e) {
+      e.stopPropagation();
+      window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
+    },
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g

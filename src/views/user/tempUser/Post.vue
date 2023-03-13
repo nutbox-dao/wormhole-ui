@@ -70,8 +70,8 @@
             </div>
           </div>
           <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
-            <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="$emit('gotoDetail', p)"
+            <div class="" v-for="(p, index) of posts" :key="p.postId">
+              <Blog @click="gotoDetail(p, index)"
                     :post="p"
                     class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder px-1.5rem py-1rem"/>
             </div>
@@ -102,6 +102,7 @@ export default {
   },
   computed: {
     ...mapState(['prices']),
+    ...mapGetters(['getAccountInfo']),
     steemValue() {
       return formatPrice(this.steemBalance * this.prices['steem'])
     }
@@ -115,7 +116,9 @@ export default {
       pageIndex: 0,
       scroll: 0,
       rcPercent: 0,
-      posts: []
+      posts: [],
+      selectedPost: {},
+      selectedPostIndex: 0
     }
   },
   async mounted () {
@@ -127,17 +130,19 @@ export default {
       this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
     }).catch()
     this.onRefresh()
+    this.$bus.on('updatePostIndetail', (postDetail) => {
+      console.log('update post', postDetail)
+      // Modify data
+      if(this.selectedPost && postDetail && (this.selectedPost.postId === postDetail.postDetail.postId)) {
+        this.posts[this.selectedPostIndex] = postDetail.postDetail
+      }
+    })
   },
   methods: {
     onRefresh() {
       console.log('refresh')
       this.refreshing = true
-      let time;
-      if (this.posts && this.posts.length > 0) {
-        time = this.posts[0].postTime
-      }
-
-      getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, true).then(async (res) => {
+      getUsersPosts(this.getAccountInfo?.twitterId, this.accountInfo.twitterId).then(async (res) => {
         const posts = await getPosts(res)
         this.posts = posts.concat(this.posts)
         this.refreshing = false
@@ -147,12 +152,12 @@ export default {
     },
     onLoad() {
       console.log('load more')
-      if (this.finished || this.loading) return;
+      if (this.finished || this.loading || this.refreshing) return;
       let time;
       if (this.posts && this.posts.length > 0) {
         this.loading = true
         time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.accountInfo.twitterId, this.pageSize, time, false).then(async (res) => {
+        getUsersPosts(this.getAccountInfo?.twitterId, this.accountInfo.twitterId, time).then(async (res) => {
          const posts = await getPosts(res)
          this.posts = this.posts.concat(posts)
           if (res.length < this.pageSize) {
@@ -165,6 +170,12 @@ export default {
         })
       }
     },
+    gotoDetail(p, index) {
+      this.selectedPost = p;
+      this.selectedPostIndex = index
+      this.$store.commit('postsModule/saveCurrentShowingDetail', p)
+      this.$router.push(`/post-detail/${p.postId}`)
+    }
   }
 }
 </script>

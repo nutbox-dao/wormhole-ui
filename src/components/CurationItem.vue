@@ -25,9 +25,11 @@
             <template #blog-tag><div></div></template>
           </Blog>
         </div>
-        <div v-if="contentType==='space'"
-             class="h-140px md:h-10rem overflow-hidden relative my-10px">
-          <Space :space="curation" class="rounded-15px h-full bg-tag-gradient"/>
+        <div v-if="contentType==='space'">
+          <Space :space="curation"
+                 avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+            <template #bottom-btn-bar><div></div></template>
+          </Space>
         </div>
         <div class="flex">
           <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div>
@@ -191,7 +193,7 @@
                 <div class="py-2 border-color8B/30 flex justify-between">
                   <el-popover ref="descEmojiPopover" :placement="position"
                               trigger="click" width="300"
-                              :teleported="false"
+                              :teleported="true"
                               :persistent="false">
                     <template #reference>
                       <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden lg:max-w-3/4"
+  <div class="text-left border-1 border-listBgBorder bg-white/10 rounded-12px overflow-hidden md:max-w-35rem"
        :class="imgPosition==='left'?'flex':''">
     <template v-if="imgPosition==='left'">
       <div class="flex-0.3 img-left-box">
@@ -11,7 +11,9 @@
     <div class="flex-1 px-1rem py-0.5rem text-14px leading-24px 2xl:text-0.9rem 2xl:leading-1.8rem text-color8B light:text-blueDark overflow-hidden">
       <div class="h-full flex flex-col justify-center">
         <div class="">{{getUrlHost(linkPreviewInfo.url)}}</div>
-        <div class="c-text-black text-white overflow-hidden overflow-ellipsis whitespace-nowrap">{{linkPreviewInfo.title}}</div>
+        <div class="c-text-black text-white light:text-black overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {{linkPreviewInfo.title}}
+        </div>
         <div class="text-line-3">{{linkPreviewInfo.description}}</div>
       </div>
     </div>

@@ -56,39 +56,52 @@ export const getUserByEth = async (ethAddress) =>
 export const getUserByIds = async (twitterIds) => 
     get(BACKEND_API_URL + '/users/byTwitterIds', {twitterIds})
 
+export const searchUsers = async (text) => 
+    get(BACKEND_API_URL + '/users/searchUsers', {text})
+
 /****************************************  posts  ***********************************************/
-export const getUsersPosts = async (twitterId, pageSize, time, newPost) => {
-    const myTwitterId = store.getters.getAccountInfo?.twitterId
-    return get(BACKEND_API_URL + '/twitter/getUsersPostsByTime', {twitterId, pageSize, time, newPost, myTwitterId})
-}
+export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
+    get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
 
-export const getPostById = async (postId) => {
-    const myTwitterId = store.getters.getAccountInfo?.twitterId
-    get(BACKEND_API_URL + '/twitter/getPostById', {postId, myTwitterId})
-}
+export const getPostById = async (twitterId, postId) => 
+    get(BACKEND_API_URL + '/post/getPostById', {postId, twitterId})
 
-export const getPostsByTagTime = async (tag, pageSize, time, newPost) =>{
-    if (newPost) {
-        return get(BACKEND_API_URL + '/twitter/refreshByTagTime', {tag,pageSize, time})
-    }else {
-        return get(BACKEND_API_URL + '/twitter/moreByTagTime', {tag, pageSize, time})
-    }
-}
+export const getCommentsByPostid = async (postId, lastCommentTime) =>
+    get(BACKEND_API_URL + '/post/getCommentsByPostid', {postId, lastCommentTime})
 
-export const getCommentsByPostid = async (postId) =>
-    get(BACKEND_API_URL + '/twitter/getCommentsByPostid', {postId})
+export const getTrendingTags = async () => 
+    get(BACKEND_API_URL + '/post/getTrendingTags')
 
-export const getPostsByTagValue = async (tag, pageSize, pageNum) =>
-    get(BACKEND_API_URL + '/twitter/getPostByValue', {tag, pageSize, pageNum})
+export const searchTags = async (tag) =>
+    get(BACKEND_API_URL + '/post/searchTags', {tag})
 
-export const getPostByTrend = async (tag, pageSize, pageNum) =>
-    get(BACKEND_API_URL + '/twitter/getPostByTrend', {tag, pageSize, pageNum})
+export const getPostByTrending = async (tag, pageIndex, pageSize, twitterId) =>
+    get(BACKEND_API_URL + '/post/getPostByTrending', {tag, pageIndex, pageSize, twitterId})
 
-export const getTagAggregation = async () =>
-    get(BACKEND_API_URL + '/twitter/tags')
+export const getPostByTime = async (tag, pageIndex, pageSize, twitterId) =>
+    get(BACKEND_API_URL + '/post/getPostByTime', {tag, pageIndex, pageSize, twitterId})
 
-export const getUserFavTag = async (twitterId) => 
-    get(BACKEND_API_URL + '/twitter/getUserFavTag', {twitterId})
+export const getCuratedPostByNew = async (tag, pageIndex, pageSize, twitterId) => 
+get(BACKEND_API_URL + '/post/getCuratedPostByNew', {tag, pageIndex, pageSize, twitterId})
+
+export const getCuratedPostByTrending = async (tag, pageIndex, pageSize, twitterId) => 
+    get(BACKEND_API_URL + '/post/getCuratedPostByTrending', {tag, pageIndex, pageSize, twitterId})
+
+export const quotePost = async (twitterId, tweetId, content) =>
+    post(BACKEND_API_URL + '/post/quotePost', {twitterId, tweetId, content})
+
+export const replyPost = async (twitterId, tweetId, content, parentTwitterId) =>
+    post(BACKEND_API_URL + '/post/replyPost', {twitterId, tweetId, content, parentTwitterId})
+
+export const likePost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/likePost', {twitterId, tweetId})
+
+export const retweetPost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
+
+export const userFollow = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/followPost', {twitterId, tweetId})
+
 
 /****************************************  curation  ***********************************************/
 export const preNewCuration = async (curation) =>
@@ -145,6 +158,15 @@ export const getCurationsOfTweet = async (tweetId) =>
 export const getCurationRecord = async (curationId, createAt, isFeed) =>
     get(BACKEND_API_URL + '/curation/getCurationRecord', { curationId, createAt, isFeed })
 
+export const getAutoCurationRecord = async (curationId, createAt, isFeed) =>
+    get(BACKEND_API_URL + '/curation/getAutoCurationRecord', { curationId, createAt, isFeed })
+
+export const getCurationCreateRelation = async (curationId) => 
+    get(BACKEND_API_URL + '/curation/getCurationCreateRelation', {curationId})
+
+export const getMyParticipantionInCuration = async (twitterId, curationId) =>
+    post(BACKEND_API_URL + '/curation/getMyParticipantionInCuration', {twitterId, curationId})
+
 export const checkMyCurationRecord = async (twitterId, curationId) =>
     post(BACKEND_API_URL + '/curation/checkMyParticipantion', {twitterId, curationId})
 
@@ -156,7 +178,7 @@ export const curation_test = async (twitterId) =>
 
 /****************************************  topics  ***********************************************/
 export const getPopularTopics = async () =>
-    get(BACKEND_API_URL + '/curation/getPopularTopics')
+    get(BACKEND_API_URL + '/post/getTrendingTags')
 
 export const getNewCurationsByTag = async (twitterId, status, endtime, tag) =>
     get(BACKEND_API_URL + '/curation/getNewCurationsByTag', {twitterId, status, endtime, tag})
@@ -189,8 +211,14 @@ export const tipEVM = async (tip) =>
 export const getAllTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/tipsByCurationId', {curationId})
 
+export const getAllTipsByTweetId = async (tweetId) =>
+    get(BACKEND_API_URL + '/tip/tipsByTweetId', {tweetId})
+
 export const getTopTipsOfCuration = async (curationId) => 
     get(BACKEND_API_URL + '/tip/topTipsByCurationId', {curationId})
+
+export const getTopTipsOfTweetId = async (tweetId) =>
+    get(BACKEND_API_URL + '/tip/topTipsByTweetId', {tweetId})
 
 export const getUsersTips = async (params) =>
     post(BACKEND_API_URL + '/tip/tipsByTwitterId', params)
@@ -198,6 +226,9 @@ export const getUsersTips = async (params) =>
 /****************************************  rewards  ***********************************************/
 export const getCurationRewardList = async (twitterId, chainId, createAt) => 
     post(BACKEND_API_URL + '/users/curationRewardList', {twitterId, chainId, createAt})
+
+export const autoCurationRewardList = async (twitterId, createdAt) =>
+    post(BACKEND_API_URL + '/users/autoCurationRewardList', {twitterId, createdAt})
 
 export const getClaimParas = async (twitterId, chainId, ids) =>
     post(BACKEND_API_URL + '/curation/getClaimParas', {twitterId, chainId, ids})

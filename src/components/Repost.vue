@@ -21,7 +21,9 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-0.5rem">
-            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem text-color8B light:text-blueDark" :class="contentClass">
+            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem
+                      text-color8B light:text-blueDark whitespace-pre-line"
+               :class="contentClass">
               {{ post.text }}
             </p>
             <!-- <p v-show="urls && urls.length > 0" v-for="u of urls" :key="u">
@@ -33,7 +35,13 @@
           </div>
         </div>
       </div>
-      <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+      <div class="px-0.6rem pb-0.6rem text-color8B light:text-blueDark"
+           v-if="isReply && imgurls">
+        <span v-for="(url, index) of imgurls.slice(0,4)" :key="index"
+              class="cursor-default text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem"
+              :title="url">[Pic]</span>
+      </div>
+      <div class="grid mt-10px" :class="`img-`+(imgurls.length%5)" v-else-if="imgurls && imgurls.length > 0">
         <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
           <img @click.stop="viewImg(index)" :src="url" alt="">
         </div>
@@ -66,6 +74,10 @@ export default {
     contentClass: {
       type: String,
       default: ''
+    },
+    isReply: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

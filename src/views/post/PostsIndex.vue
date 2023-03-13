@@ -9,7 +9,7 @@
                   @click="setSelectTag(tag)">{{tag}}</button>
         </div>
         <button class="c-text-black text-white light:text-blueDark pl-8px" @click="showMoreTag=!showMoreTag">
-         More >>>
+         {{ $t('common.more') }} >>>
         </button>
       </div>
       <el-collapse-transition>
@@ -55,15 +55,15 @@
           <el-option
               v-for="item in rankOptions"
               :key="item.value"
-              :label="item.label"
+              :label="$t(`${item.label}`)"
               :value="item.value"
           />
         </el-select>
       </div>
     </div>
-    <div class="flex-1 overflow-auto" ref="curationPageRef" @scroll="pageScroll">
+    <div class="flex-1 overflow-auto" ref="postPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-           v-if="refreshing && (!curationsList || curationsList.length === 0)">
+           v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
       <van-pull-refresh v-else
@@ -77,46 +77,43 @@
                   :finished="listFinished"
                   :immediate-check="false"
                   :loading-text="$t('common.loading')"
-                  :finished-text="curationsList.length!==0?$t('common.noMore'):''"
+                  :finished-text="postsList.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
           <div class="sm:px-15px">
             <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
-                 :class="curationsList && curationsList.length>0?'md:p-1rem':''">
-              <div v-if="curationsList && curationsList.length === 0"
+                 :class="postsList && postsList.length>0?'md:p-1rem':''">
+              <div v-if="postsList && postsList.length === 0"
                    class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
                 <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 <div class="text-zinc-400 text-0.8rem leading-1.4rem p-3">
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <CurationItem v-for="(curation, index) of curationsList" :key="curation.curationId"
-                            :curation="curation"
-                            :content-type="curation.curationType === 1?'tweet':'space'"
-                            @getCard="getCardVisible=true"
-                            @click="gotoDetail(curation, index)"/>
+              <div v-else class="-mt-18px md:-mt-25px">
+                <div v-for="(post, index) of postsList" :key="post.postId"
+                     class="py-20px border-b-1 border-color8B/30 light:border-listBgBorder">
+                  <div v-if="!post.spaceId">
+                    <Blog :post="post"
+                          @click="gotoDetail(post, index)"
+                          avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+                    </Blog>
+                  </div>
+                  <div v-else class="">
+                    <Space :space="post"
+                           @click="gotoDetail(post, index)"
+                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"/>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </van-list>
 
       </van-pull-refresh>
     </div>
-    <!-- <van-popup class="c-tip-drawer 2xl:w-2/5"
-               v-model:show="modalVisible"
-               :position="position">
-      <div class="modal-bg w-full md:max-w-560px 2xl:max-w-28rem max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col rounded-t-1.5rem md:rounded-b-1.5rem pt-1rem md:py-2rem md:px-4rem">
-        <div v-if="position === 'bottom'"
-             @click="modalVisible=false"
-             class="w-6rem h-8px bg-color73 rounded-full mx-auto mb-1rem"></div>
-        <div class="flex-1 overflow-auto px-1.5rem no-scroll-bar">
-          <CurationsTip class="py-2rem sm:py-0"
-                        @confirm="onCreate"
-                        @close="modalVisible=false"/>
-        </div>
-      </div>
-    </van-popup> -->
     <!-- back top  -->
-    <button v-show="scroll>100"
-            @click="$refs.curationPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+    <button v-show="scroll>200"
+            @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-6rem right-1.5rem sm:right-2.5rem z-9999">
@@ -134,21 +131,20 @@
 </template>
 
 <script>
-import CurationItem from "@/components/CurationItem";
 import CurationsTip from "@/components/CurationsTip";
 import { mapGetters, mapState } from 'vuex'
-import { getCurations, getCurationsByTrend, getPopularTopics,
-  getNewCurationsByTag, getTrendingCurationsByTag, getTrendingCurationsNew } from '@/api/api'
+import { getTrendingTags, getPostByTrending, getPostByTime, getCuratedPostByNew } from '@/api/api'
 import { showError } from '@/utils/notify'
-import mitt from 'mitt'
+import Blog from "@/components/Blog";
+import Space from "@/components/Space";
 
 export default {
-  name: "CurationsIndex",
-  components: {CurationItem, CurationsTip},
+  name: "PostsIndex",
+  components: {CurationsTip, Blog, Space},
   data() {
     return {
       listLoading: false,
-      listsFinished: [],
+      listsFinished: {},
       refreshing: false,
       subTagList: ['All'],
       subActiveTagIndex: 0,
@@ -156,32 +152,25 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0,
       showMoreTag: false,
-      rankOptions: [{value: 0, label: 'Trending'}, {value: 1, label: 'New'}],
+      rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'curated'}],
       rankValue: 0,
       customizeTagList: [],
-      selectedCuration: null,
-      selectedCurationIndex: 0,
+      selectedPost: null,
+      selectedPostIndex: 0,
       emitter: null
     }
   },
   computed: {
-    ...mapGetters('curation', ['getDraft']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['ongoingList', 'trendingList', 'closeList', 'selectedTag', 'ongoingListByTag', 'trendingListByTag']),
-    curationsList() {
-      if (this.selectedTag === 'All') {
-        if (this.rankValue === 0) {
-          return this.trendingList ?? []
-        }else{
-          return this.ongoingList ?? []
-        }
-      }else {
+    ...mapState('postsModule', ['ongoingListByTag', 'trendingListByTag', 'trendingCurationListByTag', 'selectedTag']),
+    postsList() {
         if (this.rankValue === 0) {
           return this.trendingListByTag[this.selectedTag] ?? []
-        }else{
+        }else if (this.rankValue === 1){
           return this.ongoingListByTag[this.selectedTag] ?? []
+        }else {
+          return this.trendingCurationListByTag[this.selectedTag] ?? []
         }
-      }
     },
     moreTag() {
       return this.subTagList.slice(5)
@@ -202,13 +191,13 @@ export default {
     }
   },
   activated() {
-    if(this.scroll > 0) this.$refs.curationPageRef.scrollTo({top: this.scroll})
-    if (this.curationsList.length > 0) return;
+    if(this.scroll > 0) this.$refs.postPageRef.scrollTo({top: this.scroll})
+    if (this.postsList.length > 0) return;
     this.onRefresh()
   },
   methods: {
     setSelectTag(tag) {
-      this.$store.commit('curation/saveSelectedTag', tag)
+      this.$store.commit('postsModule/saveSelectedTag', tag)
     },
     addCustomizeTag(tag) {
       if (this.customizeTagList.indexOf(tag) > 0) return;
@@ -219,78 +208,60 @@ export default {
       this.customizeTagList.splice(index, 1)
     },
     pageScroll() {
-      this.scroll = this.$refs.curationPageRef.scrollTop
+      this.scroll = this.$refs.postPageRef.scrollTop
     },
-    // changeSubIndex(index) {
-    //   if(this.subActiveTagIndex===index) return
-    //   this.listFinished = false
-    //   this.subActiveTagIndex = index
-    //   this.$store.commit('curation/saveSelectedTag', this.subTagList[index])
-    //   this.onRefresh()
-    // },
     async onLoad() {
       if(this.refreshing || this.listLoading) return
       try{
-        let curations;
+        let posts;
         let cursor;
         const tag = this.selectedTag;
         this.listLoading = true;
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            curations = this.trendingList
-            cursor = Math.floor(curations.length / 12);
-          }else {
-            curations = this.ongoingList
-            cursor = curations[curations.length - 1].createdTime
-          }
+        if (this.rankValue === 0) {
+          posts = this.trendingListByTag[tag]
+          cursor = Math.floor(posts.length / 12);
+        }else if (this.rankValue == 1) {
+          posts = this.ongoingListByTag[tag]
+          cursor = Math.floor(posts.length / 12);
         }else {
-          if (this.rankValue === 0) {
-            curations = this.trendingListByTag[tag]
-            cursor = Math.floor(curations.length / 12);
-          }else {
-            curations = this.ongoingListByTag[tag]
-            cursor = curations[curations.length - 1].createdTime
-          }
+          posts = this.trendingCurationListByTag[tag];
+          cursor = Math.floor(posts.length / 12)
         }
 
-        if (!curations || curations.length === 0) {
+        if (!posts || posts.length === 0) {
           this.listsFinished[tag] = true
           return;
         }
 
-        let moreCurations = [];
+        let morePosts = [];
 
         let mutationStr = ''
         const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null;
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            mutationStr = 'saveTrendingList'
-            moreCurations = await getTrendingCurationsNew(null, cursor, twitterId)
-          }else {
-            mutationStr = 'saveOngoingList'
-            moreCurations = await getCurations(0, cursor, twitterId)
-          }
-          curations = curations.concat(moreCurations);
-          this.$store.commit('curation/'+mutationStr, curations)
-        }else {
-          if (this.rankValue === 0) {
-            moreCurations = await getTrendingCurationsNew(tag, cursor, twitterId);
-            this.trendingListByTag[tag] = curations.concat(moreCurations);
-            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag)
-          }else {
-            moreCurations = await getNewCurationsByTag(twitterId, 0, cursor, tag);
-            this.ongoingListByTag[tag] = curations.concat(moreCurations);
-            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
-          }
 
+        if (this.rankValue === 0) {
+          mutationStr = 'saveTrendingListByTag'
+          morePosts = await getPostByTrending(tag, cursor, null, twitterId)
+          this.trendingListByTag[tag] = posts.concat(morePosts)
+          this.$store.commit('postsModule/'+mutationStr, this.trendingListByTag ?? {})
+        }else if(this.rankValue === 1) {
+          mutationStr = 'saveOngoingListByTag'
+          morePosts = await getPostByTime(tag, cursor, null, twitterId)
+          this.ongoingListByTag[tag] = posts.concat(morePosts)
+         this.$store.commit('postsModule/'+mutationStr, this.ongoingListByTag ?? {})
+        }else {
+          mutationStr = 'saveTrendingCurationListByTag'
+          morePosts = await getCuratedPostByNew(tag, cursor, null, twitterId)
+          this.trendingCurationListByTag[tag] = posts.concat(morePosts)
+         this.$store.commit('postsModule/'+mutationStr, this.trendingCurationListByTag ?? {})
         }
-        if (moreCurations.length < 12) {
+        console.log(3, morePosts.length);
+        if (morePosts.length < 12) {
           this.listsFinished[tag] = true
         }else {
           this.listsFinished[tag] = false
         }
       } catch(e) {
-        console.log('Get more curations fail:', e);
+        console.log('Get more posts fail:', e);
         showError(501)
       } finally {
         this.listLoading = false
@@ -300,46 +271,39 @@ export default {
       this.refreshing = true
       try{
         let tag = this.selectedTag;
-        let curations = []
-        let mutationStr = ''
+        let posts = []
         const twitterId = this.getAccountInfo ? this.getAccountInfo.twitterId : null
-        if (tag === 'All') {
-          if (this.rankValue === 0) {
-            curations = await getTrendingCurationsNew(null, null, twitterId)
-            mutationStr = 'saveTrendingList'
-          }else{
-            curations = await getCurations(0, null, twitterId)
-            mutationStr = 'saveOngoingList'
-          }
-          this.$store.commit('curation/'+mutationStr, curations ?? [])
+        if (this.rankValue === 0) {
+          posts = await getPostByTrending(tag, null, null, twitterId)
+          this.trendingListByTag[tag] = posts
+          this.$store.commit('postsModule/saveTrendingListByTag', this.trendingListByTag ?? {})
+        }else if (this.rankValue === 1) {
+          posts = await getPostByTime(tag, null, null, twitterId)
+          this.ongoingListByTag[tag] = posts
+          this.$store.commit('postsModule/saveOngoingListByTag', this.ongoingListByTag ?? {})
         }else {
-          if (this.rankValue === 0) {
-            curations = await getTrendingCurationsNew(tag, null, twitterId);
-            this.trendingListByTag[tag] = curations;
-            this.$store.commit('curation/saveTrendingListByTag', this.trendingListByTag);
-          }else {
-            curations = await getNewCurationsByTag(twitterId, 0, null, tag);
-            this.ongoingListByTag[tag] = curations;
-            this.$store.commit('curation/saveOngoingListByTag', this.ongoingListByTag);
-          }
+          posts = await getCuratedPostByNew(tag, null, null, twitterId)
+          this.trendingCurationListByTag[tag] = posts
+          this.$store.commit('postsModule/saveTrendingCurationListByTag', this.trendingCurationListByTag ?? {})
         }
-        if (!curations || curations.length < 12) {
+        if (!posts || posts.length < 12) {
           this.listsFinished[tag] = true
         }else {
           this.listsFinished[tag] = false
         }
       } catch(e) {
-        console.log('Refresh curations fail:', e);
+        console.log('Refresh posts fail:', e);
         showError(501)
       } finally {
         this.refreshing = false
       }
     },
-    gotoDetail(curation, index) {
-      this.selectedCuration = curation
-      this.selectedCurationIndex = index
-      this.$store.commit('curation/saveDetailCuration', curation);
-      this.$router.push('/curation-detail/' + curation.curationId);
+    gotoDetail(post, index) {
+      console.log(post)
+      this.selectedPost = post
+      this.selectedPostIndex = index
+      this.$store.commit('postsModule/saveCurrentShowingDetail', post);
+      this.$router.push('/post-detail/' + post.postId);
     },
     createCuration() {
       if (this.getAccountInfo && this.getAccountInfo.twitterId) {
@@ -350,18 +314,17 @@ export default {
     }
   },
   mounted () {
-    this.$bus.on('updateCuration', (curationDetail) => {
-      console.log('update curation', curationDetail)
-      // 修改数据
-      if(this.selectedCuration.curationId === curationDetail.curationId) {
-        console.log('============', this.selectedCuration)
-        this.curationsList[this.selectedCurationIndex] = curationDetail
+    this.$bus.on('updatePostIndetail', (postDetail) => {
+      console.log('update post', postDetail)
+      // Modify data
+      if(this.selectedPost && postDetail && (this.selectedPost.postId === postDetail.postDetail.postId)) {
+        this.postsList[this.selectedPostIndex] = postDetail.postDetail
       }
     })
     this.customizeTagList = localStorage.getItem('customizeTagList')?
         JSON.parse(localStorage.getItem('customizeTagList')):[]
-    getPopularTopics().then(topics => {
-      this.subTagList = ['All'].concat(topics.map(t => t.topic))
+    getTrendingTags().then(topics => {
+      this.subTagList = ['All'].concat(topics.map(t => t.tag))
     })
     this.onRefresh();
   }

@@ -135,6 +135,7 @@ export default {
   name: "Token",
   data() {
     return {
+      position: document.body.clientWidth < 768?'bottom':'center',
       isWrappedToken,
       ethBalanceInterval: null,
       monitor: null,

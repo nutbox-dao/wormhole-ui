@@ -87,8 +87,7 @@
             <Post v-show="selectIndex === 1"
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
-                  :key="$route.params.user"
-                  @gotoDetail="gotoPostDetail"/>
+                  :key="$route.params.user"/>
           </div>
         </template>
         <div class="c-text-black text-1.8rem mb-3rem" v-else>
@@ -117,7 +116,6 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Post from './Post'
 import WalletView  from "./WalletView";
-import PostDetail from "./PostDetail";
 import Curations from './Curations'
 import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
@@ -126,15 +124,16 @@ import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
+import PostDetail from "@/views/post/PostDetail";
 
 export default {
   name: "AccountInfo",
   components: {
     Post,
     WalletView,
-    PostDetail,
     Curations,
-    TipModalVue
+    TipModalVue,
+    PostDetail
   },
   data() {
     return {
@@ -234,10 +233,6 @@ export default {
         "__blank"
       );
     },
-    gotoPostDetail(post) {
-      this.post = post
-      this.showDetail = true
-    },
     tip() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true);
@@ -278,12 +273,12 @@ export default {
       } else {
       }
 
-      if (ethAddress) {
-        this.erc20Balances = await getTokenBalance(ethAddress, false);
+      // if (ethAddress) {
+      //   this.erc20Balances = await getTokenBalance(ethAddress, false);
 
-      }
+      // }
     } catch (e) {
-
+      console.log('get user info fail:', e);
     } finally {
       this.loading = false
     }

@@ -15,6 +15,11 @@ export default {
   logout: 'Log out',
   myWallet: 'My wallet',
   myReward: 'My reward',
+  search: 'Search',
+  noRelatedUser: 'No related user info',
+  trending: 'Trending',
+  new: 'New',
+  curated: 'Curated',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
@@ -83,7 +88,7 @@ export default {
     tips: 'Tips',
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{wormhole3}\'} with a steem username.',
-    tweetTip: 'Tweet action tips',
+    tweetTip: 'Tweet to blockchain',
     tip1: '1. Add a post to web3',
     tip2: '2. Tip STEEM/SBD to a twitter account',
     tip3: "3. Transfer STEEM/SBD to a steem account",
@@ -94,7 +99,13 @@ export default {
     p8: 'This service is still in Beta. Please be careful and do not deposit anything more than you can lose.\n' +
       '              By depositing into this account, you are agreeing to our terms of service.',
     p9: 'You can replace {\'{@vitalik}\'} with a twitter username.',
-    p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets."
+    p10: "You havn't register wormhole3 yet, please acitve your account to receive the assets.",
+    createNewPromotion: 'Create new promotion',
+    createNewCuration: 'Create new curation',
+    notCurator: 'You are not a curator',
+    promotionTips: 'Anyone can create a promotion for one of his or others tweet with some ERC20 token. Here is the list showing all promotions about this tweet.',
+    curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
+    curatorsList: 'Curators list:'
   },
   profileView: {
     socialAsset: 'Social assets',
@@ -139,17 +150,31 @@ export default {
     a1: 'To be updated... By using graphene technology, Wormhole3 can generate a Web3 id for each user, and derive its low-privilege Web3_social id. The private key of the Web3 id is uniquely held by the user, and the Web3_social id is delegated to the user\'s Web2 account (such as Twitter) in a decentralized manner. This has brought about a huge change. On the Web2 platform, users can control the Web3_social id, such as tweeting on the Twitter page to upload posts on the chain and tweeting to transfer cryptocurrencies. There is no need to install any Web3 plug-in wallet in the whole process, and there is no need to consider issues such as handling fees.😎'
   },
   faqView: {
-    q1: 'How to generate a new address, do you keep the private key on the platform?',
-    a1: 'We generate a random new address in your own front page, and the key will never be sent to our platform, so we never touch or keep it. And you can use your exists address to sign a message that we provided to register.',
-    q2: 'Do I need to  restore my private key after I binded my account? Can I find it back if I lost it?',
-    a2: 'Please keep your key in a very secure place, we don‘t keep them, If you lose it there is nothing we can do to help you get it back.',
-    q3: 'Can I send crypto asset through twitter? How?',
-    a3p1: 'Yes, you can send STEEM token at this phase, but can\'t send eth assets because of we don\'t keep your key.',
-    a3p2: `You can send STEEM to another one by tweeting: {'@'}wormhole_3 !send 1 STEEM to {'@'}another Steem account. `,
-    a3p3: `Or {'@'}wormhole_3 !tip 1 STEEM to {'@'}another twitter account.`,
-    q4: 'Can I sync my tweets to web3?',
-    a4p1: 'Sure, your tweet will be stored in web3 for ever, it always belong to you.',
-    a4p2: `You can send twitter to sync them like this: {'{content}'} #iweb3.`,
+    operationAndTech: 'Operation&Tech',
+    curationRelated: 'Curation Related',
+    tab1: {
+      q1: 'How to generate a new address, do you keep the private key on the platform?',
+      a1: 'We generate a random new address on your own front page, and the key will never be sent to our platform, so we never touch or keep it. And you can use your existing address to sign a message that we provided to register.',
+      q2: 'Do I need to restore my private key after I binded my account? Can I find it back if I lost it?',
+      a2: 'Please keep your key in a very secure place, we don‘t keep them, If you lose it there is nothing we can do to help you get them back.',
+      q3: 'Can I send crypto assets through Twitter? How?',
+      a3: `Yes, you can send STEEM tokens at this phase, but can't send ETH assets because we don't keep your key. You can send STEEM to another one by tweeting: {'@'}wormhole_3 !send 1 STEEM to another Steem account. Or {'@'}wormhole_3 !tip 1 STEEM to {'@'}another Twitter account.`,
+      q4: 'Can I sync my tweets to Web3?',
+      a4: `Sure, your tweet will be stored in Web3 forever, it always belongs to you. You can send Twitter to sync them like this: {'{content}'} #iweb3.`,
+      q5: 'What is the relationship between Wormhole3 and the Base?',
+      a5: 'The Base is the basic protocol of Wormhole3, which implements a social data availability layer through a social identity protocol connected to Web2 and a public content platform.'
+    },
+    tab2: {
+      q1: 'How does Wormhole3 bring benefits to content creators?',
+      a1: 'Wormhole3 hopes to attract more talented content creators. On the Wormhole3 page, you can see how much you earn for each post that is upvoted once your tweet is linked. In the meantime, with help from Steemit Official’s Booming Support, Wormhole3 is recommending eight posts a day to get upvotes.',
+      q2: 'What does curation power mean and what does it determine by?',
+      a2: 'The curation rewards obtained by the curator and the value of the content marked by the curator are related to the curation power, which is determined by the following aspects:',
+      a2p1: 'The social graph, which is used to evaluate the contribution of curators to the dissemination of community content;',
+      a2p2: 'Community Power, members with greater community Power will better curate content for the community because they are related to community interests;',
+      a2p3: 'Curation reputation, which represents the curatorial ability of the curator, is calculated from its historical curation links with the content.',
+      q3: 'Will my curation reputation remain the same?',
+      a3: 'No, it is dynamically updated'
+    }
   },
   curationsView: {
     p1: 'Attend curation win FTs, NFTs or other prizes.',
@@ -297,7 +322,24 @@ export default {
     quote: 'Quote',
     reply: 'Reply',
     inputMoreWords: 'You must input more than 10 words',
-    inputRelatedWords: 'You must input content about this curation'
+    inputRelatedWords: 'You must input content about this curation',
+    replyTo: 'Replying to',
+    tweet: 'Tweet',
+    tweetInputTip: 'Add a comment',
+    tweetReply: 'Tweet your reply',
+    all: 'All',
+    createdPromotion: 'Created Promotion',
+    createdCurations: 'Created Curations',
+    startTime: 'Start time'
+  },
+  createCuration: {
+    option1: '获得 Curation NFT',
+    option2: 'Twitter Quote 任意帖子',
+    option2A: '发现好帖',
+    option2B: '点击Quote',
+    option2C: '编写Curation推荐评论',
+    option2D: '编辑社区标签或话题标签',
+    option2E: '填写其他，点击发推',
   },
   popup: {
     create: 'Create a Pop-up reply action',
@@ -360,6 +402,8 @@ export default {
     cancel: 'Cancel',
     previous: 'Previous',
     summary: 'Summary',
-    viewMore: 'View more'
+    viewMore: 'View more',
+    comments: 'Comments',
+    curation: 'Curation'
   }
 }

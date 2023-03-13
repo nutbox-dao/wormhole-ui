@@ -17,16 +17,19 @@ import AccountInfoView from '@/views/user/tempUser/AccountInfo'
 // import AccountTokenView from '@/views/user/tempUser/Token'
 // import AccountNFTView from '@/views/user/tempUser/NFT'
 // import AccountWalletView from '@/views/user/tempUser/WalletView'
+import SearchView from '@/views/user/SearchView'
 
 import WalletView from "@/views/user/WalletView";
 import AboutUsView from "@/views/AboutView";
-import CurationsIndex from "@/views/curations/CurationsIndex";
-import CreateCuration from "@/views/curations/CreateCuration";
+import PostsIndex from "@/views/post/PostsIndex";
+import CreateCuration from "@/views/curations/CreateRecommend";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
+import CreateView from "@/views/CreateView";
+import WalletIndex from "@/views/user/WalletIndex";
 
 const routes = [
   {
@@ -36,29 +39,18 @@ const routes = [
   {
     path: '/square/:referee?',
     name: 'square',
-    component: CurationsIndex,
-    meta: {keepAlive: true}
-  },
-  {
-    path: '/curations',
-    name: 'curations',
-    component: CurationsIndex,
+    component: PostsIndex,
     meta: {keepAlive: true}
   },
   {
     path: '/create-curation',
     name: 'create-curation',
-    component: CreateCuration
+    component: CreateView
   },
   {
     path: '/curation-detail/:id',
     name: 'curation-detail',
     component: CurationDetail
-  },
-  {
-    path: '/recommended',
-    name: 'recommended',
-    component: CurationsIndex,
   },
   {
     path: '/logincode/:code?',
@@ -69,6 +61,11 @@ const routes = [
     path: '/account-info/:user',
     name: 'account-info',
     component: AccountInfoView
+  },
+  {
+    path: '/search-user/:user',
+    name: 'search-user',
+    component: SearchView
   },
   {
     path: '/faq',
@@ -91,28 +88,42 @@ const routes = [
     component: FaucetView,
   },
   {
-    path: '/profile/:user/wallet',
+    path: '/wallet/:user',
     name: 'wallet',
-    component: WalletView,
+    component: WalletIndex,
     meta: {gotoHome: true},
     children: [
       {
-        path: '',
-        name: 'nft',
-        component: UserNftView
+        path: '/wallet/:user/wallet',
+        name: 'wallet',
+        component: WalletView,
+        meta: {gotoHome: true},
+        children: [
+          {
+            path: '',
+            name: 'nft',
+            component: UserNftView
+          },
+          {
+            path: 'token',
+            name: 'token',
+            component: UserTokenView
+          },
+        ]
       },
       {
-        path: 'token',
-        name: 'token',
-        component: UserTokenView
+        path: '/wallet/:user/reward',
+        name: 'reward',
+        component: RewardView,
+        meta: {gotoHome: true}
+      },
+      {
+        path: '/wallet/:user/transaction',
+        name: 'transaction',
+        component: UserTransactionView,
+        meta: {gotoHome: true},
       },
     ]
-  },
-  {
-    path: '/profile/:user/reward',
-    name: 'reward',
-    component: RewardView,
-    meta: {gotoHome: true}
   },
   {
     path: '/profile/:user',
@@ -133,12 +144,6 @@ const routes = [
         meta: {keepAlive: true, gotoHome: true}
       }
     ]
-  },
-  {
-    path: '/transaction',
-    name: 'transaction',
-    component: UserTransactionView,
-    meta: {gotoHome: true},
   },
   {
     path: '/post-detail/:postId',

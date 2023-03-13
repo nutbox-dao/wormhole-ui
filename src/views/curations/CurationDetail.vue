@@ -145,10 +145,10 @@
               <img v-if="(quoted+replyed+retweeted+liked+followed)===(isQuote+isReply+isRetweet+isLike+isFollow)"
                    class="w-26px min-w-26px"
                    src="~@/assets/icon-progress-down.svg" alt="">
-              <el-progress v-else type="circle" width="26"
+              <el-progress v-else type="circle" :width="26"
                            color="#7851FF"
                            class="task-progress"
-                           stroke-width="2"
+                           :stroke-width="2"
                            :percentage="(quoted+replyed+retweeted+liked+followed)/(isQuote+isReply+isRetweet+isLike+isFollow)*100">
                 <span class="text-white text-12px">{{quoted+replyed+retweeted+liked+followed}}/{{isQuote+isReply+isRetweet+isLike+isFollow}}</span>
               </el-progress>
@@ -353,7 +353,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showSubmissions"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <Submissions :records="participant" :state="detailCuration.curationStatus" @close="showSubmissions=false"></Submissions>
+          <Submissions :records="participant" :curation="detailCuration" :state="detailCuration.curationStatus" @close="showSubmissions=false"></Submissions>
         </div>
       </transition>
     </van-popup>
@@ -426,7 +426,7 @@
                 <div class="py-2 border-color8B/30 flex justify-between">
                   <el-popover ref="descEmojiPopover" :placement="position"
                               trigger="click" width="300"
-                              :teleported="false"
+                              :teleported="true"
                               :persistent="false">
                     <template #reference>
                       <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem mx-8px" src="~@/assets/icon-emoji.svg" alt="">
@@ -698,8 +698,7 @@ export default {
         this.metaInfo.meta.title = 'Wormhole3 curation'
         this.metaInfo.meta.description = val.content
       }
-    },
-    immediate: true
+    }
   },
   methods: {
     onCopy,

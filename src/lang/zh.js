@@ -15,6 +15,11 @@ export default {
   logout: '登出',
   myWallet: '我的钱包',
   myReward: '我的奖励',
+  search: '搜索',
+  noRelatedUser: '没有相关的用户信息',
+  trending: '流行',
+  new: '最新',
+  curated: '已策展',
   signUpView: {
     p1: '你还没有注册.',
     p2: '注册然后...',
@@ -80,10 +85,10 @@ export default {
     resourceCredits: 'Resource Credits',
     p1: '你上传到区块链的每一篇文章都会花费你的resource credits(RC), 因此如果你的RC过低帖子将无法上链. RC每天会恢复20%.',
     goTweet: '发推',
-    tips: '打赏',
+    tips: '提示',
     p2: '将 {\'{***}\'} 替换成真实内容.',
     p3: '你可以将 {\'{wormhole3}\'} 替换成steem用户名.',
-    tweetTip: '发推打赏',
+    tweetTip: '发推上链',
     tip1: '1. 添加帖子至web3',
     tip2: '2. 打赏 STEEM/SBD 至twitter账号',
     tip3: "3. 发送 STEEM/SBD 至steem账号",
@@ -94,7 +99,13 @@ export default {
     p8: '此服务仍处于测试阶段. 请注意，不要存入超过损失的金额.\n' +
       '              存入此帐户即表示您同意我们的服务条款.',
     p9: '你可以将 {\'{@vitalik}\'} 替换成任意twitter用户名.',
-    p10: "你当前还未注册wormhole3, 请激活您的帐户以接收资产."
+    p10: "你当前还未注册wormhole3, 请激活您的帐户以接收资产.",
+    createNewPromotion: '创建新推广任务',
+    createNewCuration: '创建新策展',
+    notCurator: '您还不是一个策展人',
+    promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
+    curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
+    curatorsList: '策展人列表：'
   },
   profileView: {
     socialAsset: '社交资产',
@@ -111,7 +122,7 @@ export default {
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
     inputAmount: '请输入token数量',
-    accountMismatch: '您必须使用绑定的虫洞账号操作'
+    accountMismatch: '您必须使用虫洞绑定的账号进行操作。'
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -139,17 +150,31 @@ export default {
     a1: '待更新... 通过石墨烯技术, Wormhole3 可以为每个用户生成一个 Web3 id, 并导出其低权限 Web3_social id. Web3 id的私钥由用户唯一持有, 并且 Web3_social id 以去中心化的方式委托给用户的Web2账号 (比如Twitter). 这带来了巨大的变化. 在 Web2 平台上, 用户可以控制Web3_social id，比如在Twitter页面发推上链，发推可以传输加密货币。 全程无需安装任何Web3插件钱包, 且无需考虑手续费等问题.😎'
   },
   faqView: {
-    q1: '如何生成一个新地址, 您是否将私钥保存在平台上?',
-    a1: '我们在你自己的首页生成一个随机的新地址, 密钥永远不会发送到我们的平台, 所以我们从不会接触或保留它. 你可以使用你现有的地址签署我们提供的用于注册的消息.',
-    q2: '绑定账号后需要恢复私钥吗？? 丢了能找回来吗?',
-    a2: '请将你的钥匙放在一个非常安全的地方, 我们不保留它们, 如果您丢失了它，我们无法帮助您找回它.',
-    q3: '我可以通过推Twitter发送加密资产吗？ 如何操作?',
-    a3p1: '当然, 您可以在此阶段发送 STEEM代币, 但是不能发送eth资产，因为我们不保存你的私钥.',
-    a3p2: `你可以通过发推发送STEEM至其他账户: {'@'}wormhole_3 !send 1 STEEM 至 {'@'}另一个Steem账户. `,
-    a3p3: `或者 {'@'}wormhole_3 !tip 1 STEEM 至 {'@'}另一个twitter账户.`,
-    q4: '我可以将我的推文同步到web3吗？',
-    a4p1: '当然, 你的推文将永远存储在 web3 中, 它将永远属于你.',
-    a4p2: `你可以像这样发送推文来同步它们: {'{content}'} #iweb3.`,
+    operationAndTech: '操作&技术',
+    curationRelated: '策展相关',
+    tab1: {
+      q1: '如何生成一个新地址, 我是否将私钥保存在平台上?',
+      a1: '我们在你自己的首页生成一个随机的新地址, 密钥永远不会发送到我们的平台, 所以我们从不会接触或保留它. 你可以使用你现有的地址签署我们提供的用于注册的消息。',
+      q2: '绑定账号后需要恢复私钥吗？? 丢了能找回来吗?',
+      a2: '请将你的钥匙放在一个非常安全的地方, 我们不保留它们, 如果您丢失了它，我们无法帮助您找回它。',
+      q3: '我可以通过推Twitter发送加密资产吗？ 如何操作?',
+      a3: `当然, 您可以在此阶段发送 STEEM代币, 但是不能发送eth资产，因为我们不保存你的私钥.你可以通过发推发送STEEM至其他账户: {'@'}wormhole_3 !send 1 STEEM 至 {'@'}另一个Steem账户.或者 {'@'}wormhole_3 !tip 1 STEEM 至 {'@'}另一个twitter账户。`,
+      q4: '我可以将我的推文同步到Web3吗？',
+      a4: `当然, 你的推文将永远存储在Web3 中, 它将永远属于你.你可以像这样发送推文来同步它们: {'{content}'} #iweb3。`,
+      q5: 'Wormhole3和The Base有什么关系？',
+      a5: 'The Base是Wormhole3的基础协议，通过连接Web2和公共内容平台的社交身份协议实现社交数据可用性层。'
+    },
+    tab2: {
+      q1: 'Wormhole3如何为内容创作者带来收益？',
+      a1: 'Wormhole3 希望吸引更多有才华的内容创作者。在 Wormhole3 页面上，您可以看到在您的推文被链接后，您从每条被点赞的帖子中获得了多少收入。与此同时，在 Steemit 官方的 Booming Support 的帮助下，Wormhole3 每天推荐 8 个帖子以获得投票。',
+      q2: '策展权重是什么意思，它由什么决定？',
+      a2: '策展人获得的策展奖励和策展人标记内容的价值与策展权种有关，由以下几个方面决定：',
+      a2p1: '社交图谱，用于评估策展人对社区内容传播的贡献；',
+      a2p2: '社区力量，社区力量越大的成员会更好地为社区策划内容，因为它们与社区利益相关；',
+      a2p3: '策展声誉，代表策展人的策展能力，由其与内容的历史策展链接计算得出。',
+      q3: '我的策展声誉会保持不变吗？',
+      a3: '不是，是动态更新的。'
+    }
   },
   curationsView: {
     p1: '参加策展赢取 FT、NFT 或其他奖品.',
@@ -297,7 +322,24 @@ export default {
     quote: '引用',
     reply: '回复',
     inputMoreWords: '请输入至少10个字符的内容',
-    inputRelatedWords: '请输入和该策展相关的内容'
+    inputRelatedWords: '请输入和该策展相关的内容',
+    replyTo: '回复',
+    tweet: '发推',
+    tweetInputTip: '添加评论',
+    tweetReply: '发布你的回复',
+    all: '更多',
+    createdPromotion: 'Created Promotion',
+    createdCurations: 'Created Curations',
+    startTime: '开始时间'
+  },
+  createCuration: {
+    option1: '获得 Curation NFT',
+    option2: 'Twitter Quote 任意帖子',
+    option2A: '发现好帖',
+    option2B: '点击Quote',
+    option2C: '编写Curation推荐评论',
+    option2D: '编辑社区标签或话题标签',
+    option2E: '填写其他，点击发推',
   },
   popup: {
     create: '创建快闪回复操作',
@@ -360,6 +402,8 @@ export default {
     cancel: '取消',
     previous: '预览',
     summary: '汇总',
-    viewMore: '查看更多'
+    viewMore: '查看更多',
+    comments: '评论',
+    curation: '策展'
   }
 }
