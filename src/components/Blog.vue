@@ -30,9 +30,9 @@
             <i class="icon-curated w-20px h-20px min-w-20px"></i>
           </div>
         </div>
-        <div class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+        <button @click="gotoTweet($event)" class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
             <i class="w-18px h-18px icon-twitter"></i>
-          </div>
+        </button>
       </div>
       <div class="flex blog-content">
         <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
