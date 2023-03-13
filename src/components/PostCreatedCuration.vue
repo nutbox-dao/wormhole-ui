@@ -43,12 +43,16 @@
           {{$t('curation.all')}} >>
         </button>
       </div>
-      <ChainTokenIconLarge  v-if="curationData.curationStatus > 0" height="26px" width="26px"
+      <ChainTokenIconLarge   height="26px" width="26px"
                            class="bg-color62"
                            :token="{symbol: curationData?.tokenSymbol, address: curationData?.token}"
                            :chainName="curationData ? curationData.chainId?.toString() : ''">
         <template #amount>
-          <span v-if="curationData?.curationStatus > 0 && (curationData?.taskRecord === curationData?.tasks)"
+          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white" 
+              v-if="curationData.curationStatus == 0">
+            ??? {{ curationData?.tokenSymbol }}
+          </span>
+          <span v-else-if="curationData?.curationStatus > 0 && (curationData?.taskRecord > 0)"
                 class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
             {{formatAmount(curationData?.myRewardAmount / (10 ** curationData?.decimals))+'/'+formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
           </span>
