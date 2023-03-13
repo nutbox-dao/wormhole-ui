@@ -305,7 +305,6 @@ export default {
       this.$router.push('/search-user/@' + user.twitterUsername)
     },
     goBack() {
-      console.log(53);
       this.$router.push('/')
       // if (this.accountInfo && this.accountInfo.steemId) {
       //   this.$router.push('/profile/' + this.accountInfo.twitterUsername)

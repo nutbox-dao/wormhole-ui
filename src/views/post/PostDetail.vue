@@ -393,7 +393,6 @@ export default {
     }
     this.curationLoading = true
     getCurationsOfTweet(postId).then(curations => {
-      console.log(64, curations);
       this.curations = curations
     }).catch(e => console.log('get curation of tweet fail:', e)).finally(() => {
       this.curationLoading = false

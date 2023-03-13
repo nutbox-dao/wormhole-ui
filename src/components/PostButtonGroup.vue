@@ -211,7 +211,7 @@
               <div class="flex flex-col relative">
                 <div v-show="showInputTip"
                      class="absolute top-5px leading-24px 2xl:leading-1rem opacity-50">
-                  {{isDefaultQuote?$t('curation.tweetInputTip'):'其他描述'}}
+                  {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
                 </div>
                 <div contenteditable
                      class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
@@ -281,7 +281,7 @@
                                h-44px 2xl:h-2rem min-w-6rem px-20px rounded-full text-16px 2xl:text-0.8rem"
                         :disabled="isQuoting"
                         @click="userQuote">
-                  {{$t('curation.tweet')}}
+                  {{isDefaultQuote ? $t('curation.tweet') : $t('postView.createNewCuration')}}
                   <c-spinner v-show="isQuoting" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
                 </button>
               </div>
@@ -469,7 +469,7 @@ export default {
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
         this.isQuoting = true
-        await quotePost(this.post.postId, this.inputContent)
+        await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate')
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false

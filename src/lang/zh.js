@@ -89,7 +89,7 @@ export default {
     p2: '将 {\'{***}\'} 替换成真实内容.',
     p3: '你可以将 {\'{wormhole3}\'} 替换成steem用户名.',
     tweetTip: '发推上链',
-    tip1: '1. 添加帖子至web3',
+    tip1: '你可以在你的推文中加入#iweb3标签，该推文将自动上链。以下是一个示例：',
     tip2: '2. 打赏 STEEM/SBD 至twitter账号',
     tip3: "3. 发送 STEEM/SBD 至steem账号",
     p4: '您的账户正在注册中',
@@ -105,7 +105,8 @@ export default {
     notCurator: '您还不是一个策展人',
     promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
     curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
-    curatorsList: '策展人列表：'
+    curatorsList: '策展人列表：',
+    postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文'
   },
   profileView: {
     socialAsset: '社交资产',
@@ -326,10 +327,11 @@ export default {
     replyTo: '回复',
     tweet: '发推',
     tweetInputTip: '添加评论',
+    inputCurationDes: '输入策展描述',
     tweetReply: '发布你的回复',
     all: '更多',
-    createdPromotion: 'Created Promotion',
-    createdCurations: 'Created Curations',
+    createdPromotion: '推广任务',
+    createdCurations: '策展任务',
     startTime: '开始时间',
     tasks: '任务',
     blogTweetTip: '查看推特原文'
@@ -338,8 +340,8 @@ export default {
     option1: '获得 Curation NFT',
     option2: 'Twitter Quote 任意帖子',
     option2A: '发现好帖',
-    option2B: '点击Quote',
-    option2C: '编写Curation推荐评论',
+    option2B: '点击引用',
+    option2C: '编写策展推荐评论',
     option2D: '编辑社区标签或话题标签',
     option2E: '填写其他，点击发推',
   },
