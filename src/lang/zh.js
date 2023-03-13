@@ -122,7 +122,11 @@ export default {
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
     inputAmount: '请输入token数量',
+<<<<<<< HEAD
     accountMismatch: '您必须使用虫洞绑定的账号进行操作。'
+=======
+    accountMismatch: '您必须使用绑定的虫洞账号操作'
+>>>>>>> master
   },
   token: {
     noNft: "你当前没有任何NFT.",
