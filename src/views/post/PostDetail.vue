@@ -139,7 +139,7 @@
                                          v-for="(curation, i) of promotionList" :key="curation.curationId"
                                          @onFollow="$refs.postRef.onFollow()"
                                          @onReply="$refs.postRef.onReply()"
-                                         @onQuote="$refs.postRef.onQuote()"
+                                         @onCreateCuration="$refs.postRef.onCreateCuration()"
                                          @onRetweet="$refs.postRef.onRetweet()"
                                          @onLike="$refs.postRef.onLike()"
                                          :recommend-data="curation"/>
@@ -211,7 +211,7 @@
                                        v-for="(curation, i) of promotionList" :key="curation.curationId"
                                        @onFollow="$refs.postRef.onFollow()"
                                        @onReply="$refs.postRef.onReply()"
-                                       @onQuote="$refs.postRef.onQuote()"
+                                       @onCreateCuration="$refs.postRef.onCreateCuration()"
                                        @onRetweet="$refs.postRef.onRetweet()"
                                        @onLike="$refs.postRef.onLike()"
                                        :recommend-data="curation"/>

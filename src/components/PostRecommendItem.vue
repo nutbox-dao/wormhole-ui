@@ -27,21 +27,25 @@
     <div class="flex justify-between items-center">
       <span class="text-14px c-text-black">{{ $t('curation.tasks') }}</span>
       <div class="flex items-center gap-8px">
-        <i class="w-24px h-24px min-w-24px" v-if="isFollow"
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isFollow"
+          :disabled="currentShowingDetail ? currentShowingDetail.followed : false"
            @click="$emit('onFollow')"
-           :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isReply"
+           :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isReply"
            @click="$emit('onReply')"
-           :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isQuote"
-           @click="$emit('onQuote')"
-           :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isRetweet"
+           :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isQuote"
+           @click="$emit('onCreateCuration')"
+           :disabled="currentShowingDetail ? currentShowingDetail.quoted : false"
+           :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isRetweet"
+          :disabled="currentShowingDetail ? currentShowingDetail.retweeted : false"
            @click="$emit('onRetweet')"
-           :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></i>
-        <i class="w-24px h-24px min-w-24px" v-if="isLike"
+           :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isLike"
+          :disabled="currentShowingDetail ? currentShowingDetail.liked : false"
            @click="$emit('onLike')"
-           :class="liked?'icon-like-circle-active':'icon-like-circle'"></i>
+           :class="liked?'icon-like-circle-active':'icon-like-circle'"></button>
       </div>
     </div>
     <template v-if="recommendData.curationType===2 && popups.length>0">
@@ -167,7 +171,7 @@
 
 <script>
 import {parseTimestamp, parseTimestampToUppercase, formatAmount} from "@/utils/helper";
-import {mapGetters} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {isNumeric} from "@/utils/tool";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {getCurationRecord, getMyParticipantionInCuration } from "@/api/api";
@@ -200,6 +204,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+    ...mapState('postsModule', ['currentShowingDetail']),
     quoted() {
       if(!this.recommendData || !this.getAccountInfo) return false
       return this.recommendData?.taskRecord & 1;
@@ -239,7 +244,7 @@ export default {
     isFollow() {
       if (!this.recommendData) return false;
       return (this.recommendData.tasks & 8) / 8
-    },
+    }
   },
   watch: {
     recommendData(val) {

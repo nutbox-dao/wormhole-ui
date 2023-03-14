@@ -286,6 +286,9 @@ export default {
     onQuote() {
       this.$refs.postButtonRef.otherPreQuote()
     },
+    onCreateCuration() {
+      this.$refs.postButtonRef.preQuote()
+    },
     onRetweet() {
       this.$refs.postButtonRef.userRetweet()
     },
