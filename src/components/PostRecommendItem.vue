@@ -28,22 +28,23 @@
       <span class="text-14px c-text-black">{{ $t('curation.tasks') }}</span>
       <div class="flex items-center gap-8px">
         <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isFollow"
-          :disabled="currentShowingDetail ? currentShowingDetail.followed : false"
+          :disabled="ended || (currentShowingDetail ? currentShowingDetail.followed : false)"
            @click="$emit('onFollow')"
            :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></button>
         <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isReply"
+          :disabled="ended"
            @click="$emit('onReply')"
            :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></button>
         <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isQuote"
            @click="$emit('onCreateCuration')"
-           :disabled="currentShowingDetail ? currentShowingDetail.quoted : false"
+           :disabled="ended || (currentShowingDetail ? currentShowingDetail.quoted : false)"
            :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></button>
         <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isRetweet"
-          :disabled="currentShowingDetail ? currentShowingDetail.retweeted : false"
+          :disabled="ended || (currentShowingDetail ? currentShowingDetail.retweeted : false)"
            @click="$emit('onRetweet')"
            :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></button>
         <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isLike"
-          :disabled="currentShowingDetail ? currentShowingDetail.liked : false"
+          :disabled="ended || (currentShowingDetail ? currentShowingDetail.liked : false)"
            @click="$emit('onLike')"
            :class="liked?'icon-like-circle-active':'icon-like-circle'"></button>
       </div>
@@ -70,7 +71,7 @@
         </button>
       </div>
       <!-- ended -->
-      <div v-if="recommendData?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-10px">
+      <div v-if="ended" class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">End Time</span>
         <button class="h-20px px-12px text-12px bg-white/10 light:text-black text-orangeColor rounded-5px ">
           {{parseTimestampToUppercase(recommendData.endtime)}}
@@ -205,6 +206,9 @@ export default {
   computed: {
     ...mapGetters(['getAccountInfo']),
     ...mapState('postsModule', ['currentShowingDetail']),
+    ended() {
+      return this.recommendData?.endtime < (new Date().getTime() / 1000)
+    },
     quoted() {
       if(!this.recommendData || !this.getAccountInfo) return false
       return this.recommendData?.taskRecord & 1;
