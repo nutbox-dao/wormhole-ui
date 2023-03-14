@@ -334,7 +334,7 @@ export default {
     createdCurations: 'Created Curations',
     startTime: 'Start time',
     tasks: 'Tasks',
-    blogTweetTip: '查看推特原文'
+    blogTweetTip: 'Go to original tweet'
   },
   createCuration: {
     option1: '获得 Curation NFT',
