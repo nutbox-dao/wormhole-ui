@@ -365,6 +365,11 @@ export default {
     curationSpaceGuide: 'Curate Space',
     otherGuide: 'Other Guides'
   },
+  wordCloud: {
+    title: 'My Internet Persona',
+    desc: 'Your tweets is part of you,\n What impression do you leave on people? \n Let\'s find out... \n Maybe surprise yourself.',
+    discoverPersona: 'Discover my \n Internet \n Persona'
+  },
   err: {
     serverErr: 'Server error',
     transErr: 'Transaction Fail',
