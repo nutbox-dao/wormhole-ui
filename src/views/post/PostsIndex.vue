@@ -95,13 +95,13 @@
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
                           @click="gotoDetail(post, index)"
-                          avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+                          avatar-class="min-w-35px min-h-35px w-35px h-35px md:w-3rem md:h-3rem">
                     </Blog>
                   </div>
                   <div v-else class="">
                     <Space :space="post"
                            @click="gotoDetail(post, index)"
-                           avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"/>
+                           avatar-class="min-w-35px min-h-35px w-35px h-35px md:w-3rem md:h-3rem"/>
                   </div>
                 </div>
               </div>

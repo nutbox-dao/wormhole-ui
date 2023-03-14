@@ -2,11 +2,11 @@
   <div>
     <div v-if="showAvatar" class="flex items-center">
       <img v-if="profileImg" @click.stop="gotoUserPage()"
-           class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar"
+           class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar  max-w-56px max-h-56px"
            :class="avatarClass"
            @error="replaceEmptyImg"
            :src="profileImg" alt="">
-      <img class="mr-10px md:mr-1rem rounded-full gradient-border"
+      <img class="mr-10px md:mr-1rem rounded-full gradient-border max-w-56px max-h-56px"
            :class="avatarClass"
            src="@/assets/icon-default-avatar.svg" v-else alt="">
       <div class="flex-1 flex items-center flex-wrap">
@@ -30,9 +30,9 @@
         <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Curated</div>
       </div>
     </div>
-    <div class="flex">
+    <div class="flex mt-5px sm:mt-0">
       <div v-if="showAvatar"
-           class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
+           class="mr-10px max-w-56px max-h-56px" :class="[avatarClass]"></div>
       <div class="flex-1 md:max-w-35rem">
         <div class="flex-1 p-17px 2xl:p-1rem sm:rounded-1rem flex flex-col justify-between
                     min-h-154px rounded-15px bg-tag-gradient">

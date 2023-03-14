@@ -12,7 +12,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':''">{{ post.followCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
       </div>
       <!-- reply-->
       <div class="flex justify-between items-center">
@@ -24,7 +24,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':''">{{ post.replyCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color7D'">{{ post.replyCount ?? 0 }}</span>
       </div>
       <!-- quote-->
       <div class="flex items-center">
@@ -36,7 +36,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':''">{{ post.quoteCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>
       </div>
       <!-- retweet -->
       <div class="flex items-center">
@@ -48,7 +48,7 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':''">{{ post.retweetCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>
       </div>
       <!-- like-->
       <div class="flex items-center">
@@ -60,10 +60,10 @@
           </i>
           <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':''">{{ post.likeCount ?? 0 }}</span>
+        <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
       <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
-        <i class="w-18px h-18px icon-tip"></i>
+        <i class="w-18px h-18px btn-icon-tip"></i>
       </div>
       <!-- <div class="text-white flex items-center">
         <i class="w-18px h-18px icon-coin"></i>
@@ -211,7 +211,7 @@
               <div class="flex flex-col relative">
                 <div v-show="showInputTip"
                      class="absolute top-5px leading-24px 2xl:leading-1rem opacity-50">
-                  {{isDefaultQuote?$t('curation.tweetInputTip'):'其他描述'}}
+                  {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
                 </div>
                 <div contenteditable
                      class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
@@ -281,7 +281,7 @@
                                h-44px 2xl:h-2rem min-w-6rem px-20px rounded-full text-16px 2xl:text-0.8rem"
                         :disabled="isQuoting"
                         @click="userQuote">
-                  {{$t('curation.tweet')}}
+                  {{isDefaultQuote ? $t('curation.tweet') : $t('postView.createNewCuration')}}
                   <c-spinner v-show="isQuoting" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
                 </button>
               </div>
@@ -469,7 +469,7 @@ export default {
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
         this.isQuoting = true
-        await quotePost(this.post.postId, this.inputContent)
+        await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate')
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false

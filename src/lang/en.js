@@ -89,7 +89,7 @@ export default {
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{wormhole3}\'} with a steem username.',
     tweetTip: 'Tweet to blockchain',
-    tip1: '1. Add a post to web3',
+    tip1: 'You can add #iweb3 tag to your tweet and automatically send the tweet to the blockchain. Here is an example:',
     tip2: '2. Tip STEEM/SBD to a twitter account',
     tip3: "3. Transfer STEEM/SBD to a steem account",
     p4: 'Your account is in the process of registration',
@@ -105,7 +105,8 @@ export default {
     notCurator: 'You are not a curator',
     promotionTips: 'Anyone can create a promotion for one of his or others tweet with some ERC20 token. Here is the list showing all promotions about this tweet.',
     curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
-    curatorsList: 'Curators list:'
+    curatorsList: 'Curators list:',
+    postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.'
   },
   profileView: {
     socialAsset: 'Social assets',
@@ -326,11 +327,14 @@ export default {
     replyTo: 'Replying to',
     tweet: 'Tweet',
     tweetInputTip: 'Add a comment',
+    inputCurationDes: 'Input curation infomation',
     tweetReply: 'Tweet your reply',
     all: 'All',
     createdPromotion: 'Created Promotion',
     createdCurations: 'Created Curations',
-    startTime: 'Start time'
+    startTime: 'Start time',
+    tasks: 'Tasks',
+    blogTweetTip: '查看推特原文'
   },
   createCuration: {
     option1: '获得 Curation NFT',

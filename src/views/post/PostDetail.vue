@@ -13,9 +13,9 @@
                   :immediate-check="false"
                   :finished-text="''"
                   @load="onLoad">
-          <div class="grid grid-cols-1 lg:grid-cols-5 gap-1.5rem">
-            <div class="col-span-1 lg:col-span-3 h-max">
-              <div class="md:bg-blockBg md:light:bg-white light:shadow-lg rounded-12px md:p-15px">
+          <div class="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-1.5rem">
+            <div class="col-span-1 lg:col-span-3 xl:col-span-2 h-max">
+              <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-lg rounded-12px md:p-15px">
                 <Space v-if="currentShowingDetail.spaceId" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
@@ -80,7 +80,7 @@
                   </div>
                 </div>
               </div>
-              <div class="lg:hidden border-b-1 border-color8B/30 light:border-colorF4
+              <div class="lg:hidden border-b-1 border-color8B/30 light:border-color7D/30
                           flex items-center text-14px mb-15px">
                 <button class="flex-1 h-40px c-text-black border-b-3"
                         :class="tabIndex===0?'border-color62':'border-transparent'"
@@ -95,7 +95,7 @@
               </div>
               <div v-show="tabIndex===0 || isWeb"
                    class="lg:bg-blockBg lg:light:bg-white light:lg:shadow-lg rounded-12px lg:mt-15px lg:px-15px">
-                <div class="c-text-black text-left text-1.2rem hidden lg:block py-15px">
+                <div class="c-text-black text-left text-1rem hidden lg:block py-15px">
                   {{ $t('common.comments') }}
                 </div>
                 <div v-if="commentLoading" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
@@ -108,97 +108,153 @@
                     <Comment class="py-15px" :comment="c"/>
                   </div>
                 </template>
-                <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-                  <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
+                <div v-else class="py-2rem">
+                  <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                  <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
                 </div>
               </div>
               <div v-show="tabIndex===1">
-                <div v-if="curationLoading" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
-                  <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-                </div>
-                <template v-else>
-                  <div class="flex items-center mb-4px">
-                    <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
+                  <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
+                    <div class="c-text-black mr-4px light:text-blueDark text-left text-20px">
                       {{$t('curation.createdPromotion')}}
                     </div>
                     <el-popover :width="200" trigger="hover">
                       <template #reference>
-                        <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                        <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
                       </template>
                       <div>{{ $t('postView.promotionTips') }}</div>
                     </el-popover>
                   </div>
-                  <PostRecommendItem class="mb-15px"
-                                     v-for="(curation, i) of promotionList" :key="curation.curationId"
-                                     :recommend-data="curation"/>
-                  <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
-                                 w-full rounded-full text-16px 2xl:text-0.8rem"
-                          @click="createPromotion">
-                    {{ $t('postView.createNewPromotion') }}
-                  </button>
-                  <div class="flex items-center mb-4px mt-1.5rem">
-                    <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                  <div class="px-20px pb-24px">
+                    <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
+                      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                    </div>
+                    <div v-if="!curationLoading && promotionList.length===0" class="py-2rem">
+                      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                      <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
+                    </div>
+                    <div v-else>
+                      <PostRecommendItem class="py-15px border-b-1 border-color84/30 c-list-item"
+                                         v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                         @onFollow="$refs.postRef.onFollow()"
+                                         @onReply="$refs.postRef.onReply()"
+                                         @onCreateCuration="$refs.postRef.onCreateCuration()"
+                                         @onRetweet="$refs.postRef.onRetweet()"
+                                         @onLike="$refs.postRef.onLike()"
+                                         :recommend-data="curation"/>
+                    </div>
+                    <button class="bg-color62 text-white h-34px font-bold
+                               w-full rounded-full text-12px"
+                            @click="createPromotion">
+                      {{ $t('postView.createNewPromotion') }}
+                    </button>
+                  </div>
+                </div>
+                <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
+                  <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
+                    <div class="c-text-black mr-4px light:text-blueDark text-left">
                       {{$t('curation.createdCurations')}}
                     </div>
-                    <el-popover :width="200" trigger="hover">
+                    <el-popover placement="bottom" :width="200" trigger="hover">
                       <template #reference>
-                        <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                        <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
                       </template>
                       <div>{{ $t('postView.curationTips') }}</div>
                     </el-popover>
                   </div>
-                  <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]" :post="currentShowingDetail"/>
-                  <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
-                                 w-full rounded-full text-16px 2xl:text-0.8rem mt-15px"
-                          @click="createCuration">
-                    {{ $t('postView.createNewCuration') }}
-                  </button>
-                </template>
+                  <div class="px-20px pb-24px">
+                    <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
+                      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                    </div>
+                    <div v-if="!curationLoading && curationList.length===0" class="py-2rem">
+                      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                      <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
+                    </div>
+                    <PostCreatedCuration v-if="curationList.length > 0"
+                                         class="py-15px "
+                                         :curation-data="curationList[0]"
+                                         :post="currentShowingDetail"/>
+                    <button class="bg-color62 text-white h-34px font-bold
+                               w-full rounded-full text-12px"
+                            :disabled="creatingCuration"
+                            @click="createCuration">
+                      {{ $t('postView.createNewCuration') }}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-span-1 lg:col-span-2 hidden lg:block">
-              <div v-if="curationLoading" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
-                <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-              </div>
-              <template v-else>
-                <div class="flex items-center mb-4px">
-                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
+            <div class="col-span-1 lg:col-span-2 xl:col-span-1 hidden lg:block">
+              <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
+                <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
+                  <div class="c-text-black mr-4px light:text-blueDark text-left">
                     {{$t('curation.createdPromotion')}}
                   </div>
                   <el-popover placement="bottom" :width="200" trigger="hover">
                     <template #reference>
-                      <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                      <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
                     </template>
                     <div>{{ $t('postView.promotionTips') }}</div>
                   </el-popover>
                 </div>
-                <PostRecommendItem class="mb-15px"
-                                   v-for="(curation, i) of promotionList" :key="curation.curationId"
-                                   :recommend-data="curation"/>
-                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold
-                               w-full rounded-full text-16px 2xl:text-0.8rem"
-                        @click="createPromotion">
+                <div class="px-20px pb-24px">
+                  <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
+                    <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                  </div>
+                  <div v-if="!curationLoading && promotionList.length===0" class="py-2rem">
+                    <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                    <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
+                  </div>
+                  <div v-else>
+                    <PostRecommendItem class="py-15px border-b-1 border-color84/30 c-list-item"
+                                       v-for="(curation, i) of promotionList" :key="curation.curationId"
+                                       @onFollow="$refs.postRef.onFollow()"
+                                       @onReply="$refs.postRef.onReply()"
+                                       @onCreateCuration="$refs.postRef.onCreateCuration()"
+                                       @onRetweet="$refs.postRef.onRetweet()"
+                                       @onLike="$refs.postRef.onLike()"
+                                       :recommend-data="curation"/>
+                  </div>
+                  <button class="bg-color62 text-white h-34px font-bold
+                               w-full rounded-full text-12px"
+                          @click="createPromotion">
                     {{ $t('postView.createNewPromotion') }}
-                </button>
-                <div class="flex items-center mb-4px mt-1.5rem">
-                  <div class="c-text-black mr-1rem light:text-blueDark text-left">
+                  </button>
+                </div>
+              </div>
+              <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
+                <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
+                  <div class="c-text-black mr-4px light:text-blueDark text-left">
                     {{$t('curation.createdCurations')}}
                   </div>
                   <el-popover placement="bottom" :width="200" trigger="hover">
                     <template #reference>
-                      <img class="w-20px h-20px min-w-20px min-h-20px" src="~@/assets/icon-question-purple.svg" alt="">
+                      <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
                     </template>
                     <div>{{ $t('postView.curationTips') }}</div>
                   </el-popover>
                 </div>
-                <PostCreatedCuration v-if="curationList.length > 0" :curation-data="curationList[0]" :post="currentShowingDetail"/>
-                <button class="bg-color62 h-44px 2xl:h-2.2rem font-bold mt-15px
-                               w-full rounded-full text-16px 2xl:text-0.8rem"
-                               :disabled="creatingCuration"
-                        @click="createCuration">
+                <div class="px-20px pb-24px">
+                  <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
+                    <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                  </div>
+                  <div v-if="!curationLoading && curationList.length===0" class="py-2rem">
+                    <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                    <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
+                  </div>
+                  <PostCreatedCuration v-if="curationList.length > 0"
+                                       class="py-15px "
+                                       :curation-data="curationList[0]"
+                                       :post="currentShowingDetail"/>
+                  <button class="bg-color62 text-white h-34px font-bold
+                               w-full rounded-full text-12px"
+                          :disabled="creatingCuration"
+                          @click="createCuration">
                     {{ $t('postView.createNewCuration') }}
-                </button>
-              </template>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </van-list>
@@ -335,10 +391,12 @@ export default {
         this.commentLoading = false
       })
     }
+    this.curationLoading = true
     getCurationsOfTweet(postId).then(curations => {
-      console.log(64, curations);
       this.curations = curations
-    }).catch(e => console.log('get curation of tweet fail:', e))
+    }).catch(e => console.log('get curation of tweet fail:', e)).finally(() => {
+      this.curationLoading = false
+    })
     this.updateCurationInfo()
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
@@ -464,5 +522,8 @@ export default {
   background-repeat: no-repeat;
   background-size: 24px 24px;
   background-position: 18px 15px;
+}
+.c-list-item:last-child {
+  border: none;
 }
 </style>

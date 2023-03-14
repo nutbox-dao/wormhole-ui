@@ -1,35 +1,52 @@
 <template>
-  <div class="p-15px bg-blockBg light:bg-white light:shadow-md rounded-12px text-14px xl:text-0.8rem">
+  <div class="text-14px">
     <div class="flex items-center mb-10px"  @click.stop="gotoUserPage()">
-      <img class="w-42px min-w-42px h-42px md:w-2.5rem md:h-2.5rem md:w-min-2.5rem
-                  mr-15px rounded-full cursor-pointer"
+      <img class="w-36px min-w-36px h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
+                  mr-8px rounded-full cursor-pointer"
            :src="recommendData.creatorProfileImg && recommendData.creatorProfileImg.replace('normal', '200x200')" alt="">
-      <div class="flex-1 flex items-center flex-wrap">
+      <div class="flex-1 flex flex-col items-start ">
         <div class="flex items-center flex-wrap">
           <a class="c-text-black text-left mr-3 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
+                      text-14px leading-16px light:text-blueDark"
              @click.stop="gotoUserPage()">{{ recommendData.creatorTwitterName }}</a>
         </div>
         <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+            <span class="text-12px leading-14px text-color8B light:text-color7D">
               @{{ recommendData.creatorTwitterUsername }}
             </span>
           <span class="mx-4px text-color8B light:text-color7D"> · </span>
-          <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+          <span class="whitespace-nowrap text-12px leading-14px text-color8B light:text-color7D">
              {{ parseTimestamp(recommendData.createdTime) }}
             </span>
         </div>
       </div>
     </div>
-    <div class="light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line break-word">
+    <div class="text-color8B light:text-color21 text-left leading-18px text-12px mb-14px whitespace-pre-line break-word">
       {{recommendData?.description}}
     </div>
-    <div class="flex items-center gap-2rem">
-      <i class="w-24px h-24px min-w-24px" v-if="isFollow" :class="followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
-      <i class="w-24px h-24px min-w-24px" v-if="isReply" :class="replyed?'btn-icon-reply-active':'btn-icon-reply'"></i>
-      <i class="w-24px h-24px min-w-24px" v-if="isQuote" :class="quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-      <i class="w-24px h-24px min-w-24px" v-if="isRetweet" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-      <i class="w-24px h-24px min-w-24px" v-if="isLike" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
+    <div class="flex justify-between items-center">
+      <span class="text-14px c-text-black">{{ $t('curation.tasks') }}</span>
+      <div class="flex items-center gap-8px">
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isFollow"
+          :disabled="currentShowingDetail ? currentShowingDetail.followed : false"
+           @click="$emit('onFollow')"
+           :class="followed?'icon-follow-circle-active':'icon-follow-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isReply"
+           @click="$emit('onReply')"
+           :class="replyed?'icon-reply-circle-active':'icon-reply-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isQuote"
+           @click="$emit('onCreateCuration')"
+           :disabled="currentShowingDetail ? currentShowingDetail.quoted : false"
+           :class="quoted?'icon-quote-circle-active':'icon-quote-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isRetweet"
+          :disabled="currentShowingDetail ? currentShowingDetail.retweeted : false"
+           @click="$emit('onRetweet')"
+           :class="retweeted?'icon-retweet-circle-active':'icon-retweet-circle'"></button>
+        <button class="w-24px h-24px min-w-24px cursor-pointer" v-if="isLike"
+          :disabled="currentShowingDetail ? currentShowingDetail.liked : false"
+           @click="$emit('onLike')"
+           :class="liked?'icon-like-circle-active':'icon-like-circle'"></button>
+      </div>
     </div>
     <template v-if="recommendData.curationType===2 && popups.length>0">
       <PopUpsCard :popups="popups"
@@ -39,53 +56,53 @@
     </template>
     <div>
       <!-- max count -->
-      <div class="flex justify-between items-center mt-1rem">
-        <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.maxCount') }}</span>
-        <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+      <div class="flex justify-between items-center mt-10px">
+        <span class="text-14px c-text-black">{{ $t('curation.maxCount') }}</span>
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
           {{recommendData ? (recommendData.maxCount > 1e6 ? $t('common.max') : recommendData.maxCount) : '0'}}
         </button>
       </div>
       <!-- min reputation -->
-      <div class="flex justify-between items-center mt-1rem">
-        <span class="text-16px 2xl:text-0.9rem c-text-black">{{ $t('curation.minReputation') }}</span>
-        <button class="h-26px xl:1.3rem px-1rem bg-primaryColor/20 light:bg-black light:text-white text-color62 rounded-6px">
+      <div class="flex justify-between items-center mt-10px">
+        <span class="text-14px c-text-black">{{ $t('curation.minReputation') }}</span>
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
           {{recommendData ? (recommendData.minReputation <= 0 ? $t('common.max') : recommendData.minReputation) : '0'}}
         </button>
       </div>
       <!-- ended -->
-      <div v-if="recommendData?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-1rem">
-        <span class="text-16px 2xl:text-0.9rem c-text-black">End Time</span>
-        <button class="h-26px xl:1.3rem px-1rem bg-color62/20 border-1 border-color62 light:text-black text-color7D rounded-5px ">
+      <div v-if="recommendData?.endtime < (new Date().getTime() / 1000)" class="flex justify-between items-center mt-10px">
+        <span class="text-14px c-text-black">End Time</span>
+        <button class="h-20px px-12px text-12px bg-white/10 light:text-black text-orangeColor rounded-5px ">
           {{parseTimestampToUppercase(recommendData.endtime)}}
         </button>
       </div>
       <!-- ongoing -->
-      <div v-else class="flex justify-between items-center mt-1rem">
-        <span class="text-16px 2xl:text-0.9rem c-text-black">Expiration</span>
-        <button class="h-26px xl:1.3rem px-1rem bg-color62/20 border-1 border-color62 light:text-black text-color7D rounded-5px ">
+      <div v-else class="flex justify-between items-center mt-10px">
+        <span class="text-14px c-text-black">Expiration</span>
+        <button class="h-20px px-12px text-12px bg-white/10 light:text-black text-greenColor rounded-5px ">
           <van-count-down v-if="recommendData && recommendData.endtime"
-                          class="text-color7D"
+                          class="text-greenColor text-12px"
                           :time="countdown(recommendData.endtime)">
             <template #default="timeData">
               <span v-if="timeData.days>0">
-                {{ timeData.days }} <span class="text-color62">DAY</span>
-                {{ timeData.hours }} <span class="text-color62">HOURS</span>
-                {{ timeData.minutes }} <span class="text-color62">MIN</span>
+                {{ timeData.days }} <span class="">DAY</span>
+                {{ timeData.hours }} <span class="">HOURS</span>
+                {{ timeData.minutes }} <span class="">MIN</span>
               </span>
               <span v-else-if="timeData.hours>0">
-                {{ timeData.hours }} <span class="text-color62">HOURS</span>
-                {{ timeData.minutes }} <span class="text-color62">MIN</span>
-                {{ timeData.seconds }} <span class="text-color62">S</span>
+                {{ timeData.hours }} <span class="">HOURS</span>
+                {{ timeData.minutes }} <span class="">MIN</span>
+                {{ timeData.seconds }} <span class="">S</span>
               </span>
               <span v-else>
-                {{ timeData.minutes }} <span class="text-color62">MIN</span>
-                {{ timeData.seconds }} <span class="text-color62">S</span>
+                {{ timeData.minutes }} <span class="">MIN</span>
+                {{ timeData.seconds }} <span class="">S</span>
               </span>
             </template>
           </van-count-down>
         </button>
       </div>
-      <div class="flex items-center justify-between h-40px xl:h-2rem mt-10px">
+      <div class="flex items-center justify-between mt-10px">
         <div class="flex items-center ml-11px">
           <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
             <img v-if="p.profileImg"
@@ -109,21 +126,21 @@
             {{$t('curation.all')}} >>
           </button>
         </div>
-        <ChainTokenIconLarge height="26px" width="26px"
+        <ChainTokenIcon height="20px" width="20px"
                              class="bg-color62"
                              :token="{symbol: recommendData?.tokenSymbol, address: recommendData?.token}"
                              :chainName="recommendData ? recommendData.chainId?.toString() : ''">
           <template #amount>
             <span v-if="recommendData?.curationStatus > 0 && (recommendData?.taskRecord === recommendData?.tasks)"
-                  class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
+                  class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
               {{formatAmount(recommendData?.myRewardAmount / (10 ** recommendData?.decimals))+'/'+formatAmount(recommendData?.amount / ( 10 ** recommendData?.decimals)) + " " + recommendData?.tokenSymbol}}
             </span>
             <span v-else
-                  class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
+                  class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
               {{formatAmount(recommendData?.amount / ( 10 ** recommendData?.decimals)) + " " + recommendData?.tokenSymbol}}
             </span>
           </template>
-        </ChainTokenIconLarge>
+        </ChainTokenIcon>
       </div>
     </div>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
@@ -154,18 +171,18 @@
 
 <script>
 import {parseTimestamp, parseTimestampToUppercase, formatAmount} from "@/utils/helper";
-import {mapGetters} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {isNumeric} from "@/utils/tool";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {getCurationRecord, getMyParticipantionInCuration } from "@/api/api";
 import Submissions from "@/views/curations/Submissions";
 import PopUpsCard from "@/components/PopUpsCard";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
+import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
 
 export default {
   name: "PostRecommendItem",
-  components: {ChainTokenIconLarge, Submissions, PopUpsCard, CreatePopUpModal},
+  components: {ChainTokenIcon, Submissions, PopUpsCard, CreatePopUpModal},
   props: {
     recommendData: {
       type: Object,
@@ -187,6 +204,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+    ...mapState('postsModule', ['currentShowingDetail']),
     quoted() {
       if(!this.recommendData || !this.getAccountInfo) return false
       return this.recommendData?.taskRecord & 1;
@@ -226,7 +244,7 @@ export default {
     isFollow() {
       if (!this.recommendData) return false;
       return (this.recommendData.tasks & 8) / 8
-    },
+    }
   },
   watch: {
     recommendData(val) {

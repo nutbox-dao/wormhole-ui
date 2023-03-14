@@ -3,43 +3,72 @@
     <div class="sm:rounded-1rem">
       <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar"
+             class="mr-10px rounded-full gradient-border cursor-pointer blog-avatar max-w-56px max-h-56px"
              :class="avatarClass"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="mr-10px md:mr-1rem rounded-full gradient-border"
+        <img class="mr-10px rounded-full gradient-border max-w-56px max-h-56px"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
-        <div class="flex-1 flex items-center flex-wrap">
-          <div class="flex items-center flex-wrap">
-            <a class="c-text-black text-left mr-3 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
-               @click.stop="gotoUserPage()">{{ post.name }}</a>
-            <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-          </div>
-          <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+        <div class="flex-1 flex justify-between sm:items-center">
+          <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
+            <div class="flex items-center sm:mr-6px">
+              <div class="flex items-center flex-wrap">
+                <a class="c-text-black text-left cursor-pointer
+                      text-16px leading-18px  light:text-blueDark"
+                   @click.stop="gotoUserPage()">{{ post.name }}</a>
+                <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
+              </div>
+              <div v-if="post.isCurated && !isDetail" class="ml-4px flex items-center sm:hidden">
+                <el-tooltip :show-after="1500">
+                  <template #content>
+                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                    <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
+                  </template>
+                  <button @mouseover="getTip">
+                    <i class="icon-curated w-16px h-16px min-w-16px"></i>
+                  </button>
+                </el-tooltip>
+              </div>
+            </div>
+            <div class="flex items-center id-time">
+            <span class="text-12px leading-18px  text-color8B light:text-color7D">
               @{{ post.username }}
             </span>
-            <span class="mx-4px text-color8B light:text-color7D"> · </span>
-            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+              <span class="mx-4px text-color8B light:text-color7D"> · </span>
+              <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
              {{ parseTimestamp(post.postTime) }}
             </span>
+            </div>
+            <div v-if="post.isCurated && !isDetail" class="ml-4px items-center hidden sm:flex">
+              <el-tooltip :show-after="1500">
+                <template #content>
+                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                  <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
+                </template>
+                <button @mouseover="getTip">
+                  <i class="icon-curated w-16px h-16px min-w-16px"></i>
+                </button>
+              </el-tooltip>
+            </div>
           </div>
-          <div v-if="post.isCurated" class="ml-6px flex items-center">
-            <i class="icon-curated w-20px h-20px min-w-20px"></i>
-          </div>
+          <el-tooltip>
+            <template #content>
+              <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+            </template>
+            <button @click="gotoTweet($event)"
+                    class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+              <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+            </button>
+          </el-tooltip>
         </div>
-        <button @click="gotoTweet($event)" class="text-white ml-6px flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-            <i class="w-18px h-18px icon-twitter"></i>
-        </button>
       </div>
       <div class="flex blog-content">
-        <div class="hidden sm:block mr-10px md:mr-1rem ml-block" :class="[avatarClass]"></div>
+        <div class="mr-10px max-w-56px max-h-56px" :class="[avatarClass]"></div>
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem">
             <div @click.stop="clickContent"
-                 class="cursor-pointer text-14px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem text-colorD9 light:text-color46">
+                 class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line"
                    :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"
@@ -62,9 +91,9 @@
           <slot name="blog-tag">
             <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
               <div v-show="tag != 'iweb3'"
-                   class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
+                   class="py-3px px-6px rounded-6px mt-10px
                         whitespace-nowrap cursor-pointer light:text-color46"
-                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color8B bg-white/10 light:bg-color8B/10'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -105,6 +134,7 @@ import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import PostButtonGroup from "@/components/PostButtonGroup";
+import debounce from 'lodash.debounce'
 
 export default {
   name: "Blog",
@@ -141,7 +171,8 @@ export default {
       imgIndex: 0,
       mapOptionsModalVisible: false,
       mapLoading: false,
-      gdLocation: ''
+      gdLocation: '',
+      showCuratedTip: false
     }
   },
   computed: {
@@ -183,7 +214,7 @@ export default {
       let content = this.post.content.replace(this.reg, '');
       // content = content.replace('\n', '</br>')
       for (let url of this.urls){
-        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px 2xl:text-0.8rem break-all">${url}</span>`)
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
       }
       return content
     },
@@ -246,13 +277,31 @@ export default {
     onSelectTag(tag) {
       this.$store.commit('postsModule/saveSelectedTag', tag)
     },
+    onFollow() {
+      this.$refs.postButtonRef.userFollow()
+    },
+    onReply() {
+      this.$refs.postButtonRef.preReply()
+    },
     onQuote() {
       this.$refs.postButtonRef.otherPreQuote()
+    },
+    onCreateCuration() {
+      this.$refs.postButtonRef.preQuote()
+    },
+    onRetweet() {
+      this.$refs.postButtonRef.userRetweet()
+    },
+    onLike() {
+      this.$refs.postButtonRef.userLike()
     },
     gotoTweet(e) {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
+    getTip: debounce(() => {
+      console.log('get tip')
+    }, 1500)
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
@@ -267,6 +316,12 @@ export default {
       this.urls = urls
     }
     this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
+    // if(this.$refs.curatedTipRef) {
+    //   console.log('========', this.$refs.curatedTipRef.onOpen)
+    //   this.$refs.curatedTipRef.onOpen = () => {
+    //     console.log('test')
+    //   }
+    // }
   },
 }
 </script>
