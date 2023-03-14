@@ -207,6 +207,6 @@ export default {
 
 <style scoped>
 .c-list-item:last-child {
-  /*border: none;*/
+  border: none;
 }
 </style>
