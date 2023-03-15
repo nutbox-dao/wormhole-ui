@@ -50,6 +50,9 @@ import { generateWordcloud, twitterLogin, twitterAuth } from '@/api/api'
 import { checkAccessToken } from '@/utils/account'
 import { randomWallet } from '@/utils/ethers'
 import { createKeypair } from '@/utils/tweet-nacl'
+import { notify } from "@/utils/notify";
+import Cookie from 'vue-cookies'
+import { sleep } from '@/utils/helper'
 
 export default {
   name: "Index",
@@ -67,6 +70,9 @@ export default {
     ...mapGetters(['getAccountInfo'])
   },
   methods: {
+    showNotify(message, duration, type) {
+      notify({message, duration, type})
+    },
     async onAuth() {
       if (this.imgUrl) {
         return;
@@ -105,7 +111,7 @@ export default {
               break;
             }
           }
-          
+
           setTimeout(() => {
             window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
           })
@@ -137,8 +143,10 @@ export default {
               await sleep(1)
             }
             // time out
-            this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
-            return;
+            if (count >= 80) {
+              this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
+              return;
+            }
           }else {
             if (userInfo.code === 0) {
               // not registry
@@ -154,7 +162,9 @@ export default {
         }
         const url = await generateWordcloud(twitterId)
         this.imgUrl = url;
+        console.log(53, url);
       } catch (e) {
+        console.log(53, e);
         this.showNotify(e, 5000, 'error')
       } finally {
         this.loading = false
