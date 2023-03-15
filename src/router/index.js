@@ -30,6 +30,7 @@ import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/CreateView";
 import WalletIndex from "@/views/user/WalletIndex";
+import WordCloud from '@/views/word-cloud/Index'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: '/search-user/:user',
     name: 'search-user',
     component: SearchView
+  },
+  {
+    path: '/word-cloud',
+    name: 'word-cloud',
+    component: WordCloud
   },
   {
     path: '/faq',

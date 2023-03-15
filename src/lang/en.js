@@ -334,7 +334,7 @@ export default {
     createdCurations: 'Created Curations',
     startTime: 'Start time',
     tasks: 'Tasks',
-    blogTweetTip: '查看推特原文'
+    blogTweetTip: 'Go to original tweet'
   },
   createCuration: {
     option1: '获得 Curation NFT',
@@ -364,6 +364,11 @@ export default {
     curationTweetGuide: 'Curate Tweet',
     curationSpaceGuide: 'Curate Space',
     otherGuide: 'Other Guides'
+  },
+  wordCloud: {
+    title: 'My Internet Persona',
+    desc: 'Your tweets is part of you,\n What impression do you leave on people? \n Let\'s find out... \n Maybe surprise yourself.',
+    discoverPersona: 'Discover my \n Internet \n Persona'
   },
   err: {
     serverErr: 'Server error',

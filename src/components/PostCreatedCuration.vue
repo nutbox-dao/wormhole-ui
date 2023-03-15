@@ -48,7 +48,7 @@
                            :token="{symbol: curationData?.tokenSymbol, address: curationData?.token}"
                            :chainName="curationData ? curationData.chainId?.toString() : ''">
         <template #amount>
-          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white" 
+          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white"
               v-if="curationData.curationStatus == 0">
             ??? {{ curationData?.tokenSymbol }}
           </span>
@@ -63,10 +63,10 @@
         </template>
       </ChainTokenIconLarge>
     </div>
-    <div class="flex text-14px pt-10px pb-8px border-b border-color84/30">
+    <div class="flex text-16px font-bold pt-14px pb-8px border-b border-color84/30 mb-6px">
       <span>{{ $t('postView.curatorsList') }}</span>
     </div>
-    <div v-for="c of allCurations" :key="c.twitterId" class="mt-16px">
+    <div v-for="c of allCurations" :key="c.twitterId" class="py-10px border-b-1 border-color84/20 c-list-item">
       <div class="flex items-center mb-4px ">
         <img class="w-28px min-w-28px h-28px mr-8px rounded-full cursor-pointer"
              :src="c.profileImg && c.profileImg.replace('normal', '200x200')" alt="">
@@ -206,5 +206,7 @@ export default {
 </script>
 
 <style scoped>
-
+.c-list-item:last-child {
+  border: none;
+}
 </style>
