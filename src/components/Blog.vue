@@ -29,7 +29,7 @@
                              :chainName="reward.chainId?.toString()">
                         <template #amount>
                           <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{formatAmount(reward.amount / ( 10 ** reward.decimals)) + " " + reward.tokenSymbol}}
+                            {{reward.amount + " " + reward.tokenSymbol}}
                           </span>
                         </template>
                     </ChainTokenIcon>
@@ -61,7 +61,7 @@
                              :chainName="reward.chainId?.toString()">
                         <template #amount>
                           <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{formatAmount(reward.amount / ( 10 ** reward.decimals)) + " " + reward.tokenSymbol}}
+                            {{reward.amount + " " + reward.tokenSymbol}}
                           </span>
                         </template>
                     </ChainTokenIcon>
@@ -332,7 +332,10 @@ export default {
       }else {
         getCurationRewardsOfPost(this.post.postId).then(res => {
           if (res && res.length > 0) {
-            this.rewards = res;
+            this.rewards = res.map(r => ({
+              ...r,
+              amount: r.amount > 0 ? this.formatAmount(r.amount / ( 10 ** r.decimals)) : '???'
+            }));
           }else {
             this.rewards = []
           }
