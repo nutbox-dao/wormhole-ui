@@ -5,7 +5,7 @@
       <div class="w-full sm:w-3/5 flex flex-col justify-center items-start">
         <div class="sm:h-3/4 w-full">
           <div class="c-text-black text-2.5rem mb-2rem hidden sm:block">{{$t('wordCloud.title')}}</div>
-          <div v-if="!loading && wordList.length>0"
+          <div v-if="!loading && imgUrl"
                class="w-full flex justify-center sm:justify-start items-center gap-20px sm:mt-1/5 mt-2rem">
             <button class="w-1/3 bg-colorF1 text-blueDark">Mint as NFT</button>
             <button class="w-1/3 bg-colorF1 text-blueDark">Share</button>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="w-full sm:w-2/5 flex items-center justify-center sm:justify-end">
-        <div v-if="!loading && wordList.length>0"
+        <div v-if="!loading && imgUrl"
              class="w-full h-full bg-white/10 min-h-300px lg:min-h-400px px-15px relative">
          <span v-for="(word, index) of wordList" :key="word"
                class=" bg-color62/40 border-1 border-color62/80 rounded-full
@@ -45,27 +45,132 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { generateWordcloud, twitterLogin, twitterAuth } from '@/api/api'
+import { checkAccessToken } from '@/utils/account'
+import { randomWallet } from '@/utils/ethers'
+import { createKeypair } from '@/utils/tweet-nacl'
+
 export default {
   name: "Index",
   data() {
     return {
       loading: false,
-      wordList: []
+      imgUrl: null,
+      wordList: [],
+      wallet: null,
+      pair: null,
+      pendingAccount: null
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
   methods: {
-    onAuth() {
-      this.loading = true
-      this.wordList = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9 ,8, 7, 6, 5, 4, 3, 2, 1]
-      this.loading = false
-      setTimeout(() => {
-        const wordNodes = document.getElementsByClassName('word-item')
-        this.wordList.forEach((item, index) => {
-          wordNodes[index].classList.add('word-item-show')
-        })
-      }, 500)
+    async onAuth() {
+      if (this.imgUrl) {
+        return;
+      }
+      try{
+        this.loading = true
+        let twitterId = ''
+        if (this.getAccountInfo) {
+          await checkAccessToken();
+          twitterId = this.getAccountInfo.twitterId
+        }else {
+          // auth
+          let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
+          let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
+
+
+          console.log(navigator.userAgent);
+          const source = this.$route.query?.utm_source
+
+          this.loging = true
+          if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
+            console.log('token pocket');
+          }else if (isAndroid || isIOS) {
+            // const res = await twitterAuth(true);
+            // window.location.href = res;
+            // return;
+          }
+          
+          const res = await twitterAuth();
+          const params = res.split('?')[1].split('&')
+          let state;
+          for (let p of params) {
+            const [key, value] = p.split('=');
+            if (key === 'state') {
+              state = value;
+              break;
+            }
+          }
+          
+          setTimeout(() => {
+            window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+          })
+          
+          await sleep(1)
+          randomWallet().then(wallet => this.wallet = wallet)
+          createKeypair().then(pair => this.pair = pair)
+          await sleep(5)
+
+          let count = 0;
+          let userInfo = await twitterLogin(state)
+          if (userInfo.code === 1) {
+            while(count < 80) {
+              userInfo = await twitterLogin(state)
+              if (userInfo.code === 0) {
+                // not registry
+                // store auth info
+                console.log('not register')
+                Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                this.pendingAccount = userInfo.account
+                twitterId = this.pendingAccount.twitterId
+                break;
+              }else if (userInfo.code === 3) { // log in
+                this.$store.commit('saveAccountInfo', userInfo.account)
+                twitterId = userInfo.account.twitterId
+                break;
+              }
+              count++;
+              await sleep(1)
+            }
+            // time out
+            this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
+            return;
+          }else {
+            if (userInfo.code === 0) {
+              // not registry
+              // store auth info
+              Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+              this.pendingAccount = userInfo.account
+              twitterId = this.pendingAccount.twitterId
+            }else if (userInfo.code === 3) { // log in
+              this.$store.commit('saveAccountInfo', userInfo.account)
+              twitterId = userInfo.account.twitterId
+            }
+          }
+        }
+        const url = await generateWordcloud(twitterId)
+        this.imgUrl = url;
+      } catch (e) {
+        this.showNotify(e, 5000, 'error')
+      } finally {
+        this.loading = false
+      }
     }
-  }
+  },
+  async mounted () {
+    await this.$router.isReady();
+    const referee = this.$route.query.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
+    if (this.getAccountInfo) {
+      this.imgUrl = this.getAccountInfo.wordCloudUrl
+    }
+  },
 }
 </script>
 
