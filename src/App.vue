@@ -678,6 +678,9 @@ export default {
 .search-bar > input:not(:placeholder-shown) {
   width: 160px;
 }
+.gradient-bg-word{
+  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%);
+}
 @media (max-width: 500px) {
   .search-bar > input:focus,
   .search-bar > input:not(:placeholder-shown) {

@@ -367,8 +367,8 @@ export default {
   },
   wordCloud: {
     title: 'My Internet Persona',
-    desc: 'Your tweets is part of you,\n What impression do you leave on people? \n Let\'s find out... \n Maybe surprise yourself.',
-    discoverPersona: 'Discover my \n Internet \n Persona'
+    desc: 'Your tweets is part of you,\n What impression do you leave on people? Let\'s find out... \n Maybe surprise yourself.',
+    discoverPersona: 'Discover my\n Internet Persona'
   },
   err: {
     serverErr: 'Server error',
