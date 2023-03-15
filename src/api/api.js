@@ -242,6 +242,9 @@ export const setCurationIsFeed = async (twitterId, curationIds) =>
 export const setAutoCurationIsDistributed = async (twitterId, curationIds) =>
     post(BACKEND_API_URL + '/curation/setAutoCurationIsDistributed', {twitterId, curationIds})
 
+export const getCurationRewardsOfPost = async (postId) =>
+    get(BACKEND_API_URL + '/curation/getCurationRewardsOfPost', {postId})
+
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {

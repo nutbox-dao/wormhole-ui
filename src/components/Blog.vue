@@ -20,9 +20,20 @@
                 <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
               <div v-if="post.isCurated && !isDetail" class="ml-4px flex items-center sm:hidden">
-                <el-tooltip :show-after="1500">
+                <el-tooltip :show-after="500">
                   <template #content>
-                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
+                      <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
+                             class="bg-color62 my-4px"
+                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                             :chainName="reward.chainId?.toString()">
+                        <template #amount>
+                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
+                            {{formatAmount(reward.amount / ( 10 ** reward.decimals)) + " " + reward.tokenSymbol}}
+                          </span>
+                        </template>
+                    </ChainTokenIcon>
+                    </div>
                     <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
                   </template>
                   <button @mouseover="getTip">
@@ -41,9 +52,20 @@
             </span>
             </div>
             <div v-if="post.isCurated && !isDetail" class="ml-4px items-center hidden sm:flex">
-              <el-tooltip :show-after="1500">
+              <el-tooltip :show-after="500">
                 <template #content>
-                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">tip content</div>
+                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
+                    <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
+                             class="bg-color62 my-4px"
+                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                             :chainName="reward.chainId?.toString()">
+                        <template #amount>
+                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
+                            {{formatAmount(reward.amount / ( 10 ** reward.decimals)) + " " + reward.tokenSymbol}}
+                          </span>
+                        </template>
+                    </ChainTokenIcon>
+                  </div>
                   <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
                 </template>
                 <button @mouseover="getTip">
@@ -125,7 +147,8 @@
 </template>
 
 <script>
-import {parseTimestamp, formatPrice, stringLength} from '@/utils/helper'
+import {parseTimestamp, formatPrice, stringLength, formatAmount} from '@/utils/helper'
+import { getCurationRewardsOfPost } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { SteemScan, IgnoreAuthor, errCode } from '@/config'
 import { ImagePreview } from 'vant';
@@ -135,10 +158,11 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import PostButtonGroup from "@/components/PostButtonGroup";
 import debounce from 'lodash.debounce'
+import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, PostButtonGroup},
+  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon},
   props: {
     post: {
       type: Object,
@@ -172,7 +196,8 @@ export default {
       mapOptionsModalVisible: false,
       mapLoading: false,
       gdLocation: '',
-      showCuratedTip: false
+      showCuratedTip: false,
+      rewards: []
     }
   },
   computed: {
@@ -222,6 +247,7 @@ export default {
   methods: {
     formatEmojiText,
     parseTimestamp,
+    formatAmount,
     clickContent(e) {
       if(e.target.dataset.url) {
         window.open(e.target.dataset.url, '_blank')
@@ -299,9 +325,20 @@ export default {
       e.stopPropagation();
       window.open(`https://twitter.com/${this.post.username}/status/${this.post.postId}`)
     },
-    getTip: debounce(() => {
-      console.log('get tip')
-    }, 1500)
+    getTip: debounce(function t() {
+      // get rewards
+      if (this.rewards && this.rewards.length > 0) {
+        this.showCuratedTip = true
+      }else {
+        getCurationRewardsOfPost(this.post.postId).then(res => {
+          if (res && res.length > 0) {
+            this.rewards = res;
+          }else {
+            this.rewards = []
+          }
+        }).catch(e => this.rewards = []).finally(() => this.showCuratedTip = true)
+      }
+    }, 500)
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
