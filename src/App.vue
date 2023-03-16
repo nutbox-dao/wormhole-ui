@@ -6,7 +6,7 @@
          :class="$route.name"
          @click="showMenu=false,showSearchList=false">
       <div class="py-20px border-b-1 border-headerBorder light:border-headerBorderLight
-                  fixed top-0 left-0 right-0 h-70px 2xl:h-88px flex items-center z-99 c-page-header">
+                  h-70px 2xl:h-88px flex items-center c-page-header">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
           <button @click="goBack">
             <img class="h-1.7rem black-filter" src="~@/assets/logo.svg" alt="">
@@ -148,7 +148,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 overflow-auto relative pt-70px 2xl:pt-88px c-page-container">
+      <div class="flex-1 overflow-auto relative c-page-container">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -684,9 +684,17 @@ export default {
   background-image: linear-gradient(180deg, #7600E2 0%, #0D1117 57%)!important;
   .c-page-header {
     border-color: rgba(132, 131, 145, 0.3)!important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
     .black-filter {
       filter: brightness(0);
     }
+  }
+  .c-page-container {
+    padding-top: 88px;
   }
 }
 .light .word-cloud{
