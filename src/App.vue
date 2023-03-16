@@ -3,15 +3,17 @@
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
          class="bg-primaryBg light:bg-white bg-img"
+         :class="$route.name"
          @click="showMenu=false,showSearchList=false">
-      <div class="py-1rem border-b-1 border-headerBorder light:border-headerBorderLight">
+      <div class="py-20px border-b-1 border-headerBorder light:border-headerBorderLight
+                  fixed top-0 left-0 right-0 h-70px 2xl:h-88px flex items-center z-99 c-page-header">
         <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
           <button @click="goBack">
-            <img class="h-1.7rem" src="~@/assets/logo.svg" alt="">
+            <img class="h-1.7rem black-filter" src="~@/assets/logo.svg" alt="">
           </button>
           <div class="flex-1 flex justify-end items-center relative">
             <div class="relative flex-1 flex justify-end">
-              <div class="search-bar relative bg-blockBg light:bg-white flex items-center rounded-full mr-0.4rem">
+              <div class="search-bar relative bg-transparent flex items-center rounded-full mr-0.4rem">
                 <input type="text" :placeholder="$t('search')"
                        v-model="searchText"
                        @keypress="onSearch"
@@ -87,7 +89,7 @@
             <div class="relative">
               <button class="bg-transparent h-2rem w-1.6rem flex items-center"
                       @click.stop="showMenu=!showMenu">
-                <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem" src="~@/assets/icon-menu-toggle.svg" alt="">
+                <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem black-filter" src="~@/assets/icon-menu-toggle.svg" alt="">
               </button>
               <div class="menu-box w-150px 2xl:w-10rem z-9999" @click.stop
                    :class="showMenu?'active shadow-popper-tip':''">
@@ -146,7 +148,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 overflow-auto relative">
+      <div class="flex-1 overflow-auto relative pt-70px 2xl:pt-88px c-page-container">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -678,8 +680,17 @@ export default {
 .search-bar > input:not(:placeholder-shown) {
   width: 160px;
 }
-.gradient-bg-word{
-  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%);
+.word-cloud {
+  background-image: linear-gradient(180deg, #7600E2 0%, #0D1117 57%)!important;
+  .c-page-header {
+    border-color: rgba(132, 131, 145, 0.3)!important;
+    .black-filter {
+      filter: brightness(0);
+    }
+  }
+}
+.light .word-cloud{
+  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
 }
 @media (max-width: 500px) {
   .search-bar > input:focus,
