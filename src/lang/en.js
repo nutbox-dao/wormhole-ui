@@ -26,7 +26,7 @@ export default {
     createAccount: 'Create a new wallet',
     notAuth: "Twitter auth fail",
     or: 'Or',
-    metamask: 'Continue with MetaMask',
+    metamask: 'Connect To MetaMask',
     quitTip: 'Are you sure to quit?\n' +
       'All the information will be discarded.',
     cancel: 'Cancel',

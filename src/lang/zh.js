@@ -26,7 +26,7 @@ export default {
     createAccount: '创建一个新钱包',
     notAuth: " Twitter授权失败",
     or: '或者',
-    metamask: '通过MetaMask继续',
+    metamask: '通过MetaMask连接',
     quitTip: '确认退出吗?\n' +
       '所有信息将被丢弃.',
     cancel: '取消',
