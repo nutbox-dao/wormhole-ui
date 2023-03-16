@@ -1,6 +1,7 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import store from '@/store';
+import Cookie from 'vue-cookies'
 
 axiosRetry(axios, { retries: 5 });
 
@@ -10,6 +11,10 @@ axios.interceptors.request.use(
   config => {
     if (store.getters.getAccountInfo && store.getters.getAccountInfo.accessToken) {
       config.headers['AccessToken'] = store.getters.getAccountInfo.accessToken;
+    }
+    let loginInfo = Cookie.get('account-auth-info');
+    if (loginInfo) {
+      config.headers['AccessToken'] = loginInfo.accessToken;
     }
     return config;
   },

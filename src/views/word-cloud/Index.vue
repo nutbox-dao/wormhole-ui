@@ -15,7 +15,8 @@
               <div v-if="!loading && imgUrl"
                    class="w-full flex justify-center sm:justify-start items-center gap-20px mt-2rem sm:mt-3rem">
                 <button v-if="!getAccountInfo" class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
-                               flex items-center justify-center">
+                               flex items-center justify-center"
+                               @click="bind">
                   <span>{{ $t('wordCloud.bindAndMint') }}</span>
                   <c-spinner class="w-20px h-20px ml-4px" v-show="mintLoading"></c-spinner>
                 </button>
@@ -144,12 +145,13 @@ export default {
                 // not registry
                 // store auth info
                 console.log('not register')
-                Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                Cookie.set('account-auth-info', JSON.stringify({...userInfo.account, pair: this.pair, wallet: this.wallet}), '300s')
                 this.pendingAccount = userInfo.account
                 twitterId = this.pendingAccount.twitterId
                 break;
               }else if (userInfo.code === 3) { // log in
                 this.$store.commit('saveAccountInfo', userInfo.account)
+                this.pendingAccount = userInfo.account
                 twitterId = userInfo.account.twitterId
                 break;
               }
@@ -165,35 +167,44 @@ export default {
             if (userInfo.code === 0) {
               // not registry
               // store auth info
-              Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                Cookie.set('account-auth-info', JSON.stringify({...userInfo.account, pair: this.pair, wallet: this.wallet}), '300s')
               this.pendingAccount = userInfo.account
               twitterId = this.pendingAccount.twitterId
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
+              this.pendingAccount = userInfo.account
               twitterId = userInfo.account.twitterId
             }
           }
         }
         const url = await generateWordcloud(twitterId)
+        if (this.getAccountInfo) {
+          this.getAccountInfo.wordCloudUrl = url;
+        }
         this.imgUrl = url;
-        console.log(53, url);
       } catch (e) {
-        console.log(53, e);
+        console.log(535, e);
         this.showNotify(e, 5000, 'error')
       } finally {
         this.loading = false
       }
     },
     bind() {
-
+      this.$store.commit('saveShowLogin', true)
     },
     async share() {
-      try {
-        
+      try {      
+      if (!this.imgUrl) return;
+      const temp = this.imgUrl.split('/')
+      const id = temp[temp.length - 1]
+      const content = 'I generated my twitter persona from @wormhole_3. Come to generate yours.\n' + `https://wordcloud-test.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
+
+      let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+      window.open(url, '__blank')
       } catch (error) {
         
       } finally{
-        
+
       }
     }
   },
