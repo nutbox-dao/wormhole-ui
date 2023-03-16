@@ -1,8 +1,9 @@
 <template>
   <div class="text-14px">
     <div class="flex items-center mb-10px"  @click.stop="gotoUserPage()">
-      <img class="w-36px min-w-36px h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem
-                  mr-8px rounded-full cursor-pointer"
+      <img class="w-36px min-w-36px h-36px min-h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem md:h-min-1.8rem
+                  mr-8px rounded-full cursor-pointer bg-color8B/10"
+           @error="replaceEmptyImg"
            :src="recommendData.creatorProfileImg && recommendData.creatorProfileImg.replace('normal', '200x200')" alt="">
       <div class="flex-1 flex flex-col items-start ">
         <div class="flex items-center flex-wrap">
@@ -108,12 +109,12 @@
           <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
             <img v-if="p.profileImg"
                  class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white"
+                        border-2 border-color62 light:border-white bg-color8B/10"
                  @error="replaceEmptyImg"
                  :src="p.profileImg" alt="">
             <img v-else
                  class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white"
+                              border-2 border-color62 light:border-white bg-color8B/10"
                  src="~@/assets/icon-default-avatar.svg" alt="">
           </div>
           <span v-if="participant.length>3"

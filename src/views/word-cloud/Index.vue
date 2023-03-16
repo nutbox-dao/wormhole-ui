@@ -1,23 +1,19 @@
 <template>
-  <div class="bg-white fixed top-0 left-0 right-0 bottom-0 overflow-auto text-black">
+  <div class="">
+    <img class="fixed top-0 right-0 w-3/10 z-2" src="~@/assets/word-cloud-bg1.png" alt="">
     <div class="word-cloud-page max-h-700px">
       <div class="container mx-auto text-left max-w-50rem px-15px">
-        <div class="h-88px flex items-center">
-          <button @click="$router.go(-1)">
-            <img class="h-40px" src="~@/assets/logo-black.svg" alt="">
-          </button>
-        </div>
         <div class="text-34px mt-2rem text-center sm:hidden whitespace-pre-line">
           {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
         </div>
-        <div class="flex flex-col items-center sm:flex-row sm:py-100px" :class="imgUrl?'flex-col-reverse':''">
-          <div class="w-full sm:w-3/5 flex flex-col justify-center items-start text-black">
+        <div class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px" :class="imgUrl?'flex-col-reverse':''">
+          <div class="w-full sm:w-3/5 flex flex-col justify-center items-start ">
             <div class="sm:h-3/4 w-full">
               <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line">
                 {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
               </div>
               <div v-if="!loading && imgUrl"
-                   class="w-full flex justify-center sm:justify-start items-center gap-20px sm:mt-3rem mt-2rem">
+                   class="w-full flex justify-center sm:justify-start items-center gap-20px mt-2rem sm:mt-3rem">
                 <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
                                flex items-center justify-center">
                   <span>Mint as NFT</span>
@@ -32,7 +28,7 @@
               <div v-else
                    class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
                           justify-center sm:justify-start
-                          text-center sm:text-left text-color33">
+                          text-center sm:text-left text-color8B light:text-color33">
                 {{$t('wordCloud.desc')}}
               </div>
             </div>
@@ -211,19 +207,17 @@ export default {
 <style scoped lang="scss">
 .word-cloud-page {
   background-image:
-      linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%),
-      url("~@/assets/word-cloud-bg1.png"),
       url("~@/assets/word-cloud-bg2.png"),
       url("~@/assets/word-cloud-bg2.png");
-  background-size: 100% 100%, 40% auto, 7% auto, 16% auto;
-  background-position: 0 0, right top, 35% 30%, 20% 45%;
+  background-size: 7% auto, 16% auto;
+  background-position: 35% 30%, 20% 45%;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
 }
 @media (max-width: 560px) {
   .word-cloud-page {
-    background-size: 100% 100%, 60% auto, 15% auto, 50% auto;
-    background-position: 0 0, right top, 5% 20%, 10% 40%;
+    background-size: 15% auto, 50% auto;
+    background-position: 5% 20%, 10% 40%;
   }
 }
 .word-item {

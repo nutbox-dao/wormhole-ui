@@ -3,11 +3,11 @@
     <div class="sm:rounded-1rem">
       <div class="flex items-center">
         <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-10px rounded-full gradient-border cursor-pointer blog-avatar max-w-56px max-h-56px"
+             class="mr-10px rounded-full cursor-pointer blog-avatar max-w-56px max-h-56px bg-color8B/10"
              :class="avatarClass"
              @error="replaceEmptyImg"
              :src="profileImg" alt="">
-        <img class="mr-10px rounded-full gradient-border max-w-56px max-h-56px"
+        <img class="mr-10px rounded-full max-w-56px max-h-56px bg-color8B/10"
              :class="avatarClass"
              src="@/assets/icon-default-avatar.svg" v-else alt="">
         <div class="flex-1 flex justify-between sm:items-center">

@@ -24,12 +24,12 @@
         <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
           <img v-if="p.profileImg"
                class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white"
+                        border-2 border-color62 light:border-white bg-color8B/10"
                @error="replaceEmptyImg"
                :src="p.profileImg" alt="">
           <img v-else
                class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white"
+                              border-2 border-color62 light:border-white bg-color8B/10"
                src="~@/assets/icon-default-avatar.svg" alt="">
         </div>
         <span v-if="participant.length>3"
