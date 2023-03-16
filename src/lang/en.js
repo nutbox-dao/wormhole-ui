@@ -366,9 +366,12 @@ export default {
     otherGuide: 'Other Guides'
   },
   wordCloud: {
-    title: 'My Internet Persona',
+    title: 'My Twitter Persona',
     desc: 'Your tweets is part of you,\n What impression do you leave on people? Let\'s find out... \n Maybe surprise yourself.',
-    discoverPersona: 'Discover my\n Internet Persona'
+    discoverPersona: 'Discover my\n Twitter Persona',
+    bindAndMint: 'Bind & mint NFT',
+    getStart: 'Get start',
+    share: 'Share to twitter'
   },
   err: {
     serverErr: 'Server error',

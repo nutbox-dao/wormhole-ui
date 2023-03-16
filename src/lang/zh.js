@@ -365,6 +365,14 @@ export default {
     curationSpaceGuide: '为space创建策展',
     otherGuide: '其他玩法'
   },
+  wordCloud: {
+    title: '我的推特人格',
+    desc: '你的推文组成了部分的你,\n 给人留下了什么印象呢? 来测试一下吧... \n 也许你自己都想象不到。',
+    discoverPersona: '探索我的\n 推特人格',
+    bindAndMint: '绑定账号获得NFT',
+    getStart: '生成',
+    share: '分享到推特'
+  },
   err: {
     serverErr: '内部错误',
     transErr: '交易失败',

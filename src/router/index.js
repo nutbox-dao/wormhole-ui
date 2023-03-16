@@ -163,4 +163,13 @@ const router = VueRouter.createRouter({
   routes: routes,
 })
 
+router.beforeResolve((to, from, next) => {
+  if (to.name === 'word-cloud') {
+    window.document.title = 'test'
+  }
+  console.log(33, to);
+  console.log(55, window);
+  next();
+})
+
 export default router
