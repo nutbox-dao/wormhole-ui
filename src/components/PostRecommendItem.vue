@@ -74,14 +74,14 @@
       <!-- ended -->
       <div v-if="ended" class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">End Time</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:text-black text-orangeColor rounded-5px ">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black text-orangeColor rounded-5px ">
           {{parseTimestampToUppercase(recommendData.endtime)}}
         </button>
       </div>
       <!-- ongoing -->
       <div v-else class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">Expiration</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:text-black text-greenColor rounded-5px ">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-5px">
           <van-count-down v-if="recommendData && recommendData.endtime"
                           class="text-greenColor text-12px"
                           :time="countdown(recommendData.endtime)">
