@@ -2,6 +2,9 @@
  * Parse twitter data
  */
 
+import { getPageOg } from './ogGetter'
+import { getTweetById } from './twitter'
+
 const SpaceRex = /https:\/\/twitter\.com\/i\/spaces\/([0-9a-z-A-Z]+)/
 const regex_hive_tag = /#hive-[0-9]{4,7}/
 const regex_tweet_link = new RegExp("https://twitter.com/([a-zA-Z0-9\_]+)/status/([0-9]+)[/]?$")
@@ -92,13 +95,67 @@ export function delSelfUrl(tweet) {
     return tweet
 }
 
-export function parseTweet(tweet) {
+async function fetchPageInfo(tweet, content) {
+    if ("data" in tweet && "entities" in tweet.data && "urls" in tweet.data.entities) {
+        const ret = tweet.data.entities.urls[tweet.data.entities.urls.length - 1]
+        let info = {}
+        const retweetId = getRetweetId(tweet);
+        if (retweetId) {
+            // fetch retweet info
+            let retweet;
+            try {
+                retweet = await getTweetById(retweetId);
+            } catch (e) {
+                logger.debug('Get tweet fail:', e)
+                return [null, {}, content]
+            }
+            if (!retweet.data) {
+                // wrong quote tweet®
+                return [null, {}, content]
+            }
+            retweet = delSelfUrl(retweet)
+            retweet = showOriginalUrl(retweet)
+            const author = getAuthor(retweet)
+            let images = []
+            if ("includes" in retweet && "media" in retweet.includes) {
+                for (let index in retweet.includes.media) {
+                    let media = retweet.includes.media[index];
+                    images.push(media.preview_image_url ?? media.url)
+                }
+            }
+            let retweetInfo = {
+                id: retweet.data.id,
+                text: retweet.data.text,
+                createdAt: retweet.data.created_at,
+                author,
+                images
+            }
+
+            info['retweetInfo'] = JSON.stringify(retweetInfo)
+            content = content.replace(ret.url, ret.expanded_url)
+        } else {
+            if (ret.media_key) {
+                return [null, info, content]
+            }
+            // fetch page info
+            let pageInfo = await getPageOg(ret.unwound_url ?? ret.expanded_url)
+            pageInfo.title = ret.title ?? pageInfo.title;
+            pageInfo.description = ret.description ?? pageInfo.description;
+            info['pageInfo'] = JSON.stringify(pageInfo)
+        }
+        return [retweetId, info, content]
+    }
+    return [null, {}, content];
+}
+
+export async function parseTweet(tweet) {
     try {
     tweet = delSelfUrl(tweet);
     tweet = showOriginalUrl(tweet);
+    let text = tweet.data.text.trim();
+    let [retweetId, pageInfo, content] = await fetchPageInfo(tweet, text)
     let tags = getTags(tweet);
     let user = getAuthor(tweet);
-    let content = tweet.data.text.trim();
     let post = {
         parentTweetId: tweet.data.conversation_id,
         postId: tweet.data.id,
@@ -111,7 +168,10 @@ export function parseTweet(tweet) {
         following: user.public_metrics.following_count,
         content,
         postTime: tweet.data.created_at,
-        tags: JSON.stringify(tags)
+        tags: JSON.stringify(tags),
+        pageInfo: pageInfo.pageInfo,
+        retweetInfo: pageInfo.retweetInfo,
+        retweetId,
     }
 
     if ("includes" in tweet && "media" in tweet.includes) {

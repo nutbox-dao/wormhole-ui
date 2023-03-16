@@ -1,75 +1,225 @@
 <template>
-  <div class="container mx-auto text-left max-w-50rem px-15px">
-    <div class="c-text-black text-1.5rem my-2rem text-center sm:hidden">{{$t('wordCloud.title')}}</div>
-    <div class="flex flex-col flex-col-reverse items-center sm:flex-row mt-1/5">
-      <div class="w-full sm:w-3/5 flex flex-col justify-center items-start">
-        <div class="sm:h-3/4 w-full">
-          <div class="c-text-black text-2.5rem mb-2rem hidden sm:block">{{$t('wordCloud.title')}}</div>
-          <div v-if="!loading && wordList.length>0"
-               class="w-full flex justify-center sm:justify-start items-center gap-20px sm:mt-1/5 mt-2rem">
-            <button class="w-1/3 bg-colorF1 text-blueDark">Mint as NFT</button>
-            <button class="w-1/3 bg-colorF1 text-blueDark">Share</button>
+  <div class="">
+    <img class="fixed top-0 right-0 w-3/10 z-2" src="~@/assets/word-cloud-bg1.png" alt="">
+    <div class="word-cloud-page max-h-700px">
+      <div class="container mx-auto text-left max-w-50rem px-15px">
+        <div class="text-34px mt-2rem text-center sm:hidden whitespace-pre-line">
+          {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
+        </div>
+        <div class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px" :class="imgUrl?'flex-col-reverse':''">
+          <div class="w-full sm:w-3/5 flex flex-col justify-center items-start ">
+            <div class="sm:h-3/4 w-full">
+              <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line">
+                {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
+              </div>
+              <div v-if="!loading && imgUrl"
+                   class="w-full flex justify-center sm:justify-start items-center gap-20px mt-2rem sm:mt-3rem">
+                <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+                               flex items-center justify-center">
+                  <span>Mint as NFT</span>
+                  <c-spinner class="w-20px h-20px ml-4px" v-show="mintLoading"></c-spinner>
+                </button>
+                <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+                               flex items-center justify-center">
+                  <span>Share</span>
+                  <c-spinner class="w-20px h-20px ml-4px" v-show="shareLoading"></c-spinner>
+                </button>
+              </div>
+              <div v-else
+                   class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
+                          justify-center sm:justify-start
+                          text-center sm:text-left text-color8B light:text-color33">
+                {{$t('wordCloud.desc')}}
+              </div>
+            </div>
           </div>
-          <div v-else
-               class="whitespace-pre-line leading-30px text-16px justify-center sm:justify-start text-center sm:text-left">
-            {{$t('wordCloud.desc')}}
+          <div class="w-full sm:w-2/5 flex items-center justify-center sm:justify-end mt-15px">
+            <div v-if="!loading && imgUrl"
+                 class="w-full h-full bg-white/10 min-h-300px lg:min-h-400px px-15px relative
+                        flex items-center justify-center">
+              <img class="w-full" :src="imgUrl" alt="">
+              <span v-for="(word, index) of wordList" :key="word"
+                    class=" bg-color62/40 border-1 border-color62/80 rounded-full
+                           flex items-center justify-center max-w word-item absolute ">
+                word{{word}}
+              </span>
+            </div>
+            <div v-else
+                 class="w-full relative flex flex-col items-center" @click="onAuth">
+              <img class="hidden sm:block" src="~@/assets/word-cloud-bg3.png" alt="">
+              <img class="sm:hidden" src="~@/assets/word-cloud-bg4.png" alt="">
+              <button class="bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+                             flex items-center justify-center mt-20px"
+                      :disabled="loading">
+                <span>Get started</span>
+                <c-spinner class="w-20px h-20px ml-4px" v-show="loading"></c-spinner>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="w-full sm:w-2/5 flex items-center justify-center sm:justify-end">
-        <div v-if="!loading && wordList.length>0"
-             class="w-full h-full bg-white/10 min-h-300px lg:min-h-400px px-15px relative">
-         <span v-for="(word, index) of wordList" :key="word"
-               class=" bg-color62/40 border-1 border-color62/80 rounded-full
-                         flex items-center justify-center max-w word-item absolute ">
-              word{{word}}
-            </span>
-        </div>
-        <button v-else
-                class="w-4/5 relative" @click="onAuth"
-                :disabled="loading">
-          <img v-if="loading"
-               class="w-full"
-               src="~@/assets/icon-loading.svg" alt="">
-          <template v-else>
-            <img class="w-full" src="~@/assets/icon-default-avatar.svg" alt="">
-            <span class="absolute w-full h-full top-0 left-0 whitespace-pre-line text-2rem c-text-black
-                         flex items-center justify-center leading-2.5rem">
-              {{$t('wordCloud.discoverPersona')}}
-            </span>
-          </template>
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { generateWordcloud, twitterLogin, twitterAuth } from '@/api/api'
+import { checkAccessToken } from '@/utils/account'
+import { randomWallet } from '@/utils/ethers'
+import { createKeypair } from '@/utils/tweet-nacl'
+import { notify } from "@/utils/notify";
+import Cookie from 'vue-cookies'
+import { sleep } from '@/utils/helper'
+
 export default {
   name: "Index",
   data() {
     return {
       loading: false,
-      wordList: []
+      imgUrl: null,
+      wordList: [],
+      wallet: null,
+      pair: null,
+      pendingAccount: null,
+      mintLoading: false,
+      shareLoading: false
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
   methods: {
-    onAuth() {
-      this.loading = true
-      this.wordList = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9 ,8, 7, 6, 5, 4, 3, 2, 1]
-      this.loading = false
-      setTimeout(() => {
-        const wordNodes = document.getElementsByClassName('word-item')
-        this.wordList.forEach((item, index) => {
-          wordNodes[index].classList.add('word-item-show')
-        })
-      }, 500)
+    showNotify(message, duration, type) {
+      notify({message, duration, type})
+    },
+    async onAuth() {
+      if (this.imgUrl) {
+        return;
+      }
+      try{
+        this.loading = true
+        let twitterId = ''
+        if (this.getAccountInfo) {
+          await checkAccessToken();
+          twitterId = this.getAccountInfo.twitterId
+        }else {
+          // auth
+          let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
+          let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
+
+
+          console.log(navigator.userAgent);
+          const source = this.$route.query?.utm_source
+
+          this.loging = true
+          if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
+            console.log('token pocket');
+          }else if (isAndroid || isIOS) {
+            // const res = await twitterAuth(true);
+            // window.location.href = res;
+            // return;
+          }
+
+          const res = await twitterAuth();
+          const params = res.split('?')[1].split('&')
+          let state;
+          for (let p of params) {
+            const [key, value] = p.split('=');
+            if (key === 'state') {
+              state = value;
+              break;
+            }
+          }
+
+          setTimeout(() => {
+            window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
+          })
+
+          await sleep(1)
+          randomWallet().then(wallet => this.wallet = wallet)
+          createKeypair().then(pair => this.pair = pair)
+          await sleep(5)
+
+          let count = 0;
+          let userInfo = await twitterLogin(state)
+          if (userInfo.code === 1) {
+            while(count < 80) {
+              userInfo = await twitterLogin(state)
+              if (userInfo.code === 0) {
+                // not registry
+                // store auth info
+                console.log('not register')
+                Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                this.pendingAccount = userInfo.account
+                twitterId = this.pendingAccount.twitterId
+                break;
+              }else if (userInfo.code === 3) { // log in
+                this.$store.commit('saveAccountInfo', userInfo.account)
+                twitterId = userInfo.account.twitterId
+                break;
+              }
+              count++;
+              await sleep(1)
+            }
+            // time out
+            if (count >= 80) {
+              this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
+              return;
+            }
+          }else {
+            if (userInfo.code === 0) {
+              // not registry
+              // store auth info
+              Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+              this.pendingAccount = userInfo.account
+              twitterId = this.pendingAccount.twitterId
+            }else if (userInfo.code === 3) { // log in
+              this.$store.commit('saveAccountInfo', userInfo.account)
+              twitterId = userInfo.account.twitterId
+            }
+          }
+        }
+        const url = await generateWordcloud(twitterId)
+        this.imgUrl = url;
+        console.log(53, url);
+      } catch (e) {
+        console.log(53, e);
+        this.showNotify(e, 5000, 'error')
+      } finally {
+        this.loading = false
+      }
     }
-  }
+  },
+  async mounted () {
+    await this.$router.isReady();
+    const referee = this.$route.query.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
+    if (this.getAccountInfo) {
+      this.imgUrl = this.getAccountInfo.wordCloudUrl
+    }
+  },
 }
 </script>
 
 <style scoped lang="scss">
+.word-cloud-page {
+  background-image:
+      url("~@/assets/word-cloud-bg2.png"),
+      url("~@/assets/word-cloud-bg2.png");
+  background-size: 7% auto, 16% auto;
+  background-position: 35% 30%, 20% 45%;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+}
+@media (max-width: 560px) {
+  .word-cloud-page {
+    background-size: 15% auto, 50% auto;
+    background-position: 5% 20%, 10% 40%;
+  }
+}
 .word-item {
   position: absolute;
   padding: 6px 12px;

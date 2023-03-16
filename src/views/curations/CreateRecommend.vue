@@ -720,7 +720,7 @@ export default {
         const tweet = await getTweetById(match[1]);
         if (tweet.data) {
           this.form.tweetId = tweet.data.id
-          this.form.postData = parseTweet(tweet)
+          this.form.postData = await parseTweet(tweet)
           if (this.form.category === 'space') {
             const spaceId = getSpaceIdFromUrls(tweet.data.entities.urls)
             if (!spaceId) {
