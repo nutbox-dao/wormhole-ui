@@ -197,7 +197,7 @@ export default {
       if (!this.imgUrl) return;
       const temp = this.imgUrl.split('/')
       const id = temp[temp.length - 1]
-      const content = 'I generated my twitter persona from @wormhole_3. Come to generate yours.\n' + `https://wordcloud-test.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
+      const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
 
       let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
       window.open(url, '__blank')

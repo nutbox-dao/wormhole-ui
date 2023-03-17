@@ -8,22 +8,22 @@
                 @click="tabIndex=0">
           Post
         </button>
-        <!-- <button class="flex-1 h-40px xl:h-2.4rem c-text-black border-b-4"
-                :class="tabIndex===1?'border-color62 text-color62':'border-transparent'"
-                @click="tabIndex=1">
-          Curations
-        </button> -->
         <button class="flex-1 h-40px xl:h-2.4rem c-text-black border-b-4"
                 :class="tabIndex===1?'border-color62 text-color62':'border-transparent'"
                 @click="tabIndex=1">
+          Curations
+        </button>
+        <button class="flex-1 h-40px xl:h-2.4rem c-text-black border-b-4"
+                :class="tabIndex===2?'border-color62 text-color62':'border-transparent'"
+                @click="tabIndex=2">
           Recommend
         </button>
       </div>
     </div>
     <div class="container mx-auto max-w-50rem">
       <CreatePost v-if="tabIndex===0"/>
-      <!-- <CreateCuration v-if="tabIndex===1"/> -->
-      <CreateRecommend v-if="tabIndex===1"/>
+      <CreateCuration v-if="tabIndex===1"/>
+      <CreateRecommend v-if="tabIndex===2"/>
     </div>
   </div>
 </template>
@@ -41,7 +41,9 @@ export default {
     }
   },
   mounted () {
-    if(history.state.author) {
+    if(history.state.author && history.state.type === 'tweet') {
+      this.tabIndex = 2
+    }else if(history.state.author && history.state.type === 'curation') {
       this.tabIndex = 1
     }
   },

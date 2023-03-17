@@ -183,7 +183,10 @@ export default {
     t1: 'Tips: Twitter users need to bind a wormhole3 account to attend the curation task.',
     createBtn: 'Create a curation',
     createCuration: 'Create Curation',
-    shareCuration: 'Share Curation'
+    shareCuration: 'Share Curation',
+    curationTip: 'Become content hunter, discover quality content: you can curate any quality content if you get Content Hunter NFT.',
+    getCurator: 'Become content hunter',
+    howToGetcurator: 'How to get',
   },
   tips: {
     missingInput: "Please complete all infos.",
@@ -369,9 +372,9 @@ export default {
     title: 'My Twitter Persona',
     desc: 'Your tweets is part of you,\n What impression do you leave on people? Let\'s find out... \n Maybe surprise yourself.',
     discoverPersona: 'Discover my\n Twitter Persona',
-    bindAndMint: 'Bind & mint NFT',
+    bindAndMint: 'Mint as NFT',
     getStart: 'Get start',
-    share: 'Share to twitter'
+    share: 'Share'
   },
   err: {
     serverErr: 'Server error',

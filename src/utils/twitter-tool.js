@@ -148,39 +148,68 @@ async function fetchPageInfo(tweet, content) {
     return [null, {}, content];
 }
 
-export async function parseTweet(tweet) {
+export async function parseTweet(tweet, needQuoteInfo=true) {
     try {
     tweet = delSelfUrl(tweet);
     tweet = showOriginalUrl(tweet);
     let text = tweet.data.text.trim();
-    let [retweetId, pageInfo, content] = await fetchPageInfo(tweet, text)
-    let tags = getTags(tweet);
-    let user = getAuthor(tweet);
-    let post = {
-        parentTweetId: tweet.data.conversation_id,
-        postId: tweet.data.id,
-        twitterId: tweet.data.author_id,
-        name: user.name,
-        username: user.username,
-        profileImg: user.profile_image_url.replace('normal', '200x200'),
-        verified: user.verified,
-        followers: user.public_metrics.followers_count,
-        following: user.public_metrics.following_count,
-        content,
-        postTime: tweet.data.created_at,
-        tags: JSON.stringify(tags),
-        pageInfo: pageInfo.pageInfo,
-        retweetInfo: pageInfo.retweetInfo,
-        retweetId,
-    }
-
-    if ("includes" in tweet && "media" in tweet.includes) {
-        for (let index in tweet.includes.media) {
-            let media = tweet.includes.media[index];
-            post.content += "\n" + (media.url ?? media.preview_image_url);
+    if (!needQuoteInfo) {
+        let retweetId = getRetweetId(tweet)
+        let tags = getTags(tweet);
+        let user = getAuthor(tweet);
+        let post = {
+            parentTweetId: tweet.data.conversation_id,
+            postId: tweet.data.id,
+            twitterId: tweet.data.author_id,
+            name: user.name,
+            username: user.username,
+            profileImg: user.profile_image_url.replace('normal', '200x200'),
+            verified: user.verified,
+            followers: user.public_metrics.followers_count,
+            following: user.public_metrics.following_count,
+            content: text,
+            postTime: tweet.data.created_at,
+            tags: JSON.stringify(tags),
+            retweetId,
         }
+
+        if ("includes" in tweet && "media" in tweet.includes) {
+            for (let index in tweet.includes.media) {
+                let media = tweet.includes.media[index];
+                post.content += "\n" + (media.url ?? media.preview_image_url);
+            }
+        }
+        return post
+    }else {
+        let [retweetId, pageInfo, content] = await fetchPageInfo(tweet, text)
+        let tags = getTags(tweet);
+        let user = getAuthor(tweet);
+        let post = {
+            parentTweetId: tweet.data.conversation_id,
+            postId: tweet.data.id,
+            twitterId: tweet.data.author_id,
+            name: user.name,
+            username: user.username,
+            profileImg: user.profile_image_url.replace('normal', '200x200'),
+            verified: user.verified,
+            followers: user.public_metrics.followers_count,
+            following: user.public_metrics.following_count,
+            content,
+            postTime: tweet.data.created_at,
+            tags: JSON.stringify(tags),
+            pageInfo: pageInfo.pageInfo,
+            retweetInfo: pageInfo.retweetInfo,
+            retweetId,
+        }
+    
+        if ("includes" in tweet && "media" in tweet.includes) {
+            for (let index in tweet.includes.media) {
+                let media = tweet.includes.media[index];
+                post.content += "\n" + (media.url ?? media.preview_image_url);
+            }
+        }
+        return post
     }
-    return post
 }catch(e) {
     console.log(661, e);
 }

@@ -490,7 +490,14 @@ export default {
         const balance = await getCuratorNFT(this.getAccountInfo.ethAddress)
         this.creatingCuration = true
         if (balance < 1) {
-          notify({message: this.$t('postView.notCurator'), type: 'info'})
+          this.$router.push({
+            name: 'create-curation',
+            state: {
+              type: 'curation',
+              author: this.currentShowingDetail.username,
+              tweetId: this.currentShowingDetail.postId
+            }
+          })
           return;
         }
         this.$refs.postRef.onQuote()

@@ -183,7 +183,10 @@ export default {
     t1: '贴示: Twitter用户需要绑定wormhole3账号才能参与策展任务.',
     createBtn: '创建一个策展',
     createCuration: '创建策展',
-    shareCuration: '分享策展'
+    shareCuration: '分享策展',
+    curationTip: '成为内容猎人，发现优质内容：拥有内容猎人NFT，可以为优质内容创建策展奖励池。',
+    getCurator: '成为内容猎人',
+    howToGetcurator: '如何获得'
   },
   tips: {
     missingInput: "请完善所有信息.",
@@ -369,9 +372,9 @@ export default {
     title: '我的推特人格',
     desc: '你的推文组成了部分的你,\n 给人留下了什么印象呢? 来测试一下吧... \n 也许你自己都想象不到。',
     discoverPersona: '探索我的\n 推特人格',
-    bindAndMint: '绑定账号获得NFT',
+    bindAndMint: '获取NFT',
     getStart: '生成',
-    share: '分享到推特'
+    share: '分享'
   },
   err: {
     serverErr: '内部错误',
