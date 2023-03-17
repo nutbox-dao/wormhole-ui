@@ -186,7 +186,7 @@ export default {
     shareCuration: '分享策展',
     curationTip: '成为内容猎人，发现优质内容：拥有内容猎人NFT，可以为优质内容创建策展奖励池。',
     getCurator: '成为内容猎人',
-    howToGetcurator: '如何获得'
+    howToGetcurator: '如何获取'
   },
   tips: {
     missingInput: "请完善所有信息.",
