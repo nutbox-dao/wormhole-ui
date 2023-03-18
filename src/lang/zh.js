@@ -374,7 +374,8 @@ export default {
     discoverPersona: '探索我的\n 推特人格',
     bindAndMint: '获取NFT',
     getStart: '生成',
-    share: '分享'
+    share: '分享',
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.'
   },
   err: {
     serverErr: '内部错误',

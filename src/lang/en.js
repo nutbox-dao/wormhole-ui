@@ -374,7 +374,8 @@ export default {
     discoverPersona: 'Discover my\n Twitter Persona',
     bindAndMint: 'Mint as NFT',
     getStart: 'Get start',
-    share: 'Share'
+    share: 'Share',
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.'
   },
   err: {
     serverErr: 'Server error',
