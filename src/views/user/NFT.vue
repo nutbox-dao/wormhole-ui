@@ -67,11 +67,11 @@
           </div>
         </div>
 
-        <div class="col-span-1" v-if="wordcloudUrl">
+        <div class="col-span-1" v-if="getAccountInfo.wordCloudUrl">
           <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=7">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
             <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
-              <img class="w-70/100 mx-auto" :src="getAccountInfo.wordcloudUrl" alt="">
+              <img class="w-70/100 mx-auto" :src="getAccountInfo.wordCloudUrl" alt="">
               <div class="text-12px scale-text leading-14px text-white">Wordcloud NFT</div>
             </div>
           </div>
@@ -146,7 +146,7 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===3">
           <div v-if="showingChristmasNFT.length===0"
-               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+               class="col-span-2 xs:col-span-4 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale" v-for="st of showingChristmasNFT" :key="st">
             <div class="relative min-w cursor-pointer" @click="showChristmas(st.image)">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
@@ -164,7 +164,7 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===4">
           <div v-if="showingStellarTreks.length===0"
-               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+               class="col-span-2 xs:col-span-4 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale" v-for="st of showingStellarTreks" :key="st">
             <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
@@ -182,7 +182,7 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===5">
           <div v-if="showingLuckyCards.length===0"
-               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+               class="col-span-2 xs:col-span-4 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale" v-for="st of showingLuckyCards" :key="st">
             <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
@@ -198,9 +198,9 @@
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===6">
+        <div class="grid grid-cols-2 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===6">
           <div v-if="curatorNFT===0"
-               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+               class="col-span-2 xs:col-span-4 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale">
             <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
@@ -216,15 +216,15 @@
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===7">
-          <div v-if="!getAccountInfo.wordcloudUrl"
-               class="col-span-3 xs:col-span-5 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
+        <div class="grid grid-cols-2 gap-y-10px gap-x-20px lg:gap-x-40px" v-show="collectionIndex===7">
+          <div v-if="!getAccountInfo.wordCloudUrl"
+               class="col-span-2 xs:col-span-4 text-color8B/30 c-text-black py-2rem text-center">{{$t('common.none')}}</div>
           <div class="col-span-1 text-left hover-scale">
             <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
               <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
                 <div class="w-80/100 mx-auto">
-                  <img :src="getAccountInfo.wordcloudUrl" alt="">
+                  <img :src="getAccountInfo.wordCloudUrl" alt="">
                 </div>
               </div>
             </div>
@@ -342,6 +342,7 @@ export default {
   },
   mounted() {
     const { ethAddress } = this.getAccountInfo
+    console.log(5, this.getAccountInfo);
     getStellarTreks(ethAddress).then(balances => {
       this.$store.commit('saveStellarTreks', balances)
     }).catch(e => {
