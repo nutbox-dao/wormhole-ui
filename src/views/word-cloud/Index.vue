@@ -54,13 +54,7 @@
                     </g>
                   </svg>
                 </div>
-                <vue-word-cloud
-                    :words="words"
-                    :color="getWordColor"
-                    :spacing="1/2"
-                    font-family="Roboto"
-                />
-<!--                <img src="~@/assets/word-cloud-demo.png" alt="">-->
+               <img :src="imgUrl" alt="">
               </div>
               <div class="absolute bottom-1/12 w-full flex items-center justify-between pl-1/10 pr-1/10">
                 <div class="text-14px leading-20px text-color33/10 whitespace-pre-line mr-1/20">
@@ -139,13 +133,12 @@ import { notify } from "@/utils/notify";
 import Cookie from 'vue-cookies'
 import { sleep } from '@/utils/helper'
 import cardBg from '@/assets/word-cloud-card.png'
-import VueWordCloud from "vuewordcloud";
 import QrcodeVue from 'qrcode.vue'
 import domtoimage from 'dom-to-image';
 
 export default {
   name: "Index",
-  components: {VueWordCloud, QrcodeVue},
+  components: {QrcodeVue},
   data() {
     return {
       loading: false,
@@ -275,13 +268,13 @@ export default {
     },
     async share() {
       try {
-      if (!this.imgUrl) return;
-      const temp = this.imgUrl.split('/')
-      const id = temp[temp.length - 1]
-      const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
+        if (!this.imgUrl) return;
+        const temp = this.imgUrl.split('/')
+        const id = temp[temp.length - 1]
+        const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
 
-      let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
-      window.open(url, '__blank')
+        let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+        window.open(url, '__blank')
       } catch (error) {
 
       } finally{
@@ -301,6 +294,7 @@ export default {
     },
     onDownload() {
       const node = document.getElementById('share-img');
+      this.qrCodeUrl = `https://alpha.wormhole3.io/word-cloud${this.getAccountInfo ? ('?&referee=' + this.getAccountInfo.twitterId) : ''}`
       domtoimage.toPng(node)
         .then((dataUrl) => {
           let canvas = document.createElement('canvas')
