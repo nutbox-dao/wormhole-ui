@@ -7,12 +7,12 @@
              class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px">
           <div class="w-full sm:w-3/5 flex flex-col justify-center items-start ">
             <div class="sm:h-3/4 w-full">
-              <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line text-black">
+              <div class=" text-2.5rem mb-2rem whitespace-pre-line text-black text-center sm:text-left">
                 {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
               </div>
               <div class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
                           justify-center sm:justify-start
-                          text-center sm:text-left text-color8B light:text-color33">
+                          text-center sm:text-left text-color33/80">
                 {{$t('wordCloud.desc')}}
               </div>
             </div>
