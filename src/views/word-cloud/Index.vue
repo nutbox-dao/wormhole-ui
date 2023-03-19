@@ -7,7 +7,7 @@
              class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px">
           <div class="w-full sm:w-3/5 flex flex-col justify-center items-start ">
             <div class="sm:h-3/4 w-full">
-              <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line">
+              <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line text-black">
                 {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
               </div>
               <div class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
@@ -36,6 +36,7 @@
           <div class="absolute -top-200/100 opacity-0">
             <div class="relative" id="share-img">
               <img class="w-700px min-w-500px" src="~@/assets/word-cloud-share.png" alt="">
+              <div class="text-44px absolute top-1/7 pl-1/15 text-black">{{$t('wordCloud.title')}}</div>
               <div class="absolute top-2/5 h-1/3 w-full px-1/10">
                 <img class="h-full mx-auto" :src="imgUrl" alt="">
               </div>
@@ -51,7 +52,7 @@
           </div>
           <div class="relative">
             <img class="w-350px" src="~@/assets/word-cloud-card.png" alt="">
-            <div class="text-24px absolute top-64px pl-20px">{{$t('wordCloud.title')}}</div>
+            <div class="text-24px absolute top-64px pl-20px text-black">{{$t('wordCloud.title')}}</div>
             <div class="absolute top-130px pl-20px pr-60px text-12px text-color33/10
                         whitespace-pre-line leading-16px transform scale-90">
               {{$t('wordCloud.wordDesc')}}
@@ -92,10 +93,8 @@ import { createKeypair } from '@/utils/tweet-nacl'
 import { notify } from "@/utils/notify";
 import Cookie from 'vue-cookies'
 import { sleep } from '@/utils/helper'
-import cardBg from '@/assets/word-cloud-card.png'
 import QrcodeVue from 'qrcode.vue'
 import domtoimage from 'dom-to-image';
-import demoImg from '@/assets/word-cloud-demo.png'
 
 export default {
   name: "Index",
@@ -103,16 +102,12 @@ export default {
   data() {
     return {
       loading: false,
-      imgUrl: demoImg,
+      imgUrl: null,
       wallet: null,
       pair: null,
       pendingAccount: null,
       mintLoading: false,
       shareLoading: false,
-      effectiveWordCount: 8,
-      words: ['你好', '爱情', '身份', '全部', '有意思', '我们', '你们', '查看', '没办法', '动作', '没有', 'I LOVE YOU', 'Hello', '有意思', '大家', '方式', '现在', '就是', '事实'],
-      colors: ['#3A6BFF', '#20AFFF', '#5F32FF', '#06B966', '#EF4848', '#FF5400', '#FFB500'],
-      effectiveWordColor: '#999999',
       qrCodeUrl: 'https://alpha.wormhole3.io/'
     }
   },
@@ -242,17 +237,6 @@ export default {
 
       }
     },
-    setWordsStyle() {
-      this.effectiveWordColor = this.colors[Math.floor(Math.random()*7)]
-      let initSize = 6
-      this.words = this.words.map((item) => {
-        if(initSize<=1) return [item, 1]
-        return [item, initSize-=1]
-      })
-    },
-    getWordColor(word, index) {
-      return index < this.effectiveWordCount?this.effectiveWordColor: '#999999'
-    },
     onDownload() {
       const node = document.getElementById('share-img');
       this.qrCodeUrl = `https://alpha.wormhole3.io/word-cloud${this.getAccountInfo ? ('?&referee=' + this.getAccountInfo.twitterId) : ''}`
@@ -291,7 +275,6 @@ export default {
     if (this.getAccountInfo) {
       this.imgUrl = this.getAccountInfo.wordCloudUrl
     }
-    this.setWordsStyle()
   },
 }
 </script>

@@ -111,6 +111,14 @@
 
       </van-pull-refresh>
     </div>
+    <router-link to="/word-cloud"
+                 class="flex items-center justify-center
+                              h-44px w-44px min-w-44px xl:w-2.8rem xl:min-w-2.8rem xl:h-2.8rem
+                              mt-0.5rem c-text-bold fixed sm:bottom-2rem
+                              right-1.5rem sm:right-2.5rem xl:right-2.2rem z-9999"
+                 :class="scroll>200?'bottom-10rem':'bottom-6rem'">
+      <img class="w-full" src="~@/assets/word-cloud-entrance.png" alt="">
+    </router-link>
     <!-- back top  -->
     <button v-show="scroll>200"
             @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
