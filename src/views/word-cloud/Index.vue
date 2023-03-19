@@ -41,11 +41,11 @@
                 <img class="h-full mx-auto" :src="imgUrl" alt="">
               </div>
               <div class="absolute bottom-1/12 w-full flex items-center justify-between pl-1/10 pr-1/10">
-                <div class="text-14px leading-20px text-color33/10 whitespace-pre-line mr-1/20">
+                <div class="text-14px leading-20px text-color33/70 whitespace-pre-line mr-1/20">
                   {{$t('wordCloud.wordDesc')}}
                 </div>
-                <div class="border-1 border-color33 p-5px h-112px w-112px rounded-4px opacity-90">
-                  <qrcode-vue :value="qrCodeUrl" :size="100" level="H" />
+                <div class="border-1 border-color33/20 p-5px h-112px w-112px rounded-4px opacity-90">
+                  <qrcode-vue :value="qrCodeUrl" :size="100" level="H" foreground="#7851FF"/>
                 </div>
               </div>
             </div>
@@ -53,7 +53,7 @@
           <div class="relative">
             <img class="w-350px" src="~@/assets/word-cloud-card.png" alt="">
             <div class="text-24px absolute top-64px pl-20px text-black">{{$t('wordCloud.title')}}</div>
-            <div class="absolute top-130px pl-20px pr-60px text-12px text-color33/10
+            <div class="absolute top-130px pl-20px pr-60px text-12px text-color33/70
                         whitespace-pre-line leading-16px transform scale-90">
               {{$t('wordCloud.wordDesc')}}
             </div>
