@@ -681,7 +681,7 @@ export default {
   width: 160px;
 }
 .word-cloud {
-  background-image: linear-gradient(180deg, #7600E2 0%, #0D1117 57%)!important;
+  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
   .c-page-header {
     border-color: rgba(132, 131, 145, 0.3)!important;
     position: fixed;
