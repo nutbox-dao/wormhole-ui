@@ -93,14 +93,13 @@ import { notify } from "@/utils/notify";
 import Cookie from 'vue-cookies'
 import { sleep } from '@/utils/helper'
 import cardBg from '@/assets/word-cloud-card.png'
-import VueWordCloud from "vuewordcloud";
 import QrcodeVue from 'qrcode.vue'
 import domtoimage from 'dom-to-image';
 import demoImg from '@/assets/word-cloud-demo.png'
 
 export default {
   name: "Index",
-  components: {VueWordCloud, QrcodeVue},
+  components: {QrcodeVue},
   data() {
     return {
       loading: false,
@@ -230,13 +229,13 @@ export default {
     },
     async share() {
       try {
-      if (!this.imgUrl) return;
-      const temp = this.imgUrl.split('/')
-      const id = temp[temp.length - 1]
-      const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
+        if (!this.imgUrl) return;
+        const temp = this.imgUrl.split('/')
+        const id = temp[temp.length - 1]
+        const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
 
-      let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
-      window.open(url, '__blank')
+        let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+        window.open(url, '__blank')
       } catch (error) {
 
       } finally{
@@ -256,6 +255,7 @@ export default {
     },
     onDownload() {
       const node = document.getElementById('share-img');
+      this.qrCodeUrl = `https://alpha.wormhole3.io/word-cloud${this.getAccountInfo ? ('?&referee=' + this.getAccountInfo.twitterId) : ''}`
       domtoimage.toPng(node)
         .then((dataUrl) => {
           let canvas = document.createElement('canvas')
@@ -283,15 +283,15 @@ export default {
     }
   },
   async mounted () {
-    // await this.$router.isReady();
-    // const referee = this.$route.query.referee;
-    // if (referee) {
-    //   this.$store.commit('saveReferee', referee);
-    // }
-    // if (this.getAccountInfo) {
-    //   this.imgUrl = this.getAccountInfo.wordCloudUrl
-    // }
-    // this.setWordsStyle()
+    await this.$router.isReady();
+    const referee = this.$route.query.referee;
+    if (referee) {
+      this.$store.commit('saveReferee', referee);
+    }
+    if (this.getAccountInfo) {
+      this.imgUrl = this.getAccountInfo.wordCloudUrl
+    }
+    this.setWordsStyle()
   },
 }
 </script>
