@@ -375,7 +375,8 @@ export default {
     bindAndMint: 'Mint as NFT',
     getStart: 'Get start',
     share: 'Share',
-    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.'
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.',
+    insuffientContent: 'Sorry, your account has insufficient content to generate your persona.'
   },
   err: {
     serverErr: 'Server error',

@@ -214,6 +214,9 @@ export default {
         this.imgUrl = url;
       } catch (e) {
         console.log(535, e);
+        if (e === 306) {
+          this.showNotify(this.$t('wordCloud.insuffientContent'), 5000, 'error')
+        }
         this.showNotify(e, 5000, 'error')
       } finally {
         this.loading = false

@@ -375,7 +375,8 @@ export default {
     bindAndMint: '获取NFT',
     getStart: '生成',
     share: '分享',
-    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.'
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.',
+    insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。'
   },
   err: {
     serverErr: '内部错误',
