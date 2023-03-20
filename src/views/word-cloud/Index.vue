@@ -35,10 +35,10 @@
                     flex flex-col items-center justify-center py-1/5 sm:py-100px 2xl:py-200px">
           <div class="absolute -top-200/100 opacity-0">
             <div class="relative" id="share-img">
-              <img class="w-700px min-w-500px" src="~@/assets/word-cloud-share.png" alt="">
+              <img class="w-700px min-w-700px share-img-bg opacity-0" src="~@/assets/word-cloud-share.png" alt="">
               <div class="text-44px absolute top-1/7 pl-1/15 text-black">{{$t('wordCloud.title')}}</div>
               <div class="absolute top-2/5 h-1/3 w-full px-1/10">
-                <img class="h-full mx-auto" :src="imgUrl" alt="">
+                <img class="h-full mx-auto word-content-img opacity-0" :src="imgUrl" alt="">
               </div>
               <div class="absolute bottom-1/12 w-full flex items-center justify-between pl-1/10 pr-1/10">
                 <div class="text-14px leading-20px text-color33/70 whitespace-pre-line mr-1/20">
@@ -253,11 +253,12 @@ export default {
           let img = new Image();
           img.setAttribute('crossOrigin', 'anonymous')
           img.src = dataUrl;
-          document.body.appendChild(img);
           img.onload = function(){
             canvas.width = img.width
             canvas.height = img.height
+            context.drawImage(document.getElementsByClassName('share-img-bg')[0], 0, 0, 700, 992);
             context.drawImage(img,0,0);
+            context.drawImage(document.getElementsByClassName('word-content-img')[0], 70, 397, 560, 330)
             aLink.href = canvas.toDataURL('image/png')
             document.body.appendChild(aLink)
             aLink.click();
