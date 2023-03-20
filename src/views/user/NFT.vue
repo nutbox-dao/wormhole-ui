@@ -72,11 +72,9 @@
         <div class="col-span-1" v-if="getAccountInfo.wordCloudUrl">
           <div class="relative min-w hover-scale" @click="collectionVisible=true, collectionIndex=7">
             <img class="w-full " src="~@/assets/nft-collection-bg.png" alt="">
-            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col  justify-between">
-              <div class="w-70/100 mx-auto h-67/100 flex items-center justify-center">
-                <img class="w-full rounded-4px" :src="getAccountInfo.wordCloudUrl" alt="">
-              </div>
-              <div class="text-12px scale-text leading-14px text-white">Wordcloud NFT</div>
+            <div class="absolute w-full h-full top-0 left-0 pt-2/10 pb-1/10 flex flex-col justify-between">
+              <img class="w-70/100 mx-auto" :src="getAccountInfo.wordCloudUrl" alt="">
+              <div class="text-12px scale-text leading-14px text-white">My Twitter Persona</div>
             </div>
           </div>
         </div>
@@ -226,9 +224,9 @@
           <div class="col-span-1 text-left hover-scale">
             <div class="relative min-w cursor-pointer">
               <img class="w-full " src="~@/assets/nft-bg.png" alt="">
-              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center">
-                <div class="w-80/100 mx-auto">
-                  <img class="rounded-4px" :src="getAccountInfo.wordCloudUrl" alt="">
+              <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-center item-center align-center">
+                <div class="w-80/100 mx-auto my-auto">
+                  <img :src="getAccountInfo.wordCloudUrl" alt="">
                 </div>
               </div>
             </div>

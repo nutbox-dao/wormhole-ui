@@ -370,12 +370,12 @@ export default {
   },
   wordCloud: {
     title: '我的推特人格',
-    desc: '你的推文组成了部分的你,\n 给人留下了什么印象呢? 来测试一下吧... \n 也许你自己都想象不到。',
+    desc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
     discoverPersona: '探索我的\n 推特人格',
     bindAndMint: '获取NFT',
     getStart: '生成',
     share: '分享',
-    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.',
+    wordDesc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
     insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。'
   },
   err: {
