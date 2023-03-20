@@ -376,7 +376,8 @@ export default {
     getStart: '生成',
     share: '分享',
     wordDesc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
-    insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。'
+    insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。',
+    seeYourNFT: '我的NFT'
   },
   err: {
     serverErr: '内部错误',

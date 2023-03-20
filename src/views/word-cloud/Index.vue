@@ -65,10 +65,10 @@
             </button>
           </div>
           <div class="w-full flex justify-center items-center gap-20px mt-2rem z-2">
-            <button v-if="!getAccountInfo" class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+            <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
                                flex items-center justify-center"
                     @click="bind">
-              <span>{{ $t('wordCloud.bindAndMint') }}</span>
+              <span>{{ getAccountInfo ? $t('wordCloud.seeYourNFT') : $t('wordCloud.bindAndMint') }}</span>
               <c-spinner class="w-20px h-20px ml-4px" v-show="mintLoading"></c-spinner>
             </button>
             <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
@@ -223,7 +223,11 @@ export default {
       }
     },
     bind() {
-      this.$store.commit('saveShowLogin', true)
+      if (this.getAccountInfo) {
+        this.$router.push(`wallet/@${this.getAccountInfo.twitterUsername}/wallet`)
+      }else {
+        this.$store.commit('saveShowLogin', true)
+      }
     },
     async share() {
       try {

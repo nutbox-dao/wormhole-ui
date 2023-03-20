@@ -376,7 +376,8 @@ export default {
     getStart: 'Get start',
     share: 'Share',
     wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence. \n Maybe surprise yourself...',
-    insuffientContent: 'Sorry, your account has insufficient content to generate your persona.'
+    insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
+    seeYourNFT: 'My NFT'
   },
   err: {
     serverErr: 'Server error',
