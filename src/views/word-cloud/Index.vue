@@ -253,16 +253,22 @@ export default {
           let img = new Image();
           img.setAttribute('crossOrigin', 'anonymous')
           img.src = dataUrl;
+          const that = this
           img.onload = function(){
             canvas.width = img.width
             canvas.height = img.height
             context.drawImage(document.getElementsByClassName('share-img-bg')[0], 0, 0, 700, 992);
             context.drawImage(img,0,0);
-            context.drawImage(document.getElementsByClassName('word-content-img')[0], 70, 397, 560, 330)
-            aLink.href = canvas.toDataURL('image/png')
-            document.body.appendChild(aLink)
-            aLink.click();
-            document.body.removeChild(aLink)
+            const wordImg = new Image()
+            wordImg.setAttribute('crossOrigin', 'anonymous')
+            wordImg.src = that.imgUrl
+            wordImg.onload = () => {
+              context.drawImage(wordImg, 70, 397, 560, 330)
+              aLink.href = canvas.toDataURL('image/png')
+              document.body.appendChild(aLink)
+              aLink.click();
+              document.body.removeChild(aLink)
+            }
           }
         })
         .catch(function (error) {
