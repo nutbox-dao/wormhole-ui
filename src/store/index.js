@@ -34,7 +34,8 @@ export default Vuex.createStore({
     curatorNFT: 0,
     showLogin: false,
     getCardVisible: false,
-    newCardId: 0
+    newCardId: 0,
+    bindNewAccountInfo: {}
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -153,6 +154,9 @@ export default Vuex.createStore({
     },
     saveNewCardId: (state, newCardId) => {
       state.newCardId = newCardId
+    },
+    saveBindNewAccountInfo: (state, bindNewAccountInfo) => {
+      state.bindNewAccountInfo = bindNewAccountInfo
     }
   },
   modules: {

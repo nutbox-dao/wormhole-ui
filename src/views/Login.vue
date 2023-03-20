@@ -101,6 +101,12 @@ export default {
     let loginInfo = Cookie.get('account-auth-info');
     if (loginInfo) {
       this.pendingAccount = loginInfo
+      if (loginInfo.wallet) {
+        this.wallet = loginInfo.wallet;
+      }
+      if (loginInfo.pair) {
+        this.pair = loginInfo.pair
+      }
       this.authStep = 'select';
     }
   },

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_download_40</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="word-cloud-app备份-13" transform="translate(-578.000000, -1059.000000)">
+            <g id="icon_download_40" transform="translate(578.000000, 1059.000000)">
+                <circle id="椭圆形" stroke="#111111" fill="#FFFFFF" cx="20" cy="20" r="19.5"></circle>
+                <rect id="矩形" opacity="0.374139695" x="6" y="6" width="28" height="28"></rect>
+                <g id="编组" transform="translate(9.690909, 9.563636)" stroke="#000000" stroke-linecap="round" stroke-width="2.54545455">
+                    <line x1="10.3090909" y1="0.254545455" x2="10.3090909" y2="12.7272727" id="Stroke-3"></line>
+                    <line x1="14.8909091" y1="8.14545455" x2="10.3090909" y2="12.7272727" id="Stroke-5"></line>
+                    <g transform="translate(0.000000, 8.145455)">
+                        <path d="M0,6.00727273 L0,6.00727273 C4.55776364,14.5981818 16.0604182,14.5981818 20.6181818,6.00727273" id="Stroke-6"></path>
+                        <line x1="5.72727273" y1="0" x2="10.3090909" y2="4.58181818" id="Stroke-8"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

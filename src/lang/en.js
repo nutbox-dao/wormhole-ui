@@ -26,7 +26,7 @@ export default {
     createAccount: 'Create a new wallet',
     notAuth: "Twitter auth fail",
     or: 'Or',
-    metamask: 'Continue with MetaMask',
+    metamask: 'Connect To MetaMask',
     quitTip: 'Are you sure to quit?\n' +
       'All the information will be discarded.',
     cancel: 'Cancel',
@@ -183,7 +183,10 @@ export default {
     t1: 'Tips: Twitter users need to bind a wormhole3 account to attend the curation task.',
     createBtn: 'Create a curation',
     createCuration: 'Create Curation',
-    shareCuration: 'Share Curation'
+    shareCuration: 'Share Curation',
+    curationTip: 'Become content hunter, discover quality content: you can curate any quality content if you get Content Hunter NFT.',
+    getCurator: 'Become content hunter',
+    howToGetcurator: 'How to get',
   },
   tips: {
     missingInput: "Please complete all infos.",
@@ -366,9 +369,15 @@ export default {
     otherGuide: 'Other Guides'
   },
   wordCloud: {
-    title: 'My Internet Persona',
-    desc: 'Your tweets is part of you,\n What impression do you leave on people? Let\'s find out... \n Maybe surprise yourself.',
-    discoverPersona: 'Discover my\n Internet Persona'
+    title: 'My Twitter Persona',
+    desc: 'Your tweets is part of you,\n Let’s find out your online presence. \n Maybe surprise yourself...',
+    discoverPersona: 'Discover my\n Twitter Persona',
+    bindAndMint: 'Mint as NFT',
+    getStart: 'Get start',
+    share: 'Share',
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence. \n Maybe surprise yourself...',
+    insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
+    seeYourNFT: 'My NFT'
   },
   err: {
     serverErr: 'Server error',

@@ -11,6 +11,7 @@ export default defineConfig({
         redColor: '#D40000',
         greenColor: '#36D233',
         orangeColor: '#FF9352',
+        buleColor: '#0000FF',
         primaryBg: '#0D1117',
         primaryBgLight: '#F5F5F5',
         dialogBg: '#131313',

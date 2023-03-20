@@ -2,13 +2,15 @@
   <div class="text-14px">
     <div class="flex justify-between items-center mb-10px">
       <span class="text-14px c-text-black">{{ $t('curation.startTime') }}</span>
-      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-6px"
+              :class="new Date().getTime() > curationData.endtime * 1000?'text-orangeColor':'text-greenColor'">
       {{ parseSpaceStartTime(curationData.createdTime) }}
       </button>
     </div>
     <div class="flex justify-between items-center">
       <span class="text-14px c-text-black">{{ $t('curation.endTime') }}</span>
-      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-6px"
+              :class="new Date().getTime() > curationData.endtime * 1000?'text-orangeColor':'text-greenColor'">
         {{ parseSpaceStartTime(curationData.endtime * 1000) }}
       </button>
     </div>

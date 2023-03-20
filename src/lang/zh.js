@@ -26,7 +26,7 @@ export default {
     createAccount: '创建一个新钱包',
     notAuth: " Twitter授权失败",
     or: '或者',
-    metamask: '通过MetaMask继续',
+    metamask: '通过MetaMask连接',
     quitTip: '确认退出吗?\n' +
       '所有信息将被丢弃.',
     cancel: '取消',
@@ -183,7 +183,10 @@ export default {
     t1: '贴示: Twitter用户需要绑定wormhole3账号才能参与策展任务.',
     createBtn: '创建一个策展',
     createCuration: '创建策展',
-    shareCuration: '分享策展'
+    shareCuration: '分享策展',
+    curationTip: '成为内容猎人，发现优质内容：拥有内容猎人NFT，可以为优质内容创建策展奖励池。',
+    getCurator: '成为内容猎人',
+    howToGetcurator: '如何获取'
   },
   tips: {
     missingInput: "请完善所有信息.",
@@ -364,6 +367,17 @@ export default {
     curationTweetGuide: '为tweet创建策展',
     curationSpaceGuide: '为space创建策展',
     otherGuide: '其他玩法'
+  },
+  wordCloud: {
+    title: '我的推特人格',
+    desc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
+    discoverPersona: '探索我的\n 推特人格',
+    bindAndMint: '获取NFT',
+    getStart: '生成',
+    share: '分享',
+    wordDesc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
+    insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。',
+    seeYourNFT: '我的NFT'
   },
   err: {
     serverErr: '内部错误',

@@ -1,60 +1,82 @@
 <template>
   <div class="">
-    <img class="fixed top-0 right-0 w-3/10 z-2" src="~@/assets/word-cloud-bg1.png" alt="">
+    <img class="fixed top-0 right-0 w-3/5 sm:w-3/10 z-2" src="~@/assets/word-cloud-bg1.png" alt="">
     <div class="word-cloud-page max-h-700px">
       <div class="container mx-auto text-left max-w-50rem px-15px">
-        <div class="text-34px mt-2rem text-center sm:hidden whitespace-pre-line">
-          {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
-        </div>
-        <div class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px" :class="imgUrl?'flex-col-reverse':''">
+        <div v-if="!imgUrl"
+             class="flex flex-col items-center sm:flex-row sm:py-100px 2xl:py-200px">
           <div class="w-full sm:w-3/5 flex flex-col justify-center items-start ">
             <div class="sm:h-3/4 w-full">
-              <div class=" text-2.5rem mb-2rem hidden sm:block whitespace-pre-line">
+              <div class=" text-2.5rem mb-2rem whitespace-pre-line text-black text-center sm:text-left">
                 {{imgUrl?$t('wordCloud.title'): $t('wordCloud.discoverPersona')}}
               </div>
-              <div v-if="!loading && imgUrl"
-                   class="w-full flex justify-center sm:justify-start items-center gap-20px mt-2rem sm:mt-3rem">
-                <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
-                               flex items-center justify-center">
-                  <span>Mint as NFT</span>
-                  <c-spinner class="w-20px h-20px ml-4px" v-show="mintLoading"></c-spinner>
-                </button>
-                <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
-                               flex items-center justify-center">
-                  <span>Share</span>
-                  <c-spinner class="w-20px h-20px ml-4px" v-show="shareLoading"></c-spinner>
-                </button>
-              </div>
-              <div v-else
-                   class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
+              <div class="whitespace-pre-line text-12px leading-16px mt-15px sm:text-16px sm:leading-24px
                           justify-center sm:justify-start
-                          text-center sm:text-left text-color8B light:text-color33">
+                          text-center sm:text-left text-color33/80">
                 {{$t('wordCloud.desc')}}
               </div>
             </div>
           </div>
           <div class="w-full sm:w-2/5 flex items-center justify-center sm:justify-end mt-15px">
-            <div v-if="!loading && imgUrl"
-                 class="w-full h-full bg-white/10 min-h-300px lg:min-h-400px px-15px relative
-                        flex items-center justify-center">
-              <img class="w-full" :src="imgUrl" alt="">
-              <span v-for="(word, index) of wordList" :key="word"
-                    class=" bg-color62/40 border-1 border-color62/80 rounded-full
-                           flex items-center justify-center max-w word-item absolute ">
-                word{{word}}
-              </span>
-            </div>
-            <div v-else
-                 class="w-full relative flex flex-col items-center" @click="onAuth">
+            <div class="w-full relative flex flex-col items-center" @click="onAuth">
               <img class="hidden sm:block" src="~@/assets/word-cloud-bg3.png" alt="">
               <img class="sm:hidden" src="~@/assets/word-cloud-bg4.png" alt="">
               <button class="bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
                              flex items-center justify-center mt-20px"
                       :disabled="loading">
-                <span>Get started</span>
+                <span>{{$t('wordCloud.getStart')}}</span>
                 <c-spinner class="w-20px h-20px ml-4px" v-show="loading"></c-spinner>
               </button>
             </div>
+          </div>
+        </div>
+        <div v-if="!loading && imgUrl"
+             class="w-full h-full min-h-300px lg:min-h-400px  mx-auto px-15px relative
+                    flex flex-col items-center justify-center py-1/5 sm:py-100px 2xl:py-200px">
+          <div class="absolute -top-200/100 opacity-0">
+            <div class="relative" id="share-img">
+              <img class="w-700px min-w-700px share-img-bg opacity-0" src="~@/assets/word-cloud-share.png" alt="">
+              <div class="text-44px absolute top-1/7 pl-1/15 text-black">{{$t('wordCloud.title')}}</div>
+              <div class="absolute top-2/5 h-1/3 w-full px-1/10">
+                <img class="h-full mx-auto word-content-img opacity-0" :src="imgUrl" alt="">
+              </div>
+              <div class="absolute bottom-1/12 w-full flex items-center justify-between pl-1/10 pr-1/10">
+                <div class="text-14px leading-20px text-color33/70 whitespace-pre-line mr-1/20">
+                  {{$t('wordCloud.wordDesc')}}
+                </div>
+                <div class="border-1 border-color33/20 p-5px h-112px w-112px rounded-4px opacity-90">
+                  <qrcode-vue :value="qrCodeUrl" :size="100" level="H" foreground="#7851FF"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <img class="w-350px" src="~@/assets/word-cloud-card.png" alt="">
+            <div class="text-24px absolute top-64px pl-20px text-black">{{$t('wordCloud.title')}}</div>
+            <div class="absolute top-130px pl-20px pr-60px text-12px text-color33/70
+                        whitespace-pre-line leading-16px transform scale-90">
+              {{$t('wordCloud.wordDesc')}}
+            </div>
+            <div class="absolute top-210px h-1/3 w-full px-40px">
+              <img :src="imgUrl" alt="">
+            </div>
+            <button class="absolute bottom-30px right-40px" @click="onDownload">
+              <img class="h-30px w-30px" src="~@/assets/word-cloud-download.svg" alt="">
+            </button>
+          </div>
+          <div class="w-full flex justify-center items-center gap-20px mt-2rem z-2">
+            <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+                               flex items-center justify-center"
+                    @click="bind">
+              <span>{{ getAccountInfo ? $t('wordCloud.seeYourNFT') : $t('wordCloud.bindAndMint') }}</span>
+              <c-spinner class="w-20px h-20px ml-4px" v-show="mintLoading"></c-spinner>
+            </button>
+            <button class="w-1/3 bg-color62 h-44px xl:h-2.8rem w-3/5 text-white rounded-full
+                               flex items-center justify-center"
+                    @click="share">
+              <img class="h-18px mr-4px" src="~@/assets/icon-twitter-white.svg" alt="">
+              <span>{{ $t('wordCloud.share') }}</span>
+            </button>
           </div>
         </div>
       </div>
@@ -71,19 +93,22 @@ import { createKeypair } from '@/utils/tweet-nacl'
 import { notify } from "@/utils/notify";
 import Cookie from 'vue-cookies'
 import { sleep } from '@/utils/helper'
+import QrcodeVue from 'qrcode.vue'
+import domtoimage from 'dom-to-image';
 
 export default {
   name: "Index",
+  components: {QrcodeVue},
   data() {
     return {
       loading: false,
       imgUrl: null,
-      wordList: [],
       wallet: null,
       pair: null,
       pendingAccount: null,
       mintLoading: false,
-      shareLoading: false
+      shareLoading: false,
+      qrCodeUrl: 'https://alpha.wormhole3.io/'
     }
   },
   computed: {
@@ -150,12 +175,13 @@ export default {
                 // not registry
                 // store auth info
                 console.log('not register')
-                Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                Cookie.set('account-auth-info', JSON.stringify({...userInfo.account, pair: this.pair, wallet: this.wallet}), '300s')
                 this.pendingAccount = userInfo.account
                 twitterId = this.pendingAccount.twitterId
                 break;
               }else if (userInfo.code === 3) { // log in
                 this.$store.commit('saveAccountInfo', userInfo.account)
+                this.pendingAccount = userInfo.account
                 twitterId = userInfo.account.twitterId
                 break;
               }
@@ -171,24 +197,87 @@ export default {
             if (userInfo.code === 0) {
               // not registry
               // store auth info
-              Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '300s')
+                Cookie.set('account-auth-info', JSON.stringify({...userInfo.account, pair: this.pair, wallet: this.wallet}), '300s')
               this.pendingAccount = userInfo.account
               twitterId = this.pendingAccount.twitterId
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
+              this.pendingAccount = userInfo.account
               twitterId = userInfo.account.twitterId
             }
           }
         }
         const url = await generateWordcloud(twitterId)
+        if (this.getAccountInfo) {
+          this.getAccountInfo.wordCloudUrl = url;
+        }
         this.imgUrl = url;
-        console.log(53, url);
       } catch (e) {
-        console.log(53, e);
+        console.log(535, e);
+        if (e === 306) {
+          this.showNotify(this.$t('wordCloud.insuffientContent'), 5000, 'error')
+        }
         this.showNotify(e, 5000, 'error')
       } finally {
         this.loading = false
       }
+    },
+    bind() {
+      if (this.getAccountInfo) {
+        this.$router.push(`wallet/@${this.getAccountInfo.twitterUsername}/wallet`)
+      }else {
+        this.$store.commit('saveShowLogin', true)
+      }
+    },
+    async share() {
+      try {
+        if (!this.imgUrl) return;
+        const temp = this.imgUrl.split('/')
+        const id = temp[temp.length - 1]
+        const content = 'Wow! this is my Twitter persona, interesting 🤣 How is yours?\n' + `https://wordcloud.wormhole3.io/wordcloud?id=${id}${this.getAccountInfo ? ('&referee=' + this.getAccountInfo.twitterId) : ''}`
+
+        let url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content)
+        window.open(url, '__blank')
+      } catch (error) {
+
+      } finally{
+
+      }
+    },
+    onDownload() {
+      const node = document.getElementById('share-img');
+      this.qrCodeUrl = `https://alpha.wormhole3.io/#/word-cloud${this.getAccountInfo ? ('?referee=' + this.getAccountInfo.twitterId) : ''}`
+      domtoimage.toPng(node)
+        .then((dataUrl) => {
+          let canvas = document.createElement('canvas')
+          let context = canvas.getContext('2d')
+          let aLink = document.createElement('a')
+          aLink.download = 'my-twitter-persona'
+          aLink.style.display = 'none'
+          let img = new Image();
+          img.setAttribute('crossOrigin', 'anonymous')
+          img.src = dataUrl;
+          const that = this
+          img.onload = function(){
+            canvas.width = img.width
+            canvas.height = img.height
+            context.drawImage(document.getElementsByClassName('share-img-bg')[0], 0, 0, 700, 992);
+            context.drawImage(img,0,0);
+            const wordImg = new Image()
+            wordImg.setAttribute('crossOrigin', 'anonymous')
+            wordImg.src = that.imgUrl
+            wordImg.onload = () => {
+              context.drawImage(wordImg, 70, 397, 560, 330)
+              aLink.href = canvas.toDataURL('image/png')
+              document.body.appendChild(aLink)
+              aLink.click();
+              document.body.removeChild(aLink)
+            }
+          }
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
     }
   },
   async mounted () {
@@ -216,120 +305,8 @@ export default {
 }
 @media (max-width: 560px) {
   .word-cloud-page {
-    background-size: 15% auto, 50% auto;
-    background-position: 5% 20%, 10% 40%;
-  }
-}
-.word-item {
-  position: absolute;
-  padding: 6px 12px;
-  font-size: 14px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.4);
-}
-.word-item-show {
-  transition: all 3000ms;
-  transition-delay: 500ms;
-  &:nth-child(1) {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(1.7);
-  }
-  &:nth-child(2) {
-    left: 28%;
-    top: 40%;
-    transform: translate(-50%, -50%) scale(1.52);
-  }
-  &:nth-child(3) {
-    left: 55%;
-    top: 38%;
-    transform: translate(-50%, -50%) scale(1.5);
-  }
-  &:nth-child(4) {
-    left: 80%;
-    top: 44%;
-    transform: translate(-50%, -50%) scale(1.47);
-  }
-  &:nth-child(5) {
-    left: 84%;
-    top: 55%;
-    transform: translate(-50%, -50%) scale(1.42);
-  }
-  &:nth-child(6) {
-    left: 71%;
-    top: 62%;
-    transform: translate(-50%, -50%) scale(1.36);
-  }
-  &:nth-child(7) {
-    left: 74%;
-    top: 74%;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
-  &:nth-child(8) {
-    left: 52%;
-    top: 74%;
-    transform: translate(-50%, -50%) scale(1.25);
-  }
-  &:nth-child(9) {
-    left: 43%;
-    top: 59%;
-    transform: translate(-50%, -50%) scale(1.21);
-  }
-  &:nth-child(10) {
-    left: 30%;
-    top: 67%;
-    transform: translate(-50%, -50%) scale(1.17);
-  }
-  &:nth-child(11) {
-    left: 13%;
-    top: 65%;
-    transform: translate(-50%, -50%) scale(1.11);
-  }
-  &:nth-child(12) {
-    left: 12%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-  &:nth-child(13) {
-    left: 24%;
-    top: 55%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  &:nth-child(14) {
-    left: 50%;
-    top: 24%;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-  &:nth-child(15) {
-    left: 34%;
-    top: 26%;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  &:nth-child(16) {
-    left: 68%;
-    top: 30%;
-    transform: translate(-50%, -50%) scale(0.88);
-  }
-  &:nth-child(17) {
-    left: 11%;
-    top: 30%;
-    transform: translate(-50%, -50%) scale(0.81);
-  }
-  &:nth-child(18) {
-    left: 90%;
-    top: 34%;
-    transform: translate(-50%, -50%) scale(0.81);
-  }
-  &:nth-child(19) {
-    left: 15%;
-    top: 76%;
-    transform: translate(-50%, -50%) scale(0.81);
-  }
-  &:nth-child(20) {
-    left: 27%;
-    top: 77%;
-    transform: translate(-50%, -50%) scale(0.81);
+    background-size: 15% auto, 30% auto;
+    background-position: 5% 5%, -20% 30%;
   }
 }
 </style>
