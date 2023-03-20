@@ -370,12 +370,12 @@ export default {
   },
   wordCloud: {
     title: 'My Twitter Persona',
-    desc: 'Your tweets is part of you,\n What impression do you leave on people? Let\'s find out... \n Maybe surprise yourself.',
+    desc: 'Your tweets is part of you,\n Let’s find out your online presence. \n Maybe surprise yourself...',
     discoverPersona: 'Discover my\n Twitter Persona',
     bindAndMint: 'Mint as NFT',
     getStart: 'Get start',
     share: 'Share',
-    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence Gain insights into your own personality and motivations. \n Maybe surprise yourself.',
+    wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence. \n Maybe surprise yourself...',
     insuffientContent: 'Sorry, your account has insufficient content to generate your persona.'
   },
   err: {
