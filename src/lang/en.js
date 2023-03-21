@@ -373,7 +373,7 @@ export default {
     desc: 'Your tweets is part of you,\n Let’s find out your online presence. \n Maybe surprise yourself...',
     discoverPersona: 'Discover my\n Twitter Persona',
     bindAndMint: 'Mint as NFT',
-    getStart: 'Get start',
+    getStart: 'Get started',
     share: 'Share',
     wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence. \n Maybe surprise yourself...',
     insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
