@@ -31,7 +31,7 @@
           </div>
         </div>
         <div v-if="!loading && imgUrl"
-             class="w-full h-full min-h-300px lg:min-h-400px  mx-auto px-15px relative
+             class="w-full h-full min-h-300px lg:min-h-400px  mx-auto px-15px relative overflow-x-hidden
                     flex flex-col items-center justify-center py-1/5 sm:py-100px 2xl:py-200px">
           <div class="absolute -top-200/100 opacity-0">
             <div class="relative" id="share-img">
@@ -58,9 +58,11 @@
               {{$t('wordCloud.wordDesc')}}
             </div>
             <div class="absolute top-210px h-1/3 w-full px-40px">
-              <img :src="imgUrl" alt="">
+              <img class="h-full object-contain object-center mx-auto" :src="imgUrl" alt="">
             </div>
-            <button class="absolute bottom-30px right-40px" @click="onDownload">
+            <img v-if="loadingImg" class="absolute bottom-30px right-40px h-30px w-30px"
+                 src="~@/assets/icon-loading.svg" alt="">
+            <button v-else class="absolute bottom-30px right-40px" @click="onDownload">
               <img class="h-30px w-30px" src="~@/assets/word-cloud-download.svg" alt="">
             </button>
           </div>
@@ -81,6 +83,12 @@
         </div>
       </div>
     </div>
+    <el-dialog class="c-dialog c-dialog-center c-dialog-no-shadow c-dialog-no-bg max-w-34rem "
+               v-model="modalVisible"
+               :destroy-on-close="true">
+      <div class="mb-10px c-text-black">{{$t('wordCloud.downloadTip')}}</div>
+      <img class="w-full max-w-500px mx-auto" :src="downloadImgUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -108,7 +116,10 @@ export default {
       pendingAccount: null,
       mintLoading: false,
       shareLoading: false,
-      qrCodeUrl: 'https://alpha.wormhole3.io/'
+      qrCodeUrl: 'https://alpha.wormhole3.io/',
+      downloadImgUrl: null,
+      modalVisible: false,
+      loadingImg: false
     }
   },
   computed: {
@@ -244,40 +255,57 @@ export default {
 
       }
     },
-    onDownload() {
-      const node = document.getElementById('share-img');
-      this.qrCodeUrl = `https://alpha.wormhole3.io/#/word-cloud${this.getAccountInfo ? ('?referee=' + this.getAccountInfo.twitterId) : ''}`
-      domtoimage.toPng(node)
-        .then((dataUrl) => {
-          let canvas = document.createElement('canvas')
-          let context = canvas.getContext('2d')
-          let aLink = document.createElement('a')
-          aLink.download = 'my-twitter-persona'
-          aLink.style.display = 'none'
-          let img = new Image();
-          img.setAttribute('crossOrigin', 'anonymous')
-          img.src = dataUrl;
-          const that = this
-          img.onload = function(){
-            canvas.width = img.width
-            canvas.height = img.height
-            context.drawImage(document.getElementsByClassName('share-img-bg')[0], 0, 0, 700, 992);
-            context.drawImage(img,0,0);
-            const wordImg = new Image()
-            wordImg.setAttribute('crossOrigin', 'anonymous')
-            wordImg.src = that.imgUrl
-            wordImg.onload = () => {
-              context.drawImage(wordImg, 70, 397, 560, 330)
-              aLink.href = canvas.toDataURL('image/png')
-              document.body.appendChild(aLink)
-              aLink.click();
-              document.body.removeChild(aLink)
-            }
-          }
-        })
-        .catch(function (error) {
-          console.error('oops, something went wrong!', error);
-        });
+    async loadDownloadImg() {
+      if(this.downloadImgUrl) return
+      return new Promise((resolve, reject) => {
+        const node = document.getElementById('share-img');
+        this.qrCodeUrl = `https://alpha.wormhole3.io/#/word-cloud${this.getAccountInfo ? ('?referee=' + this.getAccountInfo.twitterId) : ''}`
+        domtoimage.toPng(node)
+            .then((dataUrl) => {
+              let canvas = document.createElement('canvas')
+              let context = canvas.getContext('2d')
+              let img = new Image();
+              img.setAttribute('crossOrigin', 'anonymous')
+              img.src = dataUrl;
+              const that = this
+              img.onload = function(){
+                canvas.width = img.width
+                canvas.height = img.height
+                context.drawImage(document.getElementsByClassName('share-img-bg')[0], 0, 0, 700, 992);
+                context.drawImage(img,0,0);
+                const wordImg = new Image()
+                wordImg.setAttribute('crossOrigin', 'anonymous')
+                wordImg.src = that.imgUrl
+                wordImg.onload = () => {
+                  context.drawImage(wordImg, 70, 397, 560, 330)
+                  that.downloadImgUrl = canvas.toDataURL('image/png')
+                  resolve()
+                }
+              }
+            })
+            .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+              reject(error)
+            });
+      })
+    },
+    async onDownload() {
+      this.loadingImg = true
+      if(!this.downloadImgUrl) await this.loadDownloadImg()
+      this.loadingImg = false
+      let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
+      let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
+      if(isAndroid || isIOS) {
+        this.modalVisible = true
+      } else {
+        let aLink = document.createElement('a')
+        aLink.download = 'my-twitter-persona'
+        aLink.style.display = 'none'
+        aLink.href = this.downloadImgUrl
+        document.body.appendChild(aLink)
+        aLink.click();
+        document.body.removeChild(aLink)
+      }
     }
   },
   async mounted () {
