@@ -41,7 +41,7 @@
                 </ChainTokenIcon>
               </el-checkbox>
             </el-checkbox-group>
-            <button v-if="(chainId !== chainIds[chainTab]) || (chainTab === chainNames.length && chainId !== 56)"
+            <button v-if="(chainId !== chainIds[chainTab])"
                     class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
                               rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
@@ -136,7 +136,7 @@ export default {
       return Object.keys(EVM_CHAINS)
     },
     chainIds() {
-      return Object.values(EVM_CHAINS).map(c => c.id)
+      return Object.values(EVM_CHAINS).map(c => c.id).concat([56])
     },
     showingList() {
       return this.rewardLists[this.chainTab]
@@ -179,7 +179,7 @@ export default {
           return;
         }
         this.loading[index] = true
-        if (index === this.chainIds.length) {
+        if (index === this.chainIds.length - 1) {
           const records = await autoCurationRewardList(this.getAccountInfo.twitterId);
           if (records && records.length > 0) {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
@@ -242,8 +242,8 @@ export default {
           }
           const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
           if (ids.length === 0) return;
-          const { amounts, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
-          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
+          const { amount, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
+          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
           await setAutoCurationIsDistributed(twitterId, curationIds);
           this.rewardLists[index] = []
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
@@ -278,7 +278,8 @@ export default {
     async connect() {
       try {
         this.connecting = true
-        const connected = await setupNetwork(this.chainNames[this.chainTab])
+        const chainName = this.chainTab === this.chainNames.length ? 'BNB Smart Chain' : this.chainNames[this.chainTab]
+        const connected = await setupNetwork(chainName)
         if (connected) {
 
         }else {
