@@ -305,7 +305,7 @@ export const getPromotionCurationClaimParas = async (chainName, twitterId, ids) 
   return await gpccp(twitterId, EVM_CHAINS[chainName].id, ids);
 }
 
-export const claimRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {
+export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount, sig) => {
   return new Promise(async (resolve, reject) => {
     try{
         const curationContract = EVM_CHAINS[chainName].curation
@@ -313,7 +313,7 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         const provider = new ethers.providers.Web3Provider(metamask)
         let contract = new ethers.Contract(curationContract, abi, provider)
         contract = contract.connect(provider.getSigner())
-        const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig)
+        const tx = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig)
         await waitForTx(provider, tx.hash)
         resolve(tx.hash)
     }catch(e) {
@@ -328,6 +328,39 @@ export const claimPromotionCurationRewards = async (chainName, twitterId, ethAdd
     try {
       const metamask = await getEthWeb()
       const provider = new ethers.providers.Web3Provider(metamask);
+      const abi = [{
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "twitterId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "curationIds",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "sign",
+            "type": "bytes"
+          }
+        ],
+        "name": "claimPrize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }]
       let contract = new ethers.Contract(AutoCurationContract, abi, provider)
       contract = contract.connect(provider.getSigner());
       const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig)
