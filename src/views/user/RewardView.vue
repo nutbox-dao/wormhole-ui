@@ -185,10 +185,18 @@ export default {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
 
             let result = [];
+            let claimedIds = [];
             for (let i = 0; i < claimed.length; i++) {
               if (!claimed[i]) {
                 result.push(records[i]);
+              }else {
+                claimedIds.push(records[i].curationId)
               }
+            }
+            if (claimedIds.length > 0) {
+              setAutoCurationIsDistributed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
+                console.error('set auto curation feed fail:', e)
+              });
             }
             this.rewardLists[index] = result;
             this.$store.commit('curation/saveRewardLists', this.rewardLists)
@@ -204,11 +212,19 @@ export default {
           if (records && records.length > 0) {
             const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
             let result = [];
+            let claimedIds = [];
             for (let i = 0; i < claimed.length; i++) {
               if (!claimed[i]) {
                 result.push(records[i])
                 // getCurationDetail(this.chainNames[index], records[i].curationId)
+              }else {
+                claimedIds.push(records[i].curationId)
               }
+            }
+            if (claimedIds.length > 0) {
+              setCurationIsFeed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
+                console.error('set auto curation feed fail:', e)
+              });
             }
             this.rewardLists[index] = result
             this.$store.commit('curation/saveRewardLists', this.rewardLists)
@@ -244,7 +260,7 @@ export default {
           if (ids.length === 0) return;
           const { amount, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
           const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
-          await setAutoCurationIsDistributed(twitterId, curationIds);
+          await setAutoCurationIsDistributed(twitterId, ids);
           this.rewardLists[index] = []
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
@@ -258,7 +274,7 @@ export default {
           const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
           const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
           const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-          await setCurationIsFeed(twitterId, curationIds);
+          await setCurationIsFeed(twitterId, ids);
           this.rewardLists[index] = [];
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
