@@ -62,6 +62,9 @@ export const searchUsers = async (text) =>
 export const generateWordcloud = async (twitterId) =>
     post(BACKEND_API_URL + '/wordcloud/generate', {twitterId})
 
+export const getUserVp = async (twitterId) =>
+    get(BACKEND_API_URL + '/users/getUserVP', {twitterId})  
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
