@@ -13,7 +13,7 @@
     <template v-if="!loading">
       <div class="border-b-1 border-color84/30">
         <div class="container max-w-50rem mx-auto">
-          <div class="px-1rem mt-1rem flex items-center">
+          <div class="px-1rem mt-1rem flex items-start">
             <img
                 class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
                 @error="replaceEmptyImg"
@@ -46,6 +46,58 @@
                                 rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem"
                                 @click="modalVisible=true">
                   Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
+                </div>
+              </div>
+              <div class="sm:max-w-500px">
+                <div class="mt-8px">
+                  <div class="flex justify-between items-center w-full">
+                    <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.resourceCredits')}}
+                      </span>
+                      <el-tooltip popper-class="shadow-popper-tip">
+                        <template #content>
+                          <div class="max-w-14rem text-white light:text-blueDark">
+                            {{$t('postView.p1')}}
+                          </div>
+                        </template>
+                        <button>
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                        </button>
+                      </el-tooltip>
+                    </div>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                  </div>
+                  <el-progress class="c-progress flex-1 w-full"
+                               :text-inside="false"
+                               :stroke-width="10"
+                               :show-text="false"
+                               :percentage="Number(rcPercent)"/>
+                </div>
+                <div class="mt-8px">
+                  <div class="flex justify-between items-center w-full">
+                    <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.votingPower')}}
+                      </span>
+                      <el-tooltip popper-class="shadow-popper-tip">
+                        <template #content>
+                          <div class="max-w-14rem text-white light:text-blueDark">
+                            {{$t('postView.p1')}}
+                          </div>
+                        </template>
+                        <button>
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                        </button>
+                      </el-tooltip>
+                    </div>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                  </div>
+                  <el-progress class="c-progress flex-1 w-full"
+                               :text-inside="false"
+                               :stroke-width="10"
+                               :show-text="false"
+                               :percentage="Number(rcPercent)"/>
                 </div>
               </div>
             </div>
@@ -241,6 +293,7 @@ export default {
       "ethBalance",
       "erc20Balances",
       "steemBalance",
+      "rcPercent"
     ]),
     ...mapGetters(["getAccountInfo"]),
     totalValue() {

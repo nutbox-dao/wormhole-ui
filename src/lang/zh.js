@@ -106,7 +106,8 @@ export default {
     promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
     curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
     curatorsList: '策展人列表：',
-    postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文'
+    postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
+    votingPower: 'Voting Power'
   },
   profileView: {
     socialAsset: '社交资产',
