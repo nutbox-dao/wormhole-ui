@@ -107,7 +107,8 @@ export default {
     curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
-    votingPower: 'Voting Power'
+    votingPower: 'Curating Power',
+    vpDes: 'Every curatorial operation must cost you curating power which can recover all everyday. The curatorial operations include: like/quote/retweet.'
   },
   profileView: {
     socialAsset: 'Social assets',

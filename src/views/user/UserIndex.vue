@@ -83,7 +83,7 @@
                       <el-tooltip popper-class="shadow-popper-tip">
                         <template #content>
                           <div class="max-w-14rem text-white light:text-blueDark">
-                            {{$t('postView.p1')}}
+                            {{$t('postView.vpDes')}}
                           </div>
                         </template>
                         <button>
@@ -91,13 +91,13 @@
                         </button>
                       </el-tooltip>
                     </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
                   </div>
                   <el-progress class="c-progress flex-1 w-full"
                                :text-inside="false"
                                :stroke-width="10"
                                :show-text="false"
-                               :percentage="Number(rcPercent)"/>
+                               :percentage="Number(vp)"/>
                 </div>
               </div>
             </div>
@@ -438,23 +438,7 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo;
-      if (steemId) {
-        // get steem balance
-        getSteemBalance(steemId)
-          .then((balance) => {
-            this.$store.commit("saveSteemBalance", balance.steemBalance);
-            this.$store.commit("saveSbdBalance", balance.sbdBalance);
-          })
-          .catch((err) => console.log("get steem balance fail:", err));
-      } else {
-        this.$store.commit("saveSteemBalance", steemAmount ?? 0);
-      }
 
-      //get eth balances
-      if (ethAddress) {
-        getTokenBalance(ethAddress);
-      }
     } else {
       this.$router.replace('/')
     }
