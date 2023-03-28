@@ -101,7 +101,7 @@
                           <el-tooltip popper-class="shadow-popper-tip">
                             <template #content>
                               <div class="max-w-14rem text-white light:text-blueDark">
-                                {{$t('postView.p1')}}
+                                {{$t('postView.vpDes')}}
                               </div>
                             </template>
                             <button>
@@ -109,13 +109,13 @@
                             </button>
                           </el-tooltip>
                         </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
                       </div>
                       <el-progress class="c-progress flex-1 w-full"
                                    :text-inside="false"
                                    :stroke-width="10"
                                    :show-text="false"
-                                   :percentage="Number(rcPercent)"/>
+                                   :percentage="Number(vp)"/>
                     </div>
                   </div>
                 </div>
@@ -177,6 +177,7 @@ import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/
 import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
+import { getUserVp } from '@/api/api'
 
 export default {
   name: "AccountInfo",
@@ -204,7 +205,8 @@ export default {
       post: {},
       showTip: false,
       scroll: 0,
-      rcPercent: 0
+      rcPercent: 0,
+      vp: 0
     };
   },
   computed: {
@@ -314,30 +316,23 @@ export default {
     try {
       this.loading = true
       this.accountInfo = await getUserInfo(twitterUsername)
-      const { steemId, ethAddress } = this.accountInfo;
+      const { twitterId, steemId } = this.accountInfo;
 
-      if (steemId) {
-        // get steem balance
-        getSteemBalance(steemId)
-          .then((balance) => {
-            this.steemBalance = balance.steemBalance
-          })
-          .catch((err) => console.log("get steem balance fail:", err));
-      } else {
-      }
+       // get user vp
+       getUserVp(twitterId).then(res => {
+        this.vp = res
+      }).catch(e => {
+        console.log(34, e);
+      })
 
-      // if (ethAddress) {
-      //   this.erc20Balances = await getTokenBalance(ethAddress, false);
-
-      // }
+      getAccountRC(steemId).then(rc => {
+        this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
+      }).catch(e => console.log(64, e))
     } catch (e) {
       console.log('get user info fail:', e);
     } finally {
       this.loading = false
     }
-    getAccountRC(this.accountInfo.steemId).then(rc => {
-      this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
-    }).catch()
   },
 };
 </script>

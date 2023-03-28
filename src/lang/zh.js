@@ -107,7 +107,8 @@ export default {
     curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
-    votingPower: 'Voting Power'
+    votingPower: '策展能量',
+    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。'
   },
   profileView: {
     socialAsset: '社交资产',
