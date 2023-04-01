@@ -210,8 +210,9 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchTags } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVp } from '@/api/api'
 import Login from '@/views/Login.vue'
+import { MAX_VP, VP_RECOVER_DAY } from './config';
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -232,7 +233,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo']),
     ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
@@ -410,6 +411,26 @@ export default {
         console.log('get profile fail:', e);
       })
     }
+
+    // update curating power
+    let c = 0;
+    setInterval(async () => {
+      if(this.getAccountInfo && this.getAccountInfo.twitterId) {
+        if (c % 60 === 0 || !this.vpInfo.lastUpdateTime) {
+          c = 0;
+          const res = await getUserVp(this.getAccountInfo.twitterId);
+          if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
+            this.$store.commit('saveVpInfo', res)
+          }
+        }
+        // update vp
+        let vp = parseInt(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
+        this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp);
+        c++;
+      }else {
+        c = 0;
+      }
+    }, 2000);
 
     while(true) {
       try{
