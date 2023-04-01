@@ -324,7 +324,7 @@ export default {
         let { votingPower, lastUpdateTime } = res;
         const now = Date.now();
         let vp = parseInt(votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000))
-        this.vp = vp > MAX_VP ? MAX_VP : vp;
+        this.vp = (vp > MAX_VP ? MAX_VP : vp) / MAX_VP * 100;
        }
       }).catch(e => {
         console.log(34, e);
