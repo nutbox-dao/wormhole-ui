@@ -2,6 +2,7 @@
   <metainfo></metainfo>
   <el-config-provider :locale="elLocal[$i18n.locale]">
     <div id="app"
+         ref="appRef"
          class="bg-primaryBg light:bg-white bg-img"
          :class="$route.name"
          @click="showMenu=false,showSearchList=false">
@@ -78,9 +79,17 @@
                 <img class="ml-5px w-14px min-w-14px h-14px"
                      src="~@/assets/icon-add-white.svg" alt="">
               </button>
-              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`">
-                <img class="w-35px h-35px xl:h-2rem xl:w-2rem rounded-full mr-0.4rem"
+              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
+                           class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative">
+                <img class="w-full h-full rounded-full"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
+                <el-progress v-if="$refs.appRef" class="absolute top-0 left-0" type="circle"
+                             :width="$refs.appRef.clientWidth>1280?40:35"
+                             color="#7851FF"
+                             :show-text="false"
+                             :stroke-width="2"
+                             :percentage="50">
+                </el-progress>
               </router-link>
               <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.4rem icon-wallet black-filter"></i>
