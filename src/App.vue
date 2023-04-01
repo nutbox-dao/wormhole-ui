@@ -80,7 +80,7 @@
                      src="~@/assets/icon-add-white.svg" alt="">
               </button>
               <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
-                           class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative">
+                           class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative p-2px">
                 <img class="w-full h-full rounded-full"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
                 <el-progress v-if="$refs.appRef" class="absolute top-0 left-0" type="circle"
