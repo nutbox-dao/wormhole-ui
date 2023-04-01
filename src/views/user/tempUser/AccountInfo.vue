@@ -173,7 +173,7 @@ import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP } from "@/config";
 import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
@@ -319,8 +319,13 @@ export default {
       const { twitterId, steemId } = this.accountInfo;
 
        // get user vp
-       getUserVp(twitterId).then(res => {
-        this.vp = res
+      getUserVp(twitterId).then(res => {
+       if (res) {
+        let { votingPower, lastUpdateTime } = res;
+        const now = Date.now();
+        let vp = parseInt(votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000))
+        this.vp = vp > MAX_VP ? MAX_VP : vp;
+       }
       }).catch(e => {
         console.log(34, e);
       })

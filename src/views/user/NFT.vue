@@ -346,7 +346,6 @@ export default {
   },
   mounted() {
     const { ethAddress } = this.getAccountInfo
-    console.log(5, this.getAccountInfo);
     getStellarTreks(ethAddress).then(balances => {
       this.$store.commit('saveStellarTreks', balances)
     }).catch(e => {

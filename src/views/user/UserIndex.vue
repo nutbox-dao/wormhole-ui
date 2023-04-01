@@ -266,7 +266,6 @@ import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
-import { getUserVp } from '@/api/api'
 
 export default {
   name: "User",
@@ -283,7 +282,6 @@ export default {
       modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
       scroll: 0,
-      vp: 0
     };
   },
   computed: {
@@ -293,7 +291,8 @@ export default {
       "ethBalance",
       "erc20Balances",
       "steemBalance",
-      "rcPercent"
+      "rcPercent",
+      'vp'
     ]),
     ...mapGetters(["getAccountInfo"]),
     totalValue() {
@@ -412,14 +411,6 @@ export default {
       } else {
         this.$store.commit("saveSteemBalance", steemAmount ?? 0);
       }
-
-      // get user vp
-      getUserVp(twitterId).then(res => {
-        this.vp = res
-      }).catch(e => {
-        console.log(34, e);
-      })
-
 
       //get eth balances
       if (ethAddress) {
