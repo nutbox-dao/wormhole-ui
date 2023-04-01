@@ -97,7 +97,7 @@
                                :text-inside="false"
                                :stroke-width="10"
                                :show-text="false"
-                               :percentage="Number(vp)"/>
+                               :percentage="Number(vp) / MAX_VP * 100"/>
                 </div>
               </div>
             </div>
@@ -264,7 +264,7 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -282,6 +282,7 @@ export default {
       modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
       scroll: 0,
+      MAX_VP
     };
   },
   computed: {

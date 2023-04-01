@@ -88,7 +88,7 @@
                              color="#7851FF"
                              :show-text="false"
                              :stroke-width="3"
-                             :percentage="vp">
+                             :percentage="vp/MAX_VP*100">
                 </el-progress>
               </router-link>
               <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
@@ -238,7 +238,8 @@ export default {
       searchText: '',
       searchList: [],
       showSearchList: false,
-      seachTagList: []
+      seachTagList: [],
+      MAX_VP
     }
   },
   computed: {
