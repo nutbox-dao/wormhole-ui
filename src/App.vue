@@ -87,8 +87,8 @@
                              :width="$refs.appRef.clientWidth>1280?40:35"
                              color="#7851FF"
                              :show-text="false"
-                             :stroke-width="2"
-                             :percentage="50">
+                             :stroke-width="3"
+                             :percentage="vp">
                 </el-progress>
               </router-link>
               <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
@@ -242,7 +242,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo', 'vp']),
     ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
