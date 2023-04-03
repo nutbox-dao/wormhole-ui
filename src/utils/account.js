@@ -155,7 +155,7 @@ export const autoCurationRewardList = async (twitterId, createAt) => {
 export const logout = async (twitterId) => {
     return new Promise(async (resolve, reject) => {
         try{
-            lo(twitterId);
+            lo(twitterId).catch();
 
             store.commit('saveAccountInfo', {})
             store.commit('savePosts', [])
