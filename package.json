@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@makerdao/multicall": "^0.12.0",
+    "@unipasswallet/ethereum-provider": "^1.1.6",
+    "@unipasswallet/popup-sdk": "^1.1.6",
     "@vue/compat": "^3.2.36",
     "axios": "^0.27.2",
     "axios-retry": "^3.2.5",

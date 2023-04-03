@@ -10,7 +10,83 @@ import {
   EVM_CHAINS
 } from '@/config'
 import store from '@/store'
-import { ethers } from 'ethers'
+import { ethers, providers } from 'ethers'
+
+import { UniPassPopupSDK } from "@unipasswallet/popup-sdk"
+import { UniPassProvider } from "@unipasswallet/ethereum-provider"
+
+export const runTestUpProvider = async (message) => {
+  try{
+  const upProvider = new UniPassProvider({
+    chainId: 137,
+    returnEmail: false,
+    appSettings: {
+      appName: 'wormhole3',
+      appIcon: ''
+    },
+    rpcUrls: {
+      mainnet: "your eth mainnet rpc url",
+      polygon: "https://polygon-rpc.com",
+      bscMainnet: "your bsc mainnet rpc url",
+      rangersMainnet: "your rangers mainnet rpc url",
+      arbitrumMainnet: "your arbitrum mainnet rpc url",
+
+      polygonMumbai: "your polygon testnet rpc url",
+      goerli: "your goerli testnet rpc url",
+      bscTestnet: "your bsc testnet rpc url",
+      rangersRobin: "your rangers testnet rpc url",
+      arbitrumTestnet: "your arbitrum testnet rpc url",
+    },
+  });
+
+  await upProvider.connect();
+  const provider = new ethers.providers.Web3Provider(upProvider, 'any');
+  const signer = provider.getSigner();
+
+  const address = await signer.getAddress();
+  console.log(1111, address);
+  const sig = signer.signMessage(message);
+  return sig;
+}catch(e) {
+  console.log(333, e);
+}
+}
+
+export const getUnipass = () => {
+  const upWallet = new UniPassPopupSDK({
+    env: 'test',
+    chainType: 'polygon',
+    storageType: 'sessionStorage',
+    appSettings: {
+      theme: 'dark',
+      appName: 'wormhole3',
+      appIcon: ''
+    }
+  })
+  return upWallet
+}
+
+export const connectUnipass = async () => {
+  try {
+    console.log(1);
+    const upWallet = getUnipass();
+    console.log(2);
+    const account = await upWallet.login({
+      email: true,
+      connectType: 'both'
+    })
+    const  {address, email} = account;
+    console.log(5, address, email);
+  } catch (e) {
+    console.log(6, e);
+  }
+}
+
+export const signMessageByUP = async (message) => {
+  const upWallet = getUnipass();
+  const sig = await upWallet.signMessage(message, {isEIP191Prefix: false, onAuthChain: true});
+  return sig;
+}
 
 /**
  * Add bsc to metamask

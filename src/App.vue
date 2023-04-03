@@ -215,6 +215,7 @@ import { onCopy } from "@/utils/tool";
 import { getTokenBalance, getLiquidationNft } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { logout, isTokenExpired } from './utils/account';
+import { connectUnipass, signMessageByUP, signMessage, runTestUpProvider } from '@/utils/web3/web3'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
@@ -307,10 +308,24 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     gotoDC() {
+      signMessage('wormhole3', '0x8B877223BCBF178dF8f34Fe07511be46F7b76EB1').then(sig => {
+        console.log(22, sig);
+      });
+      return;
       this.showMenu=false
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
+    // 0x244cb31d6208dfde1af350d6e4d4de62a2ac3f7e25fedbcf82b4a19b8f72d6aa295f2fb2be483cdddc19c8a3b566f2d6e9eb3e8038828b506339e8cd1b58d2161b020000003c00000064000000000200671c0af11e5fff747c8852790f35e0f8ca8f0ebafca097365d67409e040c0f660000003c000000000000003c0100a3b9a6d610baa035cfc74d009298ccad25f1dc28000000280000000000000000
+    // 0xc8e638ac4899477a4e9d4ce23baa4f5dc20e99ba788fb1941d8a08b5f17f44290cf874cee653024aa8716ae9f1556d058559ff702470d04705672af33dcbe2aa1c020000003c00000064000000000200671c0af11e5fff747c8852790f35e0f8ca8f0ebafca097365d67409e040c0f660000003c000000000000003c0100a3b9a6d610baa035cfc74d009298ccad25f1dc28000000280000000000000000
+    // 0x29f3bf0b686fb8be771febcdf05cf5b94a7c51755f76824d38b5c8fef020773317e33444045f10ee5678d75cebdbfb23d2aa4a26fb983e6e62e1d9701e0d54591c020000003c00000064000000000200671c0af11e5fff747c8852790f35e0f8ca8f0ebafca097365d67409e040c0f660000003c000000000000003c0100a3b9a6d610baa035cfc74d009298ccad25f1dc28000000280000000000000000
+    // 0xd119e63f3ae716f0c14e3c92df4d26a9c145cad63c63343f7ed6b741dc4ed012338d6db2d826d6a2c094f2b6187ca7c7cd2882c961d12df9df60b76016593a9f1b020000003c00000064000000000200671c0af11e5fff747c8852790f35e0f8ca8f0ebafca097365d67409e040c0f660000003c000000000000003c0100a3b9a6d610baa035cfc74d009298ccad25f1dc28000000280000000000000000
+    // 0xdbe68fc09fb4761f1f7ab664cded5325c5ac6969fe02a85f9ca394128c4f3abc604d94aa9fa6cc6f97f298ed7de6018d0f92772e7e2e425f4c05cc21808b59191c
+    // 0xe121222cb0b8129bf5fb65e671a111f127cb68dde31b4e3d28d87e00f52609755987b7647cabb685b6efed994beaae944849e17caf609c2b96eb923ef278480f1c
     gotoTwitter(){
+      runTestUpProvider('wormhole3235').then(sig => {
+        console.log(66, sig);
+      });
+      return;
       this.showMenu = false
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
