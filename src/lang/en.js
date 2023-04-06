@@ -20,7 +20,7 @@ export default {
   trending: 'Trending',
   new: 'New',
   curated: 'Curated',
-  promoted: 'Promted',
+  promoted: 'Promoted',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
