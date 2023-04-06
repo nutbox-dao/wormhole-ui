@@ -26,9 +26,8 @@
             </span>
         </div>
       </div>
-      <div v-if="space.isCurated" class="bg-colorF1 light:bg-white px-8px rounded-full py-4px light:shadow-md">
-        <div class="gradient-text gradient-text-right3-deg text-12px xl:text-0.75rem font-bold">Curated</div>
-      </div>
+      <div v-if="post.isPromoted && !isDetail" class="ml-4px flex items-center sm:hidden">
+              </div>
     </div>
     <div class="flex mt-5px sm:mt-0">
       <div v-if="showAvatar"

@@ -19,7 +19,7 @@
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
                 <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
-              <div v-if="post.isCurated && !isDetail" class="ml-4px flex items-center sm:hidden">
+              <div v-if="post.isPromoted && !isDetail" class="ml-4px flex items-center sm:hidden">
                 <el-tooltip :show-after="500">
                   <template #content>
                     <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
@@ -51,7 +51,7 @@
              {{ parseTimestamp(post.postTime) }}
             </span>
             </div>
-            <div v-if="post.isCurated && !isDetail" class="ml-4px items-center hidden sm:flex">
+            <div v-if="post.isPromoted && !isDetail" class="ml-4px items-center hidden sm:flex">
               <el-tooltip :show-after="500">
                 <template #content>
                   <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
