@@ -160,7 +160,7 @@ export default {
       position: document.body.clientWidth < 768?'bottom':'center',
       scroll: 0,
       showMoreTag: false,
-      rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'curated'}],
+      rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'promoted'}],
       rankValue: 0,
       customizeTagList: [],
       selectedPost: null,
