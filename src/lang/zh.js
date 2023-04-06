@@ -20,6 +20,7 @@ export default {
   trending: '流行',
   new: '最新',
   curated: '已策展',
+  promoted: '推广',
   signUpView: {
     p1: '你还没有注册.',
     p2: '注册然后...',
@@ -300,7 +301,7 @@ export default {
     tipToUser: "打赏资产给{'@'}{user}",
     tipToSpeaker: "打赏资产给Spekaers",
     network: '网络',
-    createStepTip: '你可以发布一条推文并立即策展. 你还可以策展现有的推文或 Twitter Space.',
+    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广现有的推文或 Twitter Space.',
     selectCategoryTip:  '你要为推文或twitter space创建策展吗?',
     selectNewTweet: '或创建一条新推文',
     pastLinkTip: '粘贴下面的推文链接，然后单击验证以预览',
