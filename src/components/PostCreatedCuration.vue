@@ -65,10 +65,10 @@
         </template>
       </ChainTokenIconLarge>
     </div>
-    <div class="flex text-16px font-bold pt-14px pb-8px border-b border-color84/30 mb-6px">
+    <!-- <div class="flex text-16px font-bold pt-14px pb-8px border-b border-color84/30 mb-6px">
       <span>{{ $t('postView.curatorsList') }}</span>
-    </div>
-    <div v-for="c of allCurations" :key="c.twitterId" class="py-10px border-b-1 border-color84/20 c-list-item">
+    </div> -->
+    <!-- <div v-for="c of allCurations" :key="c.twitterId" class="py-10px border-b-1 border-color84/20 c-list-item">
       <div class="flex items-center mb-4px ">
         <img class="w-28px min-w-28px h-28px mr-8px rounded-full cursor-pointer"
              :src="c.profileImg && c.profileImg.replace('normal', '200x200')" alt="">
@@ -88,7 +88,7 @@
       <div class="text-color8B light:text-color21 text-left leading-16px text-12px whitespace-pre-line break-word">
         {{c?.content.replace('#iweb3', '').replace('#curate', '').replace(`https://twitter.com/${post.username}/status/${post.postId}`, '').trim()}}
       </div>
-    </div>
+    </div> -->
     <van-popup class="md:w-600px bg-black light:bg-transparent"
                :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="showSubmissions"
