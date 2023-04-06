@@ -78,9 +78,9 @@ export default {
       await sleep(1)
     }
 
-    getAccountRC(this.accountInfo.steemId).then(rc => {
-      this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
-    }).catch()
+    // getAccountRC(this.accountInfo.steemId).then(rc => {
+    //   this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
+    // }).catch()
     this.onRefresh()
     this.$bus.on('updatePostIndetail', (postDetail) => {
       console.log('update post', postDetail)

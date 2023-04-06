@@ -82,13 +82,13 @@ export default {
       }
       await sleep(1)
     }
-    if (this.getAccountInfo.steemId) {
-      getAccountRC(this.getAccountInfo.steemId).then(rc => {
-        this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
-      }).catch()
-    }else {
-      this.$store.commit('saveRcPercent',100.00)
-    }
+    // if (this.getAccountInfo.steemId) {
+    //   getAccountRC(this.getAccountInfo.steemId).then(rc => {
+    //     this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+    //   }).catch()
+    // }else {
+    //   this.$store.commit('saveRcPercent',100.00)
+    // }
   },
   async activated() {
     // document.getElementById('user-index').scrollTo({top: this.scroll})

@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="sm:max-w-500px">
-                <div class="mt-8px">
+                <!-- <div class="mt-8px">
                   <div class="flex justify-between items-center w-full">
                     <div class="flex items-center justify-center">
                       <span class="text-color8B light:text-white whitespace-nowrap text-12px">
@@ -73,8 +73,8 @@
                                :stroke-width="10"
                                :show-text="false"
                                :percentage="Number(rcPercent)"/>
-                </div>
-                <div class="mt-8px">
+                </div> -->
+                <div class="mt-12px">
                   <div class="flex justify-between items-center w-full">
                     <div class="flex items-center justify-center">
                       <span class="text-color8B light:text-white whitespace-nowrap text-12px">
