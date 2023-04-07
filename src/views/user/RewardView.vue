@@ -214,7 +214,6 @@ export default {
           }
         }else if (index === this.chainNames.length + 1) {
           const records = await autoCurationAuthorRewardList(this.getAccountInfo.twitterId);
-          console.log(35, records);
           if (records && records.length > 0) {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
 
@@ -298,6 +297,21 @@ export default {
           this.rewardLists[index] = []
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
+        }else if (index === this.chainNames.length + 1) {
+          this.claiming = true;
+          const chainName = 'BNB Smart Chain';
+          const selectTokens = Object.values(this.checkRewardList);
+          if (selectTokens.length === 0) {
+            return;
+          }
+          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
+          if (ids.length === 0) return;
+          const { amount, curationIds, ethAddress, sig, twitterId } = await getAuthorRewardClaimParas(chainName, this.getAccountInfo.twitterId, ids);
+          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
+          await setAutoCurationAuthorRewardIsDistributed(twitterId, ids);
+          this.rewardLists[index] = [];
+          this.$store.commit('curation/saveRewardLists', this.rewardLists);
+          this.getRecords();
         }else {
           const chainName = this.chainNames[index]
           const selectTokens = Object.values(this.checkRewardList);
@@ -328,7 +342,7 @@ export default {
     async connect() {
       try {
         this.connecting = true
-        const chainName = this.chainTab === this.chainNames.length ? 'BNB Smart Chain' : this.chainNames[this.chainTab]
+        const chainName = this.chainTab >= this.chainNames.length ? 'BNB Smart Chain' : this.chainNames[this.chainTab]
         const connected = await setupNetwork(chainName)
         if (connected) {
 
