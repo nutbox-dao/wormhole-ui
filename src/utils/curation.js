@@ -397,7 +397,7 @@ export const getCurationDetail = async (chainName, curationId) => {
     let contract = new ethers.Contract(curationContract, abi, provider)
     const res = await contract.taskInfo(ethers.BigNumber.from('0x' + curationId));
   } catch (e) {
-      console.log(90, e);
+      console.log(91, e);
   }
 }
 
@@ -419,7 +419,7 @@ export const getSingerOfCuration = async (chainName) => {
     console.log('singer:', res.results.transformed.address);
     return res.results.transformed.address
   } catch (e) {
-      console.log(91, e);
+      console.log(92, e);
   }
 }
 
