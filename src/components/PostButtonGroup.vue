@@ -5,7 +5,7 @@
       <!-- follow-->
       <div v-if="isDetail" class="flex justify-between items-center">
         <button @click.stop="userFollow"
-                :disabled="isFollowing"
+                :disabled="isFollowing || post.followed"
                 class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
