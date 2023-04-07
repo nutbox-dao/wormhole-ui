@@ -426,6 +426,7 @@ export default {
     summary: 'Summary',
     viewMore: 'View more',
     comments: 'Comments',
-    curation: 'Curation'
+    curation: 'Curation',
+    author: 'Author'
   }
 }
