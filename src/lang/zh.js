@@ -426,6 +426,7 @@ export default {
     summary: '汇总',
     viewMore: '查看更多',
     comments: '评论',
-    curation: '策展'
+    curation: '策展',
+    author: '作者'
   }
 }
