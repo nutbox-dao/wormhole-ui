@@ -1,54 +1,6 @@
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-3 md:gap-1rem pb-2rem text-14px xl:text-0.8rem">
-    <div class="col-span-1 xl:col-start-3 xl:col-end-4
-                light:bg-social-token-box light:bg-no-repeat light:bg-cover
-                border-1 border-dividerColor
-                px-1rem rounded-12px xl:my-2rem md:mb-0 sm:mx-0 mt-1rem mb-1.5rem
-                h-min overflow-hidden mx-1.5rem">
-      <div class="border-b-1 border-color84/30 light:border-colorE0/80
-                  py-11px flex items-center justify-between xl:justify-center">
-        <span class="text-center font-600 xl:text-left xl:font-500 xl:w-full light:text-white">{{$t('postView.socialToken')}}</span>
-        <div class="xl:hidden flex-1 flex justify-end items-center">
-          <span class="text-colorB5 light:text-colorE0/80 mr-1rem whitespace-nowrap">{{ steemBalance }} STEEM</span>
-          <span class="text-white c-text-black">{{ steemValue}} </span>
-        </div>
-      </div>
-      <div class="mt-2rem xl:mt-1rem mb-1.5rem">
-        <div class="hidden xl:block md:mb-1rem text-right">
-          <div class="text-colorB5 light:text-colorE0/80 mb-0.5rem">{{ steemBalance }} STEEM</div>
-          <div class="text-1.6rem text-white">{{ steemValue}} </div>
-        </div>
-        <div class="flex items-center xl:flex-col">
-          <div class="flex justify-between items-center xl:w-full">
-            <div class="flex items-center justify-center">
-              <span class="text-color8B light:text-white whitespace-nowrap">
-                {{$t('postView.resourceCredits')}}
-              </span>
-              <el-tooltip popper-class="shadow-popper-tip">
-                <template #content>
-                  <div class="max-w-14rem text-white light:text-blueDark">
-                    {{$t('postView.p1')}}
-                  </div>
-                </template>
-                <button>
-                  <img class="min-w-12px w-1rem ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
-                </button>
-              </el-tooltip>
-            </div>
-            <span class="hidden xl:block c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
-          </div>
-          <div class="flex-1 ml-17px flex justify-end xl:w-full xl:ml-0">
-            <el-progress class="c-progress flex-1 max-w-200px xl:w-full xl:max-w-full xl:mt-10px"
-                         :text-inside="false"
-                         :stroke-width="10"
-                         :show-text="false"
-                         :percentage="Number(rcPercent)"/>
-            <span class="xl:hidden font-bold ml-10px text-white" style="color: #E0D2FF">{{rcPercent}}%</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-span-1 xl:col-start-1 xl:col-end-3 xl:row-start-1 xl:mt-2rem w-full ">
+  <div class="grid grid-cols-1 pb-2rem text-14px xl:text-0.8rem">
+    <div class="col-span-1 mt-2rem w-full ">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
                         loading-text="Loading"
                         pulling-text="Pull to refresh data"
@@ -130,13 +82,13 @@ export default {
       }
       await sleep(1)
     }
-    if (this.getAccountInfo.steemId) {
-      getAccountRC(this.getAccountInfo.steemId).then(rc => {
-        this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
-      }).catch()
-    }else {
-      this.$store.commit('saveRcPercent',100.00)
-    }
+    // if (this.getAccountInfo.steemId) {
+    //   getAccountRC(this.getAccountInfo.steemId).then(rc => {
+    //     this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
+    //   }).catch()
+    // }else {
+    //   this.$store.commit('saveRcPercent',100.00)
+    // }
   },
   async activated() {
     // document.getElementById('user-index').scrollTo({top: this.scroll})

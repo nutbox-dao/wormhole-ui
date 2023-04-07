@@ -18,6 +18,11 @@
                     @click="selectTab(chainNames.length)">
               {{ $t('common.curation') }}
             </button>
+            <button class="tab h-30px text-12px sm:text-14px"
+                    :class="chainTab===chainNames.length + 1?'active':''"
+                    @click="selectTab(chainNames.length + 1)">
+              {{ $t('common.author') }}
+            </button>
           </div>
         </div>
         <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
@@ -32,7 +37,7 @@
                            :label="reward.token">
                 <ChainTokenIcon height="30px" width="30px" class=" p-2px"
                                 :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                :chainName="chainTab === chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
+                                :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
                   <template #amount>
                       <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
                         {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
@@ -83,7 +88,7 @@
                   :class="tabIndex===1?'active-tab':''"
                   @click="tabIndex=1">{{$t('common.post')}}</button>
         </div> -->
-        <RewardCuration :rewards="showingList" :chain-name="chainTab === chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+        <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
         <!-- <RewardPost v-show="tabIndex===1"/> -->
       </div>
       <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
@@ -103,17 +108,17 @@ import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
-import { getCurationRewardList, autoCurationRewardList } from "@/utils/account"
+import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
 import { checkCurationRewards, checkAutoCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
-   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards,
+   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards, getAuthorRewardClaimParas,
    getCurationDetail } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed, setAutoCurationIsDistributed } from '@/api/api'
+import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorRewardIsDistributed } from '@/api/api'
 
 export default {
   components: {RewardCuration, RewardPost, ChainTokenIcon},
@@ -121,7 +126,7 @@ export default {
     return {
       tabIndex: 0,
       chainTab: 0,
-      loading: [false, false, false, false],
+      loading: [false, false, false, false, false, false],
       claiming: false,
       connecting: false,
       prices: [],
@@ -136,7 +141,7 @@ export default {
       return Object.keys(EVM_CHAINS)
     },
     chainIds() {
-      return Object.values(EVM_CHAINS).map(c => c.id).concat([56])
+      return Object.values(EVM_CHAINS).map(c => c.id).concat([56, 56])
     },
     showingList() {
       return this.rewardLists[this.chainTab]
@@ -179,7 +184,7 @@ export default {
           return;
         }
         this.loading[index] = true
-        if (index === this.chainIds.length - 1) {
+        if (index === this.chainNames.length) {
           const records = await autoCurationRewardList(this.getAccountInfo.twitterId);
           if (records && records.length > 0) {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
@@ -204,6 +209,34 @@ export default {
               this.prices[index] = res;
             })
           }else {
+            this.rewardLists[index] = [];
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+          }
+        }else if (index === this.chainNames.length + 1) {
+          const records = await autoCurationAuthorRewardList(this.getAccountInfo.twitterId);
+          if (records && records.length > 0) {
+            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
+
+            let result = [];
+            let claimdIds = [];
+            for(let i = 0; i < claimed.length; i++) {
+              if (!claimed[i]) {
+                result.push(records[i])
+              }else {
+                claimdIds.push(records[i].curationId)
+              }
+            }
+            if (claimdIds.length > 0) {
+              setAutoCurationAuthorRewardIsDistributed(this.getAccountInfo.twitterId, claimdIds).then().catch(e => {
+                console.error('set auto curation author reward feed fail:', e)
+              })
+            }
+            this.rewardLists[index] = result;
+            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            getPriceFromOracle('BNB Smart Chain', result).then(res => {
+              this.prices[index] = res;
+            })
+          }else{
             this.rewardLists[index] = [];
             this.$store.commit('curation/saveRewardLists', this.rewardLists)
           }
@@ -264,6 +297,21 @@ export default {
           this.rewardLists[index] = []
           this.$store.commit('curation/saveRewardLists', this.rewardLists);
           this.getRecords();
+        }else if (index === this.chainNames.length + 1) {
+          this.claiming = true;
+          const chainName = 'BNB Smart Chain';
+          const selectTokens = Object.values(this.checkRewardList);
+          if (selectTokens.length === 0) {
+            return;
+          }
+          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
+          if (ids.length === 0) return;
+          const { amount, curationIds, ethAddress, sig, twitterId } = await getAuthorRewardClaimParas(chainName, this.getAccountInfo.twitterId, ids);
+          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
+          await setAutoCurationAuthorRewardIsDistributed(twitterId, ids);
+          this.rewardLists[index] = [];
+          this.$store.commit('curation/saveRewardLists', this.rewardLists);
+          this.getRecords();
         }else {
           const chainName = this.chainNames[index]
           const selectTokens = Object.values(this.checkRewardList);
@@ -294,7 +342,7 @@ export default {
     async connect() {
       try {
         this.connecting = true
-        const chainName = this.chainTab === this.chainNames.length ? 'BNB Smart Chain' : this.chainNames[this.chainTab]
+        const chainName = this.chainTab >= this.chainNames.length ? 'BNB Smart Chain' : this.chainNames[this.chainTab]
         const connected = await setupNetwork(chainName)
         if (connected) {
 

@@ -62,6 +62,9 @@ export const searchUsers = async (text) =>
 export const generateWordcloud = async (twitterId) =>
     post(BACKEND_API_URL + '/wordcloud/generate', {twitterId})
 
+export const getUserVp = async (twitterId) =>
+    get(BACKEND_API_URL + '/users/getUserVP', {twitterId})  
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
@@ -233,17 +236,26 @@ export const getCurationRewardList = async (twitterId, chainId, createAt) =>
 export const autoCurationRewardList = async (twitterId, createdAt) =>
     post(BACKEND_API_URL + '/users/autoCurationRewardList', {twitterId, createdAt})
 
+export const autoCurationAuthorRewardList = async (twitterId, createdAt) =>
+    post(BACKEND_API_URL + '/users/autoCurationAuthorRewardList', {twitterId, createdAt})
+
 export const getClaimParas = async (twitterId, chainId, ids) =>
     post(BACKEND_API_URL + '/curation/getClaimParas', {twitterId, chainId, ids})
 
 export const getPromotionCurationClaimParas = async (twitterId, chainId, ids) =>
     post(BACKEND_API_URL + '/curation/getPromotionCurationClaimParas', {twitterId, chainId, ids})
 
+export const getAuthorRewardClaimParas = async (twitterId, chainId, ids) =>
+post(BACKEND_API_URL + '/curation/getAuthorRewardClaimParas', {twitterId, chainId, ids})
+
 export const setCurationIsFeed = async (twitterId, curationIds) =>
     post(BACKEND_API_URL + '/curation/setCurationIsFeed', {twitterId, curationIds})
 
 export const setAutoCurationIsDistributed = async (twitterId, curationIds) =>
     post(BACKEND_API_URL + '/curation/setAutoCurationIsDistributed', {twitterId, curationIds})
+
+    export const setAutoCurationAuthorRewardIsDistributed = async (twitterId, curationIds) =>
+        post(BACKEND_API_URL + '/curation/setAutoCurationAuthorRewardIsDistributed', {twitterId, curationIds})
 
 export const getCurationRewardsOfPost = async (postId) =>
     get(BACKEND_API_URL + '/curation/getCurationRewardsOfPost', {postId})

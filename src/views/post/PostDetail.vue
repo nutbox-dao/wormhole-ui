@@ -175,12 +175,12 @@
                                          class="py-15px "
                                          :curation-data="curationList[0]"
                                          :post="currentShowingDetail"/>
-                    <button class="bg-color62 text-white h-34px font-bold
+                    <!-- <button class="bg-color62 text-white h-34px font-bold
                                w-full rounded-full text-12px"
                             :disabled="creatingCuration"
                             @click="createCuration">
                       {{ $t('postView.createNewCuration') }}
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
@@ -247,12 +247,12 @@
                                        class="py-15px "
                                        :curation-data="curationList[0]"
                                        :post="currentShowingDetail"/>
-                  <button class="bg-color62 text-white h-34px font-bold
+                  <!-- <button class="bg-color62 text-white h-34px font-bold
                                w-full rounded-full text-12px"
                           :disabled="creatingCuration"
                           @click="createCuration">
                     {{ $t('postView.createNewCuration') }}
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>

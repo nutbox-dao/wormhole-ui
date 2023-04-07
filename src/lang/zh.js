@@ -20,6 +20,7 @@ export default {
   trending: '流行',
   new: '最新',
   curated: '已策展',
+  promoted: '推广',
   signUpView: {
     p1: '你还没有注册.',
     p2: '注册然后...',
@@ -104,9 +105,11 @@ export default {
     createNewCuration: '创建新策展',
     notCurator: '您还不是一个策展人',
     promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
-    curationTips: '只有拥有策展人NFT的用户才可以创建一个自动策展。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
+    curationTips: '虫洞用户在RC充足的时候发推即可创建一个自动策展，还可以引用他人的帖子来为其帖子创建策展，自己作为该策展的第一个策展人。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
     curatorsList: '策展人列表：',
-    postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文'
+    postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
+    votingPower: '策展能量',
+    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。'
   },
   profileView: {
     socialAsset: '社交资产',
@@ -298,7 +301,7 @@ export default {
     tipToUser: "打赏资产给{'@'}{user}",
     tipToSpeaker: "打赏资产给Spekaers",
     network: '网络',
-    createStepTip: '你可以发布一条推文并立即策展. 你还可以策展现有的推文或 Twitter Space.',
+    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广现有的推文或 Twitter Space.',
     selectCategoryTip:  '你要为推文或twitter space创建策展吗?',
     selectNewTweet: '或创建一条新推文',
     pastLinkTip: '粘贴下面的推文链接，然后单击验证以预览',
@@ -377,7 +380,8 @@ export default {
     share: '分享',
     wordDesc: '你的推文组成了部分的你，\n 让我们一起发现你的线上画像把， \n 也许你自己都想象不到。',
     insuffientContent: '对不起，您的推特账号没有足够的内容可以生成推特人格。',
-    seeYourNFT: '我的NFT'
+    seeYourNFT: '我的NFT',
+    downloadTip: '长按下载'
   },
   err: {
     serverErr: '内部错误',
@@ -422,6 +426,7 @@ export default {
     summary: '汇总',
     viewMore: '查看更多',
     comments: '评论',
-    curation: '策展'
+    curation: '策展',
+    author: '作者'
   }
 }

@@ -612,3 +612,17 @@ export const Curator_NFT = {
         description: `Certified curator: The owner of this NFT can curate any post to wormhole3 without input any tokens as rewards.`,
         image: "https://gateway.nutbox.app/ipfs/QmdZH2BuwbFiuhtk16FTosvrW3DL4AXNfKgrSgyfqjW3wW"
     }
+
+
+// vp consume
+export const VP_CONSUME = Object.freeze({
+    POST: 30,
+    QUOTE: 20,
+    RETWEET: 15,
+    REPLAY: 10,
+    LIKE: 5,
+    TIP: 10
+});
+
+export const MAX_VP = 100;
+export const VP_RECOVER_DAY = 1;

@@ -1,12 +1,27 @@
 import store from '@/store'
 import { checkAccessToken, logout } from '@/utils/account'
 import { likePost as lp, retweetPost as rtp, quotePost as qp, replyPost as rep, userFollow as fp } from '@/api/api'
+import { VP_CONSUME } from '@/config';
 
-export const likePost = async (tweetId) => {
+function updateUserVpLocal(consume) {
+    const vpInfo = store.state.vpInfo;
+    const vp = store.state.vp;
+    if (vp >= consume && vpInfo.lastUpdateTime > 0) {
+        store.commit('saveVpInfo', {
+            ...vpInfo,
+            votingPower: vpInfo.votingPower - consume
+        })
+    }
+}
+
+export const likePost = async (tweetId, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
         const r = await lp(twitterId, tweetId)
+        if (authorId !== twitterId) {
+            updateUserVpLocal(VP_CONSUME.LIKE)
+        }
         console.log('user like tweet result:', r);
         if(r) {
             return r
@@ -37,11 +52,15 @@ export const followPost = async (tweetId) => {
     }
 }
 
-export const retweetPost = async (tweetId) => {
+export const retweetPost = async (tweetId, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
+        console.log(4, tweetId);
         const r = await rtp(twitterId, tweetId)
+        if (twitterId !== authorId) {
+            updateUserVpLocal(VP_CONSUME.RETWEET)
+        }
         console.log('user retweet result:', r);
         if(r) {
             return r
@@ -73,11 +92,14 @@ export const replyPost = async (tweetId, content, parentTwitterId) => {
     }
 }
 
-export const quotePost = async (tweetId, content) => {
+export const quotePost = async (tweetId, content, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
         const r = await qp(twitterId, tweetId, content)
+        if (authorId !== twitterId) {
+            updateUserVpLocal(VP_CONSUME.QUOTE)
+        }
         console.log('user reply tweet result:', r);
         if(r) {
             return r

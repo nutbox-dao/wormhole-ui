@@ -20,6 +20,7 @@ export default {
   trending: 'Trending',
   new: 'New',
   curated: 'Curated',
+  promoted: 'Promoted',
   signUpView: {
     p1: 'You have not yet registered.',
     p2: 'Sign up and...',
@@ -89,7 +90,7 @@ export default {
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{wormhole3}\'} with a steem username.',
     tweetTip: 'Tweet to blockchain',
-    tip1: 'You can add #iweb3 tag to your tweet and automatically send the tweet to the blockchain. Here is an example:',
+    tip1: 'You can add #iweb3 tag to your tweet and automatically sign tweet on-chain. Here is an example:',
     tip2: '2. Tip STEEM/SBD to a twitter account',
     tip3: "3. Transfer STEEM/SBD to a steem account",
     p4: 'Your account is in the process of registration',
@@ -104,9 +105,11 @@ export default {
     createNewCuration: 'Create new curation',
     notCurator: 'You are not a curator',
     promotionTips: 'Anyone can create a promotion for one of his or others tweet with some ERC20 token. Here is the list showing all promotions about this tweet.',
-    curationTips: `Only users with a curator NFT can create an automatic curation. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
+    curationTips: `Wormhole3 users can tweet to create curation when they have enough RC. They can also quote others tweet to create curation for them and be the first curator. The list shows the information about the curators who initiated an automated curation of the tweet, as well as information about the participation and rewards.`,
     curatorsList: 'Curators list:',
-    postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.'
+    postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
+    votingPower: 'Curating Power',
+    vpDes: 'Every curatorial operation must cost you curating power which can recover all everyday. The curatorial operations include: like/quote/retweet.'
   },
   profileView: {
     socialAsset: 'Social assets',
@@ -298,7 +301,7 @@ export default {
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
-    createStepTip: 'You can post a tweet and curate it right away. You can also curate an existing tweet or Twitter Space.',
+    createStepTip: 'You can post a tweet and promote it right away. You can also promote an existing tweet or Twitter Space.',
     selectCategoryTip:  'Are you going to curate a tweet or twitter space?',
     selectNewTweet: 'Or create a new tweet',
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
@@ -377,7 +380,8 @@ export default {
     share: 'Share',
     wordDesc: 'Your tweets is part of you, \n Let’s find out your online presence. \n Maybe surprise yourself...',
     insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
-    seeYourNFT: 'My NFT'
+    seeYourNFT: 'My NFT',
+    downloadTip: 'Long press to download'
   },
   err: {
     serverErr: 'Server error',
@@ -422,6 +426,7 @@ export default {
     summary: 'Summary',
     viewMore: 'View more',
     comments: 'Comments',
-    curation: 'Curation'
+    curation: 'Curation',
+    author: 'Author'
   }
 }

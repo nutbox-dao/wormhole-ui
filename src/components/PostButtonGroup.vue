@@ -5,7 +5,7 @@
       <!-- follow-->
       <div v-if="isDetail" class="flex justify-between items-center">
         <button @click.stop="userFollow"
-                :disabled="isFollowing"
+                :disabled="isFollowing || post.followed"
                 class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
           <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
@@ -469,7 +469,7 @@ export default {
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
         this.isQuoting = true
-        await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate')
+        await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate', this.post.twitterId)
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false
@@ -521,7 +521,7 @@ export default {
       }
       try{
         this.isRetweeting = true
-        await retweetPost(this.post.postId)
+        await retweetPost(this.post.postId, this.post.twitterId)
         this.post.retweeted = 1
         this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
@@ -547,7 +547,7 @@ export default {
       }
       try{
         this.isLiking = true
-        const result = await likePost(this.post.postId)
+        const result = await likePost(this.post.postId, this.post.twitterId)
         this.post.liked = 1
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})

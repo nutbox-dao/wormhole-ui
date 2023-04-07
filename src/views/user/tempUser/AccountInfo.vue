@@ -16,7 +16,7 @@
         <template v-if="!loading">
           <div class="border-b-1 border-color84/30">
             <div class="container max-w-50rem mx-auto">
-              <div class="px-1rem mt-1rem flex items-start md:items-center overflow-hidden">
+              <div class="px-1rem mt-1rem flex items-start overflow-hidden">
                 <img
                     class="w-60px h-60px md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
                     @error="replaceEmptyImg"
@@ -65,6 +65,58 @@
                       </span>
                       <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
                     </button>
+                  </div>
+                  <div class="sm:max-w-500px">
+                    <!-- <div class="mt-8px">
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.resourceCredits')}}
+                      </span>
+                          <el-tooltip popper-class="shadow-popper-tip">
+                            <template #content>
+                              <div class="max-w-14rem text-white light:text-blueDark">
+                                {{$t('postView.p1')}}
+                              </div>
+                            </template>
+                            <button>
+                              <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                            </button>
+                          </el-tooltip>
+                        </div>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                      </div>
+                      <el-progress class="c-progress flex-1 w-full"
+                                   :text-inside="false"
+                                   :stroke-width="10"
+                                   :show-text="false"
+                                   :percentage="Number(rcPercent)"/>
+                    </div> -->
+                    <div class="mt-12px">
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.votingPower')}}
+                      </span>
+                          <el-tooltip popper-class="shadow-popper-tip">
+                            <template #content>
+                              <div class="max-w-14rem text-white light:text-blueDark">
+                                {{$t('postView.vpDes')}}
+                              </div>
+                            </template>
+                            <button>
+                              <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                            </button>
+                          </el-tooltip>
+                        </div>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
+                      </div>
+                      <el-progress class="c-progress flex-1 w-full"
+                                   :text-inside="false"
+                                   :stroke-width="10"
+                                   :show-text="false"
+                                   :percentage="Number(vp)"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -121,10 +173,11 @@ import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
-import { getSteemBalance } from "@/utils/steem";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP } from "@/config";
+import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
+import { getUserVp } from '@/api/api'
 
 export default {
   name: "AccountInfo",
@@ -151,7 +204,9 @@ export default {
       showDetail: false,
       post: {},
       showTip: false,
-      scroll: 0
+      scroll: 0,
+      rcPercent: 0,
+      vp: 0
     };
   },
   computed: {
@@ -261,28 +316,28 @@ export default {
     try {
       this.loading = true
       this.accountInfo = await getUserInfo(twitterUsername)
-      const { steemId, ethAddress } = this.accountInfo;
+      const { twitterId, steemId } = this.accountInfo;
 
-      if (steemId) {
-        // get steem balance
-        getSteemBalance(steemId)
-          .then((balance) => {
-            this.steemBalance = balance.steemBalance
-          })
-          .catch((err) => console.log("get steem balance fail:", err));
-      } else {
-      }
+       // get user vp
+      getUserVp(twitterId).then(res => {
+       if (res) {
+        let { votingPower, lastUpdateTime } = res;
+        const now = Date.now();
+        let vp = parseInt(votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000))
+        this.vp = (vp > MAX_VP ? MAX_VP : vp) / MAX_VP * 100;
+       }
+      }).catch(e => {
+        console.log(34, e);
+      })
 
-      // if (ethAddress) {
-      //   this.erc20Balances = await getTokenBalance(ethAddress, false);
-
-      // }
+      // getAccountRC(steemId).then(rc => {
+      //   this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
+      // }).catch(e => console.log(64, e))
     } catch (e) {
       console.log('get user info fail:', e);
     } finally {
       this.loading = false
     }
-
   },
 };
 </script>

@@ -13,7 +13,7 @@
     <template v-if="!loading">
       <div class="border-b-1 border-color84/30">
         <div class="container max-w-50rem mx-auto">
-          <div class="px-1rem mt-1rem flex items-center">
+          <div class="px-1rem mt-1rem flex items-start">
             <img
                 class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
                 @error="replaceEmptyImg"
@@ -46,6 +46,58 @@
                                 rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem"
                                 @click="modalVisible=true">
                   Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
+                </div>
+              </div>
+              <div class="sm:max-w-500px">
+                <!-- <div class="mt-8px">
+                  <div class="flex justify-between items-center w-full">
+                    <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.resourceCredits')}}
+                      </span>
+                      <el-tooltip popper-class="shadow-popper-tip">
+                        <template #content>
+                          <div class="max-w-14rem text-white light:text-blueDark">
+                            {{$t('postView.p1')}}
+                          </div>
+                        </template>
+                        <button>
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                        </button>
+                      </el-tooltip>
+                    </div>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                  </div>
+                  <el-progress class="c-progress flex-1 w-full"
+                               :text-inside="false"
+                               :stroke-width="10"
+                               :show-text="false"
+                               :percentage="Number(rcPercent)"/>
+                </div> -->
+                <div class="mt-12px">
+                  <div class="flex justify-between items-center w-full">
+                    <div class="flex items-center justify-center">
+                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                        {{$t('postView.votingPower')}}
+                      </span>
+                      <el-tooltip popper-class="shadow-popper-tip">
+                        <template #content>
+                          <div class="max-w-14rem text-white light:text-blueDark">
+                            {{$t('postView.vpDes')}}
+                          </div>
+                        </template>
+                        <button>
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                        </button>
+                      </el-tooltip>
+                    </div>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
+                  </div>
+                  <el-progress class="c-progress flex-1 w-full"
+                               :text-inside="false"
+                               :stroke-width="10"
+                               :show-text="false"
+                               :percentage="Number(vp) / MAX_VP * 100"/>
                 </div>
               </div>
             </div>
@@ -212,7 +264,7 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -229,7 +281,8 @@ export default {
       showNotSendTwitter: false,
       modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
-      scroll: 0
+      scroll: 0,
+      MAX_VP
     };
   },
   computed: {
@@ -239,6 +292,8 @@ export default {
       "ethBalance",
       "erc20Balances",
       "steemBalance",
+      "rcPercent",
+      'vp'
     ]),
     ...mapGetters(["getAccountInfo"]),
     totalValue() {
@@ -345,7 +400,7 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo;
+      const { steemId, ethAddress, web25ETH, steemAmount, twitterId } = this.getAccountInfo;
       if (steemId) {
         // get steem balance
         getSteemBalance(steemId)
@@ -357,7 +412,6 @@ export default {
       } else {
         this.$store.commit("saveSteemBalance", steemAmount ?? 0);
       }
-
 
       //get eth balances
       if (ethAddress) {
@@ -376,23 +430,7 @@ export default {
       this.getAccountInfo &&
       twitterUsername == this.getAccountInfo.twitterUsername
     ) {
-      const { steemId, ethAddress, web25ETH, steemAmount } = this.getAccountInfo;
-      if (steemId) {
-        // get steem balance
-        getSteemBalance(steemId)
-          .then((balance) => {
-            this.$store.commit("saveSteemBalance", balance.steemBalance);
-            this.$store.commit("saveSbdBalance", balance.sbdBalance);
-          })
-          .catch((err) => console.log("get steem balance fail:", err));
-      } else {
-        this.$store.commit("saveSteemBalance", steemAmount ?? 0);
-      }
 
-      //get eth balances
-      if (ethAddress) {
-        getTokenBalance(ethAddress);
-      }
     } else {
       this.$router.replace('/')
     }
