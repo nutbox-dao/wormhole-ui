@@ -90,6 +90,13 @@
                              :stroke-width="3"
                              :percentage="vp/MAX_VP*100">
                 </el-progress>
+                <el-progress v-if="$refs.appRef" class="absolute -top-3px -left-3px" type="circle"
+                             :width="$refs.appRef.clientWidth>1280?46:41"
+                             color="#AE88FE"
+                             :show-text="false"
+                             :stroke-width="3"
+                             :percentage="vp/MAX_VP*100">
+                </el-progress>
               </router-link>
               <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
                 <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.4rem icon-wallet black-filter"></i>
