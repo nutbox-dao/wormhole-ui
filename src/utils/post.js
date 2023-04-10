@@ -56,7 +56,6 @@ export const retweetPost = async (tweetId, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        console.log(4, tweetId);
         const r = await rtp(twitterId, tweetId)
         if (twitterId !== authorId) {
             updateUserVpLocal(VP_CONSUME.RETWEET)

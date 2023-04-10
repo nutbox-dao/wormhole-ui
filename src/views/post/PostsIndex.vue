@@ -262,7 +262,6 @@ export default {
           this.trendingCurationListByTag[tag] = posts.concat(morePosts)
          this.$store.commit('postsModule/'+mutationStr, this.trendingCurationListByTag ?? {})
         }
-        console.log(3, morePosts.length);
         if (morePosts.length < 12) {
           this.listsFinished[tag] = true
         }else {
@@ -333,7 +332,7 @@ export default {
         JSON.parse(localStorage.getItem('customizeTagList')):[]
     getTrendingTags().then(topics => {
       this.subTagList = ['All'].concat(topics.map(t => t.tag))
-    })
+    }).catch()
     this.onRefresh();
   }
 }
