@@ -70,7 +70,7 @@
                     <div class="mt-8px">
                       <div class="flex justify-between items-center w-full">
                         <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
                         {{$t('postView.resourceCredits')}}
                       </span>
                           <el-tooltip popper-class="shadow-popper-tip">
@@ -84,7 +84,7 @@
                             </button>
                           </el-tooltip>
                         </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rc}}%</span>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{rc}}%</span>
                       </div>
                       <el-progress class="c-progress flex-1 w-full"
                                    :text-inside="false"
@@ -109,7 +109,7 @@
                             </button>
                           </el-tooltip>
                         </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{vp}}%</span>
                       </div>
                       <el-progress class="c-progress flex-1 w-full"
                                    :text-inside="false"
