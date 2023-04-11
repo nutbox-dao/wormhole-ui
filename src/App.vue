@@ -85,7 +85,7 @@
                      :src="profileImg" @error="replaceEmptyImg" alt="">
                 <el-progress v-if="$refs.appRef" class="absolute -top-1px -left-1px" type="circle"
                              :width="$refs.appRef.clientWidth>1280?42:37"
-                             color="#86e3ce"
+                             :color="isDark?'#86e3ce':'#428cd4'"
                              :show-text="false"
                              :stroke-width="3"
                              :percentage="rc/MAX_RC * 100">
@@ -93,7 +93,7 @@
                 <!-- 白模式颜色为：#428cd4 -->
                 <el-progress v-if="$refs.appRef" class="absolute -top-2px -left-2px" type="circle"
                              :width="$refs.appRef.clientWidth>1280?44:39"
-                             color="#ffdd94" 
+                             :color="isDark?'#ffdd94':'#004e9a'"
                              :show-text="false"
                              :stroke-width="2"
                              :percentage="vp/MAX_VP * 100">
