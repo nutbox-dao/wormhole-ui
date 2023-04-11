@@ -83,19 +83,19 @@
                            class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative p-2px">
                 <img class="w-full h-full rounded-full"
                      :src="profileImg" @error="replaceEmptyImg" alt="">
-                <el-progress v-if="$refs.appRef" class="absolute top-0 left-0" type="circle"
-                             :width="$refs.appRef.clientWidth>1280?40:35"
-                             color="#7851FF"
+                <el-progress v-if="$refs.appRef" class="absolute -top-1px -left-1px" type="circle"
+                             :width="$refs.appRef.clientWidth>1280?42:37"
+                             color="#86e3ce"
                              :show-text="false"
                              :stroke-width="3"
-                             :percentage="vp/MAX_VP*100">
+                             :percentage="rc/MAX_RC * 100">
                 </el-progress>
-                <el-progress v-if="$refs.appRef" class="absolute -top-3px -left-3px" type="circle"
-                             :width="$refs.appRef.clientWidth>1280?46:41"
-                             color="#AE88FE"
+                <el-progress v-if="$refs.appRef" class="absolute -top-2px -left-2px" type="circle"
+                             :width="$refs.appRef.clientWidth>1280?44:39"
+                             color="#ffdd94"
                              :show-text="false"
-                             :stroke-width="3"
-                             :percentage="vp/MAX_VP*100">
+                             :stroke-width="2"
+                             :percentage="vp/MAX_VP * 100">
                 </el-progress>
               </router-link>
               <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
@@ -226,9 +226,9 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVp } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC } from '@/api/api'
 import Login from '@/views/Login.vue'
-import { MAX_VP, VP_RECOVER_DAY } from './config';
+import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -246,11 +246,12 @@ export default {
       searchList: [],
       showSearchList: false,
       seachTagList: [],
-      MAX_VP
+      MAX_VP,
+      MAX_RC
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo', 'vp']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo', 'vp', 'rc', 'rcInfo']),
     ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
@@ -435,14 +436,22 @@ export default {
       if(this.getAccountInfo && this.getAccountInfo.twitterId) {
         if (c % 60 === 0 || !this.vpInfo.lastUpdateTime) {
           c = 0;
-          const res = await getUserVp(this.getAccountInfo.twitterId);
+          const res = await getUserVPRC(this.getAccountInfo.twitterId);
           if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
             this.$store.commit('saveVpInfo', res)
+          }
+          if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
+            this.$store.commit('saveRcInfo', res)
           }
         }
         // update vp
         let vp = parseInt(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
         this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp);
+
+        // update rc
+        let rc = parseInt(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
+        this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc);
+        console.log(3, this.rc);
         c++;
       }else {
         c = 0;

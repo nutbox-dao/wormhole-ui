@@ -67,7 +67,7 @@
                     </button>
                   </div>
                   <div class="sm:max-w-500px">
-                    <!-- <div class="mt-8px">
+                    <div class="mt-8px">
                       <div class="flex justify-between items-center w-full">
                         <div class="flex items-center justify-center">
                       <span class="text-color8B light:text-white whitespace-nowrap text-12px">
@@ -84,14 +84,14 @@
                             </button>
                           </el-tooltip>
                         </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rc}}%</span>
                       </div>
                       <el-progress class="c-progress flex-1 w-full"
                                    :text-inside="false"
                                    :stroke-width="10"
                                    :show-text="false"
-                                   :percentage="Number(rcPercent)"/>
-                    </div> -->
+                                   :percentage="Number(rc)"/>
+                    </div>
                     <div class="mt-12px">
                       <div class="flex justify-between items-center w-full">
                         <div class="flex items-center justify-center">
@@ -109,7 +109,7 @@
                             </button>
                           </el-tooltip>
                         </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{vp}}%</span>
+                        <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
                       </div>
                       <el-progress class="c-progress flex-1 w-full"
                                    :text-inside="false"
@@ -173,11 +173,11 @@ import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP, MAX_RC, RC_RECOVER_DAY } from "@/config";
 import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
-import { getUserVp } from '@/api/api'
+import { getUserVPRC } from '@/api/api'
 
 export default {
   name: "AccountInfo",
@@ -205,8 +205,8 @@ export default {
       post: {},
       showTip: false,
       scroll: 0,
-      rcPercent: 0,
-      vp: 0
+      vp: 0,
+      rc: 0
     };
   },
   computed: {
@@ -319,20 +319,19 @@ export default {
       const { twitterId, steemId } = this.accountInfo;
 
        // get user vp
-      getUserVp(twitterId).then(res => {
+       getUserVPRC(twitterId).then(res => {
        if (res) {
-        let { votingPower, lastUpdateTime } = res;
+        let { votingPower, lastUpdateTime, rc, lastUpdateRCTime } = res;
         const now = Date.now();
         let vp = parseInt(votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000))
         this.vp = (vp > MAX_VP ? MAX_VP : vp) / MAX_VP * 100;
+        rc = parseInt(rc + (now - lastUpdateRCTime) * MAX_RC / (RC_RECOVER_DAY * 86400000))
+        this.rc = (rc > MAX_RC ? MAX_RC : rc) / MAX_RC * 100;
        }
       }).catch(e => {
         console.log(34, e);
       })
 
-      // getAccountRC(steemId).then(rc => {
-      //   this.rcPercent = parseFloat(rc[0] / rc[1] * 100).toFixed(2)
-      // }).catch(e => console.log(64, e))
     } catch (e) {
       console.log('get user info fail:', e);
     } finally {

@@ -84,7 +84,7 @@ export default {
     tweetPost: 'Tweet a post',
     socialToken: 'Social token',
     resourceCredits: 'Resource Credits',
-    p1: 'Every your post upload to the blockchain will cost you resource credits(RC), so your post can\'t be synced to blockchain if the RC is too lower. The RC will recover 20% every day.',
+    p1: 'Every your operation on wormhole3 will cost you resource credits(RC), so your operation can\'t be synced to blockchain if the RC is too lower. The RC will recover 100% every day.',
     goTweet: 'Go tweet',
     tips: 'Tips',
     p2: 'Replace {\'{***}\'} to real content.',

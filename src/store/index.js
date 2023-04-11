@@ -37,7 +37,9 @@ export default Vuex.createStore({
     newCardId: 0,
     bindNewAccountInfo: {},
     vp: 0,
-    vpInfo: {}
+    vpInfo: {},
+    rc: 0,
+    rcInfo: {}
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -165,6 +167,12 @@ export default Vuex.createStore({
     },
     saveVpInfo: (state, vpInfo) => {
       state.vpInfo = vpInfo
+    },
+    saveRc: (state, rc) => {
+      state.rc = rc
+    },
+    saveRcInfo: (state, rcInfo) => {
+      state.rcInfo = rcInfo
     }
   },
   modules: {

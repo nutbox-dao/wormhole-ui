@@ -6,9 +6,9 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 // export const BACKEND_API_URL = 'http://localhost:3100'
-// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
@@ -619,10 +619,21 @@ export const VP_CONSUME = Object.freeze({
     POST: 30,
     QUOTE: 20,
     RETWEET: 15,
-    REPLAY: 10,
+    LIKE: 5,
+    TIP: 10
+});
+// rc consume
+export const RC_CONSUME = Object.freeze({
+    POST: 200,
+    QUOTE: 20,
+    RETWEET: 15,
+    COMMENT: 15,
     LIKE: 5,
     TIP: 10
 });
 
 export const MAX_VP = 100;
 export const VP_RECOVER_DAY = 1;
+
+export const MAX_RC = 1000;
+export const RC_RECOVER_DAY = 1;
