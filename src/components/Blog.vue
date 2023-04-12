@@ -105,7 +105,7 @@
 
           <!--img-1, img-2, img-3, img-4 -->
           <div class="grid mt-10px md:max-w-35rem rounded-12px overflow-hidden border-1 border-listBgBorder"
-               :class="`img-`+(imgurls.length%5)" v-if="imgurls && imgurls.length > 0">
+               :class="`img-`+(imgurls.length%5)" v-if="!isIgnoreAccount && imgurls && imgurls.length > 0">
             <div class="img-box" v-for="(url, index) of imgurls.slice(0,4)" :key="url">
               <img @click.stop="viewImg(index)" :src="url" alt="">
             </div>
