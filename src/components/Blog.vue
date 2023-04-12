@@ -213,7 +213,7 @@ export default {
       }
      },
     isIgnoreAccount() {
-      const res = IgnoreAuthor.indexOf(this.post.steemId) !== -1
+      const res = IgnoreAuthor.indexOf(this.post.twitterId) !== -1;
       return res
     },
     steemUrl() {

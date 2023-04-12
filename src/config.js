@@ -436,7 +436,11 @@ export const followUrl = 'https://twitter.com/intent/follow?screen_name=GameBoyN
 export const IgnoreAuthor = [
     'greattranslatcn',
     'democretard',
-    'Mydoglucky2'
+    'Mydoglucky2',
+    'Mydoglucky2',
+    '1180358936249032704',
+    '1485658668259770370',
+    '1443781057703145473'
 ]
 
 export const STELLAR_TREK_NFT = [
