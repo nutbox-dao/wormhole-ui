@@ -459,6 +459,10 @@ export default {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
           return;
         }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          return;
+        }
         notify({message: e, type: 'error'})
       } finally {
         this.isRepling = false
@@ -484,6 +488,10 @@ export default {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
           return;
         }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          return;
+        }
         notify({message: e, type: 'error'})
       } finally {
         this.isQuoting = false
@@ -507,6 +515,10 @@ export default {
         }
         if (e === errCode.TWEET_NOT_FOUND) {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
           return;
         }
         notify({message: e, type: 'error'})
@@ -535,6 +547,10 @@ export default {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
           return;
         }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          return;
+        }
         notify({message: e, type: 'error'})
       } finally {
         this.isRetweeting = false
@@ -558,6 +574,10 @@ export default {
         }
         if (e === errCode.TWEET_NOT_FOUND) {
           notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
           return;
         }
         notify({message: e, type: 'error'})

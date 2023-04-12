@@ -453,7 +453,6 @@ export default {
         // update rc
         let rc = parseInt(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
         this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc);
-        console.log(3, this.rc);
         c++;
       }else {
         c = 0;

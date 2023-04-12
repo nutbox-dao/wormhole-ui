@@ -200,7 +200,8 @@ export default {
     userNotExist: '用户不存在.',
     accessTokenExpire: '登录过期',
     notRegisterUser: '未注册',
-    tweetNotFound: '此推文可能已被删除'
+    tweetNotFound: '此推文可能已被删除',
+    insuffientRC: "RC不足"
   },
   ref: {
     referre: '推荐链接',

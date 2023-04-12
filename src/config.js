@@ -393,6 +393,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     OUT_OF_USAGE: 110,
     UPLOAD_FAIL: 111,
 
+    INSUFFICIENT_RC: 307,
     BLOCK_CHAIN_ERR: 351,
     CONTRACT_CREATE_FAIL: 352,
     USER_CANCEL_SIGNING: 353,
@@ -629,7 +630,8 @@ export const RC_CONSUME = Object.freeze({
     RETWEET: 15,
     COMMENT: 15,
     LIKE: 5,
-    TIP: 10
+    TIP: 10,
+    FOLLOW: 5
 });
 
 export const MAX_VP = 100;
