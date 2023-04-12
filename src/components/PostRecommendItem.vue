@@ -60,28 +60,28 @@
       <!-- max count -->
       <div class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">{{ $t('curation.maxCount') }}</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 light:text-white text-color8B rounded-6px">
           {{recommendData ? (recommendData.maxCount > 1e6 ? $t('common.max') : recommendData.maxCount) : '0'}}
         </button>
       </div>
       <!-- min reputation -->
       <div class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">{{ $t('curation.minReputation') }}</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black light:text-white text-color8B rounded-6px">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 light:text-white text-color8B rounded-6px">
           {{recommendData ? (recommendData.minReputation <= 0 ? $t('common.max') : recommendData.minReputation) : '0'}}
         </button>
       </div>
       <!-- ended -->
       <div v-if="ended" class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">End Time</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black text-orangeColor rounded-5px ">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 text-orangeColor rounded-5px ">
           {{parseTimestampToUppercase(recommendData.endtime)}}
         </button>
       </div>
       <!-- ongoing -->
       <div v-else class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">Expiration</span>
-        <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-5px">
+        <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 rounded-5px">
           <van-count-down v-if="recommendData && recommendData.endtime"
                           class="text-greenColor text-12px"
                           :time="countdown(recommendData.endtime)">
