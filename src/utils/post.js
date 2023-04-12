@@ -32,9 +32,9 @@ export const likePost = async (tweetId, authorId) => {
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
         const rcResult = udpateUserRCLocal(RC_CONSUME.LIKE)
-        // if (!rcResult) {
-        //     throw errCode.INSUFFICIENT_RC;
-        // }
+        if (!rcResult) {
+            throw errCode.INSUFFICIENT_RC;
+        }
         const r = await lp(twitterId, tweetId)
         if (authorId !== twitterId) {
             updateUserVpLocal(VP_CONSUME.LIKE)

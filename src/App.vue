@@ -447,11 +447,11 @@ export default {
           }
         }
         // update vp
-        let vp = parseInt(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
+        let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY)).toFixed(2)
         this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp);
 
         // update rc
-        let rc = parseInt(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
+        let rc = parseFloat(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY)).toFixed(2);
         this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc);
         c++;
       }else {

@@ -66,7 +66,7 @@
                         </button>
                       </el-tooltip>
                     </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseInt(Number(rc) / MAX_RC * 100)}}%</span>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(rc) / MAX_RC * 100).toFixed(2)}}%</span>
                   </div>
                   <el-progress class="c-progress flex-1 w-full"
                                :text-inside="false"
@@ -91,7 +91,7 @@
                         </button>
                       </el-tooltip>
                     </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseInt(Number(vp) / MAX_VP * 100)}}%</span>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(vp) / MAX_VP * 100).toFixed(2)}}%</span>
                   </div>
                   <el-progress class="c-progress flex-1 w-full"
                                :text-inside="false"
