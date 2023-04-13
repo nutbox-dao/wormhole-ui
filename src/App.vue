@@ -229,6 +229,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
+import { getFeed, auth } from '@/utils/lens'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -315,6 +316,9 @@ export default {
       this.$store.commit('savePrices', prices)
     },
     gotoDC() {
+      auth('0xe96Df32F70201dcbf47920a6C508586521691a85')
+      // getFeed('0xe96Df32F70201dcbf47920a6C508586521691a85').then(console.log)
+      return;
       this.showMenu=false
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },

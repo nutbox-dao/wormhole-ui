@@ -11,6 +11,7 @@
     "crypto": false
   },
   "dependencies": {
+    "@lens-protocol/client": "^1.0.1",
     "@makerdao/multicall": "^0.12.0",
     "@vue/compat": "^3.2.36",
     "axios": "^0.27.2",
