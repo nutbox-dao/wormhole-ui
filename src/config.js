@@ -419,7 +419,7 @@ export const LIQUIDATION_NFT = '0x3724E11f09cF1D690f0Cfe9874108bC0F1DC7AbC';
 
 export const CURATION_FUND_CONTRACT = '0x525B88B649F5c8AD225122F8fe6e9304e9d54000';
 
-export const AutoCurationContract = '0x0A94b254600Db498e6d36866E6f3911c854671De'
+export const AutoCurationContract = '0x9B43E8015CB8B4a5F4C11d48fD299a27f2b01b09'
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,
