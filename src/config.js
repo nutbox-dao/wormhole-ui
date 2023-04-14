@@ -437,7 +437,6 @@ export const IgnoreAuthor = [
     'greattranslatcn',
     'democretard',
     'Mydoglucky2',
-    'Mydoglucky2',
     '1180358936249032704',
     '1485658668259770370',
     '1443781057703145473'
