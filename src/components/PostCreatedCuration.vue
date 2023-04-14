@@ -2,14 +2,14 @@
   <div class="text-14px">
     <div class="flex justify-between items-center mb-10px">
       <span class="text-14px c-text-black">{{ $t('curation.startTime') }}</span>
-      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-6px"
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 rounded-6px"
               :class="new Date().getTime() > curationData.endtime * 1000?'text-orangeColor':'text-greenColor'">
       {{ parseSpaceStartTime(curationData.createdTime) }}
       </button>
     </div>
     <div class="flex justify-between items-center">
       <span class="text-14px c-text-black">{{ $t('curation.endTime') }}</span>
-      <button class="h-20px px-12px text-12px bg-white/10 light:bg-black rounded-6px"
+      <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 rounded-6px"
               :class="new Date().getTime() > curationData.endtime * 1000?'text-orangeColor':'text-greenColor'">
         {{ parseSpaceStartTime(curationData.endtime * 1000) }}
       </button>
@@ -21,7 +21,7 @@
       <i class="w-24px h-24px min-w-24px" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
       <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div> -->
-    <div v-if="participant.length > 0" class="flex items-center justify-between my-10px">
+    <div v-if="participant.length > 0" class="flex items-center justify-between mt-10px">
       <div class="flex items-center ml-11px">
         <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
           <img v-if="p.profileImg"

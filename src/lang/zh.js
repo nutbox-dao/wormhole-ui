@@ -84,7 +84,7 @@ export default {
     tweetPost: '发布一条推文',
     socialToken: '社交代币',
     resourceCredits: 'Resource Credits',
-    p1: '你上传到区块链的每一篇文章都会花费你的resource credits(RC), 因此如果你的RC过低帖子将无法上链. RC每天会恢复20%.',
+    p1: '你在虫洞的每一个操作都需要消耗resource credits(RC), 因此如果你的RC过低，你将无法继续操作虫洞. RC每天会恢复100%.',
     goTweet: '发推',
     tips: '提示',
     p2: '将 {\'{***}\'} 替换成真实内容.',
@@ -200,7 +200,8 @@ export default {
     userNotExist: '用户不存在.',
     accessTokenExpire: '登录过期',
     notRegisterUser: '未注册',
-    tweetNotFound: '此推文可能已被删除'
+    tweetNotFound: '此推文可能已被删除',
+    insuffientRC: "RC不足"
   },
   ref: {
     referre: '推荐链接',

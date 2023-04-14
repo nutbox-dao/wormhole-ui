@@ -26,7 +26,7 @@
             </span>
         </div>
       </div>
-      <div v-if="post.isPromoted && !isDetail" class="ml-4px flex items-center sm:hidden">
+      <div v-if="!isDetail" class="ml-4px flex items-center sm:hidden">
               </div>
     </div>
     <div class="flex mt-5px sm:mt-0">

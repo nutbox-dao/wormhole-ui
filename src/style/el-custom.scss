@@ -181,14 +181,15 @@ html.light {
   background-color: #333333;
 }
 .light .c-progress .el-progress-bar__outer {
-  background: linear-gradient(93.5deg, #7B01DF 0%, #4900E3 122.7%);
+  background-color: #D8D8D8;
 }
 .c-progress .el-progress-bar__inner {
   background-color: var(--gradient-primary-color1);
   background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
 }
 .light .c-progress .el-progress-bar__inner {
-  background: white;
+  background-color: white;
+  background-image: linear-gradient(to right, var(--gradient-primary-color1), var(--gradient-primary-color2));
 }
 .c-progress .el-progress-bar__innerText {
   color: #1B1B1B;

@@ -393,6 +393,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     OUT_OF_USAGE: 110,
     UPLOAD_FAIL: 111,
 
+    INSUFFICIENT_RC: 307,
     BLOCK_CHAIN_ERR: 351,
     CONTRACT_CREATE_FAIL: 352,
     USER_CANCEL_SIGNING: 353,
@@ -418,7 +419,7 @@ export const LIQUIDATION_NFT = '0x3724E11f09cF1D690f0Cfe9874108bC0F1DC7AbC';
 
 export const CURATION_FUND_CONTRACT = '0x525B88B649F5c8AD225122F8fe6e9304e9d54000';
 
-export const AutoCurationContract = '0x0A94b254600Db498e6d36866E6f3911c854671De'
+export const AutoCurationContract = '0x9B43E8015CB8B4a5F4C11d48fD299a27f2b01b09'
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,
@@ -438,7 +439,8 @@ export const IgnoreAuthor = [
     'Mydoglucky2',
     '1180358936249032704',
     '1485658668259770370',
-    '1443781057703145473'
+    '1443781057703145473',
+    '903140569685270528'
 ]
 
 export const STELLAR_TREK_NFT = [
@@ -623,10 +625,22 @@ export const VP_CONSUME = Object.freeze({
     POST: 30,
     QUOTE: 20,
     RETWEET: 15,
-    REPLAY: 10,
     LIKE: 5,
     TIP: 10
+});
+// rc consume
+export const RC_CONSUME = Object.freeze({
+    POST: 200,
+    QUOTE: 20,
+    RETWEET: 15,
+    COMMENT: 15,
+    LIKE: 5,
+    TIP: 10,
+    FOLLOW: 5
 });
 
 export const MAX_VP = 100;
 export const VP_RECOVER_DAY = 1;
+
+export const MAX_RC = 1000;
+export const RC_RECOVER_DAY = 1;

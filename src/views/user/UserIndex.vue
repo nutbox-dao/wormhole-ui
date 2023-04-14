@@ -49,10 +49,10 @@
                 </div>
               </div>
               <div class="sm:max-w-500px">
-                <!-- <div class="mt-8px">
+                <div class="mt-12px">
                   <div class="flex justify-between items-center w-full">
                     <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
                         {{$t('postView.resourceCredits')}}
                       </span>
                       <el-tooltip popper-class="shadow-popper-tip">
@@ -62,22 +62,22 @@
                           </div>
                         </template>
                         <button>
-                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
                         </button>
                       </el-tooltip>
                     </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{rcPercent}}%</span>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(rc) / MAX_RC * 100).toFixed(2)}}%</span>
                   </div>
                   <el-progress class="c-progress flex-1 w-full"
                                :text-inside="false"
                                :stroke-width="10"
                                :show-text="false"
-                               :percentage="Number(rcPercent)"/>
-                </div> -->
-                <div class="mt-12px">
+                               :percentage="Number(rc) / MAX_RC * 100"/>
+                </div>
+                <div class="mt-8px">
                   <div class="flex justify-between items-center w-full">
                     <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-white whitespace-nowrap text-12px">
+                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
                         {{$t('postView.votingPower')}}
                       </span>
                       <el-tooltip popper-class="shadow-popper-tip">
@@ -87,11 +87,11 @@
                           </div>
                         </template>
                         <button>
-                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-white.svg" alt="">
+                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
                         </button>
                       </el-tooltip>
                     </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-white">{{vp}}%</span>
+                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(vp) / MAX_VP * 100).toFixed(2)}}%</span>
                   </div>
                   <el-progress class="c-progress flex-1 w-full"
                                :text-inside="false"
@@ -264,7 +264,7 @@ import { formatPrice, formatAmount } from "@/utils/helper";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP, MAX_RC } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
 
 export default {
@@ -282,7 +282,8 @@ export default {
       modalVisible: false,
       position: document.body.clientWidth < 768 ? "bottom" : "center",
       scroll: 0,
-      MAX_VP
+      MAX_VP,
+      MAX_RC
     };
   },
   computed: {
@@ -292,7 +293,7 @@ export default {
       "ethBalance",
       "erc20Balances",
       "steemBalance",
-      "rcPercent",
+      "rc",
       'vp'
     ]),
     ...mapGetters(["getAccountInfo"]),
