@@ -195,8 +195,8 @@ export const EVM_CHAINS = {
     //     }
     // },
     'BNB Smart Chain': {
-        rpc:'https://bsc-dataseed.binance.org/',
-        // rpc: 'https://bscrpc.com',
+        // rpc:'https://bsc-dataseed.binance.org/',
+        rpc: 'https://bsc.publicnode.com',
         scan: 'https://bscscan.com/',
         id: 56,
         main: {
