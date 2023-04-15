@@ -214,7 +214,7 @@ export const EVM_CHAINS = {
             PNUT: {symbol: 'PNUT', name: 'Peanut', address: '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11', decimals: 18}
         },
         Multi_Config: {
-            rpcUrl: 'https://bsc-dataseed.binance.org',
+            rpcUrl: 'https://bsc.publicnode.com',
             multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
             interval: 3000,
         },
