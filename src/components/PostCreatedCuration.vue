@@ -52,7 +52,7 @@
         <template #amount>
           <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white"
               v-if="curationData.curationStatus == 0">
-            ??? {{ curationData?.tokenSymbol }}
+              {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + "? " + curationData?.tokenSymbol}}
           </span>
           <span v-else-if="curationData?.curationStatus > 0 && (curationData?.taskRecord > 0)"
                 class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
