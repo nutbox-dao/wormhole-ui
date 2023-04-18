@@ -323,10 +323,10 @@ export default {
        if (res) {
         let { votingPower, lastUpdateTime, rc, lastUpdateRCTime } = res;
         const now = Date.now();
-        let vp = parseFloat(votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000)).toFixed(2)
-        this.vp = (vp > MAX_VP ? MAX_VP : vp) / MAX_VP * 100;
-        rc = parseFloat(rc + (now - lastUpdateRCTime) * MAX_RC / (RC_RECOVER_DAY * 86400000)).toFixed(2)
-        this.rc = (rc > MAX_RC ? MAX_RC : rc) / MAX_RC * 100;
+        let vp = votingPower + (now - lastUpdateTime) * MAX_VP / (VP_RECOVER_DAY * 86400000)
+        this.vp = parseFloat((vp > MAX_VP ? MAX_VP : vp) / MAX_VP * 100).toFixed(2);
+        rc = rc + (now - lastUpdateRCTime) * MAX_RC / (RC_RECOVER_DAY * 86400000)
+        this.rc = parseFloat((rc > MAX_RC ? MAX_RC : rc) / MAX_RC * 100).toFixed(2);
        }
       }).catch(e => {
         console.log(34, e);
