@@ -236,7 +236,17 @@ export default {
       }
     },
     content() {
-      let content = this.post.content.replace(this.reg, '');
+      let content = ''
+      if (this.post.longContentStatus === 1) {
+        for (let c of JSON.parse(this.post.content)) {
+          if (c && c !== 'null' && c !== 'undefined') {
+            content += c + '\n'
+          }
+        }
+      }else {
+        content = this.post.content
+      }
+      content = content.replace(this.reg, '');
       // content = content.replace('\n', '</br>')
       for (let url of this.urls){
         content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
