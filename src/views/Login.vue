@@ -155,13 +155,15 @@ export default {
             break;
           }
         }
-        // if (isIOS || isAndroid) {
-        //   window.location.href = res
-        // }else {
+        if (isIOS || isAndroid) {
+          setTimeout(() => {
+            window.location.href = res
+          });
+        }else {
           setTimeout(() => {
             window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
           })
-        // }
+        }
         
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
