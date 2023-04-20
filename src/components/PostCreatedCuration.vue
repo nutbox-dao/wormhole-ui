@@ -21,12 +21,12 @@
       <i class="w-24px h-24px min-w-24px" :class="retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
       <i class="w-24px h-24px min-w-24px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
     </div> -->
-    <div v-if="participant.length > 0" class="flex items-center justify-between mt-10px">
-      <div class="flex items-center ml-11px">
-        <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
+    <div v-if="participant.length > 0" class="mt-15px">
+      <div class="grid grid-cols-5 xs:grid-cols-10 lg:grid-cols-4 items-stretch gap-10px">
+        <div class="col-span-1" v-for="p of participant.slice(0,19)" :key="p">
           <img v-if="p.profileImg"
-               class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white bg-color8B/10"
+               class="w-full min-w-28px h-full  rounded-full
+                      border-2 border-color62 light:border-white bg-color8B/10"
                @error="replaceEmptyImg"
                :src="p.profileImg" alt="">
           <img v-else
@@ -34,36 +34,34 @@
                               border-2 border-color62 light:border-white bg-color8B/10"
                src="~@/assets/icon-default-avatar.svg" alt="">
         </div>
-        <span v-if="participant.length>3"
-              class="min-w-28px h-28px xl:min-w-1.2rem xl:h-1.2rem rounded-full px-4px
-                       rounded-full -ml-10px flex justify-center items-center
+        <div class="col-span-1" v-if="participant.length>19">
+          <button class="w-full min-w-28px h-full rounded-full
+                       rounded-full flex justify-center items-center
                        border-2 border-blockBg bg-primaryColor
-                       light:border-white light:bg-color62 light:text-white text-10px">
+                       light:border-white light:bg-color62 light:text-white text-12px font-bold">
             +{{ participant[0].totalCount - 3 }}
-          </span>
-        <button class="ml-10px whitespace-nowrap" v-if="participant.length>0" @click="showSubmissions=true">
-          {{$t('curation.all')}} >>
-        </button>
+          </button>
+        </div>
       </div>
-      <ChainTokenIconLarge   height="26px" width="26px"
-                           class="bg-color62"
-                           :token="{symbol: curationData?.tokenSymbol, address: curationData?.token}"
-                           :chainName="curationData ? curationData.chainId?.toString() : ''">
-        <template #amount>
-          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white"
-              v-if="curationData.curationStatus == 0">
-              {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + "? " + curationData?.tokenSymbol}}
-          </span>
-          <span v-else-if="curationData?.curationStatus > 0 && (curationData?.taskRecord > 0)"
-                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
-            {{formatAmount(curationData?.myRewardAmount / (10 ** curationData?.decimals))+'/'+formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
-          </span>
-          <span v-else
-                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
-            {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
-          </span>
-        </template>
-      </ChainTokenIconLarge>
+<!--      <ChainTokenIconLarge   height="26px" width="26px"-->
+<!--                           class="bg-color62"-->
+<!--                           :token="{symbol: curationData?.tokenSymbol, address: curationData?.token}"-->
+<!--                           :chainName="curationData ? curationData.chainId?.toString() : ''">-->
+<!--        <template #amount>-->
+<!--          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white"-->
+<!--              v-if="curationData.curationStatus == 0">-->
+<!--              {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + "? " + curationData?.tokenSymbol}}-->
+<!--          </span>-->
+<!--          <span v-else-if="curationData?.curationStatus > 0 && (curationData?.taskRecord > 0)"-->
+<!--                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">-->
+<!--            {{formatAmount(curationData?.myRewardAmount / (10 ** curationData?.decimals))+'/'+formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}-->
+<!--          </span>-->
+<!--          <span v-else-->
+<!--                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">-->
+<!--            {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}-->
+<!--          </span>-->
+<!--        </template>-->
+<!--      </ChainTokenIconLarge>-->
     </div>
     <!-- <div class="flex text-16px font-bold pt-14px pb-8px border-b border-color84/30 mb-6px">
       <span>{{ $t('postView.curatorsList') }}</span>
