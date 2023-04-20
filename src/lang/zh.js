@@ -407,6 +407,7 @@ export default {
     confirm: '确认',
     send: '发送',
     max: '不限',
+    min: '不限',
     sendAndCreate: '发送并创建',
     option: '选项',
     approve: '批准',

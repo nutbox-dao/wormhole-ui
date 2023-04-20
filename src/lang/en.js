@@ -407,6 +407,7 @@ export default {
     confirm: 'Confirm',
     send: 'Send',
     max: 'Max',
+    min: 'Min',
     sendAndCreate: 'Send and create',
     option: 'Option',
     approve: 'Approve',

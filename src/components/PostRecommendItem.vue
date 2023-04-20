@@ -68,7 +68,7 @@
       <div class="flex justify-between items-center mt-10px">
         <span class="text-14px c-text-black">{{ $t('curation.minReputation') }}</span>
         <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 light:text-white text-color8B rounded-6px">
-          {{recommendData ? (recommendData.minReputation <= 0 ? $t('common.max') : recommendData.minReputation) : '0'}}
+          {{recommendData ? (recommendData.minReputation <= 0 ? $t('common.min') : recommendData.minReputation) : '0'}}
         </button>
       </div>
       <!-- ended -->
