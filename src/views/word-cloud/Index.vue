@@ -259,7 +259,7 @@ export default {
       if(this.downloadImgUrl) return
       return new Promise((resolve, reject) => {
         const node = document.getElementById('share-img');
-        this.qrCodeUrl = `https://alpha.wormhole3.io/#/word-cloud${this.getAccountInfo ? ('?referee=' + this.getAccountInfo.twitterId) : ''}`
+        this.qrCodeUrl = `https://alpha.wormhole3.io/word-cloud${this.getAccountInfo ? ('?referee=' + this.getAccountInfo.twitterId) : ''}`
         domtoimage.toPng(node)
             .then((dataUrl) => {
               let canvas = document.createElement('canvas')

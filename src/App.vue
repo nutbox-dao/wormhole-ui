@@ -127,7 +127,7 @@
                     <i class="w-14px min-w-14px h-14px icon-userguide"></i>
                   </router-link>
 
-                  <div @click="onCopy('https://alpha.wormhole3.io/#/square?referee=' + getAccountInfo.twitterId)"
+                  <div @click="onCopy('https://alpha.wormhole3.io/square?referee=' + getAccountInfo.twitterId)"
                        v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
                     <span>{{$t('ref.referre')}}</span>

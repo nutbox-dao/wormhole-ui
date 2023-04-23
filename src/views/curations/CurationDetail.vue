@@ -1053,14 +1053,16 @@ export default {
       })
     }
   },
-  mounted () {
+  async mounted () {
     this.metaInfo = useMeta({meta: []})
+    try {
+      const id = this.$route.params.id;
+      const curation = await getCurationById(id, null);
+      this.$router.replace('/post-detail/' + curation.tweetId)
+    }catch(e) {
+      console.log('Get curation err', e);
+    }
 
-    this.loadCuration()
-    this.updateInterval = setInterval(this.updateCurationInfos, 10000);
-    this.timeIntrerval = setInterval(() => {
-      this.endtime = parseTimestampToUppercase(this.detailCuration?.endtime)
-    }, 1000)
   },
   beforeUnmount () {
     clearInterval(this.updateInterval)

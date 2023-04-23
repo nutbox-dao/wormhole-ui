@@ -1167,7 +1167,7 @@ export default {
 
 All the users who curated this tweet can share ${this.form.amount} ${this.selectedToken.symbol} on ${this.form.chain}.
 
-Users can join the curation from here: https://alpha.wormhole3.io/#/curation-detail/${this.curation.curationId}`)
+Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${this.form.tweetId}`)
       } catch (e) {
         console.log('Reply fail:', e);
       } finally {
