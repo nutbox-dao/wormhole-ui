@@ -36,6 +36,7 @@
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.1",
     "vue-cropper": "^1.0.5",
+    "vue-gtag": "^2.0.1",
     "vue-i18n": "^9.2.2",
     "vue-meta": "^3.0.0-alpha.10",
     "vue-router": "^4.0.8",
