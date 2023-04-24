@@ -101,12 +101,16 @@ export default {
     let loginInfo = Cookie.get('account-auth-info');
     if (loginInfo) {
       this.pendingAccount = loginInfo
-      if (loginInfo.wallet) {
-        this.wallet = loginInfo.wallet;
-      }
-      if (loginInfo.pair) {
-        this.pair = loginInfo.pair
-      }
+      setTimeout(() => {
+        randomWallet().then(wallet => this.wallet = wallet)
+        createKeypair().then(pair => this.pair = pair) 
+      }, 200);
+      // if (loginInfo.wallet) {
+      //   this.wallet = loginInfo.wallet;
+      // }
+      // if (loginInfo.pair) {
+      //   this.pair = loginInfo.pair
+      // }
       this.authStep = 'select';
     }
   },
@@ -132,20 +136,22 @@ export default {
         let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
         let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
 
-
         console.log(navigator.userAgent);
         const source = this.$route.query?.utm_source
 
         this.loging = true
+        let needLogin = false
         if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
           console.log('token pocket');
-        }else if (isAndroid || isIOS) {
+        } 
+        if (isAndroid || isIOS) {
+          needLogin = true;
           // const res = await twitterAuth(true);
           // window.location.href = res;
           // return;
         }
         
-        const res = await twitterAuth();
+        const res = await twitterAuth(needLogin);
         const params = res.split('?')[1].split('&')
         let state;
         for (let p of params) {
@@ -164,7 +170,7 @@ export default {
             window.open(res, 'newwindow', 'height=700,width=500,top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,status=no')
           })
         }
-        
+
         await sleep(1)
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)

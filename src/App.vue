@@ -226,9 +226,10 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
+import Cookie from 'vue-cookies'
 
 export default {
   components: {NFTAnimation, ElConfigProvider, Login},
@@ -384,6 +385,40 @@ export default {
     if (referee) {
       this.$store.commit('saveReferee', referee);
     }
+    let state = null
+    let params = this.$route.fullPath
+    for (let p of params.split('?')) {
+      const [key, value] = p.split('=')
+      if (key === 'state') {
+        state = value
+        break;
+      }
+    }
+    console.log(64, state)
+    let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
+    let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
+    if (state && (isIOS || isAndroid)) {
+      try {
+        console.log(123, state);
+        let userInfo = await twitterLogin(state)
+        console.log(35, userInfo);
+        if (userInfo && userInfo.code === 1) {
+          await sleep(10);
+          userInfo = await twitterLogin(state)
+        }
+        if (userInfo.code === 0) {
+          // not registry
+          // store auth info
+          console.log('not register')
+          Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+          this.$store.commit('saveShowLogin', true);
+        }else if (userInfo.code === 3) { // log in
+          this.$store.commit('saveAccountInfo', userInfo.account)
+        }
+      }catch(e) {
+        console.log('login fail:', e);
+      }
+    }
 
     this.isDark = !(localStorage.getItem('theme') === 'light')
     document.documentElement.className=this.isDark?'dark':'light'
@@ -412,7 +447,7 @@ export default {
 
       //get eth balances
       if (ethAddress) {
-        getTokenBalance(ethAddress);
+        getTokenBalance(ethAddress).catch();
       }
 
       getProfile(twitterId).then(res => {
@@ -434,7 +469,7 @@ export default {
     let c = 0;
     setInterval(async () => {
       if(this.getAccountInfo && this.getAccountInfo.twitterId) {
-        if (c % 60 === 0 || !this.vpInfo.lastUpdateTime) {
+        if (c % 30 === 0 || !this.vpInfo.lastUpdateTime) {
           c = 0;
           const res = await getUserVPRC(this.getAccountInfo.twitterId);
           if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
@@ -445,12 +480,12 @@ export default {
           }
         }
         // update vp
-        let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY)).toFixed(2)
-        this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp);
+        let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
+        this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
 
         // update rc
-        let rc = parseFloat(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY)).toFixed(2);
-        this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc);
+        let rc = parseFloat(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
+        this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc.toFixed(2));
         c++;
       }else {
         c = 0;

@@ -204,9 +204,13 @@ export default {
     }
   },
   async mounted () {
+    console.log(3, this.wallet);
     if (!this.wallet && !this.wallet.address) {
       await sleep(0.6);
-      randomWallet().then(wallet => this.wallet = wallet)
+      randomWallet().then(wallet => {
+        this.wallet = wallet
+        console.log(4, this.wallet);
+      })
     }
   },
 }
