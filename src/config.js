@@ -13,7 +13,7 @@ export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
 
-export const GAID = process.env.GAID;
+export const GAID = process.env.GAID || 'G-PD14K82DLJ';
 
 export const SignUpMessage = JSON.stringify({
     project: 'wormhole3',
