@@ -156,6 +156,9 @@ export default {
       notify({message, duration, type})
     },
     async confirm() {
+      this.$gtag.event('sync up with metamask', {
+        method: 'confirm'
+      })
       if(this.isRegister){
         this.$emit('back')
       }else {
@@ -206,6 +209,9 @@ export default {
     },
     async signup() {
       console.log('signup');
+      this.$gtag.event('sync up with metamask', {
+        method: 'signup'
+      })
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
       if (loginInfo) {
@@ -226,6 +232,9 @@ export default {
           // checkout register progress
           const res = await check({accessToken, twitterId})
           if (res && res.code === 3) {
+            this.$gtag.event('sync up with metamask ok', {
+              method: 'signup'
+            })
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
             this.step = 3;
@@ -246,6 +255,7 @@ export default {
   },
   async mounted () {
     this.account = this.address
+    this.$gtag.pageview('/metamask')
     this.checkoutAccount();
     accountChanged(acc => {
       this.account = ethers.utils.getAddress(acc)

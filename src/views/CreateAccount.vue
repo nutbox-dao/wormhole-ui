@@ -155,6 +155,9 @@ export default {
         notify({message, duration, type})
     },
     async signup() {
+      this.$gtag.event('sync up with new account', {
+        method: 'signup'
+      })
       this.isSigningup = true
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
@@ -180,6 +183,9 @@ export default {
           // checkout register progress
           const res = await check({accessToken, twitterId})
           if (res && res.code === 3) {
+            this.$gtag.event('sync up with new account ok', {
+              method: 'signup'
+            })
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
             this.step = 3;
@@ -204,7 +210,7 @@ export default {
     }
   },
   async mounted () {
-    console.log(3, this.wallet);
+    this.$gtag.pageview('/create-new-account')
     if (!this.wallet && !this.wallet.address) {
       await sleep(0.6);
       randomWallet().then(wallet => {
