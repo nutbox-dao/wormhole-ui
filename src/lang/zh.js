@@ -109,7 +109,8 @@ export default {
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
     votingPower: '策展能量',
-    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。'
+    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。',
+    detail: '详情'
   },
   profileView: {
     socialAsset: '社交资产',

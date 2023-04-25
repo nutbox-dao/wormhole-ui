@@ -2,14 +2,24 @@
   <div class="" ref="blogRef">
     <div class="sm:rounded-1rem">
       <div class="flex items-center">
-        <img v-if="profileImg" @click.stop="gotoUserPage()"
-             class="mr-10px rounded-full cursor-pointer blog-avatar max-w-56px max-h-56px bg-color8B/10"
-             :class="avatarClass"
-             @error="replaceEmptyImg"
-             :src="profileImg" alt="">
-        <img class="mr-10px rounded-full max-w-56px max-h-56px bg-color8B/10"
-             :class="avatarClass"
-             src="@/assets/icon-default-avatar.svg" v-else alt="">
+        <Avatar :profile-img="profileImg"
+                :name="post.name"
+                :username="post.username"
+                :steem-id="post.steemId"
+                :eth-address="post.ethAddress"
+                :reputation="post.reputation"
+                @gotoUserPage="gotoUserPage">
+          <template #avatar-img>
+            <img v-if="profileImg"
+                 class="mr-10px rounded-full cursor-pointer blog-avatar max-w-56px max-h-56px bg-color62/10 border-1"
+                 :class="avatarClass"
+                 @error="replaceEmptyImg"
+                 :src="profileImg" alt="">
+            <img class="mr-10px rounded-full max-w-56px max-h-56px bg-color62/10 border-1"
+                 :class="avatarClass"
+                 src="@/assets/icon-default-avatar.svg" v-else alt="">
+          </template>
+        </Avatar>
         <div class="flex-1 flex justify-between sm:items-center">
           <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
             <div class="flex items-center sm:mr-6px">
@@ -172,10 +182,11 @@ import {formatEmojiText} from "@/utils/tool";
 import PostButtonGroup from "@/components/PostButtonGroup";
 import debounce from 'lodash.debounce'
 import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
+import Avatar from "@/components/Avatar";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon},
+  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon, Avatar},
   props: {
     post: {
       type: Object,
