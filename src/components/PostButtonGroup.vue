@@ -62,8 +62,24 @@
         </button>
         <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
-      <div v-if="!isDetail" class="text-white items-center align-center cursor-pointer" @click.stop="tip($event)">
-        <i class="w-18px h-18px btn-icon-tip"></i>
+      <div v-if="!isDetail" class="flex items-center" >
+        <el-tooltip>
+          <template #content>
+            <ChainTokenIcon height="20px" width="20px" class="bg-color62 p-2px"
+                            :token="{symbol: 'USDT', address: '0x..'}"
+                            :chainName="'BNB Smart Chain'">
+              <template #amount>
+                <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
+                  $3.86
+                </span>
+              </template>
+            </ChainTokenIcon>
+          </template>
+          <button>
+            <i class="w-18px h-18px btn-icon-tip"></i>
+          </button>
+        </el-tooltip>
+        <span class="px-8px font-700 text-12px text-color7D">$3.86</span>
       </div>
       <!-- <div class="text-white flex items-center">
         <i class="w-18px h-18px icon-coin"></i>
@@ -325,10 +341,11 @@ import Repost from "@/components/Repost";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import TipModalVue from "@/components/TipModal";
 import Space from "@/components/Space";
+import ChainTokenIcon from "@/components/ChainTokenIcon";
 
 export default {
   name: "PostButtonGroup",
-  components: {Repost, EmojiPicker, TipModalVue, Space},
+  components: {Repost, EmojiPicker, TipModalVue, Space, ChainTokenIcon},
   props: {
     post: {
       type: Object,
