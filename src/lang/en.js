@@ -303,7 +303,7 @@ export default {
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
     createStepTip: 'You can post a tweet and promote it right away. You can also promote an existing tweet or Twitter Space.',
-    selectCategoryTip:  'Are you going to curate a tweet or twitter space?',
+    selectCategoryTip:  'Are you going to promote a tweet or twitter space?',
     selectNewTweet: 'Or create a new tweet',
     pastLinkTip: 'Paste the tweet link below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',
