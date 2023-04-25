@@ -19,7 +19,18 @@
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
                 <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
-              <div v-if="post.isPromoted && !isDetail" class="ml-4px flex items-center sm:hidden">
+              <div @click.stop class="ml-4px flex items-center sm:hidden">
+                <el-tooltip>
+                  <template #content>
+                    <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+                  </template>
+                  <button @click="gotoTweet($event)"
+                          class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+                    <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+                  </button>
+                </el-tooltip>
+              </div>
+              <!-- <div v-if="post.isPromoted && !isDetail" @click.stop class="ml-4px flex items-center sm:hidden">
                 <el-tooltip :show-after="500">
                   <template #content>
                     <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
@@ -40,7 +51,7 @@
                     <i class="icon-curated w-16px h-16px min-w-16px"></i>
                   </button>
                 </el-tooltip>
-              </div>
+              </div> -->
             </div>
             <div class="flex items-center id-time">
             <span class="text-12px leading-18px  text-color8B light:text-color7D">
@@ -51,7 +62,18 @@
              {{ parseTimestamp(post.postTime) }}
             </span>
             </div>
-            <div v-if="post.isPromoted && !isDetail" class="ml-4px items-center hidden sm:flex">
+            <div class="ml-4px items-center hidden sm:flex">
+              <el-tooltip>
+                <template #content>
+                  <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+                </template>
+                <button @click="gotoTweet($event)"
+                        class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+                </button>
+              </el-tooltip>
+            </div>
+            <!-- <div v-if="post.isPromoted && !isDetail" class="ml-4px items-center hidden sm:flex">
               <el-tooltip :show-after="500">
                 <template #content>
                   <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
@@ -72,17 +94,8 @@
                   <i class="icon-curated w-16px h-16px min-w-16px"></i>
                 </button>
               </el-tooltip>
-            </div>
+            </div> -->
           </div>
-          <el-tooltip>
-            <template #content>
-              <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
-            </template>
-            <button @click="gotoTweet($event)"
-                    class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
-              <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
-            </button>
-          </el-tooltip>
         </div>
       </div>
       <div class="flex blog-content">
