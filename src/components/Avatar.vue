@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-popover popper-class="c-popper"
-                :show-after="2000"
+                :show-after="500"
                 :persistent="true"
                 :show-arrow="false" width="240px">
       <div class="border-1 border-color8B/30 light:border-colorF4 bg-blockBg light:bg-white p-20px rounded-14px">
@@ -19,6 +19,9 @@
           <img class="w-14px ml-4px"
                @click="gotoTwitter"
                src="~@/assets/icon-twitter-blue.svg" alt="">
+        </div>
+        <div class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
+          Twitter Reputation: {{ reputation || accountInfo.reputation }}
         </div>
         <div class="text-12px mt-20px cursor-pointer flex items-center font-500">
           <span class="flex-1 whitespace-nowrap truncate">
@@ -59,6 +62,10 @@ export default {
       default: ''
     },
     ethAddress: {
+      type: String,
+      default: ''
+    },
+    reputaion: {
       type: String,
       default: ''
     }

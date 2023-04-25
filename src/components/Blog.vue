@@ -7,6 +7,7 @@
                 :username="post.username"
                 :steem-id="post.steemId"
                 :eth-address="post.ethAddress"
+                :reputation="post.reputation"
                 @gotoUserPage="gotoUserPage">
           <template #avatar-img>
             <img v-if="profileImg"
