@@ -591,7 +591,7 @@ export default {
         token: '',
         amount: '',
         category: 'tweet',
-        createType: 'related',
+        createType: 'new',
         link: '',
         host: {},
         coHost: [],
