@@ -702,6 +702,15 @@ export async function depositWrappedToken(tokenInfo, amount) {
 }
 
 export async function getPriceFromOracle(chainName, tokens) {
+    const num = chainName.toString().match(/^[0-9]+$/)
+      if (num) {
+        for (let c in EVM_CHAINS) {
+          if (EVM_CHAINS[c].id === parseInt(chainName)) {
+            chainName = c;
+            break;
+          }
+        }
+      }
     try {
         if (!tokens || tokens.length === 0) return 
         if (chainName === 'ENULS') {

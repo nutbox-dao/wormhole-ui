@@ -198,6 +198,7 @@ export const EVM_CHAINS = {
         // rpc:'https://bsc-dataseed.binance.org/',
         rpc: 'https://bsc.publicnode.com',
         scan: 'https://bscscan.com/',
+        tokenScan: 'https://pancakeswap.finance/info/tokens/',
         id: 56,
         main: {
             name: 'BNB',
@@ -225,6 +226,7 @@ export const EVM_CHAINS = {
     Polygon: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
+        tokenScan: 'https://app.uniswap.org/#/tokens/polygon/',
         id: 137,
         main: {
             name: 'Polygon',
@@ -251,6 +253,7 @@ export const EVM_CHAINS = {
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
         scan: 'https://evmscan.nuls.io',
+        tokenScan: 'https://evmscan.nuls.io/token/',
         id: 119,
         main: {
             name: 'NULS',
@@ -331,6 +334,7 @@ export const EVM_CHAINS = {
     Moonbeam: {
         rpc: 'https://rpc.api.moonbeam.network',
         scan: 'https://moonbeam.moonscan.io/',
+        tokenScan: 'https://moonbeam.moonscan.io/token/',
         id: 1284,
         main: {
             name: 'GLMR',

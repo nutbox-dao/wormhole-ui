@@ -141,7 +141,7 @@
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
           <slot name="bottom-btn-bar">
-            <PostButtonGroup ref="postButtonRef" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
+            <PostButtonGroup ref="postButtonRef" :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
           </slot>
         </div>
       </div>

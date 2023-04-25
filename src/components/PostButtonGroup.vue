@@ -62,24 +62,30 @@
         </button>
         <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
-      <div v-if="!isDetail" class="flex items-center" >
-        <el-tooltip>
+      <div class="flex items-center">
+        <el-tooltip :show-after="500">
           <template #content>
-            <ChainTokenIcon height="20px" width="20px" class="bg-color62 p-2px"
-                            :token="{symbol: 'USDT', address: '0x..'}"
-                            :chainName="'BNB Smart Chain'">
-              <template #amount>
-                <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                  $3.86
-                </span>
-              </template>
+            <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
+              <ChainTokenIcon v-if="rewards && rewards.length > 0"
+                      v-for="reward of rewards" 
+                      :key="post.postId + reward.token" height="20px" width="20px"
+                      class="bg-color62 my-4px p-2px"
+                      :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                      :chainName="reward.chainId?.toString()">
+                <template #amount>
+                  <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
+                    {{reward.reward + " " + reward.tokenSymbol}}
+                  </span>
+                </template>
             </ChainTokenIcon>
+            </div>
+            <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
           </template>
-          <button>
+          <button @click.stop @mouseover="getTip" class="flex items-center">
             <i class="w-18px h-18px btn-icon-tip"></i>
+            <span class="px-8px font-700 text-12px text-color7D">${{ price }}</span>
           </button>
         </el-tooltip>
-        <span class="px-8px font-700 text-12px text-color7D">$3.86</span>
       </div>
       <!-- <div class="text-white flex items-center">
         <i class="w-18px h-18px icon-coin"></i>
@@ -332,16 +338,20 @@
 
 <script>
 import {followPost, likePost, quotePost, replyPost, retweetPost} from "@/utils/post";
-import {errCode, IgnoreAuthor} from "@/config";
+import {errCode, IgnoreAuthor, EVM_CHAINS} from "@/config";
 import {notify} from "@/utils/notify";
 import {mapGetters} from "vuex";
-import {parseTimestamp, stringLength} from "@/utils/helper";
+import {parseTimestamp, stringLength, formatAmount} from "@/utils/helper";
 import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import Repost from "@/components/Repost";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import TipModalVue from "@/components/TipModal";
 import Space from "@/components/Space";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
+import { getCurationRewardsOfPost } from '@/api/api'
+import debounce from 'lodash.debounce'
+import { getPriceFromOracle } from '@/utils/asset'
+
 
 export default {
   name: "PostButtonGroup",
@@ -383,7 +393,10 @@ export default {
       contentRange: null,
       inputContent: '',
       inputContentEl: '',
-      isDefaultQuote: true
+      isDefaultQuote: true,
+      showCuratedTip: false,
+      rewards: [],
+      price: '0.00'
     }
   },
   computed: {
@@ -415,6 +428,7 @@ export default {
   methods: {
     parseTimestamp,
     formatEmojiText,
+    formatAmount,
     getBlur() {
       const sel = window.getSelection();
       this.contentRange = sel.getRangeAt(0);
@@ -455,6 +469,40 @@ export default {
       }
       this.tweetLength = tweetLength
       return content
+    },
+    getTip: debounce(function t() {
+      // get rewards
+      if (this.rewards && this.rewards.length > 0) {
+        this.showCuratedTip = true
+      }else {
+        this.getRewards();
+      }
+    }, 500),
+    async getRewards() {
+      getCurationRewardsOfPost(this.post.postId).then(async res => {
+          if (res && res.length > 0) {
+            this.rewards = res.map(r => ({
+              ...r,
+              reward: r.amount > 0 ? formatAmount(r.amount / ( 10 ** r.decimals)) : '???',
+              amount: r.amount > 0 ? r.amount / ( 10 ** r.decimals) : '???'
+            }));
+            const prices = await Promise.all(this.rewards.map(reward => getPriceFromOracle(reward.chainId, [reward])));
+            let price = 0;
+            for (let i = 0; i < prices.length; i++) {
+              const p = prices[i];
+              if (p) {
+                if (this.rewards[i].amount !== '???'){
+                  price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token])
+                }
+              }
+            }
+            if (price > 0) {
+              this.price = price.toFixed(2);
+            }
+          }else {
+            this.rewards = []
+          }
+        }).catch(e => {this.rewards = []; console.log(4, e)}).finally(() => this.showCuratedTip = true)
     },
     async userReply() {
       this.inputContentEl = this.$refs.contentRef.innerHTML
@@ -642,6 +690,9 @@ export default {
 
       }
     },
+  },
+  mounted () {
+    this.getRewards();
   },
 }
 </script>

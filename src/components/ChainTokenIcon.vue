@@ -1,5 +1,5 @@
 <template>
-  <div class="w-min rounded-full cursor-pointer">
+  <div class="w-min rounded-full cursor-pointer" @click.stop="gotoToken">
     <el-tooltip popper-class="c-popper" effect="light" :auto-close="5000"
                 :show-after="1000"
                 ref="tokenTipRef" placement="bottom-end">
@@ -102,6 +102,9 @@ export default {
       setTimeout(() => {
         this.$refs.tokenTipRef.onClose()
       }, 3000)
+    },
+    gotoToken() {
+      window.open(EVM_CHAINS[this.chain].tokenScan + this.token.address, '__blank')
     }
   }
 }
