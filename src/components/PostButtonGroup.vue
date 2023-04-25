@@ -492,7 +492,7 @@ export default {
               const p = prices[i];
               if (p) {
                 if (this.rewards[i].amount !== '???'){
-                  price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token])
+                  price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token] ?? 0)
                 }
               }
             }
