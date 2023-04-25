@@ -394,7 +394,6 @@ export default {
         break;
       }
     }
-    console.log(64, state)
     let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
     let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
     if (state && (isIOS || isAndroid)) {
