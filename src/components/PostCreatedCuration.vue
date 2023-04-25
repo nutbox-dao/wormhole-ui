@@ -46,15 +46,22 @@
     <div v-if="participant.length > 0" class="mt-15px">
       <div class="grid grid-cols-5 xs:grid-cols-10 lg:grid-cols-5 items-stretch gap-10px">
         <div class="col-span-1 cursor-pointer" v-for="p of participant.slice(0,19)" :key="p" @click="gotoUserPage(p)">
-          <img v-if="p.profileImg"
-               class="w-full min-w-28px h-full  rounded-full
+          <Avatar :profile-img="p.profileImg.replace('normal', '200x200')"
+                  :name="p.twitterName"
+                  :username="p.twitterUsername"
+                  @gotoUserPage="gotoUserPage(p)">
+            <template #avatar-img>
+              <img v-if="p.profileImg"
+                   class="w-full min-w-28px h-full  rounded-full
                       border-2 border-color62 light:border-white bg-color8B/10"
-               @error="replaceEmptyImg"
-               :src="p.profileImg.replace('normal', '200x200')" alt="">
-          <img v-else
-               class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                   @error="replaceEmptyImg"
+                   :src="p.profileImg.replace('normal', '200x200')" alt="">
+              <img v-else
+                   class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-2 border-color62 light:border-white bg-color8B/10"
-               src="~@/assets/icon-default-avatar.svg" alt="">
+                   src="~@/assets/icon-default-avatar.svg" alt="">
+            </template>
+          </Avatar>
         </div>
         <div class="col-span-1" v-if="participant.length>19">
           <button class="w-full min-w-28px h-full rounded-full
@@ -113,10 +120,12 @@ import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
 import {formatAmount, parseTimestamp, parseSpaceStartTime} from "@/utils/helper";
 import {mapGetters} from "vuex";
 import Submissions from "@/views/curations/Submissions";
+import Avatar from "@/components/Avatar";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
 
 export default {
   name: "PostCreatedCuration",
-  components: {ChainTokenIconLarge, Submissions},
+  components: {ChainTokenIconLarge, Submissions, Avatar},
   props: {
     curationData: {
       type: Object,
@@ -198,6 +207,9 @@ export default {
       if (!this.getAccountInfo || c.twitterUsename !== this.getAccountInfo.twitterUsername){
         this.$router.push({path : '/account-info/@' + c.twitterUsername})
       }
+    },
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
     },
   },
   unmounted() {

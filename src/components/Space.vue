@@ -1,14 +1,23 @@
 <template>
   <div>
     <div v-if="showAvatar" class="flex items-center">
-      <img v-if="profileImg" @click.stop="gotoUserPage()"
-           class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar  max-w-56px max-h-56px"
-           :class="avatarClass"
-           @error="replaceEmptyImg"
-           :src="profileImg" alt="">
-      <img class="mr-10px md:mr-1rem rounded-full gradient-border max-w-56px max-h-56px"
-           :class="avatarClass"
-           src="@/assets/icon-default-avatar.svg" v-else alt="">
+      <Avatar :profile-img="profileImg"
+              :name="space.name"
+              :username="space.username"
+              :steem-id="space.steemId"
+              :eth-address="space.ethAddress"
+              @gotoUserPage="gotoUserPage">
+        <template #avatar-img>
+          <img v-if="profileImg" @click.stop="gotoUserPage()"
+               class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar  max-w-56px max-h-56px"
+               :class="avatarClass"
+               @error="replaceEmptyImg"
+               :src="profileImg" alt="">
+          <img class="mr-10px md:mr-1rem rounded-full gradient-border max-w-56px max-h-56px"
+               :class="avatarClass"
+               src="@/assets/icon-default-avatar.svg" v-else alt="">
+        </template>
+      </Avatar>
       <div class="flex-1 flex items-center flex-wrap">
         <div class="flex items-center flex-wrap">
           <a class="c-text-black text-left mr-3 cursor-pointer
@@ -70,10 +79,11 @@ import { parseSpaceStartTime } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {parseTimestamp} from "@/utils/helper";
 import PostButtonGroup from "@/components/PostButtonGroup";
+import Avatar from "@/components/Avatar";
 
 export default {
   name: "Space",
-  components: {PostButtonGroup},
+  components: {PostButtonGroup, Avatar},
   props: {
     space: {
       type: Object,

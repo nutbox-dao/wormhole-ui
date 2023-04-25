@@ -39,7 +39,7 @@
                                   bg-white/10 light:bg-colorF2
                                   light:border-1 light:border-colorE3
                                   rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
-                      <img class="w-16px xl:w-1.5rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+                      <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
                       <span class="text-12px 2xl:text-0.7rem">@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
                     </div>
                     <div v-if="accountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap

@@ -109,7 +109,8 @@ export default {
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
     votingPower: 'Curating Power',
-    vpDes: 'Every curatorial operation must cost you curating power which can recover all everyday. The curatorial operations include: like/quote/retweet.'
+    vpDes: 'Every curatorial operation must cost you curating power which can recover all everyday. The curatorial operations include: like/quote/retweet.',
+    detail: 'Detail'
   },
   profileView: {
     socialAsset: 'Social assets',
