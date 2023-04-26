@@ -1,8 +1,17 @@
 <template>
   <div class="flex text-14px">
-    <img class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem mr-10px rounded-full
-                max-w-50px max-h-50px"
-         :src="profile" alt="">
+    <Avatar :profile-img="profile"
+            :name="comment.name"
+            :username="comment.username"
+            :steem-id="comment.steemId"
+            :eth-address="comment.ethAddress"
+            @gotoUserPage="gotoUserPage">
+      <template #avatar-img>
+        <img class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem mr-10px rounded-full
+             max-w-50px max-h-50px"
+             :src="profile" alt="">
+      </template>
+    </Avatar>
     <div class="flex-1 text-left">
       <div class="flex items-center flex-wrap text-14px gap-y-4px">
         <span class="c-text-black mr-1rem light:text-blueDark">{{comment.name}}</span>
@@ -35,9 +44,11 @@
 
 <script>
 import { formatPrice, parseTimestamp } from '@/utils/helper'
+import Avatar from "@/components/Avatar";
 
 export default {
   name: "Comment",
+  components: {Avatar},
   props: {
     comment: {
       type: Object,
@@ -72,6 +83,9 @@ export default {
     },
     parseSBD(v) {
       return parseFloat(v.replace(' SBD', ''))
+    },
+    gotoUserPage() {
+      this.$router.push({path : '/account-info/@' + this.comment.username})
     },
   },
 }

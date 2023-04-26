@@ -1,10 +1,19 @@
 <template>
   <div class="text-14px">
     <div class="flex items-center mb-10px"  @click.stop="gotoUserPage()">
-      <img class="w-36px min-w-36px h-36px min-h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem md:h-min-1.8rem
+      <Avatar :profile-img="recommendData.creatorProfileImg"
+              :name="recommendData.creatorTwitterName"
+              :username="recommendData.creatorTwitterUsername"
+              :steem-id="recommendData.steemId"
+              :eth-address="recommendData.ethAddress"
+              @gotoUserPage="gotoUserPage">
+        <template #avatar-img>
+          <img class="w-36px min-w-36px h-36px min-h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem md:h-min-1.8rem
                   mr-8px rounded-full cursor-pointer bg-color8B/10"
-           @error="replaceEmptyImg"
-           :src="recommendData.creatorProfileImg && recommendData.creatorProfileImg.replace('normal', '200x200')" alt="">
+               @error="replaceEmptyImg"
+               :src="recommendData.creatorProfileImg && recommendData.creatorProfileImg.replace('normal', '200x200')" alt="">
+        </template>
+      </Avatar>
       <div class="flex-1 flex flex-col items-start ">
         <div class="flex items-center flex-wrap">
           <a class="c-text-black text-left mr-3 cursor-pointer
@@ -181,10 +190,11 @@ import Submissions from "@/views/curations/Submissions";
 import PopUpsCard from "@/components/PopUpsCard";
 import CreatePopUpModal from "@/components/CreatePopUpModal";
 import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
+import Avatar from "@/components/Avatar";
 
 export default {
   name: "PostRecommendItem",
-  components: {ChainTokenIcon, Submissions, PopUpsCard, CreatePopUpModal},
+  components: {ChainTokenIcon, Submissions, PopUpsCard, CreatePopUpModal, Avatar},
   props: {
     recommendData: {
       type: Object,
