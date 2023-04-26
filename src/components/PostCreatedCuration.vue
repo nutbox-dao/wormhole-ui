@@ -52,7 +52,7 @@
                   @gotoUserPage="gotoUserPage(p)">
             <template #avatar-img>
               <img v-if="p.profileImg"
-                   class="w-full min-w-28px h-full  rounded-full
+                   class="w-full min-w-28px h-full min-w-28px  rounded-full object-cover
                       border-2 border-color62 light:border-white bg-color8B/10"
                    @error="replaceEmptyImg"
                    :src="p.profileImg.replace('normal', '200x200')" alt="">
