@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full">
     <el-popover popper-class="c-popper"
                 :show-after="500"
                 :persistent="true"
