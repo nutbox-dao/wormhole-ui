@@ -1,6 +1,8 @@
 <template>
   <div class="h-full">
     <el-popover popper-class="c-popper"
+                :disabled="clientWidth<500"
+                :teleported="false"
                 :show-after="500"
                 :persistent="true"
                 :show-arrow="false" width="240px">
@@ -65,13 +67,14 @@ export default {
       type: String,
       default: ''
     },
-    reputaion: {
+    reputation: {
       type: String,
       default: ''
     }
   },
   data() {
     return {
+      clientWidth: document.body.clientWidth,
       accountInfo: {}
     }
   },

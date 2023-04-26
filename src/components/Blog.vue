@@ -13,10 +13,12 @@
             <img v-if="profileImg"
                  class="mr-10px rounded-full cursor-pointer blog-avatar max-w-56px max-h-56px bg-color62/10 border-1"
                  :class="avatarClass"
+                 @click.stop="gotoUserPage"
                  @error="replaceEmptyImg"
                  :src="profileImg" alt="">
             <img class="mr-10px rounded-full max-w-56px max-h-56px bg-color62/10 border-1"
                  :class="avatarClass"
+                 @click.stop="gotoUserPage"
                  src="@/assets/icon-default-avatar.svg" v-else alt="">
           </template>
         </Avatar>
