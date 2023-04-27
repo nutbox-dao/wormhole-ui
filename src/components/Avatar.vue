@@ -76,7 +76,11 @@ export default {
     }
   },
   async mounted() {
-    this.accountInfo = await getUserInfo(this.username)
+    try{
+      this.accountInfo = await getUserInfo(this.username)
+    }catch(e) {
+      
+    }
   },
   methods: {
     copyAddress,
