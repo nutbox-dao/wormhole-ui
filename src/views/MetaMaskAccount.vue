@@ -5,13 +5,13 @@
         <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1.7rem">
           {{$t('metamaskView.p1')}}
         </div>
-        <div class="flex items-center bg-primaryBg
+        <div class="flex justify-center items-center bg-primaryBg
                     light:bg-colorF2 border-2 border-color62
                     py-1rem lg:px-6rem px-2rem font-bold
                     max-w-50rem mx-auto rounded-12px c-text-bold
                     text-1rem lg:leading-2rem leading-1.6rem mb-1rem">
-          {{ account }}
-          <i class="w-1.3rem h-1.3rem ml-1rem cursor-pointer icon-copy" @click="onCopy(account)"></i>
+          <span>{{ account }}</span>
+          <i class="w-1.3rem h-1.3rem min-h-16px min-w-16px ml-1rem cursor-pointer icon-copy" @click="onCopy(account)"></i>
         </div>
         <template v-if="isRegister">
           <div class="flex items-start mb-2rem">
