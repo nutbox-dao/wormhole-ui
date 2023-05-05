@@ -364,6 +364,7 @@ export default {
   mounted() {
     const postId = this.$route.params.postId
     this.postId = postId
+    this.$gtag.pageview('/post-detail/' + postId)
     // this.onLoad()
     if (!this.currentShowingDetail) {
       // get post

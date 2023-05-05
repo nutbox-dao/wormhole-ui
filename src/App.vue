@@ -394,14 +394,11 @@ export default {
         break;
       }
     }
-    console.log(64, state)
     let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
     let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
     if (state && (isIOS || isAndroid)) {
       try {
-        console.log(123, state);
         let userInfo = await twitterLogin(state)
-        console.log(35, userInfo);
         if (userInfo && userInfo.code === 1) {
           await sleep(10);
           userInfo = await twitterLogin(state)

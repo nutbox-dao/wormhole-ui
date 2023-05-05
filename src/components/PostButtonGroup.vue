@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
       <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
       <!-- follow-->
-      <div v-if="isDetail" class="flex justify-between items-center">
+      <div v-if="false" class="flex justify-between items-center">
         <button @click.stop="userFollow"
                 :disabled="isFollowing || post.followed"
                 class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
@@ -492,7 +492,7 @@ export default {
               const p = prices[i];
               if (p) {
                 if (this.rewards[i].amount !== '???'){
-                  price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token])
+                  price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token] ?? 0)
                 }
               }
             }

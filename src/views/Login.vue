@@ -132,6 +132,9 @@ export default {
       notify({message, duration, type})
     },
     async login() {
+      this.$gtag.event('login', {
+        method: 'login'
+      })
       try {
         let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
         let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0

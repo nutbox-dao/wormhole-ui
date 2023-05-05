@@ -14,7 +14,7 @@
         </div>
         <div class="mt-8px flex flex-wrap items-center">
           <span class="c-text-black mr-4px text-white light:text-blueDark text-16px">{{name}}</span>
-          <span class="">#{{steemId || accountInfo.steemId}}</span>
+          <span v-show="steemId || accountInfo.steemI" class="">#{{steemId || accountInfo.steemId}}</span>
         </div>
         <div class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
           <span>@{{username}}</span>
@@ -22,10 +22,10 @@
                @click="gotoTwitter"
                src="~@/assets/icon-twitter-blue.svg" alt="">
         </div>
-        <div class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
+        <div v-if="accountInfo.reputation > 0" class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
           Twitter Reputation: {{ reputation || accountInfo.reputation }}
         </div>
-        <div class="text-12px mt-20px cursor-pointer flex items-center font-500">
+        <div v-if="ethAddress || accountInfo.ethAddress" class="text-12px mt-20px cursor-pointer flex items-center font-500">
           <span class="flex-1 whitespace-nowrap truncate">
             {{ethAddress || accountInfo.ethAddress}}
           </span>
@@ -79,7 +79,11 @@ export default {
     }
   },
   async mounted() {
-    if(!this.ethAddress) this.accountInfo = await getUserInfo(this.username)
+    try{
+      this.accountInfo = await getUserInfo(this.username)
+    }catch(e) {
+      
+    }
   },
   methods: {
     copyAddress,

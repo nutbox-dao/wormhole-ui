@@ -38,7 +38,7 @@
         </div>
         <!-- create new content -->
         <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
-          <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
+          <div class="mb-6px font-bold">{{$t((form.category === 'tweet' && form.createType==='new') ? 'curation.typeTweetContent' : 'curation.relatedTweet')}}</div>
           <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px
                       flex flex-col light:bg-white light:border-colorE3 hover:border-primaryColor rounded-8px">
             <div class="flex-1 flex flex-col relative">
@@ -136,9 +136,9 @@
         <!-- tweet relate or new -->
         <div class="flex items-center mt-10px" v-if="form.category==='tweet'">
           <i class="w-16px h-16px min-w-16px min-h-16px mr-10px"
-             :class="form.createType==='new'?'icon-selected':'icon-unselected'"
+             :class="form.createType!=='new'?'icon-selected':'icon-unselected'"
              @click="changeCategory();form.createType = (form.createType==='new'?'related':'new')"></i>
-          <span>{{$t('curation.selectNewTweet')}}</span>
+          <span>{{$t('curation.useExistTweet')}}</span>
         </div>
         <!-- requirements -->
         <div class="mt-1.8rem relative">
@@ -182,9 +182,9 @@
                        src="~@/assets/icon-close-primary.svg" alt="">
                 </button>
               </div>
-              <!-- <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
+              <button v-if="form.followers.length<2" @click="addFollowVisible=true" class="ml-16px">
                 <img class="w-16px h-16px" src="~@/assets/icon-add-primary.svg" alt="">
-              </button> -->
+              </button>
             </div>
 
           </div>
@@ -200,7 +200,7 @@
         <!-- description -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
-            <div class="font-bold">{{$t('curation.desc')}}</div>
+            <div class="font-bold">{{$t('curation.desc')}} ({{ $t('common.option') }})</div>
             <button @click="expandDesc=!expandDesc">
               <img class="w-18px transform spin-slow"
                    :class="expandDesc?'-rotate-180':'rotate-0'"
@@ -231,7 +231,7 @@
         <!-- tag -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
-            <div class="mb-6px font-bold">{{$t('curation.tag')}}</div>
+            <div class="mb-6px font-bold">{{$t('curation.tag')}} ({{ $t('common.option') }})</div>
             <button @click="expandTag=!expandTag">
               <img class="w-18px transform spin-slow"
                    :class="expandTag?'-rotate-180':'rotate-0'"
@@ -696,7 +696,7 @@ export default {
     onConfirmAddFollow(followUser) {
       this.addFollowVisible = false
       for(let user of this.form.followers) {
-        if(user.id === followUser.twitterId) return
+        if(user.twitterId === followUser.id) return
       }
       this.form.followers.push({
         twitterId: followUser.id,
@@ -947,10 +947,10 @@ export default {
       return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
     },
     checkCreateData() {
-      if (!this.form.description ||this.form.description.length === 0) {
-        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
-        return false;
-      }
+      // if (!this.form.description ||this.form.description.length === 0) {
+      //   notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+      //   return false;
+      // }
       if(this.form.category === 'tweet' && this.form.createType==='new') {
         if (!this.form.newContent || this.form.newContent.length === 0) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
@@ -1231,6 +1231,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
     const { type, author, tweetId } = history.state;
     if (type && author && tweetId) {
       this.category  = type
+      this.form.createType = 'related'
       this.form.link = `https://twitter.com/${author}/status/${tweetId}`
       this.checkLink();
     }else if (this.getDraft) {
