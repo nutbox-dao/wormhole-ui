@@ -200,69 +200,90 @@
         <!-- description -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
-            <div class="mb-6px font-bold">{{$t('curation.desc')}}</div>
-            <span class="text-color8B light:text-color7D/50">{{form.description.length}}/2048</span>
+            <div class="font-bold">{{$t('curation.desc')}}</div>
+            <button @click="expandDesc=!expandDesc">
+              <img class="w-18px transform spin-slow"
+                   :class="expandDesc?'-rotate-180':'rotate-0'"
+                   src="~@/assets/icon-select-arrow.svg" alt="">
+            </button>
           </div>
-          <div class="mb-6px text-color62 italic">
-            {{ $t('curation.descriptionDesc') }}
-          </div>
-          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+          <el-collapse-transition>
+            <div v-show="expandDesc">
+              <div class="my-6px text-color62 italic">
+                {{ $t('curation.descriptionDesc') }}
+              </div>
+              <div class="text-color8B light:text-color7D/50 text-right">
+                {{form.description.length}}/2048
+              </div>
+              <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
-            <el-input v-model="form.description"
-                      :rows="4" :maxlength="2048"
-                      class="border-0 c-textarea rounded-8px overflow-hidden"
-                      type="textarea"
-                      :placeholder="$t('curation.createDescTip')"/>
-          </div>
+                <el-input v-model="form.description"
+                          :rows="4" :maxlength="2048"
+                          class="border-0 c-textarea rounded-8px overflow-hidden"
+                          type="textarea"
+                          :placeholder="$t('curation.createDescTip')"/>
+              </div>
+
+            </div>
+          </el-collapse-transition>
         </div>
         <!-- tag -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
             <div class="mb-6px font-bold">{{$t('curation.tag')}}</div>
+            <button @click="expandTag=!expandTag">
+              <img class="w-18px transform spin-slow"
+                   :class="expandTag?'-rotate-180':'rotate-0'"
+                   src="~@/assets/icon-select-arrow.svg" alt="">
+            </button>
           </div>
-          <div class="mb-6px text-color62 italic">
-            {{ $t('curation.tagDesc') }}
-          </div>
-          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+          <el-collapse-transition>
+            <div v-show="expandTag">
+              <div class="mb-6px text-color62 italic">
+                {{ $t('curation.tagDesc') }}
+              </div>
+              <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3 hover:border-primaryColor
                       rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
-            <div class="flex flex-wrap items-center">
-              <button v-for="(sTag, index) of form.topics" :key="sTag"
-                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
+                <div class="flex flex-wrap items-center">
+                  <button v-for="(sTag, index) of form.topics" :key="sTag"
+                          class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
                              mx-4px my-3px bg-tag-gradient relative">
-                #{{sTag}}
-                <img class="w-16px h-16px absolute -top-4px -right-4px bg-white rounded-full cursor-pointer"
-                     @click.stop="deleteTag(index)"
-                     src="~@/assets/icon-close-primary.svg" alt="">
-              </button>
-              <div class="min-w-4rem h-24px ml-8px flex items-center">
-                <span>#</span>
-                <input class="w-full h-full min-w-0 bg-transparent pr-4px"
-                       v-model="inputTagValue"
-                       type="text">
-              </div>
-            </div>
-            <div class="w-full h-1px bg-color8B/30 light:border-colorF4 my-12px"></div>
-            <div v-if="inputTagValue.trim()">
-              <button class="rounded-full h-24px px-12px min-w-4rem border-1 border-dashed border-color62
+                    #{{sTag}}
+                    <img class="w-16px h-16px absolute -top-4px -right-4px bg-white rounded-full cursor-pointer"
+                         @click.stop="deleteTag(index)"
+                         src="~@/assets/icon-close-primary.svg" alt="">
+                  </button>
+                  <div class="min-w-4rem h-24px ml-8px flex items-center">
+                    <span>#</span>
+                    <input class="w-full h-full min-w-0 bg-transparent pr-4px"
+                           v-model="inputTagValue"
+                           type="text">
+                  </div>
+                </div>
+                <div class="w-full h-1px bg-color8B/30 light:border-colorF4 my-12px"></div>
+                <div v-if="inputTagValue.trim()">
+                  <button class="rounded-full h-24px px-12px min-w-4rem border-1 border-dashed border-color62
                              whitespace-nowrap mx-4px my-3px"
-                      @click="selectInputTag">
-                {{inputTagValue}}
-              </button>
-            </div>
-            <div>
-              <button v-for="dTag of defaultTagList" :key="dTag"
-                      class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
-                      :class="form.topics.indexOf(dTag)>=0?
+                          @click="selectInputTag">
+                    {{inputTagValue}}
+                  </button>
+                </div>
+                <div>
+                  <button v-for="dTag of defaultTagList" :key="dTag"
+                          class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
+                          :class="form.topics.indexOf(dTag)>=0?
                       'bg-tag-gradient text-white':
                       'border-1 border-color8B/30 light:border-colorF4 text-color8B light:text-color7D'"
-                      :disabled="form.topics.length===5"
-                      @click="onSelectTag(dTag)">
-                #{{dTag}}
-              </button>
+                          :disabled="form.topics.length===5"
+                          @click="onSelectTag(dTag)">
+                    #{{dTag}}
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          </el-collapse-transition>
         </div>
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
@@ -638,7 +659,9 @@ export default {
       createdTipVisible: false,
       inputTagValue: '',
       addFollowVisible: false,
-      commenTopics: []
+      commenTopics: [],
+      expandDesc: false,
+      expandTag: false
     }
   },
   computed: {
@@ -1252,5 +1275,8 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
 .receive-btn {
   background-image: linear-gradient(to right, var(--primary-custom), var(--primary-custom));
   background-repeat: no-repeat;
+}
+.spin-slow {
+  transition-duration: 0.5s;
 }
 </style>
