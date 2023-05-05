@@ -200,7 +200,7 @@
         <!-- description -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
-            <div class="font-bold">{{$t('curation.desc')}}</div>
+            <div class="font-bold">{{$t('curation.desc')}} ({{ $t('common.option') }})</div>
             <button @click="expandDesc=!expandDesc">
               <img class="w-18px transform spin-slow"
                    :class="expandDesc?'-rotate-180':'rotate-0'"
@@ -231,7 +231,7 @@
         <!-- tag -->
         <div class="mt-1.8rem">
           <div class="flex justify-between items-center">
-            <div class="mb-6px font-bold">{{$t('curation.tag')}}</div>
+            <div class="mb-6px font-bold">{{$t('curation.tag')}} ({{ $t('common.option') }})</div>
             <button @click="expandTag=!expandTag">
               <img class="w-18px transform spin-slow"
                    :class="expandTag?'-rotate-180':'rotate-0'"
