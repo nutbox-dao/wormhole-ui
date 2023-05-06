@@ -256,7 +256,7 @@ export const EVM_CHAINS = {
     },
 
     Arbitrum: {
-        rpc: 'https://arbitrum-mainnet.infura.io',
+        rpc: 'https://arb1.arbitrum.io/rpc',
         scan: 'https://arbiscan.io/',
         tokenScan: 'https://arbiscan.io/token/',
         id: 42161,
@@ -264,7 +264,7 @@ export const EVM_CHAINS = {
             name: 'ETH',
             symbol: 'ETH',
             decimals: 18,
-            icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png'
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png'
         },
         assets: {
           ARB: {symbol: 'ARB', name: 'Arbitrum', address: '0x912CE59144191C1204E64559FE8253a0e49E6548', decimals: 18},
@@ -273,7 +273,7 @@ export const EVM_CHAINS = {
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1', decimals: 18},
         },
         Multi_Config: {
-            rpcUrl: 'https://arbitrum-mainnet.infura.io',
+            rpcUrl: 'https://arb1.arbitrum.io/rpc',
             multicallAddress: '0x4B6EF997DbF23D320a6616ADf6499f4cdC00AB7c',
             interval: 3000
         },

@@ -156,7 +156,6 @@ export default {
             amount: sum + (reward.amount.toString() / (10 ** reward.decimals))
           }
         }
-
         return Object.values(result)
       }
       return []
@@ -180,7 +179,7 @@ export default {
       const index = this.chainTab;
       try{
         const currentList = this.rewardLists[index];
-        if (currentList.length > 0 && !force) {
+        if (currentList && currentList.length > 0 && !force) {
           return;
         }
         this.loading[index] = true
@@ -214,6 +213,7 @@ export default {
           }
         }else if (index === this.chainNames.length + 1) {
           const records = await autoCurationAuthorRewardList(this.getAccountInfo.twitterId);
+          
           if (records && records.length > 0) {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
 
