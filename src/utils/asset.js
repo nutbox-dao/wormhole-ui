@@ -721,6 +721,7 @@ export async function getPriceFromOracle(chainName, tokens) {
             balance = balance.data
             return balance
         }else {
+            // https://docs.1inch.io/docs/spot-price-aggregator/introduction/
             let oracle = EVM_CHAINS[chainName].oracle
             if (!oracle) return;
             let call = tokens.filter(t => t.token != EVM_CHAINS[chainName].assets.USDT.address).map(t => ({
