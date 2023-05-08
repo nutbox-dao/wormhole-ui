@@ -284,8 +284,8 @@ export default {
       e.target.src = emptyAvatar;
     },
     gotoUserPage() {
-      if (!this.getAccountInfo || this.recommendData.username !== this.getAccountInfo.twitterUsername){
-        this.$router.push({path : '/account-info/@' + this.recommendData.username})
+      if (!this.getAccountInfo || this.recommendData.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + this.recommendData.creatorTwitterUsername})
       }
     },
     countdown(time) {
