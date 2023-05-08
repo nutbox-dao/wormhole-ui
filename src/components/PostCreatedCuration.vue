@@ -49,6 +49,9 @@
           <Avatar :profile-img="p.profileImg.replace('normal', '200x200')"
                   :name="p.twitterName"
                   :username="p.twitterUsername"
+                  :steem-id="p.steemId"
+                  :eth-address="p.ethAddress"
+                  :reputation="p.reputation"
                   @gotoUserPage="gotoUserPage(p)">
             <template #avatar-img>
               <img v-if="p.profileImg"

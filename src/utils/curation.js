@@ -229,9 +229,7 @@ export const creteNewCuration = async (chainName, curation) => {
             let contract = new ethers.Contract(curationContract, abi, provider)
             contract = contract.connect(provider.getSigner())
             const {curationId, endtime, token, amount, maxCount} = curation
-            const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, maxCount, {
-              gasLimit: 500000
-            })
+            const tx = await contract.newTask(ethers.BigNumber.from('0x' + curationId), endtime, token, amount, maxCount)
             await waitForTx(provider, tx.hash)
             resolve(tx.hash)
         }catch(e) {
