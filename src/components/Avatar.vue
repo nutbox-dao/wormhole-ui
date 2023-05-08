@@ -68,7 +68,7 @@ export default {
       default: ''
     },
     reputation: {
-      type: String,
+      type: Number,
       default: ''
     }
   },
