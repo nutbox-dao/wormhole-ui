@@ -277,8 +277,8 @@ export const EVM_CHAINS = {
             multicallAddress: '0x4B6EF997DbF23D320a6616ADf6499f4cdC00AB7c',
             interval: 3000
         },
-        curation: '',
-        popup: '',
+        curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
+        popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
         oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F'
     },
     'ENULS': {
