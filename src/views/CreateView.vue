@@ -43,6 +43,11 @@ export default {
   mounted () {
     if(history.state.author && history.state.type === 'tweet') {
       this.tabIndex = 1
+      return;
+    }
+    const { communityId, promoteUrl } = this.$route.query;
+    if (communityId && promoteUrl) {
+      this.tabIndex = 1;
     }
   },
 }
