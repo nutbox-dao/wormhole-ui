@@ -127,7 +127,11 @@ export default {
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
     inputAmount: '请输入token数量',
-    accountMismatch: '您必须使用虫洞绑定的账号进行操作。'
+    accountMismatch: '您必须使用虫洞绑定的账号进行操作。',
+    record: '记录',
+    historyRecord: '历史记录',
+    communityReward: '社区奖励',
+    withdraw: '提现'
   },
   token: {
     noNft: "你当前没有任何NFT.",

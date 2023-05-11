@@ -108,6 +108,7 @@
               </el-tooltip>
             </div> -->
           </div>
+          <BlogReward :post="post"></BlogReward>
         </div>
       </div>
       <div class="flex blog-content">
@@ -152,6 +153,13 @@
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
+          <div class="flex items-center mt-10px">
+            <span>{{$t('community.communityFrom')}}: </span>
+            <div class="flex items-center ml-10px">
+              <img class="w-20px h-20px bg-color8B/30 rounded-full mr-4px" :src="profileImg" alt="">
+              <span>SpaceX</span>
+            </div>
+          </div>
           <slot name="bottom-btn-bar">
             <PostButtonGroup ref="postButtonRef" :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
           </slot>
@@ -185,10 +193,11 @@ import PostButtonGroup from "@/components/PostButtonGroup";
 import debounce from 'lodash.debounce'
 import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
 import Avatar from "@/components/Avatar";
+import BlogReward from "@/components/BlogReward";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon, Avatar},
+  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon, Avatar, BlogReward},
   props: {
     post: {
       type: Object,

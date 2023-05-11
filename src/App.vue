@@ -164,7 +164,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 overflow-auto relative c-page-container">
+      <div :class="$route.meta.first?'flex-1 overflow-auto relative c-page-container':'second-page bg-primaryBg light:bg-white'">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -172,6 +172,7 @@
           <component :is="Component" v-if="!$route.meta.keepAlive"/>
         </router-view>
       </div>
+      <BottomTabbar class="block sm:hidden"></BottomTabbar>
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
       </el-dialog>
@@ -230,9 +231,10 @@ import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC, 
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
+import BottomTabbar from "@/components/BottomTabbar";
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login},
+  components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar},
   data: () => {
     return {
       pubKey: '',
@@ -558,11 +560,11 @@ export default {
 }
 .light #app {
   color: #1A1E25;
-  &.bg-img {
-    background-image: url("~@/assets/layout-bg.png");
-    background-size: cover;
-    background-position: center;
-  }
+  //&.bg-img {
+  //  background-image: url("~@/assets/layout-bg.png");
+  //  background-size: cover;
+  //  background-position: center;
+  //}
 }
 .c-emoji {
   //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
@@ -777,6 +779,13 @@ export default {
 }
 .light .word-cloud{
   background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
+}
+.second-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 @media (max-width: 500px) {
   .search-bar > input:focus,

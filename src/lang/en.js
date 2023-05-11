@@ -344,7 +344,8 @@ export default {
     createdCurations: 'Created Curation',
     startTime: 'Start time',
     tasks: 'Tasks',
-    blogTweetTip: 'Go to original tweet'
+    blogTweetTip: 'Go to original tweet',
+    retweet: 'Retweet'
   },
   createCuration: {
     option1: '获得 Curation NFT',
@@ -386,6 +387,9 @@ export default {
     insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
     seeYourNFT: 'My NFT',
     downloadTip: 'Long press to download'
+  },
+  community: {
+    communityFrom: 'Community from'
   },
   err: {
     serverErr: 'Server error',

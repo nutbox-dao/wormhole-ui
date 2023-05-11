@@ -41,7 +41,7 @@ const routes = [
     path: '/square/:referee?',
     name: 'square',
     component: PostsIndex,
-    meta: {keepAlive: true}
+    meta: {keepAlive: true, first: true}
   },
   {
     path: '/create-curation',
