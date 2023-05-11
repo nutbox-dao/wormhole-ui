@@ -123,7 +123,8 @@ export const TokenIcon = {
     'METIS': "http://nassets.oss-us-west-1.aliyuncs.com/METIS.png",
     'KLAY': "http://nassets.oss-us-west-1.aliyuncs.com/KLAY.png",
     'NABOX': "http://nassets.oss-us-west-1.aliyuncs.com/NABOX_1.png",
-    'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png"
+    'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png",
+    'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png"
 }
 
 export const TokenName = {
@@ -161,7 +162,8 @@ export const TokenName = {
     'METIS': 'METIS',
     'KLAY': 'KLAY',
     'NABOX': 'Nabox_Token',
-    'NVT': 'NVT'
+    'NVT': 'NVT',
+    'ARB': 'Arbitrum'
 }
 
 export const isWrappedToken = {
@@ -251,6 +253,33 @@ export const EVM_CHAINS = {
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
         oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9'
+    },
+
+    Arbitrum: {
+        rpc: 'https://arb1.arbitrum.io/rpc',
+        scan: 'https://arbiscan.io/',
+        tokenScan: 'https://arbiscan.io/token/',
+        id: 42161,
+        main: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18,
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png'
+        },
+        assets: {
+          ARB: {symbol: 'ARB', name: 'Arbitrum', address: '0x912CE59144191C1204E64559FE8253a0e49E6548', decimals: 18},
+          USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8', decimals: 6},
+          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', decimals: 6},
+          DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1', decimals: 18},
+        },
+        Multi_Config: {
+            rpcUrl: 'https://arb1.arbitrum.io/rpc',
+            multicallAddress: '0x4B6EF997DbF23D320a6616ADf6499f4cdC00AB7c',
+            interval: 3000
+        },
+        curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
+        popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
+        oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F'
     },
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',

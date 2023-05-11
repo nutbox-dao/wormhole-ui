@@ -20,11 +20,11 @@
          class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px
                 px-20px sm:px-4.5rem py-24px mb-2rem">
       <!-- set up -->
-      <div class="text-14px leading-21px 2xl:text-0.7rem mb-10px text-left font-600 -mt-5px">
+      <div v-show="!onlyQuote" class="text-14px leading-21px 2xl:text-0.7rem mb-10px text-left font-600 -mt-5px">
         {{$t('curation.selectCategoryTip')}}
       </div>
       <div v-if="currentStep===1" class="text-left text-14px 2xl:text-0.7rem">
-        <div class="relative">
+        <div v-show="!onlyQuote" class="relative">
           <button class="h-34px xl:h-1.5rem px-24px border-1 rounded-full mr-24px"
                   :class="form.category==='tweet'?
                   'bg-color62/30 light:bg-colorF1 border-color62 light:text-color62':
@@ -38,10 +38,10 @@
         </div>
         <!-- create new content -->
         <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
-          <div class="mb-6px font-bold">{{$t((form.category === 'tweet' && form.createType==='new') ? 'curation.typeTweetContent' : 'curation.relatedTweet')}}</div>
-          <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px
+          <div v-show="!onlyQuote" class="mb-6px font-bold">{{$t((form.category === 'tweet' && form.createType==='new') ? 'curation.typeTweetContent' : 'curation.relatedTweet')}}</div>
+          <div v-show="!onlyQuote" class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px
                       flex flex-col light:bg-white light:border-colorE3 hover:border-primaryColor rounded-8px">
-            <div class="flex-1 flex flex-col relative">
+            <div v-show="!onlyQuote" class="flex-1 flex flex-col relative">
               <div contenteditable
                    class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
                    ref="descContentRef"
@@ -73,7 +73,7 @@
           </div>
         </div>
         <!-- preview tweet -->
-        <template v-if="form.category==='tweet' && form.createType==='related'">
+        <template v-if="form.category==='tweet' && form.createType==='related' && !onlyQuote">
           <div class="mt-1.8rem">
             <div class="mb-6px font-bold">{{$t('curation.relatedTweet')}}</div>
             <div v-if="linkIsVerified" class="overflow-hidden relative rounded-12px"
@@ -134,14 +134,14 @@
           </div>
         </div>
         <!-- tweet relate or new -->
-        <div class="flex items-center mt-10px" v-if="form.category==='tweet'">
+        <div class="flex items-center mt-10px" v-if="form.category==='tweet' && !onlyQuote">
           <i class="w-16px h-16px min-w-16px min-h-16px mr-10px"
              :class="form.createType!=='new'?'icon-selected':'icon-unselected'"
              @click="changeCategory();form.createType = (form.createType==='new'?'related':'new')"></i>
           <span>{{$t('curation.useExistTweet')}}</span>
         </div>
         <!-- requirements -->
-        <div class="mt-1.8rem relative">
+        <div class="mt-1.8rem relative" v-show="!onlyQuote">
           <div class="mb-6px font-bold">{{$t('curation.requirements')}}</div>
           <div class="h-44px 2xl:h-2rem border-1 border-color8B/30 light:border-colorE3 hover:border-primaryColor
                       bg-block light:bg-colorF7 rounded-8px
@@ -597,6 +597,7 @@ export default {
       loading: false,
       receiving: false,
       isRepling: false,
+      onlyQuote: false,
       // we cancel title from 2022/10/12
       // get the first line of description as title
       form: {
@@ -625,7 +626,9 @@ export default {
         author: {},
         address: null,
         topics: [],
-        followers: []
+        followers: [],
+        communityId: '',
+        promoteUrl: ''
       },
       addSpeakerVisible: false,
       addSpeakerType: 'host',
@@ -843,6 +846,8 @@ export default {
       this.modalVisible = false;
       this.form.tags = [];
       this.form.followers = [];
+      this.form.promoteUrl = '';
+      this.form.communityId = '';
     },
     showAddSpeakerModal(speakerType, operateType, index=0) {
       this.addSpeakerType = speakerType
@@ -1087,7 +1092,9 @@ export default {
             tasks,
             content: this.form.description,
             topics: this.form.topics ?? [],
-            followers: JSON.stringify(this.form.followers ?? [])
+            followers: JSON.stringify(this.form.followers ?? []),
+            promoteUrl: this.form.promoteUrl,
+            communityId: this.form.communityId
           }
         }else {
           pendingCuration = {
@@ -1147,22 +1154,10 @@ export default {
         // post to backend
         if (this.form.category === 'tweet' && this.form.createType === 'new') {
           const result = await newCuration(pendingCuration);
-          let nyCard = result.nyCard;
-
-          if (nyCard && nyCard.cardId > 0) {
-            this.$store.commit('saveNewCardId', nyCard.cardId)
-            this.$store.commit('saveGetCardVisible', true)
-          }
           this.currentStep = 3;
           this.$store.commit('curation/savePendingTweetCuration', null)
         }else {
           const result = await newCurationWithTweet(pendingCuration);
-          let nyCard = result.nyCard;
-
-          if (nyCard && nyCard.cardId > 0) {
-            this.$store.commit('saveNewCardId', nyCard.cardId)
-            this.$store.commit('saveGetCardVisible', true)
-          }
           this.$store.commit('curation/savePendingTweetCuration', null)
           if (pendingCuration.authorId === this.getAccountInfo.twitterId) {
             this.$router.replace('/')
@@ -1229,11 +1224,25 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
   },
   async mounted () {
     const { type, author, tweetId } = history.state;
+    const { communityId, promoteUrl } = this.$route.query;
     if (type && author && tweetId) {
       this.category  = type
       this.form.createType = 'related'
       this.form.link = `https://twitter.com/${author}/status/${tweetId}`
       this.checkLink();
+    }else if (communityId) { // from community
+      this.form.communityId = communityId;
+      if (promoteUrl) {
+        this.form.createType = 'new';
+        this.expandDesc = true;
+        this.expandTag = true;
+        this.onlyQuote = true;
+        this.form.newContent = `
+        ${promoteUrl}
+        #Deschool`;
+      }else {
+
+      }
     }else if (this.getDraft) {
       this.form = this.getDraft
       this.form.topics = this.form.topics ?? [];

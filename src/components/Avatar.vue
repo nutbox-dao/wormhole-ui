@@ -14,7 +14,7 @@
         </div>
         <div class="mt-8px flex flex-wrap items-center">
           <span class="c-text-black mr-4px text-white light:text-blueDark text-16px">{{name}}</span>
-          <span v-show="steemId || accountInfo.steemI" class="">#{{steemId || accountInfo.steemId}}</span>
+          <span v-show="steemId || accountInfo.steemId" class="">#{{steemId || accountInfo.steemId}}</span>
         </div>
         <div class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
           <span>@{{username}}</span>
@@ -22,7 +22,7 @@
                @click="gotoTwitter"
                src="~@/assets/icon-twitter-blue.svg" alt="">
         </div>
-        <div v-if="accountInfo.reputation > 0" class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
+        <div v-if="reputation > 0 || accountInfo.reputation > 0" class="text-12px mt-4px cursor-pointer flex items-center text-color8B light:text-color7D">
           Twitter Reputation: {{ reputation || accountInfo.reputation }}
         </div>
         <div v-if="ethAddress || accountInfo.ethAddress" class="text-12px mt-20px cursor-pointer flex items-center font-500">
@@ -68,7 +68,7 @@ export default {
       default: ''
     },
     reputation: {
-      type: String,
+      type: Number,
       default: ''
     }
   },
@@ -80,7 +80,7 @@ export default {
   },
   async mounted() {
     try{
-      this.accountInfo = await getUserInfo(this.username)
+      // this.accountInfo = await getUserInfo(this.username)
     }catch(e) {
       
     }

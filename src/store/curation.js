@@ -13,7 +13,7 @@ export default {
         detailCuration: {},
         detailRecords: [],
         customTags: [],
-        rewardLists: [[],[],[],[],[],[]],
+        rewardLists: [[],[],[],[],[],[],[]],
         // cache the created curation which not push to backend
         pendingTweetCuration: localStorage.getItem('pending-cache-curation'),
         pendingTip: localStorage.getItem('pending-cache-tip'),

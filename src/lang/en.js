@@ -308,7 +308,7 @@ export default {
     selectCategoryTip:  'Are you going to promote a tweet or twitter space?',
     selectNewTweet: 'Or create a new tweet',
     useExistTweet: 'Or use an existing tweet',
-    pastLinkTip: 'Promoting for an existing tweet, paste the link of the tweet below and click Verify to preview”',
+    pastLinkTip: 'Promoting for an existing tweet, paste the link of the tweet below and click Verify to preview',
     createDescTip: 'Type the details of this curation here',
     desc: 'Description',
     switchType1: 'Are you sure to switch to {type} Curation?',

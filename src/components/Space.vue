@@ -6,6 +6,7 @@
               :username="space.username"
               :steem-id="space.steemId"
               :eth-address="space.ethAddress"
+              :reputation="space.reputation"
               @gotoUserPage="gotoUserPage">
         <template #avatar-img>
           <img v-if="profileImg" @click.stop="gotoUserPage()"

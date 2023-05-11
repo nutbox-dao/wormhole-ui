@@ -4,8 +4,9 @@
       <Avatar :profile-img="recommendData.creatorProfileImg"
               :name="recommendData.creatorTwitterName"
               :username="recommendData.creatorTwitterUsername"
-              :steem-id="recommendData.steemId"
-              :eth-address="recommendData.ethAddress"
+              :steem-id="recommendData.creatorSteemId"
+              :eth-address="recommendData.creatorEthAddress"
+              :reputation="recommendData.creatorReputation"
               @gotoUserPage="gotoUserPage">
         <template #avatar-img>
           <img class="w-36px min-w-36px h-36px min-h-36px md:w-1.8rem md:h-1.8rem md:w-min-1.8rem md:h-min-1.8rem
@@ -283,8 +284,8 @@ export default {
       e.target.src = emptyAvatar;
     },
     gotoUserPage() {
-      if (!this.getAccountInfo || this.recommendData.username !== this.getAccountInfo.twitterUsername){
-        this.$router.push({path : '/account-info/@' + this.recommendData.username})
+      if (!this.getAccountInfo || this.recommendData.creatorTwitterUsername !== this.getAccountInfo.twitterUsername){
+        this.$router.push({path : '/account-info/@' + this.recommendData.creatorTwitterUsername})
       }
     },
     countdown(time) {

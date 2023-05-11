@@ -5,6 +5,7 @@
             :username="comment.username"
             :steem-id="comment.steemId"
             :eth-address="comment.ethAddress"
+            :reputation="comment.reputation"
             @gotoUserPage="gotoUserPage">
       <template #avatar-img>
         <img class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem mr-10px rounded-full
