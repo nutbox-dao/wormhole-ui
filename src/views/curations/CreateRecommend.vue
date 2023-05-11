@@ -1233,6 +1233,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
     }else if (communityId) { // from community
       this.form.communityId = communityId;
       if (promoteUrl) {
+        this.form.promoteUrl = promoteUrl
         this.form.createType = 'new';
         this.expandDesc = true;
         this.expandTag = true;
