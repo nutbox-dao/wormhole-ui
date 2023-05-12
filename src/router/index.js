@@ -31,6 +31,8 @@ import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/CreateView";
 import WalletIndex from "@/views/user/WalletIndex";
 import WordCloud from '@/views/word-cloud/Index'
+import CommunityIndex from "@/views/community/CommunityIndex";
+import CommunityDetail from "@/views/community/CommunityDetail";
 
 const routes = [
   {
@@ -156,6 +158,17 @@ const routes = [
     name: 'post-detail',
     component: UserPostDetailView,
   },
+  {
+    path: '/community',
+    name: 'community',
+    component: CommunityIndex,
+    meta: {keepAlive: true, first: true}
+  },
+  {
+    path: '/community-detail',
+    name: 'community-detail',
+    component: CommunityDetail
+  }
 ]
 
 const router = VueRouter.createRouter({

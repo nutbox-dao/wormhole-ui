@@ -424,9 +424,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tab {
-
-}
 .active-tab {
   position: relative;
   z-index: 1;
@@ -441,22 +438,4 @@ export default {
     z-index: -1;
   }
 }
-//@media (max-width: 580px) {
-//  .tabs {
-//    position: relative;
-//  }
-//  .tab:nth-child(1) {
-//    position: absolute;
-//    left: 0;
-//  }
-//  .tab:nth-child(2) {
-//    position: absolute;
-//    left: 47%;
-//    transform: translateX(-50%);
-//  }
-//  .tab:nth-child(3) {
-//    position: absolute;
-//    right: 0;
-//  }
-//}
 </style>
