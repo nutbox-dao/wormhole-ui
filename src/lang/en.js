@@ -406,7 +406,9 @@ export default {
     grandTotalPost: 'Total {count} posts',
     enter: 'Enter',
     joinTime: 'Join in',
-    communityToken: 'Balance'
+    communityToken: 'Balance',
+    influenceTip: 'Exceed {percent}% people in community',
+    twitterInfluence: 'Twitter Reputation'
   },
   err: {
     serverErr: 'Server error',

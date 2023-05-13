@@ -34,6 +34,7 @@ import WalletIndex from "@/views/user/WalletIndex";
 import WordCloud from '@/views/word-cloud/Index'
 import CommunityIndex from "@/views/community/CommunityIndex";
 import CommunityDetail from "@/views/community/CommunityDetail";
+import InfluenceIndex from "@/views/Influence/InfluenceIndex";
 
 const routes = [
   {
@@ -171,7 +172,13 @@ const routes = [
     path: '/community-detail/:communityId',
     name: 'community-detail',
     component: CommunityDetail
-  }
+  },
+  {
+    path: '/influence',
+    name: 'influence',
+    component: InfluenceIndex,
+    meta: {keepAlive: true, first: true}
+  },
 ]
 
 const router = VueRouter.createRouter({

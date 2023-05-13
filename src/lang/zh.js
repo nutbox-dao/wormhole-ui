@@ -409,7 +409,9 @@ export default {
     grandTotalPost: '已累计{count}个帖子',
     enter: '进入',
     joinTime: '加入时间',
-    communityToken: '余额'
+    communityToken: '余额',
+    influenceTip: '已超过社区{percent}%的人',
+    twitterInfluence: '推特影响力'
   },
   err: {
     serverErr: '内部错误',
