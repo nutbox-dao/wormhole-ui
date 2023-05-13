@@ -64,9 +64,8 @@
             <div class="flex justify-between items-center mb-8px">
               <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
               <button class="flex items-center text-14px">
-                <span class="text-blueDark opacity-40">{{$t('walletView.historyRecord')}}</span>
-                <img class="transform -rotate-90 opacity-20"
-                     src="~@/assets/icon-arrow-black.svg" alt="">
+                <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
+                <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
               </button>
             </div>
             <div v-for="i of 3" :key="i" class="flex justify-between items-center py-8px">
@@ -74,10 +73,9 @@
                 <img class="w-32px h-32px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
                 <span class="text-16px font-bold text-color66">0.001</span>
               </div>
-              <div class="flex items-center text-12px">
-                <span class="text-blueDark opacity-40 mr-10px">05/11 00:00</span>
-                <img class="transform -rotate-90 opacity-20"
-                     src="~@/assets/icon-arrow-black.svg" alt="">
+              <div class="flex items-center text-12px opacity-40">
+                <span class="mr-10px">05/11 00:00</span>
+                <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
               </div>
             </div>
           </div>
@@ -119,9 +117,8 @@
               <div class="flex justify-between items-center mb-8px">
                 <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
                 <button class="flex items-center text-14px">
-                  <span class="text-blueDark opacity-40">{{$t('walletView.historyRecord')}}</span>
-                  <img class="transform -rotate-90 opacity-20"
-                       src="~@/assets/icon-arrow-black.svg" alt="">
+                  <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
+                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
                 </button>
               </div>
               <div v-for="i of 3" :key="i" class="flex justify-between items-center py-8px">
@@ -129,10 +126,9 @@
                   <img class="w-32px h-32px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
                   <span class="text-16px font-bold text-color66">0.001</span>
                 </div>
-                <div class="flex items-center text-12px">
-                  <span class="text-blueDark opacity-40 mr-10px">05/11 00:00</span>
-                  <img class="transform -rotate-90 opacity-20"
-                       src="~@/assets/icon-arrow-black.svg" alt="">
+                <div class="flex items-center text-12px opacity-40">
+                  <span class="mr-10px">05/11 00:00</span>
+                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
                 </div>
               </div>
               <!--              <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">-->
@@ -433,9 +429,12 @@ export default {
     bottom: 0;
     height: 6px;
     width: 100%;
-    background: linear-gradient(270deg, #FFFFFF 0%, #9B7CF6 42%, #6246EA 100%);
+    background: linear-gradient(270deg, #000000 0%, #9B7CF6 42%, #6246EA 100%);
     border-radius: 3px;
     z-index: -1;
   }
+}
+.light .active-tab::before {
+  background: linear-gradient(270deg, #FFFFFF 0%, #9B7CF6 42%, #6246EA 100%);
 }
 </style>

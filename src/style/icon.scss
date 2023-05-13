@@ -374,3 +374,12 @@
   @extend .icon;
   background-image: url("~@/assets/icon-curated.svg");
 }
+
+.icon-arrow-right {
+  @extend .icon;
+  background-image: url("~@/assets/icon-arrow-white.svg");
+}
+.light .icon-arrow-right {
+  @extend .icon;
+  background-image: url("~@/assets/icon-arrow-black.svg");
+}

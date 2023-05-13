@@ -1,7 +1,8 @@
 <template>
   <div class="absolute left-0 right-0 bottom-0 top-0 flex flex-col text-14px xl:text-0.8rem">
-    <div class="flex-1">
-      <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2 bg-primaryBg light:bg-white">
+    <div class="flex-1 overflow-hidden flex flex-col">
+      <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2
+                  bg-primaryBg light:bg-transparent">
         <div class="px-1.5rem pt-25px sm:px-0 container mx-auto sm:max-w-600px lg:max-w-35rem">
           <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold ">
             <router-link v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
@@ -29,12 +30,14 @@
           </div>
         </div>
       </div>
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
-        </keep-alive>
-        <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name"/>
-      </router-view>
+      <div class="flex-1 overflow-auto">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
+          </keep-alive>
+          <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.name"/>
+        </router-view>
+      </div>
     </div>
   </div>
 </template>
