@@ -19,8 +19,8 @@
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
         <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
           <div class="bg-color62/10 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
-            <div v-if="summaryList.length > 0" class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem
-                            bg-primaryColor rounded-12px p-15px">
+            <div v-if="summaryList.length > 0"
+                 class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem">
               <el-checkbox-group class="c-checkbox-group"
                                  v-model="checkRewardList" @change="checkboxGroupChange">
                 <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
@@ -64,20 +64,19 @@
           <div class="mt-15px">
             <div class="flex justify-between items-center mb-8px">
               <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-              <button class="flex items-center text-14px">
-                <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
-                <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
-              </button>
+<!--              <button class="flex items-center text-14px">-->
+<!--                <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>-->
+<!--                <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>-->
+<!--              </button>-->
             </div>
-            <div v-for="i of 3" :key="i" class="flex justify-between items-center py-8px">
-              <div class="flex items-center">
-                <img class="w-32px h-32px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
-                <span class="text-16px font-bold text-color66">0.001</span>
-              </div>
-              <div class="flex items-center text-12px opacity-40">
-                <span class="mr-10px">05/11 00:00</span>
-                <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
-              </div>
+            <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">
+              <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+            </div>
+            <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
+              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+            </div>
+            <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
+              <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
             </div>
           </div>
         </div>
@@ -132,16 +131,6 @@
                   <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
                 </div>
               </div>
-              <!--              <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">-->
-              <!--                <RewardCuration :rewards="showingList.slice(0,3)" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>-->
-              <!--                &lt;!&ndash; <RewardPost v-show="tabIndex===1"/> &ndash;&gt;-->
-              <!--              </div>-->
-              <!--              <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">-->
-              <!--                <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />-->
-              <!--              </div>-->
-              <!--              <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">-->
-              <!--                <div class="c-text-black mb-2rem text-16px">{{$t('walletView.claimedAllRewards')}}</div>-->
-              <!--              </div>-->
             </div>
           </div>
         </div>
