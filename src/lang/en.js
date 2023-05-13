@@ -407,7 +407,7 @@ export default {
     enter: 'Enter',
     joinTime: 'Join in',
     communityToken: 'Balance',
-    influenceTip: 'Exceed {percent}% people in community',
+    influenceTip: 'Over {percent}% of community users',
     twitterInfluence: 'Twitter Reputation'
   },
   err: {
