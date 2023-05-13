@@ -127,7 +127,11 @@ export default {
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
     inputAmount: '请输入token数量',
-    accountMismatch: '您必须使用虫洞绑定的账号进行操作。'
+    accountMismatch: '您必须使用虫洞绑定的账号进行操作。',
+    record: '记录',
+    historyRecord: '历史记录',
+    communityReward: '社区奖励',
+    withdraw: '提现'
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -387,6 +391,28 @@ export default {
     seeYourNFT: '我的NFT',
     downloadTip: '长按下载'
   },
+  community: {
+    communityFrom: '来则社区',
+    hot: '热门',
+    join: '加入',
+    peopleJoined: '{num} 人加入',
+    deposit: '质押',
+    exchange: '兑换',
+    post: '发布',
+    topic: '话题',
+    member: '成员',
+    about: '关于',
+    inProgress: '进行中',
+    toBeStart: '待开始',
+    ended: '已结束',
+    distanceStartTime: '距开始',
+    grandTotalPost: '已累计{count}个帖子',
+    enter: '进入',
+    joinTime: '加入时间',
+    communityToken: '社区代币',
+    influenceTip: '已超过社区{percent}%的人',
+    twitterInfluence: '推特影响力'
+  },
   err: {
     serverErr: '内部错误',
     transErr: '交易失败',
@@ -432,6 +458,10 @@ export default {
     viewMore: '查看更多',
     comments: '评论',
     curation: '策展',
-    author: '作者'
+    author: '作者',
+    day: '天',
+    hour: '时',
+    minute: '分',
+    second: '秒'
   }
 }

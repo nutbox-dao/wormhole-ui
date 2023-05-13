@@ -65,6 +65,11 @@ export default defineConfig({
         colorDF: '#DFD5FF',
         colorA0: '#A0A0A0',
         color33: '#333333',
+        color66: '#666666',
+        color35: '#353535',
+        color1A: '#1A1A1A',
+        color27: '#272727',
+        colorF7F9: '#F7F2FF',
         colorBlue: '#1DA1F2',
         blueDark: '#1A1E25'
       },
@@ -92,7 +97,9 @@ export default defineConfig({
       }),
       boxShadow: theme => ({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)',
-        'card': '0px 12px 24px rgba(135, 127, 149, 0.09)'
+        'card': '0px 12px 24px rgba(135, 127, 149, 0.09)',
+        'color1A': '0px 0px 15px 0px rgba(26,26,26,0.05);',
+        'color72': '0px 1px 14px 0px #7428E4;'
       })
     }
   }
