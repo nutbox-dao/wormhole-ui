@@ -131,7 +131,8 @@ export default {
     record: '记录',
     historyRecord: '历史记录',
     communityReward: '社区奖励',
-    withdraw: '提现'
+    withdraw: '提现',
+    promotionReward: '推广奖励'
   },
   token: {
     noNft: "你当前没有任何NFT.",

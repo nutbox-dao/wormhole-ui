@@ -127,7 +127,12 @@ export default {
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
     inputAmount: 'Enter token amount',
-    accountMismatch: 'You must use wormhole3 binded account to operate.'
+    accountMismatch: 'You must use wormhole3 binded account to operate.',
+    record: 'Detail',
+    historyRecord: 'History',
+    communityReward: 'Community reward',
+    withdraw: 'Withdraw',
+    promotionReward: 'Promotion reward'
   },
   token: {
     noNft: "You havn't got any NFTs.",
@@ -386,6 +391,28 @@ export default {
     insuffientContent: 'Sorry, your account has insufficient content to generate your persona.',
     seeYourNFT: 'My NFT',
     downloadTip: 'Long press to download'
+  },
+  community: {
+    communityFrom: '来自社区',
+    hot: 'Hot',
+    join: 'Join',
+    peopleJoined: '{num} members',
+    deposit: 'Stake',
+    exchange: 'Swap',
+    post: 'Post',
+    topic: 'Topic',
+    member: 'Member',
+    about: 'About',
+    inProgress: 'Active',
+    toBeStart: 'Pending',
+    ended: 'Ended',
+    distanceStartTime: 'Start in',
+    grandTotalPost: 'Total {count} posts',
+    enter: 'Enter',
+    joinTime: 'Join at',
+    communityToken: 'Balance',
+    influenceTip: 'Over {percent}% of community users',
+    twitterInfluence: 'Twitter Reputation'
   },
   err: {
     serverErr: 'Server error',

@@ -6,6 +6,7 @@
                     loosing-text="Release to refresh">
     <div class="h-full overflow-auto">
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
+        <div class="text-24px c-text-black active-tab w-max mt-12px">{{$t('walletView.promotionReward')}}</div>
         <div class="flex gap-25px tabs overflow-x-auto no-scroll-bar pt-20px">
           <button class="tab h-30px whitespace-nowrap "
                   :class="chainTab===index?'active-tab c-text-black text-24px':'text-color7D'"
@@ -83,11 +84,11 @@
         <div class="mt-30px ">
           <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
           <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
               <img class="bg-color62 rounded-12px w-34px h-34px"
                    src="~@/assets/icon-default-avatar.svg" alt="">
               <span class="ml-10px c-text-black">SpaceX</span>
-            </div>
+            </div> -->
             <div class="flex overflow-hidden rounded-full border-1 border-color62 mt-20px">
               <button class="tab h-32px text-12px sm:text-14px flex-1"
                       :class="tabIndex===0?'bg-color62 text-white':'bg-colorF1 text-color62'"
