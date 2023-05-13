@@ -389,7 +389,24 @@ export default {
     downloadTip: 'Long press to download'
   },
   community: {
-    communityFrom: 'Community from'
+    communityFrom: 'From community',
+    hot: 'Hot',
+    join: 'Join',
+    peopleJoined: '{num} members',
+    deposit: 'Stake',
+    exchange: 'Swap',
+    post: 'Post',
+    topic: 'Campaign',
+    member: 'Member',
+    about: 'About',
+    inProgress: 'Active',
+    toBeStart: 'Pending',
+    ended: 'Ended',
+    distanceStartTime: 'Start in',
+    grandTotalPost: 'Total {count} posts',
+    enter: 'Enter',
+    joinTime: 'Join in',
+    communityToken: 'Balance'
   },
   err: {
     serverErr: 'Server error',

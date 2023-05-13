@@ -1,5 +1,6 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
+import store from '@/store'
 import HomeView from '@/views/HomeView.vue'
 import VerifyView from '@/views/CreateAccount'
 import LoginView from '@/views/Login'
@@ -48,7 +49,8 @@ const routes = [
   {
     path: '/create-curation',
     name: 'create-curation',
-    component: CreateView
+    component: CreateView,
+    meta: {gotoHome: true}
   },
   {
     path: '/curation-detail/:id',
@@ -63,7 +65,8 @@ const routes = [
   {
     path: '/account-info/:user',
     name: 'account-info',
-    component: AccountInfoView
+    component: AccountInfoView,
+    meta: {gotoHome: true}
   },
   {
     path: '/search-user/:user',
@@ -165,7 +168,7 @@ const routes = [
     meta: {keepAlive: true, first: true}
   },
   {
-    path: '/community-detail',
+    path: '/community-detail/:communityId',
     name: 'community-detail',
     component: CommunityDetail
   }
@@ -174,6 +177,17 @@ const routes = [
 const router = VueRouter.createRouter({
   history: VueRouter.createWebHistory(),
   routes: routes,
+})
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.gotoHome && !store.getters['getAccountInfo']) {
+    store.commit('saveShowLogin', true)
+    next({
+      path: '/'
+    })
+    return 
+  }
+  next();
 })
 
 export default router

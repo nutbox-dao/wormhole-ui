@@ -6,9 +6,9 @@ export const TWITTER_MONITOR_ACCOUNT = '@NutboxDao'
 export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
-export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
+// export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 // export const BACKEND_API_URL = 'http://localhost:3100'
-// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
@@ -203,6 +203,7 @@ export const EVM_CHAINS = {
         rpc: 'https://bsc.publicnode.com',
         scan: 'https://bscscan.com/',
         tokenScan: 'https://pancakeswap.finance/info/tokens/',
+        chainName: 'BSC',
         id: 56,
         main: {
             name: 'BNB',
@@ -230,6 +231,7 @@ export const EVM_CHAINS = {
     Polygon: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
+        chainName: 'Polygon',
         tokenScan: 'https://app.uniswap.org/#/tokens/polygon/',
         id: 137,
         main: {
@@ -258,6 +260,7 @@ export const EVM_CHAINS = {
     Arbitrum: {
         rpc: 'https://arb1.arbitrum.io/rpc',
         scan: 'https://arbiscan.io/',
+        chainName: 'Arbitrum',
         tokenScan: 'https://arbiscan.io/token/',
         id: 42161,
         main: {
@@ -284,6 +287,7 @@ export const EVM_CHAINS = {
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
         scan: 'https://evmscan.nuls.io',
+        chainName: 'ENULS',
         tokenScan: 'https://evmscan.nuls.io/token/',
         id: 119,
         main: {
@@ -366,6 +370,7 @@ export const EVM_CHAINS = {
         rpc: 'https://rpc.api.moonbeam.network',
         scan: 'https://moonbeam.moonscan.io/',
         tokenScan: 'https://moonbeam.moonscan.io/token/',
+        chainName: 'MoonBeam',
         id: 1284,
         main: {
             name: 'GLMR',
