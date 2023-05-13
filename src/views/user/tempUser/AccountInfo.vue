@@ -120,12 +120,15 @@
                   </div>
                 </div>
               </div>
-              <div class="p-15px bg-color62/30 light:bg-colorEF mt-1rem mx-1rem flex justify-between rounded-12px">
-                <div class="flex-1 flex overflow-hidden mr-20px">
-                  <div class="w-30px min-w-30px h-30px rounded-full bg-color62/20 flex justify-center items-center mr-10px">
-                    <i class="icon-wallet w-15px h-15px min-w-15px"></i>
-                  </div>
-                  <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
+              <div class="px-1rem flex">
+                <div class="hidden sm:block w-60px h-60px md:w-4.8rem md:h-4.8rem mr-1.5rem"></div>
+                <div class="w-full sm:max-w-500px p-15px bg-color62/30 light:bg-colorEF mt-1rem
+                            flex justify-between rounded-12px">
+                  <div class="flex-1 flex overflow-hidden mr-20px">
+                    <div class="w-30px min-w-30px h-30px rounded-full bg-color62/20 flex justify-center items-center mr-10px">
+                      <i class="icon-wallet w-15px h-15px min-w-15px"></i>
+                    </div>
+                    <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
                     <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
                       {{accountInfo ? accountInfo.ethAddress : ''}}
                     </span>
@@ -133,11 +136,12 @@
                          @click.stop="copyAddress(accountInfo.ethAddress)"
                          src="~@/assets/icon-copy-primary.svg" alt="">
                   </span>
-                  <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
+                    <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
+                  </div>
+                  <button class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
+                    {{$t('community.enter')}}
+                  </button>
                 </div>
-                <button class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
-                  {{$t('community.enter')}}
-                </button>
               </div>
               <div class="bg-blockBg sm:bg-transparent overflow-hidden
                           light:bg-white light:sm:bg-transparent pt-7px sm:pb-0 mt-30px">
@@ -148,6 +152,9 @@
                   <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4 cursor-pointer"
                        :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
                         @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
+                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4 cursor-pointer"
+                       :class="selectIndex===2?'text-color62 border-color62':'text-color7D border-transparent'"
+                       @click="selectIndex = 2">{{$t('curation.reward')}}</div>
                 </div>
               </div>
             </div>
@@ -159,6 +166,7 @@
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
                   :key="$route.params.user"/>
+            <RewardView v-show="selectIndex===2"></RewardView>
           </div>
         </template>
         <div class="c-text-black text-1.8rem mb-3rem" v-else>
@@ -197,6 +205,7 @@ import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
 import { getUserVPRC } from '@/api/api'
+import RewardView from "@/views/user/RewardView";
 
 export default {
   name: "AccountInfo",
@@ -205,7 +214,8 @@ export default {
     WalletView,
     Curations,
     TipModalVue,
-    PostDetail
+    PostDetail,
+    RewardView
   },
   data() {
     return {
