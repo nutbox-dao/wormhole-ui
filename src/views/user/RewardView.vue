@@ -1,139 +1,101 @@
 <template>
   <van-pull-refresh v-model="loading[chainTab]" @refresh="onRefresh"
-                    class=""
                     loading-text="Loading"
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
-    <div class="h-full overflow-auto">
-      <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
-        <div class="text-24px c-text-black active-tab w-max mt-12px">{{$t('walletView.promotionReward')}}</div>
-        <div class="flex gap-25px tabs overflow-x-auto no-scroll-bar pt-20px">
-          <button class="tab h-30px whitespace-nowrap "
-                  :class="chainTab===index?'active-tab c-text-black text-24px':'text-color7D'"
-                  @click="selectTab(index)"
-                  v-for="(name, index) of chainNames" :key="name">
-            {{ name }}
-          </button>
+    <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col">
+      <div class="py-1rem px-15px sm:px-0 relative">
+        <div class="px-16px relative min-h-30px overflow-hidden">
+          <div class="flex tabs overflow-x-auto no-scroll-bar" ref="tabsRef">
+            <button class="tab h-30px text-12px sm:text-14px"
+                    :class="chainTab===index?'active':''"
+                    @click="selectTab(index)"
+                    v-for="(name, index) of chainNames" :key="name">
+              {{ name }}
+            </button>
+            <button class="tab h-30px text-12px sm:text-14px"
+                    :class="chainTab===chainNames.length?'active':''"
+                    @click="selectTab(chainNames.length)">
+              {{ $t('common.curation') }}
+            </button>
+            <button class="tab h-30px text-12px sm:text-14px"
+                    :class="chainTab===chainNames.length + 1?'active':''"
+                    @click="selectTab(chainNames.length + 1)">
+              {{ $t('common.author') }}
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
-        <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
-          <div class="bg-color62/10 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
-            <div v-if="summaryList.length > 0"
-                 class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem">
-              <el-checkbox-group class="c-checkbox-group"
-                                 v-model="checkRewardList" @change="checkboxGroupChange">
-                <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
-                             :label="reward.token">
-                  <ChainTokenIcon height="30px" width="30px" class=" p-2px"
-                                  :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                  :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
-                    <template #amount>
+        <div class="gradient-bg gradient-bg-color3 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
+          <div class="mb-1rem flex items-center justify-between cursor-pointer">
+            <span class="c-text-black text-white text-16px 2xl:text-0.8rem mx-15px">{{$t('common.summary')}}</span>
+          </div>
+          <div v-if="summaryList.length > 0" class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem
+                            bg-primaryColor rounded-12px p-15px">
+            <el-checkbox-group class="c-checkbox-group"
+                               v-model="checkRewardList" @change="checkboxGroupChange">
+              <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
+                           :label="reward.token">
+                <ChainTokenIcon height="30px" width="30px" class=" p-2px"
+                                :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                                :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
+                  <template #amount>
                       <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
                         {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
                       </span>
-                    </template>
-                  </ChainTokenIcon>
-                </el-checkbox>
-              </el-checkbox-group>
-              <button v-if="(chainId !== chainIds[chainTab])"
-                      class="ny-gradient-btn gradient-btn-disabled-grey
+                  </template>
+                </ChainTokenIcon>
+              </el-checkbox>
+            </el-checkbox-group>
+            <button v-if="(chainId !== chainIds[chainTab])"
+                    class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
                               rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
-                {{ $t('common.connectMetamask') }}
-                <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-              </button>
-              <button v-else class="flex items-center justify-center bg-ny-btn-gradient
+              {{ $t('common.connectMetamask') }}
+              <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+            </button>
+            <button v-else class="flex items-center justify-center bg-ny-btn-gradient
                        h-30px px-15px rounded-full mr-0.8rem"
-                      :disabled="claiming || accountMismatch"
-                      @click="claimReward">
-                {{ $t('curation.claimReward') }}
-                <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-              </button>
-              <div v-if="accountMismatch" class="text-redColor">
-                {{ $t('walletView.accountMismatch') }}
-              </div>
-            </div>
-            <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">
-              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-            </div>
-            <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-              <div class="c-text-black text-16px">{{$t('walletView.claimedAllRewards')}}</div>
+                    :disabled="claiming || accountMismatch"
+                    @click="claimReward">
+              {{ $t('curation.claimReward') }}
+              <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+            </button>
+            <div v-if="accountMismatch" class="text-redColor">
+              {{ $t('walletView.accountMismatch') }}
             </div>
           </div>
-          <div class="mt-15px">
-            <div class="flex justify-between items-center mb-8px">
-              <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-<!--              <button class="flex items-center text-14px">-->
-<!--                <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>-->
-<!--                <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>-->
-<!--              </button>-->
-            </div>
-            <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">
-              <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
-            </div>
-            <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
-              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-            </div>
-            <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-              <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
-            </div>
+          <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
+          <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
+            <div class="c-text-black text-white/50 text-1.3rem mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
           </div>
         </div>
-        <div class="mt-30px ">
-          <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
-            <!-- <div class="flex items-center">
-              <img class="bg-color62 rounded-12px w-34px h-34px"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="ml-10px c-text-black">SpaceX</span>
-            </div> -->
-            <div class="flex overflow-hidden rounded-full border-1 border-color62 mt-20px">
-              <button class="tab h-32px text-12px sm:text-14px flex-1"
-                      :class="tabIndex===0?'bg-color62 text-white':'bg-colorF1 text-color62'"
-                      @click="tabIndex=0">
-                {{ $t('common.curation') }}
-              </button>
-              <button class="tab h-32px text-12px sm:text-14px flex-1"
-                      :class="tabIndex===1?'bg-color62 text-white':'bg-colorF1 text-color62'"
-                      @click="tabIndex=1">
-                {{ $t('common.author') }}
-              </button>
-            </div>
-            <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
-                        flex justify-between items-center">
-              <div class="flex items-center">
-                <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
-                <div class="flex flex-col items-start">
-                  <span class="font-bold mb-4px">MATIC</span>
-                  <span class="text-14px text-color7D">0.001</span>
-                </div>
-              </div>
-              <button class="gradient-btn gradient-bg-color3 rounded-full px-25px h-34px">
-                {{$t('walletView.withdraw')}}
-              </button>
-            </div>
-            <div class="mt-15px">
-              <div class="flex justify-between items-center mb-8px">
-                <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-                <button class="flex items-center text-14px">
-                  <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
-                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
-                </button>
-              </div>
-              <div v-for="i of 3" :key="i" class="flex justify-between items-center py-8px">
-                <div class="flex items-center">
-                  <img class="w-32px h-32px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
-                  <span class="text-16px font-bold text-color66">0.001</span>
-                </div>
-                <div class="flex items-center text-12px opacity-40">
-                  <span class="mr-10px">05/11 00:00</span>
-                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="text-12px sm:text-14px text-left mb-6px p-15px sm:p-0">
+        {{ $t('curation.details') }}
+      </div>
+      <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">
+        <!-- <div class="px-1.5rem text-14px w-min flex gap-1rem mt-1rem font-bold">
+          <button class="flex items-center rounded-full
+                  border-1 border-white/20 leading-14px text-14px py-10px px-24px
+                  light:bg-colorF2 light:text-color7D"
+                  :class="tabIndex===0?'active-tab':''"
+                  @click="tabIndex=0">{{$t('curations')}}</button>
+          <button class="flex items-center rounded-full
+                  border-1 border-white/20 leading-14px text-14px py-10px px-24px
+                  light:bg-colorF2 light:text-color7D"
+                  :class="tabIndex===1?'active-tab':''"
+                  @click="tabIndex=1">{{$t('common.post')}}</button>
+        </div> -->
+        <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+        <!-- <RewardPost v-show="tabIndex===1"/> -->
+      </div>
+      <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
+      <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
+        <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
       </div>
     </div>
   </van-pull-refresh>
@@ -150,17 +112,22 @@ import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorReward
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
 import { checkCurationRewards, checkAutoCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
-  getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards, getAuthorRewardClaimParas,
-  getCurationDetail } from '@/utils/curation'
+   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards, getAuthorRewardClaimParas,
+   getCurationDetail } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorRewardIsDistributed } from '@/api/api'
-import {TokenIcon} from "@/config";
 
 export default {
   components: {RewardCuration, RewardPost, ChainTokenIcon},
+  props: {
+    twitterId: {
+      type: String,
+      default: ''
+    },
+  },
   data() {
     return {
       tabIndex: 0,
@@ -170,7 +137,7 @@ export default {
       connecting: false,
       prices: [],
       checkRewardList: [],
-      TokenIcon
+      needLogin: false
     }
   },
   computed: {
@@ -253,7 +220,7 @@ export default {
           }
         }else if (index === this.chainNames.length + 1) {
           const records = await autoCurationAuthorRewardList(this.getAccountInfo.twitterId);
-
+          
           if (records && records.length > 0) {
             const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
 
@@ -400,6 +367,9 @@ export default {
     }
   },
   mounted () {
+    if (this.twitterId && !this.getAccountInfo) {
+      this.needLogin = true
+    }
     this.getRecords(true);
     accountChanged().catch()
     getAccounts(true).then(wallet => {
@@ -411,20 +381,75 @@ export default {
 
 <style scoped lang="scss">
 .active-tab {
+  background: linear-gradient(135.53deg, #917AFD 2.61%, #6246EA 96.58%);
+  color: white!important;
+  border: none;
+}
+.tabs {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.tab {
+  scroll-snap-align: center;
+  // text-transform: uppercase;
+  display: inline-block;
+  filter: opacity(0.2);
+  border: none;
+  border-radius: 6px 6px 0 0;
   position: relative;
-  z-index: 1;
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 6px;
-    width: 100%;
-    background: linear-gradient(270deg, #000000 0%, #9B7CF6 42%, #6246EA 100%);
-    border-radius: 3px;
-    z-index: -1;
+  background: var(--primary-custom);
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+  min-width: fit-content;
+  margin: 0 16px;
+  padding: 0 12px;
+  &.active {
+    z-index: 1;
+    position: relative;
+    filter: opacity(1);
+  }
+  &::before{
+    right: -8px;
+    transform: skew(25deg);
+    border-radius: 0 8px 0 0;
+  }
+  &::after{
+    transform: skew(-25deg);
+    left: -8px;
+    border-radius: 8px 0 0 0;
   }
 }
-.light .active-tab::before {
-  background: linear-gradient(270deg, #FFFFFF 0%, #9B7CF6 42%, #6246EA 100%);
+.tab:before, .tab:after {
+  content: "";
+  height: 100%;
+  position: absolute;
+  background: var(--primary-custom);
+  border-radius: 8px 8px 0 0;
+  width: 16px;
+  min-width: 16px;
+  top: 0;
 }
+.top-level {
+  z-index: 100;
+}
+//@media (max-width: 580px) {
+//  .tabs {
+//    position: relative;
+//  }
+//  .tab:nth-child(1) {
+//    position: absolute;
+//    left: 0;
+//  }
+//  .tab:nth-child(2) {
+//    position: absolute;
+//    left: 47%;
+//    transform: translateX(-50%);
+//  }
+//  .tab:nth-child(3) {
+//    position: absolute;
+//    right: 0;
+//  }
+//}
 </style>
