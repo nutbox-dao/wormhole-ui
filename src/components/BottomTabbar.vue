@@ -15,7 +15,7 @@
         <img src="~@/assets/tabbar/tab-icon2.svg" alt="">
       </button>
     </router-link>
-    <router-link to="/" class="flex-1">
+    <router-link to="/influence" class="flex-1">
       <button  class="w-full h-60px flex justify-center items-center">
         <img src="~@/assets/tabbar/tab-icon3.svg" alt="">
       </button>

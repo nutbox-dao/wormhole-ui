@@ -1285,7 +1285,4 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
   background-image: linear-gradient(to right, var(--primary-custom), var(--primary-custom));
   background-repeat: no-repeat;
 }
-.spin-slow {
-  transition-duration: 0.5s;
-}
 </style>
