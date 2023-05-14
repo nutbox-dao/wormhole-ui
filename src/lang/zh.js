@@ -392,7 +392,7 @@ export default {
     downloadTip: '长按下载'
   },
   community: {
-    communityFrom: '来则社区',
+    communityFrom: '来自社区',
     hot: '热门',
     join: '加入',
     peopleJoined: '{num} 人加入',
@@ -409,7 +409,7 @@ export default {
     grandTotalPost: '已累计{count}个帖子',
     enter: '进入',
     joinTime: '加入时间',
-    communityToken: '社区代币',
+    communityToken: '余额',
     influenceTip: '已超过社区{percent}%的人',
     twitterInfluence: '推特影响力'
   },

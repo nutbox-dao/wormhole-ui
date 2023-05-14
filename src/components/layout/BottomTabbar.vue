@@ -10,7 +10,7 @@
         <img src="~@/assets/tabbar/tab-icon1.svg" alt="">
       </button>
     </router-link>
-    <router-link to="/" class="flex-1">
+    <router-link to="/create-curation" class="flex-1">
       <button  class="w-full h-60px flex justify-center items-center">
         <img src="~@/assets/tabbar/tab-icon2.svg" alt="">
       </button>
@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
   name: "BottomTabbar",
   computed: {
-    ...mapGetters(['getAccountInfo']),
-  }
+    ...mapGetters('getAccountInfo')
+  },
 }
 </script>
 

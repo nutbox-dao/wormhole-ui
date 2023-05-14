@@ -1,13 +1,13 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative">
-    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
+    <!-- <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
       <div class="text-24px c-text-black text-left py-20px">
         {{$t('community.hot')}}
       </div>
-    </div>
+    </div> -->
     <div class="flex-1 overflow-auto">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-           v-if="refreshing && (!communityList || communityList.length === 0)">
+           v-if="refreshing && (!communities || communities.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
       <van-pull-refresh v-else
@@ -22,19 +22,20 @@
                     :finished="listFinished"
                     :immediate-check="false"
                     :loading-text="$t('common.loading')"
-                    :finished-text="communityList.length!==0?$t('common.noMore'):''"
+                    :finished-text="communities.length!==0?$t('common.noMore'):''"
                     @load="onLoad">
             <div class="sm:px-15px">
               <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-                <div v-if="communityList && communityList.length === 0"
+                <div v-if="communities && communities.length === 0"
                      class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
-                  <div v-for="i of 5" :key="i" @click="$router.push('/community-detail')">
+                  <div v-for="(com, i) of communities" :key="i" @click="$store.commit('community/saveShowingCommunity', com);$router.push(`/community-detail/${com.communityId}`)">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-1 border-color8B/30 light:border-colorF2 bg-blockBg
-                                          light:bg-white"></CommunityItem>
+                                          light:bg-white"
+                                          :community="com"></CommunityItem>
                   </div>
                 </div>
               </div>
@@ -48,6 +49,10 @@
 
 <script>
 import CommunityItem from "@/components/community/CommunityItem";
+import { getCommunities } from '@/api/api'
+import { mapState } from "vuex";
+import { notify, showError } from "@/utils/notify";
+
 export default {
   name: "CommunityIndex",
   components: {CommunityItem},
@@ -59,14 +64,25 @@ export default {
       communityList: [1]
     }
   },
+  computed: {
+    ...mapState('community', ['communities'])
+  },
   methods: {
     onLoad() {
 
     },
-    onRefresh() {
-
+    async onRefresh() {
+      try {
+        const communities = await getCommunities()
+        this.$store.commit('community/saveCommunities', communities)
+      } catch (e) {
+        showError(501)
+      }
     }
-  }
+  },
+  mounted () {
+    this.onRefresh()
+  },
 }
 </script>
 

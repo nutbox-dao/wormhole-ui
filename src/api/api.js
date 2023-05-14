@@ -318,3 +318,46 @@ export const getBlindCardsByIds = async (ids) =>
 
 export const getBanner = async () =>
     get(BACKEND_API_URL + '/newYear/getBanner')
+
+/****************************************  Community  ***********************************************/
+export const getCommunities = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunities', {twitterId})
+
+export const getCommunityById = async (twitterId, communityId) =>
+    get(BACKEND_API_URL + '/community/getCommunityById', {twitterId, communityId})
+
+export const getCommunityConfigs = async (communityId) =>
+    get(BACKEND_API_URL + '/conmmunity/getCommunityConfigs', {communityId})
+
+export const getCommunityTrendingPosts = async (communityId, pageSize, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityTrendingPosts', { communityId, pageSize, pageIndex })
+
+export const getCommunityPromotionPosts = async (communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityPromotionPosts', {communityId, lastPostId})
+
+export const getCommunityNewPosts = async (communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityNewPosts', {communityId, lastPostId})
+
+export const getCommunityActivities = async (communityId) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivities', {communityId})
+
+export const getCommunityActivePosts = async (activityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivePosts', {activityId, lastPostId})
+
+export const getCommunityAnnouncement = async (communityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {communityId, lastPostId})
+
+export const joinCommunity = async (twitterId, communityId) =>
+    post(BACKEND_API_URL + '/community/joinCommunity', {twitterId, communityId})
+
+export const exitCommunity = async (twitterId, communityId) =>
+    post(BACKEND_API_URL + '/community/exitCommunity', {twitterId, communityId})
+
+export const getCommunityMembers = async (communityId, pageSize, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityMembers', {communityId, pageSize, pageIndex})
+
+export const getJoinCommunityState = async (twitterId, communityIds) =>
+    post(BACKEND_API_URL = '/community/getJoinCommunityState', {twitterId, communityIds})
+
+export const searchCommunityByName = async (communityName) =>
+    get(BACKEND_API_URL + '/community/searchCommunityByName', {communityName})

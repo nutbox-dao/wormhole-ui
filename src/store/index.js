@@ -6,6 +6,7 @@ import postsModule from './postsModule'
 import web3 from './web3'
 import curation from './curation'
 import {testAccount} from "@/views/square/test-data";
+import community from './community'
 
 export default Vuex.createStore({
   state: {
@@ -178,6 +179,7 @@ export default Vuex.createStore({
   modules: {
     postsModule,
     web3,
-    curation
+    curation,
+    community
   },
 })
