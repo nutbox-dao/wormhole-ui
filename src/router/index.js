@@ -35,6 +35,7 @@ import WordCloud from '@/views/word-cloud/Index'
 import CommunityIndex from "@/views/community/CommunityIndex";
 import CommunityDetail from "@/views/community/CommunityDetail";
 import InfluenceIndex from "@/views/Influence/InfluenceIndex";
+import InfoIndex from "@/views/info/InfoIndex";
 
 const routes = [
   {
@@ -171,13 +172,20 @@ const routes = [
   {
     path: '/community-detail/:communityId',
     name: 'community-detail',
-    component: CommunityDetail
+    component: CommunityDetail,
+    meta: {header: 'hidden'}
   },
   {
     path: '/influence',
     name: 'influence',
     component: InfluenceIndex,
     meta: {keepAlive: true}
+  },
+  {
+    path: '/info',
+    name: 'info',
+    component: InfoIndex,
+    meta: {header: 'hidden', tabbar: 'hidden'}
   },
 ]
 
@@ -192,7 +200,7 @@ router.beforeEach(async (to, from, next) => {
     next({
       path: '/'
     })
-    return 
+    return
   }
   next();
 })

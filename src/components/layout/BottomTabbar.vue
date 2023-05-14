@@ -39,7 +39,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: "BottomTabbar",
   computed: {
-    ...mapGetters('getAccountInfo')
+    ...mapGetters(['getAccountInfo']),
   },
 }
 </script>

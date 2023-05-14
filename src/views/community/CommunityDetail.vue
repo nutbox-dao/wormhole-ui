@@ -60,9 +60,9 @@
               <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
             </div>
           </div>
-          <div class="bg-colorF7F9 rounded-12px p-15px mt-15px flex justify-between items-center">
+          <div class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px flex justify-between items-center">
             <div class="flex items-center">
-              <img class="w-32px h-32px rounded-full mr-10px"
+              <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
                    :src="TokenIcon[chain.main? chain.main.symbol : '']" alt="">
               <div class="flex flex-col items-start">
                 <div class="text-14px font-500 mb-2px">{{ chain.main? chain.main.symbol : '' }}</div>

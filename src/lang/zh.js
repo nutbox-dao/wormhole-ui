@@ -413,6 +413,11 @@ export default {
     influenceTip: '已超过社区{percent}%的人',
     twitterInfluence: '推特影响力'
   },
+  info: {
+    interactive: '互动',
+    reward: '打赏',
+    system: '系统'
+  },
   err: {
     serverErr: '内部错误',
     transErr: '交易失败',

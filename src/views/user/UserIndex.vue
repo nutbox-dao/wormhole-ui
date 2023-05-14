@@ -114,16 +114,16 @@
             </div>
           </div>
         </div>
-        <div class="absolute left-0 right-0 bottom-0">
-          <div class="container max-w-50rem mx-auto relative">
-            <button class="flex items-center justify-center bg-color62
-                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
-                    @click="$router.push('/create-curation')">
-              <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
-            </button>
-          </div>
-        </div>
+<!--        <div class="absolute left-0 right-0 bottom-0">-->
+<!--          <div class="container max-w-50rem mx-auto relative">-->
+<!--            <button class="flex items-center justify-center bg-color62-->
+<!--                                 h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem-->
+<!--                                 rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"-->
+<!--                    @click="$router.push('/create-curation')">-->
+<!--              <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class="border-b-1 border-color84/30 sticky -top-1px z-9">
         <div class="bg-blockBg sm:bg-transparent overflow-hidden
