@@ -44,7 +44,7 @@ const routes = [
     path: '/square/:referee?',
     name: 'square',
     component: PostsIndex,
-    meta: {keepAlive: true, first: true}
+    meta: {keepAlive: true}
   },
   {
     path: '/create-curation',
@@ -138,7 +138,7 @@ const routes = [
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
-    meta: {gotoHome: true},
+    meta: {gotoHome: true, header: 'hidden'},
     children: [
       {
         path: '/profile/:user/post',
@@ -163,7 +163,7 @@ const routes = [
     path: '/community',
     name: 'community',
     component: CommunityIndex,
-    meta: {keepAlive: true, first: true}
+    meta: {keepAlive: true}
   },
   {
     path: '/community-detail',
@@ -174,7 +174,7 @@ const routes = [
     path: '/influence',
     name: 'influence',
     component: InfluenceIndex,
-    meta: {keepAlive: true, first: true}
+    meta: {keepAlive: true}
   },
 ]
 

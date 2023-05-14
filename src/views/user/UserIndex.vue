@@ -7,131 +7,143 @@
             @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                   rounded-full mt-0.5rem c-text-bold fixed bottom-8rem right-1.5rem sm:right-2.5rem z-9999">
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-12rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
     </button>
     <template v-if="!loading">
-      <div class="border-b-1 border-color84/30">
-        <div class="container max-w-50rem mx-auto">
-          <div class="px-1rem mt-1rem flex items-start">
-            <img
-                class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
-                @error="replaceEmptyImg"
-                :src="profileImg"
-                alt=""/>
-            <div class="flex-1 overflow-hidden">
-              <div class="flex items-center overflow-hidden w-full mb-5px">
-                <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
-                  {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
-                </div>
-                <div class="flex items-center justify-start text-color7D/60"
-                     v-if="getAccountInfo && getAccountInfo.steemId">
-                  <span class="hover" @click="gotoSteem">#{{ getAccountInfo ? getAccountInfo.steemId : "" }}</span>
-                </div>
-              </div>
-              <div class="flex flex-wrap items-center gap-y-4px">
-                <div @click="gotoTwitter"
-                     class="cursor-pointer mr-0.5rem w-max flex items-center
+      <div class="container max-w-50rem mx-auto mb-30px px-1rem">
+        <div class="flex justify-end pt-1rem">
+          <Menu></Menu>
+        </div>
+        <div class="mt-1rem flex items-center">
+          <img
+              class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
+              @error="replaceEmptyImg"
+              :src="profileImg"
+              alt=""/>
+          <div class="flex-1 overflow-hidden">
+            <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left mb-10px">
+              {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
+            </div>
+            <div @click="gotoTwitter"
+                 class="cursor-pointer mr-0.5rem w-max flex items-center
                             text-color8B light:text-color7D
                             bg-white/10 light:bg-colorF2
                             light:border-1 light:border-colorE3
                             rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
-                  <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                  <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
-                </div>
-                <div v-if="getAccountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
-                                text-color8B light:text-color7D flex items-center
-                                bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
-                                light:border-1 light:border-colorE3
-                                rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem"
-                                @click="modalVisible=true">
-                  Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
-                </div>
-              </div>
-              <div class="sm:max-w-500px">
-                <div class="mt-12px">
-                  <div class="flex justify-between items-center w-full">
-                    <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
-                        {{$t('postView.resourceCredits')}}
-                      </span>
-                      <el-tooltip popper-class="shadow-popper-tip">
-                        <template #content>
-                          <div class="max-w-14rem text-white light:text-blueDark">
-                            {{$t('postView.p1')}}
-                          </div>
-                        </template>
-                        <button>
-                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
-                        </button>
-                      </el-tooltip>
-                    </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(rc) / MAX_RC * 100).toFixed(2)}}%</span>
-                  </div>
-                  <el-progress class="c-progress flex-1 w-full"
-                               :text-inside="false"
-                               :stroke-width="10"
-                               :show-text="false"
-                               :percentage="Number(rc) / MAX_RC * 100"/>
-                </div>
-                <div class="mt-8px">
-                  <div class="flex justify-between items-center w-full">
-                    <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
-                        {{$t('postView.votingPower')}}
-                      </span>
-                      <el-tooltip popper-class="shadow-popper-tip">
-                        <template #content>
-                          <div class="max-w-14rem text-white light:text-blueDark">
-                            {{$t('postView.vpDes')}}
-                          </div>
-                        </template>
-                        <button>
-                          <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
-                        </button>
-                      </el-tooltip>
-                    </div>
-                    <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{parseFloat(Number(vp) / MAX_VP * 100).toFixed(2)}}%</span>
-                  </div>
-                  <el-progress class="c-progress flex-1 w-full"
-                               :text-inside="false"
-                               :stroke-width="10"
-                               :show-text="false"
-                               :percentage="Number(vp) / MAX_VP * 100"/>
-                </div>
-              </div>
+              <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
+              <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
             </div>
           </div>
+          <div class="flex items-center mx-15px gap-15px">
+            <el-tooltip popper-class="shadow-popper-tip">
+              <template #content>
+                <div class="max-w-14rem text-white light:text-blueDark">
+                  {{$t('postView.p1')}}
+                </div>
+              </template>
+              <button class="w-50px max-w-50px h-50px">
+                <el-progress class="c-progress-green w-full h-full"
+                             type="dashboard"
+                             color="#68E796"
+                             :stroke-width="5"
+                             :width="50"
+                             :percentage="Number(rc) / MAX_RC * 100">
+                  <template #default="{ percentage }">
+                    <span class="percentage-value">{{ percentage }}%</span>
+                  </template>
+                </el-progress>
+              </button>
+            </el-tooltip>
+            <el-tooltip popper-class="shadow-popper-tip">
+              <template #content>
+                <div class="max-w-14rem text-white light:text-blueDark">
+                  {{$t('postView.vpDes')}}
+                </div>
+              </template>
+              <button class="w-50px max-w-50px h-50px">
+                <el-progress class="c-progress-green"
+                             type="dashboard"
+                             color="#7700E0"
+                             :stroke-width="5"
+                             :width="50"
+                             :percentage="Number(vp) / MAX_VP * 100">
+                  <template #default="{ percentage }">
+                    <span class="percentage-value">{{ percentage }}%</span>
+                  </template>
+                </el-progress>
+              </button>
+            </el-tooltip>
 
-          <div class="bg-blockBg sm:bg-transparent overflow-hidden
-                      light:bg-white light:sm:bg-transparent pt-7px mt-30px">
-            <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
-              <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
-                           class="flex-1 cursor-pointer">
-                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
-                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
-                  {{$t('profileView.onChainTweet')}}
+          </div>
+
+        </div>
+
+        <div class="flex">
+          <div class="hidden sm:block w-60px h-60px md:w-4.8rem md:h-4.8rem mr-1.5rem"></div>
+          <div class="w-full sm:max-w-500px">
+            <div class="flex gap-20px mt-15px">
+              <div v-if="getAccountInfo?.reputation > 0"
+                   class="flex items-center justify-start text-color7D/60 cursor-pointer">
+                Twitter Reputation:{{getAccountInfo ? getAccountInfo.reputation : 0}}
+              </div>
+              <div class="flex items-center justify-start text-color7D/60 cursor-pointer"
+                   v-if="getAccountInfo && getAccountInfo.steemId"
+                   @click="gotoSteem">
+                #{{ getAccountInfo ? getAccountInfo.steemId : "" }}
+              </div>
+            </div>
+            <div class="p-15px bg-color62/30 light:bg-colorEF mt-1rem flex items-center justify-between rounded-12px">
+              <div class="flex-1 flex items-center overflow-hidden mr-20px">
+                <div class="w-30px min-w-30px h-30px rounded-full bg-color62/20 flex justify-center items-center mr-10px">
+                  <i class="icon-wallet w-15px h-15px min-w-15px"></i>
                 </div>
-              </router-link>
-              <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
-                           :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
-                           class="flex-1 cursor-pointer">
-                <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
-                     :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
-                  {{$t('profileView.curations')}}
-                </div>
-              </router-link>
+                <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
+                    <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
+                      {{accountInfo ? accountInfo.ethAddress : ''}}
+                    </span>
+                    <img class="w-16px min-w-16px light:opacity-30 ml-3px mr-8px"
+                         @click.stop="copyAddress(accountInfo.ethAddress)"
+                         src="~@/assets/icon-copy-primary.svg" alt="">
+                  </span>
+                <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
+              </div>
+              <button class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
+                {{$t('community.enter')}}
+              </button>
             </div>
           </div>
         </div>
-        <div class="w-full absolute bottom-0">
+        <div class="absolute left-0 right-0 bottom-0">
           <div class="container max-w-50rem mx-auto relative">
-              <button class="flex items-center justify-center bg-color62
+            <button class="flex items-center justify-center bg-color62
                                  h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                                  rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
-                      @click="$router.push('/create-curation')">
-                <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
-              </button>
+                    @click="$router.push('/create-curation')">
+              <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-1 border-color84/30 sticky -top-1px z-9">
+        <div class="bg-blockBg sm:bg-transparent overflow-hidden
+                      light:bg-white light:sm:bg-transparent pt-7px">
+          <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
+            <router-link :to="`/profile/${$route.params.user}/post`" v-slot="{isActive}"
+                         class="flex-1 cursor-pointer">
+              <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                   :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
+                {{$t('profileView.onChainTweet')}}
+              </div>
+            </router-link>
+            <router-link v-if="getAccountInfo && (getAccountInfo.isRegistry === 1 || getAccountInfo.source === 3)"
+                         :to="`/profile/${$route.params.user}/curations`" v-slot="{isActive}"
+                         class="flex-1 cursor-pointer">
+              <div class="w-full h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4"
+                   :class="isActive?'text-color62 border-color62':'text-color7D border-transparent'">
+                {{$t('profileView.curations')}}
+              </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -266,11 +278,13 @@ import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
 import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP, MAX_RC } from "@/config";
 import { getSteemBalance } from "@/utils/steem";
-
+import Menu from "@/components/layout/Menu";
+import {copyAddress} from "@/utils/tool";
 export default {
   name: "User",
   components: {
     GetNft,
+    Menu
   },
   data() {
     return {
@@ -335,6 +349,7 @@ export default {
     },
   },
   methods: {
+    copyAddress,
     pageScroll() {
       this.scroll = this.$refs.userIndexRef.scrollTop
     },
