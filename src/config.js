@@ -13,6 +13,7 @@ export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
 
+// Google analynize ID
 export const GAID = process.env.GAID || 'G-LERTNRZPMF';
 
 export const SignUpMessage = JSON.stringify({

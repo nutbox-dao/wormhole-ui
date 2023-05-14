@@ -144,7 +144,7 @@
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
                   :key="$route.params.user"/>
-            <RewardView v-show="selectIndex===2" :twitterId="accountInfo.twitterId"></RewardView>
+            <RewardView v-if="selectIndex===2" :twitterId="accountInfo && accountInfo.twitterId"></RewardView>
           </div>
         </template>
         <div class="c-text-black text-1.8rem mb-3rem" v-else>
@@ -183,7 +183,7 @@ import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
 import { getUserVPRC } from '@/api/api'
-import RewardView from "@/views/user/RewardView";
+import RewardView from "./RewardView";
 
 export default {
   name: "AccountInfo",
