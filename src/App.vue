@@ -23,16 +23,22 @@
 <!--                @signout="signout"-->
 <!--                @gotoDC="gotoDC"-->
 <!--                @gotoTwitter="gotoTwitter"></HeaderV1>-->
-      <Header v-if="$route.meta.header!=='hidden'"></Header>
-      <div class="flex-1 overflow-auto relative c-page-container">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
-          </keep-alive>
-          <component :is="Component" v-if="!$route.meta.keepAlive"/>
-        </router-view>
+      <HeaderWeb class="hidden 2md:flex"></HeaderWeb>
+      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
+      <div class="flex-1 overflow-hidden flex">
+        <SliderBar class="hidden 2md:flex h-full overflow-hidden"
+                   :profile-img="profileImg"
+                   @login="login"></SliderBar>
+        <div class="flex-1 overflow-auto relative c-page-container">
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
+            </keep-alive>
+            <component :is="Component" v-if="!$route.meta.keepAlive"/>
+          </router-view>
+        </div>
       </div>
-      <BottomTabbar class="block md:hidden"
+      <BottomTabbar class="flex 2md:hidden"
                     @login="login"></BottomTabbar>
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
@@ -94,10 +100,12 @@ import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
 import BottomTabbar from "@/components/layout/BottomTabbar";
 import HeaderV1 from "@/components/layout/HeaderV1";
-import Header from "@/components/layout/Header";
+import HeaderH5 from "@/components/layout/HeaderH5";
+import HeaderWeb from "@/components/layout/HeaderWeb";
+import SliderBar from "@/components/layout/SliderBar";
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar, HeaderV1, Header},
+  components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar, HeaderV1, HeaderH5, HeaderWeb, SliderBar},
   data: () => {
     return {
       pubKey: '',

@@ -418,6 +418,13 @@ export default {
     reward: '打赏',
     system: '系统'
   },
+  slider: {
+    home: '首页',
+    community: '社区',
+    influence: '影响力',
+    info: '消息',
+    create: '创建'
+  },
   err: {
     serverErr: '内部错误',
     transErr: '交易失败',

@@ -15,7 +15,7 @@
                  @keypress="onSearch"
                  class="search-input bg-transparent relative px-10px py-4px w-full h-full rounded-full text-12px" >
           <button v-if="searchText.trim().length>0"
-                  @click="searchText='', $emit('clearSearchList')"
+                  @click="clearSearchList"
                   class="bg-color8B/30 p-2px rounded-full mr-8px">
             <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
           </button>
@@ -105,7 +105,6 @@ export default {
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
         const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
-        this.$emit('showSearchList')
         this.searchList = []
         this.seachTagList = []
         if (users && users.length > 0) {
@@ -115,6 +114,11 @@ export default {
           this.seachTagList = tags
         }
       }
+    },
+    clearSearchList() {
+      this.searchText = ''
+      this.searchList = []
+      this.seachTagList = []
     },
     setSelectTag(tag) {
       this.$router.push('/')
