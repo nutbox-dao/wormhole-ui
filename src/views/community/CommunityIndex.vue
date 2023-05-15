@@ -73,11 +73,14 @@ export default {
 
     },
     async onRefresh() {
+      this.refreshing = true
       try {
         const communities = await getCommunities()
         this.$store.commit('community/saveCommunities', communities)
       } catch (e) {
         showError(501)
+      } finally {
+        this.refreshing = false
       }
     }
   },

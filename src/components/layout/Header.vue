@@ -6,21 +6,43 @@
         <img class="w-30px h-30px filter invert-100 light:invert-0"
              src="~@/assets/icon-dashboard.svg" alt="">
       </button>
-      <router-link to="/info">
-        <button>
-          <img class="w-26px h-26px filter light:brightness-50"
-               src="~@/assets/icon-notification.svg" alt="">
+      <div>
+        <button class="relative" @click="searchModalVisible=true">
+          <span class="w-24px h-24px border-2 border-colorBD rounded-full block"></span>
+          <span class="w-2px h-6px rounded-full bg-colorBD absolute bottom-0 right-0 transform -rotate-40"></span>
         </button>
-      </router-link>
+        <router-link to="/info" class="ml-10px">
+          <button>
+            <img class="w-26px h-26px filter light:brightness-50"
+                 src="~@/assets/icon-notification.svg" alt="">
+          </button>
+        </router-link>
+      </div>
       <img class="h-1.7rem black-filter absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
            src="~@/assets/logo.svg" alt="">
     </div>
+    <el-dialog v-model="searchModalVisible"
+               :append-to-body="true"
+               :fullscreen="true"
+               :destroy-on-close="true"
+               :show-close="false"
+               :close-on-click-modal="true"
+               class="c-dialog-fullscreen">
+      <SearchView @close="searchModalVisible=false"></SearchView>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import SearchView from "@/views/SearchView";
 export default {
-  name: "Header"
+  name: "Header",
+  components: {SearchView},
+  data() {
+    return {
+      searchModalVisible: false
+    }
+  }
 }
 </script>
 

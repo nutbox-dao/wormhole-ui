@@ -141,7 +141,7 @@ export default {
     return {
       TokenIcon,
       scroll: 0,
-      tabIndex: 2,
+      tabIndex: 0,
       communityId: ''
     }
   },
