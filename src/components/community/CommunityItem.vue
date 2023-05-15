@@ -58,7 +58,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('getAccountInfo')
+    ...mapGetters(['getAccountInfo'])
   },
   data() {
     return {

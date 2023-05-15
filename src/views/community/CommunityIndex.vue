@@ -51,7 +51,7 @@
 <script>
 import CommunityItem from "@/components/community/CommunityItem";
 import { getCommunities } from '@/api/api'
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";
 
 export default {
@@ -66,7 +66,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['communities'])
+    ...mapState('community', ['communities']),
+    ...mapGetters(['getAccountInfo'])
   },
   methods: {
     onLoad() {
@@ -75,7 +76,7 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try {
-        const communities = await getCommunities()
+        const communities = await getCommunities(this.getAccountInfo?.twitterId)
         this.$store.commit('community/saveCommunities', communities)
       } catch (e) {
         showError(501)
