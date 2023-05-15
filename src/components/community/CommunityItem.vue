@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="text-left text-14px leading-20px mt-10px">{{community.description}}</div>
+      <div class="text-left text-14px leading-20px mt-10px multi-content">{{community.description}}</div>
 <!--      大按钮版-->
 <!--      <button class="h-40px rounded-full gradient-bg gradient-bg-color3 w-full mt-10px">-->
 <!--        <span class="text-14px font-500 text-white">{{$t('community.join')}}</span>-->

@@ -161,7 +161,9 @@
             </div>
           </div>
           <slot name="bottom-btn-bar">
-            <PostButtonGroup ref="postButtonRef" :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
+            <PostButtonGroup ref="postButtonRef"
+                             class="mt-15px"
+                             :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
           </slot>
         </div>
       </div>

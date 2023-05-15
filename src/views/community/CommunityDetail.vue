@@ -18,8 +18,8 @@
     <div>
       <div class="overflow-hidden relative py-15px px-15px
                 bg-blockBg light:bg-white md:rounded-16px">
-        <img class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0"
-             :src="showingCommunity.banner" alt="">
+        <c-image :src="showingCommunity.banner"
+                 class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0"></c-image>
         <div class="relative mt-95px">
           <div class="flex items-stretch">
             <img class="w-72px h-72px min-w-72px min-h-72px border-3 border-colorF7 rounded-9px bg-colorF7"
@@ -36,7 +36,8 @@
                     <div>{{$t('community.peopleJoined', {num: showingCommunity.memberCount})}}</div>
                   </div>
                 </div>
-                <button v-show="!showingCommunity.joined" class="h-34px rounded-full bg-white flex justify-center items-center px-15px"
+                <button v-show="!showingCommunity.joined"
+                        class="h-34px rounded-full bg-white flex justify-center items-center px-15px shadow-color1A"
                   @click.stop="join">
                   <img class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
                   <span class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
@@ -85,7 +86,7 @@
           </div>
         </div>
       </div>
-      <div class="shadow-color1A sm:shadow-none">
+      <div class="sm:shadow-none">
         <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold
                     border-b-1 border-color8B/30 light:border-color7F
                     sticky top-70px bg-primaryBg light:bg-white z-9">
@@ -110,6 +111,7 @@
             {{$t('community.about')}}
           </button>
         </div>
+        <CommunityPost v-if="tabIndex===0"></CommunityPost>
         <CommunityTopic v-if="tabIndex===1"></CommunityTopic>
         <CommunityMember v-if="tabIndex===2"></CommunityMember>
       </div>
@@ -120,6 +122,7 @@
 <script>
 import {TokenIcon} from "@/config";
 import {formatAddress, onCopy} from "@/utils/tool";
+import CommunityPost from "@/views/community/CommunityPost";
 import CommunityTopic from "@/views/community/CommunityTopic";
 import CommunityMember from "@/views/community/CommunityMember";
 import {useWindowSize} from "@vant/use";
@@ -130,7 +133,7 @@ import { notify } from "@/utils/notify";
 
 export default {
   name: "CommunityDetail",
-  components: {CommunityTopic, CommunityMember},
+  components: {CommunityPost, CommunityTopic, CommunityMember},
   setup() {
     const { width } = useWindowSize();
     return {

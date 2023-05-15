@@ -1,102 +1,96 @@
 <template>
-  <div class="pr-1rem">
-    <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
-      <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
-      <!-- follow-->
-      <div v-if="false" class="flex justify-between items-center">
-        <button @click.stop="userFollow"
-                :disabled="isFollowing || post.followed"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-          <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
+  <div class="flex justify-between items-center gap-8px flex-1 max-w-425px">
+    <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
+    <!-- follow-->
+    <div v-if="false" class="flex justify-between items-center">
+      <button @click.stop="userFollow"
+              :disabled="isFollowing || post.followed"
+              class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+        <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
+          <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+        </i>
+        <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      </button>
+      <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
+    </div>
+    <!-- like & unlike-->
+    <div class="flex">
+      <div class="flex justify-center items-center">
+        <button :disabled="isLiking || post.liked"
+                @click.stop="userLike"
+                class="flex items-center disabled-no-opacity">
+          <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+          <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
+        <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
-      <!-- like & unlike-->
-      <div class="flex">
-        <div class="flex justify-center items-center">
-          <button :disabled="isLiking || post.liked"
-                  @click.stop="userLike"
-                  class="flex items-center disabled-no-opacity">
-            <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
-              <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-            </i>
-            <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
-          </button>
-          <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
-        </div>
-        <div class=" w-1px bg-color8B/30 mx-8px"></div>
-        <!-- unlike-->
-        <div class="flex justify-center items-center">
-          <button :disabled="isLiking || post.liked"
-                  @click.stop="userLike"
-                  class="flex items-center disabled-no-opacity">
-            <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
-              <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-            </i>
-            <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-unlike-active':'btn-icon-unlike'"></i>
-          </button>
-          <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
-        </div>
-      </div>
-      <!-- reply-->
-      <div class="flex justify-between items-center">
-        <button @click.stop="preReply"
-                :disabled="isRepling || isQuoting || isRetweeting"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-          <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
+      <div class=" w-1px bg-color8B/30 mx-8px"></div>
+      <!-- unlike-->
+      <div class="flex justify-center items-center">
+        <button :disabled="isLiking || post.liked"
+                @click.stop="userLike"
+                class="flex items-center disabled-no-opacity">
+          <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
+          <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-unlike-active':'btn-icon-unlike'"></i>
         </button>
-        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color7D'">{{ post.replyCount ?? 0 }}</span>
+        <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
-      <el-popover :teleported="false" trigger="click">
-        <template #reference>
-          <div class="flex items-center" @click.stop>
-            <i class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-            <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">
+    </div>
+    <!-- reply-->
+    <div class="flex justify-between items-center">
+      <button @click.stop="preReply"
+              :disabled="isRepling || isQuoting || isRetweeting"
+              class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+        <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
+          <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+        </i>
+        <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
+      </button>
+      <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color7D'">{{ post.replyCount ?? 0 }}</span>
+    </div>
+
+    <el-popover :teleported="false" trigger="click">
+      <template #reference>
+        <div class="flex items-center" @click.stop>
+          <i class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+          <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">
               {{ post.retweetCount ?? 0 }}
             </span>
-          </div>
-        </template>
-        <div class="flex flex-col gap-6px">
-          <!-- retweet -->
-          <div class="flex items-center">
-            <button @click.stop="userRetweet"
-                    :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
-                    class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
-              <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
-                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-              </i>
-              <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-            </button>
-            <span class="c-text-black ml-8px">{{$t('curation.retweet')}}</span>
-<!--            <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>-->
-          </div>
-          <!-- quote-->
-          <div class="flex items-center">
-            <button @click.stop="preQuote"
-                    :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
-                    class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
-              <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
-                <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-              </i>
-              <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-            </button>
-            <span class="c-text-black ml-8px">{{$t('curation.quote')}}</span>
-            <!--            <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>-->
-          </div>
         </div>
-      </el-popover>
-
-      <!-- <div class="text-white flex items-center">
-        <i class="w-18px h-18px icon-coin"></i>
-        <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
-      </div> -->
-    </div>
+      </template>
+      <div class="flex flex-col gap-6px">
+        <!-- retweet -->
+        <div class="flex items-center">
+          <button @click.stop="userRetweet"
+                  :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
+                  class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
+            <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
+              <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+            </i>
+            <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+          </button>
+          <span class="c-text-black ml-8px">{{$t('curation.retweet')}}</span>
+          <!--            <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>-->
+        </div>
+        <!-- quote-->
+        <div class="flex items-center">
+          <button @click.stop="preQuote"
+                  :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
+                  class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
+            <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
+              <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+            </i>
+            <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+          </button>
+          <span class="c-text-black ml-8px">{{$t('curation.quote')}}</span>
+          <!--            <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>-->
+        </div>
+      </div>
+    </el-popover>
     <!--    reply-->
     <van-popup class="md:w-600px bg-black light:bg-transparent w-full"
                teleport="body"
