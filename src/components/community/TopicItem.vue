@@ -41,7 +41,8 @@
       <div class="text-14px leading-20px text-left mt-15px">
         Welcome to the CrossSpace chill group, where everyone is encouraged to engage in lighthearted banter!
       </div>
-      <button class="w-full h-40px gradient-bg gradient-bg-color3 text-white c-text-black text-16px rounded-full mt-10px">
+      <button class="w-full h-40px gradient-bg gradient-bg-color3 text-white c-text-black text-16px rounded-full mt-10px"
+              @click="$router.push(`/topic-detail/${$route.params.communityId}`)">
         {{$t('community.enter')}}
       </button>
     </div>

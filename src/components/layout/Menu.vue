@@ -99,9 +99,9 @@ export default {
       document.documentElement.className=this.isDark?'dark':'light'
     },
     signout() {
+      this.$refs.menuBox.hide()
       logout(this.getAccountInfo.twitterId).then(res => {
       });
-      this.$refs.menuBox.hide()
       if (this.$route.meta.gotoHome) {
         this.$router.replace('/')
       }

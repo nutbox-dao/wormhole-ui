@@ -411,7 +411,12 @@ export default {
     joinTime: '加入时间',
     communityToken: '余额',
     influenceTip: '已超过社区{percent}%的人',
-    twitterInfluence: '推特影响力'
+    twitterInfluence: '推特影响力',
+    activity: '动态',
+    justAdmin: '只看管理员',
+    reward: '收获',
+    rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
+    award: '奖励'
   },
   info: {
     interactive: '互动',

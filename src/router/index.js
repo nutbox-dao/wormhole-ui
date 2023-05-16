@@ -34,6 +34,7 @@ import WalletIndex from "@/views/user/WalletIndex";
 import WordCloud from '@/views/word-cloud/Index'
 import CommunityIndex from "@/views/community/CommunityIndex";
 import CommunityDetail from "@/views/community/CommunityDetail";
+import TopicDetail from "@/views/community/TopicDetail";
 import InfluenceIndex from "@/views/Influence/InfluenceIndex";
 import InfoIndex from "@/views/info/InfoIndex";
 
@@ -173,6 +174,12 @@ const routes = [
     path: '/community-detail/:communityId',
     name: 'community-detail',
     component: CommunityDetail,
+    meta: {header: 'hidden'}
+  },
+  {
+    path: '/topic-detail/:communityId',
+    name: 'topic-detail',
+    component: TopicDetail,
     meta: {header: 'hidden'}
   },
   {
