@@ -16,6 +16,9 @@ export const getPrice = async () =>
 export const twitterAuth = async(needLogin) =>
     get(BACKEND_API_URL + '/auth/login', {needLogin})
 
+export const testTwitterAuth = async() =>
+    post(BACKEND_API_URL + '/auth/login', {needLogin: true, callback: 'https://deschool.app/studio/', ethAddress: '0x710FaA3d63F590832E8E7c71ecCe752456Ae3809', communityId: 'cab1b9a9ee34'})
+
 export const twitterLogin = async(state) =>
     get(BACKEND_API_URL + '/users/login', {state})
 

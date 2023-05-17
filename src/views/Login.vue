@@ -31,6 +31,7 @@
         {{$t('signUpView.p1')}}
       </div>
       <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
+              :disabled="!!thirdPartInfo.ethAddress"
               @click="authStep = 'create'">
         {{$t('signUpView.createAccount')}}
       </button>
@@ -66,7 +67,7 @@
 import { isTokenExpired } from '@/utils/account'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
-import { twitterLogin, twitterAuth } from '@/api/api'
+import { twitterLogin, twitterAuth, testTwitterAuth } from '@/api/api'
 import Cookie from 'vue-cookies'
 import { randomWallet } from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
@@ -94,13 +95,20 @@ export default {
       referee: '',
       wallet: {},
       pair: {},
-      pendingAccount: {}
+      pendingAccount: {},
+      thirdPartInfo: {}
     }
   },
   mounted() {
     let loginInfo = Cookie.get('account-auth-info');
+    let thirdPartInfo = Cookie.get('partner-info');
     if (loginInfo) {
       this.pendingAccount = loginInfo
+      if (thirdPartInfo) {
+        this.thirdPartInfo = thirdPartInfo;
+        this.connectMetamask()
+        return;
+      }
       setTimeout(() => {
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair) 
