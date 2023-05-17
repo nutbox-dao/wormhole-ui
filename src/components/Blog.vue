@@ -149,15 +149,15 @@
             </div>
           </slot>
           <slot name="curation-tag"></slot>
-          <div v-if="location" class="flex mt-0.8rem">
+          <div v-if="location" class="flex mt-0.8rem pointer-cursor">
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
-          <div class="flex items-center mt-10px text-14px">
+          <div v-show="showCommunity && post.communityId"  @click.stop="$router.push('/community-detail/' + post.communityId)" class="flex items-center mt-10px text-14px">
             <span>{{$t('community.communityFrom')}}: </span>
             <div class="flex items-center ml-10px">
-              <img class="w-20px h-20px bg-color8B/30 rounded-full mr-4px" :src="profileImg" alt="">
-              <span>SpaceX</span>
+              <img class="w-20px h-20px bg-color8B/30 rounded-full mr-4px" :src="communityIcon" alt="">
+              <span>{{ post.communityName }}</span>
             </div>
           </div>
           <slot name="bottom-btn-bar">
@@ -216,6 +216,10 @@ export default {
     contentClass: {
       type: String,
       default: ''
+    },
+    showCommunity:{
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -248,6 +252,9 @@ export default {
       }else {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
+     },
+     communityIcon() {
+      return this.post.communityIcon
      },
     isIgnoreAccount() {
       const res = IgnoreAuthor.indexOf(this.post.twitterId) !== -1;
