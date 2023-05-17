@@ -16,28 +16,28 @@
     <!-- like & unlike-->
     <div class="flex">
       <div class="flex justify-center items-center">
-        <button :disabled="isLiking || post.liked"
+        <button :disabled="isLiking || liked"
                 @click.stop="userLike"
                 class="flex items-center disabled-no-opacity">
           <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
+          <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
         </button>
-        <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
+        <span class="pl-8px font-700 text-12px" :class="liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
       </div>
       <div class=" w-1px bg-color8B/30 mx-8px"></div>
       <!-- unlike-->
       <div class="flex justify-center items-center">
-        <button :disabled="isLiking || post.liked"
-                @click.stop="userLike"
+        <button :disabled="isLiking || unLiked"
+                @click.stop="userUnLike"
                 class="flex items-center disabled-no-opacity">
           <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
             <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
           </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-unlike-active':'btn-icon-unlike'"></i>
+          <i v-else class="w-20px h-20px min-w-20px" :class="unLiked?'btn-icon-unlike-active':'btn-icon-unlike'"></i>
         </button>
-        <span class="pl-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
+        <span class="pl-8px font-700 text-12px" :class="unLiked?'text-color62':'text-color7D'">{{ post.unLikeCount ?? 0 }}</span>
       </div>
     </div>
     <!-- reply-->
@@ -58,37 +58,37 @@
         <div class="flex items-center" @click.stop>
           <i class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
           <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">
-              {{ post.retweetCount ?? 0 }}
+              {{ (post.retweetCount ?? 0) + (post.quoteCount ?? 0) }}
             </span>
         </div>
       </template>
       <div class="flex flex-col gap-6px">
         <!-- retweet -->
-        <div class="flex items-center">
-          <button @click.stop="userRetweet"
+        <button @click.stop="userRetweet"
                   :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
-                  class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
+                  class="flex items-center">
+          <div class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
             <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
               <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
             </i>
             <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-          </button>
+          </div>
           <span class="c-text-black ml-8px">{{$t('curation.retweet')}}</span>
           <!--            <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>-->
-        </div>
+        </button>
         <!-- quote-->
-        <div class="flex items-center">
-          <button @click.stop="preQuote"
+        <button @click.stop="preQuote"
                   :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
-                  class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
+                  class="flex items-center">
+          <div class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
             <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
               <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
             </i>
             <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-          </button>
+          </div>
           <span class="c-text-black ml-8px">{{$t('curation.quote')}}</span>
           <!--            <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>-->
-        </div>
+        </button>
       </div>
     </el-popover>
     <!--    reply-->
@@ -423,6 +423,12 @@ export default {
       const res = IgnoreAuthor.indexOf(this.post.steemId) !== -1
       return res
     },
+    liked() {
+      return this.post.liked === 1 && this.post.downVote === 0
+    },
+    unLiked() {
+      return this.post.liked === 1 && this.post.downVote > 0
+    }
   },
   methods: {
     parseTimestamp,
@@ -629,7 +635,40 @@ export default {
         this.isLiking = true
         const result = await likePost(this.post.postId, this.post.twitterId)
         this.post.liked = 1
+        this.post.downVote = 0
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
+        this.post.unLikeCount = (this.post.unLikeCount && this.unLiked) ? this.post.unLikeCount - 1 : this.post.unLikeCount
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isLiking = false
+      }
+    },
+    async userUnLike() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isLiking = true
+        const result = await likePost(this.post.postId, this.post.twitterId, false)
+        this.post.liked = 1
+        this.post.downVote = 1
+        this.post.unLikeCount  = this.post.unLikeCount ? this.post.unLikeCount + 1 : 1
+        this.post.likeCount  = this.post.likeCount && this.unLiked ? this.post.likeCount - 1 : this.post.likeCount
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         if (e === 'log out') {

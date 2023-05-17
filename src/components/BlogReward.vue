@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      showCuratedTip: false,
+      showCuratedTip: true,
       rewards: [],
       price: '0.00'
     }
@@ -59,14 +59,15 @@ export default {
   methods: {
     getTip: debounce(function t() {
       // get rewards
-      if (this.rewards && this.rewards.length > 0) {
-        this.showCuratedTip = true
-      }else {
-        this.getRewards();
-      }
+      // if (this.rewards && this.rewards.length > 0) {
+      //   this.showCuratedTip = true
+      // }else {
+      //   this.getRewards();
+      // }
     }, 500),
     async getRewards() {
-      getCurationRewardsOfPost(this.post.postId).then(async res => {
+      // getCurationRewardsOfPost(this.post.postId).then(async res => {
+        const res = this.post.reward
         if (res && res.length > 0) {
           this.rewards = res.map(r => ({
             ...r,
@@ -89,7 +90,7 @@ export default {
         }else {
           this.rewards = []
         }
-      }).catch(e => {this.rewards = []; console.log(4, e)}).finally(() => this.showCuratedTip = true)
+      // }).catch(e => {this.rewards = []; console.log(4, e)}).finally(() => this.showCuratedTip = true)
     },
   }
 }

@@ -102,6 +102,9 @@ export const replyPost = async (twitterId, tweetId, content, parentTwitterId) =>
 export const likePost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/likePost', {twitterId, tweetId})
 
+export const unLikePost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/unLikePost', {twitterId, tweetId})
+
 export const retweetPost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
 

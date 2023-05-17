@@ -109,7 +109,6 @@ export default {
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
         const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
-        console.log(53, users, communities);
         this.showSearchList = true
         this.searchList = []
         this.seachTagList = []
