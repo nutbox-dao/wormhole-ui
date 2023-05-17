@@ -31,7 +31,7 @@
       </div>
       <template v-else>
         <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('user') }}</div>
-        <div v-for="(item,index) of searchList" :key="item.twitterId"
+        <div v-for="(item,index) of searchList.slice(0, showSearchUserNum)" :key="item.twitterId"
              @click="gotoUser(item)"
              class="border-b-1 border-color8B/30 light:border-colorF4
                                     flex items-center py-6px cursor-pointer">
@@ -43,11 +43,19 @@
             <div class="text-12px text-color8B light:text-color7D">Twitter Reputation:{{item.reputation}}</div>
           </div>
         </div>
+        <div class="text-center my-8px">
+          <button v-if="userListIsFinished"
+                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
+          <button v-else class="text-color62"
+                  @click="viewMoreUser">{{$t('common.viewMore')}}</button>
+        </div>
       </template>
       <!--   community   -->
+      <div class="c-text-black text-left text-color8B light:text-color7D mt-20px mb-10px text-16px">
+        {{ $t('community.community') }}
+      </div>
       <template v-if="searchCommunityList.length>0">
-        <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('community.community') }}</div>
-        <div v-for="(item,index) of searchCommunityList" :key="item.communityId"
+        <div v-for="(item,index) of searchCommunityList.slice(0, showSearchCommunityNum)" :key="item.communityId"
              @click="gotoCommunity(item)"
              class="border-b-1 border-color8B/30 light:border-colorF4
                                     flex items-center py-6px cursor-pointer">
@@ -58,9 +66,15 @@
             <div class="mb-5px font-bold">{{item.communityName}}</div>
           </div>
         </div>
+        <div class="text-center my-8px">
+          <button v-if="communityListIsFinished"
+                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
+          <button v-else class="text-color62"
+                  @click="viewMoreCommunity">{{$t('common.viewMore')}}</button>
+        </div>
       </template>
       <div v-else
-           class="text-center py-2rem text-color8B light:text-color7D">
+           class="text-center py-1rem text-color8B light:text-color7D">
         {{ $t('noRelatedCommunities') }}
       </div>
       <!--                      tag-->
@@ -70,10 +84,16 @@
           <div class="border-1 border-color62 light:border-transparent w-max flex
                       py-3px px-6px rounded-6px mt-10px whitespace-nowrap cursor-pointer"
                :class="selectedTag === tag?'bg-color62 light:bg-color62 text-white':'bg-transparent light:bg-colorF7'"
-               v-for="tag of seachTagList" :key="tag"
+               v-for="tag of seachTagList.slice(0, showSearchTagNum)" :key="tag"
                @click.stop="setSelectTag(tag)">
             #{{ tag.replace('#', '') }}
           </div>
+        </div>
+        <div class="text-center my-8px">
+          <button v-if="tagListIsFinished"
+                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
+          <button v-else class="text-color62"
+                  @click="viewMoreTag">{{$t('common.viewMore')}}</button>
         </div>
       </template>
       <div v-else
@@ -100,7 +120,13 @@ export default {
       searchList: [],
       seachTagList: [],
       searchCommunityList: [],
-      searched: false
+      searched: false,
+      userListIsFinished: false,
+      showSearchUserNum: 5,
+      communityListIsFinished: false,
+      showSearchCommunityNum: 5,
+      tagListIsFinished: false,
+      showSearchTagNum: 15
     }
   },
   mounted() {
@@ -115,19 +141,22 @@ export default {
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
         const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
-        
+
         this.searchList = []
         this.seachTagList = []
         this.searchCommunityList = []
         this.searched = true
         if (users && users.length > 0) {
           this.searchList = users
+          this.userListIsFinished = this.searchList.length<=5
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
+          this.tagListIsFinished = this.seachTagList.length<=15
         }
         if (communities && communities.length > 0) {
           this.searchCommunityList = communities
+          this.communityListIsFinished = this.searchCommunityList.length<=5
         }
       }
     },
@@ -149,6 +178,21 @@ export default {
     gotoCommunity(community) {
       this.$router.push('/community-detail/' + community.communityId)
     },
+    viewMoreUser() {
+      if(this.userListIsFinished) return
+      this.showSearchUserNum += 5
+      this.userListIsFinished = (this.showSearchUserNum>this.searchList.length)
+    },
+    viewMoreCommunity() {
+      if(this.communityListIsFinished) return
+      this.showSearchCommunityNum += 5
+      this.communityListIsFinished = (this.showSearchCommunityNum>this.searchCommunityList.length)
+    },
+    viewMoreTag() {
+      if(this.tagListIsFinished) return
+      this.showSearchTagNum += 15
+      this.tagListIsFinished = (this.showSearchTagNum>this.seachTagList.length)
+    }
   }
 }
 </script>
