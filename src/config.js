@@ -7,8 +7,8 @@ export const TWITTER_MONITOR_RULE = "@wormhole_3"
 export const TWITTER_POST_TAG = "%23iweb3"
 
 // export const BACKEND_API_URL = 'https://alpha-api.wormhole3.io'
-export const BACKEND_API_URL = 'http://localhost:3100'
-// export const BACKEND_API_URL = 'https://api-test.web3id.pro'
+// export const BACKEND_API_URL = 'http://localhost:3100'
+export const BACKEND_API_URL = 'https://api-test.web3id.pro'
 
 export const CURATION_SHORT_URL = 'https://wh3.io/'
 // export const CURATION_SHORT_URL = 'https://test.wormhole3.io/#/curation-detail/'
@@ -300,42 +300,42 @@ export const EVM_CHAINS = {
             WNULS: {symbol: 'WNULS', name: 'Wrapped NULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png'},
 
             USDTN: {symbol: 'USDTN', name: 'USDTN', address:  '0x9e5d124cd49671f3f7b54d4aef43b3930bcf6de7', decimals: 18, icon: ''},
-            
-            USDCN: {symbol: 'USDCN', name:'USDCN', address: '0xb13bb925d62adc0ea0da95f70e7f7a09effd4f9e', decimals: 18, icon: ''}, 
-            
+
+            USDCN: {symbol: 'USDCN', name:'USDCN', address: '0xb13bb925d62adc0ea0da95f70e7f7a09effd4f9e', decimals: 18, icon: ''},
+
             ETH: {symbol: 'ETH', name: 'ETH', address: '0xf573632c60de84f30486555e5199911fbd00835d', decimals: 18, icon: ''},
-            
+
             BNB: {symbol: 'BNB', name: 'BNB', address: '0x70a07c8dce789d9cc249b3f816bdacd2bbed66cc', decimals: 18, icon: ''},
-            
+
             AVAX: {symbol: 'AVAX', name: 'AVAX', address: '0x275f8b996dca35bca02cf2edb0f883d83decabf0', decimals: 18, icon: ''},
-            
+
             HT: {symbol: 'HT', name: 'HT', address: '0x1853f95c1e21d6f43a667dd01f174bdf7828d4af', decimals: 18, icon: ''},
-            
+
             OKT: {symbol: 'OKT', name: 'OKT', address: '0x3a5b9a4fd8fcac2cf2b09bb69f15f0c4a2a34b10', decimals: 18, icon: ''},
-            
+
             ONE: {symbol: 'ONE', name: 'ONE', address: '0x6770b3ada065fe3e33d93de76ad22ead07d8c8d5', decimals: 18, icon: ''},
-            
+
             MATIC: {symbol: 'MATIC', name: 'MATIC', address: '0x39f36e05630ac18cd4cbc4a787f58fa280066208', decimals: 18, icon: ''},
-            
-            FTM: {symbol: 'FTM', name: 'FTM', address: '0x21cd8e25a5504c55c26d0c2b84adffd3607e6d17', decimals: 18, icon: ''}, 
-            
-            KCS: {symbol: 'KCS', name: 'KCS', address: '0x5ec1c7d67ab36532ecafa8464717a7b282a909b3', decimals: 18, icon: ''}, 
-            
-            TRX: {symbol: 'TRX', name: 'TRX', address: '0x6949e317f000e07496654dc68fe252739ffcbc10', decimals: 6, icon: ''}, 
-            
-            IOTX: {symbol: 'IOTX', name: 'IOTX', address: '0x3e1c9a9e67d00fc55c5e2be28ea00dadc15cc065', decimals: 18, icon: ''}, 
-            
-            CRO: {symbol: 'CRO', name: 'CRO', address: '0x4ced4e629a0a314d5bae83f93edf80df5c2f13a1', decimals: 18, icon: ''}, 
-            
-            KAVA: {symbol: 'KAVA', name: 'KAVA', address: '0xc27956fd894d7192892bfe8d215a5b25dc893da0', decimals: 18, icon: ''}, 
-            
-            METIS: {symbol: 'METIS', name: 'METIS', address: '0x15be367243896393c097660e9c7a693ff3d9dedd', decimals: 18, icon: ''}, 
-            
-            KLAY: {symbol: 'KLAY', name: 'KLAY', address: '0x518111b3d78a11ff076f23f24fda1fae93f1c32f', decimals: 18, icon: ''}, 
-            
-            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 18, icon: ''}, 
-            
-            NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},  
+
+            FTM: {symbol: 'FTM', name: 'FTM', address: '0x21cd8e25a5504c55c26d0c2b84adffd3607e6d17', decimals: 18, icon: ''},
+
+            KCS: {symbol: 'KCS', name: 'KCS', address: '0x5ec1c7d67ab36532ecafa8464717a7b282a909b3', decimals: 18, icon: ''},
+
+            TRX: {symbol: 'TRX', name: 'TRX', address: '0x6949e317f000e07496654dc68fe252739ffcbc10', decimals: 6, icon: ''},
+
+            IOTX: {symbol: 'IOTX', name: 'IOTX', address: '0x3e1c9a9e67d00fc55c5e2be28ea00dadc15cc065', decimals: 18, icon: ''},
+
+            CRO: {symbol: 'CRO', name: 'CRO', address: '0x4ced4e629a0a314d5bae83f93edf80df5c2f13a1', decimals: 18, icon: ''},
+
+            KAVA: {symbol: 'KAVA', name: 'KAVA', address: '0xc27956fd894d7192892bfe8d215a5b25dc893da0', decimals: 18, icon: ''},
+
+            METIS: {symbol: 'METIS', name: 'METIS', address: '0x15be367243896393c097660e9c7a693ff3d9dedd', decimals: 18, icon: ''},
+
+            KLAY: {symbol: 'KLAY', name: 'KLAY', address: '0x518111b3d78a11ff076f23f24fda1fae93f1c32f', decimals: 18, icon: ''},
+
+            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 18, icon: ''},
+
+            NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},
         },
         Multi_Config: {
             rpcUrl: 'https://evmapi.nuls.io',

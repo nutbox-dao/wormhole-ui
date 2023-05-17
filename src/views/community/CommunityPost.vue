@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <van-pull-refresh class="min-h-40vh"
+                    v-model="refreshing"
+                    @refresh="refresh"
+                    :loading-text="$t('common.loading')"
+                    :pulling-text="$t('common.pullRefresh')"
+                    :loosing-text="$t('common.loosingRefresh')">
     <van-list :loading="listLoading"
               :finished="listFinished"
               :immediate-check="false"
@@ -54,7 +59,7 @@
         </div>
       </div>
     </van-list>
-  </div>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -92,7 +97,8 @@ export default {
       postType: ['Trending', 'Promotion', 'new'],
       typeIndex: 0,
       listLoading: false,
-      listFinished: false
+      listFinished: false,
+      refreshing: false
     }
   },
   watch: {
@@ -151,7 +157,7 @@ export default {
       await sleep(0.5);
       if (count++ > 30) {
         return;
-      } 
+      }
     }
     this.refresh()
   },
