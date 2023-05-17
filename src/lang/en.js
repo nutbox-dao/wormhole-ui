@@ -6,6 +6,7 @@ export default {
   curations: 'Curations',
   faq: 'FAQs',
   userguide: 'User Guides',
+  user: 'Users',
   aboutUs: 'About Us',
   discord: 'Discord',
   twitter: 'Twitter',
@@ -17,6 +18,8 @@ export default {
   myReward: 'My reward',
   search: 'Search',
   noRelatedUser: 'No related user info',
+  noRelatedTags: 'No related tag info',
+  noRelatedCommunities: 'No related community info',
   trending: 'Trending',
   new: 'New',
   curated: 'Curated',
@@ -78,7 +81,8 @@ export default {
   },
   topicsView: {
     title: 'More topics',
-    post: 'Posts'
+    post: 'Posts',
+    topics: 'Topics'
   },
   postView: {
     tweetPost: 'Tweet a post',
@@ -127,7 +131,11 @@ export default {
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
     inputAmount: 'Enter token amount',
-    accountMismatch: 'You must use wormhole3 binded account to operate.'
+    accountMismatch: 'You must use wormhole3 binded account to operate.',
+    record: 'Detail',
+    historyRecord: 'History',
+    communityReward: 'Community reward',
+    withdraw: 'Withdraw'
   },
   token: {
     noNft: "You havn't got any NFTs.",
@@ -348,13 +356,13 @@ export default {
     retweet: 'Retweet'
   },
   createCuration: {
-    option1: '获得 Curation NFT',
-    option2: 'Twitter Quote 任意帖子',
-    option2A: '发现好帖',
-    option2B: '点击Quote',
-    option2C: '编写Curation推荐评论',
-    option2D: '编辑社区标签或话题标签',
-    option2E: '填写其他，点击发推',
+    option1: 'Get Curation NFT',
+    option2: 'Quote any tweets',
+    option2A: 'Discorvery',
+    option2B: 'Quote',
+    option2C: 'Edit curation content',
+    option2D: 'Edit community tags',
+    option2E: 'Write more content and tweet',
   },
   popup: {
     create: 'Create a Pop-up reply action',
@@ -389,6 +397,7 @@ export default {
     downloadTip: 'Long press to download'
   },
   community: {
+    community: 'Community',
     communityFrom: 'From community',
     hot: 'Hot',
     join: 'Join',
@@ -408,7 +417,24 @@ export default {
     joinTime: 'Join in',
     communityToken: 'Balance',
     influenceTip: 'Over {percent}% of community users',
-    twitterInfluence: 'Twitter Reputation'
+    twitterInfluence: 'Twitter Reputation',
+    activity: 'Activities',
+    justAdmin: 'Only admin',
+    reward: 'Withdraw',
+    rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
+    award: 'reward'
+  },
+  info: {
+    interactive: 'Activities',
+    reward: 'Tips',
+    system: 'System'
+  },
+  slider: {
+    home: 'Home',
+    community: 'Community',
+    influence: 'Curation Credit',
+    info: 'Messages',
+    create: 'Create'
   },
   err: {
     serverErr: 'Server error',
@@ -455,6 +481,10 @@ export default {
     viewMore: 'View more',
     comments: 'Comments',
     curation: 'Curation',
-    author: 'Author'
+    author: 'Author',
+    day: 'Day',
+    hour: 'Hour',
+    minute: 'Minute',
+    second: 'Seconde'
   }
 }

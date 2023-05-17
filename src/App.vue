@@ -23,7 +23,7 @@
 <!--                @signout="signout"-->
 <!--                @gotoDC="gotoDC"-->
 <!--                @gotoTwitter="gotoTwitter"></HeaderV1>-->
-      <HeaderWeb class="hidden 2md:flex"></HeaderWeb>
+      <HeaderWeb @gotoCommunity="gotoCommunity" @setSelectTag="setSelectTag" @gotoUser="gotoUser" class="hidden 2md:flex"></HeaderWeb>
       <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
       <div class="flex-1 overflow-hidden flex">
         <SliderBar class="hidden 2md:flex h-full overflow-hidden"
@@ -94,7 +94,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC, twitterLogin } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName, searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
@@ -120,6 +120,7 @@ export default {
       searchList: [],
       showSearchList: false,
       seachTagList: [],
+      searchComList: [],
       MAX_VP,
       MAX_RC
     }
@@ -197,7 +198,11 @@ export default {
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     gotoUser(user) {
+      console.log(1, user);
       this.$router.push('/search-user/@' + user.twitterUsername)
+    },
+    gotoCommunity(community) {
+      this.$router.push('/community-detail/' + community.communityId)
     },
     goBack() {
       this.$router.push('/')
@@ -239,15 +244,19 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
+        const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
           this.showSearchList = true
           this.searchList = []
           this.seachTagList = []
+          this.searchComList = []
         if (users && users.length > 0) {
           this.searchList = users
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
+        }
+        if (communities && communities.length > 0) {
+          this.searchComList = communities
         }
       }
     }

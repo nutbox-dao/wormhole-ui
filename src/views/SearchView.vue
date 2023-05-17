@@ -23,14 +23,15 @@
         <button @click="$emit('close')">{{$t('common.cancel')}}</button>
       </div>
     </div>
-    <div class="flex-1 overflow-auto p-15px">
+    <div v-if="!searched" class="flex-1 overflow-auto p-15px"></div>
+    <div v-else class="flex-1 overflow-auto p-15px">
       <div v-if="searchList.length === 0"
            class="text-center py-2rem text-color8B light:text-color7D">
         {{ $t('noRelatedUser') }}
       </div>
-      <template>
-        <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">User</div>
-        <div v-for="(item,index) of searchList" :key="index"
+      <template v-else>
+        <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('user') }}</div>
+        <div v-for="(item,index) of searchList" :key="item.twitterId"
              @click="gotoUser(item)"
              class="border-b-1 border-color8B/30 light:border-colorF4
                                     flex items-center py-6px cursor-pointer">
@@ -43,9 +44,28 @@
           </div>
         </div>
       </template>
+      <!--   community   -->
+      <template v-if="searchCommunityList.length>0">
+        <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('community.community') }}</div>
+        <div v-for="(item,index) of searchCommunityList" :key="item.communityId"
+             @click="gotoCommunity(item)"
+             class="border-b-1 border-color8B/30 light:border-colorF4
+                                    flex items-center py-6px cursor-pointer">
+          <img class="w-40px h-40px rounded-full mr-10px"
+               :src="item.icon" alt=""
+               @error="replaceEmptyImg">
+          <div class="text-left">
+            <div class="mb-5px font-bold">{{item.communityName}}</div>
+          </div>
+        </div>
+      </template>
+      <div v-else
+           class="text-center py-2rem text-color8B light:text-color7D">
+        {{ $t('noRelatedCommunities') }}
+      </div>
       <!--                      tag-->
       <template v-if="seachTagList.length>0">
-        <div class="c-text-black text-left text-color8B light:text-color7D mt-15px mb-10px text-16px">Tag</div>
+        <div class="c-text-black text-left text-color8B light:text-color7D mt-15px mb-10px text-16px">{{ $t('topicsView.topics') }}</div>
         <div class="flex flex-wrap items-center gap-5px">
           <div class="border-1 border-color62 light:border-transparent w-max flex
                       py-3px px-6px rounded-6px mt-10px whitespace-nowrap cursor-pointer"
@@ -56,27 +76,16 @@
           </div>
         </div>
       </template>
-      <!--   community   -->
-      <template>
-        <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">User</div>
-        <div v-for="(item,index) of searchCommunityList" :key="index"
-             @click="gotoCommunity(item)"
-             class="border-b-1 border-color8B/30 light:border-colorF4
-                                    flex items-center py-6px cursor-pointer">
-          <img class="w-40px h-40px rounded-full mr-10px"
-               :src="item.profileImg" alt=""
-               @error="replaceEmptyImg">
-          <div class="text-left">
-            <div class="mb-5px font-bold">{{item.name}}</div>
-          </div>
-        </div>
-      </template>
+      <div v-else
+           class="text-center py-2rem text-color8B light:text-color7D">
+        {{ $t('noRelatedTags') }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {searchTags, searchUsers} from "@/api/api";
+import {searchTags, searchUsers, searchCommunityByName} from "@/api/api";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {mapState} from "vuex";
 
@@ -90,7 +99,8 @@ export default {
       searchText: '',
       searchList: [],
       seachTagList: [],
-      searchCommunityList: []
+      searchCommunityList: [],
+      searched: false
     }
   },
   mounted() {
@@ -104,21 +114,29 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
+        const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
+        
         this.searchList = []
         this.seachTagList = []
+        this.searchCommunityList = []
+        this.searched = true
         if (users && users.length > 0) {
           this.searchList = users
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
         }
+        if (communities && communities.length > 0) {
+          this.searchCommunityList = communities
+        }
       }
     },
     clearSearchList() {
+      this.searched = false
       this.searchText = ''
       this.searchList = []
       this.seachTagList = []
+      this.searchCommunityList = []
     },
     setSelectTag(tag) {
       this.$router.push('/')
@@ -129,7 +147,7 @@ export default {
       this.$router.push('/search-user/@' + user.twitterUsername)
     },
     gotoCommunity(community) {
-      this.$router.push('/community-detail' + community.id)
+      this.$router.push('/community-detail/' + community.communityId)
     },
   }
 }

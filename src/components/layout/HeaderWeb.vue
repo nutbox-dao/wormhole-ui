@@ -27,8 +27,9 @@
               <div v-show="searchList.length === 0">
                 {{ $t('noRelatedUser') }}
               </div>
-              <div v-for="(item,index) of searchList" :key="index"
-                   @click="$emit('gotoUser', item)"
+              <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('user') }}</div>
+              <div v-for="(item,index) of searchList" :key="item.twitterId"
+                   @click="$emit('gotoUser', item);showSearchList=false"
                    class="border-b-1 border-color8B/30 light:border-colorF4
                                     flex items-center py-6px cursor-pointer">
                 <img class="w-40px h-40px rounded-full mr-10px"
@@ -39,13 +40,26 @@
                   <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
                 </div>
               </div>
+              <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('community.community') }}</div>
+              <div v-for="(item,index) of searchCommunityList" :key="item.communityId"
+                   @click.stop="$emit('gotoCommunity', item);showSearchList=false"
+                   class="border-b-1 border-color8B/30 light:border-colorF4
+                                    flex items-center py-6px cursor-pointer">
+                <img class="w-40px h-40px rounded-full mr-10px"
+                     :src="item.icon" alt=""
+                     @error="replaceEmptyImg">
+                <div class="text-left text-color8B light:text-color7D">
+                  <div class="mb-5px font-bold">{{item.communityName}}</div>
+                </div>
+              </div>
               <!--                      tag-->
+              <div class="c-text-black text-left text-color8B light:text-color7D my-10px text-16px">{{ $t('topicsView.topics') }}</div>
               <div class="flex flex-wrap items-center gap-5px">
                 <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
                                     whitespace-nowrap cursor-pointer light:text-color46 w-max flex"
                      :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
                      v-for="tag of seachTagList" :key="tag"
-                     @click.stop="$emit('setSelectTag', selectedTag)">
+                     @click.stop="$emit('setSelectTag', selectedTag);showSearchList=false">
                   #{{ tag.replace('#', '') }}
                 </div>
               </div>
@@ -58,7 +72,7 @@
 </template>
 
 <script>
-import {searchTags, searchUsers} from "@/api/api";
+import {searchTags, searchUsers, searchCommunityByName} from "@/api/api";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {mapState} from "vuex";
 import {useClickAway} from "@vant/use";
@@ -84,7 +98,8 @@ export default {
     return {
       searchText: '',
       searchList: [],
-      seachTagList: []
+      seachTagList: [],
+      searchCommunityList: [] //id,communityId, communityName, icon, banner
     }
   },
   methods: {
@@ -93,15 +108,20 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
+        const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
+        console.log(53, users, communities);
         this.showSearchList = true
         this.searchList = []
         this.seachTagList = []
+        this.searchCommunityList = []
         if (users && users.length > 0) {
           this.searchList = users
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
+        }
+        if (communities && communities.length > 0) {
+          this.searchCommunityList = communities
         }
       }
     },
@@ -109,6 +129,7 @@ export default {
       this.searchText = ''
       this.searchList = []
       this.seachTagList = []
+        this.searchCommunityList = []
     },
   }
 }

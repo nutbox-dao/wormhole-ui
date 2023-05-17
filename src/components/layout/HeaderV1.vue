@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import {searchTags, searchUsers} from "@/api/api";
+import {searchTags, searchUsers, searchCommunityByName} from "@/api/api";
 import {onCopy} from "@/utils/tool";
 import i18n from "@/lang";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
@@ -211,6 +211,7 @@ export default {
       searchText: '',
       searchList: [],
       seachTagList: [],
+      searchComList: [], // id, communityId, communityName,icon,banner
       MAX_RC,
       MAX_VP
     }
@@ -222,15 +223,19 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
+        const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
         this.$emit('showSearchList')
         this.searchList = []
         this.seachTagList = []
+        this.searchComList = []
         if (users && users.length > 0) {
           this.searchList = users
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
+        }
+        if (communities && communities.length > 0) {
+          this.searchComList = communities
         }
       }
     }

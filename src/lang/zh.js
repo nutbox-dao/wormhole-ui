@@ -7,6 +7,7 @@ export default {
   faq: '常见问题',
   userguide: '用户指南',
   aboutUs: '关于我们',
+  user: '用户',
   discord: 'Discord',
   twitter: 'Twitter',
   referral: '推荐',
@@ -17,6 +18,8 @@ export default {
   myReward: '我的奖励',
   search: '搜索',
   noRelatedUser: '没有相关的用户信息',
+  noRelatedTags: '没有相关的话题信息',
+  noRelatedCommunities: '没有相关的社区信息',
   trending: '流行',
   new: '最新',
   curated: '已策展',
@@ -78,7 +81,8 @@ export default {
   },
   topicsView: {
     title: '更多主题',
-    post: '帖子'
+    post: '帖子',
+    topics: '话题'
   },
   postView: {
     tweetPost: '发布一条推文',
@@ -348,7 +352,8 @@ export default {
     createdCurations: '策展任务',
     startTime: '开始时间',
     tasks: '任务',
-    blogTweetTip: '查看推特原文'
+    blogTweetTip: '查看推特原文',
+    retweet: '转推'
   },
   createCuration: {
     option1: '获得 Curation NFT',
@@ -392,6 +397,7 @@ export default {
     downloadTip: '长按下载'
   },
   community: {
+    community: '社区',
     communityFrom: '来自社区',
     hot: '热门',
     join: '加入',
