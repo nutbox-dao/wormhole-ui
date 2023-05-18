@@ -238,7 +238,10 @@ export default {
     if (!communityId) {
       return this.$router.go(-1);
     }
+    console.log(1);
     getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
+
+    console.log(2);
       if (res && res.communityId) {
         this.$store.commit('community/saveShowingCommunity', res)
       }
@@ -247,11 +250,12 @@ export default {
     })
 
     getCommunityConfigs(communityId).then(configs => {
+    console.log(3);
       if (!this.configs) {
         this.configs = {}
       }
       this.configs[communityId] = configs;
-      this.$store.commit('commnuity/saveConfigs', this.configs)
+      this.$store.commit('community/saveConfigs', this.configs)
     })
   },
 }
