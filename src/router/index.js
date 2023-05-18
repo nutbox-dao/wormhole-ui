@@ -163,6 +163,7 @@ const routes = [
     path: '/post-detail/:postId',
     name: 'post-detail',
     component: UserPostDetailView,
+    meta: {header: "hidden", tabbar: "hidden"}
   },
   {
     path: '/community',
@@ -174,7 +175,7 @@ const routes = [
     path: '/community-detail/:communityId',
     name: 'community-detail',
     component: CommunityDetail,
-    meta: {header: 'hidden'}
+    meta: {header: 'hidden', keepAlive: true, tabbar: "hidden"}
   },
   {
     path: '/topic-detail/:communityId',

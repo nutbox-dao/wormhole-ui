@@ -38,7 +38,8 @@
           </router-view>
         </div>
       </div>
-      <BottomTabbar class="flex 2md:hidden"
+      <BottomTabbar v-if="$route.meta.header!=='hidden'"
+                    class="flex 2md:hidden"
                     @login="login"></BottomTabbar>
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>

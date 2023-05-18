@@ -99,29 +99,30 @@
                 sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9">
             <button class="h-full px-10px"
                     :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
-                    @click="tabIndex=0">
+                    @click="changeTab(0)">
               {{$t('community.post')}}
             </button>
             <button class="h-full px-10px"
                     :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
-                    @click="tabIndex=1">
+                    @click="changeTab(1)">
               {{$t('community.topic')}}
             </button>
             <button class="h-full px-10px"
                     :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
-                    @click="tabIndex=2">
+                    @click="changeTab(2)">
               {{$t('community.member')}}
             </button>
             <button class="h-full px-10px"
                     :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
-                    @click="tabIndex=3">
+                    @click="changeTab(3)">
               {{$t('community.about')}}
             </button>
           </div>
           <div class="sm:px-15px">
-            <CommunityPost v-if="tabIndex===0" :id="showingCommunity.communityId"></CommunityPost>
-            <CommunityTopic v-if="tabIndex===1"></CommunityTopic>
-            <CommunityMember v-if="tabIndex===2"></CommunityMember>
+            <KeepAlive>
+              <component :is="activeComponent"
+                         :id="showingCommunity.communityId"/>
+            </KeepAlive>
           </div>
         </div>
         <div class="col-span-1 hidden 2md:block">
@@ -184,6 +185,7 @@ import { EVM_CHAINS } from '@/config'
 import { getCommunityById, getCommunityConfigs } from '@/api/api'
 import { notify } from "@/utils/notify";
 import ActivityItem from "@/components/community/ActivityItem";
+import {markRaw} from "vue";
 
 export default {
   name: "CommunityDetail",
@@ -201,7 +203,8 @@ export default {
       tabIndex: 0,
       communityId: '',
       isAdmin: false,
-      activityList: [1]
+      activityList: [1],
+      activeComponent: markRaw(CommunityPost)
     }
   },
   computed: {
@@ -225,12 +228,21 @@ export default {
       return {}
     }
   },
+  activated() {
+    if(this.scroll > 0) this.$refs.detailPageRef.scrollTo({top: this.scroll})
+  },
   methods: {
     formatAddress,
     onCopy,
     pageScroll() {
       this.scroll = this.$refs.detailPageRef.scrollTop
     },
+    changeTab(index) {
+      this.tabIndex = index
+      if(this.tabIndex===0) this.activeComponent = markRaw(CommunityPost)
+      if(this.tabIndex===1) this.activeComponent = markRaw(CommunityTopic)
+      if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
+    }
   },
   mounted () {
     const communityId = this.$route.params.communityId;
