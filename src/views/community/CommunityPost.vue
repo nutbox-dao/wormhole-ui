@@ -80,46 +80,8 @@ export default {
       width
     }
   },
-  props: {
-    communityId: {
-      type: String
-    },
-  },
   computed: {
-    // ...mapState('community', ['showingCommunity', 'trendingPosts', 'newPosts', 'promotionPosts', 'announces']),
-    loaded() {
-      return !!this.$store.state[this.communityId] && !!this.$store.state[this.communityId].showingCommunity
-    },
-    showingCommunity() {
-      if (this.loaded) {
-        return this.$store.state[this.communityId].showingCommunity
-      }
-      return {}
-    },
-    trendingPosts() {
-      if (this.loaded) {
-        return this.$store.state[this.communityId].trendingPosts
-      }
-      return []
-    },
-    newPosts() {
-      if (this.loaded) {
-        return this.$store.state[this.communityId].newPosts
-      }
-      return []
-    },
-    promotionPosts() {
-      if (this.loaded) {
-        return this.$store.state[this.communityId].promotionPosts
-      }
-      return []
-    },
-    announces() {
-      if (this.loaded) {
-        return this.$store.state[this.communityId].announces
-      }
-      return []
-    },
+    ...mapState('community', ['showingCommunity', 'trendingPosts', 'newPosts', 'promotionPosts', 'announces']),
     postsList() {
       if(this.typeIndex == 0) {
         return this.trendingPosts ?? []
@@ -147,24 +109,21 @@ export default {
   },
   methods: {
     refresh() {
-      if (!this.loaded) return;
-        getCommunityAnnouncement(this.communityId).then(ann => {
+        getCommunityAnnouncement(this.showingCommunity.communityId).then(ann => {
           if (ann && ann.length > 0) {
-            this.$store.commit(this.communityId + '/saveAnnounces', ann);
+            this.$store.commit('community/saveAnnounces', ann);
           }
         }).catch(e => {
 
         }).finally(() => {
 
         })
-        console.log(this.communityId, this.showingCommunity, this.trendingPosts);
         this.listFinished = false
         if (this.typeIndex == 0) {
-          getCommunityTrendingPosts(this.communityId).then(ps => {
+          getCommunityTrendingPosts(this.showingCommunity.communityId).then(ps => {
             console.log(1 ,ps);
             if (ps && ps.length >= 0) {
-              this.$store.commit(this.communityId + '/saveTrendingPosts', ps)
-              console.log(11, this.trendingPosts, this.$store.state[this.communityId].trendingPosts);
+              this.$store.commit('community/saveTrendingPosts', ps)
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -173,10 +132,10 @@ export default {
             notify({message: e, type: 'error'})
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 1) {
-          getCommunityPromotionPosts(this.communityId).then(ps => {
+          getCommunityPromotionPosts(this.showingCommunity.communityId).then(ps => {
             console.log(2, ps);
             if (ps && ps.length >= 0) {
-              this.$store.commit(this.communityId + '/savePromotionPosts', ps)
+              this.$store.commit('community/savePromotionPosts', ps)
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -185,10 +144,10 @@ export default {
             notify({message: e, type: 'error'})
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 2){
-          getCommunityNewPosts(this.communityId).then(ps => {
+          getCommunityNewPosts(this.showingCommunity.communityId).then(ps => {
             console.log(3, ps);
             if (ps && ps.length >= 0) {
-              this.$store.commit(this.communityId + '/saveNewPosts', ps)
+              this.$store.commit('community/savePromotionPosts', ps)
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -199,17 +158,17 @@ export default {
         }
     },
     onLoad() {
-      if (this.listLoading || this.listFinished || this.refreshing || !this.loaded) {
+      if (this.listLoading || this.listFinished || this.refreshing) {
         return;
       }
       if (this.typeIndex == 0) {
           const pageSize = 12;
           const trendingPosts = this.trendingPosts ?? [];
           const pageIndex = parseInt((trendingPosts.length - 1) / 12);
-          getCommunityTrendingPosts(this.communityId, pageSize, pageIndex).then(ps => {
+          getCommunityTrendingPosts(this.showingCommunity.communityId, pageSize, pageIndex).then(ps => {
             console.log(1 ,ps);
             if (ps && ps.length > 0) {
-              this.$store.commit(this.communityId + '/saveTrendingPosts', trendingPosts.concat(ps))
+              this.$store.commit('community/saveTrendingPosts', trendingPosts.concat(ps))
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -223,10 +182,10 @@ export default {
           if (promotionPosts.length > 0) {
             lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
           }
-          getCommunityPromotionPosts(this.communityId, lastPostId).then(ps => {
+          getCommunityPromotionPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
             console.log(2, ps);
             if (ps && ps.length > 0) {
-              this.$store.commit(this.communityId + '/savePromotionPosts', promotionPosts.concat(ps))
+              this.$store.commit('community/savePromotionPosts', promotionPosts.concat(ps))
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -240,10 +199,10 @@ export default {
           if (newPosts.length > 0) {
             lastPostId = newPosts[newPosts.length - 1].lastPostId;
           }
-          getCommunityNewPosts(this.communityId, lastPostId).then(ps => {
+          getCommunityNewPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
             console.log(3, ps);
             if (ps && ps.length > 0) {
-              this.$store.commit(this.communityId + '/saveNewPosts', newPosts.concat(ps))
+              this.$store.commit('community/saveNewPosts', newPosts.concat(ps))
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -263,7 +222,7 @@ export default {
   },
   async mounted () {
     let count = 0
-    while(!this.loaded) {
+    while(!this.showingCommunity || !this.showingCommunity.communityId) {
       await sleep(0.5);
       if (count++ > 30) {
         return;
