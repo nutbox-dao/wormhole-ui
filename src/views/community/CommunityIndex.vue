@@ -32,7 +32,7 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
                   <div v-for="(com, i) of communities" :key="i"
-                       @click="$store.commit('community/clearData');$store.commit('community/saveShowingCommunity', com);$router.push(`/community-detail/${com.communityId}`)">
+                       @click="$router.push(`/community-detail/${com.communityId}`);$store.commit('community/saveShowingCommunity', com);">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-1 border-color8B/30 light:border-colorF2 bg-blockBg
                                           light:bg-white"

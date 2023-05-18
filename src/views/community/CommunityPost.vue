@@ -110,7 +110,7 @@ export default {
   methods: {
     refresh() {
         getCommunityAnnouncement(this.showingCommunity.communityId).then(ann => {
-          if (ann && ann.length > 0) {
+          if (ann && ann.length >= 0) {
             this.$store.commit('community/saveAnnounces', ann);
           }
         }).catch(e => {

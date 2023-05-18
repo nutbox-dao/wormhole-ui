@@ -153,7 +153,7 @@
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
-          <div v-show="showCommunity && post.communityId"  @click.stop="$router.push('/community-detail/' + post.communityId)" class="flex items-center mt-10px text-14px">
+          <div v-show="showCommunity && post.communityId"  @click.stop="$store.commit('community/saveShowingCommunity', com);$router.push('/community-detail/' + post.communityId)" class="flex items-center mt-10px text-14px">
             <span>{{$t('community.communityFrom')}}: </span>
             <div class="flex items-center ml-10px">
               <img class="w-20px h-20px bg-color8B/30 rounded-full mr-4px" :src="communityIcon" alt="">

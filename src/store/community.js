@@ -10,8 +10,8 @@ export default {
   namespaced: true,
   state: {
     communities: [],
-
     configs: {},
+    
     showingCommunity: {},
     trendingPosts: [],
     newPosts: [],
@@ -55,7 +55,6 @@ export default {
     },
     
     clearData: (state) => {
-      state.configs = {};
       state.showingCommunity = {};
       state.trendingPosts = [];
       state.newPosts = [];

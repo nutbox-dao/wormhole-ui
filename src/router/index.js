@@ -209,6 +209,11 @@ router.beforeEach(async (to, from, next) => {
     })
     return
   }
+  if (to.name === 'community-detail') {
+    if (to.params.communityId !== store.state.community?.showingCommunity?.communityId) {
+      store.commit('community/clearData')
+    }
+  }
   next();
 })
 

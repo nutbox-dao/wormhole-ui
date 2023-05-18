@@ -119,7 +119,7 @@
             </button>
           </div>
           <div class="sm:px-15px">
-            <CommunityPost v-if="tabIndex===0"></CommunityPost>
+            <CommunityPost v-if="tabIndex===0" :id="showingCommunity.communityId"></CommunityPost>
             <CommunityTopic v-if="tabIndex===1"></CommunityTopic>
             <CommunityMember v-if="tabIndex===2"></CommunityMember>
           </div>
@@ -206,7 +206,7 @@ export default {
   },
   computed: {
     ...mapState('community', ['showingCommunity', 'configs']),
-    ...mapGetters('getAccountInfo'),
+    ...mapGetters(['getAccountInfo']),
     chain() {
       if (this.showingCommunity && this.showingCommunity.chainId) {
         for (let chainName of Object.keys(EVM_CHAINS)) {
@@ -238,10 +238,8 @@ export default {
     if (!communityId) {
       return this.$router.go(-1);
     }
-    console.log(1);
     getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
 
-    console.log(2);
       if (res && res.communityId) {
         this.$store.commit('community/saveShowingCommunity', res)
       }
@@ -250,7 +248,6 @@ export default {
     })
 
     getCommunityConfigs(communityId).then(configs => {
-    console.log(3);
       if (!this.configs) {
         this.configs = {}
       }
