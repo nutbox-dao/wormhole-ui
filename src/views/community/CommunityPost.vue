@@ -147,7 +147,7 @@ export default {
           getCommunityNewPosts(this.showingCommunity.communityId).then(ps => {
             console.log(3, ps);
             if (ps && ps.length >= 0) {
-              this.$store.commit('community/savePromotionPosts', ps)
+              this.$store.commit('community/saveNewPosts', ps)
               if (ps.length < 12) {
                 this.listFinished = true
               }
@@ -161,12 +161,16 @@ export default {
       if (this.listLoading || this.listFinished || this.refreshing) {
         return;
       }
+      if (this.postsList.length === 0) {
+        return;
+      }
+      this.listLoading = true;
       if (this.typeIndex == 0) {
           const pageSize = 12;
           const trendingPosts = this.trendingPosts ?? [];
-          const pageIndex = parseInt((trendingPosts.length - 1) / 12);
+          const pageIndex = Math.floor((trendingPosts.length - 1) / 12) + 1;
           getCommunityTrendingPosts(this.showingCommunity.communityId, pageSize, pageIndex).then(ps => {
-            console.log(1 ,ps);
+            console.log(11 ,ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveTrendingPosts', trendingPosts.concat(ps))
               if (ps.length < 12) {
@@ -183,7 +187,7 @@ export default {
             lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
           }
           getCommunityPromotionPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
-            console.log(2, ps);
+            console.log(22, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/savePromotionPosts', promotionPosts.concat(ps))
               if (ps.length < 12) {
@@ -200,7 +204,7 @@ export default {
             lastPostId = newPosts[newPosts.length - 1].lastPostId;
           }
           getCommunityNewPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
-            console.log(3, ps);
+            console.log(33, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveNewPosts', newPosts.concat(ps))
               if (ps.length < 12) {
@@ -223,8 +227,8 @@ export default {
   async mounted () {
     let count = 0
     while(!this.showingCommunity || !this.showingCommunity.communityId) {
-      await sleep(0.5);
-      if (count++ > 30) {
+      await sleep(0.1);
+      if (count++ > 50) {
         return;
       }
     }
