@@ -19,7 +19,7 @@
             <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
             <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
                  style="word-break: break-word"
-                 v-html="$t('metamaskView.p4', {account: `<strong class='text-color62 c-text-black'>@${thirdPartInfo || '0x'}</strong>`})">
+                 v-html="$t('metamaskView.p4', {account: `<strong class='text-color62 c-text-black'>${thirdPartInfo.ethAddress || '0x'}</strong>`})">
             </div>
           </div>
         </template>
