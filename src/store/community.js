@@ -1,5 +1,5 @@
 /**
- * This is for community common data and current showing on page
+ * This module is for community common data and current showing on page
  * Include the all infos of this community
  * The data will be refresh when user change to another community
  */
@@ -52,23 +52,6 @@ export default {
     },
     saveMembers: (state, memebers) => {
       state.memebers = memebers
-    },
-    
-    clearData: (state) => {
-      state.configs = {};
-      state.showingCommunity = {};
-      state.trendingPosts = [];
-      state.newPosts = [];
-      state.promotionPosts = [];
-      state.activities = [];
-      state.announces = [];
-      state.topics = [];
-      state.memebers = [];
     }
-  },
-  getters: {
-    isMainChain: (state) => {
-      return parseInt(state.chainId) === parseInt(CHAIN_ID);
-    },
-  },
+  }
 };

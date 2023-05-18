@@ -119,7 +119,7 @@
             </button>
           </div>
           <div class="sm:px-15px">
-            <CommunityPost v-if="tabIndex===0"></CommunityPost>
+            <CommunityPost :community-id="communityId" v-if="tabIndex===0"></CommunityPost>
             <CommunityTopic v-if="tabIndex===1"></CommunityTopic>
             <CommunityMember v-if="tabIndex===2"></CommunityMember>
           </div>
@@ -184,6 +184,7 @@ import { EVM_CHAINS } from '@/config'
 import { getCommunityById, getCommunityConfigs } from '@/api/api'
 import { notify } from "@/utils/notify";
 import ActivityItem from "@/components/community/ActivityItem";
+import communityModule from '@/store/community'
 
 export default {
   name: "CommunityDetail",
@@ -205,10 +206,16 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs']),
-    ...mapGetters('getAccountInfo'),
+    ...mapGetters(['getAccountInfo']),
+    loaded() {
+      return !!this.$store.state[this.communityId] && !!this.$store.state[this.communityId].showingCommunity
+    },
+    showingCommunity() {
+      if (!this.loaded) return {}
+      return this.$store.state[this.communityId].showingCommunity;
+    },
     chain() {
-      if (this.showingCommunity && this.showingCommunity.chainId) {
+      if (this.loaded) {
         for (let chainName of Object.keys(EVM_CHAINS)) {
           const c = EVM_CHAINS[chainName]
             if (c.id === this.showingCommunity.chainId) {
@@ -219,10 +226,8 @@ export default {
       return {}
     },
     config() {
-      if (this.communityId && this.configs[this.communityId]) {
-        return this.configs[this.communityId]
-      }
-      return {}
+      if (!this.loaded) return []
+      return this.$store.state[this.communityId].configs;
     }
   },
   methods: {
@@ -238,9 +243,14 @@ export default {
     if (!communityId) {
       return this.$router.go(-1);
     }
+
+    if(!this.$store.state[communityId]) {
+      this.$store.registerModule(communityId, communityModule)
+    }
+    
     getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
       if (res && res.communityId) {
-        this.$store.commit('community/saveShowingCommunity', res)
+        this.$store.commit(res.communityId + '/saveShowingCommunity', res)
       }
     }).catch(e => {
       notify({error: e, type: 'error'})
@@ -250,8 +260,8 @@ export default {
       if (!this.configs) {
         this.configs = {}
       }
-      this.configs[communityId] = configs;
-      this.$store.commit('commnuity/saveConfigs', this.configs)
+      this.configs = configs;
+      this.$store.commit(communityId + '/saveConfigs', this.configs)
     })
   },
 }

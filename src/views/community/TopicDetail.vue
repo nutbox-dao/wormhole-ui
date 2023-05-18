@@ -178,6 +178,7 @@ import { mapState, mapGetters } from 'vuex'
 import { getCommunityById } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
+import communityModule from '@/store/community'
 
 export default {
   name: "TopicDetail",
@@ -202,7 +203,7 @@ export default {
   },
   computed: {
     ...mapState('community', ['showingCommunity', 'configs']),
-    ...mapGetters('getAccountInfo'),
+    ...mapGetters(['getAccountInfo']),
   },
   methods: {
     formatAddress,
@@ -230,7 +231,7 @@ export default {
     }
     getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
       if (res && res.communityId) {
-        this.$store.commit('community/saveShowingCommunity', res)
+        this.$store.commit(res.communityId + '/saveShowingCommunity', res);
       }
     }).catch(e => {
       notify({error: e, type: 'error'})

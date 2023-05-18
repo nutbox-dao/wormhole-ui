@@ -330,7 +330,7 @@ export const getCommunityById = async (twitterId, communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityById', {twitterId, communityId})
 
 export const getCommunityConfigs = async (communityId) =>
-    get(BACKEND_API_URL + '/conmmunity/getCommunityConfigs', {communityId})
+    get(BACKEND_API_URL + '/community/getCommunityConfigs', {communityId})
 
 export const getCommunityTrendingPosts = async (communityId, pageSize, pageIndex) =>
     get(BACKEND_API_URL + '/community/getCommunityTrendingPosts', { communityId, pageSize, pageIndex })

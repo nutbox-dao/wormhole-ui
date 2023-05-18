@@ -32,7 +32,7 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
                   <div v-for="(com, i) of communities" :key="i"
-                       @click="$store.commit('community/saveShowingCommunity', com);$router.push(`/community-detail/${com.communityId}`)">
+                       @click="gotoCommunity(com)">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-1 border-color8B/30 light:border-colorF2 bg-blockBg
                                           light:bg-white"
@@ -53,6 +53,7 @@ import CommunityItem from "@/components/community/CommunityItem";
 import { getCommunities } from '@/api/api'
 import { mapState, mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";
+import communityModule from '@/store/community'
 
 export default {
   name: "CommunityIndex",
@@ -83,6 +84,9 @@ export default {
       } finally {
         this.refreshing = false
       }
+    },
+    gotoCommunity(com) {
+      this.$router.push(`/community-detail/${com.communityId}`)
     }
   },
   mounted () {

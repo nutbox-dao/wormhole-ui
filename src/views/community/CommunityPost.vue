@@ -69,6 +69,7 @@ import {useWindowSize} from "@vant/use";
 import { getCommunityActivePosts, getCommunityTrendingPosts, getCommunityNewPosts, getCommunityPromotionPosts, getCommunityAnnouncement } from '@/api/api'
 import { mapGetters, mapState } from "vuex";
 import { sleep } from "@/utils/helper";
+import { notify } from '@/utils/notify'
 
 export default {
   name: "CommunityPost",
@@ -79,8 +80,46 @@ export default {
       width
     }
   },
+  props: {
+    communityId: {
+      type: String
+    },
+  },
   computed: {
-    ...mapState('community', ['showingCommunity', 'trendingPosts', 'newPosts', 'promotionPosts', 'announces']),
+    // ...mapState('community', ['showingCommunity', 'trendingPosts', 'newPosts', 'promotionPosts', 'announces']),
+    loaded() {
+      return !!this.$store.state[this.communityId] && !!this.$store.state[this.communityId].showingCommunity
+    },
+    showingCommunity() {
+      if (this.loaded) {
+        return this.$store.state[this.communityId].showingCommunity
+      }
+      return {}
+    },
+    trendingPosts() {
+      if (this.loaded) {
+        return this.$store.state[this.communityId].trendingPosts
+      }
+      return []
+    },
+    newPosts() {
+      if (this.loaded) {
+        return this.$store.state[this.communityId].newPosts
+      }
+      return []
+    },
+    promotionPosts() {
+      if (this.loaded) {
+        return this.$store.state[this.communityId].promotionPosts
+      }
+      return []
+    },
+    announces() {
+      if (this.loaded) {
+        return this.$store.state[this.communityId].announces
+      }
+      return []
+    },
     postsList() {
       if(this.typeIndex == 0) {
         return this.trendingPosts ?? []
@@ -108,40 +147,111 @@ export default {
   },
   methods: {
     refresh() {
-        getCommunityAnnouncement(this.showingCommunity.communityId).then(ann => {
+      if (!this.loaded) return;
+        getCommunityAnnouncement(this.communityId).then(ann => {
           if (ann && ann.length > 0) {
-            this.$store.commit('community/saveAnnounces', ann);
+            this.$store.commit(this.communityId + '/saveAnnounces', ann);
           }
         }).catch(e => {
 
         }).finally(() => {
 
         })
+        console.log(this.communityId, this.showingCommunity, this.trendingPosts);
+        this.listFinished = false
         if (this.typeIndex == 0) {
-          getCommunityTrendingPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityTrendingPosts(this.communityId).then(ps => {
             console.log(1 ,ps);
-            if (ps && ps.length > 0) {
-              this.$store.commit('community/saveTrendingPosts', ps)
+            if (ps && ps.length >= 0) {
+              this.$store.commit(this.communityId + '/saveTrendingPosts', ps)
+              console.log(11, this.trendingPosts, this.$store.state[this.communityId].trendingPosts);
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
             }
-          }).catch(e => {}).finally()
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 1) {
-          getCommunityPromotionPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityPromotionPosts(this.communityId).then(ps => {
             console.log(2, ps);
-            if (ps && ps.length > 0) {
-              this.$store.commit('community/savePromotionPosts', ps)
+            if (ps && ps.length >= 0) {
+              this.$store.commit(this.communityId + '/savePromotionPosts', ps)
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
             }
-          }).catch(e => {}).finally()
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 2){
-          getCommunityNewPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityNewPosts(this.communityId).then(ps => {
             console.log(3, ps);
-            if (ps && ps.length > 0) {
-              this.$store.commit('community/savePromotionPosts', ps)
+            if (ps && ps.length >= 0) {
+              this.$store.commit(this.communityId + '/saveNewPosts', ps)
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
             }
-          }).catch(e => {}).finally()
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.refreshing = false)
         }
     },
     onLoad() {
-
+      if (this.listLoading || this.listFinished || this.refreshing || !this.loaded) {
+        return;
+      }
+      if (this.typeIndex == 0) {
+          const pageSize = 12;
+          const trendingPosts = this.trendingPosts ?? [];
+          const pageIndex = parseInt((trendingPosts.length - 1) / 12);
+          getCommunityTrendingPosts(this.communityId, pageSize, pageIndex).then(ps => {
+            console.log(1 ,ps);
+            if (ps && ps.length > 0) {
+              this.$store.commit(this.communityId + '/saveTrendingPosts', trendingPosts.concat(ps))
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
+            }
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.listLoading = false)
+        }else if (this.typeIndex == 1) {
+          const promotionPosts = this.promotionPosts ?? [];
+          let lastPostId;
+          if (promotionPosts.length > 0) {
+            lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
+          }
+          getCommunityPromotionPosts(this.communityId, lastPostId).then(ps => {
+            console.log(2, ps);
+            if (ps && ps.length > 0) {
+              this.$store.commit(this.communityId + '/savePromotionPosts', promotionPosts.concat(ps))
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
+            }
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.listLoading = false)
+        }else if (this.typeIndex == 2){
+          const newPosts = this.newPosts ?? [];
+          let lastPostId;
+          if (newPosts.length > 0) {
+            lastPostId = newPosts[newPosts.length - 1].lastPostId;
+          }
+          getCommunityNewPosts(this.communityId, lastPostId).then(ps => {
+            console.log(3, ps);
+            if (ps && ps.length > 0) {
+              this.$store.commit(this.communityId + '/saveNewPosts', newPosts.concat(ps))
+              if (ps.length < 12) {
+                this.listFinished = true
+              }
+            }
+          }).catch(e => {
+            notify({message: e, type: 'error'})
+          }).finally(() => this.listLoading = false)
+        }
     },
     gotoDetail(post, index) {
       console.log(post)
@@ -153,7 +263,7 @@ export default {
   },
   async mounted () {
     let count = 0
-    while(!this.showingCommunity || !this.showingCommunity.communityId) {
+    while(!this.loaded) {
       await sleep(0.5);
       if (count++ > 30) {
         return;
