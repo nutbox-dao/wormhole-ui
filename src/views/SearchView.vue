@@ -44,9 +44,7 @@
           </div>
         </div>
         <div class="text-center my-8px">
-          <button v-if="userListIsFinished"
-                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-          <button v-else class="text-color62"
+          <button v-if="!userListIsFinished" class="text-color62"
                   @click="viewMoreUser">{{$t('common.viewMore')}}</button>
         </div>
       </template>
@@ -67,9 +65,7 @@
           </div>
         </div>
         <div class="text-center my-8px">
-          <button v-if="communityListIsFinished"
-                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-          <button v-else class="text-color62"
+          <button v-if="!communityListIsFinished" class="text-color62"
                   @click="viewMoreCommunity">{{$t('common.viewMore')}}</button>
         </div>
       </template>
@@ -90,9 +86,7 @@
           </div>
         </div>
         <div class="text-center my-8px">
-          <button v-if="tagListIsFinished"
-                  class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-          <button v-else class="text-color62"
+          <button v-if="!tagListIsFinished" class="text-color62"
                   @click="viewMoreTag">{{$t('common.viewMore')}}</button>
         </div>
       </template>

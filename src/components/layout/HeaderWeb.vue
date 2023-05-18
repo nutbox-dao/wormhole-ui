@@ -41,10 +41,8 @@
                 </div>
               </div>
               <div class="text-center my-8px">
-                <button v-if="userListIsFinished"
-                        class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-                <button v-else class="text-color62"
-                        @click="viewMoreUser">{{$t('common.viewMore')}}</button>
+                <button v-if="!userListIsFinished" class="text-color62"
+                        @click.stop="viewMoreUser">{{$t('common.viewMore')}}</button>
               </div>
               <div class="c-text-black text-left text-color8B light:text-color7D mt-20px mb-10px text-16px">{{ $t('community.community') }}</div>
 
@@ -60,10 +58,8 @@
                 </div>
               </div>
               <div class="text-center my-8px">
-                <button v-if="communityListIsFinished"
-                        class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-                <button v-else class="text-color62"
-                        @click="viewMoreCommunity">{{$t('common.viewMore')}}</button>
+                <button v-if="!communityListIsFinished" class="text-color62"
+                        @click.stop="viewMoreCommunity">{{$t('common.viewMore')}}</button>
               </div>
               <!--                      tag-->
               <div class="c-text-black text-left text-color8B light:text-color7D mt-20px mb-10px text-16px">{{ $t('topicsView.topics') }}</div>
@@ -77,10 +73,8 @@
                 </div>
               </div>
               <div class="text-center my-8px">
-                <button v-if="tagListIsFinished"
-                        class="text-color8B light:text-color7D">{{$t('common.noMore')}}</button>
-                <button v-else class="text-color62"
-                        @click="viewMoreTag">{{$t('common.viewMore')}}</button>
+                <button v-if="!tagListIsFinished" class="text-color62"
+                        @click.stop="viewMoreTag">{{$t('common.viewMore')}}</button>
               </div>
             </div>
           </div>
@@ -156,22 +150,22 @@ export default {
       this.searchText = ''
       this.searchList = []
       this.seachTagList = []
-        this.searchCommunityList = []
+      this.searchCommunityList = []
     },
     viewMoreUser() {
       if(this.userListIsFinished) return
       this.showSearchUserNum += 5
-      this.userListIsFinished = (this.showSearchUserNum>this.searchList.length)
+      this.userListIsFinished = (this.showSearchUserNum>=this.searchList.length)
     },
     viewMoreCommunity() {
       if(this.communityListIsFinished) return
       this.showSearchCommunityNum += 5
-      this.communityListIsFinished = (this.showSearchCommunityNum>this.searchCommunityList.length)
+      this.communityListIsFinished = (this.showSearchCommunityNum>=this.searchCommunityList.length)
     },
     viewMoreTag() {
       if(this.tagListIsFinished) return
       this.showSearchTagNum += 15
-      this.tagListIsFinished = (this.showSearchTagNum>this.seachTagList.length)
+      this.tagListIsFinished = (this.showSearchTagNum>=this.seachTagList.length)
     }
   }
 }
