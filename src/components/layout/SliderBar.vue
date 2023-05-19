@@ -42,7 +42,7 @@
       </button>
       <template v-else>
         <div class="flex items-center gap-15px mb-15px">
-          <el-tooltip popper-class="shadow-popper-tip">
+          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
             <template #content>
               <div class="max-w-14rem text-white light:text-blueDark">
                 {{$t('postView.p1')}}
@@ -61,7 +61,7 @@
               </el-progress>
             </button>
           </el-tooltip>
-          <el-tooltip popper-class="shadow-popper-tip">
+          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
             <template #content>
               <div class="max-w-14rem text-white light:text-blueDark">
                 {{$t('postView.vpDes')}}

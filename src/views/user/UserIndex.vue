@@ -12,7 +12,7 @@
     </button>
     <template v-if="!loading">
       <div class="container max-w-50rem mx-auto mb-30px px-1rem">
-        <div class="flex justify-end pt-1rem">
+        <div class="flex justify-end pt-1rem 2md:hidden">
           <Menu></Menu>
         </div>
         <div class="mt-1rem flex items-center">
@@ -35,7 +35,7 @@
               <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
             </div>
           </div>
-          <div class="flex items-center mx-15px gap-15px">
+          <div class="flex items-center mx-15px gap-15px 2md:hidden">
             <el-tooltip popper-class="shadow-popper-tip">
               <template #content>
                 <div class="max-w-14rem text-white light:text-blueDark">
@@ -108,7 +108,8 @@
                   </span>
                 <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
               </div>
-              <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/wallet')" class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
+              <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/wallet')"
+                      class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white text-14px">
                 {{$t('community.enter')}}
               </button>
             </div>
@@ -125,7 +126,7 @@
 <!--          </div>-->
 <!--        </div>-->
       </div>
-      <div class="border-b-1 border-color84/30 sticky -top-1px z-9">
+      <div class="border-b-1 border-color84/30 sticky -top-1px z-9 bg-primaryBg light:bg-white">
         <div class="bg-blockBg sm:bg-transparent overflow-hidden
                       light:bg-white light:sm:bg-transparent pt-7px">
           <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">

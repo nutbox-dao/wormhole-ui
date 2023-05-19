@@ -69,7 +69,7 @@ const routes = [
     path: '/account-info/:user',
     name: 'account-info',
     component: AccountInfoView,
-    meta: {gotoHome: true}
+    meta: {gotoHome: true, header: 'hidden', tabbar: 'hidden'}
   },
   {
     path: '/search-user/:user',
@@ -105,7 +105,7 @@ const routes = [
     path: '/wallet/:user',
     name: 'wallet',
     component: WalletIndex,
-    meta: {gotoHome: true},
+    meta: {gotoHome: true, header: 'hidden', tabbar: 'hidden'},
     children: [
       {
         path: '/wallet/:user/wallet',

@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <el-popover popper-class="c-popper" ref="menuBox" placement="top-start">
+    <el-popover popper-class="c-popper" ref="menuBox" placement="top-start" :show-after="500">
       <template #reference>
         <button class="bg-transparent h-2rem flex items-center">
           <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem black-filter "
