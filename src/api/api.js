@@ -282,6 +282,18 @@ export const setAutoCurationIsDistributed = async (twitterId, curationIds) =>
 export const getCurationRewardsOfPost = async (postId) =>
     get(BACKEND_API_URL + '/curation/getCurationRewardsOfPost', {postId})
 
+export const getCommunityPendingRewards = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunityPendingRewards', { twitterId })
+
+export const getCommunityAuthorPendingRewards = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunityAuthorPendingRewards', { twitterId })
+
+export const getCommunityHistoryRewards = async (twitterId, communityId, createAt) =>
+    get(BACKEND_API_URL + '/community/getCommunityHistoryRewards', { twitterId, communityId, createAt })
+
+export const getCommunityAuthorHistoryRewards = async (twitterId, createAt) =>
+    get(BACKEND_API_URL + '/community/getCommunityAuthorHistoryRewards', { twitterId, communityId, createAt })
+
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
     return get('https://restapi.amap.com/v3/assistant/coordinate/convert', {
