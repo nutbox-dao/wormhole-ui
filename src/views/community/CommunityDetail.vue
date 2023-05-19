@@ -230,21 +230,6 @@ export default {
   },
   activated() {
     if(this.scroll > 0) this.$refs.detailPageRef.scrollTo({top: this.scroll})
-  },
-  methods: {
-    formatAddress,
-    onCopy,
-    pageScroll() {
-      this.scroll = this.$refs.detailPageRef.scrollTop
-    },
-    changeTab(index) {
-      this.tabIndex = index
-      if(this.tabIndex===0) this.activeComponent = markRaw(CommunityPost)
-      if(this.tabIndex===1) this.activeComponent = markRaw(CommunityTopic)
-      if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
-    }
-  },
-  mounted () {
     const communityId = this.$route.params.communityId;
     this.communityId = communityId
     if (!communityId) {
@@ -266,6 +251,22 @@ export default {
       this.configs[communityId] = configs;
       this.$store.commit('community/saveConfigs', this.configs)
     })
+  },
+  methods: {
+    formatAddress,
+    onCopy,
+    pageScroll() {
+      this.scroll = this.$refs.detailPageRef.scrollTop
+    },
+    changeTab(index) {
+      this.tabIndex = index
+      if(this.tabIndex===0) this.activeComponent = markRaw(CommunityPost)
+      if(this.tabIndex===1) this.activeComponent = markRaw(CommunityTopic)
+      if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
+    }
+  },
+  mounted () {
+    
   },
 }
 </script>
