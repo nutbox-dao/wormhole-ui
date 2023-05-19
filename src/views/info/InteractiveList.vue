@@ -28,6 +28,9 @@
 </template>
 
 <script>
+import { getPostNotiByUserId } from '@/api/api'
+import { mapState, mapGetters } from 'vuex';
+import { notify } from '@/utils/notify';
 
 export default {
   name: "InteractiveList",
@@ -39,14 +42,61 @@ export default {
       listData: []
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('noti', ['postNotis'])
+  },
   methods: {
-    onRefresh() {
-
+    async onRefresh() {
+      if (this.refreshing || this.listLoading) {
+        return;
+      }
+      try{
+        this.refreshing = true
+        let cursorId = null;
+        if (this.postNotis && this.postNotis.length > 0) {
+          cursorId = this.postNotis[0].id
+        }
+        const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, true);
+        if (noti && noti.length >= 0) {
+          this.$store.commit('noti/savePostNotis', this.postNotis.concat(noti));
+          if (noti.length === 0) {
+            this.finished = true;
+          }
+        }
+      } catch (e) {
+        notify({message: e, type: error})
+      } finally {
+        this.refreshing = false
+      }
     },
-    onLoad() {
-
+    async onLoad() {
+      if (this.finished || this.refreshing || this.listLoading) {
+        return;
+      }
+      try{
+        this.listLoading = true
+        let cursorId = null;
+        if (this.postNotis && this.postNotis.length > 0) {
+          cursorId = this.postNotis[this.postNotis.length - 1].id
+        }
+        const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, false);
+        if (noti && noti.length >= 0) {
+          this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
+          if (noti.length === 0) {
+            this.finished = true;
+          }
+        }
+      } catch (e) {
+        
+      } finally {
+        this.listLoading = false
+      }
     }
-  }
+  },
+  mounted () {
+    this.onRefresh();
+  },
 }
 </script>
 

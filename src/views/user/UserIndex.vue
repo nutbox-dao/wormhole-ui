@@ -98,17 +98,17 @@
                 <div class="w-30px min-w-30px h-30px rounded-full bg-color62/20 flex justify-center items-center mr-10px">
                   <i class="icon-wallet w-15px h-15px min-w-15px"></i>
                 </div>
-                <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
+                <span v-if="getAccountInfo?.ethAddress" class="flex items-center truncate">
                     <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
-                      {{accountInfo ? accountInfo.ethAddress : ''}}
+                      {{getAccountInfo ? getAccountInfo.ethAddress : ''}}
                     </span>
                     <img class="w-16px min-w-16px light:opacity-30 ml-3px mr-8px"
-                         @click.stop="copyAddress(accountInfo.ethAddress)"
+                         @click.stop="copyAddress(getAccountInfo.ethAddress)"
                          src="~@/assets/icon-copy-primary.svg" alt="">
                   </span>
                 <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
               </div>
-              <button class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
+              <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/wallet')" class="gradient-bg gradient-bg-color3 h-30px px-15px rounded-full font-bold text-white">
                 {{$t('community.enter')}}
               </button>
             </div>

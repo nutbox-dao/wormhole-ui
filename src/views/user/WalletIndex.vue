@@ -4,9 +4,12 @@
       <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2 bg-primaryBg light:bg-white">
         <div class="px-1.5rem pt-25px sm:px-0 container mx-auto sm:max-w-600px lg:max-w-35rem">
           <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold relative px-1/5">
-            <router-link to="/" class="absolute left-0 top-1/2 transform -translate-y-1/2">
+            <!-- <router-link to="/" class="absolute left-0 top-1/2 transform -translate-y-1/2">
               <i class="icon-back w-20px h-20px mb-2px"></i>
-            </router-link>
+            </router-link> -->
+            <button @click="$router.go(-1)"  class="absolute left-0 top-1/2 transform -translate-y-1/2">
+              <i class="icon-back w-20px h-20px mb-2px"></i>
+            </button>
             <router-link v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
                          :to="`/wallet/${$route.params.user}/wallet`" v-slot="{isActive}"
                          class="flex-1 flex flex-col items-center cursor-pointer">

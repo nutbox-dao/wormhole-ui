@@ -187,13 +187,13 @@ const routes = [
     path: '/influence',
     name: 'influence',
     component: InfluenceIndex,
-    meta: {keepAlive: true}
+    meta: {keepAlive: true, gotoHome: true}
   },
   {
     path: '/info',
     name: 'info',
     component: InfoIndex,
-    meta: {header: 'hidden', tabbar: 'hidden'}
+    meta: {header: 'hidden', tabbar: 'hidden', gotoHome: true}
   },
 ]
 

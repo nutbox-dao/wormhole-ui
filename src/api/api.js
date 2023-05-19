@@ -65,6 +65,25 @@ export const generateWordcloud = async (twitterId) =>
 export const getUserVPRC = async (twitterId) =>
     get(BACKEND_API_URL + '/users/getUserVPRC', {twitterId})  
 
+/****************************************  notification  ****************************************/
+export const getPostNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getPostNotiByUserId', {twitterId, cursorId, isNew})
+
+export const getTipNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getTipNotiByUserId', {twitterId, cursorId, isNew})
+
+export const getSysNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getSysNotiByUserId', {twitterId, cursorId, isNew})
+
+export const hasNewNoti = async (twitterId) =>
+    post(BACKEND_API_URL + '/noti/hasNewNoti', {twitterId})
+
+export const setNotiReaded = async (ids) =>
+    post(BACKEND_API_URL + '/noti/setNotiReaded', {ids})
+
+export const readAll = async (twitterId) =>
+    post(BACKEND_API_URL + '/noti/readAll', {twitterId})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})

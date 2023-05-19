@@ -20,7 +20,7 @@
           <span>{{$t('slider.influence')}}</span>
         </button>
       </router-link>
-      <router-link to="/influence" class="flex-1 w-full">
+      <router-link to="/info" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
           <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon3.svg" alt="">
           <span>{{$t('slider.info')}}</span>

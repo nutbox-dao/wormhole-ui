@@ -7,7 +7,7 @@
         <button @click="$router.go(-1)" class="absolute left-15px">
           <i class="icon-back w-20px h-20px"></i>
         </button>
-        <button class="absolute right-15px filter light:brightness-50">
+        <button class="absolute right-15px filter light:brightness-50" @click="readAll">
           <img class="w-22px" src="~@/assets/icon-msg-read-white.svg" alt="">
         </button>
         <button class="h-full px-10px"
@@ -35,14 +35,38 @@
 
 <script>
 import InteractiveList from "@/views/info/InteractiveList";
+import { readAll, hasNewNoti } from "@/api/api";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "InfoIndex",
   components: {InteractiveList},
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('noti', ['newNotis', 'postNotis', 'tipNotis', 'sysNotis'])
+  },
   data() {
     return {
       tabIndex: 0
     }
-  }
+  },
+  methods: {
+    async readAll() {
+      try{
+        await readAll(this.getAccountInfo.twitterId);
+        this.$store.commit('noti/readAll')
+      } catch (e) {
+        
+      } finally {
+        
+      }
+    }
+  },
+  mounted () {
+    hasNewNoti(this.getAccountInfo.twitterId).then(res => {
+
+    })
+  },
 }
 </script>
 
