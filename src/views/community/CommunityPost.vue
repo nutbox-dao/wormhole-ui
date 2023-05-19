@@ -1,7 +1,15 @@
 <template>
   <div class="py-20px">
     <div class="w-full" ref="wRef"></div>
-    <template v-if="announces.length>0">
+    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+          v-if="refreshing && (!announces || announces.length === 0)">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
+      <div v-else-if="!refreshing && (!announces || announces.length === 0)" class="py-2rem">
+        <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+        <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+      </div>
+    <template v-else>
       <van-swipe :loop="false"
                   :autoplay="0"
                   :width="width<640?width*0.85:$refs.wRef.clientWidth"

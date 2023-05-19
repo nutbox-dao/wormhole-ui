@@ -3,22 +3,37 @@
     <div v-if="scroll>30 || width>640"
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden
                 bg-primaryBg light:bg-white border-b-1 border-headerBorder light:border-headerBorderLight">
-      <router-link to="/community" class="absolute left-15px">
+      <!-- <router-link to="/community" class="absolute left-15px">
         <i class="icon-back w-20px h-20px"></i>
-      </router-link>
+      </router-link> -->
+      <button @click="$router.go(-1)"
+              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                      flex items-center justify-center absolute left-15px">
+        <i class="icon-back w-20px h-20px"></i>
+      </button>
       <span class="text-20px c-text-black">{{showingCommunity.communityName}}</span>
     </div>
     <div v-else
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden">
-      <router-link to="/community" class="absolute left-15px">
+      <!-- <router-link to="/community" class="absolute left-15px">
         <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
-      </router-link>
+      </router-link> -->
+      <button @click="$router.go(-1)"
+              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                      flex items-center justify-center absolute left-15px">
+          <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
+      </button>
     </div>
     <div class="container mx-auto w-full sm:max-w-50rem">
       <div class="hidden 2md:flex h-70px items-center ">
-        <router-link to="/community" class="w-40px h-40px bg-white/20 rounded-full flex items-center justify-center">
+        <!-- <router-link to="/community" class="w-40px h-40px bg-white/20 rounded-full flex items-center justify-center">
           <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
-        </router-link>
+        </router-link> -->
+        <button @click="$router.go(-1)"
+              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                      flex items-center justify-center absolute left-15px">
+          <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
+      </button>
       </div>
     </div>
     <div class="sm:pt-85px 2md:pt-0 pb-20px">
