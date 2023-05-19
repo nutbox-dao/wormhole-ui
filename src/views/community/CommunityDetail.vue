@@ -1,5 +1,6 @@
 <template>
   <div class="h-full overflow-auto 2md:px-15px" ref="detailPageRef" @scroll="pageScroll">
+    <!-- back button -->
     <div v-if="scroll>30 || width>640"
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden
                 bg-primaryBg light:bg-white border-b-1 border-headerBorder light:border-headerBorderLight">
@@ -7,8 +8,7 @@
         <i class="icon-back w-20px h-20px"></i>
       </router-link> -->
       <button @click="$router.go(-1)"
-              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
-                      flex items-center justify-center absolute left-15px">
+              class="absolute left-15px">
         <i class="icon-back w-20px h-20px"></i>
       </button>
       <span class="text-20px c-text-black">{{showingCommunity.communityName}}</span>
@@ -19,8 +19,7 @@
         <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
       </router-link> -->
       <button @click="$router.go(-1)"
-              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
-                      flex items-center justify-center absolute left-15px">
+              class="absolute left-15px">
           <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
       </button>
     </div>
@@ -30,8 +29,7 @@
           <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
         </router-link> -->
         <button @click="$router.go(-1)"
-              class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
-                      flex items-center justify-center absolute left-15px">
+              class="w-40px h-40px bg-white/20 rounded-full flex items-center justify-center">
           <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
       </button>
       </div>
@@ -40,6 +38,7 @@
       <div class="2md:grid grid-cols-3 gap-15px container mx-auto sm:max-w-50rem">
         <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px">
           <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
+            <!-- description header -->
             <c-image :src="showingCommunity.banner"
                      class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0"></c-image>
             <div class="relative mt-95px px-15px">
@@ -65,14 +64,17 @@
                       <span class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
                     </button>
                   </div>
+                  <!-- tag -->
                   <div class="flex flex-wrap gap-5px">
-            <span v-for="(tag, tIndex) of showingCommunity.tags ? showingCommunity.tags.split(',') : []" :key="tIndex"
-                  class="border-1 border-color62 rounded-full bg-colorF1 text-color62 text-12px h-18px
-                         px-8px flex justify-center items-center">{{tag}}</span>
+                    <span v-for="(tag, tIndex) of showingCommunity.tags ? showingCommunity.tags.split(',') : []" :key="tIndex"
+                          class="border-1 border-color62 rounded-full bg-colorF1 text-color62 text-12px h-18px
+                                px-8px flex justify-center items-center">{{tag}}
+                    </span>
                   </div>
                 </div>
               </div>
               <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
+              <!-- social link -->
               <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
                 <div v-for="(type, index) of Object.keys(config)" :key="type" class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
                   <img v-show="type === 'twitter'" class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
@@ -83,13 +85,14 @@
                   <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
                 </div>
               </div>
+              <!-- token info -->
               <div class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
                           flex 2md:hidden justify-between items-center">
                 <div class="flex items-center">
                   <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
-                       :src="TokenIcon[chain.main? chain.main.symbol : '']" alt="">
+                       :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
                   <div class="flex flex-col items-start">
-                    <div class="text-14px font-500 mb-2px">{{ chain.main? chain.main.symbol : '' }}</div>
+                    <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
                     <div class="flex items-center">
                       <span class="text-color7D text-12px mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
                       <img class="w-14px h-14px cursor-pointer"
@@ -141,12 +144,13 @@
           </div>
         </div>
         <div class="col-span-1 hidden 2md:block">
+          <!-- token info -->
           <div class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
             <div class="flex items-center mb-10px">
               <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
-                   :src="TokenIcon[chain.main? chain.main.symbol : '']" alt="">
+                   :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
               <div class="flex flex-col items-start">
-                <div class="text-16px font-500 mb-2px">{{ chain.main? chain.main.symbol : '' }}</div>
+                <div class="text-16px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
                 <div class="flex items-center text-14px">
                   <span class="text-color7D mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
                   <img class="w-14px h-14px cursor-pointer"
@@ -164,6 +168,7 @@
               </button>
             </div>
           </div>
+          <!-- activities -->
           <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px mt-15px">
             <div class="text-left font-bold c-text-black text-16px">{{$t('community.activity')}}</div>
             <div class="flex items-center gap-5px mt-8px">
@@ -197,7 +202,7 @@ import CommunityMember from "@/views/community/CommunityMember";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
-import { getCommunityById, getCommunityConfigs } from '@/api/api'
+import { getCommunityById, getCommunityConfigs, joinCommunity } from '@/api/api'
 import { notify } from "@/utils/notify";
 import ActivityItem from "@/components/community/ActivityItem";
 import {markRaw} from "vue";
@@ -253,6 +258,7 @@ export default {
     getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
 
       if (res && res.communityId) {
+        console.log(545, res);
         this.$store.commit('community/saveShowingCommunity', res)
       }
     }).catch(e => {
@@ -278,10 +284,33 @@ export default {
       if(this.tabIndex===0) this.activeComponent = markRaw(CommunityPost)
       if(this.tabIndex===1) this.activeComponent = markRaw(CommunityTopic)
       if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
+    },
+    checkLogin() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      return true;
+    },
+    async join() {
+      if (!this.checkLogin()) return;
+      try{
+        this.isJoining = true;
+        await joinCommunity(this.getAccountInfo.twitterId, this.showingCommunity.communityId);
+        this.showingCommunity.joined = true;
+        this.showingCommunity.memberCount += 1;
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isJoining = false
+      }
     }
   },
   mounted () {
-    
   },
 }
 </script>
