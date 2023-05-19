@@ -251,27 +251,28 @@ export default {
   activated() {
     if(this.scroll > 0) this.$refs.detailPageRef.scrollTo({top: this.scroll})
     const communityId = this.$route.params.communityId;
-    this.communityId = communityId
     if (!communityId) {
       return this.$router.go(-1);
     }
-    getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
+    if (this.communityId !== communityId) {
+      this.communityId = communityId;
+      getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
 
-      if (res && res.communityId) {
-        console.log(545, res);
-        this.$store.commit('community/saveShowingCommunity', res)
-      }
-    }).catch(e => {
-      notify({error: e, type: 'error'})
-    })
+        if (res && res.communityId) {
+          this.$store.commit('community/saveShowingCommunity', res)
+        }
+      }).catch(e => {
+        notify({error: e, type: 'error'})
+      })
 
-    getCommunityConfigs(communityId).then(configs => {
-      if (!this.configs) {
-        this.configs = {}
-      }
-      this.configs[communityId] = configs;
-      this.$store.commit('community/saveConfigs', this.configs)
-    })
+      getCommunityConfigs(communityId).then(configs => {
+        if (!this.configs) {
+          this.configs = {}
+        }
+        this.configs[communityId] = configs;
+        this.$store.commit('community/saveConfigs', this.configs)
+      })
+    }
   },
   methods: {
     formatAddress,

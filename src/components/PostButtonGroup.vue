@@ -350,6 +350,7 @@ import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { getCurationRewardsOfPost } from '@/api/api'
 import debounce from 'lodash.debounce'
 import { getPriceFromOracle } from '@/utils/asset'
+import { joinCommunity } from "@/utils/community";
 
 
 export default {
@@ -515,6 +516,9 @@ export default {
       try{
         this.isRepling = true
         await replyPost(this.post.postId, this.inputContent, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.replied = 1;
         this.post.replyCount = this.post.replyCount ? this.post.replyCount + 1 : 1
         this.replyVisible = false
@@ -544,6 +548,9 @@ export default {
       try{
         this.isQuoting = true
         await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate', this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false
@@ -604,6 +611,9 @@ export default {
       try{
         this.isRetweeting = true
         await retweetPost(this.post.postId, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.retweeted = 1
         this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
@@ -634,6 +644,9 @@ export default {
       try{
         this.isLiking = true
         const result = await likePost(this.post.postId, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.liked = 1
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})

@@ -45,7 +45,7 @@
 
 <script>
 import { EVM_CHAINS } from "@/config";
-import { joinCommunity } from "@/api/api";
+import { joinCommunity } from "@/utils/community";
 import { mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";
 
@@ -79,8 +79,7 @@ export default {
       if (!this.checkLogin()) return;
       try{
         this.isJoining = true;
-        await joinCommunity(this.getAccountInfo.twitterId, this.community.communityId);
-        this.community.joined = true;
+        await joinCommunity(this.community.communityId);
         this.community.memberCount += 1;
       } catch (e) {
         if (e === 'log out') {

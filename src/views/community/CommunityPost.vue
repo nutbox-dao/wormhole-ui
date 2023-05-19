@@ -138,7 +138,8 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: true,
-      activeAnnounceIndex: 0
+      activeAnnounceIndex: 0,
+      communityId: ''
     }
   },
   watch: {
@@ -154,7 +155,10 @@ export default {
         return;
       }
     }
-    this.refresh()
+    if (this.showingCommunity.communityId !== this.communityId){
+      this.communityId = this.showingCommunity.communityId
+      this.refresh()
+    }
   },
   methods: {
     refresh() {
