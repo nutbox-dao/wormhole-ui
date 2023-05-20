@@ -16,15 +16,18 @@
         </div>
       </div>
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
-        <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
-          <div class="bg-color62/10 reward-box rounded-12px overflow-hidden px-17px pt-12px pb-20px">
+        <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px
+                    2md:flex  2md:gap-15px">
+          <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px
+                      2md:flex-1">
             <div v-if="summaryList.length > 0"
-                 class="text-left flex flex-col gap-y-10px font-bold text-12px 2xl:text-0.75rem">
+                 class="text-left flex flex-col font-bold text-12px 2xl:text-14px">
               <el-checkbox-group class="c-checkbox-group"
                                  v-model="checkRewardList" @change="checkboxGroupChange">
-                <el-checkbox class="hover:bg-white/10 p-5px " v-for="reward of summaryList" :key="reward.token"
+                <el-checkbox class="hover:bg-white/10 py-8px 2md:py-15px"
+                             v-for="reward of summaryList" :key="reward.token"
                              :label="reward.token">
-                  <ChainTokenIcon height="30px" width="30px" class=" p-2px"
+                  <ChainTokenIcon height="30px" width="30px"
                                   :token="{symbol: reward.tokenSymbol, address: reward.token}"
                                   :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
                     <template #amount>
@@ -43,7 +46,7 @@
                 <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
               <button v-else class="flex items-center justify-center bg-ny-btn-gradient
-                       h-30px px-15px rounded-full mr-0.8rem"
+                       h-44px px-15px rounded-full"
                       :disabled="claiming || accountMismatch"
                       @click="claimReward">
                 {{ $t('curation.claimReward') }}
@@ -60,7 +63,8 @@
               <div class="c-text-black text-16px">{{$t('walletView.claimedAllRewards')}}</div>
             </div>
           </div>
-          <div class="mt-15px">
+          <div class="mt-15px 2md:mt-0 2md:flex-1 overflow-hidden flex flex-col"
+               :style="width>960?{maxHeight: `${summaryList.length*63+88}px`, minHeight: `${showingList.length>3?220:0}px`}:{}">
             <div class="flex justify-between items-center mb-8px">
               <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
               <button class="flex items-center text-14px">
@@ -68,8 +72,11 @@
                 <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
               </button>
             </div>
-            <div v-if="showingList.length > 0" class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0">
-              <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+            <div v-if="showingList.length > 0"
+                 class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0
+                        flex-1 overflow-auto no-scroll-bar">
+              <RewardCuration :rewards="showingList"
+                              :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
             </div>
             <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
               <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -81,57 +88,9 @@
         </div>
         <div class="mt-30px ">
           <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px">
-            <div class="flex items-center">
-              <img class="bg-color62 rounded-12px w-34px h-34px"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="ml-10px c-text-black">SpaceX</span>
-            </div>
-            <div class="flex overflow-hidden rounded-full border-1 border-color62 mt-20px">
-              <button class="tab h-32px text-12px sm:text-14px flex-1"
-                      :class="tabIndex===0?'bg-color62 text-white':'bg-colorF1 text-color62'"
-                      @click="tabIndex=0">
-                {{ $t('common.curation') }}
-              </button>
-              <button class="tab h-32px text-12px sm:text-14px flex-1"
-                      :class="tabIndex===1?'bg-color62 text-white':'bg-colorF1 text-color62'"
-                      @click="tabIndex=1">
-                {{ $t('common.author') }}
-              </button>
-            </div>
-            <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
-                        flex justify-between items-center">
-              <div class="flex items-center">
-                <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
-                <div class="flex flex-col items-start">
-                  <span class="font-bold mb-4px">MATIC</span>
-                  <span class="text-14px text-color7D">0.001</span>
-                </div>
-              </div>
-              <button class="gradient-btn gradient-bg-color3 rounded-full px-25px h-34px">
-                {{$t('walletView.withdraw')}}
-              </button>
-            </div>
-            <div class="mt-15px">
-              <div class="flex justify-between items-center mb-8px">
-                <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-                <button class="flex items-center text-14px">
-                  <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
-                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
-                </button>
-              </div>
-              <div v-for="i of 3" :key="i" class="flex justify-between items-center py-8px">
-                <div class="flex items-center">
-                  <img class="w-32px h-32px rounded-full mr-10px" :src="TokenIcon['MATIC']" alt="">
-                  <span class="text-16px font-bold text-color66">0.001</span>
-                </div>
-                <div class="flex items-center text-12px opacity-40">
-                  <span class="mr-10px">05/11 00:00</span>
-                  <i class="icon-arrow-right w-12px h-12px transform -rotate-90"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CommunityRewardItem v-for="i of 3" :key="i"
+                               :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"
+                               :rewards="showingList"></CommunityRewardItem>
         </div>
       </div>
     </div>
@@ -157,12 +116,19 @@ import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorRewardIsDistributed } from '@/api/api'
 import {TokenIcon} from "@/config";
+import {useWindowSize} from "@vant/use";
+import CommunityRewardItem from "@/components/community/CommunityRewardItem";
 
 export default {
-  components: {RewardCuration, RewardPost, ChainTokenIcon},
+  components: {RewardCuration, RewardPost, ChainTokenIcon, CommunityRewardItem},
+  setup() {
+    const {width} = useWindowSize()
+    return {
+      width
+    }
+  },
   data() {
     return {
-      tabIndex: 0,
       chainTab: 0,
       loading: [false, false, false, false, false, false],
       claiming: false,

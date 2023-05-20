@@ -90,7 +90,7 @@
             <div class="c-text-black text-16px xl:text-1rem light:text-blueDark text-left mb-6px">
               {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
             </div>
-            <div @click="gotoTwitter"
+            <div @click.stop="gotoTwitter"
                  class="flex items-center">
               <i class="icon-twitter w-16px h-16px"></i>
               <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
