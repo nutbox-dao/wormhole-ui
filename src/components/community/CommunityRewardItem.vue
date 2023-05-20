@@ -39,7 +39,7 @@
         <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
         <button class="flex items-center text-14px">
           <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
-          <i class="icon-arrow-right w-12px h-12px transform -rotate-90 light:opacity-40"></i>
+          <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
         </button>
       </div>
       <div v-if="list.length===0"

@@ -67,7 +67,7 @@
                :style="width>960?{maxHeight: `${summaryList.length*63+88}px`, minHeight: `${showingList.length>3?220:0}px`}:{}">
             <div class="flex justify-between items-center mb-8px">
               <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-              <button class="flex items-center text-14px">
+              <button class="flex items-center text-14px" @click="historyModalVisible=true">
                 <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
                 <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
               </button>
@@ -94,6 +94,11 @@
         </div>
       </div>
     </div>
+    <el-dialog v-model="historyModalVisible"
+               class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <RewardHistoryList
+          class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
+    </el-dialog>
   </van-pull-refresh>
 </template>
 
@@ -118,9 +123,10 @@ import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorR
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";
+import RewardHistoryList from "@/components/RewardHistoryList";
 
 export default {
-  components: {RewardCuration, RewardPost, ChainTokenIcon, CommunityRewardItem},
+  components: {RewardCuration, RewardPost, ChainTokenIcon, CommunityRewardItem, RewardHistoryList},
   setup() {
     const {width} = useWindowSize()
     return {
@@ -135,7 +141,8 @@ export default {
       connecting: false,
       prices: [],
       checkRewardList: [],
-      TokenIcon
+      TokenIcon,
+      historyModalVisible: false
     }
   },
   computed: {
