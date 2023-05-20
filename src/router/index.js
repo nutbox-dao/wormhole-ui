@@ -69,7 +69,7 @@ const routes = [
     path: '/account-info/:user',
     name: 'account-info',
     component: AccountInfoView,
-    meta: {gotoHome: true, header: 'hidden', tabbar: 'hidden'}
+    meta: {header: 'hidden', tabbar: 'hidden'}
   },
   {
     path: '/search-user/:user',
