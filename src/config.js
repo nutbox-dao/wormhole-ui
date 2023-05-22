@@ -391,7 +391,7 @@ export const EVM_CHAINS = {
         },
         curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
         popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
-    }
+    },
     // 'BSC Testnet': {
     //     rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
     //     scan: '',
@@ -413,6 +413,11 @@ export const EVM_CHAINS = {
     //     curation: '',
     //     popup: ''
     // },
+    56: 'BNB Smart Chain',
+    137: 'Polygon',
+    42161: 'Arbitrum',
+    1284: 'Moonbeam',
+    119: 'ENULS'
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'

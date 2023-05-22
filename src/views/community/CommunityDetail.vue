@@ -206,6 +206,7 @@ import { getCommunityById, getCommunityConfigs, joinCommunity } from '@/api/api'
 import { notify } from "@/utils/notify";
 import ActivityItem from "@/components/community/ActivityItem";
 import {markRaw} from "vue";
+import { getPriceFromOracle } from '@/utils/asset'
 
 export default {
   name: "CommunityDetail",
@@ -256,12 +257,17 @@ export default {
     }
     if (this.communityId !== communityId) {
       this.communityId = communityId;
-      getCommunityById(this.getAccountInfo?.twitterId, communityId).then(res => {
+      getCommunityById(this.getAccountInfo?.twitterId, communityId).then(async res => {
 
         if (res && res.communityId) {
+          const price = await getPriceFromOracle(EVM_CHAINS[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
+          res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
+          // get token price
+          
         }
       }).catch(e => {
+        console.log(53, e);
         notify({error: e, type: 'error'})
       })
 

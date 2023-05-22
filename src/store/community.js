@@ -19,7 +19,7 @@ export default {
     activities: [],
     announces: [],
     topics: [],
-    memebers: [],
+    members: [],
   },
   mutations: {
     saveCommunities: (state, communities) => {
@@ -50,8 +50,8 @@ export default {
     saveTopics: (state, topics) => {
       state.topics =topics
     },
-    saveMembers: (state, memebers) => {
-      state.memebers = memebers
+    saveMembers: (state, members) => {
+      state.members = members
     },
     
     clearData: (state) => {
@@ -62,7 +62,7 @@ export default {
       state.activities = [];
       state.announces = [];
       state.topics = [];
-      state.memebers = [];
+      state.members = [];
     }
   }
 };

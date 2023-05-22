@@ -1,10 +1,10 @@
 <template>
   <div class="py-20px">
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="listLoading && (!memberList || memberList.length === 0)">
+         v-if="listLoading && (!members || members.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <div v-else-if="!listLoading && (!memberList || memberList.length === 0)" class="py-2rem">
+    <div v-else-if="!listLoading && (!members || members.length === 0)" class="py-2rem">
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
       <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
@@ -13,7 +13,7 @@
               :finished="listFinished"
               :immediate-check="false"
               :loading-text="$t('common.loading')"
-              :finished-text="memberList.length!==0?$t('common.noMore'):''"
+              :finished-text="members.length!==0?$t('common.noMore'):''"
               @load="onLoad">
       <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px">
         <span class="w-3/7 text-left">{{$t('community.member')}}</span>
@@ -21,14 +21,14 @@
         <span class="w-2/7 text-right">{{$t('community.communityToken')}}</span>
       </div>
       <div class="flex justify-between items-center px-15px text-14px py-10px"
-           v-for="(item, index) of memberList" :key="index">
+           v-for="(item, index) of members" :key="index">
         <div class="flex items-center w-3/7 truncate">
           <img class="w-32px min-w-32px h-32px rounded-full mr-5px"
                :src="item.profileImg || defaultAvatar" alt="">
-          <span class="truncate">{{item.twitterUsername}}</span>
+          <span class="truncate">{{item.username}}</span>
         </div>
-        <span class="w-2/7 text-right">2021-09-12</span>
-        <span class="w-2/7 text-right">9.2(0.29$)</span>
+        <span class="w-2/7 text-right">{{ parseTimestamp(item.joinTime) }}</span>
+        <span class="w-2/7 text-right">{{ item.showingBalance }}</span>
       </div>
     </van-list>
   </div>
@@ -36,22 +36,96 @@
 
 <script>
 import defaultAvatar from '@/assets/icon-default-avatar.svg'
+import { getCommunityMembers } from '@/api/api'
+import { mapState } from 'vuex'
+import { sleep, formatAmount, formatPrice, parseTimestamp } from '@/utils/helper'
+import { notify } from '@/utils/notify'
+import { getTokenBalancesOfUsers } from '@/utils/asset'
+import { EVM_CHAINS } from '@/config'
+
 export default {
   name: "CommunityMember",
+  computed: {
+    ...mapState('community', ['showingCommunity', 'members']),
+    chainName() {
+      if (this.showingCommunity) {
+        for (let chainName of Object.keys(EVM_CHAINS)){
+          if (EVM_CHAINS[chainName].id === this.showingCommunity.chainId) {
+            return chainName;
+          }
+        }
+      }
+      return false;
+    }
+  },
   data() {
     return {
       defaultAvatar,
+      refreshing: false,
       listLoading: false,
       listFinished: false,
-      memberList: []
-      // memberList: [{"twitterId":"3419530221","twitterName":"⭐Zvezda Crypto","twitterUsername":"C_Zvezdaa","profileImg":"https://pbs.twimg.com/profile_images/1653485193808826373/H0DBPYya_normal.jpg","createAt":"2023-05-12T14:23:42.000Z","id":359344,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1397026760114335749","twitterName":"Leo.bnb Web 3 Camp","twitterUsername":"Leo69129849","profileImg":"https://pbs.twimg.com/profile_images/1479014955227631616/9uck0k8A_normal.jpg","createAt":"2023-05-12T12:52:43.000Z","id":359212,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1654915931213004801","twitterName":"Abmustafa","twitterUsername":"Abmustafa340","profileImg":"https://pbs.twimg.com/profile_images/1655622288094507012/BF4L87Yl_normal.jpg","createAt":"2023-05-12T12:31:41.000Z","id":359189,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1005908138237878272","twitterName":"Abdulkadir","twitterUsername":"Abdulkadir007ab","profileImg":"https://pbs.twimg.com/profile_images/1624717814748569602/CR0qcrvt_normal.jpg","createAt":"2023-05-12T12:26:04.000Z","id":359147,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1086512818843774976","twitterName":"Donut","twitterUsername":"Adedotu69664225","profileImg":"https://pbs.twimg.com/profile_images/1566911992409071617/UFUsKISL_normal.jpg","createAt":"2023-05-12T12:24:36.000Z","id":359129,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"419295898","twitterName":"Aliu Herpheezy","twitterUsername":"herpheezy","profileImg":"https://pbs.twimg.com/profile_images/1251775841073278981/Qn3vPT3R_normal.jpg","createAt":"2023-05-12T11:52:33.000Z","id":359108,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6}]
+      communityId: ''
+    }
+  },
+  activated() {
+    if (this.members.length === 0 && this.communityId !== this.showingCommunity.communityId) {
+      this.communityId = this.showingCommunity.communityId
+      this.refresh()
     }
   },
   methods: {
-    onLoad() {
-
+    parseTimestamp,
+    async onLoad() {
+      if (this.listFinished || this.finished) return;
+      try {
+        this.listLoading = true;
+        let members = await getCommunityMembers(this.showingCommunity.communityId, 20, parseInt((this.members -1) / 20) + 1);
+        members = await this.getBalances(members)
+        this.$store.commity('community/saveMembers', this.members.concat(members ?? []));
+        if(memebers.length === 0) {
+          this.finished = true
+        }
+      } catch (e) {
+        notify({message: e, type: 'error'})
+      }finally{
+        this.listLoading = false
+      }
+    },
+    async refresh() {
+      try {
+        this.refreshing = true;
+        let members = await getCommunityMembers(this.showingCommunity.communityId);
+        console.log(12, members);
+        members = await this.getBalances(members)
+        this.$store.commit('community/saveMembers', members ?? []);
+      } catch (e) {
+        notify({message: e, type: 'error'})
+      }finally{
+        this.refreshing = false
+      }
+    },
+    async getBalances(mem){
+      const balances = await getTokenBalancesOfUsers(EVM_CHAINS[this.showingCommunity.chainId], this.showingCommunity.rewardToken, mem.map(m => m.ethAddress))
+      mem = mem.map(m => {
+        let showingBalance = '';
+        let balance = balances[m.ethAddress]
+        balance = balance ? balance.toString() / (10 ** this.showingCommunity.rewardTokenDecimals) : 0;
+        const price = formatPrice(balance * this.showingCommunity.rewardPrice)
+        balance = formatAmount(balance);
+        return {
+          ...m,
+          showingBalance: `${balance}/${price}`
+        }
+      })
+      return mem
     }
-  }
+  },
+  async mounted () {
+    let count = 0;
+    while (!this.showingCommunity || !this.showingCommunity.communityId || count++ < 30) {
+      await sleep(0.2)
+    }
+  },
 }
 </script>
 
