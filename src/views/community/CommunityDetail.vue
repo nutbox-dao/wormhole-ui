@@ -76,17 +76,15 @@
               <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
               <!-- social link -->
               <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
-                <div v-for="(type, index) of Object.keys(config)" :key="type" class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                  <img v-show="type === 'twitter'" class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-white.svg" alt="">
+                <div class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img v-show="config['twitter']"  class="w-16px h-16px cursor-pointer" @click="open(config['twitter'])" src="~@/assets/icon-twitter-white.svg" alt="">
+                  <img v-show="config['discord']" class="w-16px h-16px cursor-pointer" @click="open(config['discord'])" src="~@/assets/icon-twitter-white.svg" alt="">
+                  <img v-show="config['telegram']" class="w-16px h-16px cursor-pointer" @click="open(config['telegram'])" src="~@/assets/icon-twitter-white.svg" alt="">
+                  <img v-show="config['official']" class="w-16px h-16px cursor-pointer" @click="open(config['official'])" src="~@/assets/icon-twitter-white.svg" alt="">
                 </div>
               </div>
               <!-- token info -->
-              <div class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
+              <div v-show="showingCommunity.rewardToken == '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11'" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
                           flex 2md:hidden justify-between items-center">
                 <div class="flex items-center">
                   <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
@@ -102,10 +100,10 @@
                   </div>
                 </div>
                 <div class="flex gap-10px">
-                  <button class="bg-color62 h-30px text-white px-15px rounded-full">
+                  <button @click="stake" class="bg-color62 h-30px text-white px-15px rounded-full">
                     {{$t('community.deposit')}}
                   </button>
-                  <button class="bg-color1A h-30px text-white px-15px rounded-full">
+                  <button @click="swap" class="bg-color1A h-30px text-white px-15px rounded-full">
                     {{$t('community.exchange')}}
                   </button>
                 </div>
@@ -145,7 +143,7 @@
         </div>
         <div class="col-span-1 hidden 2md:block">
           <!-- token info -->
-          <div class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
+          <div v-show="showingCommunity.rewardToken == '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11'" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
             <div class="flex items-center mb-10px">
               <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                    :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
@@ -160,10 +158,10 @@
               </div>
             </div>
             <div class="flex gap-10px justify-between text-14px">
-              <button class="bg-color62 h-40px text-white px-15px rounded-full w-full">
+              <button @click="stake" class="bg-color62 h-40px text-white px-15px rounded-full w-full">
                 {{$t('community.deposit')}}
               </button>
-              <button class="bg-color1A h-40px text-white px-15px rounded-full w-full">
+              <button @click="swap" class="bg-color1A h-40px text-white px-15px rounded-full w-full">
                 {{$t('community.exchange')}}
               </button>
             </div>
@@ -244,6 +242,7 @@ export default {
     },
     config() {
       if (this.communityId && this.configs[this.communityId]) {
+        console.log(3, this.configs[this.communityId]);
         return this.configs[this.communityId]
       }
       return {}
@@ -315,6 +314,15 @@ export default {
       } finally {
         this.isJoining = false
       }
+    },
+    stake() {
+      window.open(`https://app.nutbox.io/#/sub-community/staking?id=0xc54C1F0E7A75Fb405038891E316c973D26Bf0125`, '__blank')
+    },
+    swap() {
+      window.open(`https://pancakeswap.finance/swap?inputCurrency=0x705931A83C9b22fB29985f28Aee3337Aa10EFE11&outputCurrency=0x55d398326f99059fF775485246999027B3197955`, '__blank')
+    },
+    open(url) {
+      window.open(url, '__blank')
     }
   },
   mounted () {

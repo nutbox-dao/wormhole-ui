@@ -93,6 +93,7 @@ export default {
     },
     async refresh() {
       try {
+        this.listLoading = true;
         this.refreshing = true;
         let members = await getCommunityMembers(this.showingCommunity.communityId);
         console.log(12, members);
@@ -102,12 +103,12 @@ export default {
         notify({message: e, type: 'error'})
       }finally{
         this.refreshing = false
+        this.listLoading = false
       }
     },
     async getBalances(mem){
       const balances = await getTokenBalancesOfUsers(EVM_CHAINS[this.showingCommunity.chainId], this.showingCommunity.rewardToken, mem.map(m => m.ethAddress))
       mem = mem.map(m => {
-        let showingBalance = '';
         let balance = balances[m.ethAddress]
         balance = balance ? balance.toString() / (10 ** this.showingCommunity.rewardTokenDecimals) : 0;
         const price = formatPrice(balance * this.showingCommunity.rewardPrice)

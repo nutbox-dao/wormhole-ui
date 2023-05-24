@@ -40,8 +40,8 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
         replaceEmptyImg(e) {
             e.target.src = emptyAvatar;
         },
-        gotoTweet() {
-
+        gotoTweet(node) {
+            window.open(`https://twitter.com/${node.name}/status/${node.tweetId}`, '__blank')
         }
     },
     mounted () {
