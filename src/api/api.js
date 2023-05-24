@@ -130,6 +130,8 @@ export const retweetPost = async (twitterId, tweetId) =>
 export const userFollow = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/followPost', {twitterId, tweetId})
 
+export const quoteTree = async (name, tweetId, tag, profileImg) =>
+    get(BACKEND_API_URL + '/post/quoteTree', {name, tweetId, tag, profileImg})
 
 /****************************************  curation  ***********************************************/
 export const preNewCuration = async (curation) =>

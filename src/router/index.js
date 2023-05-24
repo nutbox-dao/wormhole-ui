@@ -37,6 +37,7 @@ import CommunityDetail from "@/views/community/CommunityDetail";
 import TopicDetail from "@/views/community/TopicDetail";
 import InfluenceIndex from "@/views/Influence/InfluenceIndex";
 import InfoIndex from "@/views/info/InfoIndex";
+import QuoteTree from '@/views/Tree';
 
 const routes = [
   {
@@ -195,6 +196,12 @@ const routes = [
     component: InfoIndex,
     meta: {header: 'hidden', tabbar: 'hidden', gotoHome: true}
   },
+  {
+    path: '/tree',
+    name: 'quote-tree',
+    component: QuoteTree,
+    mata: {header: 'hidden', tabbar: 'hidden', keepAlive: true}
+  }
 ]
 
 const router = VueRouter.createRouter({

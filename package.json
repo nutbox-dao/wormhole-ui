@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@makerdao/multicall": "^0.12.0",
+    "@ssthouse/vue3-tree-chart": "^0.2.6",
     "@vue/compat": "^3.2.36",
     "axios": "^0.27.2",
     "axios-retry": "^3.2.5",
