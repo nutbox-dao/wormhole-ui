@@ -76,11 +76,25 @@
               <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
               <!-- social link -->
               <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
-                <div class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                  <img v-show="config['twitter']"  class="w-16px h-16px cursor-pointer" @click="open(config['twitter'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['discord']" class="w-16px h-16px cursor-pointer" @click="open(config['discord'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['telegram']" class="w-16px h-16px cursor-pointer" @click="open(config['telegram'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['official']" class="w-16px h-16px cursor-pointer" @click="open(config['official'])" src="~@/assets/icon-twitter-white.svg" alt="">
+                <div v-show="config['twitter']"
+                     @click="open(config['twitter'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['discord']"
+                     @click="open(config['discord'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['telegram']"
+                     @click="open(config['telegram'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['official']"
+                     @click="open(config['official'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
                 </div>
               </div>
               <!-- token info -->
@@ -110,29 +124,36 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold
+          <div class="w-full overflow-auto no-scroll-bar">
+            <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
                 border-b-1 border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
-                sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9">
-            <button class="h-full px-10px"
-                    :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
-                    @click="changeTab(0)">
-              {{$t('community.post')}}
-            </button>
-            <button class="h-full px-10px"
-                    :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
-                    @click="changeTab(1)">
-              {{$t('community.topic')}}
-            </button>
-            <button class="h-full px-10px"
-                    :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
-                    @click="changeTab(2)">
-              {{$t('community.member')}}
-            </button>
-            <button class="h-full px-10px"
-                    :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
-                    @click="changeTab(3)">
-              {{$t('community.about')}}
-            </button>
+                sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 px-15px w-min min-w-full">
+              <button class="h-full px-5px 2md:px-10px"
+                      :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
+                      @click="changeTab(0)">
+                {{$t('community.post')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px"
+                      :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
+                      @click="changeTab(1)">
+                {{$t('community.topic')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px"
+                      :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
+                      @click="changeTab(2)">
+                {{$t('community.member')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px"
+                      :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
+                      @click="changeTab(3)">
+                {{$t('community.about')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px 2md:hidden"
+                      :class="tabIndex===4?'active-tab text-color62':'text-color7D'"
+                      @click="changeTab(4)">
+                {{$t('community.activity')}}
+              </button>
+            </div>
           </div>
           <div class="sm:px-15px">
             <KeepAlive>
@@ -167,25 +188,8 @@
             </div>
           </div>
           <!-- activities -->
-          <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px mt-15px">
-            <div class="text-left font-bold c-text-black text-16px">{{$t('community.activity')}}</div>
-            <div class="flex items-center gap-5px mt-8px">
-              <!-- <span class="text-14px text-color8B light:text-color7D">{{$t('community.justAdmin')}}</span>
-              <el-switch v-model="isAdmin" /> -->
-            </div>
-            <img v-if="!ops"
-                 class="w-5rem mx-auto py-3rem"
-                 src="~@/assets/profile-loading.gif" alt="" />
-            <div v-if="ops.length === 0"
-                 class="py-2rem font-bold c-text-black text-color8B light:text-color7D text-12px">
-              {{$t('common.none')}}
-            </div>
-            <template v-else>
-              <ActivityItem v-for="(op, i) of ops" :key="i"
-                            :op="op"
-                            class="mb-15px bg-blockBg light:bg-colorF7F9 p-10px rounded-12px"/>
-            </template>
-          </div>
+          <CommunityActivity
+              class="border-1 border-color8B/30 light:border-color7F rounded-12px mt-15px"></CommunityActivity>
         </div>
       </div>
     </div>
@@ -198,18 +202,19 @@ import {formatAddress, onCopy} from "@/utils/tool";
 import CommunityPost from "@/views/community/CommunityPost";
 import CommunityTopic from "@/views/community/CommunityTopic";
 import CommunityMember from "@/views/community/CommunityMember";
+import CommunityAbout from "@/views/community/CommunityAbout.vue";
+import CommunityActivity from "@/views/community/CommunityActivity.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
 import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps } from '@/api/api'
 import { notify } from "@/utils/notify";
-import ActivityItem from "@/components/community/ActivityItem";
-import {markRaw} from "vue";
+import {markRaw, watch} from "vue";
 import { getPriceFromOracle } from '@/utils/asset'
 
 export default {
   name: "CommunityDetail",
-  components: {CommunityPost, CommunityTopic, CommunityMember, ActivityItem},
+  components: {CommunityActivity, CommunityPost, CommunityTopic, CommunityMember},
   setup() {
     const { width } = useWindowSize();
     return {
@@ -224,6 +229,11 @@ export default {
       communityId: '',
       isAdmin: false,
       activeComponent: markRaw(CommunityPost)
+    }
+  },
+  watch: {
+    width(val) {
+      if(val>961 && this.tabIndex===4) this.changeTab(0)
     }
   },
   computed: {
@@ -263,7 +273,7 @@ export default {
           res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
           // get token price
-          
+
         }
       }).catch(e => {
         console.log(53, e);
@@ -295,6 +305,8 @@ export default {
       if(this.tabIndex===0) this.activeComponent = markRaw(CommunityPost)
       if(this.tabIndex===1) this.activeComponent = markRaw(CommunityTopic)
       if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
+      if(this.tabIndex===3) this.activeComponent = markRaw(CommunityAbout)
+      if(this.tabIndex===4) this.activeComponent = markRaw(CommunityActivity)
     },
     checkLogin() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
