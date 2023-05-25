@@ -76,11 +76,25 @@
               <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
               <!-- social link -->
               <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
-                <div class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                  <img v-show="config['twitter']"  class="w-16px h-16px cursor-pointer" @click="open(config['twitter'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['discord']" class="w-16px h-16px cursor-pointer" @click="open(config['discord'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['telegram']" class="w-16px h-16px cursor-pointer" @click="open(config['telegram'])" src="~@/assets/icon-twitter-white.svg" alt="">
-                  <img v-show="config['official']" class="w-16px h-16px cursor-pointer" @click="open(config['official'])" src="~@/assets/icon-twitter-white.svg" alt="">
+                <div v-show="config['twitter']"
+                     @click="open(config['twitter'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['discord']"
+                     @click="open(config['discord'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['telegram']"
+                     @click="open(config['telegram'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                </div>
+                <div v-show="config['official']"
+                     @click="open(config['official'])"
+                     class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
+                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
                 </div>
               </div>
               <!-- token info -->
@@ -110,25 +124,25 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold
+          <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
                 border-b-1 border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
                 sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9">
-            <button class="h-full px-10px"
+            <button class="h-full px-5px 2md:px-10px"
                     :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
                     @click="changeTab(0)">
               {{$t('community.post')}}
             </button>
-            <button class="h-full px-10px"
+            <button class="h-full px-5px 2md:px-10px"
                     :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
                     @click="changeTab(1)">
               {{$t('community.topic')}}
             </button>
-            <button class="h-full px-10px"
+            <button class="h-full px-5px 2md:px-10px"
                     :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
                     @click="changeTab(2)">
               {{$t('community.member')}}
             </button>
-            <button class="h-full px-10px"
+            <button class="h-full px-5px 2md:px-10px"
                     :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
                     @click="changeTab(3)">
               {{$t('community.about')}}
@@ -263,7 +277,7 @@ export default {
           res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
           // get token price
-          
+
         }
       }).catch(e => {
         console.log(53, e);

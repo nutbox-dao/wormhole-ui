@@ -1,7 +1,7 @@
 <template>
   <div class="text-left">
     <div class="font-bold c-text-black text-14px mb-10px">{{type}}</div>
-    <div class="text-12px leading-18px">
+    <div class="text-12px leading-18px break-word multi-content">
       {{ op.content }}
     </div>
     <div class="flex justify-between items-center mt-10px text-12px text-color8B light:text-color7D">
@@ -28,7 +28,7 @@ export default {
         case 2:
           return this.$t('community.space');
           break;
-        case 3: 
+        case 3:
           return this.$t('community.announce');
         case 10:
           return this.$t('community.topics');
