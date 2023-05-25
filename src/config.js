@@ -20,32 +20,6 @@ export const SignUpMessage = JSON.stringify({
     method: 'create account'
 }, null, 4)
 
-// bsc net
-// export const RPC_NODE = 'https://bsc-dataseed.binance.org'
-// export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
-// export const CHAIN_NAME = 'BSC Mainnet'
-// export const CHAIN_ID = 56
-// export const MainToken = {
-//     name: 'BNB',
-//     symbol: 'BNB',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
-//     decimals: 18
-// }
-// export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
-
-// bsc test
-// export const RPC_NODE = 'https://data-seed-prebsc-1-s1.binance.org:8545'
-// export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-// export const CHAIN_NAME = 'BSC Testnet'
-// export const CHAIN_ID = 97
-// export const MainToken = {
-//     name: 'BNB',
-//     symbol: 'BNB',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
-//     decimals: 18
-// }
-// export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
-
 // polygon
 export const RPC_NODE = 'https://polygon-rpc.com'
 export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
@@ -58,23 +32,6 @@ export const MainToken = {
     decimals: 18
 }
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
-
-// bsc test
-// export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
-// export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-// export const CHAIN_NAME = 'BSC Testnet'
-// export const CHAIN_ID = 97
-
-// eth
-// export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
-// export const MultiAddress = '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
-// export const BSC_CHAIN_ID = 1
-// export const MainToken = {
-//     name: 'Ethereum',
-//     symbol: 'ETH',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
-//     decimals: 18
-// }
 
 // polygon
 export const ERC20List = [
