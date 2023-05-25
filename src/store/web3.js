@@ -14,7 +14,7 @@ export default {
     nonce: null,
     readonlyProvider: null,
     // user deposit data
-    
+
     // multicall get data
 
     // loading state
@@ -43,9 +43,6 @@ export default {
     },
     saveReadonlyProvider: (state, readonlyProvider) => {
       state.readonlyProvider = readonlyProvider;
-    },
-    saveChainId: (state, chainId) => {
-      state.chainId = chainId
     }
   },
   getters: {
