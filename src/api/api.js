@@ -397,3 +397,6 @@ export const getJoinCommunityState = async (twitterId, communityIds) =>
 
 export const searchCommunityByName = async (communityName) =>
     get(BACKEND_API_URL + '/community/searchCommunityByName', {communityName})
+
+export const getCommunityOps = async (communityId, createTime) =>
+    get(BACKEND_API_URL + '/community/getCommunityOps', {communityId, createTime})

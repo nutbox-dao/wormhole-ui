@@ -84,7 +84,7 @@
                 </div>
               </div>
               <!-- token info -->
-              <div v-show="showingCommunity.rewardToken == '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11'" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
+              <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
                           flex 2md:hidden justify-between items-center">
                 <div class="flex items-center">
                   <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
@@ -100,10 +100,10 @@
                   </div>
                 </div>
                 <div class="flex gap-10px">
-                  <button @click="stake" class="bg-color62 h-30px text-white px-15px rounded-full">
+                  <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-30px text-white px-15px rounded-full">
                     {{$t('community.deposit')}}
                   </button>
-                  <button @click="swap" class="bg-color1A h-30px text-white px-15px rounded-full">
+                  <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-30px text-white px-15px rounded-full">
                     {{$t('community.exchange')}}
                   </button>
                 </div>
@@ -143,7 +143,7 @@
         </div>
         <div class="col-span-1 hidden 2md:block">
           <!-- token info -->
-          <div v-show="showingCommunity.rewardToken == '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11'" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
+          <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
             <div class="flex items-center mb-10px">
               <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                    :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
@@ -158,10 +158,10 @@
               </div>
             </div>
             <div class="flex gap-10px justify-between text-14px">
-              <button @click="stake" class="bg-color62 h-40px text-white px-15px rounded-full w-full">
+              <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-40px text-white px-15px rounded-full w-full">
                 {{$t('community.deposit')}}
               </button>
-              <button @click="swap" class="bg-color1A h-40px text-white px-15px rounded-full w-full">
+              <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-40px text-white px-15px rounded-full w-full">
                 {{$t('community.exchange')}}
               </button>
             </div>
@@ -170,18 +170,19 @@
           <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px mt-15px">
             <div class="text-left font-bold c-text-black text-16px">{{$t('community.activity')}}</div>
             <div class="flex items-center gap-5px mt-8px">
-              <span class="text-14px text-color8B light:text-color7D">{{$t('community.justAdmin')}}</span>
-              <el-switch v-model="isAdmin" />
+              <!-- <span class="text-14px text-color8B light:text-color7D">{{$t('community.justAdmin')}}</span>
+              <el-switch v-model="isAdmin" /> -->
             </div>
-            <img v-if="!activityList"
+            <img v-if="!ops"
                  class="w-5rem mx-auto py-3rem"
                  src="~@/assets/profile-loading.gif" alt="" />
-            <div v-if="activityList.length === 0"
+            <div v-if="ops.length === 0"
                  class="py-2rem font-bold c-text-black text-color8B light:text-color7D text-12px">
               {{$t('common.none')}}
             </div>
             <template v-else>
-              <ActivityItem v-for="i of 3" :key="i"
+              <ActivityItem v-for="(op, i) of ops" :key="i"
+                            :op="op"
                             class="mb-15px bg-blockBg light:bg-colorF7F9 p-10px rounded-12px"/>
             </template>
           </div>
@@ -200,7 +201,7 @@ import CommunityMember from "@/views/community/CommunityMember";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS } from '@/config'
-import { getCommunityById, getCommunityConfigs, joinCommunity } from '@/api/api'
+import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps } from '@/api/api'
 import { notify } from "@/utils/notify";
 import ActivityItem from "@/components/community/ActivityItem";
 import {markRaw} from "vue";
@@ -222,12 +223,11 @@ export default {
       tabIndex: 0,
       communityId: '',
       isAdmin: false,
-      activityList: [1],
       activeComponent: markRaw(CommunityPost)
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs']),
+    ...mapState('community', ['showingCommunity', 'configs', 'ops']),
     ...mapGetters(['getAccountInfo']),
     chain() {
       if (this.showingCommunity && this.showingCommunity.chainId) {
@@ -277,6 +277,11 @@ export default {
         this.configs[communityId] = configs;
         this.$store.commit('community/saveConfigs', this.configs)
       })
+
+      getCommunityOps(communityId).then(ops => {
+        console.log('ops', ops);
+        this.$store.commit('community/saveOps', ops)
+      })
     }
   },
   methods: {
@@ -314,12 +319,6 @@ export default {
       } finally {
         this.isJoining = false
       }
-    },
-    stake() {
-      window.open(`https://app.nutbox.io/#/sub-community/staking?id=0xc54C1F0E7A75Fb405038891E316c973D26Bf0125`, '__blank')
-    },
-    swap() {
-      window.open(`https://pancakeswap.finance/swap?inputCurrency=0x705931A83C9b22fB29985f28Aee3337Aa10EFE11&outputCurrency=0x55d398326f99059fF775485246999027B3197955`, '__blank')
     },
     open(url) {
       window.open(url, '__blank')

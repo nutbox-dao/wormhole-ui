@@ -1,25 +1,47 @@
 <template>
   <div class="text-left">
-    <div class="font-bold c-text-black text-14px mb-10px">{{$t('community.reward')}}</div>
+    <div class="font-bold c-text-black text-14px mb-10px">{{type}}</div>
     <div class="text-12px leading-18px">
-      {{$t('community.rewardInfo',
-        {account: '0x4f...abc3', from: 'Delegate to Peanut', amount: '17646.01', tokenName:'PNUT'}
-    )}}
+      {{ op.content }}
     </div>
     <div class="flex justify-between items-center mt-10px text-12px text-color8B light:text-color7D">
       <div class="flex items-center">
-        <img class="w-20px h-20px min-w-20px rounded-full bg-color62 mr-8px"
-             src="~@/assets/icon-default-avatar.svg" alt="">
-        <span>Name</span>
       </div>
-      <span>1 hour ago</span>
+      <span>{{ parseTimestamp(op.createTime) }}</span>
     </div>
   </div>
 </template>
 
 <script>
+import { parseTimestamp } from '@/utils/helper';
 export default {
-  name: "ActivityItem"
+  name: "ActivityItem",
+  props: {
+    op: {
+      type: Object,
+      default: {}
+    },
+  },
+  computed: {
+    type() { // 2.space; 3.announce; 10.topick; 11.promotion
+      switch (this.op.type) {
+        case 2:
+          return this.$t('community.space');
+          break;
+        case 3: 
+          return this.$t('community.announce');
+        case 10:
+          return this.$t('community.topics');
+        case 11:
+          return this.$t('community.promotion');
+        default:
+          break;
+      }
+    }
+  },
+  methods: {
+    parseTimestamp
+  },
 }
 </script>
 

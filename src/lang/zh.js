@@ -421,6 +421,10 @@ export default {
     activity: '动态',
     justAdmin: '只看管理员',
     reward: '收获',
+    announce: '公告',
+    space: 'Space',
+    topics: '活动',
+    promotion: '推广',
     rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
     award: '奖励'
   },

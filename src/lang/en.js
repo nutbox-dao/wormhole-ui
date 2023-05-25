@@ -421,6 +421,10 @@ export default {
     activity: 'Activities',
     justAdmin: 'Only admin',
     reward: 'Withdraw',
+    announce: 'Announce',
+    space: 'Space',
+    topics: 'Campaign',
+    promotion: 'Promotion',
     rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
     award: 'reward'
   },
