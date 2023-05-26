@@ -88,9 +88,8 @@
         </div>
         <div class="mt-30px ">
           <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <CommunityRewardItem v-for="i of 3" :key="i"
-                               :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"
-                               :rewards="showingList"></CommunityRewardItem>
+          <CommunityRewardItem v-for="communityId of getRewardCommunityInfo" :key="communityId"
+                               :communityId="communityId"></CommunityRewardItem>
         </div>
       </div>
     </div>
@@ -119,7 +118,10 @@ import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorRewardIsDistributed } from '@/api/api'
+import { setCurationIsFeed,
+  getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
+import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, setCommunityRewardClaimed, 
+  setCommunityAuthorRewardClaimed } from '@/utils/community'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";
@@ -142,18 +144,20 @@ export default {
       prices: [],
       checkRewardList: [],
       TokenIcon,
-      historyModalVisible: false
+      historyModalVisible: false,
+      loadingCommunityRewards: false
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
     ...mapState('web3', ['chainId', 'account']),
-    ...mapState('curation', ['rewardLists']),
+    ...mapState('curation', ['rewardLists', 'communityRewards', 'communityAuthorRewards']),
     chainNames() {
       return Object.keys(EVM_CHAINS)
     },
     chainIds() {
-      return Object.values(EVM_CHAINS).map(c => c.id).concat([56, 56])
+      return Object.values(EVM_CHAINS).map(c => c.id)
     },
     showingList() {
       return this.rewardLists[this.chainTab]
@@ -186,6 +190,7 @@ export default {
     },
     onRefresh() {
       this.getRecords(true);
+      this.getCommunityRewards(true);
     },
     async getRecords(force = false) {
       const index = this.chainTab;
@@ -195,92 +200,34 @@ export default {
           return;
         }
         this.loading[index] = true
-        if (index === this.chainNames.length) {
-          const records = await autoCurationRewardList(this.getAccountInfo.twitterId);
-          if (records && records.length > 0) {
-            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
-
-            let result = [];
-            let claimedIds = [];
-            for (let i = 0; i < claimed.length; i++) {
-              if (!claimed[i]) {
-                result.push(records[i]);
-              }else {
-                claimedIds.push(records[i].curationId)
-              }
+        
+        const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
+        if (records && records.length > 0) {
+          const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
+          let result = [];
+          let claimedIds = [];
+          for (let i = 0; i < claimed.length; i++) {
+            if (!claimed[i]) {
+              result.push(records[i])
+              // getCurationDetail(this.chainNames[index], records[i].curationId)
+            }else {
+              claimedIds.push(records[i].curationId)
             }
-            if (claimedIds.length > 0) {
-              setAutoCurationIsDistributed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
-                console.error('set auto curation feed fail:', e)
-              });
-            }
-            this.rewardLists[index] = result;
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
-            getPriceFromOracle('BNB Smart Chain', result).then(res => {
-              this.prices[index] = res;
-            })
-          }else {
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
           }
-        }else if (index === this.chainNames.length + 1) {
-          const records = await autoCurationAuthorRewardList(this.getAccountInfo.twitterId);
-
-          if (records && records.length > 0) {
-            const claimed = await checkAutoCurationRewards(this.getAccountInfo.twitterId, records.map(r => r.curationId));
-
-            let result = [];
-            let claimdIds = [];
-            for(let i = 0; i < claimed.length; i++) {
-              if (!claimed[i]) {
-                result.push(records[i])
-              }else {
-                claimdIds.push(records[i].curationId)
-              }
-            }
-            if (claimdIds.length > 0) {
-              setAutoCurationAuthorRewardIsDistributed(this.getAccountInfo.twitterId, claimdIds).then().catch(e => {
-                console.error('set auto curation author reward feed fail:', e)
-              })
-            }
-            this.rewardLists[index] = result;
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
-            getPriceFromOracle('BNB Smart Chain', result).then(res => {
-              this.prices[index] = res;
-            })
-          }else{
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+          if (claimedIds.length > 0) {
+            setCurationIsFeed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
+              console.error('set auto curation feed fail:', e)
+            });
           }
+          this.rewardLists[index] = result
+          this.$store.commit('curation/saveRewardLists', this.rewardLists)
+          getPriceFromOracle(this.chainNames[index], result).then(res => {
+            this.prices[index] = res;
+          })
+
         }else {
-          const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
-          if (records && records.length > 0) {
-            const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
-            let result = [];
-            let claimedIds = [];
-            for (let i = 0; i < claimed.length; i++) {
-              if (!claimed[i]) {
-                result.push(records[i])
-                // getCurationDetail(this.chainNames[index], records[i].curationId)
-              }else {
-                claimedIds.push(records[i].curationId)
-              }
-            }
-            if (claimedIds.length > 0) {
-              setCurationIsFeed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
-                console.error('set auto curation feed fail:', e)
-              });
-            }
-            this.rewardLists[index] = result
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
-            getPriceFromOracle(this.chainNames[index], result).then(res => {
-              this.prices[index] = res;
-            })
-
-          }else {
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
-          }
+          this.rewardLists[index] = [];
+          this.$store.commit('curation/saveRewardLists', this.rewardLists)
         }
       } catch(e) {
         if (e === 'log out') {
@@ -294,51 +241,20 @@ export default {
     async claimReward() {
       try{
         const index = this.chainTab
-        if (index === this.chainNames.length) {
-          this.claiming = true
-          const chainName = 'BNB Smart Chain'
-          const selectTokens = Object.values(this.checkRewardList);
-          if (selectTokens.length === 0) {
-            return;
-          }
-          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
-          if (ids.length === 0) return;
-          const { amount, curationIds, ethAddress, sig, twitterId } = await getPromotionCurationClaimParas(chainName, this.getAccountInfo.twitterId, ids);
-          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
-          await setAutoCurationIsDistributed(twitterId, ids);
-          this.rewardLists[index] = []
-          this.$store.commit('curation/saveRewardLists', this.rewardLists);
-          this.getRecords();
-        }else if (index === this.chainNames.length + 1) {
-          this.claiming = true;
-          const chainName = 'BNB Smart Chain';
-          const selectTokens = Object.values(this.checkRewardList);
-          if (selectTokens.length === 0) {
-            return;
-          }
-          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
-          if (ids.length === 0) return;
-          const { amount, curationIds, ethAddress, sig, twitterId } = await getAuthorRewardClaimParas(chainName, this.getAccountInfo.twitterId, ids);
-          const hash = await claimPromotionCurationRewards(chainName, twitterId, ethAddress, curationIds, amount, sig);
-          await setAutoCurationAuthorRewardIsDistributed(twitterId, ids);
-          this.rewardLists[index] = [];
-          this.$store.commit('curation/saveRewardLists', this.rewardLists);
-          this.getRecords();
-        }else {
-          const chainName = this.chainNames[index]
-          const selectTokens = Object.values(this.checkRewardList);
-          if (selectTokens.length === 0) {
-            return;
-          }
-          this.claiming = true
-          const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
-          const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
-          const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-          await setCurationIsFeed(twitterId, ids);
-          this.rewardLists[index] = [];
-          this.$store.commit('curation/saveRewardLists', this.rewardLists);
-          this.getRecords();
+        
+        const chainName = this.chainNames[index]
+        const selectTokens = Object.values(this.checkRewardList);
+        if (selectTokens.length === 0) {
+          return;
         }
+        this.claiming = true
+        const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
+        const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
+        const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
+        await setCurationIsFeed(twitterId, ids);
+        this.rewardLists[index] = [];
+        this.$store.commit('curation/saveRewardLists', this.rewardLists);
+        this.getRecords();
       } catch(e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
@@ -349,6 +265,33 @@ export default {
         notify({message: this.$t('err.transErr'), type: 'error'})
       } finally {
         this.claiming = false
+      }
+    },
+    async getCommunityRewards(force = false) {
+      try{
+        if (this.loadingCommunityRewards) return;
+        this.loadingCommunityRewards = true;
+        const currentList = this.rewardLists[index];
+        if (currentList && currentList.length > 0 && !force) {
+          return;
+        }
+        const [rewards, authorRewards] = 
+          await Promise.all([
+            getCommunityPendingRewards(this.getAccountInfo.twitterId), 
+            getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
+        if (rewards && rewards.length > 0) {
+          this.$store.commit('curation/saveCommunityRewards', rewards)
+        }
+        if (authorRewards && authorRewards.length > 0) {
+          this.$store.commit('curation/saveCommunityAuthorRewards', authorRewards)
+        }
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+        }
+        console.log('error', e);
+      } finally {
+        this.loadingCommunityRewards = false
       }
     },
     async connect() {

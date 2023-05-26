@@ -304,7 +304,7 @@ export const getPromotionCurationClaimParas = async (chainName, twitterId, ids) 
 }
 
 export const getAuthorRewardClaimParas = async (chainName, twitterId, ids) => {
-  await checkAccessToken();
+  await checkAccessToken(); 
   return await garcp(twitterId, EVM_CHAINS[chainName].id, ids)
 }
 

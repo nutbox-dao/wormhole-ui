@@ -41,7 +41,7 @@ import { mapState } from 'vuex'
 import { sleep, formatAmount, formatPrice, parseTimestamp } from '@/utils/helper'
 import { notify } from '@/utils/notify'
 import { getTokenBalancesOfUsers } from '@/utils/asset'
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 
 export default {
   name: "CommunityMember",
@@ -107,7 +107,7 @@ export default {
       }
     },
     async getBalances(mem){
-      const balances = await getTokenBalancesOfUsers(EVM_CHAINS[this.showingCommunity.chainId], this.showingCommunity.rewardToken, mem.map(m => m.ethAddress))
+      const balances = await getTokenBalancesOfUsers(EVM_CHAINS_ID[this.showingCommunity.chainId], this.showingCommunity.rewardToken, mem.map(m => m.ethAddress))
       mem = mem.map(m => {
         let balance = balances[m.ethAddress]
         balance = balance ? balance.toString() / (10 ** this.showingCommunity.rewardTokenDecimals) : 0;

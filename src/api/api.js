@@ -290,6 +290,18 @@ export const getCommunityPendingRewards = async (twitterId) =>
 export const getCommunityAuthorPendingRewards = async (twitterId) =>
     get(BACKEND_API_URL + '/community/getCommunityAuthorPendingRewards', { twitterId })
 
+export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) =>
+    post(BACKEND_API_URL + '/community/getClaimRewardsParas', { communityId, twitterId, ids })
+
+export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId, ids) =>
+    post(BACKEND_API_URL + '/community/getClaimAuthorRewardsParas', { communityId, twitterId, ids })
+
+export const setCommunityRewardClaimed = async (twitterId, curationIds) =>
+    post(BACKEND_API_URL + '/community/setCurationIsDistributed', { twitterId, curationIds })
+
+export const setCommunityAuthorRewardClaimed = async (twitterId, curationIds) =>
+    post(BACKEND_API_URL + '/community/setCurationAuthorRewardIsDistributed', { twitterId, curationIds })
+
 export const getCommunityHistoryRewards = async (twitterId, communityId, createAt) =>
     get(BACKEND_API_URL + '/community/getCommunityHistoryRewards', { twitterId, communityId, createAt })
 
@@ -365,23 +377,23 @@ export const getCommunityById = async (twitterId, communityId) =>
 export const getCommunityConfigs = async (communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityConfigs', {communityId})
 
-export const getCommunityTrendingPosts = async (communityId, pageSize, pageIndex) =>
-    get(BACKEND_API_URL + '/community/getCommunityTrendingPosts', { communityId, pageSize, pageIndex })
+export const getCommunityTrendingPosts = async (twitterId, communityId, pageSize, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityTrendingPosts', { twitterId, communityId, pageSize, pageIndex })
 
-export const getCommunityPromotionPosts = async (communityId, lastPostId) => 
-    get(BACKEND_API_URL + '/community/getCommunityPromotionPosts', {communityId, lastPostId})
+export const getCommunityPromotionPosts = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityPromotionPosts', { twitterId, communityId, lastPostId})
 
-export const getCommunityNewPosts = async (communityId, lastPostId) => 
-    get(BACKEND_API_URL + '/community/getCommunityNewPosts', {communityId, lastPostId})
+export const getCommunityNewPosts = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityNewPosts', { twitterId, communityId, lastPostId})
 
 export const getCommunityActivities = async (communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityActivities', {communityId})
 
-export const getCommunityActivePosts = async (activityId, lastPostId) =>
-    get(BACKEND_API_URL + '/community/getCommunityActivePosts', {activityId, lastPostId})
+export const getCommunityActivePosts = async (twitterId, activityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivePosts', {twitterId, activityId, lastPostId})
 
-export const getCommunityAnnouncement = async (communityId, lastPostId) =>
-    get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {communityId, lastPostId})
+export const getCommunityAnnouncement = async (twitterId, communityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {twitterId, communityId, lastPostId})
 
 export const joinCommunity = async (twitterId, communityId) =>
     post(BACKEND_API_URL + '/community/joinCommunity', {twitterId, communityId})

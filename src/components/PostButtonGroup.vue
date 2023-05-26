@@ -16,7 +16,7 @@
     <!-- like & unlike-->
     <div class="flex">
       <button class="flex justify-center items-center"
-                :disabled="isLiking || unLiked"
+                :disabled="isLiking || unLiked || liked"
                 @click.stop="userLike">
         <div class="flex items-center disabled-no-opacity">
           <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
@@ -28,7 +28,7 @@
       </button>
       <div class=" w-1px bg-color8B/30 mx-8px"></div>
       <!-- unlike-->
-      <button :disabled="isLiking || liked || post.quoted || post.retweeted"
+      <button :disabled="isLiking || liked || unLiked || post.quoted || post.retweeted"
                 @click.stop="userUnLike"
                  class="flex justify-center items-center">
         <div class="flex items-center disabled-no-opacity">
@@ -425,6 +425,7 @@ export default {
       return res
     },
     liked() {
+      console.log(3, {...this.post}, this.post.liked, this.post.downVote);
       return this.post.liked === 1 && this.post.downVote === 0
     },
     unLiked() {

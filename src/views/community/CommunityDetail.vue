@@ -206,7 +206,7 @@ import CommunityAbout from "@/views/community/CommunityAbout.vue";
 import CommunityActivity from "@/views/community/CommunityActivity.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps } from '@/api/api'
 import { notify } from "@/utils/notify";
 import {markRaw, watch} from "vue";
@@ -269,7 +269,7 @@ export default {
       getCommunityById(this.getAccountInfo?.twitterId, communityId).then(async res => {
 
         if (res && res.communityId) {
-          const price = await getPriceFromOracle(EVM_CHAINS[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
+          const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
           res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
           // get token price

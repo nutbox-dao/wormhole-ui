@@ -119,6 +119,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getAccountInfo']),
     ...mapState('community', ['showingCommunity', 'trendingPosts', 'newPosts', 'promotionPosts', 'announces']),
     postsList() {
       if(this.typeIndex == 0) {
@@ -163,7 +164,7 @@ export default {
   methods: {
     refresh() {
       this.refreshing=true
-        getCommunityAnnouncement(this.showingCommunity.communityId).then(ann => {
+        getCommunityAnnouncement(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ann => {
           if (ann && ann.length >= 0) {
             this.$store.commit('community/saveAnnounces', ann);
           }
@@ -174,7 +175,7 @@ export default {
         })
         this.listFinished = false
         if (this.typeIndex == 0) {
-          getCommunityTrendingPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityTrendingPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
             console.log(1 ,ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/saveTrendingPosts', ps)
@@ -186,7 +187,7 @@ export default {
             notify({message: e, type: 'error'})
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 1) {
-          getCommunityPromotionPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
             console.log(2, ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/savePromotionPosts', ps)
@@ -198,7 +199,7 @@ export default {
             notify({message: e, type: 'error'})
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 2){
-          getCommunityNewPosts(this.showingCommunity.communityId).then(ps => {
+          getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
             console.log(3, ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/saveNewPosts', ps)
@@ -223,7 +224,7 @@ export default {
           const pageSize = 12;
           const trendingPosts = this.trendingPosts ?? [];
           const pageIndex = Math.floor((trendingPosts.length - 1) / 12) + 1;
-          getCommunityTrendingPosts(this.showingCommunity.communityId, pageSize, pageIndex).then(ps => {
+          getCommunityTrendingPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, pageSize, pageIndex).then(ps => {
             console.log(11 ,ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveTrendingPosts', trendingPosts.concat(ps))
@@ -240,7 +241,7 @@ export default {
           if (promotionPosts.length > 0) {
             lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
           }
-          getCommunityPromotionPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
+          getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
             console.log(22, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/savePromotionPosts', promotionPosts.concat(ps))
@@ -257,7 +258,7 @@ export default {
           if (newPosts.length > 0) {
             lastPostId = newPosts[newPosts.length - 1].lastPostId;
           }
-          getCommunityNewPosts(this.showingCommunity.communityId, lastPostId).then(ps => {
+          getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
             console.log(33, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveNewPosts', newPosts.concat(ps))

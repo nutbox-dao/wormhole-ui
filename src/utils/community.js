@@ -1,7 +1,65 @@
 import store from '@/store'
 import { checkAccessToken, logout } from '@/utils/account'
-import { joinCommunity as jc } from '@/api/api'
-import { VP_CONSUME, RC_CONSUME, errCode } from '@/config';
+import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAuthorPendingRewards as gcapr,
+    getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
+    setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr } from '@/api/api'
+import { errCode } from '@/config';
+
+export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) => {
+    await checkAccessToken();
+    try {
+        const params = await gccrp(communityId, twitterId, ids)
+        return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
+export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId, ids) => {
+    await checkAccessToken();
+    try {
+        const params = await gccarp(communityId, twitterId, ids)
+        return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
+export const setCommunityRewardClaimed = async (twitterId, ids) => {
+    await checkAccessToken();
+    try {
+        const params = await scrc(twitterId, ids)
+        return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
+export const setCommunityAuthorRewardClaimed = async (twitterId, ids) => {
+    await checkAccessToken();
+    try {
+        const params = await scarc(twitterId, ids)
+        return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
 
 export const joinCommunity = async (communityId) => {
     await checkAccessToken();

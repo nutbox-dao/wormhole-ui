@@ -129,7 +129,13 @@ export const isWrappedToken = {
     '0x217dffF57E3b855803CE88a1374C90759Ea071bD': true,
     '0xAcc15dC74880C9944775448304B263D191c6077F': true
 }
-
+export const EVM_CHAINS_ID = {
+    56: 'BNB Smart Chain',
+    137: 'Polygon',
+    42161: 'Arbitrum',
+    1284: 'Moonbeam',
+    119: 'ENULS'
+}
 /**
  * EVM Chains
  */
@@ -183,7 +189,8 @@ export const EVM_CHAINS = {
         },
         curation: '0x4695c30907E95A2153486D7a6372f3FBc2a89056',
         popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB',
-        oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550'
+        oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550',
+        communityCuration: '0x6534b7A5a4dbF65b6DE92fF60dfB25f4Fdb7636B'
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
@@ -370,11 +377,6 @@ export const EVM_CHAINS = {
     //     curation: '',
     //     popup: ''
     // },
-    56: 'BNB Smart Chain',
-    137: 'Polygon',
-    42161: 'Arbitrum',
-    1284: 'Moonbeam',
-    119: 'ENULS'
 }
 
 export const SteemScan = 'https://ecosynthesizer.com/steem/'
