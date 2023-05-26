@@ -252,7 +252,6 @@ export default {
     },
     config() {
       if (this.communityId && this.configs[this.communityId]) {
-        console.log(3, this.configs[this.communityId]);
         return this.configs[this.communityId]
       }
       return {}
@@ -286,11 +285,17 @@ export default {
         }
         this.configs[communityId] = configs;
         this.$store.commit('community/saveConfigs', this.configs)
+      }).catch(e => {
+        console.log(54, e);
+        notify({error: e, type: 'error'})
       })
 
       getCommunityOps(communityId).then(ops => {
         console.log('ops', ops);
         this.$store.commit('community/saveOps', ops)
+      }).catch(e => {
+        console.log(55, e);
+        notify({error: e, type: 'error'})
       })
     }
   },

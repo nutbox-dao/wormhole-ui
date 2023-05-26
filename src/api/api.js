@@ -405,7 +405,7 @@ export const getCommunityMembers = async (communityId, pageSize, pageIndex) =>
     get(BACKEND_API_URL + '/community/getCommunityMembers', {communityId, pageSize, pageIndex})
 
 export const getJoinCommunityState = async (twitterId, communityIds) =>
-    post(BACKEND_API_URL = '/community/getJoinCommunityState', {twitterId, communityIds})
+    post(BACKEND_API_URL + '/community/getJoinCommunityState', {twitterId, communityIds})
 
 export const searchCommunityByName = async (communityName) =>
     get(BACKEND_API_URL + '/community/searchCommunityByName', {communityName})

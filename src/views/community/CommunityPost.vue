@@ -176,7 +176,6 @@ export default {
         this.listFinished = false
         if (this.typeIndex == 0) {
           getCommunityTrendingPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
-            console.log(1 ,ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/saveTrendingPosts', ps)
               if (ps.length < 12) {
@@ -188,7 +187,6 @@ export default {
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 1) {
           getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
-            console.log(2, ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/savePromotionPosts', ps)
               if (ps.length < 12) {
@@ -200,7 +198,6 @@ export default {
           }).finally(() => this.refreshing = false)
         }else if (this.typeIndex == 2){
           getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
-            console.log(3, ps);
             if (ps && ps.length >= 0) {
               this.$store.commit('community/saveNewPosts', ps)
               if (ps.length < 12) {
@@ -225,7 +222,6 @@ export default {
           const trendingPosts = this.trendingPosts ?? [];
           const pageIndex = Math.floor((trendingPosts.length - 1) / 12) + 1;
           getCommunityTrendingPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, pageSize, pageIndex).then(ps => {
-            console.log(11 ,ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveTrendingPosts', trendingPosts.concat(ps))
               if (ps.length < 12) {
@@ -242,7 +238,6 @@ export default {
             lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
           }
           getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
-            console.log(22, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/savePromotionPosts', promotionPosts.concat(ps))
               if (ps.length < 12) {
@@ -259,7 +254,6 @@ export default {
             lastPostId = newPosts[newPosts.length - 1].lastPostId;
           }
           getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
-            console.log(33, ps);
             if (ps && ps.length > 0) {
               this.$store.commit('community/saveNewPosts', newPosts.concat(ps))
               if (ps.length < 12) {

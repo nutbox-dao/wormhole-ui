@@ -5,12 +5,12 @@
       <div class="flex items-center">
         <img class="w-48px h-48px min-w-48px border-2 border-colorF7/36 rounded-full shadow-color72"
              :src="community.icon" alt="">
-        <span class="text-white text-20px leading-26px c-text-black ml-10px">{{community.name}}</span>
+        <span class="text-white text-20px leading-26px c-text-black ml-10px">{{community.communityName}}</span>
       </div>
       <div class="w-full">
         <div class="flex items-end">
         <span class="text-32px leading-32px c-text-black text-white mr-4px">
-          {{community.influence}}
+          {{community.CCPower}}
         </span>
           <el-popover :width="200" trigger="hover">
             <template #reference>
@@ -25,62 +25,83 @@
                        :text-inside="false"
                        :stroke-width="10"
                        :show-text="false"
-                       :percentage="80"/>
+                       :percentage="(community.memberCount - community.userIndex) * 100 / community.memberCount"/>
           <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px"
-                  @click="isFold=!isFold">
+                  @click.stop="getDetail">
             <img class="w-16px transform spin-slow"
                  :class="isFold?'rotate-0':'-rotate-180'"
                  src="~@/assets/icon-select-white.svg" alt="">
           </button>
         </div>
         <div class="text-12px text-white/80 text-left">
-          {{$t('community.influenceTip', {percent: 80})}}
+          {{$t('community.influenceTip', {percent: ((community.memberCount - community.userIndex) * 100 / community.memberCount).toFixed(2)})}}
         </div>
       </div>
     </div>
     <el-collapse-transition>
       <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px">
-        <div class="text-14px text-white/60 text-left mb-4px">RC: 873</div>
-        <el-progress class="c-progress-green flex-1 w-full"
-                     color="#68E796"
-                     :text-inside="false"
-                     :stroke-width="6"
-                     :show-text="false"
-                     :percentage="80"/>
         <div class="text-14px text-white/60 text-left mt-15px mb-4px">
-          {{$t('community.twitterInfluence')}}: 873
+          {{$t('community.twitterInfluence')}}: {{ getAccountInfo?.reputation }}
         </div>
         <el-progress class="c-progress-purple flex-1 w-full"
                      color="#7700E0"
                      :text-inside="false"
                      :stroke-width="6"
                      :show-text="false"
-                     :percentage="80"/>
+                     :percentage="getAccountInfo?.reputation / 100000"/>
       </div>
     </el-collapse-transition>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: "InfluenceCardItem",
+  props: {
+    community: {
+      type: Object,
+      default: {}
+    },
+  },
   data() {
     return {
       isFold: true,
-      community: {
-        poster: 'https://cdn.wherein.mobi/nutbox/v2/1661235326512',
-        icon: 'https://cdn.wherein.mobi/nutbox/v2/1661235173292',
-        tags: ['太空探索', '宇宙', '航天飞行'],
-        name: 'SpaceX',
-        chain: 'Polygon',
-        symbol: 'MATIC',
-        tokenAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-        members: 35,
-        desc: '太空探索技术公司，即美国太空探索技术公司，是一家由PayPal早期投资人埃隆·马斯克2002年6月建立的美国太空运输公司。',
-        influence: 18000
+      gettingDetail: false
+    }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
+  methods: {
+    async getDetail() {
+      this.isFold=!this.isFold
+      if (!this.community.detail || this.community.detail.length === 0) {
+        try{
+          this.gettingDetail = true
+          let policy = this.community.CCPolicy;
+          if (policy) {
+            policy = JSON.parse(policy)
+          }
+          console.log(55, policy);
+          const communityPolicy = policy.community.policys;
+          for(let p of communityPolicy) {
+            if (p.type === 'stake') {
+              
+            }
+          }
+          this.community.detail = policy
+        } catch (e) {
+          console.log('get detail fail: ', e);
+        } finally {
+          this.gettingDetail = false
+        }
       }
     }
-  }
+  },
+  mounted () {
+  },
 }
 </script>
 

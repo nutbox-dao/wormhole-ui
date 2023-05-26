@@ -2,7 +2,8 @@ import store from '@/store'
 import { checkAccessToken, logout } from '@/utils/account'
 import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAuthorPendingRewards as gcapr,
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
-    setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr } from '@/api/api'
+    setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
+    getJoinCommunityState as gjcs } from '@/api/api'
 import { errCode } from '@/config';
 
 export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) => {
@@ -61,6 +62,19 @@ export const setCommunityAuthorRewardClaimed = async (twitterId, ids) => {
     }
 }
 
+export const getJoinCommunityState = async (twitterId) => {
+    await checkAccessToken();
+    try {
+        return await gjcs(twitterId);
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
 export const joinCommunity = async (communityId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
@@ -82,4 +96,8 @@ export const joinCommunity = async (communityId) => {
         }
         throw e
     }
+}
+
+export const getCommunityPolicyStake = async (communityId, policy) => {
+    
 }

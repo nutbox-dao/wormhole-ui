@@ -26,8 +26,8 @@
                   <div class="c-text-black text-zinc-700 text-2rem mt-1rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
-                  <div v-for="i of 5" :key="i">
-                    <InfluenceCardItem></InfluenceCardItem>
+                  <div v-for="community of communityCC" :key="community.communityId">
+                    <InfluenceCardItem :community="community" class="cursor-pointer" @click="gotoCommunity(community)"></InfluenceCardItem>
                   </div>
                 </div>
               </div>
@@ -41,6 +41,9 @@
 
 <script>
 import InfluenceCardItem from "@/components/influence/InfluenceCardItem";
+import { getJoinCommunityState } from '@/utils/community'
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "InfluenceIndex",
   components: {InfluenceCardItem},
@@ -52,14 +55,29 @@ export default {
       influenceList: [1]
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('community', ['communityCC'])
+  },
   methods: {
     onRefresh() {
 
     },
     onLoad() {
 
+    },
+    gotoCommunity(community) {
+      this.$router.push('/community-detail/' + community.communityId)
     }
-  }
+  },
+  async mounted () {
+    getJoinCommunityState(this.getAccountInfo.twitterId).then(res => {
+      this.$store.commit('community/saveCommunityCC', res)
+      console.log(53,res);
+    }).catch(e => {
+      console.log(22, e);
+    })
+  },
 }
 </script>
 
