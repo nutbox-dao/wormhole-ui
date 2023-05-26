@@ -426,7 +426,13 @@ export default {
     topics: '活动',
     promotion: '推广',
     rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
-    award: '奖励'
+    award: '奖励',
+    disStrategy: '分发策略',
+    currentBlock: '当前区块高度',
+    currentReward: '当前挖矿奖励',
+    lastHalvingTime: '上次减半时间',
+    nextHalvingTime: '下次减半时间',
+    pool: '矿池'
   },
   info: {
     interactive: '互动',
