@@ -48,7 +48,7 @@
                              color="#68E796"
                              :stroke-width="5"
                              :width="50"
-                             :percentage="Number(rc) / MAX_RC * 100">
+                             :percentage="(Number(rc) / MAX_RC * 100).toFixed(2)">
                   <template #default="{ percentage }">
                     <span class="percentage-value">{{ percentage }}%</span>
                   </template>
@@ -67,7 +67,7 @@
                              color="#7700E0"
                              :stroke-width="5"
                              :width="50"
-                             :percentage="Number(vp) / MAX_VP * 100">
+                             :percentage="(Number(vp) / MAX_VP * 100).toFixed(2)">
                   <template #default="{ percentage }">
                     <span class="percentage-value">{{ percentage }}%</span>
                   </template>
