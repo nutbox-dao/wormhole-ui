@@ -12,19 +12,18 @@
     <template v-else>
       <van-swipe :loop="false"
                   :autoplay="0"
-                  :width="width<640?width*0.85:$refs.wRef.clientWidth"
+                  :width="width<640?width*0.85:($refs.wRef?$refs.wRef.clientWidth:'')"
                   :initial-swipe="activeAnnounceIndex"
-                  :show-indicators="false"
-                  class="px-8px sm:px-0">
+                  :show-indicators="false">
         <van-swipe-item
             v-for="(post, index) of announces" :key="post.postId"
-            class="p-7px">
+            class="swipe-item pl-15px">
           <RecommendPost class="rounded-12px border-1 border-color8B/30 light:border-color7F"
                           @click="gotoDetail(post, index)"
                           :post="post"></RecommendPost>
         </van-swipe-item>
       </van-swipe>
-      <div class="hidden sm:flex justify-center items-center">
+      <div class="hidden sm:flex justify-center items-center mt-10px">
         <button class="w-30px h-30px bg-color62/20 rounded-full flex justify-center items-center
                         disabled:opacity-30"
                 :disabled="activeAnnounceIndex===0"
@@ -279,6 +278,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.swipe-item {
+  &:last-child {
+    padding-right: 15px;
+  }
+}
 </style>

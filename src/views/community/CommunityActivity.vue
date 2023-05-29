@@ -28,7 +28,7 @@
         <template v-else>
           <ActivityItem v-for="(op, i) of ops" :key="i"
                         :op="op"
-                        class="mb-15px bg-blockBg light:bg-colorF7F9 p-10px rounded-12px"/>
+                        class="mb-15px bg-tag-gradient text-white p-15px rounded-12px"/>
         </template>
       </van-list>
     </van-pull-refresh>

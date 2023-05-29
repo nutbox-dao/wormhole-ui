@@ -38,7 +38,7 @@ export default defineConfig({
         color46: '#464646',
         colorF4: '#F4F3FD',
         colorE0: '#E0D2FF',
-        color62: '#7851FF',
+        color62: '#6246EA',
         colorF1: '#F1F1FE',
         color8F: '#8F8F8F',
         colorF7: '#F7F7F9',
@@ -101,7 +101,8 @@ export default defineConfig({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)',
         'card': '0px 12px 24px rgba(135, 127, 149, 0.09)',
         'color1A': '0px 0px 15px 0px rgba(26,26,26,0.05);',
-        'color72': '0px 1px 14px 0px #7428E4;'
+        'color72': '0px 1px 14px 0px #7428E4;',
+        'tab': '0 -10px 10px -10px rgba(26,26,26,0.05);'
       })
     }
   }

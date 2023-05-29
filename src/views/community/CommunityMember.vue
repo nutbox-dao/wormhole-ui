@@ -1,5 +1,5 @@
 <template>
-  <div class="py-20px">
+  <div class="py-10px">
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
          v-if="listLoading && (!members || members.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -15,20 +15,20 @@
               :loading-text="$t('common.loading')"
               :finished-text="members.length!==0?$t('common.noMore'):''"
               @load="onLoad">
-      <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px">
-        <span class="w-3/7 text-left">{{$t('community.member')}}</span>
-        <span class="w-2/7 text-right">{{$t('community.joinTime')}}</span>
-        <span class="w-2/7 text-right">{{$t('community.communityToken')}}</span>
+      <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px gap-5px">
+        <span class="flex-1 text-left">{{$t('community.member')}}</span>
+        <span class="flex-1 text-right">{{$t('community.joinTime')}}</span>
+        <span class="flex-1 text-right">{{$t('community.communityToken')}}</span>
       </div>
-      <div class="flex justify-between items-center px-15px text-14px py-10px"
+      <div class="flex justify-between items-center px-15px py-10px gap-5px"
            v-for="(item, index) of members" :key="index">
-        <div class="flex items-center w-3/7 truncate">
+        <div class="flex items-center flex-1 truncate">
           <img class="w-32px min-w-32px h-32px rounded-full mr-5px"
                :src="item.profileImg || defaultAvatar" alt="">
-          <span class="truncate">{{item.username}}</span>
+          <span class="truncate text-14px">{{item.username}}</span>
         </div>
-        <span class="w-2/7 text-right">{{ parseTimestamp(item.joinTime) }}</span>
-        <span class="w-2/7 text-right">{{ item.showingBalance }}</span>
+        <span class="flex-1 text-right text-12px">{{ parseTimestamp(item.joinTime) }}</span>
+        <span class="flex-1 text-right text-12px">{{ item.showingBalance }}</span>
       </div>
     </van-list>
   </div>

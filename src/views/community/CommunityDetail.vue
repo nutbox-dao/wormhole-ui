@@ -36,7 +36,7 @@
     </div>
     <div class="sm:pt-85px 2md:pt-0 pb-20px">
       <div class="2md:grid grid-cols-3 gap-15px container mx-auto sm:max-w-50rem">
-        <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px">
+        <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max">
           <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
             <!-- description header -->
             <c-image :src="showingCommunity.banner"
@@ -125,7 +125,7 @@
             </div>
           </div>
           <div class="w-full overflow-auto no-scroll-bar sticky top-70px 2md:top-0
-                      bg-primaryBg light:bg-white z-9 tab-shadow">
+                      bg-primaryBg light:bg-white z-9 shadow-tab">
             <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
                 border-b-0.5px border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
                 px-15px w-min min-w-full">
@@ -363,8 +363,5 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
-}
-.tab-shadow {
-  box-shadow: 0 -10px 10px -10px rgba(26,26,26,0.05);;
 }
 </style>

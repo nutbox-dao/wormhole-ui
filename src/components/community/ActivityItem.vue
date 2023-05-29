@@ -1,11 +1,14 @@
 <template>
   <div class="text-left">
     <div class="font-bold c-text-black text-14px mb-10px">{{type}}</div>
-    <div class="text-12px leading-18px break-word multi-content">
+    <div class="text-15px leading-21px break-word multi-content">
       {{ op.content }}
     </div>
-    <div class="flex justify-between items-center mt-10px text-12px text-color8B light:text-color7D">
+    <div class="flex justify-between items-center mt-10px text-12px">
       <div class="flex items-center">
+<!--        <img class="w-24px min-w-24px h-24px rounded-full mr-4px"-->
+<!--             src="~@/assets/icon-default-avatar.svg" alt="">-->
+<!--        <span class="font-bold">Name</span>-->
       </div>
       <span>{{ parseTimestamp(op.createTime) }}</span>
     </div>
