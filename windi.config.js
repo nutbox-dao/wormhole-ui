@@ -66,10 +66,12 @@ export default defineConfig({
         colorA0: '#A0A0A0',
         color33: '#333333',
         color66: '#666666',
+        color99: '#999999',
         color35: '#353535',
         color1A: '#1A1A1A',
         color27: '#272727',
         colorF7F9: '#F7F2FF',
+        lightHeader: '#F1F2FF',
         colorBlue: '#1DA1F2',
         blueDark: '#1A1E25'
       },

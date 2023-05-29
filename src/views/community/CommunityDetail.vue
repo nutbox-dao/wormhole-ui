@@ -40,18 +40,18 @@
           <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
             <!-- description header -->
             <c-image :src="showingCommunity.banner"
-                     class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0"></c-image>
+                     class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
             <div class="relative mt-95px px-15px">
               <div class="flex items-stretch">
-                <img class="w-72px h-72px min-w-72px min-h-72px border-3 border-colorF7 rounded-9px bg-colorF7"
-                     :src="showingCommunity.icon" alt="">
+                <c-image :src="showingCommunity.icon"
+                         class="w-72px h-72px min-w-72px min-h-72px border-3 border-colorF7 rounded-9px bg-colorF7"></c-image>
                 <div class="flex-1 flex flex-col justify-between ml-15px">
                   <div class="flex justify-between items-start">
                     <div class="text-left">
                       <div class="c-text-black text-24px text-white mb-8px">{{showingCommunity.communityName}}</div>
                       <div class="flex items-center text-white text-12px">
-                        <img class="w-14px h-14px min-w-14px rounded-full mr-4px"
-                             :src="TokenIcon[chain.main ? chain.main.symbol : '']" alt="">
+                        <c-image :src="TokenIcon[chain.main ? chain.main.symbol : '']"
+                                 class="w-14px h-14px min-w-14px rounded-full mr-4px"></c-image>
                         <span>{{chain.chainName}}</span>
                         <div class="w-1px h-12px bg-white mx-8px"></div>
                         <div>{{$t('community.peopleJoined', {num: showingCommunity.memberCount})}}</div>
@@ -84,12 +84,12 @@
                 <div v-show="config['discord']"
                      @click="open(config['discord'])"
                      class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                  <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-discord.svg" alt="">
                 </div>
                 <div v-show="config['telegram']"
                      @click="open(config['telegram'])"
                      class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                  <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-telegram.svg" alt="">
                 </div>
                 <div v-show="config['official']"
                      @click="open(config['official'])"
@@ -124,31 +124,32 @@
               </div>
             </div>
           </div>
-          <div class="w-full overflow-auto no-scroll-bar">
+          <div class="w-full overflow-auto no-scroll-bar sticky top-70px 2md:top-0
+                      bg-primaryBg light:bg-white z-9 tab-shadow">
             <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
-                border-b-1 border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
-                sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 px-15px w-min min-w-full">
-              <button class="h-full px-5px 2md:px-10px"
+                border-b-0.5px border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
+                px-15px w-min min-w-full">
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
                       @click="changeTab(0)">
                 {{$t('community.post')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px"
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
                 {{$t('community.topic')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px"
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
                       @click="changeTab(2)">
                 {{$t('community.member')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px"
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
                       @click="changeTab(3)">
                 {{$t('community.about')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px 2md:hidden"
+              <button class="h-full px-5px 2md:px-10px 2md:hidden whitespace-nowrap"
                       :class="tabIndex===4?'active-tab text-color62':'text-color7D'"
                       @click="changeTab(4)">
                 {{$t('community.activity')}}
@@ -362,5 +363,8 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
+}
+.tab-shadow {
+  box-shadow: 0 -10px 10px -10px rgba(26,26,26,0.05);;
 }
 </style>

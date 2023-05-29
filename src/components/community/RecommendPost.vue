@@ -1,6 +1,6 @@
 <template>
-  <div class="" ref="blogRef">
-    <div class="sm:rounded-1rem">
+  <div class="sm:rounded-12px overflow-hidden" ref="blogRef">
+    <div class="px-15px pt-15px pb-10px">
       <div class="flex items-start">
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400">
@@ -12,26 +12,32 @@
             </div>
           </div>
         </div>
-        <BlogReward :post="post" class="ml-10px"></BlogReward>
+        <BlogReward :post="post" class="ml-10px -mr-8px"></BlogReward>
       </div>
-      <div class="flex justify-between items-center mt-8px text-14px filter invert-60 light:invert-50">
-        <span>{{parseTimestamp(post.postTime)}}</span>
+      <div class="flex justify-between items-center mt-8px text-12px filter text-color99">
         <div class="flex items-center">
-          <img class="w-14px h-14px"
+          <img class="w-12px min-w-12px h-12px min-h-12px mr-3px" src="~@/assets/icon-time.svg" alt="">
+          <span>{{parseTimestamp(post.postTime)}}</span>
+        </div>
+        <div class="flex items-center">
+          <img class="w-12px h-12px mr-3px"
                src="~@/assets/icon-member-white.svg" alt="">
-          <span class="ml-4px">35</span>
+          <span>35</span>
         </div>
       </div>
-      <div class="w-full h-1px bg-color8B/30 light:bg-color7F my-10px"></div>
-      <slot name="bottom-btn-bar">
+    </div>
+    <div class="w-full h-1px bg-color8B/30 light:bg-color7F"></div>
+    <slot name="bottom-btn-bar">
+      <div class="pl-15px pr-7px py-10px bg-tag-gradient">
         <PostButtonGroup ref="postButtonRef"
+                         class=" filter brightness-500"
                          :id="post.postId"
                          :post="post"
                          :imgurls="imgurls"
                          :is-detail="isDetail"
                          :content="content"/>
-      </slot>
-    </div>
+      </div>
+    </slot>
   </div>
 </template>
 

@@ -24,7 +24,7 @@
 <!--                @gotoDC="gotoDC"-->
 <!--                @gotoTwitter="gotoTwitter"></HeaderV1>-->
       <HeaderWeb @gotoCommunity="gotoCommunity" @setSelectTag="setSelectTag" @gotoUser="gotoUser" class="hidden 2md:flex"></HeaderWeb>
-      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
+      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden c-header"></HeaderH5>
       <div class="flex-1 overflow-hidden flex">
         <SliderBar class="hidden 2md:flex h-full overflow-hidden"
                    :profile-img="profileImg"
@@ -441,17 +441,16 @@ export default {
 }
 .light #app {
   color: #1A1E25;
-  //&.bg-img {
-  //  background-image: url("~@/assets/layout-bg.png");
-  //  background-size: cover;
-  //  background-position: center;
-  //}
 }
-.c-emoji {
-  //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-}
-.c-input-emoji {
-  //font-family: system-ui;
+.light .square{
+  &.bg-img{
+    background-image: linear-gradient(43deg, #EAE6FF 0%, #DED4FF 25%, #FBFCFF 76%, #EBEBFF 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  .c-header {
+    background: #F1F2FF;
+  }
 }
 .menu-icon {
   display: inline-block;

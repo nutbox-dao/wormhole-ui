@@ -1,5 +1,5 @@
 <template>
-  <div class="py-20px">
+  <div class="py-10px">
     <div class="w-full" ref="wRef"></div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
         v-if="refreshing && (!announces || announces.length === 0)">
@@ -19,7 +19,7 @@
         <van-swipe-item
             v-for="(post, index) of announces" :key="post.postId"
             class="p-7px">
-          <RecommendPost class="p-15px rounded-12px border-1 border-color8B/30 light:border-color7F"
+          <RecommendPost class="rounded-12px border-1 border-color8B/30 light:border-color7F"
                           @click="gotoDetail(post, index)"
                           :post="post"></RecommendPost>
         </van-swipe-item>
@@ -43,10 +43,10 @@
           <img class="w-12px h-12px transform -rotate-90" src="~@/assets/icon-arrow-primary.svg" alt="">
         </button>
       </div>
-      <div class="w-7/10 mx-auto h-1px bg-color8B/30 light:bg-color7F my-20px sm:hidden"></div>
+<!--      <div class="w-7/10 mx-auto h-1px bg-color8B/30 light:bg-color7F my-20px sm:hidden"></div>-->
     </template>
     <div class="px-15px">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between mt-10px">
         <span class="c-text-black text-14px">Post ({{ showingCommunity.curationCount }})</span>
         <el-dropdown>
           <button class="text-14px text-color62 flex items-center">
@@ -57,7 +57,7 @@
             <el-dropdown-menu>
               <el-dropdown-item v-for="(type, index) of postType" :key="type"
                                 @click="typeIndex=index">
-            <span :class="typeIndex===index?'text-color62':''">
+            <span class="text-12px" :class="typeIndex===index?'text-color62':''">
               {{type}}
             </span>
               </el-dropdown-item>
@@ -87,7 +87,7 @@
                   :finished-text="postsList.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
             <div v-for="(post, index) of postsList" :key="post.postId"
-                class="py-20px border-b-1 border-color8B/30 light:border-listBgBorder">
+                class="py-20px border-b-0.5px border-color8B/30 light:border-colorD8">
               <Blog :post="post"
                     :showCommunity="false"
                     @click="gotoDetail(post, index)"
@@ -274,7 +274,7 @@ export default {
     },
   },
   async mounted () {
-    
+
   },
 }
 </script>

@@ -205,6 +205,9 @@ html.light {
 .c-progress-purple .el-progress-bar__outer {
   background: rgba(119, 0, 224, 0.4);
 }
+.c-circle-progress .el-progress-circle__track {
+  stroke: #333333;
+}
 .c-popper.el-popper {
   background: transparent;
   border: none;
@@ -345,4 +348,7 @@ html.light {
 }
 .light .c-number-input .el-input__inner {
   border-color: #F4F3FD;
+}
+.el-popover.el-popper {
+  min-width: 0;
 }
