@@ -444,7 +444,8 @@ export default {
     community: '社区',
     influence: '影响力',
     info: '消息',
-    create: '创建'
+    create: '创建',
+    mine: '我的'
   },
   err: {
     serverErr: '内部错误',

@@ -1,27 +1,27 @@
 <template>
-  <div class="py-20px border-b-1 border-headerBorder light:border-headerBorderLight
+  <div class="py-20px border-b-0.5px border-headerBorder light:border-colorD6
               h-70px 2xl:h-88px flex items-center c-page-header">
     <div class="w-full px-15px flex justify-between items-center relative">
 <!--      <button>-->
 <!--        <img class="w-30px h-30px filter invert-100 light:invert-0"-->
 <!--             src="~@/assets/icon-dashboard.svg" alt="">-->
 <!--      </button>-->
-      <div class="flex items-center gap-5px">
+      <div class="flex items-center gap-10px">
         <el-tooltip popper-class="shadow-popper-tip">
           <template #content>
             <div class="max-w-14rem text-white light:text-blueDark">
               {{$t('postView.p1')}}
             </div>
           </template>
-          <button class="w-40px max-w-40px h-40px">
-            <el-progress class="c-progress-green w-full h-full"
+          <button class="flex justify-center items-center">
+            <el-progress class="c-circle-progress"
                          type="dashboard"
                          color="#68E796"
-                         :stroke-width="5"
-                         :width="40"
+                         :stroke-width="3"
+                         :width="32"
                          :percentage="Number(rc) / MAX_RC * 100">
               <template #default="{ percentage }">
-                <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
+                <span class="percentage-value text-12px block c-text-black">RC</span>
               </template>
             </el-progress>
           </button>
@@ -32,15 +32,15 @@
               {{$t('postView.vpDes')}}
             </div>
           </template>
-          <button class="w-40px max-w-40px h-40px">
-            <el-progress class="c-progress-green"
+          <button class="flex justify-center items-center">
+            <el-progress class="c-circle-progress"
                          type="dashboard"
                          color="#7700E0"
-                         :stroke-width="5"
-                         :width="40"
+                         :stroke-width="3"
+                         :width="32"
                          :percentage="Number(vp) / MAX_VP * 100">
               <template #default="{ percentage }">
-                <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
+                <span class="percentage-value text-12px block c-text-black">VP</span>
               </template>
             </el-progress>
           </button>

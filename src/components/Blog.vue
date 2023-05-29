@@ -139,9 +139,8 @@
           <slot name="blog-tag">
             <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
               <div v-show="tag != 'iweb3'"
-                   class="py-3px px-6px rounded-6px mt-10px
-                        whitespace-nowrap cursor-pointer light:text-color46"
-                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color8B bg-white/10 light:bg-color8B/10'"
+                   class="py-3px px-6px rounded-full mt-10px whitespace-nowrap cursor-pointer border-1 border-color62"
+                   :class="selectedTag === tag?'bg-color62/70 text-white':'text-color62'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -153,10 +152,12 @@
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
-          <div v-show="showCommunity && post.communityId"  @click.stop="$router.push('/community-detail/' + post.communityId)" class="flex items-center mt-10px text-14px">
-            <span>{{$t('community.communityFrom')}}: </span>
-            <div class="flex items-center ml-10px">
-              <img class="w-20px h-20px bg-color8B/30 rounded-full mr-4px" :src="communityIcon" alt="">
+          <div v-show="showCommunity && post.communityId"
+               @click.stop="$router.push('/community-detail/' + post.communityId)"
+               class="flex items-center mt-10px bg-color8B/30 light:bg-color1A w-max py-5px px-10px text-12px rounded-full">
+            <span>{{$t('community.communityFrom')}}</span>
+            <div class="flex items-center">
+              <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="communityIcon" alt="">
               <span>{{ post.communityName }}</span>
             </div>
           </div>

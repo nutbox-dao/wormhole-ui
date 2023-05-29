@@ -352,12 +352,14 @@
 
 .btn-icon-unlike {
   @extend .icon;
-  background-image: url("~@/assets/btn-unlike.svg");
+  background-image: url("~@/assets/btn-like.svg");
+  transform: rotateX(180deg);
 }
 
 .btn-icon-unlike-active {
   @extend .icon;
-  background-image: url("~@/assets/btn-unlike-active.svg");
+  background-image: url("~@/assets/btn-like-active.svg");
+  transform: rotateX(180deg);
 }
 
 .btn-icon-follow {

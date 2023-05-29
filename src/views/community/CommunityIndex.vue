@@ -25,7 +25,7 @@
                     :finished-text="communities.length!==0?$t('common.noMore'):''"
                     @load="onLoad">
             <div class="sm:px-15px">
-              <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem pt-15px">
+              <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem py-15px">
                 <div v-if="communities && communities.length === 0"
                      class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
@@ -35,7 +35,7 @@
                        @click="$router.push(`/community-detail/${com.communityId}`);">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-1 border-color8B/30 light:border-colorF2 bg-blockBg
-                                          light:bg-white"
+                                          light:bg-white light:shadow-color1A"
                                           :community="com"></CommunityItem>
                   </div>
                 </div>
