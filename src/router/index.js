@@ -179,7 +179,7 @@ const routes = [
     meta: {header: 'hidden', keepAlive: true, tabbar: "hidden"}
   },
   {
-    path: '/topic-detail/:communityId',
+    path: '/topic-detail/:topicId',
     name: 'topic-detail',
     component: TopicDetail,
     meta: {header: 'hidden'}

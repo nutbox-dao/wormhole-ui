@@ -1,14 +1,6 @@
 <template>
   <div class="py-20px">
-    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="refreshing && (!topicList || topicList.length === 0)">
-      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-    </div>
-    <div v-else-if="!refreshing && (!topicList || topicList.length === 0)" class="py-2rem">
-      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
-    </div>
-    <van-pull-refresh v-else
+    <van-pull-refresh
                       class="min-h-40vh"
                       v-model="refreshing"
                       @refresh="refresh"
@@ -19,10 +11,10 @@
                 :finished="listFinished"
                 :immediate-check="false"
                 :loading-text="$t('common.loading')"
-                :finished-text="postsList.length!==0?$t('common.noMore'):''"
+                :finished-text="topics.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div class="pt-20px">
-          <div class="mb-4px px-15px flex justify-between items-center">
+          <!-- <div class="mb-4px px-15px flex justify-between items-center">
             <span class="text-16px leading-25px font-bold">Twitter Space</span>
             <el-dropdown>
               <button class="text-14px text-color62 flex items-center">
@@ -40,12 +32,20 @@
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
+          </div> -->
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+              v-if="refreshing && (!spaces || spaces.length === 0)">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
           </div>
-          <div class=" ">
+          <div v-else-if="!refreshing && (!spaces || spaces.length === 0)" class="py-2rem">
+            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+          </div>
+          <div v-else class=" ">
             <div class="flex gap-15px space-container no-scroll-bar">
-              <div v-for="i of 3" :key="i"
+              <div v-for="(space, i) of spaces" :key="i"
                    class="space-item w-280px min-w-280px">
-                <Space :show-avatar="false">
+                <Space :show-avatar="false" :space="space" @click="gotoDetail(space)">
                   <template #bottom-btn-bar><div></div></template>
                 </Space>
               </div>
@@ -56,8 +56,16 @@
           <div class="mb-4px flex justify-between items-center">
             <span class="text-16px leading-25px font-bold">{{$t('community.topic')}}</span>
           </div>
-          <div v-for="i of 3" :key="i" class="mb-15px">
-            <TopicItem></TopicItem>
+          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+              v-if="refreshing && (!topics || topics.length === 0)">
+            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          </div>
+          <div v-else-if="!refreshing && (!topics || topics.length === 0)" class="py-2rem">
+            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+          </div>
+          <div v-else v-for="topic of topics" :key="topic.activityId" class="mb-15px">
+            <TopicItem :topic="topic"></TopicItem>
           </div>
         </div>
       </van-list>
@@ -68,6 +76,9 @@
 <script>
 import Space from "@/components/Space";
 import TopicItem from "@/components/community/TopicItem";
+import { getCommunitySpaces, getCommunityActivities } from '@/api/api'
+import { mapState, mapGetters } from "vuex";
+
 export default {
   name: "CommunityPost",
   components: {Space, TopicItem},
@@ -81,12 +92,45 @@ export default {
       refreshing: false,
     }
   },
+  computed: {
+    ...mapState('community', ['showingCommunity', 'topics', 'spaces']),
+    ...mapGetters(['getAccountInfo'])
+  },
+  async activated() {
+    let count = 0
+    while(!this.showingCommunity || !this.showingCommunity.communityId) {
+      await sleep(0.1);
+      if (count++ > 50) {
+        return;
+      }
+    }
+    if (this.showingCommunity.communityId !== this.communityId){
+      this.communityId = this.showingCommunity.communityId
+      this.refresh()
+    }
+  },
   methods: {
-    refresh() {
-
+    async refresh() {
+      try{
+        if (this.refreshing || this.listLoading) {
+          return;
+        }
+        this.refreshing = true;
+        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId), getCommunitySpaces(this.getAccountInfo.twitterId, this.communityId)]);
+        this.$store.commit('community/saveTopics', topics);
+        this.$store.commit('community/saveSpaces', spaces)
+      } catch (e) {
+        console.log(66, e);
+      } finally {
+        this.refreshing = false;
+      }
     },
     onLoad() {
 
+    },
+    gotoDetail(space) {
+      this.$store.commit('postsModule/saveCurrentShowingDetail', null);
+      this.$router.push('/post-detail/' + space.postId);
     }
   }
 }
