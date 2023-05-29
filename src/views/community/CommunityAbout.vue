@@ -1,23 +1,35 @@
 <template>
   <div class="px-15px sm:px-0 py-20px">
     <div class="">
-      <div class="text-14px font-bold mb-15px text-left">{{$t('community.disStrategy')}}</div>
-      <div class="grid grid-cols-2 sm:grid-cols-4 2md:grid-cols-2 xl:grid-cols-4 gap-15px">
-        <div class="span-col-1 bg-blockBg light:bg-colorF7F9 p-15px rounded-8px">
-          <div class="c-text-black text-16px mb-8px">72385750</div>
-          <div class="text-12px">{{$t('community.currentBlock')}}</div>
+      <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 2md:grid-cols-2 xl:grid-cols-4 gap-y-20px
+                  border-1px border-color8B/30 light:border-colorF7 rounded-12px py-20px shadow-color1A">
+        <div class="col-span-1 relative">
+          <div class="c-text-black text-24px leading-28px mb-8px light:text-color66">72385750</div>
+          <div class="text-12px text-color99">{{$t('community.currentBlock')}}</div>
+          <div class="h-30px w-0.5px bg-color99/30 absolute right-0 top-1/2 transform -translate-y-1/2"></div>
         </div>
-        <div class="span-col-1 bg-blockBg light:bg-colorF7F9 p-15px rounded-8px">
-          <div class="c-text-black text-16px mb-8px">1.25</div>
-          <div class="text-12px">{{$t('community.currentReward')}}</div>
+        <div class="col-span-1">
+          <div class="c-text-black text-24px leading mb-8px light:text-color66">1.25</div>
+          <div class="text-12px text-color99">{{$t('community.currentReward')}}</div>
         </div>
-        <div class="span-col-1 bg-blockBg light:bg-colorF7F9 p-15px rounded-8px">
-          <div class="c-text-black text-16px mb-8px">2022.3.23</div>
-          <div class="text-12px">{{$t('community.lastHalvingTime')}}</div>
+        <div class="col-span-1 relative">
+          <div class="c-text-black text-24px leading mb-8px light:text-color66">2022.3.23</div>
+          <div class="text-12px text-color99">{{$t('community.lastHalvingTime')}}</div>
+          <div class="h-30px w-0.5px bg-color99/30 absolute right-0 top-1/2 transform -translate-y-1/2"></div>
         </div>
-        <div class="span-col-1 bg-blockBg light:bg-colorF7F9 p-15px rounded-8px">
-          <div class="c-text-black text-16px mb-8px">2022.3.23</div>
-          <div class="text-12px">{{$t('community.nextHalvingTime')}}</div>
+        <div class="col-span-1">
+          <div class="c-text-black text-24px leading mb-8px light:text-color66">2022.3.23</div>
+          <div class="text-12px text-color99">{{$t('community.nextHalvingTime')}}</div>
+        </div>
+        <div class="col-span-2 px-15px">
+          <div class="text-center text-20px text-color62 font-bold mb-6px">50%</div>
+          <el-progress class="c-progress-gradient flex-1 w-full"
+                       :text-inside="false"
+                       :stroke-width="5"
+                       :show-text="false"
+                       :percentage="50"/>
+          <div class="text-12px text-color99 text-center mt-6px">{{$t('community.currentProgress')}}</div>
         </div>
       </div>
     </div>

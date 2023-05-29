@@ -78,15 +78,22 @@ import Space from "@/components/Space";
 import TopicItem from "@/components/community/TopicItem";
 import { getCommunitySpaces, getCommunityActivities } from '@/api/api'
 import { mapState, mapGetters } from "vuex";
-
+import {useWindowSize} from "@vant/use";
 export default {
   name: "CommunityPost",
-  components: {Space, TopicItem},
+  setup() {
+    const {width} = useWindowSize()
+    return {
+      width
+    }
+  },
   data() {
     return {
       spaceType: ['inProgress', 'ended', 'toBeStart'],
+      activeSpaceIndex: 0,
+      spaceList: [1,2, 3, 4],
       typeIndex: 0,
-      topicList: [],
+      topicList: [1],
       listLoading: false,
       listFinished: false,
       refreshing: false,
@@ -129,26 +136,17 @@ export default {
 
     },
     gotoDetail(space) {
-      this.$store.commit('postsModule/saveCurrentShowingDetail', null);
-      this.$router.push('/post-detail/' + space.postId);
+
     }
   }
 }
 </script>
-
 <style scoped lang="scss">
-.space-container {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-}
-.space-item {
-  scroll-snap-align: center;
-  &:first-child {
-    margin-left: 15px;
-  }
+
+.swipe-item {
   &:last-child {
-    margin-right: 15px;
+    padding-right: 15px;
   }
 }
+
 </style>

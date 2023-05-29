@@ -25,7 +25,8 @@
     <div class="sm:pt-85px 2md:pt-0 pb-20px">
       <div class="2md:grid grid-cols-3 gap-15px container mx-auto sm:max-w-50rem">
         <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px">
-          <div class="overflow-hidden relative bg-blockBg light:bg-white sm:rounded-t-16px">
+          <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px
+                      flex flex-col">
             <c-image :src="showingCommunity.banner"
                      class="w-full h-160px min-h-160px max-h-160px object-cover"></c-image>
             <div class="flex justify-between items-center bg-color1A h-40px px-15px">
@@ -38,9 +39,10 @@
           </div>
           <div class="px-15px">
             <div class="flex justify-between items-center my-15px">
-              <span class="text-12px flex items-center text-white">
+              <span class="text-12px flex items-center text-white light:text-color62 h-28px px-10px rounded-full
+                           bg-color62 light:bg-colorF7F9">
                 {{$t('community.distanceStartTime')}}：
-                <van-count-down class="text-12px text-white"
+                <van-count-down class="text-12px text-white light:text-color62"
                                 :time="countdown(new Date('2023-05-17 00:00:00').getTime()/1000)">
                   <template #default="timeData">
                     {{ timeData.days }} {{$t('common.day')}}
@@ -54,25 +56,22 @@
                 <div class="flex items-center ml-11px">
                   <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
                     <img v-if="p.profileImg"
-                         class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white bg-color8B/10"
+                         class="w-28px min-w-28px h-28px rounded-full
+                                border-2px border-color62 light:border-white bg-color8B/10"
                          :src="p.profileImg" alt="">
                     <img v-else
-                         class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white bg-color8B/10"
+                         class="w-28px min-w-28px h-28px rounded-full
+                              border-2px border-color62 light:border-white bg-color8B/10"
                          src="~@/assets/icon-default-avatar.svg" alt="">
                   </div>
                   <span v-if="participant.length>3"
-                        class="min-w-28px h-28px xl:min-w-1.2rem xl:h-1.2rem rounded-full px-4px
-                       rounded-full -ml-10px flex justify-center items-center
-                       border-2 border-blockBg bg-primaryColor
-                       light:border-white light:bg-color62 light:text-white text-10px">
-                  +{{ participant[0].totalCount - 3 }}
-                </span>
+                        class="h-28px flex items-center pl-4px font-bold text-12px text-color99">
+                    {{ participant[0].totalCount - 3 }}+
+                  </span>
                 </div>
               </div>
             </div>
-            <div class="text-14px leading-20px text-left">
+            <div class="text-14px leading-20px text-left pb-15px">
               🎉  Welcome to the CrossSpace chill group, where everyone is encouraged to engage in lighthearted banter!
               🚀  And then the CrossSpace officials will generously shower crossers with
               🌧️  Seems quiet now with not many people around = =
@@ -83,8 +82,8 @@
           </div>
           <div class="w-7/10 h-1px mx-auto bg-color8B/30 light:bg-color7F my-20px hidden 2md:block"></div>
           <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold 2md:hidden
-                border-b-1 border-color8B/30 light:border-color7F bg-primaryBg light:bg-white
-                sticky top-70px 2md:top-0 z-9">
+                border-b-0.5px border-color8B/30 light:border-color7F bg-primaryBg light:bg-white
+                sticky top-70px 2md:top-0 z-9 shadow-tab">
             <button class="h-full px-10px"
                     :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
                     @click="tabIndex=0">
@@ -96,9 +95,9 @@
               {{$t('community.award')}}
             </button>
           </div>
-          <div class="px-15px pt-15px">
+          <div class="px-15px">
             <template v-if="tabIndex===0">
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between pt-10px">
                 <span class="c-text-black text-14px">Post (341)</span>
                 <el-dropdown>
                   <button class="text-14px text-color62 flex items-center">
@@ -126,17 +125,18 @@
               </div>
             </template>
             <template v-if="tabIndex===1">
-              <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
+              <div class="text-left font-bold c-text-black text-14px flex justify-between items-center py-10px">
+                <span>{{$t('community.member')}}</span>
+                <span>{{$t('community.token')}}</span>
+              </div>
               <div v-for="(p, index) of participant" :key="index"
-                   class="flex justify-between items-center py-15px gap-15px">
+                   class="flex justify-between items-center py-10px gap-15px">
                 <div class="flex-1 flex items-center truncate">
                   <img v-if="p.profileImg"
-                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white bg-color8B/10"
+                       class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
                        :src="p.profileImg" alt="">
                   <img v-else
-                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white bg-color8B/10"
+                       class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
                        src="~@/assets/icon-default-avatar.svg" alt="">
                   <span class="truncate ml-8px">{{p.twitterName}}</span>
                 </div>

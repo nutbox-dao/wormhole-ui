@@ -12,19 +12,18 @@
     <template v-else>
       <van-swipe :loop="false"
                   :autoplay="0"
-                  :width="width<640?width*0.85:$refs.wRef.clientWidth"
+                  :width="width<640?width*0.85:($refs.wRef?$refs.wRef.clientWidth:'')"
                   :initial-swipe="activeAnnounceIndex"
-                  :show-indicators="false"
-                  class="px-8px sm:px-0">
+                  :show-indicators="false" class="mt-10px">
         <van-swipe-item
             v-for="(post, index) of announces" :key="post.postId"
-            class="p-7px">
+            class="swipe-item pl-15px">
           <RecommendPost class="rounded-12px border-1 border-color8B/30 light:border-color7F"
                           @click="gotoDetail(post, index)"
                           :post="post"></RecommendPost>
         </van-swipe-item>
       </van-swipe>
-      <div class="hidden sm:flex justify-center items-center">
+      <div class="hidden sm:flex justify-center items-center mt-10px">
         <button class="w-30px h-30px bg-color62/20 rounded-full flex justify-center items-center
                         disabled:opacity-30"
                 :disabled="activeAnnounceIndex===0"
@@ -46,7 +45,7 @@
 <!--      <div class="w-7/10 mx-auto h-1px bg-color8B/30 light:bg-color7F my-20px sm:hidden"></div>-->
     </template>
     <div class="px-15px">
-      <div class="flex items-center justify-between mt-10px">
+      <div class="flex items-center justify-between mt-20px">
         <span class="c-text-black text-14px">Post ({{ showingCommunity.curationCount }})</span>
         <el-dropdown>
           <button class="text-14px text-color62 flex items-center">
@@ -279,6 +278,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.swipe-item {
+  &:last-child {
+    padding-right: 15px;
+  }
+}
 </style>

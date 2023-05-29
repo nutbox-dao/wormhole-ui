@@ -1,18 +1,15 @@
 <template>
-  <div class="flex flex-col sm:flex-row items-center justify-between gap-15px">
-    <div class="flex-1" :style="{width:'100%', maxWidth: '20rem', ...chartStyle}">
-      <canvas :id="canvasId"></canvas>
+  <div class="flex flex-col items-center">
+    <div class="flex flex-wrap items-center justify-center gap-10px">
+      <button v-for="(item, index) of chartData.data.datasets[0].data" :key="index"
+              class="flex justify-between items-center h-34px px-10px rounded-8px"
+              :style="{'background': getColor(index)}">
+        <span class="text-14px text-white">{{ item.name || "--" }}: </span>
+        <span class="text-14px text-white">{{ parseFloat(item.ratio) }}%</span>
+      </button>
     </div>
-    <div v-if="showLegendInfo" class="flex-1 flex flex-col gap-10px w-full max-w-20rem">
-      <div v-for="(item, index) of chartData.data.datasets[0].data" :key="index"
-           class="w-full flex justify-between items-center">
-        <div class="flex-1 flex items-center">
-          <span class="block w-14px h-14px min-w-14px rounded-full border-4px mr-10px"
-                :style="{ 'border-color': getColor(index)}"></span>
-          <span class="text-14px">{{ item.name || "--" }}</span>
-        </div>
-        <span class="text-14px">{{ parseFloat(item.ratio) }}%</span>
-      </div>
+    <div class="flex-1 mx-auto w-full max-w-80vw sm:max-w-20rem">
+      <canvas :id="canvasId" class="mx-auto"></canvas>
     </div>
   </div>
 </template>
@@ -35,36 +32,6 @@ export default {
   data () {
     return {
       chart: null,
-      colorList: [
-        '#FE6A07',
-        '#7CBF4D',
-        '#70ACFF',
-        '#FFE14D',
-        '#CC85FF',
-        '#FF9500',
-        '#00C7D9',
-        '#9D94FF',
-        '#FF73AD',
-        '#FF7366',
-        '#FF4D97',
-        '#C881D2',
-        '#DAD0ED',
-        '#2780FD',
-        '#00B9CD',
-        '#91CF94',
-        '#F4F5CE',
-        '#FCB62E',
-        '#FF9C26',
-        '#FF7366',
-        '#F57BA3',
-        '#6456FF',
-        '#70ACFF',
-        '#5AD9E8',
-        '#D1EAD2',
-        '#9DAC00',
-        '#FFE14D',
-        '#FFCD7A'
-      ],
       chartData: {
         type: 'doughnut',
         plugins: [ChartDataLabels],
@@ -83,7 +50,7 @@ export default {
             key: 'ratio'
           },
           layout: {
-            padding: 70
+            padding: 80
           },
           plugins: {
             tooltip: {
@@ -94,7 +61,9 @@ export default {
               }
             },
             datalabels: {
-              color: 'white',
+              color: ({dataIndex, dataset}) => {
+                return dataset.backgroundColor[dataIndex]
+              },
               clip: false,
               anchor: 'end',
               align: 'end',
@@ -103,7 +72,7 @@ export default {
                 weight: 'bold'
               },
               padding: 6,
-              formatter: (value, ctx) => {
+              formatter: (value) => {
                 if (this.showDataLabel) return value.name
                 return Number(value.ratio).toFixed(2) + '%'
               },
@@ -117,6 +86,16 @@ export default {
     }
   },
   computed: {
+    colorList () {
+      let l = []
+      let opacity=1
+      const sub = 1/this.poolsData.length>0.15?0.15:0.1
+      for(let i=1; i<this.poolsData.length+1; i++) {
+        l.push(`rgba(98, 70, 234, ${opacity})`)
+        opacity-=sub
+      }
+      return l
+    },
     getColor () {
       return (index) => {
         return this.colorList[index % this.colorList.length]
@@ -136,7 +115,7 @@ export default {
     },
     showDataLabel: {
       type: Boolean,
-      default: false
+      default: true
     },
     animation: {
       type: Boolean,
