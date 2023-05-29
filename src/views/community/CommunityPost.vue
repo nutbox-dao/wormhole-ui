@@ -14,7 +14,7 @@
                   :autoplay="0"
                   :width="width<640?width*0.85:($refs.wRef?$refs.wRef.clientWidth:'')"
                   :initial-swipe="activeAnnounceIndex"
-                  :show-indicators="false">
+                  :show-indicators="false" class="mt-10px">
         <van-swipe-item
             v-for="(post, index) of announces" :key="post.postId"
             class="swipe-item pl-15px">
@@ -45,7 +45,7 @@
 <!--      <div class="w-7/10 mx-auto h-1px bg-color8B/30 light:bg-color7F my-20px sm:hidden"></div>-->
     </template>
     <div class="px-15px">
-      <div class="flex items-center justify-between mt-10px">
+      <div class="flex items-center justify-between mt-20px">
         <span class="c-text-black text-14px">Post ({{ showingCommunity.curationCount }})</span>
         <el-dropdown>
           <button class="text-14px text-color62 flex items-center">

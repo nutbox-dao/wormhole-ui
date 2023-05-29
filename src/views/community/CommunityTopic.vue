@@ -1,7 +1,7 @@
 <template>
   <div class="py-10px">
     <div class="w-full" ref="wRef"></div>
-    <div class="px-15px flex justify-between items-center">
+    <div class="px-15px flex justify-between items-center mt-5px">
       <span class="text-16px leading-25px font-bold">Twitter Space</span>
       <el-dropdown>
         <button class="text-14px text-color62 flex items-center">
@@ -62,7 +62,7 @@
       </div>
       <!--      <div class="w-7/10 mx-auto h-1px bg-color8B/30 light:bg-color7F my-20px sm:hidden"></div>-->
     </template>
-    <div class="flex justify-between items-center px-15px mt-10px mb-5px">
+    <div class="flex justify-between items-center px-15px mt-20px mb-5px">
       <span class="text-16px leading-25px font-bold">{{$t('community.topic')}}</span>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
