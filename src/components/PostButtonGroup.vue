@@ -425,7 +425,7 @@ export default {
       return res
     },
     liked() {
-      return this.post.liked === 1 && this.post.downVote === 0
+      return this.post.liked === 1 && !this.post.downVote
     },
     unLiked() {
       return this.post.liked === 1 && this.post.downVote > 0

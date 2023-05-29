@@ -23,15 +23,15 @@
        <template #amount>
          <span class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white"
              v-if="curationData.curationStatus == 0">
-             {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + "? " + curationData?.tokenSymbol}}
+             {{formatAmount(curationData?.amount / (10 ** curationData?.decimals) + curationData?.authorReward / (10 ** curationData?.decimals)) + "? " + curationData?.tokenSymbol}}
          </span>
          <span v-else-if="curationData?.curationStatus > 0 && (curationData?.taskRecord > 0)"
                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
-           {{formatAmount(curationData?.myRewardAmount / (10 ** curationData?.decimals))+'/'+formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
+           {{formatAmount(curationData?.myRewardAmount / (10 ** curationData?.decimals))+'/'+formatAmount(curationData?.amount / ( 10 ** curationData?.decimals) + curationData?.authorReward / (10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
          </span>
          <span v-else
                class="pl-30px pr-8px h-20px whitespace-nowrap flex items-center text-12px 2xl:text-0.8rem font-bold text-white">
-           {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
+           {{formatAmount(curationData?.amount / ( 10 ** curationData?.decimals) + curationData?.authorReward / (10 ** curationData?.decimals)) + " " + curationData?.tokenSymbol}}
          </span>
        </template>
      </ChainTokenIconLarge>
