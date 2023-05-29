@@ -1,7 +1,7 @@
 <template>
   <van-pull-refresh v-model="loading[chainTab]" @refresh="onRefresh"
                     class=""
-                    loading-text="Loading"
+                    :loading-text="$t('common.loading')"
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
     <div class="h-full overflow-auto">
@@ -88,14 +88,19 @@
         </div>
         <div class="mt-30px ">
           <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <CommunityRewardItem v-for="communityId of getRewardCommunityInfo" :key="communityId"
-                               :communityId="communityId"></CommunityRewardItem>
+          <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
+            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+          </div>
+          <CommunityRewardItem v-else v-for="communityId of getRewardCommunityInfo" :key="communityId"
+                               :community-id="communityId"></CommunityRewardItem>
         </div>
       </div>
     </div>
     <el-dialog v-model="historyModalVisible"
                class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <RewardHistoryList
+        :chain-id="chainIds[chainTab]"
           class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
     </el-dialog>
   </van-pull-refresh>
@@ -190,7 +195,7 @@ export default {
     },
     onRefresh() {
       this.getRecords(true);
-      this.getCommunityRewards(true);
+      this.getCommunityRewardsM(true);
     },
     async getRecords(force = false) {
       const index = this.chainTab;
@@ -267,11 +272,11 @@ export default {
         this.claiming = false
       }
     },
-    async getCommunityRewards(force = false) {
+    async getCommunityRewardsM(force = false) {
       try{
         if (this.loadingCommunityRewards) return;
         this.loadingCommunityRewards = true;
-        const currentList = this.rewardLists[index];
+        const currentList = this.communityRewards;
         if (currentList && currentList.length > 0 && !force) {
           return;
         }
@@ -316,9 +321,9 @@ export default {
   },
   mounted () {
     this.getRecords(true);
+    this.getCommunityRewardsM(true);
     accountChanged().catch()
     getAccounts(true).then(wallet => {
-      this.account = wallet
     }).catch();
   },
 }
