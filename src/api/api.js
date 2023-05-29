@@ -257,6 +257,9 @@ export const getUsersTips = async (params) =>
 export const getCurationRewardList = async (twitterId, chainId, createAt) => 
     post(BACKEND_API_URL + '/users/curationRewardList', {twitterId, chainId, createAt})
 
+export const curationRewardListHistory = async (twitterId, chainId, createAt) =>
+    post(BACKEND_API_URL + '/users/curationRewardListHistory', {twitterId, chainId, createAt})
+
 export const autoCurationRewardList = async (twitterId, createdAt) =>
     post(BACKEND_API_URL + '/users/autoCurationRewardList', {twitterId, createdAt})
 
