@@ -69,11 +69,23 @@ export default {
       // getCurationRewardsOfPost(this.post.postId).then(async res => {
         const res = this.post.reward
         if (res && res.length > 0) {
-          this.rewards = res.map(r => ({
-            ...r,
-            reward: r.amount > 0 ? formatAmount(r.amount / ( 10 ** r.decimals)) : '???',
-            amount: r.amount > 0 ? r.amount / ( 10 ** r.decimals) : '???'
-          }));
+          this.rewards = res.map(r => {
+            let reward = '???'
+            let amount = '???'
+
+            if (r.amount > 0) {
+              amount = r.amount / (10 ** r.decimals)
+              if (r.authorReward > 0 && r.isPromotion == 1) {
+                amount += r.authorReward / (10 ** r.decimals)
+              }
+              reward = formatAmount(amount);
+            }
+            return {
+              ...r,
+            reward,
+            amount
+            }
+          });
           const prices = await Promise.all(this.rewards.map(reward => getPriceFromOracle(reward.chainId, [reward])));
           let price = 0;
           for (let i = 0; i < prices.length; i++) {
