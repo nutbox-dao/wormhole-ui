@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px
+  <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px
               2md:flex 2md:gap-15px">
     <div class="flex-1 flex flex-col justify-between">
       <div class="flex items-center">

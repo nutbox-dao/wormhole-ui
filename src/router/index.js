@@ -29,7 +29,7 @@ import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
-import CreateView from "@/views/CreateView";
+import CreateView from "@/views/create/CreateView.vue";
 import WalletIndex from "@/views/user/WalletIndex";
 import WordCloud from '@/views/word-cloud/Index'
 import CommunityIndex from "@/views/community/CommunityIndex";

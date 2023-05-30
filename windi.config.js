@@ -6,7 +6,7 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        primaryColor: '#AE88FE',
+        primaryColor: '#6246EA',
         primaryColor1: '#7C3AED',
         redColor: '#D40000',
         greenColor: '#36D233',
@@ -70,7 +70,7 @@ export default defineConfig({
         color35: '#353535',
         color1A: '#1A1A1A',
         color27: '#272727',
-        colorF7F9: '#F7F2FF',
+        colorF7F2: '#F7F2FF',
         lightHeader: '#F1F2FF',
         colorBlue: '#1DA1F2',
         blueDark: '#1A1E25'

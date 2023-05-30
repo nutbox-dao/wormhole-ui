@@ -17,7 +17,7 @@
       </div>
     </div>
     <div v-if="currentStep<=2" v-loading="loading"
-         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white rounded-20px
+         class="container mx-auto max-w-600px xl:max-w-30rem bg-blockBg light:bg-white light:shadow-color1A rounded-20px
                 px-20px sm:px-4.5rem py-24px mb-2rem">
       <!-- set up -->
       <div v-show="!onlyQuote" class="text-14px leading-21px 2xl:text-0.7rem mb-10px text-left font-600 -mt-5px">
@@ -79,7 +79,7 @@
             <div v-if="linkIsVerified" class="overflow-hidden relative rounded-12px"
                  :class="expandPreview?'':'max-h-134px'">
               <Blog :post="form.postData"
-                    class="bg-blockBg light:bg-white rounded-13px border-1 border-listBgBorder light:border-colorE3">
+                    class="bg-blockBg light:bg-white light:shadow-color1A rounded-13px border-1 border-listBgBorder light:border-colorE3">
                 <template #bottom-btn-bar><div></div></template>
               </Blog>
               <button v-if="!expandPreview" @click.stop="expandPreview=!expandPreview"
@@ -197,93 +197,109 @@
             <span class="pl-15px">{{$t('curation.like')}}</span>
           </div>
         </div>
-        <!-- description -->
+        <!-- community -->
         <div class="mt-1.8rem">
-          <div class="flex justify-between items-center">
-            <div class="font-bold">{{$t('curation.desc')}} ({{ $t('common.option') }})</div>
-            <button @click="expandDesc=!expandDesc">
-              <img class="w-18px transform spin-slow"
-                   :class="expandDesc?'-rotate-180':'rotate-0'"
-                   src="~@/assets/icon-select-arrow.svg" alt="">
-            </button>
+          <div class="flex justify-between items-center mb-6px">
+            <div class="font-bold">{{$t('community.community')}}</div>
+<!--            <button @click="expandCommunity=!expandCommunity">-->
+<!--              <img class="w-18px transform spin-slow"-->
+<!--                   :class="expandCommunity?'-rotate-180':'rotate-0'"-->
+<!--                   src="~@/assets/icon-select-arrow.svg" alt="">-->
+<!--            </button>-->
           </div>
-          <el-collapse-transition>
-            <div v-show="expandDesc">
-              <div class="my-6px text-color62 italic">
-                {{ $t('curation.descriptionDesc') }}
-              </div>
-              <div class="text-color8B light:text-color7D/50 text-right">
-                {{form.description.length}}/2048
-              </div>
-              <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-white light:border-colorE3 hover:border-primaryColor
-                      rounded-8px min-h-44px 2xl:min-h-2rem flex items-center">
-                <el-input v-model="form.description"
-                          :rows="4" :maxlength="2048"
-                          class="border-0 c-textarea rounded-8px overflow-hidden"
-                          type="textarea"
-                          :placeholder="$t('curation.createDescTip')"/>
-              </div>
-
+          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+                      light:bg-white light:border-colorE3
+                      rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
+            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                            light:bg-white light:border-colorE3 hover:border-primaryColor
+                            rounded-full h-30px flex items-center justify-between">
+              <input class="bg-transparent h-full w-full px-15px flex-1"
+                     v-model="searchCommunityText"
+                     :placeholder="'# '+$t('search')"
+                     @input="communityInputChange"
+                     @keypress="onSearchCommunity">
+              <button v-if="searchCommunityText.trim().length>0"
+                      class="bg-color8B rounded-full w-16px h-16px p-4px mr-10px"
+                      @click="searchCommunityText=''">
+                <img src="~@/assets/icon-close-white.svg" alt="">
+              </button>
             </div>
-          </el-collapse-transition>
+            <el-collapse-transition>
+              <div v-show="expandCommunity">
+                <div class="grid grid-cols-2 gap-x-10px
+                            max-h-150px overflow-auto no-scroll-bar">
+                  <div v-if="searchCommunityLoading && searchCommunityList.length===0 && searchCommunityText.trim().length>0"
+                       class="col-span-2 mt-12px">
+                    <img class="w-24px h-24px mx-auto"
+                         src="~@/assets/icon-loading.svg" alt="">
+                  </div>
+                  <div v-for="(item,index) of searchCommunityList"
+                       :key="item.communityId"
+                       class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
+                              rounded-8px h-40px px-15px border-2px mt-10px"
+                       :class="item.communityId===form.communityId?'border-color62':'border-transparent'"
+                       @click="form.communityId=item.communityId">
+                    <img class="w-24px h-24px rounded-full mr-10px"
+                         :src="item.icon" alt=""
+                         @error="replaceEmptyImg">
+                    <div class="font-bold truncate">{{item.communityName}}</div>
+                  </div>
+                </div>
+              </div>
+            </el-collapse-transition>
+          </div>
         </div>
         <!-- tag -->
         <div class="mt-1.8rem">
-          <div class="flex justify-between items-center">
-            <div class="mb-6px font-bold">{{$t('curation.tag')}} ({{ $t('common.option') }})</div>
-            <button @click="expandTag=!expandTag">
-              <img class="w-18px transform spin-slow"
-                   :class="expandTag?'-rotate-180':'rotate-0'"
-                   src="~@/assets/icon-select-arrow.svg" alt="">
-            </button>
+          <div class="flex justify-between items-center mb-6px">
+            <div class="font-bold">{{$t('curation.tag')}}</div>
+<!--            <button @click="expandTag=!expandTag">-->
+<!--              <img class="w-18px transform spin-slow"-->
+<!--                   :class="expandTag?'-rotate-180':'rotate-0'"-->
+<!--                   src="~@/assets/icon-select-arrow.svg" alt="">-->
+<!--            </button>-->
           </div>
-          <el-collapse-transition>
-            <div v-show="expandTag">
-              <div class="mb-6px text-color62 italic">
-                {{ $t('curation.tagDesc') }}
-              </div>
-              <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-white light:border-colorE3 hover:border-primaryColor
-                      rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
-                <div class="flex flex-wrap items-center">
-                  <button v-for="(sTag, index) of form.topics" :key="sTag"
-                          class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap
-                             mx-4px my-3px bg-tag-gradient relative">
-                    #{{sTag}}
-                    <img class="w-16px h-16px absolute -top-4px -right-4px bg-white rounded-full cursor-pointer"
-                         @click.stop="deleteTag(index)"
-                         src="~@/assets/icon-close-primary.svg" alt="">
-                  </button>
-                  <div class="min-w-4rem h-24px ml-8px flex items-center">
-                    <span>#</span>
-                    <input class="w-full h-full min-w-0 bg-transparent pr-4px"
-                           v-model="inputTagValue"
-                           type="text">
-                  </div>
-                </div>
-                <div class="w-full h-1px bg-color8B/30 light:border-colorF4 my-12px"></div>
-                <div v-if="inputTagValue.trim()">
-                  <button class="rounded-full h-24px px-12px min-w-4rem border-1 border-dashed border-color62
-                             whitespace-nowrap mx-4px my-3px"
-                          @click="selectInputTag">
-                    {{inputTagValue}}
-                  </button>
-                </div>
-                <div>
-                  <button v-for="dTag of defaultTagList" :key="dTag"
-                          class="rounded-full h-24px px-12px min-w-4rem whitespace-nowrap mx-4px my-3px disabled:opacity-70"
-                          :class="form.topics.indexOf(dTag)>=0?
-                      'bg-tag-gradient text-white':
-                      'border-1 border-color8B/30 light:border-colorF4 text-color8B light:text-color7D'"
-                          :disabled="form.topics.length===5"
-                          @click="onSelectTag(dTag)">
-                    #{{dTag}}
-                  </button>
-                </div>
-              </div>
+          <div class="mb-6px text-color62 italic">
+            {{ $t('curation.tagDesc') }}
+          </div>
+          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
+                          light:bg-white light:border-colorE3
+                          rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
+            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
+                            light:bg-white light:border-colorE3 hover:border-primaryColor
+                            rounded-full h-30px flex items-center justify-between">
+              <input class="bg-transparent h-full w-full px-15px flex-1"
+                     v-model="searchTagText"
+                     :placeholder="'# '+$t('search')"
+                     @input="tagInputChange"
+                     @keypress="onSearchTag">
+              <button v-if="searchTagText.trim().length>0"
+                      class="bg-color8B rounded-full w-16px h-16px p-4px mr-10px"
+                      @click="searchTagText=''">
+                <img src="~@/assets/icon-close-white.svg" alt="">
+              </button>
             </div>
-          </el-collapse-transition>
+            <el-collapse-transition>
+              <div v-show="expandTag">
+                <div v-if="searchTagLoading && searchTagList.length===0 && searchTagText.trim().length>0"
+                     class="col-span-2 mt-12px">
+                  <img class="w-24px h-24px mx-auto"
+                       src="~@/assets/icon-loading.svg" alt="">
+                </div>
+                <div class="flex flex-wrap gap-5px max-h-150px overflow-auto no-scroll-bar"
+                     :class="searchTagList.length>0?'mt-12px':''">
+                  <button v-for="tag of searchTagList" :key="tag"
+                          class="h-24px text-white
+                                 px-10px rounded-5px disabled:opacity-50"
+                          :class="form.topics.indexOf(tag)>=0?'bg-color62':'bg-color8B/30 light:bg-black'"
+                          @click="onSelectTag(tag)">
+                    #{{tag}}
+                  </button>
+                </div>
+              </div>
+            </el-collapse-transition>
+          </div>
+
         </div>
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
@@ -410,7 +426,7 @@
       <div v-if="currentStep===2" class="text-left text-14px 2xl:text-0.7rem">
         <div class="mt-1.8rem">
           <div class="mb-6px font-bold">{{$t('curation.maxRewardCount')}}</div>
-          <div class="mb-6px text-primaryColor italic">{{$t('curation.maxCountTip')}}</div>
+          <div class="mb-6px text-color62 italic">{{$t('curation.maxCountTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                         light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -422,13 +438,13 @@
             <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
               <el-switch v-model="form.isLimit" />
               <span class="ml-10px font-600 whitespace-nowrap"
-                    :class="form.isLimit?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
+                    :class="form.isLimit?'text-color621':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
         </div>
         <div class="mt-1.8rem">
           <div class="mb-6px font-bold">{{$t('curation.minReputation')}}</div>
-          <div class="mb-6px text-primaryColor italic">{{$t('curation.minReputationTip')}}</div>
+          <div class="mb-6px text-color62 italic">{{$t('curation.minReputationTip')}}</div>
           <div class="flex items-center flex-col sm:flex-row">
             <div class="w-full sm:w-4/7 border-1 bg-black/40 border-1 border-color8B/30
                         light:bg-white light:border-colorE3 hover:border-primaryColor
@@ -440,7 +456,7 @@
             <div class="w-full sm:w-3/7 flex items-center sm:justify-center">
               <el-switch v-model="form.isLimitReputation" />
               <span class="ml-10px font-600 whitespace-nowrap"
-                    :class="form.isLimitReputation?'text-primaryColor1':'text-color8B'">{{$t('curation.noLimited')}}</span>
+                    :class="form.isLimitReputation?'text-color621':'text-color8B'">{{$t('curation.noLimited')}}</span>
             </div>
           </div>
         </div>
@@ -567,7 +583,7 @@ import { getTweetById, getSpaceById, getUserInfoByUserId, userReply } from '@/ut
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
-import { replyToCurationByWH3, getPopularTopics } from '@/api/api'
+import {replyToCurationByWH3, getPopularTopics, searchCommunityByName, searchTags} from '@/api/api'
 import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
@@ -584,6 +600,8 @@ import AssetsOptions from "@/components/AssetsOptions";
 import SelectCategoryTip from "@/components/SelectCategoryTip";
 import CreatedTipModal from "@/components/CreatedTipModal";
 import AddFollowModal from "@/components/AddFollowModal";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import debounce from "lodash.debounce";
 
 export default {
   name: "CreateRecommend",
@@ -663,8 +681,14 @@ export default {
       inputTagValue: '',
       addFollowVisible: false,
       commenTopics: [],
-      expandDesc: false,
-      expandTag: false
+      expandCommunity: true,
+      expandTag: true,
+      searchCommunityText: '',
+      searchCommunityList: [],
+      searchTagText: '',
+      searchTagList: [],
+      searchCommunityLoading: false,
+      searchTagLoading: false,
     }
   },
   computed: {
@@ -696,6 +720,36 @@ export default {
     }
   },
   methods: {
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
+    communityInputChange: debounce(function () {
+      this.onSearchCommunity('input')
+    }, 1500),
+    async onSearchCommunity(e) {
+      if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
+        this.form.communityId=''
+        this.searchCommunityLoading = true
+        const communities = await searchCommunityByName(this.searchCommunityText)
+        this.searchCommunityLoading = false
+        if (communities) {
+          this.searchCommunityList = communities
+        }
+      }
+    },
+    tagInputChange: debounce(function () {
+      this.onSearchTag('input')
+    }, 1500),
+    async onSearchTag(e) {
+      if(this.searchTagText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
+        this.searchTagLoading = true
+        const tags = await searchTags(this.searchTagText)
+        this.searchTagLoading = false
+        if (tags) {
+          this.searchTagList = tags
+        }
+      }
+    },
     onConfirmAddFollow(followUser) {
       this.addFollowVisible = false
       for(let user of this.form.followers) {
@@ -710,18 +764,14 @@ export default {
       this.form.followers.splice(index, 1)
     },
     onSelectTag(tag) {
+      if(this.form.topics.indexOf(tag)>=0) {
+        this.form.topics = this.form.topics.filter(item => {
+          return item !== tag
+        })
+        return
+      }
       if(this.form.topics.length===5) return
-      if(this.form.topics.indexOf(tag)>=0) return
       this.form.topics.push(tag)
-    },
-    selectInputTag() {
-      if(this.form.topics.length===5) return
-      this.defaultTagList.unshift(this.inputTagValue)
-      this.form.topics.push(this.inputTagValue)
-      this.inputTagValue = ''
-    },
-    deleteTag(index) {
-      this.form.topics.splice(index, 1)
     },
     formatEmojiText,
     formatAmount,
@@ -1234,7 +1284,7 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
       this.form.communityId = communityId;
       if (promoteUrl) {
         this.form.createType = 'new';
-        this.expandDesc = true;
+        this.expandCommunity = true;
         this.expandTag = true;
         this.onlyQuote = true;
         this.form.newContent = `

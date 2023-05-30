@@ -98,7 +98,7 @@
                 </div>
               </div>
               <!-- token info -->
-              <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px mt-15px
+              <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
                           flex 2md:hidden justify-between items-center">
                 <div class="flex items-center">
                   <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
@@ -130,27 +130,27 @@
                 border-b-0.5px border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
                 px-15px w-min min-w-full">
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                      :class="tabIndex===0?'active-tab text-color62':'text-color7D'"
+                      :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(0)">
                 {{$t('community.post')}}
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                      :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
+                      :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
                 {{$t('community.topic')}}
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                      :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
+                      :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(2)">
                 {{$t('community.member')}}
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                      :class="tabIndex===3?'active-tab text-color62':'text-color7D'"
+                      :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(3)">
                 {{$t('community.about')}}
               </button>
               <button class="h-full px-5px 2md:px-10px 2md:hidden whitespace-nowrap"
-                      :class="tabIndex===4?'active-tab text-color62':'text-color7D'"
+                      :class="tabIndex===4?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(4)">
                 {{$t('community.activity')}}
               </button>
@@ -165,7 +165,7 @@
         </div>
         <div class="col-span-1 hidden 2md:block">
           <!-- token info -->
-          <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F9 rounded-12px p-15px">
+          <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px">
             <div class="flex items-center mb-10px">
               <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                    :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
@@ -348,20 +348,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.active-tab {
-  position: relative;
-  z-index: 1;
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    width: 22px;
-    background: #7851FF;
-    border-radius: 3px;
-    z-index: -1;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
 </style>

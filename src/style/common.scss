@@ -207,3 +207,19 @@ div[contenteditable] {
 .spin-slow {
   transition-duration: 0.5s;
 }
+.c-active-tab {
+  position: relative;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    width: 22px;
+    background: #7851FF;
+    border-radius: 3px;
+    z-index: -1;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

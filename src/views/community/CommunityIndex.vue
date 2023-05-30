@@ -27,7 +27,7 @@
             <div class="sm:px-15px">
               <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem py-15px">
                 <div v-if="communities && communities.length === 0"
-                     class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
+                     class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-color1A">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">

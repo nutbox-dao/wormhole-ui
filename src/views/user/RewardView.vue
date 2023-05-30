@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
-        <div class="bg-blockBg light:bg-colorF7F9/50 light:shadow-md p-15px rounded-12px mt-15px
+        <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px
                     2md:flex  2md:gap-15px">
           <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px
                       2md:flex-1">
@@ -125,7 +125,7 @@ import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed,
   getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
-import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, setCommunityRewardClaimed, 
+import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, setCommunityRewardClaimed,
   setCommunityAuthorRewardClaimed } from '@/utils/community'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
@@ -205,7 +205,7 @@ export default {
           return;
         }
         this.loading[index] = true
-        
+
         const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
         if (records && records.length > 0) {
           const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
@@ -246,7 +246,7 @@ export default {
     async claimReward() {
       try{
         const index = this.chainTab
-        
+
         const chainName = this.chainNames[index]
         const selectTokens = Object.values(this.checkRewardList);
         if (selectTokens.length === 0) {
@@ -280,9 +280,9 @@ export default {
         if (currentList && currentList.length > 0 && !force) {
           return;
         }
-        const [rewards, authorRewards] = 
+        const [rewards, authorRewards] =
           await Promise.all([
-            getCommunityPendingRewards(this.getAccountInfo.twitterId), 
+            getCommunityPendingRewards(this.getAccountInfo.twitterId),
             getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
         if (rewards && rewards.length > 0) {
           this.$store.commit('curation/saveCommunityRewards', rewards)

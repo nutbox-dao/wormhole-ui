@@ -40,7 +40,7 @@
           <div class="px-15px">
             <div class="flex justify-between items-center my-15px">
               <span class="text-12px flex items-center text-white light:text-color62 h-28px px-10px rounded-full
-                           bg-color62 light:bg-colorF7F9">
+                           bg-color62 light:bg-colorF7F2">
                 {{$t('community.distanceStartTime')}}：
                 <van-count-down class="text-12px text-white light:text-color62"
                                 :time="countdown(new Date('2023-05-17 00:00:00').getTime()/1000)">
