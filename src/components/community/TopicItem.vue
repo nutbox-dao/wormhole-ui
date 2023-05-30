@@ -42,7 +42,7 @@
         {{ topic.description }}
       </div>
       <button class="w-full h-40px gradient-bg gradient-bg-color3 text-white c-text-black text-16px rounded-full mt-10px"
-              @click="$router.push(`/topic-detail/${topic.communityId}`)">
+              @click="$router.push(`/topic-detail/${topic.activityId}`)">
         {{$t('community.enter')}}
       </button>
     </div>

@@ -27,13 +27,13 @@
         <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px">
           <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px
                       flex flex-col">
-            <c-image :src="showingCommunity.banner"
+            <c-image :src="topic?.banner"
                      class="w-full h-160px min-h-160px max-h-160px object-cover"></c-image>
             <div class="flex justify-between items-center bg-color1A h-40px px-15px">
-              <span class="c-text-black text-16px text-white">{{ topic.title }}</span>
+              <span class="c-text-black text-16px text-white">{{ topic?.title }}</span>
               <div class="flex items-center">
                 <i class="w-18px h-18px btn-icon-tip"></i>
-                <span class="px-8px font-700 text-12px text-color7D">{{ formatAmount(topic.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+                <span class="px-8px font-700 text-12px text-color7D">{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
               </div>
             </div>
           </div>
@@ -54,30 +54,25 @@
               </span>
               <div class="flex justify-between items-center">
                 <div class="flex items-center ml-11px">
-                  <div class="-ml-11px" v-for="p of participant.slice(0,3)" :key="p">
-                    <img v-if="p.profileImg"
+                  <div class="-ml-11px" v-for="p of topic.participant?.slice(0,3)" :key="p">
+                    <img v-if="p"
                          class="w-28px min-w-28px h-28px rounded-full
                                 border-2px border-color62 light:border-white bg-color8B/10"
-                         :src="p.profileImg" alt="">
+                         :src="p" alt="">
                     <img v-else
                          class="w-28px min-w-28px h-28px rounded-full
                               border-2px border-color62 light:border-white bg-color8B/10"
                          src="~@/assets/icon-default-avatar.svg" alt="">
                   </div>
-                  <span v-if="participant.length>3"
+                  <span v-if="topic.membersCount>3"
                         class="h-28px flex items-center pl-4px font-bold text-12px text-color99">
-                    {{ participant[0].totalCount - 3 }}+
+                    {{ topic.membersCount - 3 }}+
                   </span>
                 </div>
               </div>
             </div>
             <div class="text-14px leading-20px text-left pb-15px">
-              🎉  Welcome to the CrossSpace chill group, where everyone is encouraged to engage in lighthearted banter!
-              🚀  And then the CrossSpace officials will generously shower crossers with
-              🌧️  Seems quiet now with not many people around = =
-              Is this the calm before the storm? Tsk tsk tsk.
-              ⚡️  Come on, let the storm rage on even more fiercely!
-              🔥   Let's get it!   🔥
+              {{ topic.description }}
             </div>
           </div>
           <div class="w-7/10 h-1px mx-auto bg-color8B/30 light:bg-color7F my-20px hidden 2md:block"></div>
@@ -98,23 +93,7 @@
           <div class="px-15px">
             <template v-if="tabIndex===0">
               <div class="flex items-center justify-between pt-10px">
-                <span class="c-text-black text-14px">Post (341)</span>
-                <el-dropdown>
-                  <button class="text-14px text-color62 flex items-center">
-                    <span class="font-bold">{{postType[typeIndex]}}</span>
-                    <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
-                  </button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item v-for="(type, index) of postType" :key="type"
-                                        @click="typeIndex=index">
-                <span :class="typeIndex===index?'text-color62':''">
-                  {{type}}
-                </span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
+                <span class="c-text-black text-14px">Post ({{ topic.postCounts }})</span>
               </div>
               <div v-for="(post, index) of postsList" :key="post.postId"
                    class="py-20px border-b-1 border-color8B/30 light:border-colorD8">
@@ -129,18 +108,17 @@
                 <span>{{$t('community.member')}}</span>
                 <span>{{$t('community.token')}}</span>
               </div>
-              <div v-for="(p, index) of participant" :key="index"
+              <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
                    class="flex justify-between items-center py-10px gap-15px">
                 <div class="flex-1 flex items-center truncate">
-                  <img v-if="p.profileImg"
+                  <img v-if="p"
                        class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
-                       :src="p.profileImg" alt="">
+                       :src="p" alt="">
                   <img v-else
                        class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
                        src="~@/assets/icon-default-avatar.svg" alt="">
-                  <span class="truncate ml-8px">{{p.twitterName}}</span>
                 </div>
-                <span>9.2(0.29$)</span>
+                <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
               </div>
             </template>
           </div>
@@ -148,20 +126,19 @@
         <div class="col-span-1 hidden 2md:block">
           <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px">
             <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
-            <div v-for="(p, index) of participant" :key="index"
+            <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
                  class="flex justify-between items-center py-15px gap-15px">
               <div class="flex-1 flex items-center truncate">
-                <img v-if="p.profileImg"
+                <img v-if="p"
                      class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                         border-2 border-color62 light:border-white bg-color8B/10"
-                     :src="p.profileImg" alt="">
+                     :src="p" alt="">
                 <img v-else
                      class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-2 border-color62 light:border-white bg-color8B/10"
                      src="~@/assets/icon-default-avatar.svg" alt="">
-                <span class="truncate ml-8px">{{p.twitterName}}</span>
               </div>
-              <span>9.2(0.29$)</span>
+              <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
           </div>
         </div>
@@ -176,7 +153,7 @@ import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId } from '@/api/api'
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -201,7 +178,7 @@ export default {
       scroll: 0,
       communityId: '',
       topicId: '',
-      participant: []
+      topic: {}
     }
   },
   computed: {
@@ -227,24 +204,37 @@ export default {
       this.$store.commit('postsModule/saveCurrentShowingDetail', post);
       this.$router.push('/post-detail/' + post.postId);
     },
+    async getCommunityTopics() {
+      getCommunityActivities(this.showingCommunity.communityId).then(res => {
+        this.$store.commit('community/saveTopics', res);
+        this.topic = res.find(r => r.activityId === this.topicId)
+      }).catch(e => {
+        console.log('error', e);
+      })
+    }
   },
   mounted () {
     const topicId = this.$route.params.topicId;
     this.topicId = topicId
-    console.log(325, topicId);
     if (!topicId) {
       return this.$router.go(-1);
     }
-    console.log(53, {...this.showingCommunity});
-    getCommunityByTopicId(this.getAccountInfo?.twitterId, topicId).then( async res => {
-      if (res && res.communityId) {
-        const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
-          res.rewardPrice = price[res.rewardToken]
-          this.$store.commit('community/saveShowingCommunity', res)
-      }
-    }).catch(e => {
-      notify({error: e, type: 'error'})
-    })
+    if (!this.showingCommunity || !this.showingCommunity.communityId) {
+      getCommunityByTopicId(this.getAccountInfo?.twitterId, topicId).then( async res => {
+        if (res && res.communityId) {
+          const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
+            res.rewardPrice = price[res.rewardToken]
+            this.$store.commit('community/saveShowingCommunity', res)
+            this.getCommunityTopics()
+        }else {
+          console.log(4, res);
+        }
+      }).catch(e => {
+        notify({error: e, type: 'error'})
+      })
+    }else {
+      this.getCommunityTopics()
+    }
 
     
   },
