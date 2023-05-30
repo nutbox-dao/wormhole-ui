@@ -23,7 +23,7 @@
       </template>
       <button @click.stop @mouseover="getTip" class="flex items-center">
         <i class="w-18px h-18px btn-icon-tip"></i>
-        <span class="px-8px font-700 text-12px text-color7D">${{ price }}</span>
+        <span class="px-8px font-700 text-12px text-color7D">{{ price }}</span>
       </button>
     </el-tooltip>
   </div>
@@ -33,7 +33,7 @@
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import debounce from "lodash.debounce";
 import {getCurationRewardsOfPost} from "@/api/api";
-import {formatAmount} from "@/utils/helper";
+import {formatAmount, formatPrice} from "@/utils/helper";
 import {getPriceFromOracle} from "@/utils/asset";
 export default {
   name: "BlogReward",
@@ -97,7 +97,7 @@ export default {
             }
           }
           if (price > 0) {
-            this.price = price.toFixed(2);
+            this.price = formatPrice(price)
           }
         }else {
           this.rewards = []

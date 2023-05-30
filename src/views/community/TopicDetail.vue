@@ -189,17 +189,17 @@
                           :loading-text="$t('common.loading')"
                           :finished-text="topic && topic.participant.length!==0?$t('common.noMore'):''"
                           @load="rewardOnLoad">
-                  <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
+                  <div v-for="(r, index) of rewardsList" :key="index"
                        class="flex justify-between items-center py-10px gap-15px">
                     <div class="flex-1 flex items-center truncate">
-                      <img v-if="p"
+                      <img v-if="r.profileImg"
                            class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
-                           :src="p" alt="">
+                           :src="r.profileImg" alt="">
                       <img v-else
                            class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
                            src="~@/assets/icon-default-avatar.svg" alt="">
                     </div>
-                    <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+                    <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
                   </div>
                 </van-list>
               </van-pull-refresh>
@@ -213,26 +213,26 @@
           <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
           <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar">
             <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-                 v-if="rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)">
+                 v-if="rewardRefreshing && rewardsList.length === 0">
               <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
             </div>
-            <div v-else-if="!rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)" class="py-2rem">
+            <div v-else-if="!rewardRefreshing && rewardsList.length === 0" class="py-2rem">
               <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
               <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
             </div>
-            <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
+            <div v-for="(r, index) of rewardsList" :key="index"
                  class="flex justify-between items-center py-15px gap-15px">
               <div class="flex-1 flex items-center truncate">
-                <img v-if="p"
+                <img v-if="r.profileImg"
                      class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                         border-2 border-color62 light:border-white bg-color8B/10"
-                     :src="p" alt="">
+                     :src="r.profileImg" alt="">
                 <img v-else
                      class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-2 border-color62 light:border-white bg-color8B/10"
                      src="~@/assets/icon-default-avatar.svg" alt="">
               </div>
-              <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+              <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
           </div>
         </div>
@@ -267,7 +267,7 @@ export default {
     return {
       TokenIcon,
       tabIndex: 0,
-      postType: ['Trending', 'Promotion', 'new'],
+      postType: ['Trending', 'New'],
       typeIndex: 0,
       scroll: 0,
       communityId: '',
@@ -280,7 +280,7 @@ export default {
       rewardListLoading: false,
       rewardListFinished: false,
       rewardRefreshing: false,
-
+      rewardsList: []
     }
   },
   computed: {
@@ -300,6 +300,7 @@ export default {
       console.log(3, newValue);
       if (newValue?.activityId) {
         this.refresh()
+        this.rewardRefresh()
       }
     }
   },
@@ -316,7 +317,6 @@ export default {
       return time*1000 - new Date().getTime()
     },
     gotoDetail(post, index) {
-      console.log(post)
       this.selectedPost = post
       this.selectedPostIndex = index
       this.$store.commit('postsModule/saveCurrentShowingDetail', post);
@@ -349,7 +349,16 @@ export default {
 
     },
     async rewardRefresh() {
-
+      try{
+        this.rewardRefreshing = true
+        const reward = await getCommunityActivityReward(this.topic.activityId);
+        console.log(52, reward);
+        this.rewardsList = reward ?? []
+      } catch(e) {
+        
+      } finally {
+        this.rewardRefreshing = false
+      }
     },
     async rewardOnLoad () {
 
