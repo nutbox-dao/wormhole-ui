@@ -352,3 +352,48 @@ html.light {
 .el-popover.el-popper {
   min-width: 0;
 }
+.c-collapse.el-collapse {
+  border: none;
+}
+.c-collapse .el-collapse-item {
+  background-color: transparent;
+  border-radius: 10px;
+  margin: 8px 0;
+  height: fit-content;
+  border: 1px solid transparent;
+}
+.c-collapse .el-collapse-item__header {
+  border: none;
+  background-color: transparent;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.c-collapse .el-collapse-item__header.is-active {
+  border-bottom: 1px solid transparent;
+}
+.c-collapse .el-collapse-item__wrap {
+  border: none;
+  background-color: transparent;
+}
+.c-collapse .el-collapse-item__arrow {
+  position: relative;
+  min-height: fit-content;
+  margin: 0;
+  svg {
+    opacity: 0;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url("~@/assets/icon-select-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

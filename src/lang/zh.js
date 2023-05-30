@@ -135,7 +135,8 @@ export default {
     record: '记录',
     historyRecord: '历史记录',
     communityReward: '社区奖励',
-    withdraw: '提现'
+    withdraw: '提现',
+    rewardsReceived: '已领取奖励',
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -498,6 +499,7 @@ export default {
     day: '天',
     hour: '时',
     minute: '分',
-    second: '秒'
+    second: '秒',
+    all: '全部'
   }
 }

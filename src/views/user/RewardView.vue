@@ -16,43 +16,66 @@
         </div>
       </div>
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
-        <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px
-                    2md:flex  2md:gap-15px">
-          <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px
+        <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px">
+          <div class="bg-colorEF reward-box rounded-12px overflow-hidden p-15px
                       2md:flex-1">
             <div v-if="summaryList.length > 0"
                  class="text-left flex flex-col font-bold text-12px 2xl:text-14px">
-              <el-checkbox-group class="c-checkbox-group"
-                                 v-model="checkRewardList" @change="checkboxGroupChange">
-                <el-checkbox class="hover:bg-white/10 py-8px 2md:py-15px"
-                             v-for="reward of summaryList" :key="reward.token"
-                             :label="reward.token">
-                  <ChainTokenIcon height="30px" width="30px"
-                                  :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                  :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
-                    <template #amount>
-                      <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                        {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol + `($${formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))})` }}
-                      </span>
-                    </template>
-                  </ChainTokenIcon>
-                </el-checkbox>
-              </el-checkbox-group>
+              <el-collapse v-model="collapseNames" class="c-collapse">
+                <el-collapse-item v-for="reward of summaryList" :key="reward.token" :name="reward.token">
+                  <template #title>
+                    <div class="flex items-center">
+                      <button class="w-16px h-16px min-w-16px min-h-16px rounded-full bg-white mr-15px"
+                              @click.stop="checkboxGroupChange(reward.token)">
+                        <img v-if="checkRewardList.indexOf(reward.token)>=0" class="w-full h-full"
+                             src="~@/assets/icon-selected-primary.svg" alt="">
+                      </button>
+                      <ChainTokenIcon height="30px" width="30px"
+                                      :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                                      :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
+                        <template #amount>
+                          <div class="text-color1A flex flex-col whitespace-nowrap px-8px">
+                            <span class="text-14px c-text-black ">
+                              {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol }}
+                            </span>
+                            <span class="text-12px mt-6px">
+                              $({{formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))}})
+                            </span>
+                          </div>
+                        </template>
+                      </ChainTokenIcon>
+                    </div>
+                  </template>
+                  <div class="py-8px px-10px bg-colorFB rounded-8px">
+                    <div v-if="showingList.length > 0"
+                         class="">
+                      <RewardCuration :rewards="showingList"
+                                      :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+                    </div>
+                    <div v-else-if="loading[chainTab]" class="py-15px">
+                      <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                    </div>
+                    <div v-else class="py-15px text-center text-color7D text-14px">
+                      {{$t('walletView.claimedAllRewards')}}
+                    </div>
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
               <button v-if="(chainId !== chainIds[chainTab])"
                       class="ny-gradient-btn gradient-btn-disabled-grey
                               flex items-center justify-center min-w-10rem px-20px
-                              rounded-full h-44px 2xl:h-2.2rem text-white font-bold" @click="connect">
+                              rounded-full h-40px text-white font-bold" @click="connect">
                 {{ $t('common.connectMetamask') }}
                 <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
               <button v-else class="flex items-center justify-center bg-ny-btn-gradient
-                       h-44px px-15px rounded-full"
+                       h-40px px-15px rounded-full text-white"
                       :disabled="claiming || accountMismatch"
                       @click="claimReward">
                 {{ $t('curation.claimReward') }}
                 <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
-              <div v-if="accountMismatch" class="text-redColor">
+              <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
                 {{ $t('walletView.accountMismatch') }}
               </div>
             </div>
@@ -63,27 +86,13 @@
               <div class="c-text-black text-16px">{{$t('walletView.claimedAllRewards')}}</div>
             </div>
           </div>
-          <div class="mt-15px 2md:mt-0 2md:flex-1 overflow-hidden flex flex-col"
-               :style="width>960?{maxHeight: `${summaryList.length*63+88}px`, minHeight: `${showingList.length>3?220:0}px`}:{}">
-            <div class="flex justify-between items-center mb-8px">
-              <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-              <button class="flex items-center text-14px" @click="historyModalVisible=true">
-                <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
-                <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
-              </button>
-            </div>
-            <div v-if="showingList.length > 0"
-                 class="bg-blockBg light:bg-white rounded-12px basis-full md:basis-auto relative ml-15px mr-15px sm:m-0
-                        flex-1 overflow-auto no-scroll-bar">
-              <RewardCuration :rewards="showingList"
-                              :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
-            </div>
-            <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
-              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-            </div>
-            <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-              <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
-            </div>
+          <div class="text-center mt-10px">
+            <button class="text-color8B flex items-center justify-center mx-auto text-14px"
+                    @click="historyModalVisible=true">
+              <span>{{$t('walletView.rewardsReceived')}}</span>
+              <img class="w-12px transform -rotate-90 ml-10px"
+                   src="~@/assets/icon-select-arrow.svg" alt="">
+            </button>
           </div>
         </div>
         <div class="mt-30px ">
@@ -150,7 +159,8 @@ export default {
       checkRewardList: [],
       TokenIcon,
       historyModalVisible: false,
-      loadingCommunityRewards: false
+      loadingCommunityRewards: false,
+      collapseNames: []
     }
   },
   computed: {
@@ -315,8 +325,14 @@ export default {
         this.connecting = false
       }
     },
-    checkboxGroupChange() {
+    checkboxGroupChange(token) {
       console.log(Object.values(this.checkRewardList))
+      const index = this.checkRewardList.indexOf(token)
+      if(index>=0) {
+        this.checkRewardList.splice(index, 1)
+      } else {
+        this.checkRewardList.push(token)
+      }
     }
   },
   mounted () {

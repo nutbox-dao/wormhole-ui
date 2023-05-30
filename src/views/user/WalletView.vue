@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px">
+  <div class="w-full md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col">
     <div class="bg-blockBg light:bg-white light:sm:border-1 light:border-colorF4
                     mt-5rem pt-5rem md:mt-9rem md:pt-1rem rounded-12px basis-full md:basis-auto relative">
       <div v-if="getAccountInfo && getAccountInfo.ethAddress"
