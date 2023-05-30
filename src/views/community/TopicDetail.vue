@@ -267,7 +267,7 @@ export default {
     return {
       TokenIcon,
       tabIndex: 0,
-      postType: ['Trending', 'Promotion', 'new'],
+      postType: ['Trending', 'New'],
       typeIndex: 0,
       scroll: 0,
       communityId: '',
