@@ -292,14 +292,6 @@ export default {
         console.log(54, e);
         notify({error: e, type: 'error'})
       })
-
-      getCommunityOps(communityId).then(ops => {
-        console.log('ops', ops);
-        this.$store.commit('community/saveOps', ops)
-      }).catch(e => {
-        console.log(55, e);
-        notify({error: e, type: 'error'})
-      })
     }
   },
   methods: {
