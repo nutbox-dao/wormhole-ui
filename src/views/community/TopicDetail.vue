@@ -223,14 +223,21 @@
             <div v-for="(r, index) of rewardsList" :key="index"
                  class="flex justify-between items-center py-15px gap-15px">
               <div class="flex-1 flex items-center truncate">
-                <img v-if="r.profileImg"
-                     class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                        border-2 border-color62 light:border-white bg-color8B/10"
-                     :src="r.profileImg" alt="">
-                <img v-else
-                     class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white bg-color8B/10"
-                     src="~@/assets/icon-default-avatar.svg" alt="">
+                <Avatar :profile-img="r.profileImg"
+                        :name="r.name"
+                        :username="r.username"
+                        :steem-id="r.steemId"
+                        :eth-address="r.ethAddress"
+                        :reputation="r.reputation"
+                        @gotoUserPage="$router.push({path : '/account-info/@' + r.username})">
+                  <template #avatar-img>
+                    <img class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                                border-1 border-color62 light:border-white bg-color8B/10"
+                         @click.stop="$router.push({path : '/account-info/@' + r.username})"
+                         :src="r.profileImg" alt="">
+                  </template>
+                </Avatar>
+                <span>{{r.username}}</span>
               </div>
               <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
@@ -253,10 +260,11 @@ import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
+import Avatar from "@/components/Avatar.vue";
 
 export default {
   name: "TopicDetail",
-  components: {Blog},
+  components: {Blog, Avatar},
   setup() {
     const { width } = useWindowSize();
     return {
@@ -355,7 +363,7 @@ export default {
         console.log(52, reward);
         this.rewardsList = reward ?? []
       } catch(e) {
-        
+
       } finally {
         this.rewardRefreshing = false
       }
