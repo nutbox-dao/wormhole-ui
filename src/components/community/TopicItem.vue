@@ -2,9 +2,13 @@
   <div class="rounded-12px overflow-hidden border-1 border-color8B/30 light:border-color7F">
     <div class="flex justify-between items-center bg-color1A h-40px px-15px">
       <span class="c-text-black text-16px text-white">{{ topic.title }}</span>
-      <span class="text-12px flex items-center text-white">
-        {{$t('community.distanceStartTime')}}：
-        <van-count-down class="text-12px text-white"
+      <div v-if="status==='toBeStart'"
+           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-colorF7F2 text-color62 text-12px ">
+        <img class="w-14px h-14px mr-2px" src="~@/assets/icon-time-primary.svg" alt="">
+        <span>{{$t('community.toBeStart')}}</span>
+        <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+        <van-count-down class="text-12px text-color62"
                         :time="countdown(new Date(topic.startTime).getTime()/1000)">
           <template #default="timeData">
             {{ timeData.days }} {{$t('common.day')}}
@@ -13,7 +17,18 @@
             {{ timeData.seconds }} {{$t('common.second')}}
           </template>
         </van-count-down>
-      </span>
+      </div>
+      <div v-else-if="status==='inProgress'"
+           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-color62 text-white text-12px ">
+        🔥 {{$t('community.inProgress')}}
+      </div>
+      <div v-else-if="status==='ended'"
+           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-colorF0 text-color66 text-12px">
+        <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
+        <span>{{$t('community.ended')}}</span>
+      </div>
     </div>
     <div class="p-15px">
       <div class="flex justify-between items-center">
@@ -59,6 +74,16 @@ export default {
       type: Object,
       default: {}
     },
+  },
+  computed: {
+    status() {
+      if(!this.topic.startTime) return ''
+      const currentTime = new Date().getTime()
+      if(new Date(this.topic.startTime).getTime() > currentTime) return 'toBeStart'
+      if(currentTime > new Date(this.topic.startTime).getTime() &&
+          currentTime < new Date(this.topic.endTime).getTime()) return 'inProgress'
+      return 'ended'
+    }
   },
   data() {
     return {
