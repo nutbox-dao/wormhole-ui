@@ -14,25 +14,6 @@
                 :finished-text="topics.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div class="pt-20px">
-          <!-- <div class="mb-4px px-15px flex justify-between items-center">
-            <span class="text-16px leading-25px font-bold">Twitter Space</span>
-            <el-dropdown>
-              <button class="text-14px text-color62 flex items-center">
-                <span class="font-bold">{{$t('community.'+spaceType[typeIndex])}}</span>
-                <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
-              </button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item v-for="(type, index) of spaceType" :key="type"
-                                    @click="typeIndex=index">
-                <span :class="typeIndex===index?'text-color62':''">
-                  {{$t('community.'+type)}}
-                </span>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </div> -->
           <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
               v-if="refreshing && (!spaces || spaces.length === 0)">
             <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -44,7 +25,7 @@
           <div v-else class=" ">
             <div class="flex gap-15px space-container no-scroll-bar">
               <div v-for="(space, i) of spaces" :key="i"
-                   class="space-item w-280px min-w-280px">
+                   class="space-item w-280px min-w-280px cursor-pointer">
                 <Space :show-avatar="false" :space="space" @click="gotoDetail(space)">
                   <template #bottom-btn-bar><div></div></template>
                 </Space>
@@ -97,6 +78,7 @@ export default {
       listLoading: false,
       listFinished: false,
       refreshing: false,
+      communityId: ''
     }
   },
   computed: {
@@ -136,7 +118,8 @@ export default {
 
     },
     gotoDetail(space) {
-
+      this.$store.commit('postsModule/saveCurrentShowingDetail', null);
+      this.$router.push('/post-detail/' + space.postId);
     }
   }
 }
