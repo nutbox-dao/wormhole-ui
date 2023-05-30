@@ -153,7 +153,7 @@ import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts } from '@/api/api'
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts, getCommunityActivityReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'

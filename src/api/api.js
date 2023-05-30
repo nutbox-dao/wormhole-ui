@@ -401,6 +401,9 @@ export const getCommunityActivities = async (communityId) =>
 export const getCommunityActivePosts = async (twitterId, activityId, lastPostId) =>
     get(BACKEND_API_URL + '/community/getCommunityActivePosts', {twitterId, activityId, lastPostId})
 
+export const getCommunityActivityReward = async (activityId, createTime) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivityReward', { activityId, createTime })
+
 export const getCommunityAnnouncement = async (twitterId, communityId, lastPostId) =>
     get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {twitterId, communityId, lastPostId})
 
