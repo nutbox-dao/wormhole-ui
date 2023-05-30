@@ -192,12 +192,21 @@
                   <div v-for="(r, index) of rewardsList" :key="index"
                        class="flex justify-between items-center py-10px gap-15px">
                     <div class="flex-1 flex items-center truncate">
-                      <img v-if="r.profileImg"
-                           class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
-                           :src="r.profileImg" alt="">
-                      <img v-else
-                           class="w-32px h-32px min-w-32px min-h-32px rounded-full bg-colorF7"
-                           src="~@/assets/icon-default-avatar.svg" alt="">
+                      <Avatar :profile-img="r.profileImg"
+                              :name="r.name"
+                              :username="r.username"
+                              :steem-id="r.steemId"
+                              :eth-address="r.ethAddress"
+                              :reputation="r.reputation"
+                              @gotoUserPage="$router.push({path : '/account-info/@' + r.username})">
+                        <template #avatar-img>
+                          <img class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                                border-1 border-color62 light:border-white bg-color8B/10"
+                               @click.stop="$router.push({path : '/account-info/@' + r.username})"
+                               :src="r.profileImg" alt="">
+                        </template>
+                      </Avatar>
+                      <span>{{r.username}}</span>
                     </div>
                     <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
                   </div>
