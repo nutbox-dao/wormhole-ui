@@ -149,7 +149,7 @@ export default {
           return;
         }
         this.refreshing = true;
-        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId), getCommunitySpaces(this.getAccountInfo.twitterId, this.communityId)]);
+        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId), getCommunitySpaces(this.getAccountInfo?.twitterId, this.communityId)]);
         this.$store.commit('community/saveTopics', topics);
         this.$store.commit('community/saveSpaces', spaces)
       } catch (e) {
