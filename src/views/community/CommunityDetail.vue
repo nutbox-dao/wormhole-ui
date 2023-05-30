@@ -20,8 +20,9 @@
         <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
       </router-link> -->
       <button @click="$router.go(-1)"
-              class="absolute left-15px">
-          <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
+              class="absolute left-15px w-30px h-30px bg-colorF7 rounded-full
+                     flex items-center justify-center p-5px">
+        <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
     </div>
     <div class="container mx-auto w-full sm:max-w-50rem">
@@ -30,8 +31,9 @@
           <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
         </router-link> -->
         <button @click="$router.go(-1)"
-                class="w-40px h-40px bg-white/20 rounded-full flex items-center justify-center filter light:invert-30">
-          <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
+                class="w-30px h-30px bg-white/20 rounded-full
+                       flex items-center justify-center p-5px filter light:invert-30">
+          <img src="~@/assets/icon-back.svg" alt="">
       </button>
       </div>
     </div>
