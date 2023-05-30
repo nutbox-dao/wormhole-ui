@@ -122,6 +122,7 @@
                   <div v-for="(post, index) of postsList" :key="post.postId"
                        class="py-20px border-b-1 border-color8B/30 light:border-colorD8">
                     <Blog :post="post"
+                          :showCommunity="false"
                           @click="gotoDetail(post, index)"
                           avatar-class="min-w-35px min-h-35px w-35px h-35px md:w-3rem md:h-3rem">
                     </Blog>
@@ -204,7 +205,7 @@ import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts } from '@/api/api'
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts, getCommunityActivityReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -229,12 +230,7 @@ export default {
       scroll: 0,
       communityId: '',
       topicId: '',
-      topic: {title: 'Aaaaa', startTime: '2023-05-30 00:00:00',
-        participates: [{"twitterId":"3419530221","twitterName":"⭐Zvezda Crypto","twitterUsername":"C_Zvezdaa","profileImg":"https://pbs.twimg.com/profile_images/1653485193808826373/H0DBPYya_normal.jpg","createAt":"2023-05-12T14:23:42.000Z","id":359344,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1397026760114335749","twitterName":"Leo.bnb Web 3 Camp","twitterUsername":"Leo69129849","profileImg":"https://pbs.twimg.com/profile_images/1479014955227631616/9uck0k8A_normal.jpg","createAt":"2023-05-12T12:52:43.000Z","id":359212,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1654915931213004801","twitterName":"Abmustafa","twitterUsername":"Abmustafa340","profileImg":"https://pbs.twimg.com/profile_images/1655622288094507012/BF4L87Yl_normal.jpg","createAt":"2023-05-12T12:31:41.000Z","id":359189,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1005908138237878272","twitterName":"Abdulkadir","twitterUsername":"Abdulkadir007ab","profileImg":"https://pbs.twimg.com/profile_images/1624717814748569602/CR0qcrvt_normal.jpg","createAt":"2023-05-12T12:26:04.000Z","id":359147,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"1086512818843774976","twitterName":"Donut","twitterUsername":"Adedotu69664225","profileImg":"https://pbs.twimg.com/profile_images/1566911992409071617/UFUsKISL_normal.jpg","createAt":"2023-05-12T12:24:36.000Z","id":359129,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6},{"twitterId":"419295898","twitterName":"Aliu Herpheezy","twitterUsername":"herpheezy","profileImg":"https://pbs.twimg.com/profile_images/1251775841073278981/Qn3vPT3R_normal.jpg","createAt":"2023-05-12T11:52:33.000Z","id":359108,"curationId":"23ba1526c4af","amount":"0","isFeed":0,"token":"0x217dffF57E3b855803CE88a1374C90759Ea071bD","decimals":18,"tokenName":"Wrapped NULS","tokenSymbol":"WNULS","taskStatus":0,"totalCount":6}],
-        membersCount: 5,
-        description: 'ssssssssss',
-        activityId: 'sdfsdf'
-      },
+      topic: {},
       postsList: [],
       listLoading: false,
       listFinished: false,
