@@ -98,6 +98,7 @@
               <div v-for="(post, index) of postsList" :key="post.postId"
                    class="py-20px border-b-1 border-color8B/30 light:border-colorD8">
                 <Blog :post="post"
+                      :showCommunity="false"
                       @click="gotoDetail(post, index)"
                       avatar-class="min-w-35px min-h-35px w-35px h-35px md:w-3rem md:h-3rem">
                 </Blog>
