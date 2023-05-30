@@ -95,8 +95,24 @@
           </div>
           <div class="px-15px">
             <template v-if="tabIndex===0">
-              <div class="flex items-center justify-between pt-10px">
+              <div class="flex items-center justify-between mt-20px">
                 <span class="c-text-black text-14px">Post ({{ topic.postCounts }})</span>
+                <el-dropdown>
+                  <button class="text-14px text-color62 flex items-center">
+                    <span class="font-bold">{{postType[typeIndex]}}</span>
+                    <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
+                  </button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item v-for="(type, index) of postType" :key="type"
+                                        @click="typeIndex=index">
+                        <span class="text-12px" :class="typeIndex===index?'text-color62':''">
+                          {{type}}
+                        </span>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </div>
               <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
                    v-if="refreshing && (!postsList || postsList.length === 0)">
@@ -225,7 +241,7 @@ export default {
     return {
       TokenIcon,
       tabIndex: 0,
-      postType: ['trend'],
+      postType: ['Trending', 'Promotion', 'new'],
       typeIndex: 0,
       scroll: 0,
       communityId: '',
