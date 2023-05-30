@@ -442,7 +442,7 @@ export default {
 .light #app {
   color: #1A1E25;
 }
-.light #app{
+.light .square{
   &.bg-img{
     background-image: linear-gradient(43deg, #EAE6FF 0%, #DED4FF 25%, #FBFCFF 76%, #EBEBFF 100%);
     background-size: cover;
