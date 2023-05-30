@@ -4,22 +4,6 @@
     <div class="">
       <div class="px-15px flex justify-between items-center mt-5px">
         <span class="text-16px leading-25px font-bold">Twitter Space</span>
-        <el-dropdown>
-          <button class="text-14px text-color62 flex items-center">
-            <span class="font-bold">{{$t('community.'+spaceType[typeIndex])}}</span>
-            <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
-          </button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item v-for="(type, index) of spaceType" :key="type"
-                                @click="typeChange(index)">
-                <span :class="typeIndex===index?'text-color62':''">
-                  {{$t('community.'+type)}}
-                </span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
       </div>
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!spaces || spaces.length === 0)">
@@ -65,6 +49,22 @@
     </div>
     <div class="mb-4px flex justify-between items-center mt-20px px-15px">
       <span class="text-16px leading-25px font-bold">{{$t('community.topic')}}</span>
+      <el-dropdown>
+        <button class="text-14px text-color62 flex items-center">
+          <span class="font-bold">{{$t('community.'+topicType[typeIndex])}}</span>
+          <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
+        </button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="(type, index) of topicType" :key="type"
+                              @click="typeChange(index)">
+                <span :class="typeIndex===index?'text-color62':''">
+                  {{$t('community.'+type)}}
+                </span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
          v-if="refreshing && (!topics || topics.length === 0)">
@@ -116,10 +116,9 @@ export default {
   },
   data() {
     return {
-      spaceType: ['inProgress', 'ended', 'toBeStart'],
+      topicType: ['inProgress', 'ended', 'toBeStart'],
       activeSpaceIndex: 0,
       typeIndex: 0,
-      topicList: [1],
       listLoading: false,
       listFinished: false,
       refreshing: false,
