@@ -426,7 +426,15 @@ export default {
     topics: 'Campaign',
     promotion: 'Promotion',
     rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
-    award: 'reward'
+    award: 'reward',
+    disStrategy: 'Distribution Strategy',
+    currentBlock: '当前区块高度',
+    currentReward: '当前挖矿奖励',
+    lastHalvingTime: '上次减半时间',
+    nextHalvingTime: '下次减半时间',
+    pool: '矿池',
+    token: '社区代币',
+    currentProgress: '当前进度'
   },
   info: {
     interactive: 'Activities',
@@ -438,7 +446,8 @@ export default {
     community: 'Community',
     influence: 'Curation Credit',
     info: 'Messages',
-    create: 'Create'
+    create: 'Create',
+    mine: 'Profile'
   },
   err: {
     serverErr: 'Server error',

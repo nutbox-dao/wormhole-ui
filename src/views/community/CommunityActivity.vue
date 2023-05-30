@@ -110,7 +110,6 @@ export default {
       })
     },
     gotoDetail(op) {
-      console.log(3, op.id, op.type);
       switch (op.type) {
         case 2:
           this.$store.commit('postsModule/saveCurrentShowingDetail', null);

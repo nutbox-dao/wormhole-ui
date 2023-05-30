@@ -178,12 +178,28 @@ export default {
       scroll: 0,
       communityId: '',
       topicId: '',
-      topic: {}
+      topic: {},
+      postsList: [],
+      listLoading: false,
+      listFinished: false,
+      refreshing: false,
+      rewardListLoading: false,
+      rewardListFinished: false,
+      rewardRefreshing: false,
+
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs']),
+    ...mapState('community', ['showingCommunity', 'configs', 'topics']),
     ...mapGetters(['getAccountInfo']),
+  },
+  watch: {
+    topic(newValue, oldValue) {
+      console.log(3, newValue);
+      if (newValue?.activityId) {
+        this.refresh()
+      }
+    }
   },
   methods: {
     formatAmount,
@@ -205,12 +221,36 @@ export default {
       this.$router.push('/post-detail/' + post.postId);
     },
     async getCommunityTopics() {
-      getCommunityActivities(this.showingCommunity.communityId).then(res => {
-        this.$store.commit('community/saveTopics', res);
-        this.topic = res.find(r => r.activityId === this.topicId)
-      }).catch(e => {
-        console.log('error', e);
-      })
+      if (this.topics.length > 0) {
+        this.topic = this.topics.find(r => r.activityId === this.topicId)
+      }else {
+        getCommunityActivities(this.showingCommunity.communityId).then(res => {
+          this.$store.commit('community/saveTopics', res);
+          this.topic = res.find(r => r.activityId === this.topicId)
+        }).catch(e => {
+          console.log('error', e);
+        })
+      }
+    },
+    async refresh() {
+      try{
+        this.refreshing = true;
+        const posts = await getCommunityActivePosts(this.getAccountInfo?.twitterId, this.topic.activityId);
+        this.postsList = posts ?? [];
+      } catch (e) {
+        console.log(11, e);
+      } finally {
+        this.refreshing = false;
+      }
+    },
+    async onLoad() {
+
+    },
+    async rewardRefresh() {
+
+    },
+    async rewardOnLoad () {
+
     }
   },
   mounted () {
