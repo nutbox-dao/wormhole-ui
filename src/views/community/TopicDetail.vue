@@ -46,11 +46,14 @@
           </div>
           <div class="px-15px">
             <div class="flex justify-between items-center my-15px">
-              <span class="text-12px flex items-center text-white light:text-color62 h-28px px-10px rounded-full
-                           bg-color62 light:bg-colorF7F2">
-                {{$t('community.distanceStartTime')}}：
-                <van-count-down class="text-12px text-white light:text-color62"
-                                :time="countdown(new Date('2023-05-17 00:00:00').getTime()/1000)">
+              <div v-if="status==='toBeStart'"
+                   class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-colorF7F2 text-color62 text-12px ">
+                <img class="w-14px h-14px mr-2px" src="~@/assets/icon-time-primary.svg" alt="">
+                <span>{{$t('community.toBeStart')}}</span>
+                <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                <van-count-down class="text-12px text-color62"
+                                :time="countdown(new Date(topic.startTime).getTime()/1000)">
                   <template #default="timeData">
                     {{ timeData.days }} {{$t('common.day')}}
                     {{ timeData.hours }} {{$t('common.hour')}}
@@ -58,7 +61,18 @@
                     {{ timeData.seconds }} {{$t('common.second')}}
                   </template>
                 </van-count-down>
-              </span>
+              </div>
+              <div v-else-if="status==='inProgress'"
+                   class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-color62 text-white text-12px ">
+                🔥 {{$t('community.inProgress')}}
+              </div>
+              <div v-else-if="status==='ended'"
+                   class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
+                  bg-colorF0 text-color66 text-12px">
+                <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
+                <span>{{$t('community.ended')}}</span>
+              </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center ml-11px">
                   <div class="-ml-11px" v-for="p of topic.participant?.slice(0,3)" :key="p">
@@ -272,6 +286,14 @@ export default {
   computed: {
     ...mapState('community', ['showingCommunity', 'configs', 'topics']),
     ...mapGetters(['getAccountInfo']),
+    status() {
+      if(!this.topic.startTime) return ''
+      const currentTime = new Date().getTime()
+      if(new Date(this.topic.startTime).getTime() > currentTime) return 'toBeStart'
+      if(currentTime > new Date(this.topic.startTime).getTime() &&
+          currentTime < new Date(this.topic.endTime).getTime()) return 'inProgress'
+      return 'ended'
+    }
   },
   watch: {
     topic(newValue, oldValue) {
