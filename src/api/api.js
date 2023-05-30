@@ -377,6 +377,9 @@ export const getCommunities = async (twitterId) =>
 export const getCommunityById = async (twitterId, communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityById', {twitterId, communityId})
 
+export const getCommunityByTopicId = async (twitterId, topicId) => 
+    get(BACKEND_API_URL + '/community/getCommunityByTopicId', {twitterId, topicId})
+
 export const getCommunityConfigs = async (communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityConfigs', {communityId})
 
@@ -388,6 +391,9 @@ export const getCommunityPromotionPosts = async (twitterId, communityId, lastPos
 
 export const getCommunityNewPosts = async (twitterId, communityId, lastPostId) => 
     get(BACKEND_API_URL + '/community/getCommunityNewPosts', { twitterId, communityId, lastPostId})
+
+export const getCommunitySpaces = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunitySpaces', { twitterId, communityId, lastPostId })
 
 export const getCommunityActivities = async (communityId) =>
     get(BACKEND_API_URL + '/community/getCommunityActivities', {communityId})

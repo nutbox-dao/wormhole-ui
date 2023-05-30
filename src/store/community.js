@@ -19,9 +19,11 @@ export default {
     activities: [],
     announces: [],
     topics: [],
+    spaces: [],
     members: [],
     ops: [],
-    communityCC: []
+    communityCC: [],
+    price: 0
   },
   mutations: {
     saveCommunities: (state, communities) => {
@@ -52,6 +54,9 @@ export default {
     saveTopics: (state, topics) => {
       state.topics =topics
     },
+    saveSpaces: (state, spaces) => {
+      state.spaces = spaces
+    },
     saveMembers: (state, members) => {
       state.members = members
     },
@@ -60,6 +65,9 @@ export default {
     },
     saveCommunityCC: (state, communityCC) => {
       state.communityCC = communityCC
+    },
+    savePrice: (state, price) => {
+      state.price = price
     },
     
     clearData: (state) => {
@@ -70,8 +78,10 @@ export default {
       state.activities = [];
       state.announces = [];
       state.topics = [];
+      state.spaces = [];
       state.members = [];
       state.ops = [];
+      state.price = 0;
     }
   }
 };
