@@ -1,5 +1,6 @@
 <template>
-  <div class="h-full overflow-auto 2md:px-15px" ref="detailPageRef" @scroll="pageScroll">
+  <div class="h-full overflow-auto 2md:px-15px 2md:flex 2md:flex-col"
+       ref="detailPageRef" @scroll="pageScroll">
     <div v-if="scroll>30 || width>640"
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden
                 bg-primaryBg light:bg-white border-b-1 border-headerBorder light:border-headerBorderLight">
@@ -25,9 +26,11 @@
         </button>
       </div>
     </div>
-    <div class="sm:pt-85px 2md:pt-0 pb-20px">
-      <div class="2md:grid grid-cols-3 gap-15px container mx-auto sm:max-w-50rem">
-        <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px">
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-0 pb-15px
+                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
+      <div class="col-span-2 2md:h-full 2md:overflow-hidden 2md:flex-1 2md:overflow-hidden">
+        <div class="sm:border-1 border-color8B/30 light:border-color7F rounded-12px
+                    2md:flex 2md:flex-col max-h-full overflow-auto no-scroll-bar">
           <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px
                       flex flex-col">
             <c-image :src="topic?.banner"
@@ -36,7 +39,8 @@
               <span class="c-text-black text-16px text-white">{{ topic?.title }}</span>
               <div class="flex items-center">
                 <i class="w-18px h-18px btn-icon-tip"></i>
-                <span class="px-8px font-700 text-12px text-color7D">{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+                <span class="px-8px font-700 text-12px text-color7D">
+                  {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
               </div>
             </div>
           </div>
@@ -78,7 +82,6 @@
               {{ topic.description }}
             </div>
           </div>
-          <div class="w-7/10 h-1px mx-auto bg-color8B/30 light:bg-color7F my-20px hidden 2md:block"></div>
           <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold 2md:hidden
                 border-b-0.5px border-color8B/30 light:border-color7F bg-primaryBg light:bg-white
                 sticky top-70px 2md:top-0 z-9 shadow-tab">
@@ -189,24 +192,33 @@
             </template>
           </div>
         </div>
-        <div class="col-span-1 hidden 2md:block">
-          <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px">
-            <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
-            <div v-infinite-scroll="rewardOnLoad">
-              <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
-                   class="flex justify-between items-center py-15px gap-15px">
-                <div class="flex-1 flex items-center truncate">
-                  <img v-if="p"
-                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+      </div>
+      <div class="col-span-1 hidden 2md:block 2md:h-full 2md:overflow-hidden 2md:flex-1 2md:overflow-hidden">
+        <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px
+                    2md:flex 2md:flex-col max-h-full overflow-auto">
+          <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
+          <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar">
+            <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+                 v-if="rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)">
+              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+            </div>
+            <div v-else-if="!rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)" class="py-2rem">
+              <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+              <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+            </div>
+            <div v-for="(p, index) of topic ? topic.participant : []" :key="index"
+                 class="flex justify-between items-center py-15px gap-15px">
+              <div class="flex-1 flex items-center truncate">
+                <img v-if="p"
+                     class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                         border-2 border-color62 light:border-white bg-color8B/10"
-                       :src="p" alt="">
-                  <img v-else
-                       class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
+                     :src="p" alt="">
+                <img v-else
+                     class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                               border-2 border-color62 light:border-white bg-color8B/10"
-                       src="~@/assets/icon-default-avatar.svg" alt="">
-                </div>
-                <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+                     src="~@/assets/icon-default-avatar.svg" alt="">
               </div>
+              <span>{{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
           </div>
         </div>

@@ -37,8 +37,8 @@
       </button>
       </div>
     </div>
-    <div class="container mx-auto sm:max-w-50rem 2md:flex-1 2md:overflow-hidden 2md:pb-15px
-                2md:grid grid-cols-3 gap-15px">
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-0 pb-15px
+                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
                   2md:h-full no-scroll-bar 2md:overflow-auto">
         <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
@@ -167,9 +167,10 @@
           </KeepAlive>
         </div>
       </div>
-      <div class="col-span-1 hidden 2md:block 2md:h-full 2md:overflow-hidden 2md:flex 2md:flex-col">
+      <div class="col-span-1 hidden 2md:flex h-full overflow-hidden flex-col">
         <!-- token info -->
-        <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px">
+        <div v-show="showingCommunity.rewardToken"
+             class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mb-15px">
           <div class="flex items-center mb-10px">
             <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                  :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
@@ -194,8 +195,8 @@
         </div>
         <!-- activities -->
         <CommunityActivity
-            class="border-1 border-color8B/30 light:border-color7F rounded-12px mt-15px
-                   2md:flex-1 2md:overflow-hidden"></CommunityActivity>
+            class="border-1 border-color8B/30 light:border-color7F rounded-12px
+                   2md:max-h-full 2md:overflow-hidden"></CommunityActivity>
       </div>
     </div>
   </div>
