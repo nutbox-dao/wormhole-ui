@@ -2,9 +2,9 @@
   <div class="relative h-full overflow-auto flex flex-col light:bg-white light:2md:bg-transparent">
     <div class="border-b-0.5px border-color8B/30 light:border-colorD6
                 bg-primaryBg light:bg-white light:2md:bg-transparent z-9">
-      <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem relative
-                  flex items-center justify-center gap-30px h-70px pt-23px text-14px font-bold">
-        <button @click="$router.go(-1)" class="absolute left-15px">
+      <div class="container mx-auto max-w-600px xl:max-w-30rem px-15px relative
+                  flex items-center justify-center gap-30px h-70px pt-23px 2md:h-48px 2md:pt-0 text-14px font-bold">
+        <button @click="$router.go(-1)" class="absolute left-15px 2md:hidden">
           <i class="icon-back w-20px h-20px"></i>
         </button>
         <button class="absolute right-15px filter light:brightness-50" @click="readAll">
@@ -27,8 +27,11 @@
         </button>
       </div>
     </div>
-    <div class="flex-1 overflow-hidden">
-      <InteractiveList v-if="tabIndex===0"></InteractiveList>
+    <div class="flex-1 overflow-hidden container mx-auto max-w-600px xl:max-w-30rem px-15px py-20px">
+      <div class="sm:bg-blockBg light:sm:bg-white light:sm:shadow-color1A rounded-16px
+                  max-h-full overflow-auto no-scroll-bar px-15px sm:py-15px">
+        <InteractiveList v-if="tabIndex===0"></InteractiveList>
+      </div>
     </div>
   </div>
 </template>
