@@ -409,7 +409,7 @@ export default {
     member: 'Member',
     about: 'About',
     inProgress: 'Ongoing',
-    toBeStart: 'Start at:',
+    toBeStart: 'Start at',
     ended: 'Ended',
     endedAt: 'Ended at',
     distanceStartTime: 'Start in',

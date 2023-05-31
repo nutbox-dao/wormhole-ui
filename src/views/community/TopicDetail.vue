@@ -65,13 +65,19 @@
               <div v-else-if="status==='inProgress'"
                    class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-color62 text-white text-12px ">
-                🔥 {{$t('community.inProgress')}}
+                <span>🔥 {{$t('community.inProgress')}}</span>
+                <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                <span>
+                  {{ getDateString(topic.startTime) }} ~ {{ getDateString(topic.endTime) }}
+                </span>
               </div>
               <div v-else-if="status==='ended'"
                    class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-colorF0 text-color66 text-12px">
                 <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
-                <span>{{$t('community.ended')}}</span>
+                <span>{{$t('community.endedAt')}}</span>
+                <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                <span>{{ getDateString(topic.endTime) }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center ml-11px">
@@ -224,7 +230,7 @@
 <script>
 import {TokenIcon} from "@/config";
 import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
-import { formatAmount, formatPrice } from '@/utils/helper'
+import { formatAmount, formatPrice, getDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts, getCommunityActivityReward } from '@/api/api'
@@ -290,6 +296,7 @@ export default {
     formatAmount,
     formatPrice,
     formatAddress,
+    getDateString,
     onCopy,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
