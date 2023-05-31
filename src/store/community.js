@@ -19,6 +19,8 @@ export default {
     activities: [],
     announces: [],
     topics: [],
+    pendingTopics: [],
+    endedTopics: [],
     spaces: [],
     members: [],
     ops: [],
@@ -54,6 +56,12 @@ export default {
     saveTopics: (state, topics) => {
       state.topics =topics
     },
+    savePendingTopics: (state, pendingTopics) => {
+      state.pendingTopics = pendingTopics
+    },
+    saveEndedTopics: (state, endedTopics) => {
+      state.endedTopics =endedTopics
+    },
     saveSpaces: (state, spaces) => {
       state.spaces = spaces
     },
@@ -78,6 +86,8 @@ export default {
       state.activities = [];
       state.announces = [];
       state.topics = [];
+      state.pendingTopics = [];
+      state.endedTopics = [];
       state.spaces = [];
       state.members = [];
       state.ops = [];

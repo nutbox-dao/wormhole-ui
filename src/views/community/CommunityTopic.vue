@@ -67,10 +67,10 @@
       </el-dropdown>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="refreshing && (!topics || topics.length === 0)">
+         v-if="refreshing && (!showingTopics || showingTopics.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <div v-else-if="!refreshing && (!topics || topics.length === 0)" class="py-2rem">
+    <div v-else-if="!refreshing && (!showingTopics || showingTopics.length === 0)" class="py-2rem">
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
       <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
@@ -86,10 +86,10 @@
                 :finished="listFinished"
                 :immediate-check="false"
                 :loading-text="$t('common.loading')"
-                :finished-text="topics.length!==0?$t('common.noMore'):''"
+                :finished-text="showingTopics.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div class="px-15px">
-          <div v-for="topic of topics" :key="topic.activityId" class="mb-15px">
+          <div v-for="topic of showingTopics" :key="topic.activityId" class="mb-15px">
             <TopicItem :topic="topic"></TopicItem>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      topicType: ['inProgress', 'ended', 'pending'],
+      topicType: ['inProgress', 'pending', 'ended'],
       activeSpaceIndex: 0,
       typeIndex: 0,
       listLoading: false,
@@ -126,8 +126,23 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'topics', 'spaces']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapState('community', ['showingCommunity', 'topics', 'pendingTopics', 'endedTopics', 'spaces']),
+    ...mapGetters(['getAccountInfo']),
+    showingTopics() {
+      if (this.typeIndex === 0) { //ongoing
+          return this.topics ?? []
+        }else if(this.typeIndex === 1) { // pending
+          return this.pendingTopics ?? []
+        }else { // ended
+          return this.endedTopics ?? []
+        }
+    }
+  },
+  watch: {
+    typeIndex(newValue, oldValue) {
+      if (this.showingTopics.length > 0) return;
+      this.refresh()
+    }
   },
   async activated() {
     let count = 0
@@ -149,17 +164,30 @@ export default {
           return;
         }
         this.refreshing = true;
-        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId), getCommunitySpaces(this.getAccountInfo?.twitterId, this.communityId)]);
-        this.$store.commit('community/saveTopics', topics);
-        this.$store.commit('community/saveSpaces', spaces)
+        let state = '';
+        if (this.typeIndex === 0) { //ongoing
+          state = 'ongoing'
+        }else if(this.typeIndex === 1) { // pending
+          state = 'pending'
+        }else { // ended
+          state = 'ended'
+        }
+        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId, state), getCommunitySpaces(this.getAccountInfo?.twitterId, this.communityId)]);
+        if(state === 'ongoing') {
+          this.$store.commit('community/saveTopics', topics);
+        }else if (state === 'pending') {
+          this.$store.commit('community/savePendingTopics', topics);
+        }else {
+          this.$store.commit('community/saveEndedTopics', topics);
+        }
+        this.$store.commit('community/saveSpaces', spaces);
       } catch (e) {
         console.log(66, e);
       } finally {
         this.refreshing = false;
       }
     },
-    onLoad() {
-
+    async onLoad() {
     },
     gotoDetail(space) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);
