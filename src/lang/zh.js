@@ -409,6 +409,7 @@ export default {
     topic: '话题',
     member: '成员',
     about: '关于',
+    pending: '未开始',
     inProgress: '进行中',
     toBeStart: '距开始',
     ended: '已结束',

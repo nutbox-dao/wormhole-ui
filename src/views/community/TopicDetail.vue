@@ -53,7 +53,7 @@
                 <span>{{$t('community.toBeStart')}}</span>
                 <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
                 <van-count-down class="text-12px text-color62"
-                                :time="countdown(new Date(topic.endTime).getTime()/1000)">
+                                :time="countdown(new Date(topic.startTime).getTime()/1000)">
                   <template #default="timeData">
                     {{ timeData.days }} {{$t('common.day')}}
                     {{ timeData.hours }} {{$t('common.hour')}}
@@ -68,7 +68,7 @@
                 <span>🔥 {{$t('community.inProgress')}}</span>
                 <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
                 <span>
-                  {{ getDateString(topic.startTime) }} ~ {{ getDateString(topic.endTime) }}
+                  {{ formatDateString(topic.startTime) }} ~ {{ formatDateString(topic.endTime) }}
                 </span>
               </div>
               <div v-else-if="status==='ended'"
@@ -77,7 +77,7 @@
                 <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
                 <span>{{$t('community.endedAt')}}</span>
                 <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
-                <span>{{ getDateString(topic.endTime) }}</span>
+                <span>{{ formatDateString(topic.endTime) }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center ml-11px">
@@ -230,10 +230,10 @@
 <script>
 import {TokenIcon} from "@/config";
 import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
-import { formatAmount, formatPrice, getDateString } from '@/utils/helper'
+import { formatAmount, formatPrice, formatDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts, getCommunityActivityReward } from '@/api/api'
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew, getCommunityActivePostsByTrending, getCommunityActivityReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -262,7 +262,8 @@ export default {
       communityId: '',
       topicId: '',
       topic: {},
-      postsList: [],
+      newPostsList: [],
+      trendingPostsList: [],
       listLoading: false,
       listFinished: false,
       refreshing: false,
@@ -282,6 +283,14 @@ export default {
       if(currentTime > new Date(this.topic.startTime).getTime() &&
           currentTime < new Date(this.topic.endTime).getTime()) return 'inProgress'
       return 'ended'
+    },
+    postsList() {
+      if (this.typeIndex === 0) {
+        return this.trendingPostsList
+      }else if (this.typeIndex === 1) {
+        return this.newPostsList
+      }
+      return []
     }
   },
   watch: {
@@ -290,13 +299,16 @@ export default {
         this.refresh()
         this.rewardRefresh()
       }
-    }
+    },
+    typeIndex() {
+      this.refresh();
+    } 
   },
   methods: {
     formatAmount,
     formatPrice,
     formatAddress,
-    getDateString,
+    formatDateString,
     onCopy,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
@@ -329,8 +341,13 @@ export default {
     async refresh() {
       try{
         this.refreshing = true;
-        const posts = await getCommunityActivePosts(this.getAccountInfo?.twitterId, this.topic.activityId);
-        this.postsList = posts ?? [];
+        if (this.typeIndex === 0) {
+          const posts = await getCommunityActivePostsByTrending(this.getAccountInfo?.twitterId, this.topic.activityId);
+          this.trendingPostsList = posts ?? [];
+        }else if (this.typeIndex === 1) {
+          const posts = await getCommunityActivePostsByNew(this.getAccountInfo?.twitterId, this.topic.activityId);
+          this.newPostsList = posts ?? []
+        }
       } catch (e) {
         console.log(11, e);
       } finally {

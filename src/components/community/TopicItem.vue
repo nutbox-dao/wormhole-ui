@@ -14,12 +14,10 @@
             <span v-if="timeData.days>0">
               {{ timeData.days }} <span class="">{{$t('common.day')}}</span>
               {{ timeData.hours }} <span class="">{{$t('common.hour')}}</span>
-              {{ timeData.minutes }} <span class="">{{$t('common.minute')}}</span>
             </span>
             <span v-else-if="timeData.hours>0">
               {{ timeData.hours }} <span class="">{{$t('common.hour')}}</span>
               {{ timeData.minutes }} <span class="">{{$t('common.minute')}}</span>
-              {{ timeData.seconds }} <span class="">{{$t('common.second')}}</span>
             </span>
             <span v-else>
               {{ timeData.minutes }} <span class="">{{$t('common.minute')}}</span>
