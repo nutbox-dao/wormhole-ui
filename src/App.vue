@@ -6,27 +6,13 @@
          class="bg-primaryBg light:bg-white bg-img"
          :class="$route.name"
          @click="showMenu=false,showSearchList=false">
-<!--      <HeaderV1 v-model="searchText"-->
-<!--                :get-account-info="getAccountInfo"-->
-<!--                :is-dark="isDark"-->
-<!--                :profile-img="profileImg"-->
-<!--                :show-search-list="showSearchList"-->
-<!--                :vp="vp"-->
-<!--                :rc="rc"-->
-<!--                @showSearchList="showSearchList=true"-->
-<!--                @gotoUser="gotoUser"-->
-<!--                @setSelectTag="setSelectTag"-->
-<!--                @login="login"-->
-<!--                @createCuration="createCuration"-->
-<!--                @onSelectLang="onSelectLang"-->
-<!--                @changeTheme="changeTheme"-->
-<!--                @signout="signout"-->
-<!--                @gotoDC="gotoDC"-->
-<!--                @gotoTwitter="gotoTwitter"></HeaderV1>-->
-      <HeaderWeb @gotoCommunity="gotoCommunity" @setSelectTag="setSelectTag" @gotoUser="gotoUser" class="hidden 2md:flex"></HeaderWeb>
-      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden c-header"></HeaderH5>
+      <HeaderWeb @gotoCommunity="gotoCommunity"
+                 @setSelectTag="setSelectTag"
+                 @gotoUser="gotoUser"
+                 class="hidden 2md:flex c-page-header"></HeaderWeb>
+      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
       <div class="flex-1 overflow-hidden flex">
-        <SliderBar class="hidden 2md:flex h-full overflow-hidden"
+        <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
                    :profile-img="profileImg"
                    @login="login"></SliderBar>
         <div class="flex-1 overflow-auto relative c-page-container">
@@ -644,11 +630,15 @@ export default {
   background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
   .c-page-header {
     border-color: rgba(132, 131, 145, 0.3)!important;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 99;
+    .black-filter {
+      filter: brightness(0);
+    }
+    .search-bar {
+      display: none;
+    }
+  }
+  .c-page-slider {
+    border-color: rgba(132, 131, 145, 0.3)!important;
     .black-filter {
       filter: brightness(0);
     }
@@ -656,9 +646,6 @@ export default {
   .c-page-container {
     padding-top: 88px;
   }
-}
-.light .word-cloud{
-  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
 }
 .second-page {
   position: fixed;

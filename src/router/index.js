@@ -80,7 +80,8 @@ const routes = [
   {
     path: '/word-cloud',
     name: 'word-cloud',
-    component: WordCloud
+    component: WordCloud,
+    meta: {header: 'hidden'}
   },
   {
     path: '/faq',

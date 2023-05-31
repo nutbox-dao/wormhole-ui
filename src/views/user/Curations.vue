@@ -1,5 +1,5 @@
 <template>
-  <div class="text-14px xl:text-0.8rem p-1rem">
+  <div class="text-14px xl:text-0.8rem px-15px">
     <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
          class="flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
       <button v-for="(tag, index) of subTagList" :key="index"
@@ -20,15 +20,16 @@
                 :loosing-text="$t('common.pullRefresh')"
                 :loading-text="$t('common.loading')"
                 @load="onLoad">
-        <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+        <div class="c-text-black text-1.8rem py-2rem"
              v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
-          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+          <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
         </div>
         <div v-if="showingCurations.length===0 && !refreshing" class="py-2rem">
           <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
           <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
         </div>
-        <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
+        <RelatedCurationItemVue
+            class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
                                        cursor-pointer rounded-12px overflow-hidden mb-20px"
                                 v-for="curation of showingCurations"
                                 :key="curation.curationId"

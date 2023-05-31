@@ -10,34 +10,35 @@
               @gotoUserPage="gotoUserPage">
         <template #avatar-img>
           <img v-if="profileImg" @click.stop="gotoUserPage()"
-               class="mr-10px md:mr-1rem rounded-full gradient-border cursor-pointer blog-avatar  max-w-56px max-h-56px"
+               class="mr-10px rounded-full cursor-pointer blog-avatar max-w-56px max-h-56px bg-color62/10 border-1"
                :class="avatarClass"
                @error="replaceEmptyImg"
                :src="profileImg" alt="">
-          <img class="mr-10px md:mr-1rem rounded-full gradient-border max-w-56px max-h-56px"
+          <img class="mr-10px rounded-full max-w-56px max-h-56px bg-color62/10 border-1"
                :class="avatarClass"
                src="@/assets/icon-default-avatar.svg" v-else alt="">
         </template>
       </Avatar>
-      <div class="flex-1 flex items-center flex-wrap">
-        <div class="flex items-center flex-wrap">
-          <a class="c-text-black text-left mr-3 cursor-pointer
-                      text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark"
-             @click.stop="gotoUserPage()">{{ space.name }}</a>
-          <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
-        </div>
-        <div class="flex items-center id-time">
-            <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-              @{{ space.username }}
-            </span>
-          <span class="mx-4px text-color8B light:text-color7D"> · </span>
-          <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-             {{ parseTimestamp(space.postTime) }}
-            </span>
+      <div class="flex-1 flex justify-between sm:items-center">
+        <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
+          <div class="flex items-center sm:mr-6px">
+            <div class="flex items-center flex-wrap">
+              <a class="c-text-black text-left cursor-pointer
+                      text-16px leading-18px  light:text-blueDark"
+                 @click.stop="gotoUserPage()">{{ space.name }}</a>
+            </div>
+          </div>
+          <div class="flex items-center id-time">
+              <span class="text-12px leading-18px  text-color8B light:text-color7D">
+                @{{ space.username }}
+              </span>
+            <span class="mx-4px text-color8B light:text-color7D"> · </span>
+            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+               {{ parseTimestamp(space.postTime) }}
+              </span>
+          </div>
         </div>
       </div>
-      <div v-if="!isDetail" class="ml-4px flex items-center sm:hidden">
-              </div>
     </div>
     <div class="flex mt-5px sm:mt-0">
       <div v-if="showAvatar"

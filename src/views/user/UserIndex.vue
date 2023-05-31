@@ -16,11 +16,9 @@
           <Menu></Menu>
         </div>
         <div class="mt-1rem flex items-center">
-          <img
-              class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-15px rounded-full gradient-border border-1px"
-              @error="replaceEmptyImg"
-              :src="profileImg"
-              alt=""/>
+          <img class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-15px rounded-full gradient-border border-1px"
+               @error="replaceEmptyImg"
+               :src="profileImg" alt=""/>
           <div class="flex-1 overflow-hidden">
             <div class="font-bold text-20px leading-22px light:text-blueDark text-left mb-8px">
               {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
@@ -62,13 +60,13 @@
                   <img class="w-14px" src="~@/assets/icon-wallet.svg" alt="">
                 </div>
                 <span v-if="getAccountInfo?.ethAddress" class="flex items-center truncate">
-                    <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
-                      {{getAccountInfo ? getAccountInfo.ethAddress : ''}}
-                    </span>
-                    <img class="w-14px min-w-14px ml-3px mr-8px"
-                         @click.stop="copyAddress(getAccountInfo.ethAddress)"
-                         src="~@/assets/icon-copy-primary.svg" alt="">
+                  <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
+                    {{getAccountInfo ? getAccountInfo.ethAddress : ''}}
                   </span>
+                  <img class="w-14px min-w-14px ml-3px mr-8px"
+                       @click.stop="copyAddress(getAccountInfo.ethAddress)"
+                       src="~@/assets/icon-copy-primary.svg" alt="">
+                </span>
                 <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
               </div>
               <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/wallet')"
@@ -112,8 +110,8 @@
         </div>
       </div>
     </template>
-    <div class="c-text-black text-1.8rem mb-3rem" v-else>
-      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+    <div class="py-2rem" v-else>
+      <img class="w-5rem mx-auto " src="~@/assets/profile-loading.gif" alt="" />
     </div>
     <van-popup class="c-tip-drawer 2xl:w-2/5" v-model:show="tipDrawer" :position="position">
       <div class="modal-bg relative w-full md:min-w-560px max-h-80vh 2xl:max-h-28rem overflow-auto flex flex-col

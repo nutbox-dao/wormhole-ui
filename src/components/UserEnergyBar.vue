@@ -12,7 +12,7 @@
                             color="#68E796"
                             :stroke-width="3"
                             :width="50"
-                            :percentage="Number(rc) / MAX_RC * 100">
+                            :percentage="isSelf?Number(rc) / MAX_RC * 100:rcValue">
           <template #label>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2
                   text-12px leading-16px font-bold text-color66">RC</div>
@@ -32,7 +32,7 @@
                             color="#7700E0"
                             :stroke-width="3"
                             :width="50"
-                            :percentage="Number(vp) / MAX_VP * 100">
+                            :percentage="isSelf?Number(vp) / MAX_VP * 100:vpValue">
           <template #label>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2
                   text-12px leading-16px font-bold text-color66">CP</div>
@@ -55,6 +55,18 @@ export default {
     progressClass: {
       type: String,
       default: 'w-50px max-w-50px h-50px'
+    },
+    isSelf: {
+      type: Boolean,
+      default: true
+    },
+    rcValue: {
+      type: Number,
+      default: 0
+    },
+    vpValue: {
+      type: Number,
+      default: 0
     }
   },
   computed: {

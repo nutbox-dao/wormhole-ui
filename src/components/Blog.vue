@@ -29,7 +29,6 @@
                 <a class="c-text-black text-left cursor-pointer
                       text-16px leading-18px  light:text-blueDark"
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
-                <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
               <div @click.stop class="ml-4px flex items-center sm:hidden">
                 <el-tooltip>
@@ -42,37 +41,15 @@
                   </button>
                 </el-tooltip>
               </div>
-              <!-- <div v-if="post.isPromoted && !isDetail" @click.stop class="ml-4px flex items-center sm:hidden">
-                <el-tooltip :show-after="500">
-                  <template #content>
-                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
-                      <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
-                             class="bg-color62 my-4px"
-                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                             :chainName="reward.chainId?.toString()">
-                        <template #amount>
-                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{reward.amount + " " + reward.tokenSymbol}}
-                          </span>
-                        </template>
-                    </ChainTokenIcon>
-                    </div>
-                    <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
-                  </template>
-                  <button @mouseover="getTip">
-                    <i class="icon-curated w-16px h-16px min-w-16px"></i>
-                  </button>
-                </el-tooltip>
-              </div> -->
             </div>
             <div class="flex items-center id-time">
-            <span class="text-12px leading-18px  text-color8B light:text-color7D">
-              @{{ post.username }}
-            </span>
+              <span class="text-12px leading-18px  text-color8B light:text-color7D">
+                @{{ post.username }}
+              </span>
               <span class="mx-4px text-color8B light:text-color7D"> · </span>
               <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-             {{ parseTimestamp(post.postTime) }}
-            </span>
+               {{ parseTimestamp(post.postTime) }}
+              </span>
             </div>
             <div class="ml-4px items-center hidden sm:flex">
               <el-tooltip>
@@ -85,30 +62,10 @@
                 </button>
               </el-tooltip>
             </div>
-            <!-- <div v-if="post.isPromoted && !isDetail" class="ml-4px items-center hidden sm:flex">
-              <el-tooltip :show-after="500">
-                <template #content>
-                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
-                    <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
-                             class="bg-color62 my-4px"
-                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                             :chainName="reward.chainId?.toString()">
-                        <template #amount>
-                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{reward.amount + " " + reward.tokenSymbol}}
-                          </span>
-                        </template>
-                    </ChainTokenIcon>
-                  </div>
-                  <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
-                </template>
-                <button @mouseover="getTip">
-                  <i class="icon-curated w-16px h-16px min-w-16px"></i>
-                </button>
-              </el-tooltip>
-            </div> -->
           </div>
-          <BlogReward :post="post"></BlogReward>
+          <slot name="blog-reward">
+            <BlogReward :post="post"></BlogReward>
+          </slot>
         </div>
       </div>
       <div class="flex blog-content">
