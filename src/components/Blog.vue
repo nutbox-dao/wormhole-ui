@@ -154,8 +154,9 @@
           </div>
           <div v-show="showCommunity && post.communityId"
                @click.stop="$router.push('/community-detail/' + post.communityId)"
-               class="flex items-center mt-10px bg-color8B/30 light:bg-color1A w-max py-5px px-10px text-12px rounded-full">
-            <span>{{$t('community.communityFrom')}}</span>
+               class="flex items-center mt-10px bg-color8B/30 light:bg-color1A w-max py-5px px-10px
+                      text-white text-12px rounded-full">
+            <span class="">{{$t('community.communityFrom')}}</span>
             <div class="flex items-center">
               <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="communityIcon" alt="">
               <span>{{ post.communityName }}</span>
