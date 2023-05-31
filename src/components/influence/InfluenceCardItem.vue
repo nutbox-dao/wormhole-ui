@@ -1,6 +1,6 @@
 <template>
-  <div class="relative bg-color27 rounded-16px overflow-hidden">
-    <div class="influence-card w-full h-200px rounded-14px relative pt-30px pb-20px px-15px
+  <div class="relative bg-blockBg light:bg-color27 rounded-16px overflow-hidden flex flex-col sm:flex-row">
+    <div class="influence-card w-full sm:w-2/3 sm:max-w-2/3 h-200px rounded-14px relative pt-30px pb-20px px-15px
                 flex flex-col justify-between items-start">
       <div class="flex items-center">
         <img class="w-48px h-48px min-w-48px border-2 border-colorF7/36 rounded-full shadow-color72"
@@ -26,21 +26,21 @@
                        :stroke-width="10"
                        :show-text="false"
                        :percentage="(community.memberCount - community.userIndex) * 100 / community.memberCount"/>
-          <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px"
+          <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px sm:hidden"
                   @click.stop="getDetail">
             <img class="w-16px transform spin-slow"
                  :class="isFold?'rotate-0':'-rotate-180'"
                  src="~@/assets/icon-select-white.svg" alt="">
           </button>
         </div>
-        <div class="text-12px text-white/80 text-left">
+        <div class="text-12px text-white/80 text-left mt-10px">
           {{$t('community.influenceTip', {percent: ((community.memberCount - community.userIndex) * 100 / community.memberCount).toFixed(2)})}}
         </div>
       </div>
     </div>
     <el-collapse-transition>
-      <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px">
-        <div class="text-14px text-white/60 text-left mt-15px mb-4px">
+      <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
+        <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
           {{$t('community.twitterInfluence')}}: {{ getAccountInfo?.reputation }}
         </div>
         <el-progress class="c-progress-purple flex-1 w-full"
@@ -51,14 +51,22 @@
                      :percentage="getAccountInfo?.reputation / 100000"/>
       </div>
     </el-collapse-transition>
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import {useWindowSize} from "@vant/use";
 
 export default {
   name: "InfluenceCardItem",
+  setup() {
+    const {width} = useWindowSize()
+    return {
+      width
+    }
+  },
   props: {
     community: {
       type: Object,
@@ -88,7 +96,7 @@ export default {
           const communityPolicy = policy.community.policys;
           for(let p of communityPolicy) {
             if (p.type === 'stake') {
-              
+
             }
           }
           this.community.detail = policy
@@ -101,6 +109,7 @@ export default {
     }
   },
   mounted () {
+    this.isFold = this.width<640
   },
 }
 </script>

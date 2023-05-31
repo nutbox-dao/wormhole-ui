@@ -1,18 +1,26 @@
 <template>
-  <van-pull-refresh class="h-full min-h-full overflow-auto"
-                    v-model="refreshing"
-                    @refresh="onRefresh"
-                    :loading-text="$t('common.loading')"
-                    :pulling-text="$t('common.pullRefresh')"
-                    :loosing-text="$t('common.loosingRefresh')">
-    <van-list :loading="listLoading"
-              :finished="listFinished"
-              :immediate-check="false"
-              :loading-text="$t('common.loading')"
-              :finished-text="listData.length!==0?$t('common.noMore'):''"
-              @load="onLoad">
-      <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-        <div v-for="i of 20" :key="i"
+  <div class="">
+    <div class="py-2rem"
+         v-if="refreshing && (!postNotis || postNotis.length === 0)">
+      <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+    </div>
+    <div v-else-if="!refreshing && (!postNotis || postNotis.length === 0)" class="py-2rem">
+      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+    </div>
+    <van-pull-refresh v-else
+                      v-model="refreshing"
+                      @refresh="onRefresh"
+                      :loading-text="$t('common.loading')"
+                      :pulling-text="$t('common.pullRefresh')"
+                      :loosing-text="$t('common.loosingRefresh')">
+      <van-list :loading="listLoading"
+                :finished="listFinished"
+                :immediate-check="false"
+                :loading-text="$t('common.loading')"
+                :finished-text="listData.length!==0?$t('common.noMore'):''"
+                @load="onLoad">
+        <div v-for="i of postNotis" :key="i"
              class="flex items-center">
           <img class="w-40px h-40px min-w-40px mr-10px"
                src="~@/assets/icon-quote-circle-active.svg" alt="">
@@ -24,9 +32,9 @@
             <div class="text-12px text-color7D">大头等13人点赞了你的策展</div>
           </div>
         </div>
-      </div>
-    </van-list>
-  </van-pull-refresh>
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
@@ -40,7 +48,7 @@ export default {
     return {
       refreshing: false,
       listLoading: false,
-      listFinished: true,
+      listFinished: false,
       listData: []
     }
   },

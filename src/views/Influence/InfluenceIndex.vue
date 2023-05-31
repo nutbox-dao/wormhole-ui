@@ -19,16 +19,14 @@
                     :loading-text="$t('common.loading')"
                     :finished-text="influenceList.length!==0?$t('common.noMore'):''"
                     @load="onLoad">
-            <div class="sm:px-15px">
-              <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem py-15px">
-                <div v-if="influenceList && influenceList.length === 0"
-                     class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
-                  <div class="c-text-black text-zinc-700 text-2rem mt-1rem mb-2rem">{{$t('common.none')}}</div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
-                  <div v-for="community of communityCC" :key="community.communityId">
-                    <InfluenceCardItem :community="community" class="cursor-pointer" @click="gotoCommunity(community)"></InfluenceCardItem>
-                  </div>
+            <div class="container mx-auto max-w-50rem md:max-w-48rem px-15px py-15px">
+              <div v-if="influenceList && influenceList.length === 0"
+                   class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
+                <div class="c-text-black text-zinc-700 text-2rem mt-1rem mb-2rem">{{$t('common.none')}}</div>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
+                <div v-for="community of communityCC" :key="community.communityId" class="col-span-1">
+                  <InfluenceCardItem :community="community" class="cursor-pointer" @click="gotoCommunity(community)"></InfluenceCardItem>
                 </div>
               </div>
             </div>
