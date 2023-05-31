@@ -198,112 +198,11 @@
           </div>
         </div>
         <!-- community -->
-        <div class="mt-1.8rem"  v-show="!expandCommunity">
-          <div class="flex justify-between items-center mb-6px">
-            <div class="font-bold">{{$t('community.community')}}</div>
-<!--            <button @click="expandCommunity=!expandCommunity">-->
-<!--              <img class="w-18px transform spin-slow"-->
-<!--                   :class="expandCommunity?'-rotate-180':'rotate-0'"-->
-<!--                   src="~@/assets/icon-select-arrow.svg" alt="">-->
-<!--            </button>-->
-          </div>
-          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                      light:bg-white light:border-colorE3
-                      rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                            light:bg-white light:border-colorE3 hover:border-primaryColor
-                            rounded-full h-30px flex items-center justify-between">
-              <input class="bg-transparent h-full w-full px-15px flex-1"
-                     v-model="searchCommunityText"
-                     :placeholder="'# '+$t('search')"
-                     @input="communityInputChange"
-                     @keypress="onSearchCommunity">
-              <button v-if="searchCommunityText.trim().length>0"
-                      class="bg-color8B rounded-full w-16px h-16px p-4px mr-10px"
-                      @click="searchCommunityText=''">
-                <img src="~@/assets/icon-close-white.svg" alt="">
-              </button>
-            </div>
-            <el-collapse-transition>
-              <div>
-                <div class="grid grid-cols-2 gap-x-10px
-                            max-h-150px overflow-auto no-scroll-bar">
-                  <div v-if="searchCommunityLoading && searchCommunityList.length===0 && searchCommunityText.trim().length>0"
-                       class="col-span-2 mt-12px">
-                    <img class="w-24px h-24px mx-auto"
-                         src="~@/assets/icon-loading.svg" alt="">
-                  </div>
-                  <div v-for="(item,index) of searchCommunityList"
-                       :key="item.communityId"
-                       class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
-                              rounded-8px h-40px px-15px border-2px mt-10px"
-                       :class="item.communityId===form.communityId?'border-color62':'border-transparent'"
-                       @click="form.communityId=item.communityId;searchCommunityText=item.displayTag">
-                    <img class="w-24px h-24px rounded-full mr-10px"
-                         :src="item.icon" alt=""
-                         @error="replaceEmptyImg">
-                    <div class="font-bold truncate">
-                      <div>{{item.communityName}}</div>
-                      <div>#{{ item.displayTag }}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-collapse-transition>
-          </div>
-        </div>
+        <SelectCommunity :community-id="form.communityId"
+                         @setCommunityId="setCommunityId"></SelectCommunity>
         <!-- tag -->
-        <div class="mt-1.8rem" v-if="false">
-          <div class="flex justify-between items-center mb-6px">
-            <div class="font-bold">{{$t('curation.tag')}}</div>
-<!--            <button @click="expandTag=!expandTag">-->
-<!--              <img class="w-18px transform spin-slow"-->
-<!--                   :class="expandTag?'-rotate-180':'rotate-0'"-->
-<!--                   src="~@/assets/icon-select-arrow.svg" alt="">-->
-<!--            </button>-->
-          </div>
-          <div class="mb-6px text-color62 italic">
-            {{ $t('curation.tagDesc') }}
-          </div>
-          <div class="relative border-1 bg-black/40 border-1 border-color8B/30
-                          light:bg-white light:border-colorE3
-                          rounded-8px min-h-44px 2xl:min-h-2rem px-15px py-12px">
-            <div class="w-full border-1 bg-black/40 border-1 border-color8B/30
-                            light:bg-white light:border-colorE3 hover:border-primaryColor
-                            rounded-full h-30px flex items-center justify-between">
-              <input class="bg-transparent h-full w-full px-15px flex-1"
-                     v-model="searchTagText"
-                     :placeholder="'# '+$t('search')"
-                     @input="tagInputChange"
-                     @keypress="onSearchTag">
-              <button v-if="searchTagText.trim().length>0"
-                      class="bg-color8B rounded-full w-16px h-16px p-4px mr-10px"
-                      @click="searchTagText=''">
-                <img src="~@/assets/icon-close-white.svg" alt="">
-              </button>
-            </div>
-            <el-collapse-transition>
-              <div v-show="expandTag">
-                <div v-if="searchTagLoading && searchTagList.length===0 && searchTagText.trim().length>0"
-                     class="col-span-2 mt-12px">
-                  <img class="w-24px h-24px mx-auto"
-                       src="~@/assets/icon-loading.svg" alt="">
-                </div>
-                <div class="flex flex-wrap gap-5px max-h-150px overflow-auto no-scroll-bar"
-                     :class="searchTagList.length>0?'mt-12px':''">
-                  <button v-for="tag of searchTagList" :key="tag"
-                          class="h-24px text-white
-                                 px-10px rounded-5px disabled:opacity-50"
-                          :class="form.topics.indexOf(tag)>=0?'bg-color62':'bg-color8B/30 light:bg-black'"
-                          @click="onSelectTag(tag)">
-                    #{{tag}}
-                  </button>
-                </div>
-              </div>
-            </el-collapse-transition>
-          </div>
-
-        </div>
+<!--        <SelectTags :topics="form.topics"-->
+<!--                    @onSelectTag="onSelectTag"></SelectTags>-->
         <!-- edit speaker -->
         <div class="mt-1.8rem" v-if="form.category==='space'">
           <div class="mb-6px font-bold">{{$t('curation.speakers')}}</div>
@@ -605,10 +504,12 @@ import CreatedTipModal from "@/components/CreatedTipModal";
 import AddFollowModal from "@/components/AddFollowModal";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import debounce from "lodash.debounce";
+import SelectCommunity from "@/components/community/SelectCommunity.vue";
+import SelectTags from "@/components/community/SelectTags.vue";
 
 export default {
   name: "CreateRecommend",
-  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration,
+  components: {Steps, SendTokenTip, TwitterCompleteTip, TweetAndStartCuration, SelectCommunity, SelectTags,
     EmojiPicker, Blog, Space, AddSpeakerModal, AssetsOptions, SelectCategoryTip, CreatedTipModal, AddFollowModal},
   data() {
     return {
@@ -707,15 +608,6 @@ export default {
       }
       return temp
     },
-    searchCommunityList() {
-      if (!this.communities || this.communities.length === 0) return []
-      if (this.searchCommunityText && this.searchCommunityText.length > 0) {
-        return this.communities.filter(com => com.communityName.toLowerCase().indexOf(this.searchCommunityText.toLowerCase()) !== -1 || com.displayTag.toLowerCase().indexOf(this.searchCommunityText.toLowerCase()) !== -1)
-      }else {
-        return this.communities
-      }
-      return []
-    },
     showAccount() {
       if (this.form.address)
         return this.form.address.slice(0, 12) + '...' + this.form.address.slice(this.form.address.length - 12, this.form.address.length);
@@ -735,20 +627,8 @@ export default {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
-    communityInputChange: debounce(function () {
-      this.onSearchCommunity('input')
-    }, 1500),
-    async onSearchCommunity(e) {
-      this.form.communityId = ''
-      // if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
-      //   this.form.communityId=''
-      //   this.searchCommunityLoading = true
-      //   const communities = await searchCommunityByName(this.searchCommunityText)
-      //   this.searchCommunityLoading = false
-      //   if (communities) {
-      //     this.searchCommunityList = communities
-      //   }
-      // }
+    setCommunityId(id) {
+      this.form.communityId = id
     },
     tagInputChange: debounce(function () {
       this.onSearchTag('input')

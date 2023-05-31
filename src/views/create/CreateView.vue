@@ -14,7 +14,7 @@
         Tweet & Promote
       </button>
     </div>
-    <div class="container mx-auto max-w-50rem flex-1 overflow-auto">
+    <div class="container mx-auto max-w-50rem flex-1 overflow-auto no-scroll-bar">
       <CreatePost v-if="tabIndex===0"/>
       <!-- <CreateCuration v-if="tabIndex===1"/> -->
       <CreateRecommend v-if="tabIndex===1"/>
