@@ -2,49 +2,43 @@
   <div class="py-20px border-b-0.5px border-headerBorder light:border-colorD6
               h-70px 2xl:h-88px flex items-center c-page-header">
     <div class="w-full px-15px flex justify-between items-center relative">
-<!--      <button>-->
-<!--        <img class="w-30px h-30px filter invert-100 light:invert-0"-->
-<!--             src="~@/assets/icon-dashboard.svg" alt="">-->
-<!--      </button>-->
-      <div class="flex items-center gap-10px">
-        <el-tooltip popper-class="shadow-popper-tip">
-          <template #content>
-            <div class="max-w-14rem text-white light:text-blueDark">
-              {{$t('postView.p1')}}
+      <div class="h-20px overflow-hidden">
+        <div class="flex items-center gap-10px">
+          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
+            <template #content>
+              <div class="max-w-14rem text-white light:text-blueDark">
+                {{$t('postView.p1')}}
+              </div>
+            </template>
+            <div class="w-40px max-w-40px h-40px cursor-pointer">
+              <HalfCircleProgress class="c-progress-green w-full h-full relative"
+                                  type="dashboard"
+                                  color="#68E796"
+                                  :stroke-width="3"
+                                  :width="50"
+                                  :percentage="50">
+                <template #default>RC</template>
+              </HalfCircleProgress>
             </div>
-          </template>
-          <button class="flex justify-center items-center">
-            <el-progress class="c-circle-progress"
-                         type="dashboard"
-                         color="#68E796"
-                         :stroke-width="3"
-                         :width="32"
-                         :percentage="Number(rc) / MAX_RC * 100">
-              <template #default="{ percentage }">
-                <span class="percentage-value text-12px block c-text-black">RC</span>
-              </template>
-            </el-progress>
-          </button>
-        </el-tooltip>
-        <el-tooltip popper-class="shadow-popper-tip">
-          <template #content>
-            <div class="max-w-14rem text-white light:text-blueDark">
-              {{$t('postView.vpDes')}}
+          </el-tooltip>
+          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
+            <template #content>
+              <div class="max-w-14rem text-white light:text-blueDark">
+                {{$t('postView.vpDes')}}
+              </div>
+            </template>
+            <div class="w-40px max-w-40px h-40px cursor-pointer">
+              <HalfCircleProgress class="c-progress-green w-full h-full"
+                                  type="dashboard"
+                                  color="#7700E0"
+                                  :stroke-width="3"
+                                  :width="50"
+                                  :percentage="Number(vp) / MAX_VP * 100">
+                <template #default>VP</template>
+              </HalfCircleProgress>
             </div>
-          </template>
-          <button class="flex justify-center items-center">
-            <el-progress class="c-circle-progress"
-                         type="dashboard"
-                         color="#7700E0"
-                         :stroke-width="3"
-                         :width="32"
-                         :percentage="Number(vp) / MAX_VP * 100">
-              <template #default="{ percentage }">
-                <span class="percentage-value text-12px block c-text-black">VP</span>
-              </template>
-            </el-progress>
-          </button>
-        </el-tooltip>
+          </el-tooltip>
+        </div>
       </div>
       <div>
         <button class="relative" @click="searchModalVisible=true">
@@ -77,10 +71,11 @@
 import SearchView from "@/views/SearchView";
 import {mapState} from "vuex";
 import { MAX_VP, MAX_RC } from "@/config";
+import HalfCircleProgress from "@/components/HalfCircleProgress.vue";
 
 export default {
   name: "Header",
-  components: {SearchView},
+  components: {SearchView, HalfCircleProgress},
   computed: {
     ...mapState([
       "rc",
