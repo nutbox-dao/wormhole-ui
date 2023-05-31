@@ -29,7 +29,7 @@
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full scale-80
                   text-12px leading-12px c-text-black">
         <slot name="default">
-          {{percentage}}%
+          {{percentage.toFixed(2)}}%
         </slot>
       </div>
       <slot name="label"></slot>
@@ -39,6 +39,7 @@
 
 <script setup>
 import {computed, ref} from "vue";
+
 const props = defineProps({
   strokeWidth: {type: Number, default: 5},
   type: {type: String, default: 'dashboard'},
@@ -48,7 +49,6 @@ const props = defineProps({
   trackColor: {type: String, default: '#1A1A1A'}
 })
 const relativeStrokeWidth = computed(() => (props.strokeWidth / props.width * 100).toFixed(1));
-console.log(relativeStrokeWidth)
 const radius = computed(() => {
   if (["circle", "dashboard"].includes(props.type)) {
     return Number.parseInt(`${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`, 10);

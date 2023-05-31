@@ -12,7 +12,7 @@
                             color="#68E796"
                             :stroke-width="3"
                             :width="50"
-                            :percentage="50">
+                            :percentage="Number(rc) / MAX_RC * 100">
           <template #label>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2
                   text-12px leading-16px font-bold text-color66">RC</div>
@@ -35,7 +35,7 @@
                             :percentage="Number(vp) / MAX_VP * 100">
           <template #label>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2
-                  text-12px leading-16px font-bold text-color66">RC</div>
+                  text-12px leading-16px font-bold text-color66">CP</div>
           </template>
         </HalfCircleProgress>
       </div>
