@@ -223,3 +223,17 @@ div[contenteditable] {
     transform: translateX(-50%);
   }
 }
+.c-badge::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 6px;
+  min-width: 6px;
+  height: 6px;
+  min-height: 6px;
+  border-radius: 6px;
+  background: #CE395F;
+  z-index: 4;
+}

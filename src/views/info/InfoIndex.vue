@@ -14,17 +14,23 @@
         <button class="h-full px-10px"
                 :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=0">
-          {{$t('info.interactive')}}
+          <span class="relative" :class="isNew?'c-badge':''">
+            {{$t('info.interactive')}}
+          </span>
         </button>
         <button class="h-full px-10px"
                 :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=1">
-          {{$t('info.reward')}}
+          <span class="relative" :class="isNew?'c-badge':''">
+            {{$t('info.reward')}}
+          </span>
         </button>
         <button class="h-full px-10px"
                 :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=2">
-          {{$t('info.system')}}
+          <span class="relative" :class="isNew?'c-badge':''">
+            {{$t('info.system')}}
+          </span>
         </button>
       </div>
     </div>
@@ -53,7 +59,8 @@ export default {
   },
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      isNew: true
     }
   },
   methods: {
