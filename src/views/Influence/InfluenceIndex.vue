@@ -71,7 +71,6 @@ export default {
   async mounted () {
     getJoinCommunityState(this.getAccountInfo.twitterId).then(res => {
       this.$store.commit('community/saveCommunityCC', res)
-      console.log(53,res);
     }).catch(e => {
       console.log(22, e);
     })

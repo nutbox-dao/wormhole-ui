@@ -198,7 +198,7 @@
           </div>
         </div>
         <!-- community -->
-        <div class="mt-1.8rem">
+        <div class="mt-1.8rem"  v-show="!expandCommunity">
           <div class="flex justify-between items-center mb-6px">
             <div class="font-bold">{{$t('community.community')}}</div>
 <!--            <button @click="expandCommunity=!expandCommunity">-->
@@ -225,7 +225,7 @@
               </button>
             </div>
             <el-collapse-transition>
-              <div v-show="expandCommunity">
+              <div>
                 <div class="grid grid-cols-2 gap-x-10px
                             max-h-150px overflow-auto no-scroll-bar">
                   <div v-if="searchCommunityLoading && searchCommunityList.length===0 && searchCommunityText.trim().length>0"
@@ -238,11 +238,14 @@
                        class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
                               rounded-8px h-40px px-15px border-2px mt-10px"
                        :class="item.communityId===form.communityId?'border-color62':'border-transparent'"
-                       @click="form.communityId=item.communityId">
+                       @click="form.communityId=item.communityId;searchCommunityText=item.displayTag">
                     <img class="w-24px h-24px rounded-full mr-10px"
                          :src="item.icon" alt=""
                          @error="replaceEmptyImg">
-                    <div class="font-bold truncate">{{item.communityName}}</div>
+                    <div class="font-bold truncate">
+                      <div>{{item.communityName}}</div>
+                      <div>#{{ item.displayTag }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -250,7 +253,7 @@
           </div>
         </div>
         <!-- tag -->
-        <div class="mt-1.8rem">
+        <div class="mt-1.8rem" v-if="false">
           <div class="flex justify-between items-center mb-6px">
             <div class="font-bold">{{$t('curation.tag')}}</div>
 <!--            <button @click="expandTag=!expandTag">-->
@@ -583,7 +586,7 @@ import { getTweetById, getSpaceById, getUserInfoByUserId, userReply } from '@/ut
 import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
-import {replyToCurationByWH3, getPopularTopics, searchCommunityByName, searchTags} from '@/api/api'
+import {replyToCurationByWH3, getPopularTopics, searchCommunityByName, searchTags, getCommunities} from '@/api/api'
 import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
@@ -681,10 +684,9 @@ export default {
       inputTagValue: '',
       addFollowVisible: false,
       commenTopics: [],
-      expandCommunity: true,
+      expandCommunity: false,
       expandTag: true,
       searchCommunityText: '',
-      searchCommunityList: [],
       searchTagText: '',
       searchTagList: [],
       searchCommunityLoading: false,
@@ -694,6 +696,7 @@ export default {
   computed: {
     ...mapState('web3', ['account', 'chainId']),
     ...mapState('curation', ['customTags']),
+    ...mapState('community', ['communities']),
     ...mapGetters('curation', ['getDraft', 'getPendingTweetCuration']),
     ...mapGetters(['getAccountInfo']),
     defaultTagList() {
@@ -703,6 +706,15 @@ export default {
         temp = Array.from(new Set(custom.concat(temp)))
       }
       return temp
+    },
+    searchCommunityList() {
+      if (!this.communities || this.communities.length === 0) return []
+      if (this.searchCommunityText && this.searchCommunityText.length > 0) {
+        return this.communities.filter(com => com.communityName.toLowerCase().indexOf(this.searchCommunityText.toLowerCase()) !== -1 || com.displayTag.toLowerCase().indexOf(this.searchCommunityText.toLowerCase()) !== -1)
+      }else {
+        return this.communities
+      }
+      return []
     },
     showAccount() {
       if (this.form.address)
@@ -727,15 +739,16 @@ export default {
       this.onSearchCommunity('input')
     }, 1500),
     async onSearchCommunity(e) {
-      if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
-        this.form.communityId=''
-        this.searchCommunityLoading = true
-        const communities = await searchCommunityByName(this.searchCommunityText)
-        this.searchCommunityLoading = false
-        if (communities) {
-          this.searchCommunityList = communities
-        }
-      }
+      this.form.communityId = ''
+      // if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
+      //   this.form.communityId=''
+      //   this.searchCommunityLoading = true
+      //   const communities = await searchCommunityByName(this.searchCommunityText)
+      //   this.searchCommunityLoading = false
+      //   if (communities) {
+      //     this.searchCommunityList = communities
+      //   }
+      // }
     },
     tagInputChange: debounce(function () {
       this.onSearchTag('input')
@@ -1002,10 +1015,10 @@ export default {
       return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
     },
     checkCreateData() {
-      // if (!this.form.description ||this.form.description.length === 0) {
-      //   notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
-      //   return false;
-      // }
+      if (!this.form.communityId ||this.form.communityId.length === 0) {
+        notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
+        return false;
+      }
       if(this.form.category === 'tweet' && this.form.createType==='new') {
         if (!this.form.newContent || this.form.newContent.length === 0) {
           notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
@@ -1065,7 +1078,7 @@ export default {
       this.selectedBalance = balance
     },
     checkRewardData() {
-      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || (this.form.minReputation <= 0 && !this.form.isLimitReputation) || !this.form.amount) {
+      if (!this.form.address || (this.form.maxCount <= 0 && !this.form.isLimit) || (this.form.minReputation <= 0 && !this.form.isLimitReputation) || !this.form.amount || this.form.communityId.length == 0) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false
       }
@@ -1282,16 +1295,15 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
       this.checkLink();
     }else if (communityId) { // from community
       this.form.communityId = communityId;
-      if (promoteUrl) {
+      if (promoteUrl) { // descholl
         this.form.createType = 'new';
-        this.expandCommunity = true;
         this.expandTag = true;
         this.onlyQuote = true;
         this.form.newContent = `
         ${promoteUrl}
         #Deschool`;
-      }else {
-
+      }else { // other community
+        this.expandCommunity = true;
       }
     }else if (this.getDraft) {
       this.form = this.getDraft
@@ -1299,11 +1311,19 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
       this.form.followers = this.form.followers ?? [];
       this.linkIsVerified = true;
     }
-    getPopularTopics().then(res => {
-      if (res && res.length > 0) {
-        this.commenTopics = res.map(t => t.tag)
+    // getPopularTopics().then(res => {
+    //   if (res && res.length > 0) {
+    //     this.commenTopics = res.map(t => t.tag)
+    //   }
+    // }).catch()
+    getCommunities(this.getAccountInfo?.twitterId).then(coms => {
+      console.log(1, coms);
+      if (coms && coms.length > 0) {
+        this.$store.commit('community/saveCommunities', coms);
       }
-    }).catch()
+    }).catch(e => {
+      console.log('get all communities fail', e);
+    })
 
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
