@@ -496,9 +496,9 @@ export default {
     comments: 'Comments',
     curation: 'Curation',
     author: 'Author',
-    day: 'Day',
-    hour: 'Hour',
-    minute: 'Minute',
-    second: 'Seconde'
+    day: 'DAY',
+    hour: 'HOURS',
+    minute: 'MIN',
+    second: 'S'
   }
 }
