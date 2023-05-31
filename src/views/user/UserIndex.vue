@@ -142,7 +142,7 @@
         </div>
       </div>
       <div class="container max-w-50rem mx-auto flex-1 2md:px-15px">
-        <div class="sm:bg-blockBg light:sm:shadow-color1A my-20px rounded-16px sm:px-15px">
+        <div class="sm:bg-blockBg light:sm:bg-transparent light:sm:shadow-color1A my-20px rounded-16px sm:px-15px">
           <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
