@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between items-center py-10px gap-15px">
+    <div class="flex justify-between items-center py-10px gap-15px cursor-pointer">
         <div class="flex-1 flex items-center truncate">
             <Avatar :profile-img="reward.profileImg"
                     :name="reward.name"
