@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      topicType: ['inProgress', 'ended', 'toBeStart'],
+      topicType: ['inProgress', 'ended', 'pending'],
       activeSpaceIndex: 0,
       typeIndex: 0,
       listLoading: false,

@@ -146,10 +146,17 @@ export const formatAmount = function (value) {
 };
 
 export function getDateString(now, timezone, extra = 0) {
-  now = new Date(now) || new Date();
-  timezone = new Date().getTimezoneOffset() / -60
+  now = now || new Date();
   const offset = timezone != null ? timezone * 3600 : 0;
   now = new Date(now.getTime() + (offset + extra) * 1000);
+  return now.toISOString().replace("T", " ").substring(0, 19);
+}
+
+export function formatDateString(date) {
+  date = new Date(date);
+  timezone = new Date().getTimezoneOffset() / -60
+  const offset = timezone != null ? timezone * 3600000 : 0;
+  now = new Date(now.getTime() + offset);
   return now.toISOString().replace("T", " ").substring(0, 16);
 }
 
