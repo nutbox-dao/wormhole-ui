@@ -154,9 +154,9 @@ export function getDateString(now, timezone, extra = 0) {
 
 export function formatDateString(date) {
   date = new Date(date);
-  timezone = new Date().getTimezoneOffset() / -60
+  const timezone = new Date().getTimezoneOffset() / -60
   const offset = timezone != null ? timezone * 3600000 : 0;
-  now = new Date(now.getTime() + offset);
+  const now = new Date(date.getTime() + offset);
   return now.toISOString().replace("T", " ").substring(0, 16);
 }
 
