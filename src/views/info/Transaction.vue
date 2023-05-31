@@ -1,69 +1,69 @@
 <template>
-  <div class="container mx-auto sm:max-w-600px lg:max-w-35rem px-15px sm:px-0 pt-1rem pb-2rem text-14px xl:text-0.8rem">
-    <div class="bg-blockBg light:bg-white rounded-1rem ">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
-                loading-text="Loading"
-                pulling-text="Pull to refresh data"
-                loosing-text="Release to refresh">
-        <van-list :loading="loading"
-                  :finished="finished"
-                  :immediate-check="false"
-                  :loosing-text="$t('common.pullRefresh')"
-                  :loading-text="$t('common.loading')"
-                  :finished-text="$t('common.noMore')"
-                  @load="onLoad">
-          <!-- <div class="text-left p-1rem c-text-black md:text-1.2rem text-1.5rem">{{$t('transactionView.recentTransaction')}}</div> -->
-          <div v-if="showingList.length===0 && !loading"
-               class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-            <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
-          </div>
-          <div class="border-b-1px border-listBgBorder p-1rem flex items-start"
-               v-for="(item, index) of showingList" :key="index">
-              <img v-if="!isReceive(item)" class="w-2.2rem min-w-30px mr-14px"
-                   src="~@/assets/icon-up-arrow.svg" alt="">
-              <img v-else class="w-2.2rem min-w-30px mr-14px"
-                   src="~@/assets/icon-down-arrow.svg" alt="">
-              <div class="flex-1">
-                <div class="flex">
-                  <div class="flex-1 text-text8F flex flex-col items-start sm:ml-1rem">
-                    <div class="font-bold text-left text-14px xl:text-0.8rem"
-                         :class="item.tipResult !== 0?'text-redColor':'light:text-blueDark'">
-                      {{ isReceive(item) ? $t('transactionView.received') : $t('transactionView.sent') }}
-                      {{item.tipResult !== 0?$t('transactionView.error'):''}}
-                    </div>
-                    <div class="text-color8B light:text-color7D text-12px xl:text-0.7rem mt-4px mb-6px">
-                      {{ isReceive(item) ? $t('transactionView.from') : $t('transactionView.to') }} {{ getTargetAccount(item) }}
-                    </div>
-                    <div class="text-0.7rem mt-0.5rem text-color8B text-12px xl:text-0.7rem">{{ parseTime(item.postTime) }}</div>
-                  </div>
-                  <div class="flex flex-col justify-between items-end">
-                    <ChainTokenIconLarge class="bg-black light:bg-colorD9"
-                                         height="28px" width="28px"
-                                    :chain-name="item.chainName.toString()"
-                                    :token="{address: item.token, symbol: item.symbol}">
-                      <template #amount>
-                        <span class="pl-30px pr-8px h-24px whitespace-nowrap text-color8B light:text-blueDark
-                                     flex items-center text-12px 2xl:text-0.8rem font-bold">
+  <div class="">
+    <div class="py-2rem"
+         v-if="refreshing && (!showingList || showingList.length === 0)">
+      <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+    </div>
+    <div v-else-if="!refreshing && (!showingList || showingList.length === 0)" class="py-2rem">
+      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+    </div>
+    <van-pull-refresh v-else
+                      v-model="refreshing"
+                      @refresh="onRefresh"
+                      :loading-text="$t('common.loading')"
+                      :pulling-text="$t('common.pullRefresh')"
+                      :loosing-text="$t('common.loosingRefresh')">
+      <van-list :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :loosing-text="$t('common.pullRefresh')"
+                :loading-text="$t('common.loading')"
+                :finished-text="showingList.length!==0?$t('common.noMore'):''"
+                @load="onLoad">
+        <div class="border-b-0.5px border-listBgBorder py-15px flex items-start"
+             v-for="(item, index) of showingList" :key="index">
+          <img v-if="!isReceive(item)" class="w-32px min-w-32px mr-14px"
+               src="~@/assets/icon-up-arrow.svg" alt="">
+          <img v-else class="w-32px min-w-32px mr-14px"
+               src="~@/assets/icon-down-arrow.svg" alt="">
+          <div class="flex-1 flex">
+            <div class="flex-1 text-text8F flex flex-col items-start">
+              <div class="font-bold text-left text-14px"
+                   :class="item.tipResult !== 0?'text-redColor':'light:text-blueDark'">
+                {{ isReceive(item) ? $t('transactionView.received') : $t('transactionView.sent') }}
+                {{item.tipResult !== 0?$t('transactionView.error'):''}}
+              </div>
+              <div class="text-color8B light:text-color7D text-12px mt-4px mb-6px">
+                {{ isReceive(item) ? $t('transactionView.from') : $t('transactionView.to') }} {{ getTargetAccount(item) }}
+              </div>
+              <div class="mt-0.5rem text-color8B text-12px">{{ parseTime(item.postTime) }}</div>
+            </div>
+            <div class="flex flex-col justify-between items-end">
+              <ChainTokenIconLarge class="bg-color62"
+                                   height="28px" width="28px"
+                                   :chain-name="item.chainName.toString()"
+                                   :token="{address: item.token, symbol: item.symbol}">
+                <template #amount>
+                        <span class="pl-30px pr-8px h-24px whitespace-nowrap text-white
+                                     flex items-center text-12px font-bold">
                           {{ isReceive(item) ? '+' : '-' }} {{ formatAmount(item) }} {{ item.symbol }}
                         </span>
-                      </template>
-                    </ChainTokenIconLarge>
-                    <a v-if="item.tipResult === 0"
-                       class="text-white rounded-full border-1 border-white/20 py-4px px-0.7rem w-max
-                                light:text-blueDark light:border-colorE3 light:text-color7D"
-                       :href="hashLink(item)" target="_blank">View</a>
-                    <div v-else
-                     class="text-redColor text-12px w-full text-left mt-4px sm:ml-1rem">
-                      {{failResult(item) || ' Tokens has not been sent.'}}
-                  </div>
-                  </div>
-                </div>
-
+                </template>
+              </ChainTokenIconLarge>
+              <a v-if="item.tipResult === 0"
+                 class="text-white rounded-full border-1 border-white/20 h-20px flex items-center px-8px text-12px
+                          light:text-blueDark light:border-colorE3 light:text-color7D"
+                 :href="hashLink(item)" target="_blank">View</a>
+              <div v-else
+                   class="text-redColor text-12px w-full text-right mt-4px sm:ml-1rem">
+                {{failResult(item) || ' Tokens has not been sent.'}}
               </div>
             </div>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+          </div>
+        </div>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -73,7 +73,7 @@ import { EVM_CHAINS, SteemScan } from '@/config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
 import { getUsersTips } from '@/utils/account'
-import ChainTokenIconLarge from "@/components/ChainTokenIconLarge";
+import ChainTokenIconLarge from "@/components/ChainTokenIconLarge.vue";
 
 export default {
   name: "Transaction",
@@ -164,7 +164,7 @@ export default {
       }).catch(e => {
         console.log(33, e);
         if (e === 'log out') {
-            this.$router.replace('/')
+            // this.$router.replace('/')
           }
       })
     },

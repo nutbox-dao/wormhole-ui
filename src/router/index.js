@@ -9,7 +9,7 @@ import FAQView from '@/views/FAQ'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
-import UserTransactionView from '@/views/user/Transaction'
+import UserTransactionView from '@/views/info/Transaction.vue'
 import UserPostView from '@/views/user/Post'
 import UserPostDetailView from '@/views/post/PostDetail'
 // other user's profile view
@@ -132,13 +132,7 @@ const routes = [
         name: 'reward',
         component: RewardView,
         meta: {gotoHome: true}
-      },
-      {
-        path: '/wallet/:user/transaction',
-        name: 'transaction',
-        component: UserTransactionView,
-        meta: {gotoHome: true},
-      },
+      }
     ]
   },
   {
