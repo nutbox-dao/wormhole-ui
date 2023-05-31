@@ -36,47 +36,7 @@
               </span>
             </div>
           </div>
-          <div class="flex items-center mx-15px gap-15px 2md:hidden">
-            <el-tooltip popper-class="shadow-popper-tip">
-              <template #content>
-                <div class="max-w-14rem text-white light:text-blueDark">
-                  {{$t('postView.p1')}}
-                </div>
-              </template>
-              <button class="w-50px max-w-50px h-50px">
-                <el-progress class="c-progress-green w-full h-full"
-                             type="dashboard"
-                             color="#68E796"
-                             :stroke-width="5"
-                             :width="50"
-                             :percentage="Number(rc) / MAX_RC * 100">
-                  <template #default="{ percentage }">
-                    <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
-                  </template>
-                </el-progress>
-              </button>
-            </el-tooltip>
-            <el-tooltip popper-class="shadow-popper-tip">
-              <template #content>
-                <div class="max-w-14rem text-white light:text-blueDark">
-                  {{$t('postView.vpDes')}}
-                </div>
-              </template>
-              <button class="w-50px max-w-50px h-50px">
-                <el-progress class="c-progress-green"
-                             type="dashboard"
-                             color="#7700E0"
-                             :stroke-width="5"
-                             :width="50"
-                             :percentage="Number(vp) / MAX_VP * 100">
-                  <template #default="{ percentage }">
-                    <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
-                  </template>
-                </el-progress>
-              </button>
-            </el-tooltip>
-
-          </div>
+          <UserEnergyBar class="flex items-center mx-15px gap-15px 2md:hidden"></UserEnergyBar>
         </div>
 
         <div class="flex">
@@ -142,7 +102,7 @@
         </div>
       </div>
       <div class="container max-w-50rem mx-auto flex-1 2md:px-15px">
-        <div class="sm:bg-blockBg light:sm:bg-transparent light:sm:shadow-color1A my-20px rounded-16px sm:px-15px">
+        <div class="sm:bg-blockBg light:sm:bg-transparent light:sm:shadow-color1A sm:my-20px rounded-16px sm:px-15px">
           <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -276,11 +236,13 @@ import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP, M
 import { getSteemBalance } from "@/utils/steem";
 import Menu from "@/components/layout/Menu";
 import {copyAddress} from "@/utils/tool";
+import UserEnergyBar from "@/components/UserEnergyBar.vue";
 export default {
   name: "User",
   components: {
     GetNft,
-    Menu
+    Menu,
+    UserEnergyBar
   },
   data() {
     return {

@@ -41,59 +41,26 @@
         {{$t('signIn')}}
       </button>
       <template v-else>
-        <div class="flex items-center gap-15px mb-15px">
-          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
-            <template #content>
-              <div class="max-w-14rem text-white light:text-blueDark">
-                {{$t('postView.p1')}}
-              </div>
-            </template>
-            <button class="w-50px max-w-50px h-50px">
-              <el-progress class="c-progress-green w-full h-full"
-                           type="dashboard"
-                           color="#68E796"
-                           :stroke-width="5"
-                           :width="50"
-                           :percentage="Number(rc) / MAX_RC * 100">
-                <template #default="{ percentage }">
-                  <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
-                </template>
-              </el-progress>
-            </button>
-          </el-tooltip>
-          <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
-            <template #content>
-              <div class="max-w-14rem text-white light:text-blueDark">
-                {{$t('postView.vpDes')}}
-              </div>
-            </template>
-            <button class="w-50px max-w-50px h-50px">
-              <el-progress class="c-progress-green"
-                           type="dashboard"
-                           color="#7700E0"
-                           :stroke-width="5"
-                           :width="50"
-                           :percentage="Number(vp) / MAX_VP * 100">
-                <template #default="{ percentage }">
-                  <span class="percentage-value">{{ percentage.toFixed(2) }}%</span>
-                </template>
-              </el-progress>
-            </button>
-          </el-tooltip>
-
-        </div>
+        <UserEnergyBar class="flex items-center gap-15px mb-15px"></UserEnergyBar>
         <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
                      class="flex items-center">
           <img class="w-50px h-50px min-w-50px min-h-50px rounded-full mr-10px"
-               :src="profileImg" @error="replaceEmptyImg" alt="">
-          <div class="flex flex-col items-start">
-            <div class="c-text-black text-16px xl:text-1rem light:text-blueDark text-left mb-6px">
+              @error="replaceEmptyImg"
+              :src="profileImg"
+              alt=""/>
+          <div class="flex-1 overflow-hidden text-white light:text-color1A">
+            <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px">
               {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
             </div>
             <div @click.stop="gotoTwitter"
-                 class="flex items-center">
-              <i class="icon-twitter w-16px h-16px"></i>
-              <span class="text-12px 2xl:text-0.7rem">@{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}</span>
+                 class="cursor-pointer flex items-center">
+              <div class="w-14px h-14px min-w-14px min-h-14px p-3px bg-color8B light:bg-black rounded-full mr-5px
+                          flex items-center justify-center">
+                <img src="~@/assets/icon-twitter-white.svg" alt="">
+              </div>
+              <span class="text-12px">
+                @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
+              </span>
             </div>
           </div>
         </router-link>
@@ -112,10 +79,11 @@ import {mapGetters, mapState} from "vuex";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Menu from "@/components/layout/Menu";
 import {MAX_RC, MAX_VP} from "@/config";
+import UserEnergyBar from "@/components/UserEnergyBar.vue";
 
 export default {
   name: "SliderBar",
-  components: {Menu},
+  components: {Menu, UserEnergyBar},
   props: {
     profileImg: {
       type: String,
