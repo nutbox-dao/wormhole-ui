@@ -53,7 +53,7 @@
                 <span>{{$t('community.toBeStart')}}</span>
                 <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
                 <van-count-down class="text-12px text-color62"
-                                :time="countdown(new Date(topic.startTime).getTime()/1000)">
+                                :time="countdown(new Date(topic.endTime).getTime()/1000)">
                   <template #default="timeData">
                     {{ timeData.days }} {{$t('common.day')}}
                     {{ timeData.hours }} {{$t('common.hour')}}
@@ -65,17 +65,23 @@
               <div v-else-if="status==='inProgress'"
                    class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-color62 text-white text-12px ">
-                🔥 {{$t('community.inProgress')}}
+                <span>🔥 {{$t('community.inProgress')}}</span>
+                <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                <span>
+                  {{ getDateString(topic.startTime) }} ~ {{ getDateString(topic.endTime) }}
+                </span>
               </div>
               <div v-else-if="status==='ended'"
                    class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-colorF0 text-color66 text-12px">
                 <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
-                <span>{{$t('community.ended')}}</span>
+                <span>{{$t('community.endedAt')}}</span>
+                <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                <span>{{ getDateString(topic.endTime) }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center ml-11px">
-                  <div class="-ml-11px" v-for="p of topic.participant?.slice(0,3)" :key="p">
+                  <div class="-ml-11px" v-for="p of topic.participates?.slice(0,3)" :key="p">
                     <img v-if="p"
                          class="w-28px min-w-28px h-28px rounded-full
                                 border-2px border-color62 light:border-white bg-color8B/10"
@@ -169,10 +175,10 @@
                 <span>{{$t('community.token')}}</span>
               </div>
               <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-                   v-if="rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)">
+                   v-if="rewardRefreshing && rewardsList.length === 0">
                 <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
               </div>
-              <div v-else-if="!rewardRefreshing && (!topic || !topic.participant|| topic.participant.length === 0)" class="py-2rem">
+              <div v-else-if="!rewardRefreshing && rewardsList.length === 0" class="py-2rem">
                 <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
                 <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
               </div>
@@ -187,28 +193,10 @@
                           :finished="rewardListFinished"
                           :immediate-check="false"
                           :loading-text="$t('common.loading')"
-                          :finished-text="topic && topic.participant.length!==0?$t('common.noMore'):''"
+                          :finished-text="rewardsList && rewardsList.length!==0?$t('common.noMore'):''"
                           @load="rewardOnLoad">
-                  <div v-for="(r, index) of rewardsList" :key="index"
-                       class="flex justify-between items-center py-10px gap-15px">
-                    <div class="flex-1 flex items-center truncate">
-                      <Avatar :profile-img="r.profileImg"
-                              :name="r.name"
-                              :username="r.username"
-                              :steem-id="r.steemId"
-                              :eth-address="r.ethAddress"
-                              :reputation="r.reputation"
-                              @gotoUserPage="$router.push({path : '/account-info/@' + r.username})">
-                        <template #avatar-img>
-                          <img class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                                border-1 border-color62 light:border-white bg-color8B/10"
-                               @click.stop="$router.push({path : '/account-info/@' + r.username})"
-                               :src="r.profileImg" alt="">
-                        </template>
-                      </Avatar>
-                      <span>{{r.username}}</span>
-                    </div>
-                    <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+                  <div v-for="(r, index) of rewardsList" :key="index">
+                       <ActivityRewardItem :reward="r"></ActivityRewardItem>
                   </div>
                 </van-list>
               </van-pull-refresh>
@@ -229,26 +217,8 @@
               <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
               <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
             </div>
-            <div v-for="(r, index) of rewardsList" :key="index"
-                 class="flex justify-between items-center py-15px gap-15px">
-              <div class="flex-1 flex items-center truncate">
-                <Avatar :profile-img="r.profileImg"
-                        :name="r.name"
-                        :username="r.username"
-                        :steem-id="r.steemId"
-                        :eth-address="r.ethAddress"
-                        :reputation="r.reputation"
-                        @gotoUserPage="$router.push({path : '/account-info/@' + r.username})">
-                  <template #avatar-img>
-                    <img class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                                border-1 border-color62 light:border-white bg-color8B/10"
-                         @click.stop="$router.push({path : '/account-info/@' + r.username})"
-                         :src="r.profileImg" alt="">
-                  </template>
-                </Avatar>
-                <span>{{r.username}}</span>
-              </div>
-              <span>{{ formatAmount(r.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(r.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+            <div v-for="(r, index) of rewardsList" :key="index">
+              <ActivityRewardItem :reward="r"></ActivityRewardItem>
             </div>
           </div>
         </div>
@@ -260,7 +230,7 @@
 <script>
 import {TokenIcon} from "@/config";
 import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
-import { formatAmount, formatPrice } from '@/utils/helper'
+import { formatAmount, formatPrice, getDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePosts, getCommunityActivityReward } from '@/api/api'
@@ -270,10 +240,12 @@ import communityModule from '@/store/community'
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 import Avatar from "@/components/Avatar.vue";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import ActivityRewardItem from "@/components/community/ActivityRewardItem.vue";
 
 export default {
   name: "TopicDetail",
-  components: {Blog, Avatar},
+  components: {Blog, Avatar, ActivityRewardItem},
   setup() {
     const { width } = useWindowSize();
     return {
@@ -314,7 +286,6 @@ export default {
   },
   watch: {
     topic(newValue, oldValue) {
-      console.log(3, newValue);
       if (newValue?.activityId) {
         this.refresh()
         this.rewardRefresh()
@@ -325,7 +296,11 @@ export default {
     formatAmount,
     formatPrice,
     formatAddress,
+    getDateString,
     onCopy,
+    replaceEmptyImg(e) {
+      e.target.src = emptyAvatar;
+    },
     pageScroll() {
       this.scroll = this.$refs.detailPageRef.scrollTop
     },
@@ -390,10 +365,14 @@ export default {
     if (!this.showingCommunity || !this.showingCommunity.communityId) {
       getCommunityByTopicId(this.getAccountInfo?.twitterId, topicId).then( async res => {
         if (res && res.communityId) {
-          const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
-            res.rewardPrice = price[res.rewardToken]
-            this.$store.commit('community/saveShowingCommunity', res)
-            this.getCommunityTopics()
+          let price = 0;
+          try {
+            price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
+            price = price[res.rewardToken]  
+          }catch(e) {}
+          res.rewardPrice = price
+          this.$store.commit('community/saveShowingCommunity', res)
+          this.getCommunityTopics()
         }else {
           console.log(4, res);
         }
