@@ -12,10 +12,12 @@
         <span class="text-32px leading-32px c-text-black text-white mr-4px">
           {{community.CCPower}}
         </span>
-          <el-popover :width="200" trigger="hover">
+          <el-popover :width="200" >
             <template #reference>
-              <img class="w-14px h-14px min-w-16px min-h-16px opacity-75 mb-5px"
-                   src="~@/assets/icon-warning-white.svg" alt="">
+              <button @click.stop>
+                <img class="w-14px h-14px min-w-16px min-h-16px opacity-75 mb-5px"
+                     src="~@/assets/icon-warning-white.svg" alt="">
+              </button>
             </template>
             <div>规则描述</div>
           </el-popover>
@@ -116,9 +118,22 @@ export default {
 
 <style scoped lang="scss">
 .influence-card {
-  background-image: linear-gradient(135deg, #AE88FE 0%, #923CFF 45%, #00B2FF 100%);
+  position: relative;
+  background-image: linear-gradient(135deg, #AE88FE 0%, #923CFF 45%, #00B2FF 100%), url("~@/assets/influence-bg.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-size: cover, auto 65%;
+  background-position: center, calc(100% - 15px) top;
+  background-blend-mode: color;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 150%;
+    top: -30%;
+    left: 50%;
+    background-image: linear-gradient(rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    background-size: cover;
+    transform: rotate(30deg);
+  }
 }
 </style>
