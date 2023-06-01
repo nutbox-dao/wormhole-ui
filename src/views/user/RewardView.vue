@@ -61,6 +61,11 @@
                     <div v-else class="py-15px text-center text-color7D text-14px">
                       {{$t('walletView.claimedAllRewards')}}
                     </div>
+                    <div class="flex justify-center items-center">
+                      <button @click="changeCollapse(reward.token)">
+                        <img class="w-12px transform rotate-180" src="~@/assets/icon-select-arrow.svg" alt="">
+                      </button>
+                    </div>
                   </div>
                 </el-collapse-item>
               </el-collapse>
@@ -199,6 +204,11 @@ export default {
     }
   },
   methods: {
+    changeCollapse(token) {
+      this.collapseNames = this.collapseNames.filter(item => {
+        return item!==token
+      })
+    },
     formatAddress,
     formatAmount,
     selectTab(index) {
