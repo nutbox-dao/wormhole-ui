@@ -207,7 +207,51 @@ const abi = [
       ],
       "stateMutability": "view",
       "type": "function"
-    }
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "cid",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCommunityInfo",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "communityAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "prizeToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "signAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "storageAddr",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
   ]
 
   /**
@@ -279,6 +323,22 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
   })
 }
 
+export const checkCommunityRewards = async (chainName, communityId, twitterId, ids) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].communityCuration;
+    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let contract = new ethers.Contract(curationContract, abi, provider); 
+    ids = ids.map(id => ethers.BigNumber.from('0x' + communityId + id));
+    let results = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
+    contract = new ethers.Contract(results.communityAddr, abi, provider)
+    results = await contract.checkClaim(twitterId, ids);
+    return results;
+  }catch(e) {
+    console.log('check community curation rewards fail:', e);
+    throw errCode.BLOCK_CHAIN_ERR
+  }
+}
+
 export const checkAutoCurationRewards = async (twitterId, ids) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -324,6 +384,18 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         reject(errCode.TRANSACTION_FAIL)
     }
   })
+}
+
+export const claimCommunityRewards = async (chainName, twitterId, ethAddress, communityId, ids, amount, sig) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].communityCuration;
+    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let contract = new ethers.Contract(curationContract, abi, provider); 
+    ids = ids.map(id => ethers.BigNumber.from('0x' + communityId + id));
+    
+  } catch (e) {
+    
+  }
 }
 
 export const claimPromotionCurationRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {

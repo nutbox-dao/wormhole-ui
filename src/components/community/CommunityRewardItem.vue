@@ -10,11 +10,13 @@
       <div class="flex overflow-hidden rounded-full border-1 border-color62 mt-20px">
         <button class="tab h-32px text-12px sm:text-14px flex-1"
                 :class="tabIndex===0?'bg-color62 text-white':'bg-colorF1 text-color62'"
+                :disabled="claiming"
                 @click="tabIndex=0">
           {{ $t('common.curation') }}
         </button>
         <button class="tab h-32px text-12px sm:text-14px flex-1"
                 :class="tabIndex===1?'bg-color62 text-white':'bg-colorF1 text-color62'"
+                :disabled="claiming"
                 @click="tabIndex=1">
           {{ $t('common.author') }}
         </button>
@@ -37,7 +39,7 @@
         </button>
         <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-4px
                   h-40px px-15px rounded-full text-white"
-                :disabled="claiming || accountMismatch"
+                :disabled="claiming || accountMismatch || list.length === 0"
                 @click="claimReward">
           {{ $t('curation.claimReward') }}
           <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
@@ -117,6 +119,9 @@ import { getPriceFromOracle } from '@/utils/asset'
 import RewardHistoryList from "@/components/RewardHistoryList";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
+import { notify } from "@/utils/notify";
+import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, 
+  setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
 
 export default {
   name: "CommunityRewardItem",
@@ -200,18 +205,6 @@ export default {
       return this.getAccountInfo?.ethAddress !== this.account
     }
   },
-  mounted() {
-    getPriceFromOracle(EVM_CHAINS_ID[this.community.chainId], [
-      this.community
-    ]).then(res => {
-      this.price = res[this.community.token];
-    })
-    accountChanged().catch()
-      getAccounts(true).then(wallet => {
-    }).catch();
-    this.rewardList = (this.width>=961? this.rewards : this.rewards.slice(0,3))
-    this.authorList = (this.width>=961? this.authorRewards : this.authorRewards.slice(0,3))
-  },
   methods: {
     parseTimestamp,
     formatAmount,
@@ -234,9 +227,47 @@ export default {
       }
     },
     async claimReward() {
-      
+      if(this.claiming) return;
+      try{
+        this.claiming = true
+        if(this.tabIndex === 0) { //curation
+            const chainName = EVM_CHAINS_ID[this.community.chainId]
+            this.claiming = true
+            const ids = this.list.map(c => c.curationId)
+            const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
+            await setCurationIsFeed(twitterId, ids);
+            this.rewardLists[index] = [];
+            this.$store.commit('curation/saveRewardLists', this.rewardLists);
+            this.getRecords();
+        }else { // author
+
+        }
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          this.$route.push('/')
+          return;
+        }
+        console.log('Claim failed:', e);
+        notify({message: this.$t('err.transErr'), type: 'error'})
+      } finally {
+        this.claiming = false
+      }
     }
-  }
+  },
+  mounted() {
+    getPriceFromOracle(EVM_CHAINS_ID[this.community.chainId], [
+      this.community
+    ]).then(res => {
+      this.price = res[this.community.token];
+    })
+    accountChanged().catch()
+      getAccounts(true).then(wallet => {
+    }).catch();
+    this.rewardList = (this.width>=961? this.rewards : this.rewards.slice(0,3))
+    this.authorList = (this.width>=961? this.authorRewards : this.authorRewards.slice(0,3))
+  },
 }
 </script>
 

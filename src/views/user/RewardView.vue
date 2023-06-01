@@ -129,7 +129,7 @@ import RewardPost from "@/views/user/RewardPost";
 import { getCurationRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
-import { checkCurationRewards, getClaimParas, claimRewards } from '@/utils/curation'
+import { checkCurationRewards, checkCommunityRewards, getClaimParas, claimRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
@@ -294,6 +294,18 @@ export default {
           await Promise.all([
             getCommunityPendingRewards(this.getAccountInfo.twitterId),
             getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
+
+          // check claimed
+        let allRewards = rewards.concat(authorRewards);
+        if (allRewards.length === 0) return;
+        let allRewardsByChain = {};
+        for (let r of allRewards) {
+          if (!allRewardsByChain[r.chainId]){
+            allRewardsByChain[r.chainId] = []
+          }
+          allRewardsByChain[r.chainId].push(r)
+        }
+        checkCommunityRewards('BNB Smart Chain', rewards[0].communityId, this.getAccountInfo.twitterId, rewards.map(r => r.curationId))
         if (rewards && rewards.length > 0) {
           this.$store.commit('curation/saveCommunityRewards', rewards)
         }
