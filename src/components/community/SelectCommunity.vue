@@ -29,7 +29,7 @@
               <img class="w-24px h-24px mx-auto"
                    src="~@/assets/icon-loading.svg" alt="">
             </div>
-            <div v-for="(item,index) of searchCommunityList"
+            <div v-for="(item,index) of searchCommunityList.slice(0, 4)"
                  :key="item.communityId"
                  class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
                         rounded-8px h-40px px-15px border-2px mt-10px"
@@ -90,6 +90,7 @@ export default {
     }, 1500),
     async onSearchCommunity(e) {
       this.$emit('setCommunityId', '')
+      this.$emit('setTag', '')
       // if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
       //   this.form.communityId=''
       //   this.searchCommunityLoading = true

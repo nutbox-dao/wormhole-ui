@@ -1196,14 +1196,6 @@ Users can join the curation from here: https://alpha.wormhole3.io/post-detail/${
     //     this.commenTopics = res.map(t => t.tag)
     //   }
     // }).catch()
-    getCommunities(this.getAccountInfo?.twitterId).then(coms => {
-      console.log(1, coms);
-      if (coms && coms.length > 0) {
-        this.$store.commit('community/saveCommunities', coms);
-      }
-    }).catch(e => {
-      console.log('get all communities fail', e);
-    })
 
     const pendingCuration = this.getPendingTweetCuration;
     if (pendingCuration && pendingCuration.transHash) {
