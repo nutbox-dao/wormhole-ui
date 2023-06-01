@@ -21,7 +21,7 @@
               class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
             <ChainTokenIcon height="30px" width="30px"
                             :token="{symbol: item.tokenSymbol, address: item.token}"
-                            :chainName="EVM_CHAINS_ID[chainId]">
+                            :chainName="EVM_CHAINS_ID[chainId || community.chainId]">
               <template #amount>
                     <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
                       {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
@@ -45,7 +45,7 @@
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {formatAmount, parseTimestamp} from "@/utils/helper";
-import { curationRewardListHistory } from '@/api/api';
+import { curationRewardListHistory, getCommunityHistoryRewards, getCommunityAuthorHistoryRewards } from '@/api/api';
 import { mapGetters } from "vuex";
 import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
 
@@ -55,11 +55,24 @@ export default {
   props: {
     chainId: {
       type: Number,
-      default: ''
+      default: 0
+    },
+    community: {
+      type: Object,
+      default: {}
+    },
+    type: {
+      type: String,
+      default: 'promotion'
+    },
+    isAuthor: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
   },
   watch: {
     chainId(newValue, oldValue) {
@@ -85,10 +98,21 @@ export default {
     gotoDetail() {},
     async onLoad() {
       try{
-        if (this.refreshing || this.loading || this.finished) return;
+        if (this.refreshing || this.loading || this.finished || this.list.length === 0) return;
         this.loading = true;
-        const list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId, this.list[this.list.length - 1].createAt);
-        this.list = this.list.concat(list);
+        let list = [];
+        if (this.type === 'promotion') {
+          list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId, this.list[this.list.length - 1].createAt);
+          this.list = this.list.concat(list);
+        }else {
+          if (this.isAuthor) {
+            const list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
+            this.list = this.list.concat(list);
+          }else {
+            const list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
+            this.list = this.list.concat(list);
+          }
+        }
         if (list.length === 0) {
           this.finished = true;
         }
@@ -104,8 +128,18 @@ export default {
           return
         }
         this.refreshing = true
-        const list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId);
-        this.list = list;
+        if (this.type === 'promotion') {
+          const list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId);
+          this.list = list;
+        }else {
+          if (this.isAuthor) {
+            const list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
+            this.list = list;
+          }else {
+            const list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
+            this.list = list;
+          }
+        }
       } catch (e) {
         console.log(55, e);
       } finally {
@@ -118,6 +152,7 @@ export default {
     }
   },
   mounted () {
+    console.log(32, this.chainId, this.type);
     this.refresh();
   },
 }

@@ -113,6 +113,7 @@
                class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <RewardHistoryList
         :chain-id="chainIds[chainTab]"
+        :type="'promotion'"
           class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
     </el-dialog>
   </van-pull-refresh>
@@ -125,20 +126,16 @@ import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
-import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorRewardList } from "@/utils/account"
+import { getCurationRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
-import { checkCurationRewards, checkAutoCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
-   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards, getAuthorRewardClaimParas,
-   getCurationDetail } from '@/utils/curation'
+import { checkCurationRewards, getClaimParas, claimRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed,
   getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
-import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, setCommunityRewardClaimed,
-  setCommunityAuthorRewardClaimed } from '@/utils/community'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";

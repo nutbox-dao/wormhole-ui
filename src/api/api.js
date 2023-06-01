@@ -308,7 +308,7 @@ export const setCommunityAuthorRewardClaimed = async (twitterId, curationIds) =>
 export const getCommunityHistoryRewards = async (twitterId, communityId, createAt) =>
     get(BACKEND_API_URL + '/community/getCommunityHistoryRewards', { twitterId, communityId, createAt })
 
-export const getCommunityAuthorHistoryRewards = async (twitterId, createAt) =>
+export const getCommunityAuthorHistoryRewards = async (twitterId, communityId, createAt) =>
     get(BACKEND_API_URL + '/community/getCommunityAuthorHistoryRewards', { twitterId, communityId, createAt })
 
 /****************************************  map  ***********************************************/

@@ -37,7 +37,7 @@
          :class="list.length>2?'2md:h-212px 2md:max-h-212px':''">
       <div class="flex justify-between items-center mb-8px">
         <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-        <button class="flex items-center text-14px">
+        <button class="flex items-center text-14px" @click="historyModalVisible=true">
           <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
           <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
         </button>
@@ -81,6 +81,14 @@
         </button>
       </div>
     </div>
+    <el-dialog v-model="historyModalVisible"
+               class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
+      <RewardHistoryList
+        :community="community"
+        :type="'curation'"
+        :is-author="tabIndex === 1"
+          class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
+    </el-dialog>
   </div>
 </template>
 
@@ -92,11 +100,11 @@ import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
 import { mapGetters } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
 import { getPriceFromOracle } from '@/utils/asset'
-
+import RewardHistoryList from "@/components/RewardHistoryList";
 
 export default {
   name: "CommunityRewardItem",
-  components: {ChainTokenIcon},
+  components: {ChainTokenIcon, RewardHistoryList},
   setup() {
     const {width} = useWindowSize()
     return {
@@ -118,7 +126,8 @@ export default {
       EVM_CHAINS_ID,
       EVM_CHAINS,
       price: {},
-      isExpand: false
+      isExpand: false,
+      historyModalVisible: false
     }
   },
   computed: {
