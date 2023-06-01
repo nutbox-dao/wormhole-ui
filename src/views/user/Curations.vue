@@ -1,5 +1,5 @@
 <template>
-  <div class="text-14px xl:text-0.8rem px-15px">
+  <div class="text-14px xl:text-0.8rem p-15px sm:p-1rem">
     <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
          class="flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
       <button v-for="(tag, index) of subTagList" :key="index"
