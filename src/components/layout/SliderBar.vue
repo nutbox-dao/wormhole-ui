@@ -19,7 +19,7 @@
       </router-link>
       <router-link to="/info" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <span>{{$t('slider.info')}}</span>
+          <span class="relative c-badge">{{$t('slider.info')}}</span>
         </button>
       </router-link>
       <router-link to="/create-curation" class="flex-1 w-full">
