@@ -25,7 +25,8 @@
                 <el-collapse-item v-for="reward of summaryList" :key="reward.token" :name="reward.token">
                   <template #title>
                     <div class="flex items-center">
-                      <button class="w-16px h-16px min-w-16px min-h-16px rounded-full bg-white mr-15px"
+                      <button class="w-16px h-16px min-w-16px min-h-16px rounded-full
+                                     border-1 border-color62 bg-primaryBg light:bg-white mr-15px"
                               @click.stop="checkboxGroupChange(reward.token)">
                         <img v-if="checkRewardList.indexOf(reward.token)>=0" class="w-full h-full"
                              src="~@/assets/icon-selected-primary.svg" alt="">
@@ -34,7 +35,7 @@
                                       :token="{symbol: reward.tokenSymbol, address: reward.token}"
                                       :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
                         <template #amount>
-                          <div class="text-color1A flex flex-col whitespace-nowrap px-8px">
+                          <div class="text-white light:text-color1A flex flex-col whitespace-nowrap px-8px">
                             <span class="text-14px c-text-black ">
                               {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol }}
                             </span>
@@ -46,7 +47,7 @@
                       </ChainTokenIcon>
                     </div>
                   </template>
-                  <div class="py-8px px-10px bg-colorFB rounded-8px">
+                  <div class="py-8px px-10px bg-primaryBg light:bg-colorFB rounded-8px">
                     <div v-if="showingList.length > 0"
                          class="">
                       <RewardCuration :rewards="showingList"

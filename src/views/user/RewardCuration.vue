@@ -7,7 +7,7 @@
                         :token="{symbol: item.tokenSymbol, address: item.token}"
                         :chainName="chainName">
           <template #amount>
-          <span class="px-8px whitespace-nowrap flex items-center text-12px text-color66 font-500">
+          <span class="px-8px whitespace-nowrap flex items-center text-12px text-white light:text-color66 font-500">
             {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
           </span>
           </template>

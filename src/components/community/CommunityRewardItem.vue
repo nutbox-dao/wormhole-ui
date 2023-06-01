@@ -20,15 +20,15 @@
         </button>
       </div>
       <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
-                  flex justify-between items-center">
-        <div class="flex items-center">
+                  flex flex-col justify-between items-center">
+        <div class="w-full flex items-center">
           <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol]" alt="">
           <div class="flex flex-col items-start">
             <span class="font-bold mb-4px text-14px">{{ community.tokenSymbol }}</span>
             <span class="text-12px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
           </div>
         </div>
-        <button class="gradient-btn gradient-bg-color3 rounded-full px-15px h-30px text-4px">
+        <button class="gradient-btn gradient-bg-color3 w-full rounded-full px-15px h-30px text-4px mt-5px">
           {{$t('walletView.withdraw')}}
         </button>
       </div>
