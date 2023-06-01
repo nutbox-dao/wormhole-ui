@@ -124,6 +124,7 @@ export default {
   background-size: cover, auto 65%;
   background-position: center, calc(100% - 15px) top;
   background-blend-mode: color;
+  overflow:hidden;
   &::before {
     content: '';
     position: absolute;
