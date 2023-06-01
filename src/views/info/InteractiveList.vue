@@ -21,7 +21,7 @@
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div v-for="i of 10" :key="i"
-             class="flex">
+             class="flex ">
           <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
             <img v-show="isLike" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
             <img v-show="isRetweet" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
@@ -31,7 +31,7 @@
             <div class="w-full flex justify-between items-center">
               <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
                    src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="text-12px text-color7D">21:25</span>
+              <span class="text-12px text-color7D mr-6px relative c-badge">21:25</span>
             </div>
             <div class="w-full my-5px text-left text-14px leading-20px">
               大头点赞了你的策展 大头点赞了你的策展
@@ -60,12 +60,13 @@ export default {
       listFinished: false,
       isLike: false,
       isRetweet: true,
-      isReply: false
+      isReply: false,
+      postNotis: [1]
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('noti', ['postNotis'])
+    ...mapState('noti', [''])
   },
   methods: {
     async onRefresh() {
