@@ -4,31 +4,26 @@
     <div class="flex flex-col items-start gap-15px px-15px xl:px-1rem 2xl:px-2rem">
       <router-link to="/square" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon0.svg" alt="">
           <span>{{$t('slider.home')}}</span>
         </button>
       </router-link>
       <router-link to="/community" class="flex-1 w-full">
         <button class="w-full h-60px flex items-center">
-          <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon1.svg" alt="">
           <span>{{$t('slider.community')}}</span>
         </button>
       </router-link>
       <router-link to="/influence" class="flex-1 w-full">
         <button class="w-full h-60px flex items-center">
-          <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon3.svg" alt="">
           <span>{{$t('slider.influence')}}</span>
         </button>
       </router-link>
       <router-link to="/info" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon3.svg" alt="">
           <span>{{$t('slider.info')}}</span>
         </button>
       </router-link>
       <router-link to="/create-curation" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <img class="filter invert-100 light:invert-0 mr-10px" src="~@/assets/tabbar/tab-icon2.svg" alt="">
           <span>{{$t('slider.create')}}</span>
         </button>
       </router-link>

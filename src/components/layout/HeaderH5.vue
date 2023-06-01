@@ -11,7 +11,7 @@
               </div>
             </template>
             <div class="w-40px max-w-40px h-40px cursor-pointer">
-              <HalfCircleProgress class="c-progress-green w-full h-full relative"
+              <HalfCircleProgress class="c-progress-dashboard w-full h-full relative"
                                   type="dashboard"
                                   color="#68E796"
                                   :stroke-width="3"
@@ -28,7 +28,7 @@
               </div>
             </template>
             <div class="w-40px max-w-40px h-40px cursor-pointer">
-              <HalfCircleProgress class="c-progress-green w-full h-full"
+              <HalfCircleProgress class="c-progress-dashboard w-full h-full"
                                   type="dashboard"
                                   color="#7700E0"
                                   :stroke-width="3"
@@ -40,16 +40,14 @@
           </el-tooltip>
         </div>
       </div>
-      <div>
+      <div class="flex items-center">
         <button class="relative" @click="searchModalVisible=true">
-          <span class="w-24px h-24px border-2 border-colorBD rounded-full block"></span>
-          <span class="w-2px h-6px rounded-full bg-colorBD absolute bottom-0 right-0 transform -rotate-40"></span>
+          <img class="w-24px h-24px min-w-24px"
+               src="~@/assets/icon-search.svg" alt="">
         </button>
         <router-link to="/info" class="ml-10px">
-          <button>
-            <img class="w-26px h-26px filter light:brightness-50"
-                 src="~@/assets/icon-notification.svg" alt="">
-          </button>
+          <img class="w-24px h-24px min-w-24px"
+               src="~@/assets/icon-notification.svg" alt="">
         </router-link>
       </div>
       <img class="h-1.7rem black-filter absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
