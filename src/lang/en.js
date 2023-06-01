@@ -135,7 +135,7 @@ export default {
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',
-    withdraw: 'Withdraw'
+    withdraw: 'Withdraw',
   },
   token: {
     noNft: "You havn't got any NFTs.",
@@ -501,6 +501,8 @@ export default {
     day: 'DAY',
     hour: 'HOURS',
     minute: 'MIN',
-    second: 'S'
+    second: 'S',
+    all: 'All',
+    fold: 'Fold'
   }
 }

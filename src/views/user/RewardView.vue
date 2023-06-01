@@ -89,7 +89,7 @@
           <div class="text-center mt-10px">
             <button class="text-color8B flex items-center justify-center mx-auto text-14px"
                     @click="historyModalVisible=true">
-              <span>{{$t('walletView.rewardsReceived')}}</span>
+              <span>{{$t('walletView.historyRecord')}}</span>
               <img class="w-12px transform -rotate-90 ml-10px"
                    src="~@/assets/icon-select-arrow.svg" alt="">
             </button>
