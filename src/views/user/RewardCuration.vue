@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-for="(item, index) of list" :key="index"
+    <div v-for="(item, index) of rewards" :key="index"
          class="flex justify-between items-center py-8px">
       <div class="flex-1 flex justify-between items-center">
         <ChainTokenIcon height="30px" width="30px"
@@ -20,10 +20,10 @@
              src="~@/assets/icon-select-arrow.svg" alt="">
       </button>
     </div>
-    <div class="text-center" v-if="rewards.length>2 && list.length<rewards.length">
+    <div class="text-center">
       <button class="text-color8B flex items-center justify-center mx-auto"
-              @click="list = rewards">
-        <span>{{$t('common.all')}}</span>
+              @click="$emit('fold')">
+        <span>{{$t('common.fold')}}</span>
         <img class="w-12px transform -rotate-90 ml-10px"
              src="~@/assets/icon-select-arrow.svg" alt="">
       </button>
@@ -54,6 +54,10 @@ export default {
     chainName: {
       type: String,
       default: ''
+    },
+    token: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -61,7 +65,6 @@ export default {
       refreshing: false,
       loading: false,
       finished: false,
-      list: []
     }
   },
   mounted() {
@@ -71,12 +74,8 @@ export default {
     formatAmount,
     parseTimestamp,
     onLoad() {
-      this.list =this.rewards.slice(0,2)
     },
     onRefresh() {
-      this.finished = false;
-      this.loading = true;
-      this.onLoad();
     },
     gotoDetail(curation) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);

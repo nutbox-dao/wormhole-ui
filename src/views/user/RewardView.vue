@@ -21,7 +21,7 @@
                       2md:flex-1">
             <div v-if="summaryList.length > 0"
                  class="text-left flex flex-col font-bold text-12px 2xl:text-14px">
-              <el-collapse v-model="collapseNames" class="c-collapse">
+              <el-collapse v-model="collapseNames" class="c-collapse" accordion>
                 <el-collapse-item v-for="reward of summaryList" :key="reward.token" :name="reward.token">
                   <template #title>
                     <div class="flex items-center">
@@ -50,8 +50,10 @@
                   <div class="py-8px px-10px bg-primaryBg light:bg-colorFB rounded-8px">
                     <div v-if="showingList.length > 0"
                          class="">
-                      <RewardCuration :rewards="showingList"
-                                      :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
+                      <RewardCuration :rewards="showingList.filter(r => r.token === reward.token)"
+                                      :token="reward.token"
+                                      :chain-name="chainNames[chainTab]"
+                                      @fold="collapseNames = []"/>
                     </div>
                     <div v-else-if="loading[chainTab]" class="py-15px">
                       <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
@@ -327,7 +329,6 @@ export default {
       }
     },
     checkboxGroupChange(token) {
-      console.log(Object.values(this.checkRewardList))
       const index = this.checkRewardList.indexOf(token)
       if(index>=0) {
         this.checkRewardList.splice(index, 1)
