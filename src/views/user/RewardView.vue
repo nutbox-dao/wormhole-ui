@@ -17,7 +17,7 @@
       </div>
       <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
         <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px">
-          <div class="bg-colorEF reward-box rounded-12px overflow-hidden p-15px
+          <div class="bg-color62/10 light:bg-colorEF reward-box rounded-12px overflow-hidden p-15px
                       2md:flex-1">
             <div v-if="summaryList.length > 0"
                  class="text-left flex flex-col font-bold text-12px 2xl:text-14px">

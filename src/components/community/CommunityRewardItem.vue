@@ -1,9 +1,9 @@
 <template>
   <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px
-              2md:flex 2md:gap-15px">
+              2md:flex 2md:gap-15px text-14px">
     <div class="flex-1 flex flex-col justify-between">
       <div class="flex items-center">
-        <img class="bg-color62 rounded-12px w-34px h-34px"
+        <img class="bg-color62 rounded-full w-34px h-34px"
              :src="community.communityIcon" alt="">
         <span class="ml-10px c-text-black">{{ community.communityName }}</span>
       </div>
@@ -20,21 +20,21 @@
         </button>
       </div>
       <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
-                        flex justify-between items-center">
+                  flex justify-between items-center">
         <div class="flex items-center">
           <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol]" alt="">
           <div class="flex flex-col items-start">
-            <span class="font-bold mb-4px">{{ community.tokenSymbol }}</span>
-            <span class="text-14px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
+            <span class="font-bold mb-4px text-14px">{{ community.tokenSymbol }}</span>
+            <span class="text-12px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
           </div>
         </div>
-        <button class="gradient-btn gradient-bg-color3 rounded-full px-25px h-34px">
+        <button class="gradient-btn gradient-bg-color3 rounded-full px-15px h-30px text-4px">
           {{$t('walletView.withdraw')}}
         </button>
       </div>
     </div>
     <div class="mt-15px 2md:mt-0 flex-1 flex flex-col overflow-hidden"
-         :class="rewards.length>2?' 2md:h-212px':''">
+         :class="list.length>2?'2md:h-212px 2md:max-h-212px':''">
       <div class="flex justify-between items-center mb-8px">
         <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
         <button class="flex items-center text-14px">
@@ -46,26 +46,39 @@
            class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
         <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
       </div>
-      <div v-else class="flex-1 overflow-auto no-scroll-bar">
+      <div v-else
+           class="flex-1 no-scroll-bar 2md:overflow-auto reward-list"
+           :class="isExpand?'expand':''">
         <div v-for="(item, index) of list" :key="index"
              class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
-          <ChainTokenIcon height="30px" width="30px"
-                          :token="{symbol: item.tokenSymbol, address: item.token}"
-                          :chainName="EVM_CHAINS_ID[community.chainId]">
-            <template #amount>
+          <div class="flex-1 flex justify-between items-center">
+            <ChainTokenIcon height="30px" width="30px"
+                            :token="{symbol: item.tokenSymbol, address: item.token}"
+                            :chainName="EVM_CHAINS_ID[community.chainId]">
+              <template #amount>
                 <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
                   {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
                 </span>
-            </template>
-          </ChainTokenIcon>
-          <div class="flex flex-col items-end">
-            <button class="border-1 border-color62 rounded-full h-24px 2xl:h-1.4rem w-min whitespace-nowrap px-12px mb-8px"
-                    @click="gotoDetail(item)">
-              {{ $t('common.viewMore') }}
-            </button>
-            <span class="text-12px text-color8B light:text-color7D">{{ parseTimestamp(item.createAt) }}</span>
+              </template>
+            </ChainTokenIcon>
+            <span class="text-color8B text-12px font-500">
+              {{ parseTimestamp(item.createAt) }}
+            </span>
           </div>
+          <button class="flex items-center"
+                  @click="gotoDetail(item)">
+            <img class="w-12px transform -rotate-90 ml-10px"
+                 src="~@/assets/icon-select-arrow.svg" alt="">
+          </button>
         </div>
+      </div>
+      <div class="2md:hidden pt-15px">
+        <button class="text-color8B flex items-center justify-center mx-auto" @click="isExpand=!isExpand">
+<!--          <span>{{$t('common.all')}}</span>-->
+          <img class="w-12px transform spin-slow"
+               :class="isExpand?'rotate-180':'rotate-0'"
+               src="~@/assets/icon-select-arrow.svg" alt="">
+        </button>
       </div>
     </div>
   </div>
@@ -104,7 +117,8 @@ export default {
       authorList: [],
       EVM_CHAINS_ID,
       EVM_CHAINS,
-      price: {}
+      price: {},
+      isExpand: false
     }
   },
   computed: {
@@ -172,6 +186,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@media (max-width: 960px) {
 
+  .reward-list {
+    transition: max-height ease-in-out 0.5s;
+    max-height: 183px;
+    overflow: hidden;
+    &.expand {
+      max-height: 10000px;
+    }
+  }
+}
 </style>
