@@ -7,7 +7,7 @@
         </div>
       </template>
       <div :class="progressClass" class="cursor-pointer">
-        <HalfCircleProgress class="c-progress-green w-full h-full relative"
+        <HalfCircleProgress class="c-progress-dashboard w-full h-full relative"
                             type="dashboard"
                             color="#68E796"
                             :stroke-width="3"
@@ -27,7 +27,7 @@
         </div>
       </template>
       <div :class="progressClass" class="cursor-pointer">
-        <HalfCircleProgress class="c-progress-green w-full h-full"
+        <HalfCircleProgress class="c-progress-dashboard w-full h-full"
                             type="dashboard"
                             color="#7700E0"
                             :stroke-width="3"

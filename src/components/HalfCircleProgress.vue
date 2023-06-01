@@ -6,14 +6,12 @@
               class="w-full h-2px rounded-full block
                      absolute left-0 top-1/2 transform -translate-y-1/2"
               :class="`rotate-${30*i}`">
-          <span class="w-4px h-full rounded-full block ml-4px"
-                :style="{background: trackColor}"></span>
+          <span class="w-4px h-full rounded-full block ml-4px bg-color99 light:bg-color1A"></span>
         </span>
       </div>
       <svg viewBox="0 0 100 100">
         <path class="el-progress-circle__track"
               :d="trackPath"
-              :stroke="trackColor"
               fill="none"
               :stroke-width="relativeStrokeWidth"
               :style="trailPathStyle"></path>
@@ -45,8 +43,7 @@ const props = defineProps({
   type: {type: String, default: 'dashboard'},
   width: {type: Number, default: 50},
   percentage:{type: Number, default: 0},
-  color: {type: String, default: '#6246EA'},
-  trackColor: {type: String, default: '#1A1A1A'}
+  color: {type: String, default: '#6246EA'}
 })
 const relativeStrokeWidth = computed(() => (props.strokeWidth / props.width * 100).toFixed(1));
 const radius = computed(() => {

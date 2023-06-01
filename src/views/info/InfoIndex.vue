@@ -8,7 +8,7 @@
                 class="absolute left-15px 2md:hidden">
           <i class="icon-back w-20px h-20px"></i>
         </button>
-        <button class="absolute right-15px filter light:brightness-50" @click="readAll">
+        <button class="absolute right-15px" @click="readAll">
           <img class="w-22px" src="~@/assets/icon-msg-read-white.svg" alt="">
         </button>
         <button class="h-full px-10px"

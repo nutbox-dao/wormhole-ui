@@ -22,8 +22,8 @@
         </div>
       </template>
       <button @click.stop @mouseover="getTip" class="flex items-center">
-        <i class="w-18px h-18px btn-icon-tip"></i>
-        <span class="px-8px font-700 text-12px text-color7D">{{ price }}</span>
+        <img class="w-14px h-14px min-w-14px" src="~@/assets/icon-coin-primary.svg" alt="">
+        <span class="px-8px font-700 text-12px text-color62">{{ price }}</span>
       </button>
     </el-tooltip>
   </div>

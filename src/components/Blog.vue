@@ -64,7 +64,7 @@
             </div>
           </div>
           <slot name="blog-reward">
-            <BlogReward :post="post"></BlogReward>
+            <BlogReward :post="post" class="ml-10px"></BlogReward>
           </slot>
         </div>
       </div>

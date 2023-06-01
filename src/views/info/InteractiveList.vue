@@ -18,18 +18,27 @@
                 :finished="listFinished"
                 :immediate-check="false"
                 :loading-text="$t('common.loading')"
-                :finished-text="listData.length!==0?$t('common.noMore'):''"
+                :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="i of postNotis" :key="i"
-             class="flex items-center">
-          <img class="w-40px h-40px min-w-40px mr-10px"
-               src="~@/assets/icon-quote-circle-active.svg" alt="">
-          <div class="flex-1 flex flex-col items-start py-20px border-b-1 border-color8B/30 light:border-color7F">
-            <div class="w-full mb-4px flex items-end justify-between">
-              <span class="c-text-black text-14px">互动消息</span>
+        <div v-for="i of 10" :key="i"
+             class="flex">
+          <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
+            <img v-show="isLike" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
+            <img v-show="isRetweet" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
+            <img v-show="isReply" class="w-20px h-20px min-w-20px" src="~@/assets/info-reply.svg" alt="">
+          </div>
+          <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
+            <div class="w-full flex justify-between items-center">
+              <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
+                   src="~@/assets/icon-default-avatar.svg" alt="">
               <span class="text-12px text-color7D">21:25</span>
             </div>
-            <div class="text-12px text-color7D">大头等13人点赞了你的策展</div>
+            <div class="w-full my-5px text-left text-14px leading-20px">
+              大头点赞了你的策展 大头点赞了你的策展
+            </div>
+            <div class="text-12px leading-18px text-color7D text-left break-word">
+              https://alpha.wormhole3.io/post-detail/1653006294544969729
+            </div>
           </div>
         </div>
       </van-list>
@@ -49,7 +58,9 @@ export default {
       refreshing: false,
       listLoading: false,
       listFinished: false,
-      listData: []
+      isLike: false,
+      isRetweet: true,
+      isReply: false
     }
   },
   computed: {

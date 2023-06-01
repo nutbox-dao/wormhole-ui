@@ -397,3 +397,9 @@ html.light {
     transform: translate(-50%, -50%);
   }
 }
+.c-progress-dashboard .el-progress-circle__track {
+  stroke: #999999;
+}
+.light .c-progress-dashboard .el-progress-circle__track {
+  stroke: #1A1A1A;
+}
