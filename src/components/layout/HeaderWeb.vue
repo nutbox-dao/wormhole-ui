@@ -35,13 +35,13 @@
                 <img class="w-40px h-40px rounded-full mr-10px"
                      :src="item.profileImg" alt=""
                      @error="replaceEmptyImg">
-                <div class="text-left text-color8B light:text-color7D">
+                <div class="text-left text-white light:text-color7D">
                   <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
                   <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
                 </div>
               </div>
               <div class="text-center my-8px">
-                <button v-if="!userListIsFinished" class="text-color62"
+                <button v-if="!userListIsFinished" class="text-color66"
                         @click.stop="viewMoreUser">{{$t('common.viewMore')}}</button>
               </div>
               <div class="c-text-black text-left text-color8B light:text-color7D mt-20px mb-10px text-16px">{{ $t('community.community') }}</div>
@@ -58,22 +58,23 @@
                 </div>
               </div>
               <div class="text-center my-8px">
-                <button v-if="!communityListIsFinished" class="text-color62"
+                <button v-if="!communityListIsFinished" class="text-color66"
                         @click.stop="viewMoreCommunity">{{$t('common.viewMore')}}</button>
               </div>
               <!--                      tag-->
               <div class="c-text-black text-left text-color8B light:text-color7D mt-20px mb-10px text-16px">{{ $t('topicsView.topics') }}</div>
               <div class="flex flex-wrap items-center gap-5px">
-                <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
-                                    whitespace-nowrap cursor-pointer light:text-color46 w-max flex"
-                     :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
+                <button class="border-1 border-color62 w-max text-12px
+                               h-24px px-6px rounded-full whitespace-nowrap"
+                     :class="selectedTag === tag?'bg-color62 light:bg-color62 text-white':
+                     'bg-blockBg text-white light:text-color62 light:bg-colorF7'"
                      v-for="tag of seachTagList.slice(0, showSearchTagNum)" :key="tag"
                      @click.stop="$emit('setSelectTag', selectedTag);showSearchList=false">
                   #{{ tag.replace('#', '') }}
-                </div>
+                </button>
               </div>
               <div class="text-center my-8px">
-                <button v-if="!tagListIsFinished" class="text-color62"
+                <button v-if="!tagListIsFinished" class="text-color66"
                         @click.stop="viewMoreTag">{{$t('common.viewMore')}}</button>
               </div>
             </div>

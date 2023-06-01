@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="text-center my-8px">
-          <button v-if="!userListIsFinished" class="text-color62"
+          <button v-if="!userListIsFinished" class="text-color66"
                   @click="viewMoreUser">{{$t('common.viewMore')}}</button>
         </div>
       </template>
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="text-center my-8px">
-          <button v-if="!communityListIsFinished" class="text-color62"
+          <button v-if="!communityListIsFinished" class="text-color66"
                   @click="viewMoreCommunity">{{$t('common.viewMore')}}</button>
         </div>
       </template>
@@ -76,17 +76,18 @@
       <!--                      tag-->
       <template v-if="seachTagList.length>0">
         <div class="c-text-black text-left text-color8B light:text-color7D mt-15px mb-10px text-16px">{{ $t('topicsView.topics') }}</div>
-        <div class="flex flex-wrap items-center gap-5px">
-          <div class="border-1 border-color62 light:border-transparent w-max flex
-                      py-3px px-6px rounded-6px mt-10px whitespace-nowrap cursor-pointer"
-               :class="selectedTag === tag?'bg-color62 light:bg-color62 text-white':'bg-transparent light:bg-colorF7'"
+        <div class="flex flex-wrap items-center gap-8px">
+          <button class="border-1 border-color62 w-max h-24px text-12px
+                         px-6px rounded-full whitespace-nowrap cursor-pointer"
+               :class="selectedTag === tag?'bg-color62 light:bg-color62 text-white':'' +
+                'bg-blockBg text-white light:text-color62 light:bg-colorF7'"
                v-for="tag of seachTagList.slice(0, showSearchTagNum)" :key="tag"
                @click.stop="setSelectTag(tag)">
             #{{ tag.replace('#', '') }}
-          </div>
+          </button>
         </div>
         <div class="text-center my-8px">
-          <button v-if="!tagListIsFinished" class="text-color62"
+          <button v-if="!tagListIsFinished" class="text-color66"
                   @click="viewMoreTag">{{$t('common.viewMore')}}</button>
         </div>
       </template>
