@@ -11,8 +11,9 @@
       </div>
       <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem p-1rem">
         <div class="text-left text-14px leading-24px break-word">
+          <span class="text-color62 ml-4px">#peanut</span>
+          <span class="text-color62 ml-4px">#iweb3</span><br>
           <span class="mb-4px break-word">{{$t('postView.postExample')}}</span>
-          <span class="text-color62 ml-4px">#iweb3</span>
         </div>
       </div>
       <SelectCommunity :community-id="form.communityId"
@@ -74,6 +75,7 @@ import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import {stringLength} from "@/utils/helper";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import SelectCommunity from "@/components/community/SelectCommunity.vue";
+import { notify } from "@/utils/notify";
 
 export default {
   name: "CreatePost",
@@ -84,7 +86,8 @@ export default {
         communityId: '',
         tag: '',
         content: '',
-        contentEl: ''
+        contentEl: '',
+        tweetLength: 0
       },
       contentRange: null,
     }
@@ -132,11 +135,18 @@ export default {
       return content
     },
     gotoPost() {
-      window.open(
-          "https://twitter.com/intent/tweet?text=" +
-          TWITTER_POST_TAG,
-          "__blank"
-      );
+      if (this.form.tag && this.form.tag.length > 2) {
+        let content = this.formatElToTextContent(this.$refs.contentRef)
+        content = ` #${this.form.tag}\n${content}`
+        content = encodeURIComponent(content)
+        window.open(
+            "https://twitter.com/intent/tweet?text=" +
+            TWITTER_POST_TAG + content ,
+            "__blank"
+        );
+      }else {
+        notify({message: this.$t('tips.selectCommunityTag')})
+      }
     },
   }
 }

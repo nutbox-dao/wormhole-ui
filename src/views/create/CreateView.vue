@@ -26,6 +26,9 @@
 import CreateRecommend from "@/views/curations/CreateRecommend.vue";
 import CreatePost from "@/components/CreatePost.vue";
 import CreateCuration from "@/views/curations/CreateCuration.vue";
+import { mapState, mapGetters } from 'vuex'
+import { getCommunities } from '@/api/api'
+
 export default {
   name: "CreateView",
   components: {CreateRecommend, CreatePost, CreateCuration},
@@ -33,6 +36,10 @@ export default {
     return {
       tabIndex: 0
     }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('community', ['communities'])
   },
   mounted () {
     if(history.state.author && history.state.type === 'tweet') {
@@ -42,6 +49,16 @@ export default {
     const { communityId, promoteUrl } = this.$route.query;
     if (communityId && promoteUrl) {
       this.tabIndex = 1;
+    }
+
+    if (!this.communities || this.communities.length === 0) {
+      getCommunities(this.getAccountInfo?.twitterId).then(coms => {
+        if (coms && coms.length > 0) {
+          this.$store.commit('community/saveCommunities', coms);
+        }
+      }).catch(e => {
+        console.log('get all communities fail', e);
+      })
     }
   },
 }
