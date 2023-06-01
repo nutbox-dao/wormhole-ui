@@ -274,6 +274,7 @@ export default {
       getCommunityById(this.getAccountInfo?.twitterId, communityId).then(async res => {
 
         if (res && res.communityId) {
+          this.$store.commit('community/saveShowingCommunity', res)
           const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
           res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
