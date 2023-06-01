@@ -28,9 +28,23 @@
             <span class="text-12px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
           </div>
         </div>
-        <button class="gradient-btn gradient-bg-color3 w-full rounded-full px-15px h-30px text-4px mt-5px">
-          {{$t('walletView.withdraw')}}
+        <button v-if="(chainId !== community.chainId)"
+                class="ny-gradient-btn gradient-btn-disabled-grey
+                        flex items-center justify-center min-w-10rem px-15px mt-5px text-4px
+                        rounded-full h-40px text-white font-bold" @click="connect">
+          {{ $t('common.connectMetamask') }}
+          <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
+        <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-4px
+                  h-40px px-15px rounded-full text-white"
+                :disabled="claiming || accountMismatch"
+                @click="claimReward">
+          {{ $t('curation.claimReward') }}
+          <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+        </button>
+        <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
+          {{ $t('walletView.accountMismatch') }}
+        </div>
       </div>
     </div>
     <div class="mt-15px 2md:mt-0 flex-1 flex flex-col overflow-hidden"
@@ -97,10 +111,12 @@ import {TokenIcon} from "@/config";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {useWindowSize} from "@vant/use";
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
 import { getPriceFromOracle } from '@/utils/asset'
 import RewardHistoryList from "@/components/RewardHistoryList";
+import {accountChanged, getAccounts} from "@/utils/web3/account";
+import { setupNetwork } from '@/utils/web3/web3'
 
 export default {
   name: "CommunityRewardItem",
@@ -127,11 +143,15 @@ export default {
       EVM_CHAINS,
       price: {},
       isExpand: false,
-      historyModalVisible: false
+      historyModalVisible: false,
+      connecting: false,
+      claiming: false
     }
   },
   computed: {
     ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
+    ...mapState('web3', ['chainId', 'account']),
+    ...mapGetters(['getAccountInfo']),
     community() {
       if (this.rewards && this.rewards.length > 0) {
         return this.rewards[0]
@@ -175,6 +195,9 @@ export default {
       }else {
         return this.authorList
       }
+    },
+    accountMismatch() {
+      return this.getAccountInfo?.ethAddress !== this.account
     }
   },
   mounted() {
@@ -183,6 +206,9 @@ export default {
     ]).then(res => {
       this.price = res[this.community.token];
     })
+    accountChanged().catch()
+      getAccounts(true).then(wallet => {
+    }).catch();
     this.rewardList = (this.width>=961? this.rewards : this.rewards.slice(0,3))
     this.authorList = (this.width>=961? this.authorRewards : this.authorRewards.slice(0,3))
   },
@@ -190,7 +216,26 @@ export default {
     parseTimestamp,
     formatAmount,
     formatPrice,
-    gotoDetail() {}
+    gotoDetail() {},
+    async connect() {
+      try {
+        this.connecting = true
+        const chainName = EVM_CHAINS_ID[this.community.chainId]
+        const connected = await setupNetwork(chainName)
+        if (connected) {
+
+        }else {
+
+        }
+      } catch (e) {
+        console.log('connect wallet fail:', e);
+      } finally{
+        this.connecting = false
+      }
+    },
+    async claimReward() {
+      
+    }
   }
 }
 </script>

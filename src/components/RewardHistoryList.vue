@@ -81,6 +81,13 @@ export default {
       this.refreshing = false;
       this.loading = false;
       this.refresh()
+    },
+    isAuthor() {
+      this.list = []
+      this.finished = false;
+      this.refreshing = false;
+      this.loading = false;
+      this.refresh()
     }
   },
   data() {
@@ -128,17 +135,21 @@ export default {
           return
         }
         this.refreshing = true
+        let list = []
         if (this.type === 'promotion') {
-          const list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId);
+          list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId);
           this.list = list;
         }else {
           if (this.isAuthor) {
-            const list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
+            list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
             this.list = list;
           }else {
-            const list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
+            list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
             this.list = list;
           }
+        }
+        if (list.length === 0) {
+          this.finished = true;
         }
       } catch (e) {
         console.log(55, e);
