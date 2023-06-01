@@ -22,7 +22,7 @@
           <div class="c-text-black text-24px leading mb-8px light:text-color66">2022.3.23</div>
           <div class="text-12px text-color99">{{$t('community.nextHalvingTime')}}</div>
         </div>
-        <div class="col-span-2 px-15px">
+        <div class="col-span-2 sm:col-span-4 2md:col-span-2 xl:col-span-4 px-15px">
           <div class="text-center text-20px text-color62 font-bold mb-6px">50%</div>
           <el-progress class="c-progress-gradient flex-1 w-full"
                        :text-inside="false"
