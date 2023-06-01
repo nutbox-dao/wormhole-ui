@@ -31,14 +31,14 @@
           </div>
         </div>
         <button v-if="(chainId !== community.chainId)"
-                class="ny-gradient-btn gradient-btn-disabled-grey
+                class="ny-gradient-btn gradient-btn-disabled-grey w-full
                         flex items-center justify-center min-w-10rem px-15px mt-5px text-4px
-                        rounded-full h-40px text-white font-bold" @click="connect">
+                        rounded-full h-32px text-white font-bold" @click="connect">
           {{ $t('common.connectMetamask') }}
           <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
         <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-4px
-                  h-40px px-15px rounded-full text-white"
+                  h-32px px-15px rounded-full text-white w-full font-bold"
                 :disabled="claiming || accountMismatch || list.length === 0"
                 @click="claimReward">
           {{ $t('curation.claimReward') }}
@@ -120,7 +120,7 @@ import RewardHistoryList from "@/components/RewardHistoryList";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { notify } from "@/utils/notify";
-import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas, 
+import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
 
 export default {
