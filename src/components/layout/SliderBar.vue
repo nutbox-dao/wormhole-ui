@@ -19,7 +19,7 @@
       </router-link>
       <router-link to="/info" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <span class="relative c-badge">{{$t('slider.info')}}</span>
+          <span class="relative" :class="newInfo?'c-badge':''">{{$t('slider.info')}}</span>
         </button>
       </router-link>
       <router-link to="/create-curation" class="flex-1 w-full">
@@ -93,8 +93,14 @@ export default {
     return {
       searchModalVisible: false,
       MAX_RC,
-      MAX_VP
+      MAX_VP,
+      newInfo: true
     }
+  },
+  mounted() {
+    this.$bus.on('readAll', () => {
+      this.newInfo = false
+    })
   },
   methods: {
     replaceEmptyImg(e) {
