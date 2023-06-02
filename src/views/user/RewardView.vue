@@ -128,14 +128,15 @@ import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
 import { getCurationRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
-import { EVM_CHAINS } from '@/config';
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
 import { checkCurationRewards, checkCommunityRewards, getClaimParas, claimRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed,
-  getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
+  getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed, 
+  setCommunityAuthorRewardClaimed } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";
@@ -290,7 +291,7 @@ export default {
         if (currentList && currentList.length > 0 && !force) {
           return;
         }
-        const [rewards, authorRewards] =
+        let [rewards, authorRewards] =
           await Promise.all([
             getCommunityPendingRewards(this.getAccountInfo.twitterId),
             getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
@@ -305,7 +306,27 @@ export default {
           }
           allRewardsByChain[r.chainId].push(r)
         }
-        checkCommunityRewards('BNB Smart Chain', rewards[0].communityId, this.getAccountInfo.twitterId, rewards.map(r => r.curationId))
+        let results = await Promise.all(Object.keys(allRewardsByChain).map(chainId => 
+                        checkCommunityRewards(EVM_CHAINS_ID[chainId], 
+                        this.getAccountInfo?.twitterId, 
+                        allRewardsByChain[chainId])))
+        results = results.reduce((r, t) => ({...r, ...t}), {})
+        let allReadyClaimedReward = {};
+        Object.keys(results).filter(key => results[key]).forEach(key => {
+          allReadyClaimedReward[key] = results[key]
+        })
+        const claimedIds = Object.keys(allReadyClaimedReward)
+        // set Claimed
+        if (claimedIds.length > 0) {
+          let claimedCuration = rewards.filter(r => claimedIds.find(c => c === r.curationId));
+          let claimedAuthorCuration = authorRewards.filter(r => claimedIds.find(c => c === r.curationId));
+          await Promise.all([setCommunityRewardClaimed(this.getAccountInfo?.twitterId, claimedCuration.map(r => r.curationId)),
+          setCommunityAuthorRewardClaimed(this.getAccountInfo?.twitterId, claimedAuthorCuration.map(r => r.curationId))]).catch(e => {
+            console.log('set curation distribute fail', e)
+          })
+          reward = rewards.filter(r => claimedIds.find(c => c !== r.curationId));
+          authorRewards = authorRewards.filter(r => claimedIds.find(c => c !== r.curationId));
+        }
         if (rewards && rewards.length > 0) {
           this.$store.commit('curation/saveCommunityRewards', rewards)
         }

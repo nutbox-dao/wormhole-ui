@@ -323,16 +323,23 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
   })
 }
 
-export const checkCommunityRewards = async (chainName, communityId, twitterId, ids) => {
+export const checkCommunityRewards = async (chainName, twitterId, rewards) => {
   try {
-    const curationContract = EVM_CHAINS[chainName].communityCuration;
-    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
-    let contract = new ethers.Contract(curationContract, abi, provider); 
-    ids = ids.map(id => ethers.BigNumber.from('0x' + communityId + id));
-    let results = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
-    contract = new ethers.Contract(results.communityAddr, abi, provider)
-    results = await contract.checkClaim(twitterId, ids);
-    return results;
+    const contract = EVM_CHAINS[chainName].communityCuration
+    const multiConfig = EVM_CHAINS[chainName].Multi_Config
+    let call = rewards.map(re => ({
+      target: contract,
+      call: [
+        'alreadyClaimed(uint256,uint256)(bool)',
+        twitterId,
+        ethers.BigNumber.from('0x' + re.communityId + re.curationId)
+      ],
+      returns: [
+        [re.curationId]
+      ]
+    }))
+    const result = await aggregate(call, multiConfig)
+    return result.results.transformed
   }catch(e) {
     console.log('check community curation rewards fail:', e);
     throw errCode.BLOCK_CHAIN_ERR
@@ -389,12 +396,52 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
 export const claimCommunityRewards = async (chainName, twitterId, ethAddress, communityId, ids, amount, sig) => {
   try {
     const curationContract = EVM_CHAINS[chainName].communityCuration;
-    const provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
     let contract = new ethers.Contract(curationContract, abi, provider); 
-    ids = ids.map(id => ethers.BigNumber.from('0x' + communityId + id));
-    
+    const community = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
+
+    const claimAbi = [{
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "twitterId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "curationIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sign",
+          "type": "bytes"
+        }
+      ],
+      "name": "claimPrize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }]
+    const metamask = await getEthWeb()
+    provider = new ethers.providers.Web3Provider(metamask)
+    contract = new ethers.Contract(community.communityAddr, claimAbi, provider);
+    contract = contract.connect(provider.getSigner());
+    const result = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig);
+    return result;
   } catch (e) {
-    
+    console.log('claim rewards fail:', e);
+    throw errCode.TRANSACTION_FAIL
   }
 }
 

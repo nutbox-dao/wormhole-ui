@@ -122,6 +122,7 @@ import { setupNetwork } from '@/utils/web3/web3'
 import { notify } from "@/utils/notify";
 import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
+import { claimCommunityRewards } from '@/utils/curation'
 
 export default {
   name: "CommunityRewardItem",
@@ -157,6 +158,7 @@ export default {
     ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
     ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
+    ...mapState('curation', ['rewardLists', 'communityRewards', 'communityAuthorRewards']),
     community() {
       if (this.rewards && this.rewards.length > 0) {
         return this.rewards[0]
@@ -234,14 +236,20 @@ export default {
             const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
-            const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
-            const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-            await setCurationIsFeed(twitterId, ids);
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists);
-            this.getRecords();
+            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const hash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
+            await setCommunityRewardClaimed(twitterId, ids);
+            const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
+            this.$store.commit('curation/saveCommunityRewards', list)
         }else { // author
-
+          const chainName = EVM_CHAINS_ID[this.community.chainId]
+            this.claiming = true
+            const ids = this.list.map(c => c.curationId)
+            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const hash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
+            await setCommunityAuthorRewardClaimed(twitterId, ids);
+            const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
+            this.$store.commit('curation/saveCommunityAuthorRewards', list)
         }
       } catch (e) {
         if (e === 'log out') {
