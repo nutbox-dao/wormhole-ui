@@ -68,6 +68,7 @@ export default {
       try{
         await readAll(this.getAccountInfo.twitterId);
         this.$store.commit('noti/readAll')
+        this.$bus.emit('readAll')
       } catch (e) {
 
       } finally {

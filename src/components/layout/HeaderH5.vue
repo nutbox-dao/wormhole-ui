@@ -91,7 +91,12 @@ export default {
       MAX_RC,
       MAX_VP
     }
-  }
+  },
+  mounted() {
+    this.$bus.on('readAll', () => {
+      
+    })
+  },
 }
 </script>
 

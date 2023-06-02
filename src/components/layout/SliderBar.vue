@@ -97,8 +97,10 @@ export default {
     return {
       searchModalVisible: false,
       MAX_RC,
-      MAX_VP
+      MAX_VP,
     }
+  },
+  mounted() {
   },
   methods: {
     replaceEmptyImg(e) {
