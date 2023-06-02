@@ -20,7 +20,7 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="i of 10" :key="i"
+        <div v-for="(noti, i) of postNotis" :key="i"
              class="flex ">
           <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
             <img v-show="isLike" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
@@ -60,13 +60,12 @@ export default {
       listFinished: false,
       isLike: false,
       isRetweet: true,
-      isReply: false,
-      postNotis: [1]
+      isReply: false
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('noti', [''])
+    ...mapState('noti', ['postNotis'])
   },
   methods: {
     async onRefresh() {
@@ -105,9 +104,9 @@ export default {
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, false);
         if (noti && noti.length >= 0) {
           this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
-          if (noti.length === 0) {
-            this.finished = true;
-          }
+        }
+        if (noti.length === 0) {
+          this.finished = true;
         }
       } catch (e) {
 

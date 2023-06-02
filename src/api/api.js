@@ -78,8 +78,8 @@ export const getSysNotiByUserId = async (twitterId, cursorId, isNew) =>
 export const hasNewNoti = async (twitterId) =>
     post(BACKEND_API_URL + '/noti/hasNewNoti', {twitterId})
 
-export const setNotiReaded = async (ids) =>
-    post(BACKEND_API_URL + '/noti/setNotiReaded', {ids})
+export const setNotiReaded = async (twitterId, ids) =>
+    post(BACKEND_API_URL + '/noti/setNotiReaded', {twitterId, ids})
 
 export const readAll = async (twitterId) =>
     post(BACKEND_API_URL + '/noti/readAll', {twitterId})

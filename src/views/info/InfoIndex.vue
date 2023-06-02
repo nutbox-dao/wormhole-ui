@@ -14,21 +14,21 @@
         <button class="h-full px-10px"
                 :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=0">
-          <span class="relative" :class="isNew?'c-badge':''">
+          <span class="relative" :class="hasActivityNoti?'c-badge':''">
             {{$t('info.interactive')}}
           </span>
         </button>
         <button class="h-full px-10px"
                 :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=1">
-          <span class="relative" :class="isNew?'c-badge':''">
+          <span class="relative" :class="hasTipsNoti?'c-badge':''">
             {{$t('info.reward')}}
           </span>
         </button>
         <button class="h-full px-10px"
                 :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=2">
-          <span class="relative" :class="isNew?'c-badge':''">
+          <span class="relative" :class="hasSysNoti?'c-badge':''">
             {{$t('info.system')}}
           </span>
         </button>
@@ -47,26 +47,41 @@
 <script>
 import InteractiveList from "@/views/info/InteractiveList";
 import Transaction from "@/views/info/Transaction.vue";
-import { readAll, hasNewNoti } from "@/api/api";
+import { readAll, hasNewNoti, getPostNotiByUserId } from "@/api/api";
 import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "InfoIndex",
   components: {InteractiveList, Transaction},
-  computed: {
-    ...mapGetters(['getAccountInfo']),
-    ...mapState('noti', ['newNotis', 'postNotis', 'tipNotis', 'sysNotis'])
-  },
   data() {
     return {
       tabIndex: 0,
       isNew: true
     }
   },
+  computed: {
+    ...mapGetters(['getAccountInfo']),
+    ...mapState('noti', ['newNotis', 'postNotis', 'tipNotis', 'sysNotis']),
+    hasActivityNoti() {
+      return this.newNotis && !!this.newNotis.find(n => {
+        return n.type === 1 || n.type === 2 || n.type === 3 || n.type === 4 || n.type === 5
+      })
+    },
+    hasTipsNoti() {
+      return this.newNotis && !!this.newNotis.find(n => {
+        return n.type === 10
+      })
+    },
+    hasSysNoti() {
+      return this.newNotis && !!this.newNotis.find(n => {
+        return n.type === 20
+      })
+    }
+  },
   methods: {
     async readAll() {
       try{
-        await readAll(this.getAccountInfo.twitterId);
+        await readAll(this.getAccountInfo?.twitterId);
         this.$store.commit('noti/readAll')
         this.$bus.emit('readAll')
       } catch (e) {
@@ -77,7 +92,9 @@ export default {
     }
   },
   mounted () {
-    hasNewNoti(this.getAccountInfo.twitterId).then(res => {
+    hasNewNoti(this.getAccountInfo?.twitterId).then(res => {
+      this.$store.commit('noti/saveNewNotis', res)
+    }).catch(e => {
 
     })
   },
