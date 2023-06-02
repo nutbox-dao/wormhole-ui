@@ -81,7 +81,8 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName, searchTags, getUserVPRC, twitterLogin } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName, 
+  hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
@@ -130,6 +131,10 @@ export default {
         );
       }
     },
+    newMessage(){
+      const newNoti = this.$store.state.noti.newNotis
+      return newNoti && newNoti.length > 0
+    }
   },
   methods: {
     replaceEmptyImg(e) {
@@ -331,7 +336,7 @@ export default {
       })
     }
 
-    // update curating power
+    // update curating power and new noti
     let c = 0;
     setInterval(async () => {
       if(this.getAccountInfo && this.getAccountInfo.twitterId) {
@@ -344,7 +349,10 @@ export default {
           if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
             this.$store.commit('saveRcInfo', res)
           }
+          const newNoti = await hasNewNoti(this.getAccountInfo.twitterId)
+          this.$store.commit('noti/saveNewNotis', newNoti)
         }
+    
         // update vp
         let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
         this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));

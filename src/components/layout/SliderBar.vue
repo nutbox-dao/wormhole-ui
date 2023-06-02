@@ -19,7 +19,7 @@
       </router-link>
       <router-link to="/info" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
-          <span class="relative c-badge">{{$t('slider.info')}}</span>
+          <span :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
         </button>
       </router-link>
       <router-link to="/create-curation" class="flex-1 w-full">
@@ -88,6 +88,10 @@ export default {
   computed: {
     ...mapState(["rc", 'vp']),
     ...mapGetters(['getAccountInfo']),
+    newMessage(){
+      const newNoti = this.$store.state.noti.newNotis
+      return newNoti && newNoti.length > 0
+    }
   },
   data() {
     return {

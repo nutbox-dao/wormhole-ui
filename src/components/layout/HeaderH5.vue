@@ -48,7 +48,7 @@
         <router-link to="/info" class="ml-10px relative">
           <img class="w-24px h-24px min-w-24px"
                src="~@/assets/icon-notification.svg" alt="">
-          <span class="w-6px h-6px absolute top-5px right-5px c-badge"></span>
+          <span v-show="newMessage" class="w-6px h-6px absolute top-5px right-5px c-badge"></span>
         </router-link>
       </div>
       <img class="h-1.7rem black-filter absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -80,6 +80,10 @@ export default {
       "rc",
       'vp'
     ]),
+    newMessage(){
+      const newNoti = this.$store.state.noti.newNotis
+      return newNoti && newNoti.length > 0
+    }
   },
   data() {
     return {
