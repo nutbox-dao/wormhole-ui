@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('noti', [])
+    ...mapState('noti', ['postNotis'])
   },
   methods: {
     parseTimestamp,
@@ -93,8 +93,9 @@ export default {
           cursorId = this.postNotis[0].id
         }
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, true);
+        console.log(4, noti, cursorId);
         if (noti && noti.length >= 0) {
-          this.$store.commit('noti/savePostNotis', this.postNotis.concat(noti));
+          this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
           if (noti.length === 0) {
             this.finished = true;
           }
@@ -117,7 +118,7 @@ export default {
         }
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, false);
         if (noti && noti.length >= 0) {
-          this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
+          this.$store.commit('noti/savePostNotis', this.postNotis.concat(noti));
         }
         if (noti.length === 0) {
           this.finished = true;
