@@ -20,7 +20,7 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="(noti, i) of postNotis" :key="i" class="text-14px">
+        <div v-for="(noti, i) of testData" :key="i" class="text-14px">
           <Reply v-if="noti.type==='reply'" :info-data="noti"></Reply>
           <Like v-if="noti.type==='like'" :info-data="noti"></Like>
           <Retweet v-if="noti.type==='retweet'" :info-data="noti"></Retweet>
@@ -34,7 +34,6 @@
 import { getPostNotiByUserId } from '@/api/api'
 import { mapState, mapGetters } from 'vuex';
 import { notify } from '@/utils/notify';
-import {parseTimestamp} from "@/utils/helper";
 import Reply from "@/components/info/Reply.vue";
 import Like from "@/components/info/Like.vue";
 import Retweet from "@/components/info/Retweet.vue";
@@ -47,7 +46,7 @@ export default {
       refreshing: false,
       listLoading: false,
       listFinished: false,
-      postNotis: [
+      testData: [
         {
           type: 'retweet',
           time: '2023-05-31 10:10:10',
@@ -81,7 +80,6 @@ export default {
     ...mapState('noti', ['postNotis'])
   },
   methods: {
-    parseTimestamp,
     async onRefresh() {
       if (this.refreshing || this.listLoading) {
         return;
