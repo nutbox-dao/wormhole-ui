@@ -98,7 +98,7 @@
               <div v-show="config['official']"
                    @click="open(config['official'])"
                    class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
+                <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-official.svg" alt="">
               </div>
             </div>
             <!-- token info -->

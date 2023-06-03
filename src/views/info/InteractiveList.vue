@@ -31,7 +31,7 @@
             <div class="w-full flex justify-between items-center">
               <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
                    src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="text-12px text-color7D mr-6px relative c-badge">21:25</span>
+              <span class="text-12px text-color7D mr-6px relative" :class="!noti.isRead ? 'c-badge' : ''">21:25</span>
             </div>
             <div class="w-full my-5px text-left text-14px leading-20px">
               大头点赞了你的策展 大头点赞了你的策展
@@ -79,8 +79,9 @@ export default {
           cursorId = this.postNotis[0].id
         }
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, true);
+        console.log(4, noti, cursorId);
         if (noti && noti.length >= 0) {
-          this.$store.commit('noti/savePostNotis', this.postNotis.concat(noti));
+          this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
           if (noti.length === 0) {
             this.finished = true;
           }
@@ -103,7 +104,7 @@ export default {
         }
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, false);
         if (noti && noti.length >= 0) {
-          this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
+          this.$store.commit('noti/savePostNotis', this.postNotis.concat(noti));
         }
         if (noti.length === 0) {
           this.finished = true;

@@ -58,8 +58,17 @@ export default {
     ...mapState('community', ['communityCC'])
   },
   methods: {
-    onRefresh() {
-
+    async onRefresh() {
+      this.refreshing = true
+      try{
+        const res  = await getJoinCommunityState(this.getAccountInfo.twitterId)
+        this.$store.commit('community/saveCommunityCC', res)
+        
+      } catch (e) {
+        
+      } finally {
+        this.refreshing = false
+      }
     },
     onLoad() {
 
@@ -69,11 +78,7 @@ export default {
     }
   },
   async mounted () {
-    getJoinCommunityState(this.getAccountInfo.twitterId).then(res => {
-      this.$store.commit('community/saveCommunityCC', res)
-    }).catch(e => {
-      console.log(22, e);
-    })
+   this.onRefresh()
   },
 }
 </script>

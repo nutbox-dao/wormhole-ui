@@ -21,7 +21,7 @@
         <button class="h-full px-10px"
                 :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=1">
-          <span class="relative" :class="hasTipsNoti?'c-badge':''">
+          <span class="relative">
             {{$t('info.reward')}}
           </span>
         </button>
