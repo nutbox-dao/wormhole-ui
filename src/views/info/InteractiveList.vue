@@ -20,26 +20,10 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="(noti, i) of postNotis" :key="i"
-             class="flex ">
-          <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
-            <img v-show="isLike" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
-            <img v-show="isRetweet" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
-            <img v-show="isReply" class="w-20px h-20px min-w-20px" src="~@/assets/info-reply.svg" alt="">
-          </div>
-          <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
-            <div class="w-full flex justify-between items-center">
-              <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="text-12px text-color7D mr-6px relative c-badge">21:25</span>
-            </div>
-            <div class="w-full my-5px text-left text-14px leading-20px">
-              大头点赞了你的策展 大头点赞了你的策展
-            </div>
-            <div class="text-12px leading-18px text-color7D text-left break-word">
-              https://alpha.wormhole3.io/post-detail/1653006294544969729
-            </div>
-          </div>
+        <div v-for="(noti, i) of postNotis" :key="i" class="text-14px">
+          <Reply v-if="noti.type==='reply'" :info-data="noti"></Reply>
+          <Like v-if="noti.type==='like'" :info-data="noti"></Like>
+          <Retweet v-if="noti.type==='retweet'" :info-data="noti"></Retweet>
         </div>
       </van-list>
     </van-pull-refresh>
@@ -50,24 +34,54 @@
 import { getPostNotiByUserId } from '@/api/api'
 import { mapState, mapGetters } from 'vuex';
 import { notify } from '@/utils/notify';
+import {parseTimestamp} from "@/utils/helper";
+import Reply from "@/components/info/Reply.vue";
+import Like from "@/components/info/Like.vue";
+import Retweet from "@/components/info/Retweet.vue";
 
 export default {
   name: "InteractiveList",
+  components: {Reply, Like, Retweet},
   data() {
     return {
       refreshing: false,
       listLoading: false,
       listFinished: false,
-      isLike: false,
-      isRetweet: true,
-      isReply: false
+      postNotis: [
+        {
+          type: 'retweet',
+          time: '2023-05-31 10:10:10',
+          userList: [
+            { twitterName: 'terry3t.eth', twitterUsername: 'terry3t1', profileImg: 'https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_400x400.jpg'},
+            { twitterName: 'terry3t.eth', twitterUsername: 'terry3t1', profileImg: 'https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_400x400.jpg'},
+            { twitterName: 'terry3t.eth', twitterUsername: 'terry3t1', profileImg: 'https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_400x400.jpg'},
+          ]
+        },
+        {
+          type: 'reply',
+          twitterName: 'terry3t.eth',
+          twitterUsername: 'terry3t1',
+          profileImg: 'https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_400x400.jpg',
+          time: '2023-05-31 10:10:10',
+        },
+        {
+          type: 'like',
+          contentType: 'tweet',
+          userList: [
+            {twitterName: 'terry3t.eth', profileImg: 'https://pbs.twimg.com/profile_images/1412585491006996485/4URGPzqP_400x400.jpg'},
+            {twitterName: 'abcallen', profileImg: 'https://pbs.twimg.com/profile_images/1658677806749061120/9AjwngZ-_200x200.png'},
+            {twitterName: 'Jason', profileImg: 'https://pbs.twimg.com/profile_images/1653068718321336321/grq9EkXA_200x200.jpg'},
+          ]
+        },
+      ]
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapState('noti', ['postNotis'])
+    ...mapState('noti', [])
   },
   methods: {
+    parseTimestamp,
     async onRefresh() {
       if (this.refreshing || this.listLoading) {
         return;

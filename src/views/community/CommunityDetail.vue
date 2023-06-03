@@ -80,26 +80,26 @@
             <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
             <!-- social link -->
             <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
-              <div v-show="config['twitter']"
-                   @click="open(config['twitter'])"
-                   class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
-              </div>
-              <div v-show="config['discord']"
-                   @click="open(config['discord'])"
-                   class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                <img class="w-16px h-16px cursor-pointer" src="~@/assets/icon-discord.svg" alt="">
-              </div>
-              <div v-show="config['telegram']"
-                   @click="open(config['telegram'])"
-                   class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-telegram.svg" alt="">
-              </div>
-              <div v-show="config['official']"
-                   @click="open(config['official'])"
-                   class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35 flex justify-center items-center">
-                <img  class="w-16px h-16px cursor-pointer" src="~@/assets/icon-twitter-white.svg" alt="">
-              </div>
+              <button v-show="config['twitter']"
+                   @click="open(config['twitter'])">
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                     src="~@/assets/community-icon-twitter.svg" alt="">
+              </button>
+              <button v-show="config['discord']"
+                      @click="open(config['discord'])">
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                     src="~@/assets/community-icon-discord.svg" alt="">
+              </button>
+              <button v-show="config['telegram']"
+                      @click="open(config['telegram'])">
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-white"
+                     src="~@/assets/community-icon-telegram.svg" alt="">
+              </button>
+              <button v-show="config['official']"
+                      @click="open(config['official'])">
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                     src="~@/assets/community-icon-official.svg" alt="">
+              </button>
             </div>
             <!-- token info -->
             <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
