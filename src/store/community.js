@@ -25,7 +25,10 @@ export default {
     members: [],
     ops: [],
     communityCC: [],
-    price: 0
+    price: 0,
+    specifyDistributionEras: [],
+    nutboxCommunityInfo: {},
+    poolsData: []
   },
   mutations: {
     saveCommunities: (state, communities) => {
@@ -77,6 +80,15 @@ export default {
     savePrice: (state, price) => {
       state.price = price
     },
+    saveSpecifyDistributionEras: (state, specifyDistributionEras) => {
+      state.specifyDistributionEras = specifyDistributionEras
+    },
+    saveNutboxCommunityInfo: (state, nutboxCommunityInfo) => {
+      state.nutboxCommunityInfo = nutboxCommunityInfo
+    },
+    savePoolsData: (state, poolsData) => {
+      state.poolsData = poolsData
+    },
     
     clearData: (state) => {
       state.showingCommunity = {};
@@ -92,6 +104,7 @@ export default {
       state.members = [];
       state.ops = [];
       state.price = 0;
+      state.specifyDistributionEras = []
     }
   }
 };

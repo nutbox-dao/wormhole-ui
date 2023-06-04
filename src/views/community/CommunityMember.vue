@@ -67,7 +67,11 @@ export default {
       communityId: ''
     }
   },
-  activated() {
+  async activated() {
+    let count = 0;
+    while (!this.showingCommunity || !this.showingCommunity.communityId || count++ < 30) {
+      await sleep(0.2)
+    }
     if (this.members.length === 0 && this.communityId !== this.showingCommunity.communityId) {
       this.communityId = this.showingCommunity.communityId
       this.refresh()
@@ -122,10 +126,7 @@ export default {
     }
   },
   async mounted () {
-    let count = 0;
-    while (!this.showingCommunity || !this.showingCommunity.communityId || count++ < 30) {
-      await sleep(0.2)
-    }
+    
   },
 }
 </script>

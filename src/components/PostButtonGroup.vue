@@ -751,7 +751,6 @@ export default {
       this.urls = urls
     }
     this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
-    console.log(this.post)
     // this.getRewards();
   },
 }

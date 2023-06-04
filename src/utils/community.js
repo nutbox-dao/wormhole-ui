@@ -138,3 +138,76 @@ export const getCommunityPolicyStake = async (chainName, ethAddress, policys) =>
         console.log('get stake fail:', e)
     }
 }
+
+
+/**
+ * get community distribution eras
+ * @param {*} communityId 
+ */
+export const getSpecifyDistributionEras = async (community, nutboxContract) => {
+    return new Promise(async (resolve, reject) => {
+      const distribuitons = store.state.community.specifyDistributionEras;
+      if (distribuitons && distribuitons.length > 0) {
+        resolve(distribuitons);
+        return;
+      }
+      let decimals = community.rewardTokenDecimals;
+      const Multi_Config =  EVM_CHAINS['BNB Smart Chain'].Multi_Config
+  
+      try {
+        const rewardCalculatorAddress = '0x6ab448C1C6e1870602d3FB867F167029bbFb3181'
+        if (true) {
+          let count = await aggregate([{
+            target: rewardCalculatorAddress,
+            call: [
+              'distributionCountMap(address)(uint256)',
+              nutboxContract
+            ],
+            returns: [
+              ['count']
+            ]
+          }], Multi_Config)
+  
+          count = parseInt(count.results.transformed['count'])
+  
+          const calls = new Array(count).toString().split(',').map((item, i) => ({
+            target: rewardCalculatorAddress,
+            call: [
+              'distributionErasMap(address,uint256)(uint256,uint256,uint256)',
+              nutboxContract,
+              i
+            ],
+            returns: [
+              ['amount-'+i],
+              ['startHeight-'+i],
+              ['stopHeight-'+i]
+            ]
+          }))
+          
+          let distibution = await aggregate(calls, Multi_Config)
+          distibution = distibution.results.transformed
+          let distri = []
+          for (let dis in distibution) {
+            const [type, index] = dis.split('-');
+            if (!distri[index]) {
+              distri[index] = {}
+            }
+            distri[index][type] = distibution[dis]
+          }
+          distri = distri.map((item, i) => ({
+            percentage: item.stopHeight - item.startHeight,
+            amount: item.amount.toString() / 10 ** decimals,
+            startHeight: item.startHeight.toString(),
+            stopHeight: item.stopHeight.toString(),
+            background: `rgba(255, 149, 0, ${(i + 1) * (1.0 / count)})`,
+          }));
+          store.commit("community/saveSpecifyDistributionEras", distri);
+          resolve(distri);
+        }
+      } catch (e) {
+        console.log("getSpecifyDistributionEras", e);
+        reject(e);
+        return;
+      }
+    })
+  }
