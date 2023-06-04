@@ -19,7 +19,19 @@
                      src="~@/assets/icon-warning-white.svg" alt="">
               </button>
             </template>
-            <div>规则描述</div>
+            <div>{{ $t('community.curationCredit') }}</div>
+            <p>
+              <span>{{ $t('community.didRatio') }}</span>
+              <span>{{ parseFloat(policy?.did?.ratio) * 100 }}%</span>
+            </p>
+            <p>
+              <span>{{ $t('community.comRatio') }}</span>
+              <span>{{ parseFloat(policy?.community?.ratio) * 100 }}%</span>
+            </p>
+            <p>
+              <span>{{ $t('community.topicRatio') }}</span>
+              <span>{{ parseFloat(policy?.topic?.ratio) * 100 }}%</span>
+            </p>
           </el-popover>
         </div>
         <div class="flex items-center">
@@ -52,11 +64,9 @@
                      :show-text="false"
                      :percentage="getAccountInfo?.reputation / 1000"/>
       </div>
-    </el-collapse-transition>
-    <el-collapse-transition v-for="s of stake" :key="s.name" >
-      <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
+      <div v-for="s of stakeInfo" :key="s.name" v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
         <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
-          {{$t('community.twitterInfluence')}}: {{ s.name }}
+          {{s.name}}: {{ formatAmount(s.user) }}
         </div>
         <el-progress class="c-progress-purple flex-1 w-full"
                      color="#7700E0"
@@ -66,7 +76,6 @@
                      :percentage="s.user * 100 / s.total"/>
       </div>
     </el-collapse-transition>
-
   </div>
 </template>
 
@@ -75,6 +84,8 @@ import { mapGetters } from 'vuex'
 import {useWindowSize} from "@vant/use";
 import { getCommunityPolicyStake } from '@/utils/community'
 import { EVM_CHAINS_ID } from '@/config'
+import { formatAddress } from '@/utils/tool';
+import { formatAmount } from '@/utils/helper';
 
 export default {
   name: "InfluenceCardItem",
@@ -94,13 +105,15 @@ export default {
     return {
       isFold: true,
       gettingDetail: false,
-      stakeInfo: []
+      stakeInfo: [],
+      policy: {}
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo'])
   },
   methods: {
+    formatAmount,
     async getDetail() {
       if (!this.community.detail || this.community.detail.length === 0) {
         try{
@@ -109,22 +122,20 @@ export default {
           if (policy) {
             policy = JSON.parse(policy)
           }
-          console.log(55, policy, this.community);
           const communityPolicy = policy.community.policys;
           const stake = await getCommunityPolicyStake(EVM_CHAINS_ID[this.community.chainId], this.getAccountInfo.ethAddress, communityPolicy)
           console.log('stake', stake)
-          this.takeInfo = {}
+          this.stakeInfo = {}
           for (let key of Object.keys(stake)) {
             const [name, type] = key.split(':');
-            console.log(43, name, type);
-            if (!this.takeInfo[name]) {
-              this.takeInfo[name] = {}
-              this.takeInfo[name]['name'] = name
+            if (!this.stakeInfo[name]) {
+              this.stakeInfo[name] = {}
+              this.stakeInfo[name]['name'] = name
             }
-            this.takeInfo[name][type] = stake[key]
+            this.stakeInfo[name][type] = parseFloat(stake[key])
           }
-          console.log(2, this.takeInfo);
-          this.takeInfo = Object.values(this.takeInfo)
+          this.stakeInfo = Object.values(this.stakeInfo)
+          this.policy = policy
           this.community.detail = policy
         } catch (e) {
           console.log('get detail fail: ', e);

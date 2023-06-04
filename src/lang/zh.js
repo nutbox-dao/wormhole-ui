@@ -437,7 +437,11 @@ export default {
     nextHalvingTime: '下次减半时间',
     pool: '矿池',
     token: '社区代币',
-    currentProgress: '当前进度'
+    currentProgress: '当前进度',
+    curationCredit: '策展信用',
+    didRatio: '声誉: ',
+    comRatio: '社区: ',
+    topicRatio: '策展: '
   },
   info: {
     interactive: '互动',

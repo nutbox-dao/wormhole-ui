@@ -435,9 +435,13 @@ export default {
     currentReward: '当前挖矿奖励',
     lastHalvingTime: '上次减半时间',
     nextHalvingTime: '下次减半时间',
-    pool: '矿池',
-    token: '社区代币',
-    currentProgress: '当前进度'
+    pool: 'Pool',
+    token: 'Token',
+    currentProgress: '当前进度',
+    curationCredit: 'Curation Credit',
+    didRatio: 'Did: ',
+    comRatio: 'Community: ',
+    topicRatio: 'Curation: '
   },
   info: {
     interactive: 'Activities',
