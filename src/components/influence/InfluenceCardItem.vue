@@ -41,7 +41,7 @@
                        :show-text="false"
                        :percentage="(community.memberCount - community.userIndex) * 100 / community.memberCount"/>
           <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px sm:hidden"
-                  @click.stop="getDetail">
+                  @click.stop="this.isFold=!this.isFold,getDetail">
             <img class="w-16px transform spin-slow"
                  :class="isFold?'rotate-0':'-rotate-180'"
                  src="~@/assets/icon-select-white.svg" alt="">
@@ -116,7 +116,6 @@ export default {
   methods: {
     formatAmount,
     async getDetail() {
-      this.isFold=!this.isFold
       if (!this.community.detail || this.community.detail.length === 0) {
         try{
           this.gettingDetail = true
