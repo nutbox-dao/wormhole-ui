@@ -20,27 +20,11 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="(noti, i) of postNotis" :key="i"
-             class="flex ">
-          <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
-            <img v-show="noti.type === 4" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
-            <img v-show="noti.type === 2" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
-            <img v-show="noti.type === 3" class="w-20px h-20px min-w-20px" src="~@/assets/info-reply.svg" alt="">
-            <img v-show="noti.type === 1" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
-          </div>
-          <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
-            <div class="w-full flex justify-between items-center">
-              <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
-                   :src="profile(noti)" alt="">
-              <span class="text-12px text-color7D mr-6px relative" :class="!noti.isRead ? 'c-badge' : ''">{{ notiTime(noti) }}</span>
-            </div>
-            <div class="w-full my-5px text-left text-14px leading-20px">
-              {{ notiTips(noti) }}
-            </div>
-            <div v-show="[1, 2, 3, 4].indexOf(noti.type) !== -1" class="text-12px leading-18px text-color7D text-left break-word">
-              {{ noti.content }}
-            </div>
-          </div>
+        <div v-for="(noti, i) of postNotis" :key="i" class="text-14px">
+          <Reply v-if="noti.type===2" :info-data="noti"></Reply>
+          <Like v-if="noti.type===4" :info-data="noti"></Like>
+          <Retweet v-if="noti.type===3" :info-data="noti"></Retweet>
+          <Retweet v-if="noti.type===1" :info-data="noti"></Retweet>
         </div>
       </van-list>
     </van-pull-refresh>
@@ -52,17 +36,18 @@ import { getPostNotiByUserId } from '@/api/api'
 import { mapState, mapGetters } from 'vuex';
 import { notify } from '@/utils/notify';
 import { parseTimestamp } from '@/utils/helper';
+import Reply from "@/components/info/Reply.vue";
+import Like from "@/components/info/Like.vue";
+import Retweet from "@/components/info/Retweet.vue";
 
 export default {
   name: "InteractiveList",
+  components: {Reply, Like, Retweet},
   data() {
     return {
       refreshing: false,
       listLoading: false,
-      listFinished: false,
-      isLike: false,
-      isRetweet: true,
-      isReply: false
+      listFinished: false
     }
   },
   computed: {
@@ -81,7 +66,6 @@ export default {
           cursorId = this.postNotis[0].id
         }
         const noti = await getPostNotiByUserId(this.getAccountInfo.twitterId, cursorId, true);
-        console.log(4, noti, cursorId);
         if (noti && noti.length >= 0) {
           this.$store.commit('noti/savePostNotis', noti.concat(this.postNotis));
           if (noti.length === 0) {

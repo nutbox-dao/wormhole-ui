@@ -41,7 +41,7 @@
       <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color66'">{{ post.replyCount ?? 0 }}</span>
     </button>
 
-    <el-popover :teleported="false" trigger="click" width="90px" popper-class="c-popper" :offset="-30">
+    <el-popover :teleported="false" trigger="click" width="90px" popper-class="c-popper" :offset="-30" ref="replyRef">
       <template #reference>
         <button class="flex items-center" @click.stop>
           <i class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
@@ -342,16 +342,16 @@ export default {
         return {}
       }
     },
-    imgurls: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    content: {
-      type: String,
-      default: ''
-    },
+    // imgurls: {
+    //   type: Array,
+    //   default: () => {
+    //     return []
+    //   }
+    // },
+    // content: {
+    //   type: String,
+    //   default: ''
+    // },
     isDetail: {
       type: Boolean,
       default: false
@@ -375,7 +375,10 @@ export default {
       isDefaultQuote: true,
       showCuratedTip: false,
       rewards: [],
-      price: '0.00'
+      price: '0.00',
+      reg: '',
+      imgurls: [],
+      urls: []
     }
   },
   computed: {
@@ -408,7 +411,25 @@ export default {
     },
     unLiked() {
       return this.post.liked === 1 && this.post.downVote > 0
-    }
+    },
+    content() {
+      let content = ''
+      if (this.post.longContentStatus === 1) {
+        for (let c of JSON.parse(this.post.content)) {
+          if (c && c !== 'null' && c !== 'undefined') {
+            content += c + '\n'
+          }
+        }
+      }else {
+        content = this.post.content
+      }
+      content = content.replace(this.reg, '');
+      // content = content.replace('\n', '</br>')
+      for (let url of this.urls){
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
+      }
+      return content
+    },
   },
   methods: {
     parseTimestamp,
@@ -583,6 +604,7 @@ export default {
       }
     },
     async userRetweet() {
+      this.$refs.replyRef.hide()
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
@@ -686,6 +708,7 @@ export default {
       this.setInputFocus()
     },
     preQuote() {
+      this.$refs.replyRef.hide()
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
@@ -719,6 +742,16 @@ export default {
     },
   },
   mounted () {
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
+    } else if(urls) {
+      this.urls = urls
+    }
+    this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
+    console.log(this.post)
     // this.getRewards();
   },
 }
