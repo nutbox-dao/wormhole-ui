@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mb-40px text-14px"
+  <div class="relative mb-60px text-14px"
        :class="(progressData && progressData.length>0) ? 'mt-50px' : 'mt-40px'">
     <el-tooltip placement="top-start">
       <template #content>
@@ -141,7 +141,7 @@ export default {
   content: '';
   width: 10px;
   height: 6px;
-  background-color: #D40000;
+  background-color: #6246EA;
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
   margin: .3rem auto;
 }

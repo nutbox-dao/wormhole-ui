@@ -41,7 +41,7 @@
                        :show-text="false"
                        :percentage="(community.memberCount - community.userIndex) * 100 / community.memberCount"/>
           <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px sm:hidden"
-                  @click.stop="getDetail">
+                  @click.stop="this.isFold=!this.isFold,getDetail">
             <img class="w-16px transform spin-slow"
                  :class="isFold?'rotate-0':'-rotate-180'"
                  src="~@/assets/icon-select-white.svg" alt="">
@@ -53,7 +53,8 @@
       </div>
     </div>
     <el-collapse-transition>
-      <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
+      <div v-show="!isFold"
+           class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
         <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
           {{$t('community.twitterInfluence')}}: {{ getAccountInfo?.reputation }}
         </div>
@@ -63,17 +64,17 @@
                      :stroke-width="6"
                      :show-text="false"
                      :percentage="getAccountInfo?.reputation / 1000"/>
-      </div>
-      <div v-for="s of stakeInfo" :key="s.name" v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
-        <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
-          {{s.name}}: {{ formatAmount(s.user) }}
+        <div v-for="s of stakeInfo" :key="s.name">
+          <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
+            {{s.name}}: {{ formatAmount(s.user) }}
+          </div>
+          <el-progress class="c-progress-purple flex-1 w-full"
+                       color="#7700E0"
+                       :text-inside="false"
+                       :stroke-width="6"
+                       :show-text="false"
+                       :percentage="s.user * 100 / s.total"/>
         </div>
-        <el-progress class="c-progress-purple flex-1 w-full"
-                     color="#7700E0"
-                     :text-inside="false"
-                     :stroke-width="6"
-                     :show-text="false"
-                     :percentage="s.user * 100 / s.total"/>
       </div>
     </el-collapse-transition>
   </div>
