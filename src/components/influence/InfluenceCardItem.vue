@@ -134,6 +134,13 @@ export default {
             }
             this.stakeInfo[name][type] = parseFloat(stake[key])
           }
+          // [
+          //   {
+          //     name: 'test',
+          //     user: 2355,
+          //     total: 2353256235
+          //   }
+          // ]
           this.stakeInfo = Object.values(this.stakeInfo)
           this.policy = policy
           this.community.detail = policy
