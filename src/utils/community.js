@@ -4,7 +4,8 @@ import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAu
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
     getJoinCommunityState as gjcs } from '@/api/api'
-import { errCode } from '@/config';
+import { EVM_CHAINS, errCode } from '@/config';
+import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 
 export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) => {
     await checkAccessToken();
@@ -98,6 +99,42 @@ export const joinCommunity = async (communityId) => {
     }
 }
 
-export const getCommunityPolicyStake = async (communityId, policy) => {
-    
+export const getCommunityPolicyStake = async (chainName, ethAddress, policys) => {
+    console.log(chainName, ethAddress, policys)
+    try {
+        let call = []
+        if (policys && policys.length > 0) {
+            for (let p of policys) {
+                if (p.type === 'stake') {
+                    const target = p.contract
+                    call.push({
+                        target,
+                        call: [
+                            'getUserStakedAmount(address)(uint256)',
+                            ethAddress
+                        ],
+                        returns: [
+                            [p.name + ':user', val => val.toString() / (10 ** p.tokenDecimals)]
+                        ]
+                    });
+                    call.push({
+                        target,
+                        call: [
+                            'getTotalStakedAmount()(uint256)'
+                        ],
+                        returns: [
+                            [p.name + ':total', val => val.toString() / (10 ** p.tokenDecimals)]
+                        ]
+                    })
+                }
+            }
+            console.log(3, call)
+            const res = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
+            console.log('stake result', res)
+            return res.results.transformed;
+        }
+        return
+    } catch (e) {
+        console.log('get stake fail:', e)
+    }
 }

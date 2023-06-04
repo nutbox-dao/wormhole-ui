@@ -442,7 +442,13 @@ export default {
   info: {
     interactive: '互动',
     reward: '打赏',
-    system: '系统'
+    system: '系统',
+    quoted: '引用了',
+    liked: '喜欢了',
+    retweet: '转推了',
+    replyed: '回复了',
+    followed: '关注了',
+    yourTweet: '你的策展'
   },
   slider: {
     home: '首页',

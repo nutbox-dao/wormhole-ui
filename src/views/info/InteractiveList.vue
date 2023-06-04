@@ -23,21 +23,22 @@
         <div v-for="(noti, i) of postNotis" :key="i"
              class="flex ">
           <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
-            <img v-show="isLike" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
-            <img v-show="isRetweet" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
-            <img v-show="isReply" class="w-20px h-20px min-w-20px" src="~@/assets/info-reply.svg" alt="">
+            <img v-show="noti.type === 4" class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
+            <img v-show="noti.type === 2" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
+            <img v-show="noti.type === 3" class="w-20px h-20px min-w-20px" src="~@/assets/info-reply.svg" alt="">
+            <img v-show="noti.type === 1" class="w-20px h-20px min-w-20px" src="~@/assets/info-retweet.svg" alt="">
           </div>
           <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
             <div class="w-full flex justify-between items-center">
               <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
-                   src="~@/assets/icon-default-avatar.svg" alt="">
-              <span class="text-12px text-color7D mr-6px relative" :class="!noti.isRead ? 'c-badge' : ''">21:25</span>
+                   :src="profile(noti)" alt="">
+              <span class="text-12px text-color7D mr-6px relative" :class="!noti.isRead ? 'c-badge' : ''">{{ notiTime(noti) }}</span>
             </div>
             <div class="w-full my-5px text-left text-14px leading-20px">
-              大头点赞了你的策展 大头点赞了你的策展
+              {{ notiTips(noti) }}
             </div>
-            <div class="text-12px leading-18px text-color7D text-left break-word">
-              https://alpha.wormhole3.io/post-detail/1653006294544969729
+            <div v-show="[1, 2, 3, 4].indexOf(noti.type) !== -1" class="text-12px leading-18px text-color7D text-left break-word">
+              {{ noti.content }}
             </div>
           </div>
         </div>
@@ -50,6 +51,7 @@
 import { getPostNotiByUserId } from '@/api/api'
 import { mapState, mapGetters } from 'vuex';
 import { notify } from '@/utils/notify';
+import { parseTimestamp } from '@/utils/helper';
 
 export default {
   name: "InteractiveList",
@@ -114,6 +116,17 @@ export default {
       } finally {
         this.listLoading = false
       }
+    },
+    notiTime(noti) {
+      let time = noti.quoteTime || noti.likeTime || noti.retweetTime || noti.commentTime || noti.postTime;
+      return parseTimestamp(time)
+    },
+    profile(noti) {
+      return noti.type === 1 ? noti.quoteProfileImg : noti.type === 2 ? noti.retweetProfileImg : noti.type === 3 ? noti.commentProfileImg : noti.type === 4 ? noti.likeProfileImg : noti.likeProfileImg
+    },
+    notiTips(noti) {
+      let type = noti.type === 1 ? 'quoted' : noti.type === 2 ? 'retweeted' : noti.type === 3 ? 'replyed' : noti.type === 4 ? 'liked' : ''
+      return `${noti.username} ${this.$t('info.' + type)} ${this.$t('info.yourTweet')}`
     }
   },
   mounted () {

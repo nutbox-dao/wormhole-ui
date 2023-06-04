@@ -442,7 +442,13 @@ export default {
   info: {
     interactive: 'Activities',
     reward: 'Tips',
-    system: 'System'
+    system: 'System',
+    quoted: 'quoted',
+    liked: 'liked',
+    retweet: 'retweeted',
+    replyed: 'replyed',
+    followed: 'followed',
+    yourTweet: 'your curation'
   },
   slider: {
     home: 'Home',

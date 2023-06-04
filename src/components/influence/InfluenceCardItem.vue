@@ -50,7 +50,20 @@
                      :text-inside="false"
                      :stroke-width="6"
                      :show-text="false"
-                     :percentage="getAccountInfo?.reputation / 100000"/>
+                     :percentage="getAccountInfo?.reputation / 1000"/>
+      </div>
+    </el-collapse-transition>
+    <el-collapse-transition v-for="s of stake" :key="s.name" >
+      <div v-show="!isFold" class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
+        <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
+          {{$t('community.twitterInfluence')}}: {{ s.name }}
+        </div>
+        <el-progress class="c-progress-purple flex-1 w-full"
+                     color="#7700E0"
+                     :text-inside="false"
+                     :stroke-width="6"
+                     :show-text="false"
+                     :percentage="s.user * 100 / s.total"/>
       </div>
     </el-collapse-transition>
 
@@ -60,6 +73,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import {useWindowSize} from "@vant/use";
+import { getCommunityPolicyStake } from '@/utils/community'
+import { EVM_CHAINS_ID } from '@/config'
 
 export default {
   name: "InfluenceCardItem",
@@ -78,7 +93,8 @@ export default {
   data() {
     return {
       isFold: true,
-      gettingDetail: false
+      gettingDetail: false,
+      stakeInfo: []
     }
   },
   computed: {
@@ -86,7 +102,6 @@ export default {
   },
   methods: {
     async getDetail() {
-      this.isFold=!this.isFold
       if (!this.community.detail || this.community.detail.length === 0) {
         try{
           this.gettingDetail = true
@@ -94,13 +109,22 @@ export default {
           if (policy) {
             policy = JSON.parse(policy)
           }
-          console.log(55, policy);
+          console.log(55, policy, this.community);
           const communityPolicy = policy.community.policys;
-          for(let p of communityPolicy) {
-            if (p.type === 'stake') {
-
+          const stake = await getCommunityPolicyStake(EVM_CHAINS_ID[this.community.chainId], this.getAccountInfo.ethAddress, communityPolicy)
+          console.log('stake', stake)
+          this.takeInfo = {}
+          for (let key of Object.keys(stake)) {
+            const [name, type] = key.split(':');
+            console.log(43, name, type);
+            if (!this.takeInfo[name]) {
+              this.takeInfo[name] = {}
+              this.takeInfo[name]['name'] = name
             }
+            this.takeInfo[name][type] = stake[key]
           }
+          console.log(2, this.takeInfo);
+          this.takeInfo = Object.values(this.takeInfo)
           this.community.detail = policy
         } catch (e) {
           console.log('get detail fail: ', e);
@@ -112,6 +136,7 @@ export default {
   },
   mounted () {
     this.isFold = this.width<640
+    this.getDetail()
   },
 }
 </script>
