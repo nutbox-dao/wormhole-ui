@@ -116,6 +116,7 @@ export default {
   methods: {
     formatAmount,
     async getDetail() {
+      this.isFold=!this.isFold
       if (!this.community.detail || this.community.detail.length === 0) {
         try{
           this.gettingDetail = true
