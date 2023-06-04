@@ -28,7 +28,8 @@ export default {
     price: 0,
     specifyDistributionEras: [],
     nutboxCommunityInfo: {},
-    poolsData: []
+    poolsData: [],
+    currentBlockNum: 0
   },
   mutations: {
     saveCommunities: (state, communities) => {
@@ -89,6 +90,9 @@ export default {
     savePoolsData: (state, poolsData) => {
       state.poolsData = poolsData
     },
+    saveCurrentBlockNum: (state, currentBlockNum) => {
+      state.currentBlockNum = currentBlockNum
+    },
     
     clearData: (state) => {
       state.showingCommunity = {};
@@ -104,7 +108,8 @@ export default {
       state.members = [];
       state.ops = [];
       state.price = 0;
-      state.specifyDistributionEras = []
+      state.specifyDistributionEras = [];
+      state.currentBlockNum = 0
     }
   }
 };

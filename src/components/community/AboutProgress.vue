@@ -13,10 +13,10 @@
       </template>
       <button class="absolute right-0 top-24px text-12px">{{formatNum(max)}}</button>
     </el-tooltip>
-    <span v-if="blockNum && blockPosition > 0 && blockPosition < 1"
+    <span v-if="currentBlockNum && blockPosition > 0 && blockPosition < 1"
           class="current-block absolute top-34px text-12px left-1/2 transform -translate-x-1/2"
-          v-show="(progressData && progressData.length > 0) && blockNum>progressData[0].startHeight"
-          :style="{left: `${(blockPosition)*100}%`}">{{blockNum}}</span>
+          v-show="(progressData && progressData.length > 0) && currentBlockNum>progressData[0].startHeight"
+          :style="{left: `${(blockPosition)*100}%`}">{{currentBlockNum}}</span>
     <div class="c-progress-container relative flex justify-between items-center rounded-full h-16px"
          :style="{background: trackColor}">
       <div class="c-progress-bar" v-for="(data, index) of (progressData ? progressData : [])" :key="index"
@@ -55,7 +55,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('web3', ['blockNum']),
+    ...mapState('community', ['currentBlockNum']),
     min () {
       if (!this.progressData || this.progressData.length === 0) return 0
       return this.progressData[0].startHeight
@@ -68,7 +68,7 @@ export default {
       if (!this.progressData || this.progressData.length === 0) {
         return
       }
-      let block = this.blockNum
+      let block = this.currentBlockNum
       let index = 0
       for (let i = 0; i < this.progressData.length; i++) {
         const p = this.progressData[i]
@@ -81,7 +81,7 @@ export default {
       let position = index / parseFloat(totalField)
       position = position + parseFloat(block - this.progressData[index].startHeight) / parseFloat(this.progressData[index].stopHeight - this.progressData[index].startHeight) / totalField
       return position
-    }
+    },
   },
   methods: {
     formatNum (num) {

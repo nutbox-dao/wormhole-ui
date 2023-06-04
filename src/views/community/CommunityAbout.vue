@@ -1,9 +1,17 @@
 <template>
   <div class="px-15px sm:px-0 py-20px">
+    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+           v-if="loadingToken">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
     <div v-show="specifyDistributionEras.length > 0" class="">
       <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
       <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
     </div>
+    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+           v-if="loadingPool">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
     <div class="mt-30px" v-if="poolsData && (poolsData.length > 0)">
       <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
       <PoolRatio :animation='false' :pools-data="poolsData"/>
@@ -17,7 +25,8 @@ import AboutProgress from "@/components/community/AboutProgress.vue";
 import { getSpecifyDistributionEras } from '@/utils/community'
 import { mapState } from "vuex";
 import { sleep } from '@/utils/helper'
-import { getSpecifyCommunityInfoFromOurService } from '@/utils/graphql/community'
+import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
+import { getBlockNum } from '@/utils/web3/web3'
 
 export default {
   name: "CommunityAbout",
@@ -25,36 +34,8 @@ export default {
   data() {
     return {
       communtiyId: '',
-      progressData: [
-        {
-          amount: 5.5,
-          background: "rgba(98, 70, 234, 0.3333333333333333)",
-          percentage: 5446945,
-          startHeight:"15999000",
-          stopHeight: "21445945",
-        },
-        {
-          amount: 2.75,
-          background: "rgba(98, 70, 234, 0.6666666666666666)",
-          percentage: 10000000,
-          startHeight: "21445946",
-          stopHeight: "31445946"
-        },
-        {
-          amount: 1.375,
-          background: "rgba(98, 70, 234, 1)",
-          percentage: 8857442941,
-          startHeight: "31445947",
-          stopHeight: "8888888888"
-        }
-      ],
-      poolsData: [
-        {name: 'AAA', ratio: 123},
-        {name: 'BBB', ratio: 123},
-        {name: 'CCC', ratio: 123},
-        {name: 'DDD', ratio: 123},
-        {name: 'EEE', ratio: 123},
-      ]
+      loadingToken: true,
+      loadingPool: true
     }
   },
   computed: {
@@ -75,14 +56,22 @@ export default {
     async refresh() {
       const nutboxContract = this.configs[this.showingCommunity.communityId]['nutbox_contract']
       if (nutboxContract) {
+        this.loadingPool = true;
+        this.loadingToken = true;
         getSpecifyDistributionEras(this.showingCommunity, nutboxContract).then(res => {
         }).catch(e => {
           console.log(2, e)
+        }).finally(() => {
+          this.loadingToken = false
         })
-        getSpecifyCommunityInfoFromOurService(nutboxContract).then(res => {
-          console.log(33, res);
+        getSpecifyCommunityInfoFromTheGraph(nutboxContract).then(res => {
         }).catch(e => {
           console.log(3, e)
+        }).finally(() => {
+          this.loadingPool = false
+        })
+        getBlockNum(this.showingCommunity.chainId).catch(e => {
+          console.log('Update block num fail:', e);
         })
       }
     }

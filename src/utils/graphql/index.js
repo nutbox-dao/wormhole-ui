@@ -1,4 +1,4 @@
 import {
     GraphQLClient
   } from 'graphql-request';
-export const restClient = new GraphQLClient('https://rest-center.nutbox.app/v1/common/search')
+export  const client = new GraphQLClient('https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbsc');

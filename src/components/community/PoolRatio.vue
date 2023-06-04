@@ -5,7 +5,7 @@
               class="flex justify-between items-center h-34px px-10px rounded-8px"
               :style="{'background': getColor(index)}">
         <span class="text-14px text-white">{{ item.name || "--" }}: </span>
-        <span class="text-14px text-white">{{ parseFloat(item.ratio) }}%</span>
+        <span class="text-14px text-white">{{ parseFloat(item.ratio / 100) }}%</span>
       </button>
     </div>
     <div class="flex-1 mx-auto w-full max-w-80vw sm:max-w-20rem">
@@ -22,6 +22,7 @@ import {
   Tooltip
 } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+
 Chart.register(
   ArcElement,
   DoughnutController,

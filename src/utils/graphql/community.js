@@ -2,89 +2,85 @@ import {
     gql
   } from 'graphql-request'
   import {
-    restClient
+    client
   } from './index';
   import store from '@/store'
 import { ethers } from 'ethers';
 
-export async function getSpecifyCommunityInfoFromOurService(community) {
-    try {
-      community = ethers.utils.getAddress(community)
-      const query = `
-      {
-        community(id: "${community}") {
-          id
-          createdAt
-          feeRatio
-          cToken
-          daoFund
-          retainedRevenue
-          owner{
-              id
-          }
-          pools {
-              edges{
-                  node{
-                      id
-                      status
-                      name
-                      asset
-                      poolFactory
-                      totalAmount
-                      ratio
-                      chainId
-                      stakers(first: 10){
-                          edges{
-                              node{
-                                  id
-                              }
-                          }
-                      }
-                      stakersCount
-                      community{
-                          id
-                      }
-                      hasCreateGauge
-                      votedAmount
-                      voters(first: 10){
-                          edges{
-                              node{
-                                  id
-                              }
-                          }
-                      }
-                      votersCount
-                  }
-              }
-          }
-          users {
-            edges{
-              node{
+export async function getSpecifyCommunityInfoFromTheGraph(community) {
+  const query = gql `
+        query Community($id: String!) {
+            community(id: $id) {
                 id
                 createdAt
-                address
+                feeRatio
+                cToken
+                daoFund
+                retainedRevenue
+                owner{
+                    id
+                }
+                pools {
+                    id
+                    status
+                    name
+                    asset
+                    poolFactory
+                    totalAmount
+                    ratio
+                    chainId
+                    stakers(first: 10){
+                        id
+                    }
+                    stakersCount
+                    community{
+                        id
+                    }
+                    hasCreateGauge
+                    votedAmount
+                    voters(first: 10){
+                        id
+                    }
+                    votersCount
+                }
+                users {
+                    id
+                    createdAt
+                    address
+                    operationCount
+                }
                 operationCount
-              }
+                operationHistory(first: 60, orderBy: timestamp, orderDirection: desc) {
+                  id
+                  type
+                  timestamp
+                  poolFactory
+                  pool{
+                      id
+                      name
+                  }
+                  user
+                  chainId
+                  asset
+                  amount
+                  timestamp
+                  tx
+                }
             }
-          }
-          operationCount
         }
-      }
     `
-    console.log(65342, restClient)
-      let data = await restClient.request(query)
-      data = JSON.parse(data.value).community
-      data.pools = data.pools.edges.map(p => {
-          let pool = p.node
-          pool.stakers = pool.stakers.edges.map(s => s.node)
-          pool.voters = pool.voters.edges.map(v => v.node)
-          return pool
-      })
-      data.users = data.users.edges.map(u => u.node)
-      store.commit('community/saveNutboxCommunityInfo', data)
-      return data
-    } catch (e) {
-      console.log('Get community from our service fail:', e);
-    } finally {
+  try {
+    const data = await client.request(query, {
+      id: community.toLowerCase()
+    })
+    if (data && data.community) {
+      const community = data.community
+      store.commit('community/saveNutboxCommunityInfo', community)
+      store.commit('community/savePoolsData', community.pools)
+      return community
     }
+  } catch (e) {
+    console.log('Get community from graph fail:', e);
+  } finally {
   }
+}
