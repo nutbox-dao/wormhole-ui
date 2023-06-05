@@ -14,7 +14,7 @@
     <template v-else>
       <div class="container mx-auto w-full sm:max-w-50rem sticky top-0 lg:relative bg-primaryBg light:bg-white
                   border-b-1 xs:border-b-0 border-color8B/30 light:border-color7F z-99">
-        <div class="flex h-70px justify-center items-center relative">
+        <div class="flex h-70px pt-23px justify-center items-center relative">
           <span class="text-20px c-text-black max-w-2/3 truncate lg:hidden">{{accountInfo?.twitterName}}</span>
           <button @click="$router.go(-1)"
                   class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full

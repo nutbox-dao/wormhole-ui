@@ -3,7 +3,7 @@
        ref="detailPageRef" @scroll="pageScroll">
     <!-- back button -->
     <div v-if="scroll>30 || width>640"
-         class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden
+         class="fixed w-full top-0 left-0 z-1 px-15px h-70px pt-23px flex justify-center items-center 2md:hidden
                 bg-primaryBg light:bg-white border-b-1 border-headerBorder light:border-headerBorderLight">
       <!-- <router-link to="/community" class="absolute left-15px">
         <i class="icon-back w-20px h-20px"></i>
