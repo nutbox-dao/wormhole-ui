@@ -2,6 +2,7 @@
   <div class="mt-1.8rem">
     <div class="flex justify-between items-center mb-6px">
       <div class="font-bold">{{$t('community.community')}}</div>
+      ({{ $t('curation.required') }})
     </div>
     <div class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3
@@ -32,8 +33,8 @@
             <div v-for="(item,index) of searchCommunityList.slice(0, 4)"
                  :key="item.communityId"
                  class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
-                        rounded-8px h-40px px-15px border-2px mt-10px"
-                 :class="item.communityId===communityId?'border-color62':'border-transparent'"
+                        rounded-8px h-40px px-15px border-2px mt-10px cursor-pointer"
+                 :class="item.displayTag===searchCommunityText?'border-color62':'border-transparent'"
                  @click="selectCommunity(item)">
               <img class="w-24px h-24px rounded-full mr-10px"
                    :src="item.icon" alt=""
@@ -89,8 +90,8 @@ export default {
       this.onSearchCommunity('input')
     }, 1500),
     async onSearchCommunity(e) {
-      this.$emit('setCommunityId', '')
-      this.$emit('setTag', '')
+      // this.$emit('setCommunityId', '')
+      // this.$emit('setTag', '')
       // if(this.searchCommunityText.trim().length > 0 && (e==='input' || e.keyCode === 13)) {
       //   this.form.communityId=''
       //   this.searchCommunityLoading = true

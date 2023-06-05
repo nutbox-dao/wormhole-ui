@@ -19,6 +19,8 @@
       <SelectCommunity :community-id="form.communityId"
                        @setCommunityId="setCommunityId"
                        @setTag="setTag"></SelectCommunity>
+      <SelectTopic :community-id="form.communityId" 
+                      @setTag="setTopic"></SelectTopic>
       <div class="mb-6px font-bold mt-1rem">{{$t('curation.typeTweetContent')}}</div>
       <div class="border-1 bg-black/40 border-1 border-color8B/30 rounded-8px
                   light:bg-white light:border-colorE3 hover:border-primaryColor">
@@ -75,16 +77,18 @@ import {formatEmojiText, onPasteEmojiContent} from "@/utils/tool";
 import {stringLength} from "@/utils/helper";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
 import SelectCommunity from "@/components/community/SelectCommunity.vue";
+import SelectTopic from "@/components/community/SelectTopic.vue"
 import { notify } from "@/utils/notify";
 
 export default {
   name: "CreatePost",
-  components: {EmojiPicker, SelectCommunity},
+  components: {EmojiPicker, SelectCommunity, SelectTopic},
   data() {
     return {
       form: {
         communityId: '',
         tag: '',
+        topic: '',
         content: '',
         contentEl: '',
         tweetLength: 0
@@ -99,7 +103,10 @@ export default {
       this.form.communityId = id
     },
     setTag(tag) {
-      this.form.tag =tag
+      this.form.tag = tag
+    },
+    setTopic(tag) {
+      this.form.topic = tag
     },
     getBlur() {
       const sel = window.getSelection();
@@ -137,7 +144,7 @@ export default {
     gotoPost() {
       if (this.form.tag && this.form.tag.length > 2) {
         let content = this.formatElToTextContent(this.$refs.contentRef)
-        content = ` #${this.form.tag}\n${content}`
+        content = ` #${this.form.tag}${this.form.topic.length > 0 ? ' #' + this.form.topic : ''}\n${content}`
         content = encodeURIComponent(content)
         window.open(
             "https://twitter.com/intent/tweet?text=" +
