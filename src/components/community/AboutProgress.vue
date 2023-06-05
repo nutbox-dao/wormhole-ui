@@ -20,7 +20,7 @@
     <div class="c-progress-container relative flex justify-between items-center rounded-full h-16px"
          :style="{background: trackColor}">
       <div class="c-progress-bar" v-for="(data, index) of (progressData ? progressData : [])" :key="index"
-           :style="{ flex: 1,  background: data.background || `rgba(255, 149, 0, ${(index+1) / progressData.length})`}" >
+           :style="{ flex: 1,  background: data.background || `rgba(98, 70, 234, ${(index+1) / progressData.length})`}" >
         <span class="progress-tooltip absolute left-1/10 bottom-24px
                      bg-color62/50 text-white light:bg-colorEA light:text-color62
                      px-15px py-8px rounded-full shadow-popper-tip">

@@ -5,7 +5,7 @@
               class="flex justify-between items-center h-34px px-10px rounded-8px"
               :style="{'background': getColor(index)}">
         <span class="text-14px text-white">{{ item.name || "--" }}: </span>
-        <span class="text-14px text-white">{{ parseFloat(item.ratio / 100) }}%</span>
+        <span class="text-14px text-white">{{ parseFloat(item.ratio) }}%</span>
       </button>
     </div>
     <div class="flex-1 mx-auto w-full max-w-80vw sm:max-w-20rem">
@@ -51,7 +51,7 @@ export default {
             key: 'ratio'
           },
           layout: {
-            padding: 80
+            padding: 70
           },
           plugins: {
             tooltip: {
@@ -116,7 +116,7 @@ export default {
     },
     showDataLabel: {
       type: Boolean,
-      default: true
+      default: false
     },
     animation: {
       type: Boolean,
@@ -161,7 +161,10 @@ export default {
     this.chartData.options.plugins.tooltip.callbacks.label = this.tooltipLabelFormatter
     const ctx = document.getElementById(this.canvasId)
     this.chartData.data.datasets = [{
-      data: this.poolsData,
+      data:  this.poolsData.map(pool => ({
+        name: pool.name,
+        ratio: parseFloat(pool.ratio) / 100
+      })),
       backgroundColor: this.colorList
     }]
     this.chart = new Chart(ctx, this.chartData)

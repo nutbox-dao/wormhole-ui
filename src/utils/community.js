@@ -142,7 +142,7 @@ export const getCommunityPolicyStake = async (chainName, ethAddress, policys) =>
 
 /**
  * get community distribution eras
- * @param {*} communityId 
+ * @param {*} communityId
  */
 export const getSpecifyDistributionEras = async (community, nutboxContract) => {
     return new Promise(async (resolve, reject) => {
@@ -153,7 +153,7 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
       }
       let decimals = community.rewardTokenDecimals;
       const Multi_Config =  EVM_CHAINS['BNB Smart Chain'].Multi_Config
-  
+
       try {
         const rewardCalculatorAddress = '0x6ab448C1C6e1870602d3FB867F167029bbFb3181'
         if (true) {
@@ -167,9 +167,9 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
               ['count']
             ]
           }], Multi_Config)
-  
+
           count = parseInt(count.results.transformed['count'])
-  
+
           const calls = new Array(count).toString().split(',').map((item, i) => ({
             target: rewardCalculatorAddress,
             call: [
@@ -183,7 +183,7 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
               ['stopHeight-'+i]
             ]
           }))
-          
+
           let distibution = await aggregate(calls, Multi_Config)
           distibution = distibution.results.transformed
           let distri = []
@@ -199,7 +199,7 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
             amount: item.amount.toString() / 10 ** decimals,
             startHeight: item.startHeight.toString(),
             stopHeight: item.stopHeight.toString(),
-            background: `rgba(255, 149, 0, ${(i + 1) * (1.0 / count)})`,
+            background: `rgba(98, 70, 234, ${(i + 1) * (1.0 / count)})`,
           }));
           store.commit("community/saveSpecifyDistributionEras", distri);
           resolve(distri);
