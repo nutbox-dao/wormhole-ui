@@ -104,6 +104,9 @@ export default {
         this.$store.commit('community/saveMembers', members ?? []);
         members = await this.getBalances(members)
         this.$store.commit('community/saveMembers', members ?? []);
+        if (members.length === 0) {
+          this.finished = true
+        }
       } catch (e) {
         notify({message: e, type: 'error'})
       }finally{
