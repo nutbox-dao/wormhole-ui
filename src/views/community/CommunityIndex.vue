@@ -34,7 +34,7 @@
                   <div v-for="(com, i) of communities" :key="i"
                        @click="$router.push(`/community-detail/${com.communityId}`);">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
-                                          border-1 border-color8B/30 light:border-colorF2 bg-blockBg
+                                          border-0.5px border-color8B/30 light:border-transparent bg-blockBg
                                           light:bg-white light:shadow-color1A"
                                           :community="com"></CommunityItem>
                   </div>

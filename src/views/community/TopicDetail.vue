@@ -17,16 +17,7 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
     </div>
-    <div class="container mx-auto w-full sm:max-w-50rem">
-      <div class="hidden 2md:flex h-70px items-center ">
-        <button @click="$router.go(-1)"
-                class="w-30px h-30px bg-white/20 rounded-full
-                       flex items-center justify-center p-5px filter light:invert-30">
-          <img src="~@/assets/icon-back.svg" alt="">
-        </button>
-      </div>
-    </div>
-    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-0 pb-15px
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
                   2md:h-full no-scroll-bar 2md:overflow-auto">
@@ -42,6 +33,11 @@
                   {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
           </div>
+          <button @click="$router.go(-1)"
+                  class="w-30px h-30px bg-white/20 rounded-full absolute top-15px left-15px
+                         flex items-center justify-center p-5px filter light:invert-30">
+            <img src="~@/assets/icon-back.svg" alt="">
+          </button>
         </div>
         <div class="px-15px">
           <div class="flex justify-between items-center my-15px">

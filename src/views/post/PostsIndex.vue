@@ -68,7 +68,7 @@
         </el-select>
       </div>
     </div>
-    <div class="flex-1 overflow-auto" ref="postPageRef" @scroll="pageScroll">
+    <div class="flex-1 overflow-auto no-scroll-bar" ref="postPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />

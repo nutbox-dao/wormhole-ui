@@ -16,7 +16,7 @@
            v-if="loadingPool">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    <div class="mt-30px" v-if="poolsData && (poolsData.length > 0)">
+    <div class="mt-30px" v-else-if="poolsData && (poolsData.length > 0)">
       <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
       <PoolRatio :animation='false' :pools-data="poolsData"/>
     </div>

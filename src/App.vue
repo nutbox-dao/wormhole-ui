@@ -15,7 +15,7 @@
         <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
                    :profile-img="profileImg"
                    @login="login"></SliderBar>
-        <div class="flex-1 overflow-auto relative c-page-container">
+        <div class="flex-1 overflow-auto relative c-page-container 2xl:pr-13rem">
           <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
@@ -81,7 +81,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName, 
+import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
@@ -355,7 +355,7 @@ export default {
 
           })
         }
-    
+
         // update vp
         let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
         this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
@@ -439,9 +439,10 @@ export default {
 .light #app {
   color: #1A1E25;
 }
-.light .square{
-  &.bg-img{
-    background-image: linear-gradient(43deg, #EAE6FF 0%, #DED4FF 25%, #FBFCFF 76%, #EBEBFF 100%);
+
+.light {
+  .bg-img{
+    background-image: linear-gradient(90deg, #F4EEFF 0%, #FAF6FF 100%);
     background-size: cover;
     background-position: center;
   }
@@ -599,9 +600,10 @@ export default {
 }
 .search-bar {
   box-sizing: border-box;
+  background: #999999;
   &::after {
     content: "";
-    background: #848391;
+    background: #999999;
     width: 1px;
     height: 8px;
     position: absolute;
@@ -611,20 +613,20 @@ export default {
   }
 }
 .light .search-bar::after {
-  background-color: #D8D8D8;
+  background-color: #999999;
 }
 .search-bar > input {
   width: 28px;
   height: 28px;
   outline: none;
   transition: width 0.5s;
-  border: 1px solid #848391;
+  border: 1px solid #999999;
 }
 .light .search-bar >input {
-  border: 1px solid #D8D8D8;
+  border: 1px solid #999999;
 }
 .search-bar > input::placeholder {
-  color: #D8D8D8;
+  color: #999999;
   opacity: 0;
   transition: opacity 150ms ease-out;
   font-size: 12px;

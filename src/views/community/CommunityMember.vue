@@ -23,9 +23,22 @@
       <div class="flex justify-between items-center px-15px py-10px gap-5px"
            v-for="(item, index) of members" :key="index">
         <div class="flex items-center flex-1 truncate">
-          <img class="w-32px min-w-32px h-32px rounded-full mr-5px"
-               :src="item.profileImg || defaultAvatar" alt="">
-          <span class="truncate text-14px">{{item.username}}</span>
+          <div class="flex items-center">
+            <Avatar :profile-img="item.profileImg || defaultAvatar"
+                    :name="item.name"
+                    :username="item.username"
+                    :steem-id="item.steemId"
+                    :eth-address="item.ethAddress"
+                    :reputation="item.reputation"
+                    @gotoUserPage="$router.push({path : '/account-info/@' + item.username})">
+              <template #avatar-img>
+                <img class="w-32px min-w-32px h-32px rounded-full mr-5px border-0.5px border-color62/20"
+                     @click.stop="$router.push({path : '/account-info/@' + item.username})"
+                     :src="item.profileImg || defaultAvatar" alt="">
+              </template>
+            </Avatar>
+            <span class="truncate text-14px">{{item.username}}</span>
+          </div>
         </div>
         <span class="flex-1 text-right text-12px">{{ parseTimestamp(item.joinTime) }}</span>
         <span class="flex-1 text-right text-12px">{{ item.showingBalance }}</span>
@@ -42,9 +55,11 @@ import { sleep, formatAmount, formatPrice, parseTimestamp } from '@/utils/helper
 import { notify } from '@/utils/notify'
 import { getTokenBalancesOfUsers } from '@/utils/asset'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
+import Avatar from "@/components/Avatar.vue";
 
 export default {
   name: "CommunityMember",
+  components: {Avatar},
   computed: {
     ...mapState('community', ['showingCommunity', 'members']),
     chainName() {
@@ -130,7 +145,7 @@ export default {
     }
   },
   async mounted () {
-    
+
   },
 }
 </script>

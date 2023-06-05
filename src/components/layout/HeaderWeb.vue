@@ -1,6 +1,6 @@
 <template>
   <div class="h-70px flex justify-between items-center px-15px xl:px-1rem 2xl:px-2rem
-              border-b-1 border-headerBorder light:border-headerBorderLight">
+              border-b-0.5px border-headerBorder light:border-headerBorderLight">
     <router-link to="/">
       <img class="h-1.7rem black-filter" src="~@/assets/logo.svg" alt="">
     </router-link>

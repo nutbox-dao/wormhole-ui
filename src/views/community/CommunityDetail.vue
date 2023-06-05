@@ -5,9 +5,6 @@
     <div v-if="scroll>30 || width>640"
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px pt-23px flex justify-center items-center 2md:hidden
                 bg-primaryBg light:bg-white border-b-1 border-headerBorder light:border-headerBorderLight">
-      <!-- <router-link to="/community" class="absolute left-15px">
-        <i class="icon-back w-20px h-20px"></i>
-      </router-link> -->
       <button @click="$router.go(-1)"
               class="absolute left-15px">
         <i class="icon-back w-20px h-20px"></i>
@@ -25,22 +22,10 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
     </div>
-    <div class="container mx-auto w-full sm:max-w-50rem">
-      <div class="hidden 2md:flex h-70px items-center ">
-        <!-- <router-link to="/community" class="w-40px h-40px bg-white/20 rounded-full flex items-center justify-center">
-          <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
-        </router-link> -->
-        <button @click="$router.go(-1)"
-                class="w-30px h-30px bg-white/20 rounded-full
-                       flex items-center justify-center p-5px filter light:invert-30">
-          <img src="~@/assets/icon-back.svg" alt="">
-      </button>
-      </div>
-    </div>
-    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-0 pb-15px
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
-      <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
-                  2md:h-full no-scroll-bar 2md:overflow-auto">
+      <div class="col-span-2 sm:border-1 border-color8B/30 light:border-transparent bg-blockBg light:bg-white
+                  light:shadow-color1A rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto">
         <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
           <!-- description header -->
           <c-image :src="showingCommunity.banner"
@@ -170,7 +155,8 @@
       <div class="col-span-1 hidden 2md:flex h-full overflow-hidden flex-col">
         <!-- token info -->
         <div v-show="showingCommunity.rewardToken"
-             class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mb-15px">
+             class="sm:border-1 border-color8B/30 light:border-transparent
+                    bg-blockBg light:bg-white light:shadow-color1A rounded-12px p-15px mb-15px">
           <div class="flex items-center mb-10px">
             <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                  :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
@@ -195,7 +181,8 @@
         </div>
         <!-- activities -->
         <CommunityActivity
-            class="border-1 border-color8B/30 light:border-color7F rounded-12px
+            class="sm:border-1 border-color8B/30 light:border-transparent
+                   bg-blockBg light:bg-white light:shadow-color1A rounded-12px
                    2md:max-h-full 2md:overflow-hidden"></CommunityActivity>
       </div>
     </div>

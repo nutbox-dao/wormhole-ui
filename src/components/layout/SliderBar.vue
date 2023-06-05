@@ -1,6 +1,6 @@
 <template>
   <div class="w-13rem 2xl:w-15rem min-w-200px flex flex-col justify-between
-              border-r-1 border-headerBorder light:border-headerBorderLight pb-2rem">
+              border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem">
     <div class="flex flex-col items-start gap-15px px-15px xl:px-1rem 2xl:px-2rem">
       <router-link to="/square" class="flex-1 w-full">
         <button  class="w-full h-60px flex items-center">
