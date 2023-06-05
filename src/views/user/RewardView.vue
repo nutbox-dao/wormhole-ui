@@ -79,7 +79,7 @@
                 <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
               </button>
               <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
-                {{ $t('walletView.accountMismatch') }}
+                {{ $t('walletView.accountMismatch', {account: formatAddress(getAccountInfo.ethAddress) + `(@${getAccountInfo.twitterUsername})`}) }}
               </div>
             </div>
             <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">
@@ -98,7 +98,7 @@
             </button>
           </div>
         </div>
-        <div class="mt-30px ">
+        <div class="mt-30px">
           <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
           <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
             <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
