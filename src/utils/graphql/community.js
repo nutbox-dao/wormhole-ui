@@ -76,7 +76,7 @@ export async function getSpecifyCommunityInfoFromTheGraph(community) {
     if (data && data.community) {
       const community = data.community
       store.commit('community/saveNutboxCommunityInfo', community)
-      store.commit('community/savePoolsData', community.pools)
+      store.commit('community/savePoolsData', community.pools.filter(p => p.status === 'OPENED'))
       return community
     }
   } catch (e) {

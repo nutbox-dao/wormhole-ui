@@ -4,6 +4,10 @@
            v-if="loadingToken">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
+    <div v-else-if="!loadingToken && !loadingPool && (!specifyDistributionEras || specifyDistributionEras.length === 0)" class="py-2rem">
+      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+    </div>
     <div v-show="specifyDistributionEras.length > 0" class="">
       <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
       <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
@@ -43,14 +47,13 @@ export default {
   },
   async activated() {
     let count = 0;
-    while (!this.showingCommunity || !this.showingCommunity.communityId || !this.configs[this.showingCommunity.communityId] || count++ < 30) {
+    while ((!this.showingCommunity || !this.showingCommunity.communityId || !this.configs[this.showingCommunity.communityId]) && count++ < 30) {
       await sleep(0.2)
     }
-    await sleep(1)
     if (this.communityId !== this.showingCommunity.communityId) {
       this.communityId = this.showingCommunity.communityId
     }
-      this.refresh()
+    this.refresh()
   },
   methods: {
     async refresh() {
@@ -73,6 +76,9 @@ export default {
         getBlockNum(this.showingCommunity.chainId).catch(e => {
           console.log('Update block num fail:', e);
         })
+      }else {
+        this.loadingPool = false;
+        this.loadingToken = false;
       }
     }
   },

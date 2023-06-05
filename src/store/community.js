@@ -109,7 +109,9 @@ export default {
       state.ops = [];
       state.price = 0;
       state.specifyDistributionEras = [];
-      state.currentBlockNum = 0
+      state.currentBlockNum = 0;
+      state.nutboxCommunityInfo = {};
+      state.poolsData = []
     }
   }
 };
