@@ -349,8 +349,11 @@ export default {
           if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
             this.$store.commit('saveRcInfo', res)
           }
-          const newNoti = await hasNewNoti(this.getAccountInfo.twitterId)
-          this.$store.commit('noti/saveNewNotis', newNoti)
+          hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
+            this.$store.commit('noti/saveNewNotis', newNoti)
+          }).catch(e => {
+
+          })
         }
     
         // update vp
@@ -364,7 +367,7 @@ export default {
       }else {
         c = 0;
       }
-    }, 2000);
+    }, 3000);
 
     while(true) {
       try{

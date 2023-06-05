@@ -1,10 +1,10 @@
 <template>
   <div class="py-10px">
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="listLoading && (!members || members.length === 0)">
+         v-if="refreshing && (!members || members.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <div v-else-if="!listLoading && (!members || members.length === 0)" class="py-2rem">
+    <div v-else-if="!refreshing && (!members || members.length === 0)" class="py-2rem">
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
       <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       defaultAvatar,
-      refreshing: false,
+      refreshing: true,
       listLoading: false,
       listFinished: false,
       communityId: ''
@@ -80,13 +80,14 @@ export default {
   methods: {
     parseTimestamp,
     async onLoad() {
-      if (this.listFinished || this.finished) return;
+      if (this.listFinished || this.finished || this.members.length === 0) return;
       try {
         this.listLoading = true;
-        let members = await getCommunityMembers(this.showingCommunity.communityId, 20, parseInt((this.members -1) / 20) + 1);
-        members = await this.getBalances(members)
-        this.$store.commity('community/saveMembers', this.members.concat(members ?? []));
-        if(memebers.length === 0) {
+        let members = await getCommunityMembers(this.showingCommunity.communityId, 20, parseInt((this.members.length -1) / 20) + 1);
+        if (members.length > 0) {
+          members = await this.getBalances(members)
+          this.$store.commit('community/saveMembers', this.members.concat(members ?? []));
+        }else {
           this.finished = true
         }
       } catch (e) {
@@ -100,7 +101,7 @@ export default {
         this.listLoading = true;
         this.refreshing = true;
         let members = await getCommunityMembers(this.showingCommunity.communityId);
-        console.log(12, members);
+        this.$store.commit('community/saveMembers', members ?? []);
         members = await this.getBalances(members)
         this.$store.commit('community/saveMembers', members ?? []);
       } catch (e) {
