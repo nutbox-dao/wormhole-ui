@@ -48,7 +48,7 @@
           <div class="relative mt-95px px-15px">
             <div class="flex items-stretch">
               <c-image :src="showingCommunity.icon"
-                       class="w-72px h-72px min-w-72px min-h-72px border-3 border-colorF7 rounded-9px bg-colorF7"></c-image>
+                       class="w-72px h-72px min-w-72px min-h-72px border-2 border-colorF7 rounded-36px"></c-image>
               <div class="flex-1 flex flex-col justify-between ml-15px">
                 <div class="flex justify-between items-start">
                   <div class="text-left">
