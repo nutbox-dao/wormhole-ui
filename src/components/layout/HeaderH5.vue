@@ -1,8 +1,8 @@
 <template>
-  <div class="py-20px border-b-0.5px border-headerBorder light:border-colorD6
-              h-70px 2xl:h-88px flex items-center c-page-header">
+  <div class="border-b-0.5px border-headerBorder light:border-colorD6
+              h-70px pt-23px 2xl:h-88px flex items-center c-page-header">
     <div class="w-full px-15px flex justify-between items-center relative">
-      <div v-if="getAccountInfo?.twitterId" class="h-20px overflow-hidden">
+      <div v-if="getAccountInfo?.twitterId" class="h-22px overflow-hidden">
         <div class="flex items-center gap-10px">
           <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
             <template #content>
@@ -52,7 +52,7 @@
           <span v-show="newMessage" class="w-6px h-6px absolute top-5px right-5px c-badge"></span>
         </router-link>
       </div>
-      <img class="h-1.7rem black-filter absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      <img class="h-20px 2md:h-1.7rem black-filter absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
            src="~@/assets/logo.svg" alt="">
     </div>
     <el-dialog v-model="searchModalVisible"
@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     this.$bus.on('readAll', () => {
-      
+
     })
   },
 }

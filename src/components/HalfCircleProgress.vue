@@ -5,7 +5,7 @@
         <span v-for="i of 7" :key="i"
               class="w-full h-2px rounded-full block
                      absolute left-0 top-1/2 transform -translate-y-1/2"
-              :class="`rotate-${30*i}`">
+              :style="{transform: `rotate(${(i-1)*30}deg)`}">
           <span class="w-4px h-full rounded-full block ml-4px bg-color99 light:bg-color1A"></span>
         </span>
       </div>
@@ -24,7 +24,7 @@
               :stroke-width="relativeStrokeWidth"
               :style="circlePathStyle"></path>
       </svg>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full scale-80
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-9/10 scale-80
                   text-12px leading-12px c-text-black">
         <slot name="default">
           {{percentage.toFixed(2)}}%
