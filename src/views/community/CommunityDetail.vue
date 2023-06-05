@@ -54,7 +54,7 @@
                   <div class="text-left">
                     <div class="c-text-black text-24px text-white mb-8px">{{showingCommunity.communityName}}</div>
                     <div class="flex items-center text-white text-12px">
-                      <c-image :src="EVM_CHAINS[chain.chainName].main.icon"
+                      <c-image :src="EVM_CHAINS[chain?.chainName]?.main?.icon"
                                class="w-14px h-14px min-w-14px rounded-full mr-4px"></c-image>
                       <span>{{chain.chainName}}</span>
                       <div class="w-1px h-12px bg-white mx-8px"></div>
