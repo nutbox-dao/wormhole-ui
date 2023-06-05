@@ -74,7 +74,7 @@ export default {
 
     },
     gotoCommunity(community) {
-      this.$router.push('/community-detail/' + community.communityId)
+      // this.$router.push('/community-detail/' + community.communityId)
     }
   },
   async mounted () {

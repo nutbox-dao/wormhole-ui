@@ -10,7 +10,7 @@
       </div>
     <div v-else-if="!loading && (!activities || activities.length === 0)" class="py-1rem">
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+      <div class="text-color8B w-full text-center light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
     <div v-else class="relative border-1 bg-black/40 border-1 border-color8B/30
                       light:bg-white light:border-colorE3

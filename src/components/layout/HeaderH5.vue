@@ -2,7 +2,7 @@
   <div class="py-20px border-b-0.5px border-headerBorder light:border-colorD6
               h-70px 2xl:h-88px flex items-center c-page-header">
     <div class="w-full px-15px flex justify-between items-center relative">
-      <div class="h-20px overflow-hidden">
+      <div v-if="getAccountInfo?.twitterId" class="h-20px overflow-hidden">
         <div class="flex items-center gap-10px">
           <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
             <template #content>
@@ -40,12 +40,13 @@
           </el-tooltip>
         </div>
       </div>
+      <div v-else></div>
       <div class="flex items-center">
         <button class="relative" @click="searchModalVisible=true">
           <img class="w-24px h-24px min-w-24px"
                src="~@/assets/icon-search.svg" alt="">
         </button>
-        <router-link to="/info" class="ml-10px relative">
+        <router-link v-if="getAccountInfo?.twitterId" to="/info" class="ml-10px relative">
           <img class="w-24px h-24px min-w-24px"
                src="~@/assets/icon-notification.svg" alt="">
           <span v-show="newMessage" class="w-6px h-6px absolute top-5px right-5px c-badge"></span>
@@ -68,7 +69,7 @@
 
 <script>
 import SearchView from "@/views/SearchView";
-import {mapState} from "vuex";
+import {mapState, mapGetters} from "vuex";
 import { MAX_VP, MAX_RC } from "@/config";
 import HalfCircleProgress from "@/components/HalfCircleProgress.vue";
 
@@ -80,6 +81,7 @@ export default {
       "rc",
       'vp'
     ]),
+    ...mapGetters(['getAccountInfo']),
     newMessage(){
       const newNoti = this.$store.state.noti.newNotis
       return newNoti && newNoti.length > 0
