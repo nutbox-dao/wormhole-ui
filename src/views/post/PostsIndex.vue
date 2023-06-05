@@ -4,7 +4,7 @@
       <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
         <div class="flex justify-between items-center py-5px">
           <div class="flex flex-1 overflow-x-auto overflow-y-hidden no-scroll-bar">
-            <button v-for="(tag, index) of subTagList.slice(0, 5)" :key="index"
+            <button v-for="(tag, index) of subTagList.slice(0, 10)" :key="index"
                     class="text-14px whitespace-nowrap mr-10px px-12px py-5px rounded-full border-1 border-color62"
                     :class="selectedTag===tag?'text-white bg-color62':'text-color62'"
                     @click="setSelectTag(tag)">{{tag}}</button>
@@ -179,7 +179,7 @@ export default {
         }
     },
     moreTag() {
-      return this.subTagList.slice(5)
+      return this.subTagList.slice(10)
     },
     customizeTag() {
       return this.selectedTag && this.subTagList.indexOf(this.selectedTag) <0 && this.moreTag.indexOf(this.selectedTag) < 0 && this.customizeTagList.indexOf(this.selectedTag) < 0

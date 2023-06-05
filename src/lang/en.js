@@ -131,7 +131,7 @@ export default {
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
     inputAmount: 'Enter token amount',
-    accountMismatch: 'You must use wormhole3 binded account to operate.',
+    accountMismatch: 'You must use {account} to operate.',
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',

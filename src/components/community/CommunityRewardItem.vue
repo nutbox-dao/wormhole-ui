@@ -22,7 +22,7 @@
         </button>
       </div>
       <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
-                  flex flex-col justify-between items-center">
+                  flex flex-col justify-between items-center text-12px 2xl:text-14px font-bold">
         <div class="w-full flex items-center">
           <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol]" alt="">
           <div class="flex flex-col items-start">
@@ -32,20 +32,20 @@
         </div>
         <button v-if="(chainId !== community.chainId)"
                 class="ny-gradient-btn gradient-btn-disabled-grey w-full
-                        flex items-center justify-center min-w-10rem px-15px mt-5px text-4px
-                        rounded-full h-32px text-white font-bold" @click="connect">
+                        flex items-center justify-center min-w-10rem px-20px mt-5px text-4px
+                        rounded-full h-40px text-white font-bold" @click="connect">
           {{ $t('common.connectMetamask') }}
           <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
         <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-4px
-                  h-32px px-15px rounded-full text-white w-full font-bold"
+                  h-40px px-20px rounded-full text-white w-full font-bold"
                 :disabled="claiming || accountMismatch || list.length === 0"
                 @click="claimReward">
           {{ $t('curation.claimReward') }}
           <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
         <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
-          {{ $t('walletView.accountMismatch') }}
+          {{ $t('walletView.accountMismatch', {account: formatAddress(getAccountInfo.ethAddress) + `(@${getAccountInfo.twitterUsername})`}) }}
         </div>
       </div>
     </div>
@@ -113,6 +113,7 @@ import {TokenIcon} from "@/config";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {useWindowSize} from "@vant/use";
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
+import { formatAddress } from '@/utils/tool'
 import { mapGetters, mapState } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
 import { getPriceFromOracle } from '@/utils/asset'
@@ -208,6 +209,7 @@ export default {
     }
   },
   methods: {
+    formatAddress,
     parseTimestamp,
     formatAmount,
     formatPrice,
