@@ -25,13 +25,13 @@
             {{$t('info.reward')}}
           </span>
         </button>
-        <button class="h-full px-10px"
+        <!-- <button class="h-full px-10px"
                 :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=2">
           <span class="relative" :class="hasSysNoti?'c-badge':''">
             {{$t('info.system')}}
           </span>
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="flex-1 overflow-hidden container mx-auto max-w-600px xl:max-w-30rem px-15px sm:py-20px">

@@ -100,7 +100,6 @@ export const joinCommunity = async (communityId) => {
 }
 
 export const getCommunityPolicyStake = async (chainName, ethAddress, policys) => {
-    console.log(chainName, ethAddress, policys)
     try {
         let call = []
         if (policys && policys.length > 0) {
@@ -128,9 +127,7 @@ export const getCommunityPolicyStake = async (chainName, ethAddress, policys) =>
                     })
                 }
             }
-            console.log(3, call)
             const res = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
-            console.log('stake result', res)
             return res.results.transformed;
         }
         return

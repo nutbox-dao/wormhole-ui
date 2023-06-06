@@ -458,7 +458,7 @@ export default {
     home: 'Home',
     community: 'Community',
     influence: 'Curation Credit',
-    info: 'Messages',
+    info: 'Notification',
     create: 'Create',
     mine: 'Profile'
   },
