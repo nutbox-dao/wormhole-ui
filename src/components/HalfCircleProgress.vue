@@ -40,7 +40,7 @@
              :style="{transform: `rotate(${percentage/100*180}deg)`}">
           <div class="w-full absolute top-1/2 left-0 transform -translate-y-1/2"
                :style="{height: `${strokeWidth/2}px`, padding: `0px ${strokeWidth*2+3}px`}">
-            <div class="w-1/2 h-full light:bg-color1A progress-pointer"></div>
+            <div class="w-1/2 h-full bg-color99 light:bg-color1A progress-pointer"></div>
           </div>
         </div>
       </slot>
