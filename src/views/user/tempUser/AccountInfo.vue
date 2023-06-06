@@ -51,6 +51,7 @@
                 </div>
               </div>
               <UserEnergyBar class="flex items-center mx-15px gap-15px 2md:hidden"
+                            :is-self="false"
                              :rc-value="Number(rc)"
                              :vp-value="Number(vp)"></UserEnergyBar>
             </div>
@@ -210,6 +211,7 @@ import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
 import { getUserVPRC } from '@/api/api'
 import UserEnergyBar from "@/components/UserEnergyBar.vue";
+import HalfCircleProgress from "@/components/HalfCircleProgress.vue"
 
 export default {
   name: "AccountInfo",
@@ -219,7 +221,8 @@ export default {
     Curations,
     TipModalVue,
     PostDetail,
-    UserEnergyBar
+    UserEnergyBar,
+    HalfCircleProgress
   },
   data() {
     return {

@@ -91,7 +91,7 @@
               </HalfCircleProgress>
             </div>
             <div class="flex-1">
-              <div class="c-text-black text-20px mb-20px">{{Number(rc) / MAX_RC * 100}}%</div>
+              <div class="c-text-black text-20px mb-20px">{{(Number(rc) / MAX_RC * 100).toFixed(2)}}%</div>
               <div class="flex items-center justify-between">
                 <span class="text-color8B text-14px">RC</span>
                 <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
@@ -120,7 +120,7 @@
               </HalfCircleProgress>
             </div>
             <div class="flex-1">
-              <div class="c-text-black text-20px mb-20px">{{Number(vp) / MAX_VP * 100}}%</div>
+              <div class="c-text-black text-20px mb-20px">{{(Number(vp) / MAX_VP * 100).toFixed(2)}}%</div>
               <div class="flex items-center justify-between">
                 <span class="text-color8B text-14px">VP</span>
                 <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
