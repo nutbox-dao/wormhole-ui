@@ -1,9 +1,13 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative">
     <div class="flex-1 overflow-auto">
-      <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-           v-if="refreshing && (!influenceList || influenceList.length === 0)">
+       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+         v-if="refreshing && (!influenceList || influenceList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
+      <div v-else-if="!refreshing && (!influenceList || influenceList.length === 0)" class="py-2rem">
+        <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+        <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
       </div>
       <van-pull-refresh v-else
                         class="min-h-full"
@@ -77,8 +81,8 @@ export default {
       // this.$router.push('/community-detail/' + community.communityId)
     }
   },
-  async mounted () {
-   this.onRefresh()
+  async activated() {
+    this.onRefresh()
   },
 }
 </script>
