@@ -1,32 +1,51 @@
 <template>
   <div class="w-13rem 2xl:w-15rem min-w-200px flex flex-col justify-between
               border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem">
-    <div class="flex flex-col items-start gap-15px px-15px xl:px-1rem 2xl:px-2rem">
-      <router-link to="/square" class="flex-1 w-full">
-        <button  class="w-full h-60px flex items-center">
-          <span>{{$t('slider.home')}}</span>
+    <div class="flex flex-col items-start gap-15px px-15px xl:px-1rem 2xl:px-2rem text-18px">
+      <router-link to="/square" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-home-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-home.svg" alt="">
+          <span class="ml-8px">{{$t('slider.home')}}</span>
         </button>
       </router-link>
-      <router-link to="/community" class="flex-1 w-full">
-        <button class="w-full h-60px flex items-center">
-          <span>{{$t('slider.community')}}</span>
+      <router-link to="/community" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-community-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-community.svg" alt="">
+          <span class="ml-8px">{{$t('slider.community')}}</span>
         </button>
       </router-link>
-      <router-link to="/influence" class="flex-1 w-full">
-        <button class="w-full h-60px flex items-center">
-          <span>{{$t('slider.influence')}}</span>
+      <router-link to="/influence" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-influence-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-influence.svg" alt="">
+          <span class="ml-8px">{{$t('slider.influence')}}</span>
         </button>
       </router-link>
-      <router-link to="/info" class="flex-1 w-full">
-        <button  class="w-full h-60px flex items-center">
-          <span :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
+      <router-link to="/info" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-message-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-message.svg" alt="">
+          <span class="ml-8px" :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
         </button>
       </router-link>
-      <router-link to="/create-curation" class="flex-1 w-full">
-        <button  class="w-full h-60px flex items-center">
-          <span>{{$t('slider.create')}}</span>
+      <router-link to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-create-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-create.svg" alt="">
+          <span class="ml-8px">{{$t('slider.create')}}</span>
         </button>
       </router-link>
+      <Menu class="" @show="(data) => {isShowMenu=data}">
+        <template #menu-toggle>
+          <button class="w-full h-60px flex items-center" :class="isShowMenu?'text-color62':'text-color99'">
+            <img v-show="isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more-active.svg" alt="">
+            <img v-show="!isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more.svg" alt="">
+            <span class="ml-8px">{{$t('common.more')}}{{$refs.menuBox}}</span>
+          </button>
+        </template>
+      </Menu>
     </div>
     <div class="px-15px xl:px-1rem 2xl:px-2rem">
       <button v-if="!getAccountInfo"
@@ -60,11 +79,6 @@
           </div>
         </router-link>
       </template>
-      <Menu class="mt-10px">
-        <template #menuName>
-          <span class="whitespace-nowrap ml-10px">{{$t('common.more')}}</span>
-        </template>
-      </Menu>
     </div>
   </div>
 </template>
@@ -98,6 +112,7 @@ export default {
       searchModalVisible: false,
       MAX_RC,
       MAX_VP,
+      isShowMenu: false
     }
   },
   mounted() {

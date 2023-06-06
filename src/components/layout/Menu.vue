@@ -1,12 +1,14 @@
 <template>
   <div class="relative">
-    <el-popover popper-class="c-popper" ref="menuBox" placement="top-start" :show-after="500">
+    <el-popover popper-class="c-popper" ref="menuBox" :placement="'auto-start'" trigger="click" :teleported="false"
+                @show="$emit('show', true)" @hide="$emit('show', false)">
       <template #reference>
-        <button class="bg-transparent h-2rem flex items-center">
-          <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem filter light:invert-100"
-               src="~@/assets/icon-menu-toggle.svg" alt="">
-          <slot name="menuName"></slot>
-        </button>
+        <slot name="menu-toggle">
+          <button class="bg-transparent h-2rem flex items-center">
+            <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem filter light:invert-100"
+                 src="~@/assets/icon-menu-toggle.svg" alt="">
+          </button>
+        </slot>
       </template>
       <div class="w-150px 2xl:w-10rem">
         <div class="px-12px py-8px border-1 border-listBgBorder
@@ -47,12 +49,16 @@
             <span>{{$t('logout')}}</span>
             <i class="w-14px min-w-14px h-14px icon-logout"></i>
           </div>
-          <div class="flex items-center">
-            <button class="h-24px w-24px mr-20px" @click="gotoDC">
+          <div class="flex items-center gap-15px">
+            <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
+                           flex items-center justify-center"
+                    @click="gotoDC">
               <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">
             </button>
-            <button class="h-24px w-24px" @click="gotoTwitter">
-              <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter.svg" alt="">
+            <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
+                           flex items-center justify-center"
+                    @click="gotoTwitter">
+              <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter-white.svg" alt="">
             </button>
           </div>
         </div>

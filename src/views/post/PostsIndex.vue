@@ -96,9 +96,10 @@
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <div v-else class="-mt-18px md:-mt-25px">
+              <div v-else class="-mt-15px sm:-mt-0px md:-mt-15px">
                 <div v-for="(post, index) of postsList" :key="post.postId"
-                     class="py-20px border-b-1 border-color8B/30 light:border-colorD8">
+                     class="p-15px border-b-0.5px border-color8B/30 light:border-colorD8
+                            sm:rounded-16px sm:border-b-0 light:sm:bg-white light:sm:shadow-color1A mb-15px">
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
                           @click="gotoDetail(post, index)"

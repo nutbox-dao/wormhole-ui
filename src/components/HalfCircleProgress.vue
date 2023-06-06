@@ -1,18 +1,22 @@
 <template>
   <div class="el-progress el-progress--dashboard w-full h-full">
     <div class="el-progress-circle w-full h-full relative">
-      <div class="absolute w-full h-full left-0 top-0">
-        <span v-for="i of 7" :key="i"
-              class="w-full h-2px rounded-full block
-                     absolute left-0 top-1/2 transform -translate-y-1/2"
-              :style="{transform: `rotate(${(i-1)*30}deg)`}">
-          <span class="w-4px h-full rounded-full block ml-4px bg-color99 light:bg-color1A"></span>
-        </span>
+      <div class="absolute w-full h-full left-0 top-0" :style="{padding: `${strokeWidth/2}px`}">
+        <div class="relative w-full h-full">
+          <span v-for="i of 7" :key="i"
+                class="w-full h-2px rounded-full block
+                       absolute left-0 top-1/2 transform -translate-y-1/2"
+                :style="{transform: `rotate(${(i-1)*30}deg)`}">
+            <span class="h-full rounded-full block ml-4px bg-color99 light:bg-color1A"
+                  :style="{width: `${width*2/25}px`}"></span>
+          </span>
+        </div>
       </div>
       <svg viewBox="0 0 100 100">
         <path class="el-progress-circle__track"
               :d="trackPath"
               fill="none"
+              stroke-linecap="round"
               :stroke-width="relativeStrokeWidth"
               :style="trailPathStyle"></path>
         <path class="el-progress-circle__path"
@@ -31,6 +35,15 @@
         </slot>
       </div>
       <slot name="label"></slot>
+      <slot name="pointer">
+        <div class="w-full h-full absolute top-0 left-0"
+             :style="{transform: `rotate(${percentage/100*180}deg)`}">
+          <div class="w-full absolute top-1/2 left-0 transform -translate-y-1/2"
+               :style="{height: `${strokeWidth/2}px`, padding: `0px ${strokeWidth*2+3}px`}">
+            <div class="w-1/2 h-full light:bg-color1A progress-pointer"></div>
+          </div>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
@@ -81,4 +94,7 @@ const circlePathStyle = computed(() => ({
 </script>
 
 <style scoped lang="scss">
+.progress-pointer {
+  clip-path: polygon(70% 0, 100% 50%, 70% 100%, 0 50%);
+}
 </style>
