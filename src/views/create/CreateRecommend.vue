@@ -895,7 +895,7 @@ export default {
       return time.getTime() + 86400000 < date || time.getTime() >date + 86400000*7
     },
     checkCreateData() {
-      if (!this.form.communityId ||this.form.communityId.length === 0) {
+      if (!this.form.communityId || this.form.communityId.length === 0) {
         notify({message: this.$t('tips.missingInput'), duration: 5000, type: 'error'})
         return false;
       }

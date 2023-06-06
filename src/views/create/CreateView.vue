@@ -16,22 +16,20 @@
     </div>
     <div class="container mx-auto max-w-50rem flex-1 overflow-auto no-scroll-bar">
       <CreatePost v-if="tabIndex===0"/>
-      <!-- <CreateCuration v-if="tabIndex===1"/> -->
       <CreateRecommend v-if="tabIndex===1"/>
     </div>
   </div>
 </template>
 
 <script>
-import CreateRecommend from "@/views/curations/CreateRecommend.vue";
-import CreatePost from "@/components/CreatePost.vue";
-import CreateCuration from "@/views/curations/CreateCuration.vue";
+import CreateRecommend from "@/views/create/CreateRecommend.vue";
+import CreatePost from "@/views/create/CreatePost.vue";
 import { mapState, mapGetters } from 'vuex'
 import { getCommunities } from '@/api/api'
 
 export default {
   name: "CreateView",
-  components: {CreateRecommend, CreatePost, CreateCuration},
+  components: {CreateRecommend, CreatePost},
   data() {
     return {
       tabIndex: 0

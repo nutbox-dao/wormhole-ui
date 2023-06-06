@@ -34,7 +34,7 @@
                  :key="item.communityId"
                  class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
                         rounded-8px h-40px px-15px border-2px mt-10px cursor-pointer"
-                 :class="item.displayTag===searchCommunityText?'border-color62':'border-transparent'"
+                 :class="item.communityId===selectedCommunityId?'border-color62':'border-transparent'"
                  @click="selectCommunity(item)">
               <img class="w-24px h-24px rounded-full mr-10px"
                    :src="item.icon" alt=""
@@ -68,7 +68,8 @@ export default {
     return {
       expandCommunity: true,
       searchCommunityText: '',
-      searchCommunityLoading: false
+      searchCommunityLoading: false,
+      selectedCommunityId: ''
     }
   },
   computed: {
@@ -81,6 +82,11 @@ export default {
         return this.communities
       }
     },
+  },
+  watch: {
+    communityId(newValue, oldValue) {
+      this.selectedCommunityId = newValue
+    }
   },
   methods: {
     replaceEmptyImg(e) {
@@ -105,9 +111,13 @@ export default {
     selectCommunity(item) {
       this.$emit('setCommunityId', item.communityId)
       this.$emit('setTag', item.displayTag)
-      this.searchCommunityText=item.displayTag
+      // this.searchCommunityText=item.displayTag
+      this.selectedCommunityId = item.communityId
     }
-  }
+  },
+  mounted () {
+    this.selectedCommunityId = this.communityId;
+  },
 }
 </script>
 

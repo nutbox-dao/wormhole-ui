@@ -48,7 +48,7 @@
               <span>{{$t('community.toBeStart')}}</span>
               <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
               <van-count-down class="text-12px text-color62"
-                              :time="countdown(new Date(topic.startTime).getTime()/1000)">
+                              :time="countdown(new Date(topic?.startTime).getTime()/1000)">
                 <template #default="timeData">
                   {{ timeData.days }} {{$t('common.day')}}
                   {{ timeData.hours }} {{$t('common.hour')}}
@@ -63,7 +63,7 @@
               <span>🔥 {{$t('community.inProgress')}}</span>
               <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
               <span>
-                  {{ formatDateString(topic.startTime) }} ~ {{ formatDateString(topic.endTime) }}
+                  {{ formatDateString(topic?.startTime) }} ~ {{ formatDateString(topic?.endTime) }}
                 </span>
             </div>
             <div v-else-if="status==='ended'"
@@ -72,11 +72,11 @@
               <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
               <span>{{$t('community.endedAt')}}</span>
               <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
-              <span>{{ formatDateString(topic.endTime) }}</span>
+              <span>{{ formatDateString(topic?.endTime) }}</span>
             </div>
             <div class="flex justify-between items-center">
               <div class="flex items-center ml-11px">
-                <div class="-ml-11px" v-for="p of topic.participates?.slice(0,3)" :key="p">
+                <div class="-ml-11px" v-for="p of topic?.participates?.slice(0,3)" :key="p">
                   <img v-if="p"
                        class="w-28px min-w-28px h-28px rounded-full
                                 border-2px border-color62 light:border-white bg-color8B/10"
@@ -86,15 +86,15 @@
                               border-2px border-color62 light:border-white bg-color8B/10"
                        src="~@/assets/icon-default-avatar.svg" alt="">
                 </div>
-                <span v-if="topic.membersCount>3"
+                <span v-if="topic?.membersCount>3"
                       class="h-28px flex items-center pl-4px font-bold text-12px text-color99">
-                    {{ topic.membersCount - 3 }}+
+                    {{ topic?.membersCount - 3 }}+
                   </span>
               </div>
             </div>
           </div>
           <div class="text-14px leading-20px text-left pb-15px">
-            {{ topic.description }}
+            {{ topic?.description }}
           </div>
         </div>
         <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold 2md:hidden
@@ -114,7 +114,7 @@
         <div class="px-15px">
           <template v-if="tabIndex===0">
             <div class="flex items-center justify-between mt-20px">
-              <span class="c-text-black text-14px">Post ({{ topic.postCounts }})</span>
+              <span class="c-text-black text-14px">Post ({{ topic?.postCounts }})</span>
               <el-dropdown>
                 <button class="text-14px text-color62 flex items-center">
                   <span class="font-bold">{{postType[typeIndex]}}</span>
@@ -227,7 +227,9 @@ import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice, formatDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew, getCommunityActivePostsByTrending, getCommunityActivityReward } from '@/api/api'
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew, 
+  getCommunityActivityById, getCommunityActivePostsByTrending, 
+  getCommunityActivityReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -268,7 +270,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs', 'topics']),
+    ...mapState('community', ['showingCommunity', 'configs', 'topics', 'endedTopics', 'pendingTopics']),
     ...mapGetters(['getAccountInfo']),
     status() {
       if(!this.topic.startTime) return ''
@@ -321,15 +323,20 @@ export default {
       this.$router.push('/post-detail/' + post.postId);
     },
     async getCommunityTopics() {
+      let topic;
       if (this.topics.length > 0) {
-        this.topic = this.topics.find(r => r.activityId === this.topicId)
-      }else {
-        getCommunityActivities(this.showingCommunity.communityId).then(res => {
-          this.$store.commit('community/saveTopics', res);
-          this.topic = res.find(r => r.activityId === this.topicId)
+        topic = this.topics.find(r => r.activityId === this.topicId) ?? 
+        this.pendingTopics.find(r => r.activityId === this.topicId) ??
+        this.endedTopics.find(r => r.activityId === this.topicId)
+      }
+      if (!topic) {
+        getCommunityActivityById(this.topicId).then(res => {
+          this.topic = res ?? {}
         }).catch(e => {
           console.log('error', e);
         })
+      }else {
+        this.topic = topic;
       }
     },
     async refresh() {

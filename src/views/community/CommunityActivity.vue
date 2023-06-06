@@ -93,11 +93,9 @@ export default {
       }
     },
     async refresh() {
-      console.log(12, this.refreshing, this.listLoading);
       if (this.refreshing || this.listLoading) return;
       this.refreshing = true;
       getCommunityOps(this.communityId).then(ops => {
-        console.log('ops', ops);
         this.$store.commit('community/saveOps', ops)
       }).catch(e => {
         console.log(55, e);

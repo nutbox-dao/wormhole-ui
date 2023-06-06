@@ -27,6 +27,7 @@
         <div class="flex flex-wrap p-8px gap-4px border-b-0.5px border-color8B/30"
              v-if="form.tag">
           <button class="bg-color62 h-20px text-white px-5px rounded-full text-12px">#{{form.tag}}</button>
+          <button v-show="form.topic" class="bg-color62 h-20px text-white px-5px rounded-full text-12px">#{{form.topic}}</button>
         </div>
         <div contenteditable
              class="desc-input px-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"

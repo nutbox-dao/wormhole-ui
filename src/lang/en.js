@@ -94,7 +94,7 @@ export default {
     p2: 'Replace {\'{***}\'} to real content.',
     p3: 'You can replace {\'{wormhole3}\'} with a steem username.',
     tweetTip: 'Tweet to blockchain',
-    tip1: 'You can add #iweb3 tag and community tag to your tweet and wormhole3 will automatically sync your tweet on-chain. Here is an example:',
+    tip1: 'Add #iweb3 and community hashtag to your tweet, Wormhole3 will sync your tweet to blockchain, and you will start earning the respective community tokens! Here is an example: ',
     tip2: '2. Tip STEEM/SBD to a twitter account',
     tip3: "3. Transfer STEEM/SBD to a steem account",
     p4: 'Your account is in the process of registration',

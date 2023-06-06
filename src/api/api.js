@@ -398,6 +398,9 @@ export const getCommunitySpaces = async (twitterId, communityId, lastPostId) =>
 export const getCommunityActivities = async (communityId, state) =>
     get(BACKEND_API_URL + '/community/getCommunityActivities', {communityId, state})
 
+export const getCommunityActivityById = async (activityId) => 
+    get(BACKEND_API_URL + '/community/getCommunityActivityById', {activityId})
+
 export const getCommunityActivePostsByNew = async (twitterId, activityId, lastPostId) =>
     get(BACKEND_API_URL + '/community/getCommunityActivePostsByNew', {twitterId, activityId, lastPostId})
 
