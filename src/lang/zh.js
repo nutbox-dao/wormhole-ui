@@ -94,7 +94,7 @@ export default {
     p2: '将 {\'{***}\'} 替换成真实内容.',
     p3: '你可以将 {\'{wormhole3}\'} 替换成steem用户名.',
     tweetTip: '发推上链',
-    tip1: '你可以在你的推文中加入#iweb3标签，该推文将自动上链。以下是一个示例：',
+    tip1: '在你的推文中添加#iweb3和社区hastag，wormhole3会自动将其同步到区块链上。你将开始挖取社区的token。以下是一个示例：',
     tip2: '2. 打赏 STEEM/SBD 至twitter账号',
     tip3: "3. 发送 STEEM/SBD 至steem账号",
     p4: '您的账户正在注册中',
