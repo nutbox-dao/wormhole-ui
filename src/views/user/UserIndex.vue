@@ -11,8 +11,8 @@
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
     </button>
     <template v-if="!loading">
-      <div class="container max-w-50rem mx-auto grid grid-cols-2 2md:grid-cols-3 gap-15px sm:my-15px">
-        <div class="col-span-2 p-15px sm:bg-blockBg light:sm:bg-white sm:rounded-16px">
+      <div class="container max-w-50rem mx-auto grid 2md:grid-cols-5 xl:grid-cols-3 gap-15px sm:my-15px">
+        <div class="col-span-3 xl:col-span-2 p-15px sm:bg-blockBg light:sm:bg-white sm:rounded-16px">
           <div class="flex justify-end 2md:hidden">
             <Menu></Menu>
           </div>
@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-1 hidden 2md:flex flex-col gap-15px">
+        <div class="col-span-2 xl:col-span-1 hidden 2md:flex flex-col gap-15px">
           <div class="flex-1 bg-blockBg light:bg-white rounded-16px py-20px px-1/10 flex items-center justify-between gap-20px">
             <div class="h-60px overflow-hidden relative">
               <HalfCircleProgress class="c-progress-dashboard w-100px h-100px relative"

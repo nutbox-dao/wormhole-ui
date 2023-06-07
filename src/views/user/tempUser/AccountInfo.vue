@@ -24,8 +24,8 @@
         </div>
       </div>
       <template v-if="!loading">
-        <div class="container max-w-50rem mx-auto grid grid-cols-2 2md:grid-cols-3 gap-15px sm:my-15px">
-          <div class="col-span-2 p-15px sm:bg-blockBg light:bg-white sm:rounded-16px">
+        <div class="container max-w-50rem mx-auto grid 2md:grid-cols-5 xl:grid-cols-3 gap-15px sm:my-15px">
+          <div class="col-span-3 xl:col-span-2 p-15px sm:bg-blockBg light:bg-white sm:rounded-16px">
             <button @click="$router.go(-1)"
                     class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
                            hidden sm:flex items-center justify-center">
@@ -55,10 +55,10 @@
                              :rc-value="Number(rc)"
                              :vp-value="Number(vp)"></UserEnergyBar>
             </div>
-            <div class="flex">
+            <div class="flex overflow-hidden">
               <div class="hidden sm:block w-6rem min-w-6rem h-6rem
                         md:w-4.8rem md:min-w-4.8rem md:max-w-4.8rem md:h-4.8rem mr-15px"></div>
-              <div class="w-full sm:max-w-500px">
+              <div class="flex-1 overflow-hidden sm:max-w-500px">
                 <div class="flex gap-5px mt-15px sm:mt-0">
                   <button v-if="accountInfo?.reputation > 0"
                           class="border-1 border-color62 px-8px rounded-full text-12px h-20px
@@ -91,7 +91,7 @@
               </div>
             </div>
           </div>
-          <div class="col-span-1 hidden 2md:flex flex-col gap-15px">
+          <div class="col-span-2 xl:col-span-1 hidden 2md:flex flex-col gap-15px">
             <div class="flex-1 bg-blockBg light:bg-white rounded-16px py-20px px-1/10 flex items-center justify-between gap-20px">
               <div class="h-60px overflow-hidden relative">
                 <HalfCircleProgress class="c-progress-dashboard w-100px h-100px relative"
