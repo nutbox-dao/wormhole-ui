@@ -93,7 +93,7 @@
             <div class="flex-1">
               <div class="c-text-black text-20px mb-20px">{{(Number(rc) / MAX_RC * 100).toFixed(2)}}%</div>
               <div class="flex items-center justify-between">
-                <span class="text-color8B text-14px">RC</span>
+                <span class="text-color8B text-14px">OP</span>
                 <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
                   <template #content>
                     <div class="max-w-14rem text-white light:text-blueDark">

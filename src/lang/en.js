@@ -88,7 +88,7 @@ export default {
     tweetPost: 'Tweet a post',
     socialToken: 'Social token',
     resourceCredits: 'Resource Credits',
-    p1: 'Every your operation on wormhole3 will cost you resource credits(RC), so your operation can\'t be synced to blockchain if the RC is too lower. The RC will recover 100% every day.',
+    p1: 'All operation on Wormhole3 consume Operation Power (OP). Everyone has 100% OP to start, and it recovers 100% every 24 hours. Note that if OP is too low your operation cannot sync to blockchain.',
     goTweet: 'Go tweet',
     tips: 'Tips',
     p2: 'Replace {\'{***}\'} to real content.',
@@ -113,7 +113,7 @@ export default {
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
     votingPower: 'Curating Power',
-    vpDes: 'Every curatorial operation must cost you curating power which can recover all everyday. The curatorial operations include: like/quote/retweet.',
+    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (CP). Everyone has 100% CP to start, and it recovers 100% every 24 hours. ',
     detail: 'Detail'
   },
   profileView: {
@@ -210,7 +210,7 @@ export default {
     accessTokenExpire: 'Log in token expired',
     notRegisterUser: ' Not registered',
     tweetNotFound: 'This tweet may have been deleted',
-    insuffientRC: "Insuffiient RC",
+    insuffientRC: "Insuffiient OP",
     selectCommunityTag: "Please selet a community to post."
   },
   ref: {
@@ -438,7 +438,7 @@ export default {
     pool: 'Pool',
     token: 'Token',
     currentProgress: '当前进度',
-    curationCredit: 'Curation Credit',
+    curationCredit: 'Credit',
     didRatio: 'Did: ',
     comRatio: 'Community: ',
     topicRatio: 'Curation: '
@@ -457,7 +457,7 @@ export default {
   slider: {
     home: 'Home',
     community: 'Community',
-    influence: 'Curation Credit',
+    influence: 'Credit',
     info: 'Notification',
     create: 'Create',
     mine: 'Profile'

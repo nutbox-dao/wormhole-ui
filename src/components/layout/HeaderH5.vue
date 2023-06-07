@@ -17,7 +17,7 @@
                                   :stroke-width="3"
                                   :width="50"
                                   :percentage="Number(rc) / MAX_RC * 100">
-                <template #default>RC</template>
+                <template #default>OP</template>
               </HalfCircleProgress>
             </div>
           </el-tooltip>

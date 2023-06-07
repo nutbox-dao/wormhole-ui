@@ -87,8 +87,8 @@ export default {
   postView: {
     tweetPost: '发布一条推文',
     socialToken: '社交代币',
-    resourceCredits: 'Resource Credits',
-    p1: '你在虫洞的每一个操作都需要消耗resource credits(RC), 因此如果你的RC过低，你将无法继续操作虫洞. RC每天会恢复100%.',
+    resourceCredits: '操作能量',
+    p1: '在虫洞的所有操作均需要消耗操作能量（OP）。所有用户注册后都会有100%的能量，消耗的能量会在24小时内以线性速度恢复。请注意当OP值过低时，您的操作可能不会上链。',
     goTweet: '发推',
     tips: '提示',
     p2: '将 {\'{***}\'} 替换成真实内容.',
@@ -109,11 +109,11 @@ export default {
     createNewCuration: '创建新策展',
     notCurator: '您还不是一个策展人',
     promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
-    curationTips: '虫洞用户在RC充足的时候发推即可创建一个自动策展，还可以引用他人的帖子来为其帖子创建策展，自己作为该策展的第一个策展人。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
+    curationTips: '虫洞用户在OP充足的时候发推即可创建一个自动策展，还可以引用他人的帖子来为其帖子创建策展，自己作为该策展的第一个策展人。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
     votingPower: '策展能量',
-    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。',
+    vpDes: '任何一个策展动作(点赞/引用/转推)都会消耗策展信用（CP）。用户初始会拥有100%的CP，消耗后会在24小时内恢复满。',
     detail: '详情'
   },
   profileView: {
@@ -210,7 +210,7 @@ export default {
     accessTokenExpire: '登录过期',
     notRegisterUser: '未注册',
     tweetNotFound: '此推文可能已被删除',
-    insuffientRC: "RC不足",
+    insuffientRC: "OP不足",
     selectCommunityTag: "请选择帖子发布的社区。"
   },
   ref: {
@@ -457,7 +457,7 @@ export default {
   slider: {
     home: '首页',
     community: '社区',
-    influence: '影响力',
+    influence: '策展信用',
     info: '消息',
     create: '创建',
     mine: '我的'

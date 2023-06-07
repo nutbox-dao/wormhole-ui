@@ -5,22 +5,7 @@
       <div class="c-text-black mb-1rem text-20px 2xl:text-1rem text-center w-full">
         {{$t('postView.tweetTip')}}
       </div>
-      <!-- tip post -->
-      <div class="text-14px leading-24px mt-1rem mb-6px text-color8B light:text-color7D">
-        {{$t('postView.tip1')}}
-      </div>
-      <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem p-1rem">
-        <div class="text-left text-14px leading-24px break-word">
-          <span class="text-color62 ml-4px">#peanut</span>
-          <span class="text-color62 ml-4px">#iweb3</span><br>
-          <span class="mb-4px break-word">{{$t('postView.postExample')}}</span>
-        </div>
-      </div>
-      <SelectCommunity :community-id="form.communityId"
-                       @setCommunityId="setCommunityId"
-                       @setTag="setTag"></SelectCommunity>
-      <SelectTopic :community-id="form.communityId" 
-                      @setTag="setTopic"></SelectTopic>
+      <!-- content -->
       <div class="mb-6px font-bold mt-1rem">{{$t('curation.typeTweetContent')}}</div>
       <div class="border-1 bg-black/40 border-1 border-color8B/30 rounded-8px
                   light:bg-white light:border-colorE3 hover:border-primaryColor">
@@ -56,7 +41,26 @@
           <div class="px-0.5rem text-right text-color62">#iweb3</div>
         </div>
       </div>
-      <div class="text-white light:text-color7D text-12px mt-15px
+
+      <SelectCommunity :community-id="form.communityId"
+                       @setCommunityId="setCommunityId"
+                       @setTag="setTag"></SelectCommunity>
+      <SelectTopic :community-id="form.communityId" 
+                      @setTag="setTopic"></SelectTopic>
+
+      <!-- tip post -->
+      <!-- <div class="text-14px leading-24px mt-1rem mb-6px text-color8B light:text-color7D">
+        {{$t('postView.tip1')}}
+      </div>
+      <div class="bg-black/40 light:bg-colorF2 light:border-1 light:border-colorE3 rounded-1rem p-1rem">
+        <div class="text-left text-14px leading-24px break-word">
+          <span class="text-color62 ml-4px">#peanut</span>
+          <span class="text-color62 ml-4px">#iweb3</span><br>
+          <span class="mb-4px break-word">{{$t('postView.postExample')}}</span>
+        </div>
+      </div> -->
+      
+      <div class="text-white light:text-color7D text-12px mt-25px
                 text-right flex justify-end">
         <button @click="gotoPost"
                 class="text-color8B flex items-center justify-center gradient-btn rounded-full w-full

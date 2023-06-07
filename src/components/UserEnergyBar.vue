@@ -15,7 +15,7 @@
                             :percentage="isSelf?Number(rc) / MAX_RC * 100:rcValue">
           <template #label>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2
-                  text-12px leading-16px font-bold text-color66">RC</div>
+                  text-12px leading-16px font-bold text-color66">OP</div>
           </template>
           <template #pointer><span></span></template>
         </HalfCircleProgress>
