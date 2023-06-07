@@ -327,10 +327,10 @@ export default {
           this.$store.commit('saveAccountInfo', account)
           return;
         }
-        logout();
+        logout(twitterId);
       }).catch(e => {
         if (e === 401) {
-          logout();
+          logout(twitterId);
         }
         console.log('get profile fail:', e);
       })
@@ -342,17 +342,25 @@ export default {
       if(this.getAccountInfo && this.getAccountInfo.twitterId) {
         if (c % 30 === 0 || !this.vpInfo.lastUpdateTime) {
           c = 0;
-          const res = await getUserVPRC(this.getAccountInfo.twitterId);
-          if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
-            this.$store.commit('saveVpInfo', res)
-          }
-          if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
-            this.$store.commit('saveRcInfo', res)
+          try {
+            const res = await getUserVPRC(this.getAccountInfo.twitterId);
+            if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
+              this.$store.commit('saveVpInfo', res)
+            }
+            if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
+              this.$store.commit('saveRcInfo', res)
+            }
+          }catch(e){
+            if (e === 401) {
+              logout(this.getAccountInfo?.twitterId)
+            }
           }
           hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
             this.$store.commit('noti/saveNewNotis', newNoti)
           }).catch(e => {
-
+            if (e === 401) {
+              logout(this.getAccountInfo?.twitterId)
+            }
           })
         }
 
