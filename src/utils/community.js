@@ -99,11 +99,6 @@ export const joinCommunity = async (communityId) => {
     }
 }
 
-// get community contract info include execute contract and storage contract
-export const getCommunityContract = async (chainName, communityId) => {
-
-}
-
 export const getCommunityPolicyStake = async (chainName, ethAddress, policys) => {
     try {
         let call = []

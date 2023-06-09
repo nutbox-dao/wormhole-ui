@@ -393,6 +393,18 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
   })
 }
 
+export const getCommunityContractInfo = async (chainName, communityId) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].communityCuration;
+    let provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let contract = new ethers.Contract(curationContract, abi, provider); 
+    const community = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
+    return community;
+  } catch (e) {
+    console.log('get community contract info fail:', e)
+  }
+}
+
 export const claimCommunityRewards = async (chainName, twitterId, ethAddress, communityId, ids, amount, sig) => {
   try {
     const curationContract = EVM_CHAINS[chainName].communityCuration;

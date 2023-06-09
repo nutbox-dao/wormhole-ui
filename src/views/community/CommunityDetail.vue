@@ -192,6 +192,7 @@
 <script>
 import {TokenIcon} from "@/config";
 import {formatAddress, onCopy} from "@/utils/tool";
+import { getCommunityContractInfo } from "@/utils/curation"
 import CommunityPost from "@/views/community/CommunityPost";
 import CommunityTopic from "@/views/community/CommunityTopic";
 import CommunityMember from "@/views/community/CommunityMember";
@@ -258,11 +259,20 @@ export default {
 
         if (res && res.communityId) {
           this.$store.commit('community/saveShowingCommunity', res)
+          // get token price
           const price = await getPriceFromOracle(EVM_CHAINS_ID[res.chainId], [{token: res.rewardToken, decimals: res.rewardTokenDecimals}])
           res.rewardPrice = price[res.rewardToken]
           this.$store.commit('community/saveShowingCommunity', res)
-          // get token price
 
+          // get community contract info
+
+          getCommunityContractInfo(EVM_CHAINS_ID[res.chainId], communityId).then(communityInfo => {
+            if (communityInfo) {
+              console.log('community contract info:', communityInfo);
+            } else {
+              console.log('no community contract info')
+            }
+          })
         }
       }).catch(e => {
         console.log(53, e);
@@ -279,6 +289,7 @@ export default {
         console.log(54, e);
         notify({error: e, type: 'error'})
       })
+
     }
   },
   methods: {
