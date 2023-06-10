@@ -218,7 +218,8 @@ export const EVM_CHAINS = {
         },
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
-        oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9'
+        oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9',
+        communityCuration: '0x90D0Ec60906f444567980E4688aC4525b7B63411'
     },
 
     Arbitrum: {
@@ -246,7 +247,8 @@ export const EVM_CHAINS = {
         },
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
-        oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F'
+        oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
+        communityCuration: '0xDda7947F795B4636C68a14bC590fEb08cA69eef3'
     },
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
@@ -307,7 +309,8 @@ export const EVM_CHAINS = {
             interval: 3000
         },
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
-        popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268'
+        popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268',
+        communityCuration: '0x1Ac88fa4ec4923835b25b21cE2061b25e0A4b05d'
     },
     // Aurora: {
     //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
@@ -354,7 +357,8 @@ export const EVM_CHAINS = {
             interval: 3000
         },
         curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
-        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
+        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434',
+        communityCuration: '0xA7E27609a0185721e9CFda1188c6797A6d28f452'
     },
     // 'BSC Testnet': {
     //     rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
