@@ -38,7 +38,7 @@ export default {
   },
   verifyView: {
     p1: '我们已经生成了你的 \n 助记词',
-    p2: '请把这些助记词保存在一个非常安全的地方.我们永远不会保存这个key,所以如果你不保存它，没有人能找回这个帐户.',
+    p2: '请把这些助记词保存在一个非常安全的地方.我们永远不会保存这些单词,所以如果你不保存它，没有人能找回这个帐户.',
     p3: '完成!\n 我们会核对您的Twitter账号.验证过程请稍等...',
     p4: '我们会核对您的Twitter账号. \n 验证过程请稍等.',
     p5: '当你发布绑定推文后',
@@ -58,7 +58,8 @@ export default {
   metamaskView: {
     p1: '请确认你的地址',
     p2: '对这个地址不满意? \n 前往MetaMask，并更改为不同的地址.',
-    p3: '️当前地址已通过Twitter {account}注册. 请返回并通过 {account} 登录或更改metamask中的其他帐户.',
+    p3: '当前地址已通过Twitter {account}注册. 请返回并通过 {account} 登录或更改metamask中的其他帐户.',
+    p4: `当前地址与您原应用的地址不匹配，请在小狐狸中切换为该地址：{account}.`,
     address: '地址',
     confirm: '确认',
     back: '返回'
@@ -136,6 +137,7 @@ export default {
     historyRecord: '历史记录',
     communityReward: '社区奖励',
     withdraw: '提现',
+    promotionReward: '推广奖励'
   },
   token: {
     noNft: "你当前没有任何NFT.",

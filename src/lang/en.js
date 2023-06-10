@@ -59,6 +59,7 @@ export default {
     p1: 'Please confirm your address',
     p2: 'Not happy with this address? \n Go to MetaMask and change to a different address.',
     p3: '️Current address has already be signed up with twitter account {account}. Please go back and sign in via {account} or change another account in metamask.',
+    p4: 'Current connect address is not your addres from original page. Please change to {account} in your metamask.',
     address: 'Address',
     confirm: 'Confirm',
     back: 'Back'
@@ -136,6 +137,7 @@ export default {
     historyRecord: 'History',
     communityReward: 'Community reward',
     withdraw: 'Withdraw',
+    promotionReward: 'Promotion reward'
   },
   token: {
     noNft: "You havn't got any NFTs.",

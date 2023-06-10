@@ -270,11 +270,11 @@ export default {
     }
     let isIOS = navigator.userAgent.toUpperCase().indexOf('IPHONE') >= 0
     let isAndroid = navigator.userAgent.toUpperCase().indexOf('ANDROID') >= 0
-    if (state && (isIOS || isAndroid)) {
+    if (state) {
       try {
         let userInfo = await twitterLogin(state)
         if (userInfo && userInfo.code === 1) {
-          await sleep(10);
+          await sleep(5);
           userInfo = await twitterLogin(state)
         }
         if (userInfo.code === 0) {
@@ -282,9 +282,18 @@ export default {
           // store auth info
           console.log('not register')
           Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+          if (userInfo.thirdPartInfo) {
+            Cookie.set('partner-info', JSON.stringify(userInfo.thirdPartInfo), '180s')
+          }
           this.$store.commit('saveShowLogin', true);
         }else if (userInfo.code === 3) { // log in
-          this.$store.commit('saveAccountInfo', userInfo.account)
+          if (userInfo.thirdPartInfo && userInfo.thirdPartInfo.callback) {
+            window.location = userInfo.thirdPartInfo.callback.indexOf('?') === -1 
+            ? userInfo.thirdPartInfo.callback + `?originalAddress=${userInfo.thirdPartInfo.ethAddress}&twitterId=${userInfo.account.twitterId}&ethAddress=${userInfo.account.ethAddress}`
+            : userInfo.thirdPartInfo.callback + `&originalAddress=${userInfo.thirdPartInfo.ethAddress}&twitterId=${userInfo.account.twitterId}&ethAddress=${userInfo.account.ethAddress}`;
+          }else {
+            this.$store.commit('saveAccountInfo', userInfo.account)
+          }
         }
       }catch(e) {
         console.log('login fail:', e);

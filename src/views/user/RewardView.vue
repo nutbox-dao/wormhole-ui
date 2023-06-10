@@ -368,6 +368,9 @@ export default {
     }
   },
   mounted () {
+    if (this.twitterId && !this.getAccountInfo) {
+      this.needLogin = true
+    }
     this.getRecords(true);
     this.getCommunityRewardsM(true);
     accountChanged().catch()

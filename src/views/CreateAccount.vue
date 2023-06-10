@@ -161,6 +161,7 @@ export default {
       this.isSigningup = true
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
+      Cookie.remove('partner-info');
       if (loginInfo) {
         try {
           let pair = this.pair

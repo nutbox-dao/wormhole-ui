@@ -13,7 +13,17 @@
           <span>{{ account }}</span>
           <i class="w-1.3rem h-1.3rem min-h-16px min-w-16px ml-1rem cursor-pointer icon-copy" @click="onCopy(account)"></i>
         </div>
-        <template v-if="isRegister">
+
+        <template v-if="showMismatchAddress">
+          <div class="flex items-start mb-2rem">
+            <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
+            <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
+                 style="word-break: break-word"
+                 v-html="$t('metamaskView.p4', {account: `<strong class='text-color62 c-text-black'>@${thirdPartInfo || '0x'}</strong>`})">
+            </div>
+          </div>
+        </template>
+        <template v-else-if="isRegister">
           <div class="flex items-start mb-2rem">
             <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
             <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
@@ -21,7 +31,7 @@
                  v-html="$t('metamaskView.p3', {account: `<strong class='text-color62 c-text-black'>@${username || 'Pipi'}</strong>`})">
             </div>
           </div>
-          <button class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
+          <button v-show="!thirdPartInfo?.ethAddress" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                   @click="$emit('back')">
             {{$t('metamaskView.back')}}
           </button>
@@ -36,7 +46,7 @@
             {{$t('metamaskView.confirm')}}
             <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isCheckingAddress || isSigning"></c-spinner>
           </button>
-          <button class="c-text-black bg-color84 light:bg-colorD6 light:text-white
+          <button v-show="!thirdPartInfo?.ethAddress" class="c-text-black bg-color84 light:bg-colorD6 light:text-white
                          w-full h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                   @click="$emit('back')">
             {{$t('metamaskView.back')}}
@@ -82,11 +92,11 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                       h-3.6rem max-h-65px w-full rounded-full
                       w-full text-1rem mt-1.25rem"
-                @click="send">
+                @click="send();gotoThirdPartner()">
           {{$t('verifyView.postBtn')}}
         </button>
         <button class="text-1rem text-color8B underline mt-1rem"
-                @click="$emit('skip')">
+                @click="gotoThirdPartner();$emit('skip')">
           {{$t('verifyView.skip')}}
         </button>
       </div>
@@ -97,7 +107,7 @@
 <script>
 import { onCopy } from "@/utils/tool";
 import { getUserByEth, register, check } from '@/api/api'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
 import { SignUpMessage, SendPwdServerPubKey } from '@/config'
@@ -133,12 +143,15 @@ export default {
       sendPubKey: '',
       salt: "",
       authError: false,
-      account: ''
+      account: '',
+      thirdPartInfo: {},
+      showMismatchAddress: false
     }
   },
   computed: {
     // ...mapState('web3', ['account']),
-    ...mapState(['referee'])
+    ...mapState(['referee']),
+    ...mapGetters(['getAccountInfo'])
   },
   watch: {
     account(newValue, oldValue) {
@@ -200,7 +213,11 @@ export default {
           this.username = ''
           this.isRegister = false
         }
-
+        if (this.thirdPartInfo && this.thirdPartInfo.ethAddress.toLowerCase() !== this.account.toLocaleLowerCase()) {
+          this.showMismatchAddress = true
+        }else {
+          this.showMismatchAddress = false
+        }
       } catch(e) {
 
       } finally {
@@ -214,6 +231,7 @@ export default {
       })
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
+      Cookie.remove('partner-info');
       if (loginInfo) {
         try {
           this.isSigningup = true
@@ -251,9 +269,17 @@ export default {
         this.$emit('back');
         this.authError = true
       }
+    },
+    gotoThirdPartner() {
+      if (this.thirdPartInfo && this.thirdPartInfo.callback && this.getAccountInfo) {
+        window.location = this.thirdPartInfo.callback.indexOf('?') === -1 
+            ? this.thirdPartInfo.callback + `?originalAddress=${this.thirdPartInfo.ethAddress}&twitterId=${this.getAccountInfo.twitterId}&ethAddress=${this.getAccountInfo.ethAddress}`
+            : this.thirdPartInfo.callback + `&originalAddress=${this.thirdPartInfo.ethAddress}&twitterId=${this.getAccountInfo.twitterId}&ethAddress=${this.getAccountInfo.ethAddress}`;
+      }
     }
   },
   async mounted () {
+    this.thirdPartInfo = Cookie.get('partner-info');
     this.account = this.address
     this.$gtag.pageview('/metamask')
     this.checkoutAccount();

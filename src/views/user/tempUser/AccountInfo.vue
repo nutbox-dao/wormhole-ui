@@ -173,6 +173,7 @@
                   :accountInfo="accountInfo"
                   :steemBalance="steemBalance"
                   :key="$route.params.user"/>
+            <RewardView v-if="selectIndex===2" :twitterId="accountInfo && accountInfo.twitterId"></RewardView>
           </div>
         </div>
       </template>
