@@ -5,6 +5,7 @@ import store from './store'
 import i18n from './lang/index'
 import Cookie from 'vue-cookies'
 import Spinner from "@/components/Spinner";
+import CustomImage from "@/components/CustomImage";
 import { List, PullRefresh, ImagePreview, Popup } from 'vant'
 import mitt from 'mitt'
 import 'vant/es/image-preview/style';
@@ -19,6 +20,7 @@ import { GAID } from './config'
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
 window.$vueApp.component('c-spinner', Spinner)
+window.$vueApp.component('c-image', CustomImage)
 window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(List).use(VueGtag, {
   config: {id: GAID}
 })

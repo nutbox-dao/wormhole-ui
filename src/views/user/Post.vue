@@ -1,50 +1,46 @@
 <template>
-  <div class="grid grid-cols-1 pb-2rem text-14px xl:text-0.8rem">
-    <div class="col-span-1 mt-2rem w-full ">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
-                        loading-text="Loading"
-                        pulling-text="Pull to refresh data"
-                        loosing-text="Release to refresh">
-        <van-list :loading="loading"
-                  :finished="finished"
-                  :immediate-check="false"
-                  :finished-text="$t('common.noMore')"
-                  @load="onLoad">
-          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-               v-if="refreshing && (!posts || posts.length === 0)">
-            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-          </div>
-          <div v-if="posts.length===0 && !refreshing"
-               class="py-3rem bg-blockBg light:bg-white rounded-12px">
-            <div v-if="getAccountInfo && getAccountInfo.isPending">
-              <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-                {{$t('postView.p10')}}
-              </div>
-              <div class="flex items-center justify-center mt-2rem">
-                <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
+  <div class="text-14px xl:text-0.8rem sm:p-1rem">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+                      loading-text="Loading"
+                      pulling-text="Pull to refresh data"
+                      loosing-text="Release to refresh">
+      <van-list :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :finished-text="$t('common.noMore')"
+                @load="onLoad">
+        <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+             v-if="refreshing && (!posts || posts.length === 0)">
+          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+        </div>
+        <div v-if="posts.length===0 && !refreshing"
+             class="py-3rem rounded-12px">
+          <div v-if="getAccountInfo && getAccountInfo.isPending">
+            <div class="text-zinc-400 text-0.8rem leading-1.4rem">
+              {{$t('postView.p10')}}
+            </div>
+            <div class="flex items-center justify-center mt-2rem">
+              <button class="flex items-center justify-center gradient-btn gradient-btn-shadow h-2.7rem px-1rem
                     rounded-full mt-0.5rem c-text-bold bottom-2rem left-1/2 transform-translate-x-1/2 z-2 w-8rem"
-                    @click="$router.push('/signup')">
-                    {{$t('common.active')}}
-                </button>
-              </div>
-            </div>
-            <div v-else class="px-1.5rem">
-              <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
-              <div class="text-zinc-400 text-0.8rem leading-1.4rem">
-                {{$t('postView.p7')}}
-              </div>
+                      @click="$router.push('/signup')">
+                {{$t('common.active')}}
+              </button>
             </div>
           </div>
-          <div class="bg-blockBg light:bg-white rounded-12px overflow-hidden">
-            <div class="" v-for="p of posts" :key="p.postId">
-              <Blog @click="goteDetail(p)"
-                    :post="p"
-                    class="border-b-1 border-white/20 light:border-black/16 md:border-listBgBorder px-1.5rem py-1rem"/>
+          <div v-else class="px-1.5rem">
+            <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
+            <div class="text-zinc-400 text-0.8rem leading-1.4rem">
+              {{$t('postView.p7')}}
             </div>
           </div>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+        </div>
+        <div class="" v-for="p of posts" :key="p.postId">
+          <Blog @click="goteDetail(p)"
+                :post="p"
+                class="border-b-0.5px border-white/20 light:border-black/16 md:border-listBgBorder py-20px px-15px sm:px-0"/>
+        </div>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 

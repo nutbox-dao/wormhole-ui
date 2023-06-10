@@ -1,13 +1,18 @@
 <template>
-  <div class="mt-1.6rem">
+  <div>
     <template v-if="currentShowingDetail">
-      <!-- <div class="md:border-b-1 border-dividerColor light:border-colorF4 mb-1rem">
-        <div class="relative container mx-auto max-w-50rem md:px-1rem px-15px
-                    flex items-center md:justify-start justify-center h-2.8rem">
-          <div class="c-text-black text-1.5rem md:text-1rem mx-1.9rem light:text-blueDark">{{$t('common.post')}}</div>
+      <div class="container mx-auto w-full sm:max-w-50rem sticky top-0 lg:relative bg-primaryBg light:bg-white
+                  border-b-1 xs:border-b-0 border-color8B/30 light:border-color7F z-99">
+        <div class="flex h-70px pt-23px justify-center items-center relative">
+          <span class="text-20px c-text-black max-w-2/3 truncate lg:hidden">{{currentShowingDetail.name}}</span>
+          <button @click="$router.go(-1)"
+                  class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                         flex items-center justify-center absolute left-15px">
+            <i class="icon-back w-20px h-20px"></i>
+          </button>
         </div>
-      </div> -->
-      <div class="container px-15px mx-auto max-w-50rem pb-2rem md:px-1rem">
+      </div>
+      <div class="container px-15px mx-auto max-w-50rem pb-2rem pt-15px xs:pt-0">
         <van-list :loading="listLoading"
                   :finished="listFinished"
                   :immediate-check="false"

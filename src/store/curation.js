@@ -19,7 +19,9 @@ export default {
         pendingTip: localStorage.getItem('pending-cache-tip'),
         pendingPopup: localStorage.getItem('pending-cache-popup'),
         customTokens: localStorage.getItem('custom-tokens'),
-        selectedTag: 'All'
+        selectedTag: 'All',
+        communityRewards: [],
+        communityAuthoRewards: []
     },
     mutations: {
         saveSelectedTag: (state, tag) => {
@@ -97,6 +99,12 @@ export default {
                 state.customTokens = null;
                 localStorage.removeItem('custom-tokens')
             }
+        },
+        saveCommunityRewards: (state, communityRewards) => {
+            state.communityRewards = communityRewards
+        },
+        saveCommunityAuthorRewards: (state, communityAuthoRewards) => {
+            state.communityAuthoRewards = communityAuthoRewards
         }
     },
     getters: {
@@ -170,6 +178,21 @@ export default {
                 }
                 return null
             }
+        },
+        getCommunityRewards: (state) => (communityId) => {
+            if (state.communityRewards) {
+                return state.communityRewards.filter(c => c.communityId === communityId)
+            }
+            return []
+        },
+        getCommunityAuthorRewards: (state) => (communityId) => {
+            if (state.communityAuthoRewards) {
+                return state.communityAuthoRewards.filter(c => c.communityId == communityId)
+            }
+            return []
+        },
+        getRewardCommunityInfo: state => {
+            return [...new Set(state.communityRewards.map(c => c.communityId).concat(state.communityAuthoRewards.map(c => c.communityId)))] 
         }
     }
 }

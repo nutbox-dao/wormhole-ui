@@ -8,7 +8,9 @@
                 :show-arrow="false" width="240px">
       <div class="border-1 border-color8B/30 light:border-colorF4 bg-blockBg light:bg-white p-20px rounded-14px">
         <div class="flex justify-between ">
-          <img class="w-48px h-48px object-cover rounded-full border-1 border-color8B/10" :src="profileImg" alt="">
+          <img class="w-48px h-48px object-cover rounded-full border-1 border-color8B/10"
+          @error="replaceEmptyImg"
+          :src="profileImg" alt="">
           <button class="bg-color62 px-20px h-30px rounded-full text-white font-500"
                   @click.stop="$emit('gotoUserPage')">{{$t('postView.detail')}}</button>
         </div>
@@ -44,6 +46,8 @@
 <script>
 import {copyAddress} from "@/utils/tool";
 import {getUserInfo} from "@/utils/account";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
+
 export default {
   name: "Avatar",
   props: {
@@ -92,6 +96,9 @@ export default {
           "https://twitter.com/" + this.username,
           "__blank"
       );
+    },
+    replaceEmptyImg(e) {
+        e.target.src = emptyAvatar;
     },
   }
 }

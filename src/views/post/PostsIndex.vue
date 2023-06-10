@@ -1,50 +1,57 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
-    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem pt-20px">
-      <div class="flex justify-between items-center">
-        <div class="flex flex-1 overflow-x-auto overflow-y-hidden no-scroll-bar">
-          <button v-for="(tag, index) of subTagList.slice(0, 5)" :key="index"
-                  class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem whitespace-nowrap mr-50px"
-                  :class="selectedTag===tag?'light:text-color18':'text-color59/50'"
-                  @click="setSelectTag(tag)">{{tag}}</button>
-        </div>
-        <button class="c-text-black text-white light:text-blueDark pl-8px" @click="showMoreTag=!showMoreTag">
-         {{ $t('common.more') }} >>>
-        </button>
-      </div>
-      <el-collapse-transition>
-        <div v-show="showMoreTag" class="mt-1rem">
-          <div class="flex flex-wrap items-center gap-25px bg-blockBg light:bg-white rounded-12px shadow-sm p-1.5rem">
-            <button v-for="(mTag, index) of moreTag" :key="index"
-                    class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
-                         whitespace-nowrap"
-                    :class="mTag===selectedTag?'text-white light:text-blueDark':'text-color59/50'"
-                    @click="setSelectTag(mTag)">
-              {{mTag}}
-            </button>
-            <button v-for="(cTag, cIndex) of customizeTagList" :key="cIndex"
-                    class="c-text-black text-16px leading-18px 2xl:text-0.8rem 2xl:leading-0.9rem
-                           flex items-center whitespace-nowrap"
-                    :class="cTag===selectedTag?'text-white':'text-color59/50'"
-                    @click="setSelectTag(cTag)">
-              {{cTag}}
-              <img class="w-14px h-14px ml-4px"
-                   @click.stop="deleteCustomizeTag(cIndex)"
-                   src="~@/assets/icon-delete-primary.svg" alt="">
+    <div class="light:bg-lightHeader sm:light:bg-transparent">
+      <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
+        <div class="flex justify-between items-center py-5px">
+          <div class="flex flex-1 overflow-x-auto overflow-y-hidden no-scroll-bar">
+            <button v-for="(tag, index) of subTagList.slice(0, 10)" :key="index"
+                    class="text-14px whitespace-nowrap mr-10px px-12px py-5px rounded-full border-1 border-color62"
+                    :class="selectedTag===tag?'text-white bg-color62':'text-color62'"
+                    @click="setSelectTag(tag)">{{tag}}</button>
+          </div>
+          <div class="flex items-center relative">
+            <div class="w-0.5px h-40px bg-color62/34 rounded-full filter blur-1px"></div>
+            <button class="c-text-black text-white light:text-blueDark pl-12px" @click="showMoreTag=!showMoreTag">
+              {{ $t('common.more') }}
             </button>
           </div>
         </div>
-      </el-collapse-transition>
-      <div v-if="customizeTag"
-           class="flex items-center bg-blockBg light:bg-white rounded-12px px-1.5rem py-12px mb-10px shadow-sm mt-10px">
-        <span class="mr-10px c-text-black">Selected Topic: </span>
-        <button class="text-14px 2xl:text-0.8rem border-1 border-color62 rounded-4px px-12px py-4px
-                       flex items-center whitespace-nowrap text-color62"
-                @click="addCustomizeTag(selectedTag)">
-          <span>{{selectedTag}}</span>
-          <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
-        </button>
+        <el-collapse-transition>
+          <div v-show="showMoreTag" class="pb-15px">
+            <div class="flex flex-wrap items-center gap-10px bg-blockBg light:bg-white rounded-12px shadow-sm p-15px">
+              <button v-for="(mTag, index) of moreTag" :key="index"
+                      class="text-14px px-12px py-5px rounded-full border-1 border-color62 whitespace-nowrap"
+                      :class="mTag===selectedTag?'text-white bg-color62':'text-color62'"
+                      @click="setSelectTag(mTag)">
+                {{mTag}}
+              </button>
+              <button v-for="(cTag, cIndex) of customizeTagList" :key="cIndex"
+                      class="text-14px px-12px py-5px rounded-full border-1 border-color62 whitespace-nowrap
+                             flex items-center"
+                      :class="cTag===selectedTag?'text-white bg-color62':'text-color62'"
+                      @click="setSelectTag(cTag)">
+                {{cTag}}
+                <img class="w-14px h-14px ml-4px border-white rounded-full"
+                     :class="cTag===selectedTag?'border-1':''"
+                     @click.stop="deleteCustomizeTag(cIndex)"
+                     src="~@/assets/icon-delete-primary.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </el-collapse-transition>
+        <div v-if="customizeTag"
+             class="flex items-center bg-blockBg light:bg-white rounded-12px px-15px py-10px  shadow-sm">
+          <span class="mr-10px c-text-black text-white light:text-blueDark text-14px">Selected Topic: </span>
+          <button class="text-14px px-12px py-5px rounded-full border-1 border-color62 whitespace-nowrap
+                         flex items-center text-color62"
+                  @click="addCustomizeTag(selectedTag)">
+            <span>{{selectedTag}}</span>
+            <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
+          </button>
+        </div>
       </div>
+    </div>
+    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
       <div class="flex justify-end items-center my-10px">
         <button class="mr-10px">
           <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
@@ -61,7 +68,7 @@
         </el-select>
       </div>
     </div>
-    <div class="flex-1 overflow-auto" ref="postPageRef" @scroll="pageScroll">
+    <div class="flex-1 overflow-auto no-scroll-bar" ref="postPageRef" @scroll="pageScroll">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -89,9 +96,10 @@
                   {{$t('curationsView.p2')}}
                 </div>
               </div>
-              <div v-else class="-mt-18px md:-mt-25px">
+              <div v-else class="-mt-15px sm:-mt-0px md:-mt-15px">
                 <div v-for="(post, index) of postsList" :key="post.postId"
-                     class="py-20px border-b-1 border-color8B/30 light:border-listBgBorder">
+                     class="p-15px border-b-0.5px border-color8B/30 light:border-colorD8
+                            sm:rounded-16px sm:border-b-0 light:sm:bg-white light:sm:shadow-color1A mb-15px">
                   <div v-if="!post.spaceId">
                     <Blog :post="post"
                           @click="gotoDetail(post, index)"
@@ -114,26 +122,17 @@
     <router-link to="/word-cloud"
                  class="flex items-center justify-center
                               h-44px w-44px min-w-44px xl:w-2.8rem xl:min-w-2.8rem xl:h-2.8rem
-                              mt-0.5rem c-text-bold fixed sm:bottom-2rem
-                              right-1.5rem sm:right-2.5rem xl:right-2.2rem z-9999"
-                 :class="scroll>200?'bottom-10rem':'bottom-6rem'">
+                              mt-0.5rem c-text-bold fixed bottom-6rem sm:bottom-2rem
+                              right-1.5rem sm:right-2.5rem xl:right-2.2rem z-999">
       <img class="w-full" src="~@/assets/word-cloud-entrance.png" alt="">
     </router-link>
     <!-- back top  -->
     <button v-show="scroll>200"
             @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
-                   h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-                   rounded-full mt-0.5rem c-text-bold fixed bottom-6rem right-1.5rem sm:right-2.5rem z-9999">
+                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-10rem sm:bottom-5rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
-    </button>
-    <!-- create curation   -->
-    <button
-        class="flex items-center justify-center bg-color62 sm:hidden
-               h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
-               rounded-full mt-0.5rem c-text-bold absolute bottom-2rem right-1.5rem sm:right-2.5rem z-2"
-        @click="createCuration">
-      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
   </div>
 </template>
@@ -181,7 +180,7 @@ export default {
         }
     },
     moreTag() {
-      return this.subTagList.slice(5)
+      return this.subTagList.slice(10)
     },
     customizeTag() {
       return this.selectedTag && this.subTagList.indexOf(this.selectedTag) <0 && this.moreTag.indexOf(this.selectedTag) < 0 && this.customizeTagList.indexOf(this.selectedTag) < 0

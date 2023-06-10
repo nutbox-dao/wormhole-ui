@@ -1,97 +1,75 @@
 <template>
-  <div class="pr-1rem">
-    <div class="flex justify-between items-center gap-8px mt-15px flex-1 max-w-425px">
-      <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
-      <!-- follow-->
-      <div v-if="false" class="flex justify-between items-center">
-        <button @click.stop="userFollow"
-                :disabled="isFollowing || post.followed"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-          <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
-            <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-          </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
-        </button>
-        <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
-      </div>
-      <!-- reply-->
-      <div class="flex justify-between items-center">
-        <button @click.stop="preReply"
-                :disabled="isRepling || isQuoting || isRetweeting"
-                class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
-          <i v-if="isRepling" class="w-20px h-20px rounded-full bg-colorEA">
-            <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-          </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
-        </button>
-        <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color7D'">{{ post.replyCount ?? 0 }}</span>
-      </div>
-      <!-- quote-->
-      <div class="flex items-center">
-        <button @click.stop="preQuote"
-                :disabled="isRepling || isQuoting || isRetweeting || post.quoted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
-          <i v-if="isQuoting" class="w-20px h-20px rounded-full bg-colorEA">
-            <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-          </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
-        </button>
-        <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color7D'">{{ post.quoteCount ?? 0 }}</span>
-      </div>
-      <!-- retweet -->
-      <div class="flex items-center">
-        <button @click.stop="userRetweet"
-                :disabled="isRepling || isQuoting || isRetweeting || post.retweeted"
-                class="text-white flex justify-center items-center w-20px h-20px rounded-full disabled-no-opacity">
-          <i v-if="isRetweeting" class="w-20px h-20px rounded-full bg-colorEA">
-            <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-          </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
-        </button>
-        <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color7D'">{{ post.retweetCount ?? 0 }}</span>
-      </div>
-      <!-- like-->
-      <div class="flex items-center">
-        <button :disabled="isLiking || post.liked"
-                @click.stop="userLike"
-                class="flex items-center disabled-no-opacity">
-          <i v-if="isLiking" class="w-20px h-20px rounded-full bg-colorEA">
-            <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
-          </i>
-          <i v-else class="w-20px h-20px min-w-20px" :class="post.liked?'btn-icon-like-active':'btn-icon-like'"></i>
-        </button>
-        <span class="px-8px font-700 text-12px" :class="post.liked?'text-color62':'text-color7D'">{{ post.likeCount ?? 0 }}</span>
-      </div>
-      <div class="flex items-center">
-        <el-tooltip :show-after="500">
-          <template #content>
-            <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
-              <ChainTokenIcon v-if="rewards && rewards.length > 0"
-                      v-for="reward of rewards" 
-                      :key="post.postId + reward.token" height="20px" width="20px"
-                      class="bg-color62 my-4px p-2px"
-                      :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                      :chainName="reward.chainId?.toString()">
-                <template #amount>
-                  <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                    {{reward.reward + " " + reward.tokenSymbol}}
-                  </span>
-                </template>
-            </ChainTokenIcon>
-            </div>
-            <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
-          </template>
-          <button @click.stop @mouseover="getTip" class="flex items-center">
-            <i class="w-18px h-18px btn-icon-tip"></i>
-            <span class="px-8px font-700 text-12px text-color7D">${{ price }}</span>
-          </button>
-        </el-tooltip>
-      </div>
-      <!-- <div class="text-white flex items-center">
-        <i class="w-18px h-18px icon-coin"></i>
-        <span class="ml-2px font-700 text-white light:text-color7D">{{ value }}</span>
-      </div> -->
+  <div class="flex justify-between items-center gap-8px flex-1 max-w-425px">
+    <!-- <div class="hidden sm:block sm:min-w-35px sm:w-2.2rem md:w-3rem mr-10px md:mr-1rem"></div> -->
+    <!-- follow-->
+    <div v-if="false" class="flex justify-between items-center">
+      <button @click.stop="userFollow"
+              :disabled="isFollowing || post.followed"
+              class="text-white flex justify-center items-center w-24px h-24px rounded-full disabled-no-opacity">
+        <i v-if="isFollowing" class="w-20px h-20px rounded-full bg-colorEA">
+          <img class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+        </i>
+        <i v-else class="w-20px h-20px min-w-20px" :class="post.followed?'btn-icon-follow-active':'btn-icon-follow'"></i>
+      </button>
+      <span class="px-8px font-700 text-12px" :class="post.followed?'text-color62':'text-color7D'">{{ post.followCount ?? 0 }}</span>
     </div>
+    <!-- like & unlike-->
+    <div class="flex">
+      <button class="flex justify-center items-center"
+                :disabled="isLiking || unLiked || liked"
+                @click.stop="userLike">
+        <img v-if="isLiking" class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+        <i v-else class="w-20px h-20px min-w-20px" :class="liked?'btn-icon-like-active':'btn-icon-like'"></i>
+        <span class="pl-8px font-700 text-12px" :class="liked?'text-color62':'text-color66'">{{ post.likeCount ?? 0 }}</span>
+      </button>
+      <div class=" w-1px bg-color99/80 mx-8px my-3px"></div>
+      <!-- unlike-->
+      <button :disabled="isLiking || liked || unLiked || post.quoted || post.retweeted"
+                @click.stop="userUnLike"
+                 class="flex justify-center items-center">
+        <img v-if="isLiking" class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+        <i v-else class="w-20px h-20px min-w-20px" :class="unLiked?'btn-icon-unlike-active':'btn-icon-unlike'"></i>
+        <span class="pl-8px font-700 text-12px" :class="unLiked?'text-color62':'text-color66'">{{ post.unLikeCount ?? 0 }}</span>
+      </button>
+    </div>
+    <!-- reply-->
+    <button  @click.stop="preReply"
+              :disabled="isRepling || isQuoting || isRetweeting"
+               class="flex justify-between items-center">
+      <img v-if="isRepling" class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+      <i v-else class="w-20px h-20px min-w-20px" :class="post.replied?'btn-icon-reply-active':'btn-icon-reply'"></i>
+      <span class="px-8px font-700 text-12px" :class="post.replied?'text-color62':'text-color66'">{{ post.replyCount ?? 0 }}</span>
+    </button>
+
+    <el-popover :teleported="false" trigger="click" width="90px" popper-class="c-popper" :offset="-30" ref="replyRef">
+      <template #reference>
+        <button class="flex items-center" @click.stop>
+          <i class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+          <span class="px-8px font-700 text-12px" :class="post.retweeted?'text-color62':'text-color66'">
+              {{ (post.retweetCount ?? 0) + (post.quoteCount ?? 0) }}
+          </span>
+        </button>
+      </template>
+      <div class="flex flex-col gap-6px bg-blockBg light:bg-colorF1 p-8px rounded-8px shadow-color1A">
+        <!-- retweet -->
+        <button @click.stop="userRetweet"
+                  :disabled="isRepling || isQuoting || isRetweeting || post.retweeted || unLiked"
+                  class="flex items-center">
+          <img v-if="isRetweeting" class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+          <i v-else class="w-20px h-20px min-w-20px" :class="post.retweeted?'btn-icon-retweet-active':'btn-icon-retweet'"></i>
+          <span class="text-color66 text-12px ml-8px">{{$t('curation.retweet')}}</span>
+        </button>
+        <!-- quote-->
+        <button @click.stop="preQuote"
+                  :disabled="isRepling || isQuoting || isRetweeting || post.quoted || unLiked"
+                  class="flex items-center">
+          <img v-if="isQuoting" class="w-20px h-20px" src="~@/assets/icon-loading.svg" alt="">
+          <i v-else class="w-20px h-20px min-w-20px" :class="post.quoted?'btn-icon-quote-active':'btn-icon-quote'"></i>
+          <span class="text-color66 text-12px ml-8px">{{$t('curation.quote')}}</span>
+          <!--            <span class="px-8px font-700 text-12px" :class="post.quoted?'text-color62':'text-color66'">{{ post.quoteCount ?? 0 }}</span>-->
+        </button>
+      </div>
+    </el-popover>
     <!--    reply-->
     <van-popup class="md:w-600px bg-black light:bg-transparent w-full"
                teleport="body"
@@ -351,6 +329,7 @@ import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { getCurationRewardsOfPost } from '@/api/api'
 import debounce from 'lodash.debounce'
 import { getPriceFromOracle } from '@/utils/asset'
+import { joinCommunity } from "@/utils/community";
 
 
 export default {
@@ -363,16 +342,16 @@ export default {
         return {}
       }
     },
-    imgurls: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    content: {
-      type: String,
-      default: ''
-    },
+    // imgurls: {
+    //   type: Array,
+    //   default: () => {
+    //     return []
+    //   }
+    // },
+    // content: {
+    //   type: String,
+    //   default: ''
+    // },
     isDetail: {
       type: Boolean,
       default: false
@@ -396,7 +375,10 @@ export default {
       isDefaultQuote: true,
       showCuratedTip: false,
       rewards: [],
-      price: '0.00'
+      price: '0.00',
+      reg: '',
+      imgurls: [],
+      urls: []
     }
   },
   computed: {
@@ -423,6 +405,30 @@ export default {
     isIgnoreAccount() {
       const res = IgnoreAuthor.indexOf(this.post.steemId) !== -1
       return res
+    },
+    liked() {
+      return this.post.liked === 1 && !this.post.downVote
+    },
+    unLiked() {
+      return this.post.liked === 1 && this.post.downVote > 0
+    },
+    content() {
+      let content = ''
+      if (this.post.longContentStatus === 1) {
+        for (let c of JSON.parse(this.post.content)) {
+          if (c && c !== 'null' && c !== 'undefined') {
+            content += c + '\n'
+          }
+        }
+      }else {
+        content = this.post.content
+      }
+      content = content.replace(this.reg, '');
+      // content = content.replace('\n', '</br>')
+      for (let url of this.urls){
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
+      }
+      return content
     },
   },
   methods: {
@@ -510,6 +516,9 @@ export default {
       try{
         this.isRepling = true
         await replyPost(this.post.postId, this.inputContent, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.replied = 1;
         this.post.replyCount = this.post.replyCount ? this.post.replyCount + 1 : 1
         this.replyVisible = false
@@ -539,6 +548,9 @@ export default {
       try{
         this.isQuoting = true
         await quotePost(this.post.postId, this.isDefaultQuote ? this.inputContent : this.inputContent + '\n#iweb3 #curate', this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.quoted = 1;
         this.post.quoteCount = this.post.quoteCount ? this.post.quoteCount + 1 : 1
         this.quoteVisible = false
@@ -592,6 +604,7 @@ export default {
       }
     },
     async userRetweet() {
+      this.$refs.replyRef.hide()
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
@@ -599,6 +612,9 @@ export default {
       try{
         this.isRetweeting = true
         await retweetPost(this.post.postId, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.retweeted = 1
         this.post.retweetCount  = this.post.retweetCount ? this.post.retweetCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
@@ -629,8 +645,41 @@ export default {
       try{
         this.isLiking = true
         const result = await likePost(this.post.postId, this.post.twitterId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.liked = 1
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
+        this.$bus.emit('updatePostIndetail', {postDetail: this.post})
+      } catch (e) {
+        if (e === 'log out') {
+          this.$store.commit('saveShowLogin', true)
+          return
+        }
+        if (e === errCode.TWEET_NOT_FOUND) {
+          notify({message: this.$t('tips.tweetNotFound'), type: "info", duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_RC) {
+          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          return;
+        }
+        notify({message: e, type: 'error'})
+      } finally {
+        this.isLiking = false
+      }
+    },
+    async userUnLike() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      try{
+        this.isLiking = true
+        const result = await likePost(this.post.postId, this.post.twitterId, false)
+        this.post.liked = 1
+        this.post.downVote = 1
+        this.post.unLikeCount  = this.post.unLikeCount ? this.post.unLikeCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
         if (e === 'log out') {
@@ -659,6 +708,7 @@ export default {
       this.setInputFocus()
     },
     preQuote() {
+      this.$refs.replyRef.hide()
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
@@ -692,7 +742,16 @@ export default {
     },
   },
   mounted () {
-    this.getRewards();
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    const urls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.imgurls = this.post.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
+    } else if(urls) {
+      this.urls = urls
+    }
+    this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
+    // this.getRewards();
   },
 }
 </script>

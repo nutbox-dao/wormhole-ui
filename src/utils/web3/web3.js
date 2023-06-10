@@ -7,7 +7,8 @@ import {
   CHAIN_NAME,
   MainToken,
   BLOCK_CHAIN_BROWER,
-  EVM_CHAINS
+  EVM_CHAINS,
+  EVM_CHAINS_ID
 } from '@/config'
 import store from '@/store'
 import { ethers } from 'ethers'
@@ -163,4 +164,13 @@ export const lockStatusChanged = async (refresh) => {
       console.log('Add asset faild');
     }
   }).catch(console.log)
+}
+
+export const getBlockNum = async (chainId) => {
+  const rpc = EVM_CHAINS[EVM_CHAINS_ID[chainId]].rpc;
+  if (rpc) {
+    const provider = new ethers.providers.JsonRpcProvider(rpc);
+    const blockNumber = await provider.getBlockNumber();
+      store.commit("community/saveCurrentBlockNum", blockNumber);
+  }
 }

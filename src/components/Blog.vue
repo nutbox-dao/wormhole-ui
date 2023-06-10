@@ -29,7 +29,6 @@
                 <a class="c-text-black text-left cursor-pointer
                       text-16px leading-18px  light:text-blueDark"
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
-                <!-- <img class="w-1rem h-1rem mx-0.5rem" src="~@/assets/icon-checked.svg" alt=""> -->
               </div>
               <div @click.stop class="ml-4px flex items-center sm:hidden">
                 <el-tooltip>
@@ -42,37 +41,15 @@
                   </button>
                 </el-tooltip>
               </div>
-              <!-- <div v-if="post.isPromoted && !isDetail" @click.stop class="ml-4px flex items-center sm:hidden">
-                <el-tooltip :show-after="500">
-                  <template #content>
-                    <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
-                      <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
-                             class="bg-color62 my-4px"
-                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                             :chainName="reward.chainId?.toString()">
-                        <template #amount>
-                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{reward.amount + " " + reward.tokenSymbol}}
-                          </span>
-                        </template>
-                    </ChainTokenIcon>
-                    </div>
-                    <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
-                  </template>
-                  <button @mouseover="getTip">
-                    <i class="icon-curated w-16px h-16px min-w-16px"></i>
-                  </button>
-                </el-tooltip>
-              </div> -->
             </div>
             <div class="flex items-center id-time">
-            <span class="text-12px leading-18px  text-color8B light:text-color7D">
-              @{{ post.username }}
-            </span>
+              <span class="text-12px leading-18px  text-color8B light:text-color7D">
+                @{{ post.username }}
+              </span>
               <span class="mx-4px text-color8B light:text-color7D"> · </span>
               <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
-             {{ parseTimestamp(post.postTime) }}
-            </span>
+               {{ parseTimestamp(post.postTime) }}
+              </span>
             </div>
             <div class="ml-4px items-center hidden sm:flex">
               <el-tooltip>
@@ -85,29 +62,10 @@
                 </button>
               </el-tooltip>
             </div>
-            <!-- <div v-if="post.isPromoted && !isDetail" class="ml-4px items-center hidden sm:flex">
-              <el-tooltip :show-after="500">
-                <template #content>
-                  <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
-                    <ChainTokenIcon v-if="rewards && rewards.length > 0" v-for="reward of rewards" :key="post.postId + reward.token" height="20px" width="20px"
-                             class="bg-color62 my-4px"
-                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                             :chainName="reward.chainId?.toString()">
-                        <template #amount>
-                          <span class="pl-4px pr-8px h-20px whitespace-nowrap flex items-center text-12px text-white">
-                            {{reward.amount + " " + reward.tokenSymbol}}
-                          </span>
-                        </template>
-                    </ChainTokenIcon>
-                  </div>
-                  <img v-else class="w-20px" src="~@/assets/icon-loading.svg" alt="">
-                </template>
-                <button @mouseover="getTip">
-                  <i class="icon-curated w-16px h-16px min-w-16px"></i>
-                </button>
-              </el-tooltip>
-            </div> -->
           </div>
+          <slot name="blog-reward">
+            <BlogReward :post="post" class="ml-10px"></BlogReward>
+          </slot>
         </div>
       </div>
       <div class="flex blog-content">
@@ -138,9 +96,8 @@
           <slot name="blog-tag">
             <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
               <div v-show="tag != 'iweb3'"
-                   class="py-3px px-6px rounded-6px mt-10px
-                        whitespace-nowrap cursor-pointer light:text-color46"
-                   :class="selectedTag === tag?'bg-color62 text-white':'light:text-color8B bg-white/10 light:bg-color8B/10'"
+                   class="py-3px px-6px rounded-full mt-10px whitespace-nowrap cursor-pointer border-1 border-color62"
+                   :class="selectedTag === tag?'bg-color62/70 text-white':'text-color62'"
                    v-for="tag of JSON.parse(post.tags || '[]')" :key="tag"
                    @click.stop="onSelectTag(tag)">
                 #{{ tag }}
@@ -148,12 +105,24 @@
             </div>
           </slot>
           <slot name="curation-tag"></slot>
-          <div v-if="location" class="flex mt-0.8rem">
+          <div v-if="location" class="flex mt-0.8rem pointer-cursor">
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
           </div>
+          <div v-show="showCommunity && post.communityId"
+               @click.stop="$router.push('/community-detail/' + post.communityId)"
+               class="flex items-center mt-10px bg-color8B/30 light:bg-color1A w-max py-5px px-10px
+                      text-white text-12px rounded-full">
+            <span class="">{{$t('community.communityFrom')}}</span>
+            <div class="flex items-center">
+              <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="communityIcon" alt="">
+              <span>{{ post.communityName }}</span>
+            </div>
+          </div>
           <slot name="bottom-btn-bar">
-            <PostButtonGroup ref="postButtonRef" :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
+            <PostButtonGroup ref="postButtonRef"
+                             class="mt-15px"
+                             :id="post.postId" :post="post" :imgurls="imgurls" :is-detail="isDetail" :content="content"/>
           </slot>
         </div>
       </div>
@@ -185,10 +154,11 @@ import PostButtonGroup from "@/components/PostButtonGroup";
 import debounce from 'lodash.debounce'
 import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
 import Avatar from "@/components/Avatar";
+import BlogReward from "@/components/BlogReward";
 
 export default {
   name: "Blog",
-  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon, Avatar},
+  components: {LinkPreview, Repost, PostButtonGroup, ChainTokenIcon, Avatar, BlogReward},
   props: {
     post: {
       type: Object,
@@ -205,6 +175,10 @@ export default {
     contentClass: {
       type: String,
       default: ''
+    },
+    showCommunity:{
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -237,6 +211,9 @@ export default {
       }else {
         return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
       }
+     },
+     communityIcon() {
+      return this.post.communityIcon
      },
     isIgnoreAccount() {
       const res = IgnoreAuthor.indexOf(this.post.twitterId) !== -1;

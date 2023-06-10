@@ -207,7 +207,51 @@ const abi = [
       ],
       "stateMutability": "view",
       "type": "function"
-    }
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "cid",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCommunityInfo",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "communityAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "prizeToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "signAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "storageAddr",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
   ]
 
   /**
@@ -279,6 +323,29 @@ export const checkCurationRewards = async (chainName, twitterId, ids) => {
   })
 }
 
+export const checkCommunityRewards = async (chainName, twitterId, rewards) => {
+  try {
+    const contract = EVM_CHAINS[chainName].communityCuration
+    const multiConfig = EVM_CHAINS[chainName].Multi_Config
+    let call = rewards.map(re => ({
+      target: contract,
+      call: [
+        'alreadyClaimed(uint256,uint256)(bool)',
+        twitterId,
+        ethers.BigNumber.from('0x' + re.communityId + re.curationId)
+      ],
+      returns: [
+        [re.curationId]
+      ]
+    }))
+    const result = await aggregate(call, multiConfig)
+    return result.results.transformed
+  }catch(e) {
+    console.log('check community curation rewards fail:', e);
+    throw errCode.BLOCK_CHAIN_ERR
+  }
+}
+
 export const checkAutoCurationRewards = async (twitterId, ids) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -304,7 +371,7 @@ export const getPromotionCurationClaimParas = async (chainName, twitterId, ids) 
 }
 
 export const getAuthorRewardClaimParas = async (chainName, twitterId, ids) => {
-  await checkAccessToken();
+  await checkAccessToken(); 
   return await garcp(twitterId, EVM_CHAINS[chainName].id, ids)
 }
 
@@ -324,6 +391,70 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         reject(errCode.TRANSACTION_FAIL)
     }
   })
+}
+
+export const getCommunityContractInfo = async (chainName, communityId) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].communityCuration;
+    let provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let contract = new ethers.Contract(curationContract, abi, provider); 
+    const community = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
+    return community;
+  } catch (e) {
+    console.log('get community contract info fail:', e)
+  }
+}
+
+export const claimCommunityRewards = async (chainName, twitterId, ethAddress, communityId, ids, amount, sig) => {
+  try {
+    const curationContract = EVM_CHAINS[chainName].communityCuration;
+    let provider = new ethers.providers.JsonRpcProvider(EVM_CHAINS[chainName].rpc);
+    let contract = new ethers.Contract(curationContract, abi, provider); 
+    const community = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
+
+    const claimAbi = [{
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "twitterId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "curationIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sign",
+          "type": "bytes"
+        }
+      ],
+      "name": "claimPrize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }]
+    const metamask = await getEthWeb()
+    provider = new ethers.providers.Web3Provider(metamask)
+    contract = new ethers.Contract(community.communityAddr, claimAbi, provider);
+    contract = contract.connect(provider.getSigner());
+    const result = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig);
+    return result;
+  } catch (e) {
+    console.log('claim rewards fail:', e);
+    throw errCode.TRANSACTION_FAIL
+  }
 }
 
 export const claimPromotionCurationRewards = async (chainName, twitterId, ethAddress, ids, amounts, sig) => {

@@ -350,6 +350,18 @@
   background-image: url("~@/assets/btn-like-active.svg");
 }
 
+.btn-icon-unlike {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like.svg");
+  transform: rotateX(180deg);
+}
+
+.btn-icon-unlike-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-like-active.svg");
+  transform: rotateX(180deg);
+}
+
 .btn-icon-follow {
   @extend .icon;
   background-image: url("~@/assets/btn-follow.svg");

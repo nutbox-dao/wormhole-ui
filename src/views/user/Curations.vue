@@ -1,76 +1,68 @@
 <template>
-  <div class="w-full">
-    <div class="bg-blockBg light:bg-white md:py-1.5rem rounded-12px sm:my-2rem">
-      <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
-           class="px-1.5rem py-0.8rem text-14px flex">
-        <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
-          <span v-for="(tag, index) of subTagList" :key="index"
-                class="leading-30px whitespace-nowrap px-1rem rounded-full border-1 h-30px cursor-pointer"
-                :class="subActiveTagIndex===index?'bg-color62/20 light:bg-colorF1 text-color62 border-color62 font-bold':
-                'border-color8B/30 light:border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
-                @click="changeSubIndex(index)">{{tag}}</span>
-        </div>
-      </div>
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
-                        :loading-text="$t('common.loading')"
-                        :pulling-text="$t('common.pullRefresh')"
-                        :loosing-text="$t('common.loosingRefresh')">
-        <van-list class="px-1.5rem"
-                  :loading="loading"
-                  :finished="finished"
-                  :immediate-check="false"
-                  :finished-text="showingCurations.length>0?$t('common.noMore'):''"
-                  :loosing-text="$t('common.pullRefresh')"
-                  :loading-text="$t('common.loading')"
-                  @load="onLoad">
-
-          <div v-if="showingCurations.length===0 && !refreshing"
-               class="py-3rem bg-blockBg light:bg-white rounded-12px">
-            <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
-          </div>
-          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-               v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
-            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-          </div>
-          <RelatedCurationItemVue class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
-                                         cursor-pointer rounded-12px overflow-hidden mb-1rem"
-                                  v-for="curation of showingCurations"
-                        :key="curation.curationId"
-                        :curation="curation"
-                        :show-btn-group="false"
-                        @click="gotoDetail(curation)">
-            <template v-if="subActiveTagIndex===1" #status>
-              <div class="ml-0.5rem text-12px 2xl:text-0.75rem">
-                <!-- notTweeted: 'Not Tweeted',
-                comfirmReward: 'Confirm Reward',
-                partiallyConfirmed: 'Partially Confirmed',
-                allConfirmed: 'All Confirmed' -->
-                <button v-if="curation.createStatus===0"
-                        @click.stop="showTweetTip(curation)"
-                        class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D">
-                  {{$t('curation.notTweeted')}}
-                </button>
-                <button v-else-if="curation.curationStatus===0"
-                        disabled
-                        class="h-20px px-6px rounded-full bg-colorF1">
-                  <span class="gradient-text gradient-bg-color3">{{$t('curation.ongoing')}}</span>
-                </button>
-                <button v-else-if="curation.curationStatus === 1"
-                        class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D"
-                        @click.stop="gotoReward(curation)">
-                  {{$t('curation.comfirmReward')}}
-                </button>
-                <button v-else-if="curation.curationStatus===2"
-                        disabled
-                        class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D">
-                  {{$t('curation.allConfirmed')}}
-                </button>
-              </div>
-            </template>
-          </RelatedCurationItemVue>
-        </van-list>
-      </van-pull-refresh>
+  <div class="text-14px xl:text-0.8rem p-15px sm:p-1rem">
+    <div v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
+         class="flex flex-wrap gap-x-1.5rem gap-y-0.8rem">
+      <button v-for="(tag, index) of subTagList" :key="index"
+              class="leading-30px whitespace-nowrap px-1rem rounded-full border-1 h-30px cursor-pointer"
+              :class="subActiveTagIndex===index?'bg-color62/20 light:bg-colorF1 text-color62 border-color62 font-bold':
+              'border-color8B/30 light:border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"
+              @click="changeSubIndex(index)">{{tag}}</button>
     </div>
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+                      :loading-text="$t('common.loading')"
+                      :pulling-text="$t('common.pullRefresh')"
+                      :loosing-text="$t('common.loosingRefresh')">
+      <van-list class="px-1.5rem"
+                :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :finished-text="showingCurations.length>0?$t('common.noMore'):''"
+                :loosing-text="$t('common.pullRefresh')"
+                :loading-text="$t('common.loading')"
+                @load="onLoad">
+        <div class="c-text-black text-1.8rem py-2rem"
+             v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
+          <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+        </div>
+        <div v-if="showingCurations.length===0 && !refreshing" class="py-2rem">
+          <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+          <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+        </div>
+        <RelatedCurationItemVue
+            class="bg-block light:bg-white border-1 border-color8B/30 light:border-colorE3
+                                       cursor-pointer rounded-12px overflow-hidden mb-20px"
+                                v-for="curation of showingCurations"
+                                :key="curation.curationId"
+                                :curation="curation"
+                                :show-btn-group="false"
+                                @click="gotoDetail(curation)">
+          <template v-if="subActiveTagIndex===1" #status>
+            <div class="ml-0.5rem text-12px 2xl:text-0.75rem">
+              <button v-if="curation.createStatus===0"
+                      @click.stop="showTweetTip(curation)"
+                      class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D">
+                {{$t('curation.notTweeted')}}
+              </button>
+              <button v-else-if="curation.curationStatus===0"
+                      disabled
+                      class="h-20px px-6px rounded-full bg-colorF1">
+                <span class="gradient-text gradient-bg-color3">{{$t('curation.ongoing')}}</span>
+              </button>
+              <button v-else-if="curation.curationStatus === 1"
+                      class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D"
+                      @click.stop="gotoReward(curation)">
+                {{$t('curation.comfirmReward')}}
+              </button>
+              <button v-else-if="curation.curationStatus===2"
+                      disabled
+                      class="h-20px px-6px rounded-full bg-colorF1 text-color8B light:text-color7D">
+                {{$t('curation.allConfirmed')}}
+              </button>
+            </div>
+          </template>
+        </RelatedCurationItemVue>
+      </van-list>
+    </van-pull-refresh>
     <van-popup class="c-tip-drawer 2xl:w-2/5"
                v-model:show="modalVisible"
                :position="position">

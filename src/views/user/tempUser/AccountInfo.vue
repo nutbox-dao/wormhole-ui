@@ -1,144 +1,173 @@
 <template>
-  <div class="h-full flex flex-col text-14px xl:text-0.8rem">
-    <div id="user-index"
-         class="overflow-x-hidden h-full flex flex-col no-scroll-bar"
-         @scroll="pageScroll"
-         ref="userIndexRef">
-      <button v-show="scroll>100"
-              @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
-              class="flex items-center justify-center bg-color62
+  <div id="user-index"
+       class="overflow-x-hidden h-full flex flex-col no-scroll-bar lg:px-15px"
+       @scroll="pageScroll"
+       ref="userIndexRef">
+    <button v-show="scroll>100"
+            @click="$refs.userIndexRef.scrollTo({top: 0, behavior: 'smooth'})"
+            class="flex items-center justify-center bg-color62
                    h-44px w-44px min-w-44px 2xl:w-2.2rem 2xl:min-w-2.2rem 2xl:h-2.2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
-        <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
-      </button>
-      <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
-      <div v-show="!showDetail" class="h-full flex flex-col">
-        <template v-if="!loading">
-          <div class="border-b-1 border-color84/30">
-            <div class="container max-w-50rem mx-auto">
-              <div class="px-1rem mt-1rem flex items-start overflow-hidden">
-                <img
-                    class="w-60px h-60px md:w-4.8rem md:h-4.8rem mr-1.5rem rounded-full gradient-border border-1px"
-                    @error="replaceEmptyImg"
-                    :src="profileImg"
-                    alt=""/>
-                <div class="flex-1 overflow-hidden">
-                  <div class="flex items-center overflow-hidden w-full mb-5px">
-                    <div class="c-text-black text-16px xl:text-1rem light:text-blueDark mr-5px text-left">
-                      {{ accountInfo ? accountInfo.twitterName : "" }}
-                    </div>
-                    <div class="flex items-center justify-start text-color7D/60 mr-5px"
-                         v-if="accountInfo && accountInfo.steemId">
-                      <span class="hover" @click="gotoSteem">#{{ accountInfo ? accountInfo.steemId : "" }}</span>
-                    </div>
+      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+    </button>
+    <post-detail v-if="showDetail" :post="post" @hide="showDetail=false"/>
+    <template v-else>
+      <div class="container mx-auto w-full sm:max-w-50rem sticky top-0 lg:relative bg-primaryBg light:bg-white
+                  border-b-0.5px xs:border-b-0 border-color8B/30 light:border-color7F z-99 sm:hidden">
+        <div class="flex h-70px pt-23px justify-center items-center relative">
+          <span class="text-20px c-text-black max-w-2/3 truncate lg:hidden">{{accountInfo?.twitterName}}</span>
+          <button @click="$router.go(-1)"
+                  class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                         flex items-center justify-center absolute left-15px">
+            <i class="icon-back w-20px h-20px"></i>
+          </button>
+        </div>
+      </div>
+      <template v-if="!loading">
+        <div class="container max-w-50rem mx-auto grid 2md:grid-cols-5 xl:grid-cols-3 gap-15px sm:my-15px">
+          <div class="col-span-3 xl:col-span-2 p-15px sm:bg-blockBg light:bg-white sm:rounded-16px">
+            <button @click="$router.go(-1)"
+                    class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
+                           hidden sm:flex items-center justify-center">
+              <i class="icon-back w-20px h-20px"></i>
+            </button>
+            <div class="mt-1rem flex items-center">
+              <img class="w-6rem h-6rem md:w-4.8rem md:h-4.8rem mr-15px rounded-full gradient-border border-1px"
+                   @error="replaceEmptyImg"
+                   :src="profileImg" alt=""/>
+              <div class="flex-1 overflow-hidden">
+                <div class="font-bold text-20px leading-22px light:text-blueDark text-left mb-8px">
+                  {{ accountInfo ? accountInfo.twitterName : "" }}
+                </div>
+                <div @click="gotoTwitter"
+                     class="cursor-pointer flex items-center">
+                  <div class="w-14px h-14px min-w-14px min-h-14px p-3px bg-color8B light:bg-black rounded-full mr-5px
+                          flex items-center justify-center">
+                    <img src="~@/assets/icon-twitter-white.svg" alt="">
                   </div>
-                  <div class="flex flex-wrap items-center gap-y-4px">
-                    <div @click="gotoTwitter"
-                         class="cursor-pointer mr-0.5rem w-max flex items-center
-                                  text-color8B light:text-color7D
-                                  bg-white/10 light:bg-colorF2
-                                  light:border-1 light:border-colorE3
-                                  rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
-                      <img class="w-16px 2xl:w-1.2rem md:w-1rem mr-0.3rem" src="~@/assets/icon-twitter-blue.svg" alt="">
-                      <span class="text-12px 2xl:text-0.7rem">@{{accountInfo ? accountInfo.twitterUsername : " "}}</span>
-                    </div>
-                    <div v-if="accountInfo?.reputation > 0" class="cursor-pointer mr-0.5rem w-max whitespace-nowrap
-                                  text-color8B light:text-color7D flex items-center
-                                  bg-white/10 light:bg-colorF2 text-12px 2xl:text-0.7rem
-                                  light:border-1 light:border-colorE3
-                                  rounded-full min-h-24px h-1.4rem md:1rem px-0.5rem">
-                      Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
-                    </div>
-                  </div>
-                 <div class="flex flex-wrap mt-5px overflow-hidden w-full">
-                   <button class="h-24px flex items-center p-2px rounded-full mt-5px sm:mt-0 truncate
-                                    border-1 border-color8B/30 light:border-color91/20 bg-white/10 light:bg-colorED"
-                           @click="tip">
-                     <img class="w-20px min-w-20px" src="~@/assets/icon-coin-tag.png" alt="">
-                     <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
-                       <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px">
-                         Address:{{accountInfo ? accountInfo.ethAddress : ''}}
-                       </span>
-                       <img class="w-16px min-w-16px light:opacity-30 ml-3px mr-8px"
-                            @click.stop="copyAddress(accountInfo.ethAddress)"
-                            src="~@/assets/icon-copy-primary.svg" alt="">
-                     </span>
-                     <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
-                   </button>
-                 </div>
-                  <div class="sm:max-w-500px">
-                    <div class="mt-8px">
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
-                        {{$t('postView.resourceCredits')}}
-                      </span>
-                          <el-tooltip popper-class="shadow-popper-tip">
-                            <template #content>
-                              <div class="max-w-14rem text-white light:text-blueDark">
-                                {{$t('postView.p1')}}
-                              </div>
-                            </template>
-                            <button>
-                              <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
-                            </button>
-                          </el-tooltip>
-                        </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{rc}}%</span>
-                      </div>
-                      <el-progress class="c-progress flex-1 w-full"
-                                   :text-inside="false"
-                                   :stroke-width="10"
-                                   :show-text="false"
-                                   :percentage="Number(rc)"/>
-                    </div>
-                    <div class="mt-12px">
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center justify-center">
-                      <span class="text-color8B light:text-color7D whitespace-nowrap text-12px">
-                        {{$t('postView.votingPower')}}
-                      </span>
-                          <el-tooltip popper-class="shadow-popper-tip">
-                            <template #content>
-                              <div class="max-w-14rem text-white light:text-blueDark">
-                                {{$t('postView.vpDes')}}
-                              </div>
-                            </template>
-                            <button>
-                              <img class="min-w-12px w-12px ml-0.5rem" src="~@/assets/icon-warning-grey.svg" alt="">
-                            </button>
-                          </el-tooltip>
-                        </div>
-                        <span class="c-text-black text-16px 2xl:text-1.1rem text-color8B light:text-color7D">{{vp}}%</span>
-                      </div>
-                      <el-progress class="c-progress flex-1 w-full"
-                                   :text-inside="false"
-                                   :stroke-width="10"
-                                   :show-text="false"
-                                   :percentage="Number(vp)"/>
-                    </div>
-                  </div>
+                  <span class="text-12px">
+                  @{{accountInfo ? accountInfo.twitterUsername : " "}}
+                </span>
                 </div>
               </div>
-              <div class="bg-blockBg sm:bg-transparent overflow-hidden
-                          light:bg-white light:sm:bg-transparent pt-7px sm:pb-0 mt-30px">
-                <div class="flex overflow-hidden text-16px xl:text-0.9rem font-bold md:max-w-30rem mx-auto">
-                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4 cursor-pointer"
-                       :class="selectIndex===1?'text-color62 border-color62':'text-color7D border-transparent'"
-                       @click="selectIndex = 1">{{$t('profileView.post')}}</div>
-                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4 cursor-pointer"
-                       :class="selectIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
-                        @click="selectIndex = 0">{{$t('profileView.curations')}}</div>
-                  <div class="flex-1 h-40px xl:h-2.4rem flex items-center justify-center border-b-2 md:border-b-4 cursor-pointer"
-                       :class="selectIndex===2?'text-color62 border-color62':'text-color7D border-transparent'"
-                       v-show="!this.getAccountInfo?.twitterId"
-                       @click="selectIndex = 2">{{$t('curation.reward')}}</div>
+              <UserEnergyBar class="flex items-center mx-15px gap-15px 2md:hidden"
+                            :is-self="false"
+                             :rc-value="Number(rc)"
+                             :vp-value="Number(vp)"></UserEnergyBar>
+            </div>
+            <div class="flex overflow-hidden">
+              <div class="hidden sm:block w-6rem min-w-6rem h-6rem
+                        md:w-4.8rem md:min-w-4.8rem md:max-w-4.8rem md:h-4.8rem mr-15px"></div>
+              <div class="flex-1 overflow-hidden sm:max-w-500px">
+                <div class="flex gap-5px mt-15px sm:mt-0">
+                  <button v-if="accountInfo?.reputation > 0"
+                          class="border-1 border-color62 px-8px rounded-full text-12px h-20px
+                             bg-color62 text-white light:bg-colorF1 light:text-color62 ">
+                    Twitter Reputation:{{accountInfo ? accountInfo.reputation : 0}}
+                  </button>
+                  <button v-if="accountInfo && accountInfo.steemId"
+                          class="border-1 border-color62 px-8px rounded-full text-12px h-20px
+                             bg-color62 text-white light:bg-colorF1 light:text-color62 "
+                          @click="gotoSteem">
+                    #{{ accountInfo ? accountInfo.steemId : "" }}
+                  </button>
+                </div>
+                <div class="p-15px bg-color62/30 light:bg-colorEF mt-1rem flex items-center justify-between rounded-12px">
+                  <div class="flex-1 flex items-center overflow-hidden">
+                    <div class="w-30px min-w-30px h-30px rounded-full bg-color62 flex justify-center items-center mr-10px">
+                      <img class="w-14px" src="~@/assets/icon-wallet.svg" alt="">
+                    </div>
+                    <span v-if="accountInfo?.ethAddress" class="flex items-center truncate">
+                    <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
+                      {{accountInfo ? accountInfo.ethAddress : ''}}
+                    </span>
+                    <img class="w-14px min-w-14px ml-3px mr-8px"
+                         @click.stop="copyAddress(accountInfo.ethAddress)"
+                         src="~@/assets/icon-copy-primary.svg" alt="">
+                  </span>
+                    <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="bg-blockBg light:bg-white light:sm:bg-transparent sm:bg-transparent
-                      container max-w-50rem mx-auto flex-1 pb-2rem sm:px-1rem">
+          <div class="col-span-2 xl:col-span-1 hidden 2md:flex flex-col gap-15px">
+            <div class="flex-1 bg-blockBg light:bg-white rounded-16px py-20px px-1/10 flex items-center justify-between gap-20px">
+              <div class="h-60px overflow-hidden relative">
+                <HalfCircleProgress class="c-progress-dashboard w-100px h-100px relative"
+                                    type="dashboard"
+                                    color="#68E796"
+                                    :stroke-width="10"
+                                    :width="100"
+                                    :percentage="Number(rc)">
+                  <template #default><span></span></template>
+                  <template #label><span></span></template>
+                </HalfCircleProgress>
+              </div>
+              <div class="flex-1">
+                <div class="c-text-black text-20px mb-20px">{{Number(rc)}}%</div>
+                <div class="flex items-center justify-between">
+                  <span class="text-color8B text-14px">OP</span>
+                  <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
+                    <template #content>
+                      <div class="max-w-14rem text-white light:text-blueDark">
+                        {{$t('postView.p1')}}
+                      </div>
+                    </template>
+                    <button>
+                      <img src="~@/assets/icon-warning-grey.svg" alt="">
+                    </button>
+                  </el-tooltip>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 bg-blockBg light:bg-white rounded-16px py-20px px-1/10 flex items-center justify-between gap-20px">
+              <div class="h-60px overflow-hidden relative">
+                <HalfCircleProgress class="c-progress-dashboard w-100px h-100px relative"
+                                    type="dashboard"
+                                    color="#7700E0"
+                                    :stroke-width="10"
+                                    :width="100"
+                                    :percentage="Number(vp)">
+                  <template #default><span></span></template>
+                  <template #label><span></span></template>
+                </HalfCircleProgress>
+              </div>
+              <div class="flex-1">
+                <div class="c-text-black text-20px mb-20px">{{Number(vp)}}%</div>
+                <div class="flex items-center justify-between">
+                  <span class="text-color8B text-14px">VP</span>
+                  <el-tooltip popper-class="shadow-popper-tip" :show-after="1500">
+                    <template #content>
+                      <div class="max-w-14rem text-white light:text-blueDark">
+                        {{$t('postView.vpDes')}}
+                      </div>
+                    </template>
+                    <button>
+                      <img src="~@/assets/icon-warning-grey.svg" alt="">
+                    </button>
+                  </el-tooltip>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container max-w-50rem mx-auto flex-1 bg-blockBg light:bg-white light:shadow-color1A
+                  sm:rounded-16px sm:mb-15px">
+          <div class="w-full sticky top-70px 2md:-top-1px z-9 bg-blockBg light:bg-white rounded-t-16px shadow-tab sm:shadow-none">
+            <div class="text-14px 2md:text-18px font-bold px-15px
+                    border-b-0.5px border-color8B/30 light:border-color7F">
+              <div class="container mx-auto sm:max-w-30rem flex items-center justify-center">
+                <button class="w-full h-48px flex items-center justify-center"
+                        :class="selectIndex===1?'c-active-tab text-color62':'text-color7D'"
+                        @click="selectIndex = 1">{{$t('profileView.post')}}</button>
+                <button class="w-full h-48px flex items-center justify-center"
+                        :class="selectIndex===0?'c-active-tab text-color62':'text-color7D'"
+                        @click="selectIndex = 0">{{$t('profileView.curations')}}</button>
+              </div>
+            </div>
+          </div>
+          <div>
             <Curations :accountInfo="accountInfo" v-show="selectIndex===0"/>
             <Post v-show="selectIndex === 1"
                   :accountInfo="accountInfo"
@@ -146,23 +175,22 @@
                   :key="$route.params.user"/>
             <RewardView v-if="selectIndex===2" :twitterId="accountInfo && accountInfo.twitterId"></RewardView>
           </div>
-        </template>
-        <div class="c-text-black text-1.8rem mb-3rem" v-else>
-          <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
         </div>
+      </template>
+      <div class="py-2rem" v-else>
+        <img class="w-5rem mx-auto " src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    </div>
+    </template>
     <van-popup class="md:w-600px bg-black light:bg-transparent rounded-t-12px"
                v-model:show="showTip"
                :position="position">
       <transition name="el-zoom-in-bottom">
         <div v-if="showTip"
              class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px overflow-hidden">
-             <TipModalVue class="flex-1 mt-40px" :tipToUser="{...accountInfo, username: accountInfo.twitterUsername}" @close="showTip=false" @back="showTip=false"/>
+          <TipModalVue class="flex-1 mt-40px" :tipToUser="{...accountInfo, username: accountInfo.twitterUsername}" @close="showTip=false" @back="showTip=false"/>
         </div>
       </transition>
     </van-popup>
-
   </div>
 </template>
 
@@ -183,7 +211,8 @@ import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";
 import { getUserVPRC } from '@/api/api'
-import RewardView from "./RewardView";
+import UserEnergyBar from "@/components/UserEnergyBar.vue";
+import HalfCircleProgress from "@/components/HalfCircleProgress.vue"
 
 export default {
   name: "AccountInfo",
@@ -193,7 +222,8 @@ export default {
     Curations,
     TipModalVue,
     PostDetail,
-    RewardView
+    UserEnergyBar,
+    HalfCircleProgress
   },
   data() {
     return {

@@ -36,7 +36,4 @@ export default {
             state.trendingCurationListByTag = trendingCurationListByTag
         }
     },
-    getters: {
-        
-    }
 }

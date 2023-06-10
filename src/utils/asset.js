@@ -745,3 +745,28 @@ export async function getPriceFromOracle(chainName, tokens) {
         console.log('Get prices fail:', e);
     }
 }
+
+export async function getTokenBalancesOfUsers(chainName, token, users) {
+    try {
+        users = users.filter(u => ethers.utils.isAddress(u));
+        if (users && users.length > 0) {
+            let calls = users.map(u => ({
+                target: token,
+                call: [
+                    'balanceOf(address)(uint256)',
+                    u
+                ],
+                returns: [
+                    [u]
+                ]
+            }))
+            const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+            const balances = res.results.transformed;
+            return balances;
+        }
+        return {}
+    } catch (e) {
+        console.log('get users token balance', e);
+        return false
+    }
+}

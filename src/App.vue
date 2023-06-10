@@ -6,172 +6,27 @@
          class="bg-primaryBg light:bg-white bg-img"
          :class="$route.name"
          @click="showMenu=false,showSearchList=false">
-      <div class="py-20px border-b-1 border-headerBorder light:border-headerBorderLight
-                  h-70px 2xl:h-88px flex items-center c-page-header">
-        <div class="container max-w-50rem w-full mx-auto flex justify-between items-center px-15px relative">
-          <button @click="goBack">
-            <img class="h-1.7rem black-filter" src="~@/assets/logo.svg" alt="">
-          </button>
-          <div class="flex-1 flex justify-end items-center relative">
-            <div class="relative flex-1 flex justify-end">
-              <div class="search-bar relative bg-transparent flex items-center rounded-full mr-0.4rem">
-                <input type="text" :placeholder="$t('search')"
-                       v-model="searchText"
-                       @keypress="onSearch"
-                       class="bg-transparent relative px-10px py-4px rounded-full text-12px" >
-                <button v-if="searchText.trim().length>0"
-                        @click="searchText='', searchList=[]"
-                        class="absolute right-5px bg-color8B/30 p-2px rounded-full">
-                  <img class="w-12px h-12px" src="~@/assets/icon-close-white.svg" alt="">
-                </button>
-              </div>
-              <el-collapse-transition>
-                <div v-show="showSearchList"
-                     class="z-999 fixed right-15px left-15px top-55px
-                              xs:absolute xs:right-0 xs:left-auto xs:top-45px">
-                  <div class="w-300px mx-auto text-14px">
-                    <div class="bg-blockBg light:bg-white border-1 border-color8B/30
-                                  light:border-colorF4 rounded-12px p-12px shadow-lg
-                                  max-h-500px overflow-auto no-scroll-bar">
-                      <div v-show="searchList.length === 0">
-                        {{ $t('noRelatedUser') }}
-                      </div>
-                      <div v-for="(item,index) of searchList" :key="index"
-                           @click="gotoUser(item)"
-                           class="border-b-1 border-color8B/30 light:border-colorF4
-                                    flex items-center py-6px cursor-pointer">
-                        <img class="w-40px h-40px rounded-full mr-10px"
-                             :src="item.profileImg" alt=""
-                             @error="replaceEmptyImg">
-                        <div class="text-left text-color8B light:text-color7D">
-                          <div class="mb-5px font-bold">{{item.twitterName}} @{{item.twitterUsername}}</div>
-                          <div class="text-12px">Twitter Reputation:{{item.reputation}}</div>
-                        </div>
-                      </div>
-<!--                      tag-->
-                      <div class="flex flex-wrap items-center gap-5px">
-                        <div class="border-1 border-color62 py-3px px-6px rounded-6px mt-10px
-                                    whitespace-nowrap cursor-pointer light:text-color46 w-max flex"
-                            :class="selectedTag === tag?'bg-color62 text-white':'light:text-color46 bg-color62/20'"
-                            v-for="tag of seachTagList" :key="tag"
-                            @click.stop="setSelectTag(tag)">
-                          #{{ tag.replace('#', '') }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </el-collapse-transition>
-            </div>
-            <div class="flex justify-end items-center relative" v-if="!getAccountInfo">
-              <button @click="login"
-                      class="flex justify-center items-center mr-1 min-w-70px px-13px bg-color62
-                         text-white c-text-black text-0.8rem h-25px 2xl:h-1.4rem rounded-full">
-                {{$t('signIn')}}
-              </button>
-            </div>
-            <template v-else>
-              <button class="flex items-center justify-center bg-ny-btn-gradient hidden sm:flex
-                       h-30px px-15px rounded-full mr-0.8rem
-                       font-bold text-12px leading-18px 2xl:text-0.7rem 2xl:leading-0.9rem"
-                      @click="createCuration">
-                <span class="whitespace-nowrap text-white">{{ $t('curation.create') }}</span>
-                <img class="ml-5px w-14px min-w-14px h-14px"
-                     src="~@/assets/icon-add-white.svg" alt="">
-              </button>
-              <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
-                           class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative p-2px">
-                <img class="w-full h-full rounded-full"
-                     :src="profileImg" @error="replaceEmptyImg" alt="">
-                <el-progress v-if="$refs.appRef" class="absolute -top-1px -left-1px" type="circle"
-                             :width="$refs.appRef.clientWidth>1280?42:37"
-                             :color="isDark?'#8208e9':'#02f900'"
-                             :show-text="false"
-                             :stroke-width="3"
-                             :percentage="rc/MAX_RC * 100">
-                </el-progress>
-                <el-progress v-if="$refs.appRef" class="absolute -top-2px -left-2px" type="circle"
-                             :width="$refs.appRef.clientWidth>1280?44:39"
-                             :color="isDark?'#00fa97':'#8644ef'"
-                             :show-text="false"
-                             :stroke-width="2"
-                             :percentage="vp/MAX_VP * 100">
-                </el-progress>
-              </router-link>
-              <router-link :to="`/wallet/@${getAccountInfo.twitterUsername}/wallet`">
-                <i class="w-20px h-20px xl:h-1.4rem xl:w-1.4rem mr-0.4rem icon-wallet black-filter"></i>
-              </router-link>
-            </template>
-            <div class="relative">
-              <button class="bg-transparent h-2rem w-1.6rem flex items-center"
-                      @click.stop="showMenu=!showMenu">
-                <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem black-filter" src="~@/assets/icon-menu-toggle.svg" alt="">
-              </button>
-              <div class="menu-box w-150px 2xl:w-10rem z-9999" @click.stop
-                   :class="showMenu?'active shadow-popper-tip':''">
-                <div class="px-12px py-8px border-1 border-listBgBorder
-                            bg-blockBg light:bg-white light:border-0 light:shadow-popper-tip
-                            rounded-12px w-full h-full
-                            flex flex-col justify-between
-                            font-400 text-12px  xl:text-0.75rem">
-<!--                  <router-link :to="'/account-info/'+accountInfo.twitterUsername" v-if="accountInfo && accountInfo.ethAddress" @click.stop="showMenu=false"-->
-<!--                               class="flex-1 flex justify-center items-center cursor-pointer hover:text-primaryColor">Web3 ID</router-link>-->
-                  <router-link to="/faq" @click.stop="showMenu=false"
-                               class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
-                    <span>{{$t('faq')}}</span>
-                    <i class="w-14px min-w-14px h-14px icon-faq"></i>
-                  </router-link>
-                  <router-link to="/userguide" @click.stop="showMenu=false"
-                               class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
-                    <span>{{$t('userguide')}}</span>
-                    <i class="w-14px min-w-14px h-14px icon-userguide"></i>
-                  </router-link>
-
-                  <div @click="onCopy('https://alpha.wormhole3.io/square?referee=' + getAccountInfo.twitterId)"
-                       v-if="getAccountInfo && getAccountInfo.twitterUsername"
-                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
-                    <span>{{$t('ref.referre')}}</span>
-                    <i class="w-14px min-w-14px h-14px icon-referral"></i>
-                  </div>
-                  <div class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
-                       @click="changeTheme">
-                    <span>{{isDark?'Light Mode':'Dark Mode'}}</span>
-                    <i v-if="isDark" class="w-16px min-w-16px h-16px icon-theme-light"></i>
-                    <i v-else class="w-14px min-w-14px h-14px icon-theme-dark"></i>
-                  </div>
-                  <button class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
-                          @click="onSelectLang">
-                    <span>CN / EN</span>
-                    <i class="w-14px min-w-14px h-14px icon-exchange"></i>
-                  </button>
-                  <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
-                      class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
-                      @click="signout">
-                    <span>{{$t('logout')}}</span>
-                    <i class="w-14px min-w-14px h-14px icon-logout"></i>
-                  </div>
-                  <div class="flex items-center">
-                    <button class="h-24px w-24px mr-20px" @click="gotoDC">
-                      <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">
-                    </button>
-                    <button class="h-24px w-24px" @click="gotoTwitter">
-                      <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter.svg" alt="">
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <HeaderWeb @gotoCommunity="gotoCommunity"
+                 @setSelectTag="setSelectTag"
+                 @gotoUser="gotoUser"
+                 class="hidden 2md:flex c-page-header"></HeaderWeb>
+      <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
+      <div class="flex-1 overflow-hidden flex">
+        <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
+                   :profile-img="profileImg"
+                   @login="login"></SliderBar>
+        <div class="flex-1 overflow-auto relative c-page-container 2xl:pr-13rem">
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
+            </keep-alive>
+            <component :is="Component" v-if="!$route.meta.keepAlive"/>
+          </router-view>
         </div>
       </div>
-      <div class="flex-1 overflow-auto relative c-page-container">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
-          </keep-alive>
-          <component :is="Component" v-if="!$route.meta.keepAlive"/>
-        </router-view>
-      </div>
+      <BottomTabbar v-if="$route.meta.tabbar!=='hidden'"
+                    class="flex 2md:hidden"
+                    @login="login"></BottomTabbar>
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
       </el-dialog>
@@ -226,13 +81,19 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchTags, getUserVPRC, twitterLogin } from '@/api/api'
+import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName,
+  hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
+import BottomTabbar from "@/components/layout/BottomTabbar";
+import HeaderV1 from "@/components/layout/HeaderV1";
+import HeaderH5 from "@/components/layout/HeaderH5";
+import HeaderWeb from "@/components/layout/HeaderWeb";
+import SliderBar from "@/components/layout/SliderBar";
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login},
+  components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar, HeaderV1, HeaderH5, HeaderWeb, SliderBar},
   data: () => {
     return {
       pubKey: '',
@@ -247,6 +108,7 @@ export default {
       searchList: [],
       showSearchList: false,
       seachTagList: [],
+      searchComList: [],
       MAX_VP,
       MAX_RC
     }
@@ -269,6 +131,10 @@ export default {
         );
       }
     },
+    newMessage(){
+      const newNoti = this.$store.state.noti.newNotis
+      return newNoti && newNoti.length > 0
+    }
   },
   methods: {
     replaceEmptyImg(e) {
@@ -324,7 +190,11 @@ export default {
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     gotoUser(user) {
+      console.log(1, user);
       this.$router.push('/search-user/@' + user.twitterUsername)
+    },
+    gotoCommunity(community) {
+      this.$router.push('/community-detail/' + community.communityId)
     },
     goBack() {
       this.$router.push('/')
@@ -366,15 +236,19 @@ export default {
     },
     async onSearch(e) {
       if(this.searchText.trim().length > 0 && e.keyCode === 13) {
-        const [users, tags] = await Promise.all([searchUsers(this.searchText), searchTags(this.searchText)])
+        const [users, communities, tags] = await Promise.all([searchUsers(this.searchText), searchCommunityByName(this.searchText), searchTags(this.searchText)])
           this.showSearchList = true
           this.searchList = []
           this.seachTagList = []
+          this.searchComList = []
         if (users && users.length > 0) {
           this.searchList = users
         }
         if (tags && tags.length > 0) {
           this.seachTagList = tags
+        }
+        if (communities && communities.length > 0) {
+          this.searchComList = communities
         }
       }
     }
@@ -462,29 +336,43 @@ export default {
           this.$store.commit('saveAccountInfo', account)
           return;
         }
-        logout();
+        logout(twitterId);
       }).catch(e => {
         if (e === 401) {
-          logout();
+          logout(twitterId);
         }
         console.log('get profile fail:', e);
       })
     }
 
-    // update curating power
+    // update curating power and new noti
     let c = 0;
     setInterval(async () => {
       if(this.getAccountInfo && this.getAccountInfo.twitterId) {
         if (c % 30 === 0 || !this.vpInfo.lastUpdateTime) {
           c = 0;
-          const res = await getUserVPRC(this.getAccountInfo.twitterId);
-          if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
-            this.$store.commit('saveVpInfo', res)
+          try {
+            const res = await getUserVPRC(this.getAccountInfo.twitterId);
+            if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
+              this.$store.commit('saveVpInfo', res)
+            }
+            if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
+              this.$store.commit('saveRcInfo', res)
+            }
+          }catch(e){
+            if (e === 401) {
+              logout(this.getAccountInfo?.twitterId)
+            }
           }
-          if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
-            this.$store.commit('saveRcInfo', res)
-          }
+          hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
+            this.$store.commit('noti/saveNewNotis', newNoti)
+          }).catch(e => {
+            if (e === 401) {
+              logout(this.getAccountInfo?.twitterId)
+            }
+          })
         }
+
         // update vp
         let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
         this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
@@ -496,7 +384,7 @@ export default {
       }else {
         c = 0;
       }
-    }, 2000);
+    }, 3000);
 
     while(true) {
       try{
@@ -567,17 +455,17 @@ export default {
 }
 .light #app {
   color: #1A1E25;
-  &.bg-img {
-    background-image: url("~@/assets/layout-bg.png");
+}
+
+.light {
+  .bg-img{
+    background-image: linear-gradient(90deg, #F4EEFF 0%, #FAF6FF 100%);
     background-size: cover;
     background-position: center;
   }
-}
-.c-emoji {
-  //font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-}
-.c-input-emoji {
-  //font-family: system-ui;
+  .c-header {
+    background: #F1F2FF;
+  }
 }
 .menu-icon {
   display: inline-block;
@@ -729,9 +617,10 @@ export default {
 }
 .search-bar {
   box-sizing: border-box;
+  background: #999999;
   &::after {
     content: "";
-    background: #848391;
+    background: #999999;
     width: 1px;
     height: 8px;
     position: absolute;
@@ -741,20 +630,20 @@ export default {
   }
 }
 .light .search-bar::after {
-  background-color: #D8D8D8;
+  background-color: #999999;
 }
 .search-bar > input {
   width: 28px;
   height: 28px;
   outline: none;
   transition: width 0.5s;
-  border: 1px solid #848391;
+  border: 1px solid #999999;
 }
 .light .search-bar >input {
-  border: 1px solid #D8D8D8;
+  border: 1px solid #999999;
 }
 .search-bar > input::placeholder {
-  color: #D8D8D8;
+  color: #999999;
   opacity: 0;
   transition: opacity 150ms ease-out;
   font-size: 12px;
@@ -771,11 +660,15 @@ export default {
   background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
   .c-page-header {
     border-color: rgba(132, 131, 145, 0.3)!important;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 99;
+    .black-filter {
+      filter: brightness(0);
+    }
+    .search-bar {
+      display: none;
+    }
+  }
+  .c-page-slider {
+    border-color: rgba(132, 131, 145, 0.3)!important;
     .black-filter {
       filter: brightness(0);
     }
@@ -784,8 +677,12 @@ export default {
     padding-top: 88px;
   }
 }
-.light .word-cloud{
-  background-image: linear-gradient(180deg, #7600E2 0%, #FCFCFF 57%)!important;
+.second-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 @media (max-width: 500px) {
   .search-bar > input:focus,

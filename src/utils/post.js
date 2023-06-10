@@ -1,6 +1,6 @@
 import store from '@/store'
 import { checkAccessToken, logout } from '@/utils/account'
-import { likePost as lp, retweetPost as rtp, quotePost as qp, replyPost as rep, userFollow as fp } from '@/api/api'
+import { likePost as lp, unLikePost as ulp, retweetPost as rtp, quotePost as qp, replyPost as rep, userFollow as fp } from '@/api/api'
 import { VP_CONSUME, RC_CONSUME, errCode } from '@/config';
 
 function updateUserVpLocal(consume) {
@@ -27,7 +27,7 @@ function udpateUserRCLocal(consume) {
     return false;
 }
 
-export const likePost = async (tweetId, authorId) => {
+export const likePost = async (tweetId, authorId, up=true) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
@@ -35,11 +35,16 @@ export const likePost = async (tweetId, authorId) => {
         if (!rcResult) {
             throw errCode.INSUFFICIENT_RC;
         }
-        const r = await lp(twitterId, tweetId)
+        let r;
+        if (up) {
+            r = await lp(twitterId, tweetId)
+        }else {
+            r = await ulp(twitterId, tweetId)
+        }
         if (authorId !== twitterId) {
             updateUserVpLocal(VP_CONSUME.LIKE)
         }
-        console.log('user like tweet result:', r);
+        console.log('user like tweet result:', r, up);
         if(r) {
             return r
         }

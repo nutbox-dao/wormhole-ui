@@ -21,32 +21,6 @@ export const SignUpMessage = JSON.stringify({
     method: 'create account'
 }, null, 4)
 
-// bsc net
-// export const RPC_NODE = 'https://bsc-dataseed.binance.org'
-// export const MultiAddress = "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
-// export const CHAIN_NAME = 'BSC Mainnet'
-// export const CHAIN_ID = 56
-// export const MainToken = {
-//     name: 'BNB',
-//     symbol: 'BNB',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
-//     decimals: 18
-// }
-// export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
-
-// bsc test
-// export const RPC_NODE = 'https://data-seed-prebsc-1-s1.binance.org:8545'
-// export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-// export const CHAIN_NAME = 'BSC Testnet'
-// export const CHAIN_ID = 97
-// export const MainToken = {
-//     name: 'BNB',
-//     symbol: 'BNB',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
-//     decimals: 18
-// }
-// export const BLOCK_CHAIN_BROWER = 'https://bscscan.com/';
-
 // polygon
 export const RPC_NODE = 'https://polygon-rpc.com'
 export const MultiAddress = "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
@@ -59,23 +33,6 @@ export const MainToken = {
     decimals: 18
 }
 export const BLOCK_CHAIN_BROWER = 'https://polygonscan.com';
-
-// bsc test
-// export const RPC_NODE = 'https://data-seed-prebsc-2-s3.binance.org:8545'
-// export const MultiAddress = "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
-// export const CHAIN_NAME = 'BSC Testnet'
-// export const CHAIN_ID = 97
-
-// eth
-// export const RPC_NODE = 'https://mainnet.infura.io/v3/0573c5d2e8c54ed79669b80cb3b78978'
-// export const MultiAddress = '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
-// export const BSC_CHAIN_ID = 1
-// export const MainToken = {
-//     name: 'Ethereum',
-//     symbol: 'ETH',
-//     icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
-//     decimals: 18
-// }
 
 // polygon
 export const ERC20List = [
@@ -173,7 +130,13 @@ export const isWrappedToken = {
     '0x217dffF57E3b855803CE88a1374C90759Ea071bD': true,
     '0xAcc15dC74880C9944775448304B263D191c6077F': true
 }
-
+export const EVM_CHAINS_ID = {
+    56: 'BNB Smart Chain',
+    137: 'Polygon',
+    42161: 'Arbitrum',
+    1284: 'Moonbeam',
+    119: 'ENULS'
+}
 /**
  * EVM Chains
  */
@@ -204,6 +167,7 @@ export const EVM_CHAINS = {
         rpc: 'https://bsc.publicnode.com',
         scan: 'https://bscscan.com/',
         tokenScan: 'https://pancakeswap.finance/info/tokens/',
+        chainName: 'BSC',
         id: 56,
         main: {
             name: 'BNB',
@@ -226,11 +190,13 @@ export const EVM_CHAINS = {
         },
         curation: '0x4695c30907E95A2153486D7a6372f3FBc2a89056',
         popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB',
-        oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550'
+        oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550',
+        communityCuration: '0x6534b7A5a4dbF65b6DE92fF60dfB25f4Fdb7636B'
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
         scan: 'https://polygonscan.com/',
+        chainName: 'Polygon',
         tokenScan: 'https://app.uniswap.org/#/tokens/polygon/',
         id: 137,
         main: {
@@ -253,12 +219,14 @@ export const EVM_CHAINS = {
         },
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
-        oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9'
+        oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9',
+        communityCuration: '0x90D0Ec60906f444567980E4688aC4525b7B63411'
     },
 
     Arbitrum: {
         rpc: 'https://arb1.arbitrum.io/rpc',
         scan: 'https://arbiscan.io/',
+        chainName: 'Arbitrum',
         tokenScan: 'https://arbiscan.io/token/',
         id: 42161,
         main: {
@@ -280,11 +248,13 @@ export const EVM_CHAINS = {
         },
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
-        oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F'
+        oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
+        communityCuration: '0xDda7947F795B4636C68a14bC590fEb08cA69eef3'
     },
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
         scan: 'https://evmscan.nuls.io',
+        chainName: 'ENULS',
         tokenScan: 'https://evmscan.nuls.io/token/',
         id: 119,
         main: {
@@ -297,42 +267,42 @@ export const EVM_CHAINS = {
             WNULS: {symbol: 'WNULS', name: 'Wrapped NULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png'},
 
             USDTN: {symbol: 'USDTN', name: 'USDTN', address:  '0x9e5d124cd49671f3f7b54d4aef43b3930bcf6de7', decimals: 18, icon: ''},
-            
-            USDCN: {symbol: 'USDCN', name:'USDCN', address: '0xb13bb925d62adc0ea0da95f70e7f7a09effd4f9e', decimals: 18, icon: ''}, 
-            
+
+            USDCN: {symbol: 'USDCN', name:'USDCN', address: '0xb13bb925d62adc0ea0da95f70e7f7a09effd4f9e', decimals: 18, icon: ''},
+
             ETH: {symbol: 'ETH', name: 'ETH', address: '0xf573632c60de84f30486555e5199911fbd00835d', decimals: 18, icon: ''},
-            
+
             BNB: {symbol: 'BNB', name: 'BNB', address: '0x70a07c8dce789d9cc249b3f816bdacd2bbed66cc', decimals: 18, icon: ''},
-            
+
             AVAX: {symbol: 'AVAX', name: 'AVAX', address: '0x275f8b996dca35bca02cf2edb0f883d83decabf0', decimals: 18, icon: ''},
-            
+
             HT: {symbol: 'HT', name: 'HT', address: '0x1853f95c1e21d6f43a667dd01f174bdf7828d4af', decimals: 18, icon: ''},
-            
+
             OKT: {symbol: 'OKT', name: 'OKT', address: '0x3a5b9a4fd8fcac2cf2b09bb69f15f0c4a2a34b10', decimals: 18, icon: ''},
-            
+
             ONE: {symbol: 'ONE', name: 'ONE', address: '0x6770b3ada065fe3e33d93de76ad22ead07d8c8d5', decimals: 18, icon: ''},
-            
+
             MATIC: {symbol: 'MATIC', name: 'MATIC', address: '0x39f36e05630ac18cd4cbc4a787f58fa280066208', decimals: 18, icon: ''},
-            
-            FTM: {symbol: 'FTM', name: 'FTM', address: '0x21cd8e25a5504c55c26d0c2b84adffd3607e6d17', decimals: 18, icon: ''}, 
-            
-            KCS: {symbol: 'KCS', name: 'KCS', address: '0x5ec1c7d67ab36532ecafa8464717a7b282a909b3', decimals: 18, icon: ''}, 
-            
-            TRX: {symbol: 'TRX', name: 'TRX', address: '0x6949e317f000e07496654dc68fe252739ffcbc10', decimals: 6, icon: ''}, 
-            
-            IOTX: {symbol: 'IOTX', name: 'IOTX', address: '0x3e1c9a9e67d00fc55c5e2be28ea00dadc15cc065', decimals: 18, icon: ''}, 
-            
-            CRO: {symbol: 'CRO', name: 'CRO', address: '0x4ced4e629a0a314d5bae83f93edf80df5c2f13a1', decimals: 18, icon: ''}, 
-            
-            KAVA: {symbol: 'KAVA', name: 'KAVA', address: '0xc27956fd894d7192892bfe8d215a5b25dc893da0', decimals: 18, icon: ''}, 
-            
-            METIS: {symbol: 'METIS', name: 'METIS', address: '0x15be367243896393c097660e9c7a693ff3d9dedd', decimals: 18, icon: ''}, 
-            
-            KLAY: {symbol: 'KLAY', name: 'KLAY', address: '0x518111b3d78a11ff076f23f24fda1fae93f1c32f', decimals: 18, icon: ''}, 
-            
-            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 18, icon: ''}, 
-            
-            NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},  
+
+            FTM: {symbol: 'FTM', name: 'FTM', address: '0x21cd8e25a5504c55c26d0c2b84adffd3607e6d17', decimals: 18, icon: ''},
+
+            KCS: {symbol: 'KCS', name: 'KCS', address: '0x5ec1c7d67ab36532ecafa8464717a7b282a909b3', decimals: 18, icon: ''},
+
+            TRX: {symbol: 'TRX', name: 'TRX', address: '0x6949e317f000e07496654dc68fe252739ffcbc10', decimals: 6, icon: ''},
+
+            IOTX: {symbol: 'IOTX', name: 'IOTX', address: '0x3e1c9a9e67d00fc55c5e2be28ea00dadc15cc065', decimals: 18, icon: ''},
+
+            CRO: {symbol: 'CRO', name: 'CRO', address: '0x4ced4e629a0a314d5bae83f93edf80df5c2f13a1', decimals: 18, icon: ''},
+
+            KAVA: {symbol: 'KAVA', name: 'KAVA', address: '0xc27956fd894d7192892bfe8d215a5b25dc893da0', decimals: 18, icon: ''},
+
+            METIS: {symbol: 'METIS', name: 'METIS', address: '0x15be367243896393c097660e9c7a693ff3d9dedd', decimals: 18, icon: ''},
+
+            KLAY: {symbol: 'KLAY', name: 'KLAY', address: '0x518111b3d78a11ff076f23f24fda1fae93f1c32f', decimals: 18, icon: ''},
+
+            NABOX: {symbol: 'NABOX', name: 'Nabox_Token', address: '0xd9bea2dff06366c84ac2654308c5be9cb8750889', decimals: 18, icon: ''},
+
+            NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},
         },
         Multi_Config: {
             rpcUrl: 'https://evmapi.nuls.io',
@@ -340,7 +310,8 @@ export const EVM_CHAINS = {
             interval: 3000
         },
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
-        popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268'
+        popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268',
+        communityCuration: '0x1Ac88fa4ec4923835b25b21cE2061b25e0A4b05d'
     },
     // Aurora: {
     //     rpc: 'https://mainnet.aurora.dev/7KXu6cZRhGEzuyy3XbPd5UMo5tZYSpgX8h5VPc8BM58',
@@ -367,6 +338,7 @@ export const EVM_CHAINS = {
         rpc: 'https://rpc.api.moonbeam.network',
         scan: 'https://moonbeam.moonscan.io/',
         tokenScan: 'https://moonbeam.moonscan.io/token/',
+        chainName: 'MoonBeam',
         id: 1284,
         main: {
             name: 'GLMR',
@@ -386,8 +358,9 @@ export const EVM_CHAINS = {
             interval: 3000
         },
         curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
-        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434'
-    }
+        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434',
+        communityCuration: '0xA7E27609a0185721e9CFda1188c6797A6d28f452'
+    },
     // 'BSC Testnet': {
     //     rpc: 'https://data-seed-prebsc-2-s3.binance.org:8545',
     //     scan: '',

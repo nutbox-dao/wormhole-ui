@@ -1,38 +1,34 @@
 <template>
-  <div class="w-full h-full">
-    <div class="bg-blockBg light:bg-white sm:pb-1.5rem rounded-12px sm:my-2rem h-full sm:h-max">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
-                        class="h-full"
-                        :loading-text="$t('common.loading')"
-                        :pulling-text="$t('common.pullRefresh')"
-                        :loosing-text="$t('common.loosingRefresh')">
-        <van-list class="px-1.5rem"
-                  :loading="loading"
-                  :finished="finished"
-                  :immediate-check="false"
-                  :finished-text="showingCurations.length>0?$t('common.noMore'):''"
-                  :loosing-text="$t('common.pullRefresh')"
-                  :loading-text="$t('common.loading')"
-                  @load="onLoad">
-          <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-               v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
-            <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-          </div>
-          <div v-if="showingCurations.length===0 && !refreshing"
-               class="py-3rem bg-blockBg light:bg-white rounded-12px">
-            <div class="c-text-black text-color7D text-2rem mb-2rem">{{$t('common.none')}}</div>
-          </div>
-          <div v-for="curation of showingCurations" :key="curation.curationId"
-               class="border-t-1 border-listBgBorder light:border-colorE3 pt-15px c-curation-item">
-            <CurationItem class="cursor-pointer"
-                          :curation="curation"
-                          :show-btn-group="false"
-                          @click="gotoDetail(curation)">
-            </CurationItem>
-          </div>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+  <div class="text-14px xl:text-0.8rem sm:p-1rem">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh"
+                      class="h-full"
+                      :loading-text="$t('common.loading')"
+                      :pulling-text="$t('common.pullRefresh')"
+                      :loosing-text="$t('common.loosingRefresh')">
+      <van-list :loading="loading"
+                :finished="finished"
+                :immediate-check="false"
+                :finished-text="showingCurations.length>0?$t('common.noMore'):''"
+                :loosing-text="$t('common.pullRefresh')"
+                :loading-text="$t('common.loading')"
+                @load="onLoad">
+        <div class="c-text-black text-1.8rem py-2rem"
+             v-if="refreshing && (!showingCurations || showingCurations.length === 0)">
+          <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+        </div>
+        <div v-if="showingCurations.length===0 && !refreshing" class="py-2rem">
+          <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+        </div>
+        <div v-for="curation of showingCurations" :key="curation.curationId"
+             class="">
+          <CurationItem class="border-b-0.5px border-white/20 light:border-black/16 md:border-listBgBorder
+                               py-20px px-15px sm:px-0"
+                        :curation="curation"
+                        @click="gotoDetail(curation)">
+          </CurationItem>
+        </div>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 

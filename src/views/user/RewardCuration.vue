@@ -1,42 +1,61 @@
 <template>
-  <div class="px-1.5rem">
-        <div class="c-list">
-          <div v-for="(item, index) of rewards" :key="index"
-               class="border-b-1px border-listBgBorder py-1rem flex justify-between items-center">
-            <ChainTokenIcon height="40px" width="40px" class=" p-2px"
-              :token="{symbol: item.tokenSymbol, address: item.token}"
-              :chainName="chainName">
-              <template #amount>
-                <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
-                  {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
-                </span>
-              </template>
-            </ChainTokenIcon>
-            <div class="flex flex-col items-end">
-              <button class="border-1 border-color62 rounded-full h-24px 2xl:h-1.4rem w-min whitespace-nowrap px-12px mb-8px"
+  <div class="">
+    <div v-for="(item, index) of rewards" :key="index"
+         class="flex justify-between items-center py-8px">
+      <div class="flex-1 flex justify-between items-center">
+        <ChainTokenIcon height="30px" width="30px"
+                        :token="{symbol: item.tokenSymbol, address: item.token}"
+                        :chainName="chainName">
+          <template #amount>
+          <span class="px-8px whitespace-nowrap flex items-center text-12px text-white light:text-color66 font-500">
+            {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
+          </span>
+          </template>
+        </ChainTokenIcon>
+        <span class="text-color8B text-12px font-500">{{ parseTimestamp(item.createAt) }}</span>
+      </div>
+      <button class="flex items-center"
               @click="gotoDetail(item)">
-                {{ $t('common.viewMore') }}
-              </button>
-              <span class="text-12px text-color8B light:text-color7D">{{ parseTimestamp(item.createAt) }}</span>
-            </div>
-          </div>
-        </div>
+        <img class="w-12px transform -rotate-90 ml-10px"
+             src="~@/assets/icon-select-arrow.svg" alt="">
+      </button>
+    </div>
+    <div class="text-center">
+      <button class="text-color8B flex items-center justify-center mx-auto"
+              @click="$emit('fold')">
+        <span>{{$t('common.fold')}}</span>
+        <img class="w-12px transform -rotate-90 ml-10px"
+             src="~@/assets/icon-select-arrow.svg" alt="">
+      </button>
+    </div>
   </div>
+
 </template>
 
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { formatAmount, parseTimestamp } from "@/utils/helper";
+import {useWindowSize} from "@vant/use";
 
 export default {
   name: "RewardCuration",
   components: {ChainTokenIcon},
+  setup() {
+    const {width} = useWindowSize()
+    return {
+      width
+    }
+  },
   props: {
     rewards: {
       type: Array,
       default: []
     },
     chainName: {
+      type: String,
+      default: ''
+    },
+    token: {
       type: String,
       default: ''
     }
@@ -46,7 +65,6 @@ export default {
       refreshing: false,
       loading: false,
       finished: false,
-      list: []
     }
   },
   mounted() {
@@ -58,9 +76,6 @@ export default {
     onLoad() {
     },
     onRefresh() {
-      this.finished = false;
-      this.loading = true;
-      this.onLoad();
     },
     gotoDetail(curation) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);

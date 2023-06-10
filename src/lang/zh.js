@@ -7,6 +7,7 @@ export default {
   faq: '常见问题',
   userguide: '用户指南',
   aboutUs: '关于我们',
+  user: '用户',
   discord: 'Discord',
   twitter: 'Twitter',
   referral: '推荐',
@@ -17,6 +18,8 @@ export default {
   myReward: '我的奖励',
   search: '搜索',
   noRelatedUser: '没有相关的用户信息',
+  noRelatedTags: '没有相关的话题信息',
+  noRelatedCommunities: '没有相关的社区信息',
   trending: '流行',
   new: '最新',
   curated: '已策展',
@@ -79,19 +82,20 @@ export default {
   },
   topicsView: {
     title: '更多主题',
-    post: '帖子'
+    post: '帖子',
+    topics: '话题'
   },
   postView: {
     tweetPost: '发布一条推文',
     socialToken: '社交代币',
-    resourceCredits: 'Resource Credits',
-    p1: '你在虫洞的每一个操作都需要消耗resource credits(RC), 因此如果你的RC过低，你将无法继续操作虫洞. RC每天会恢复100%.',
+    resourceCredits: '操作能量',
+    p1: '在虫洞的所有操作均需要消耗操作能量（OP）。所有用户注册后都会有100%的能量，消耗的能量会在24小时内以线性速度恢复。请注意当OP值过低时，您的操作可能不会上链。',
     goTweet: '发推',
     tips: '提示',
     p2: '将 {\'{***}\'} 替换成真实内容.',
     p3: '你可以将 {\'{wormhole3}\'} 替换成steem用户名.',
     tweetTip: '发推上链',
-    tip1: '你可以在你的推文中加入#iweb3标签，该推文将自动上链。以下是一个示例：',
+    tip1: '在你的推文中添加#iweb3和社区hastag，wormhole3会自动将其同步到区块链上。你将开始挖取社区的token。以下是一个示例：',
     tip2: '2. 打赏 STEEM/SBD 至twitter账号',
     tip3: "3. 发送 STEEM/SBD 至steem账号",
     p4: '您的账户正在注册中',
@@ -106,11 +110,11 @@ export default {
     createNewCuration: '创建新策展',
     notCurator: '您还不是一个策展人',
     promotionTips: '任何人都可以为他喜欢的一篇帖子创建一个推广任务，放入一定量ERC20代币到策展合约，完成任务的用户可以自动分得奖励。该列表展示了所有为这篇帖子创建的推广任务记录。',
-    curationTips: '虫洞用户在RC充足的时候发推即可创建一个自动策展，还可以引用他人的帖子来为其帖子创建策展，自己作为该策展的第一个策展人。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
+    curationTips: '虫洞用户在OP充足的时候发推即可创建一个自动策展，还可以引用他人的帖子来为其帖子创建策展，自己作为该策展的第一个策展人。该列表展示了对这篇帖子发起了自动策展的策展人信息，以及该策展的参与和奖励信息。',
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
     votingPower: '策展能量',
-    vpDes: '任何一个策展动作都需要消耗您的策展能量，策展能量每天都可以恢复满。其中策展操作包括：点赞/引用/转推。',
+    vpDes: '任何一个策展动作(点赞/引用/转推)都会消耗策展信用（CP）。用户初始会拥有100%的CP，消耗后会在24小时内恢复满。',
     detail: '详情'
   },
   profileView: {
@@ -128,7 +132,7 @@ export default {
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
     inputAmount: '请输入token数量',
-    accountMismatch: '您必须使用虫洞绑定的账号进行操作。',
+    accountMismatch: '您需要使用 {account} 进行操作。',
     record: '记录',
     historyRecord: '历史记录',
     communityReward: '社区奖励',
@@ -208,7 +212,8 @@ export default {
     accessTokenExpire: '登录过期',
     notRegisterUser: '未注册',
     tweetNotFound: '此推文可能已被删除',
-    insuffientRC: "RC不足"
+    insuffientRC: "OP不足",
+    selectCommunityTag: "请选择帖子发布的社区。"
   },
   ref: {
     referre: '推荐链接',
@@ -350,7 +355,8 @@ export default {
     createdCurations: '策展任务',
     startTime: '开始时间',
     tasks: '任务',
-    blogTweetTip: '查看推特原文'
+    blogTweetTip: '查看推特原文',
+    retweet: '转推'
   },
   createCuration: {
     option1: '获得 Curation NFT',
@@ -394,26 +400,69 @@ export default {
     downloadTip: '长按下载'
   },
   community: {
-    communityFrom: '来则社区',
+    community: '社区',
+    communityFrom: '来自社区',
     hot: '热门',
     join: '加入',
     peopleJoined: '{num} 人加入',
     deposit: '质押',
     exchange: '兑换',
-    post: '发布',
-    topic: '话题',
+    post: '推文',
+    topic: '活动',
     member: '成员',
     about: '关于',
+    pending: '未开始',
     inProgress: '进行中',
-    toBeStart: '待开始',
+    toBeStart: '距开始',
     ended: '已结束',
+    endedAt: '结束于',
     distanceStartTime: '距开始',
     grandTotalPost: '已累计{count}个帖子',
     enter: '进入',
     joinTime: '加入时间',
-    communityToken: '社区代币',
+    communityToken: '余额',
     influenceTip: '已超过社区{percent}%的人',
-    twitterInfluence: '推特影响力'
+    twitterInfluence: '推特影响力',
+    activity: '动态',
+    justAdmin: '只看管理员',
+    reward: '收获',
+    announce: '公告',
+    space: 'Space',
+    topics: '活动',
+    promotion: '推广',
+    rewardInfo: '{account} 从 {from} 收取 {amount} {tokenName} 奖励',
+    award: '奖励',
+    disStrategy: '分发策略',
+    currentBlock: '当前区块高度',
+    currentReward: '当前挖矿奖励',
+    lastHalvingTime: '上次减半时间',
+    nextHalvingTime: '下次减半时间',
+    pool: '矿池',
+    token: '社区代币',
+    currentProgress: '当前进度',
+    curationCredit: '策展信用',
+    didRatio: '声誉: ',
+    comRatio: '社区: ',
+    topicRatio: '策展: '
+  },
+  info: {
+    interactive: '互动',
+    reward: '打赏',
+    system: '系统',
+    quoted: '引用了',
+    liked: '喜欢了',
+    retweet: '转推了',
+    replyed: '回复了',
+    followed: '关注了',
+    yourTweet: '你的策展'
+  },
+  slider: {
+    home: '首页',
+    community: '社区',
+    influence: '策展信用',
+    info: '消息',
+    create: '创建',
+    mine: '我的'
   },
   err: {
     serverErr: '内部错误',
@@ -464,6 +513,8 @@ export default {
     day: '天',
     hour: '时',
     minute: '分',
-    second: '秒'
+    second: '秒',
+    all: '全部',
+    fold: '收起'
   }
 }

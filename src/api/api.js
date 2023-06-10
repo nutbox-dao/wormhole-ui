@@ -68,6 +68,25 @@ export const generateWordcloud = async (twitterId) =>
 export const getUserVPRC = async (twitterId) =>
     get(BACKEND_API_URL + '/users/getUserVPRC', {twitterId})  
 
+/****************************************  notification  ****************************************/
+export const getPostNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getPostNotiByUserId', {twitterId, cursorId, isNew})
+
+export const getTipNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getTipNotiByUserId', {twitterId, cursorId, isNew})
+
+export const getSysNotiByUserId = async (twitterId, cursorId, isNew) =>
+    post(BACKEND_API_URL + '/noti/getSysNotiByUserId', {twitterId, cursorId, isNew})
+
+export const hasNewNoti = async (twitterId) =>
+    post(BACKEND_API_URL + '/noti/hasNewNoti', {twitterId})
+
+export const setNotiReaded = async (twitterId, ids) =>
+    post(BACKEND_API_URL + '/noti/setNotiReaded', {twitterId, ids})
+
+export const readAll = async (twitterId) =>
+    post(BACKEND_API_URL + '/noti/readAll', {twitterId})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
@@ -105,12 +124,17 @@ export const replyPost = async (twitterId, tweetId, content, parentTwitterId) =>
 export const likePost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/likePost', {twitterId, tweetId})
 
+export const unLikePost = async (twitterId, tweetId) =>
+    post(BACKEND_API_URL + '/post/unLikePost', {twitterId, tweetId})
+
 export const retweetPost = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/retweetPost', {twitterId, tweetId})
 
 export const userFollow = async (twitterId, tweetId) =>
     post(BACKEND_API_URL + '/post/followPost', {twitterId, tweetId})
 
+export const quoteTree = async (name, tweetId, tag, profileImg) =>
+    get(BACKEND_API_URL + '/post/quoteTree', {name, tweetId, tag, profileImg})
 
 /****************************************  curation  ***********************************************/
 export const preNewCuration = async (curation) =>
@@ -236,6 +260,9 @@ export const getUsersTips = async (params) =>
 export const getCurationRewardList = async (twitterId, chainId, createAt) => 
     post(BACKEND_API_URL + '/users/curationRewardList', {twitterId, chainId, createAt})
 
+export const curationRewardListHistory = async (twitterId, chainId, createAt) =>
+    post(BACKEND_API_URL + '/users/curationRewardListHistory', {twitterId, chainId, createAt})
+
 export const autoCurationRewardList = async (twitterId, createdAt) =>
     post(BACKEND_API_URL + '/users/autoCurationRewardList', {twitterId, createdAt})
 
@@ -262,6 +289,30 @@ export const setAutoCurationIsDistributed = async (twitterId, curationIds) =>
 
 export const getCurationRewardsOfPost = async (postId) =>
     get(BACKEND_API_URL + '/curation/getCurationRewardsOfPost', {postId})
+
+export const getCommunityPendingRewards = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunityPendingRewards', { twitterId })
+
+export const getCommunityAuthorPendingRewards = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunityAuthorPendingRewards', { twitterId })
+
+export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) =>
+    post(BACKEND_API_URL + '/community/getClaimRewardsParas', { communityId, twitterId, ids })
+
+export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId, ids) =>
+    post(BACKEND_API_URL + '/community/getClaimAuthorRewardsParas', { communityId, twitterId, ids })
+
+export const setCommunityRewardClaimed = async (twitterId, curationIds) =>
+    post(BACKEND_API_URL + '/community/setCurationIsDistributed', { twitterId, curationIds })
+
+export const setCommunityAuthorRewardClaimed = async (twitterId, curationIds) =>
+    post(BACKEND_API_URL + '/community/setCurationAuthorRewardIsDistributed', { twitterId, curationIds })
+
+export const getCommunityHistoryRewards = async (twitterId, communityId, createAt) =>
+    get(BACKEND_API_URL + '/community/getCommunityHistoryRewards', { twitterId, communityId, createAt })
+
+export const getCommunityAuthorHistoryRewards = async (twitterId, communityId, createAt) =>
+    get(BACKEND_API_URL + '/community/getCommunityAuthorHistoryRewards', { twitterId, communityId, createAt })
 
 /****************************************  map  ***********************************************/
 export const bMapToGMapLocations = async (locations) => {
@@ -321,3 +372,64 @@ export const getBlindCardsByIds = async (ids) =>
 
 export const getBanner = async () =>
     get(BACKEND_API_URL + '/newYear/getBanner')
+
+/****************************************  Community  ***********************************************/
+export const getCommunities = async (twitterId) =>
+    get(BACKEND_API_URL + '/community/getCommunities', {twitterId})
+
+export const getCommunityById = async (twitterId, communityId) =>
+    get(BACKEND_API_URL + '/community/getCommunityById', {twitterId, communityId})
+
+export const getCommunityByTopicId = async (twitterId, topicId) => 
+    get(BACKEND_API_URL + '/community/getCommunityByTopicId', {twitterId, topicId})
+
+export const getCommunityConfigs = async (communityId) =>
+    get(BACKEND_API_URL + '/community/getCommunityConfigs', {communityId})
+
+export const getCommunityTrendingPosts = async (twitterId, communityId, pageSize, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityTrendingPosts', { twitterId, communityId, pageSize, pageIndex })
+
+export const getCommunityPromotionPosts = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityPromotionPosts', { twitterId, communityId, lastPostId})
+
+export const getCommunityNewPosts = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunityNewPosts', { twitterId, communityId, lastPostId})
+
+export const getCommunitySpaces = async (twitterId, communityId, lastPostId) => 
+    get(BACKEND_API_URL + '/community/getCommunitySpaces', { twitterId, communityId, lastPostId })
+
+export const getCommunityActivities = async (communityId, state) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivities', {communityId, state})
+
+export const getCommunityActivityById = async (activityId) => 
+    get(BACKEND_API_URL + '/community/getCommunityActivityById', {activityId})
+
+export const getCommunityActivePostsByNew = async (twitterId, activityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivePostsByNew', {twitterId, activityId, lastPostId})
+
+    export const getCommunityActivePostsByTrending = async (twitterId, activityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivePostsByTrending', {twitterId, activityId, lastPostId})
+
+export const getCommunityActivityReward = async (activityId, createTime) =>
+    get(BACKEND_API_URL + '/community/getCommunityActivityReward', { activityId, createTime })
+
+export const getCommunityAnnouncement = async (twitterId, communityId, lastPostId) =>
+    get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {twitterId, communityId, lastPostId})
+
+export const joinCommunity = async (twitterId, communityId) =>
+    post(BACKEND_API_URL + '/community/joinCommunity', {twitterId, communityId})
+
+export const exitCommunity = async (twitterId, communityId) =>
+    post(BACKEND_API_URL + '/community/exitCommunity', {twitterId, communityId})
+
+export const getCommunityMembers = async (communityId, pageSize, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityMembers', {communityId, pageSize, pageIndex})
+
+export const getJoinCommunityState = async (twitterId, communityIds) =>
+    post(BACKEND_API_URL + '/community/getJoinCommunityState', {twitterId, communityIds})
+
+export const searchCommunityByName = async (communityName) =>
+    get(BACKEND_API_URL + '/community/searchCommunityByName', {communityName})
+
+export const getCommunityOps = async (communityId, createTime) =>
+    get(BACKEND_API_URL + '/community/getCommunityOps', {communityId, createTime})

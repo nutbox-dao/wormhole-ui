@@ -150,7 +150,6 @@ html.light {
 .c-checkbox-group {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 .c-checkbox-group .el-checkbox {
   flex: 1;
@@ -193,6 +192,21 @@ html.light {
 }
 .c-progress .el-progress-bar__innerText {
   color: #1B1B1B;
+}
+.c-progress-gradient .el-progress-bar__outer {
+  background-color: #DDD6FF;
+}
+.c-progress-gradient .el-progress-bar__inner{
+  background-image: linear-gradient(90deg, #AE88FE 0%, #5D67FF 100%);;
+}
+.c-progress-green .el-progress-bar__outer {
+  background: rgba(104, 231, 150, 0.4);
+}
+.c-progress-purple .el-progress-bar__outer {
+  background: rgba(119, 0, 224, 0.4);
+}
+.c-circle-progress .el-progress-circle__track {
+  stroke: #333333;
 }
 .c-popper.el-popper {
   background: transparent;
@@ -334,4 +348,58 @@ html.light {
 }
 .light .c-number-input .el-input__inner {
   border-color: #F4F3FD;
+}
+.el-popover.el-popper {
+  min-width: 0;
+}
+.c-collapse.el-collapse {
+  border: none;
+}
+.c-collapse .el-collapse-item {
+  background-color: transparent;
+  border-radius: 10px;
+  margin: 8px 0;
+  height: fit-content;
+  border: 1px solid transparent;
+}
+.c-collapse .el-collapse-item__header {
+  border: none;
+  background-color: transparent;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.c-collapse .el-collapse-item__header.is-active {
+  border-bottom: 1px solid transparent;
+}
+.c-collapse .el-collapse-item__wrap {
+  border: none;
+  background-color: transparent;
+}
+.c-collapse .el-collapse-item__arrow {
+  position: relative;
+  min-height: fit-content;
+  margin: 0;
+  svg {
+    opacity: 0;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url("~@/assets/icon-select-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.c-progress-dashboard .el-progress-circle__track {
+  stroke: #999999;
+}
+.light .c-progress-dashboard .el-progress-circle__track {
+  stroke: #1A1A1A;
 }

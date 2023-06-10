@@ -6,7 +6,7 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        primaryColor: '#AE88FE',
+        primaryColor: '#6246EA',
         primaryColor1: '#7C3AED',
         redColor: '#D40000',
         greenColor: '#36D233',
@@ -17,7 +17,7 @@ export default defineConfig({
         dialogBg: '#131313',
         inputBg: '#161B22',
         headerBorder: 'rgba(132, 131, 145, 0.3)',
-        headerBorderLight: '#F4F5F7',
+        headerBorderLight: '#D6D6D6',
         blockBg: '#161B22',
         dividerColor: 'rgba(132, 131, 145, 0.3)',
         dividerColorLight: 'rgba(132, 131, 145, 0.16)',
@@ -38,7 +38,7 @@ export default defineConfig({
         color46: '#464646',
         colorF4: '#F4F3FD',
         colorE0: '#E0D2FF',
-        color62: '#7851FF',
+        color62: '#6246EA',
         colorF1: '#F1F1FE',
         color8F: '#8F8F8F',
         colorF7: '#F7F7F9',
@@ -66,10 +66,15 @@ export default defineConfig({
         colorA0: '#A0A0A0',
         color33: '#333333',
         color66: '#666666',
+        color99: '#999999',
         color35: '#353535',
         color1A: '#1A1A1A',
         color27: '#272727',
-        colorF7F9: '#F7F2FF',
+        colorF0: '#F0F0F0',
+        colorFB: '#FBF8FF',
+        colorF8: '#F8F5FE',
+        colorF7F2: '#F7F2FF',
+        lightHeader: '#F1F2FF',
         colorBlue: '#1DA1F2',
         blueDark: '#1A1E25'
       },
@@ -99,7 +104,8 @@ export default defineConfig({
         'popper-tip': '0px 5px 34px rgba(67, 67, 67, 0.1)',
         'card': '0px 12px 24px rgba(135, 127, 149, 0.09)',
         'color1A': '0px 0px 15px 0px rgba(26,26,26,0.05);',
-        'color72': '0px 1px 14px 0px #7428E4;'
+        'color72': '0px 1px 14px 0px #7428E4;',
+        'tab': '0 -10px 10px -10px rgba(26,26,26,0.05);'
       })
     }
   }
