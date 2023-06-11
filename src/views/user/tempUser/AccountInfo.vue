@@ -24,8 +24,8 @@
         </div>
       </div>
       <template v-if="!loading">
-        <div class="container max-w-50rem mx-auto grid 2md:grid-cols-5 xl:grid-cols-3 gap-15px sm:my-15px">
-          <div class="col-span-3 xl:col-span-2 p-15px sm:bg-blockBg light:bg-white sm:rounded-16px">
+        <div class="container max-w-50rem mx-auto grid grid-cols-1 2md:grid-cols-5 xl:grid-cols-3 gap-15px sm:my-15px">
+          <div class="col-span-1 2md:col-span-3 xl:col-span-2 p-15px sm:bg-blockBg light:bg-white sm:rounded-16px">
             <button @click="$router.go(-1)"
                     class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
                            hidden sm:flex items-center justify-center">
