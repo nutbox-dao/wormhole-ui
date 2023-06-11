@@ -2,12 +2,20 @@
   <div class="h-full flex flex-col overflow-hidden relative">
     <div class="flex-1 overflow-auto">
        <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="refreshing && (!influenceList || influenceList.length === 0)">
+         v-if="refreshing && (!communityCC || communityCC.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-      <div v-else-if="!refreshing && (!influenceList || influenceList.length === 0)" class="py-2rem">
+      <div v-else-if="!refreshing && (!communityCC || communityCC.length === 0)" class="py-2rem">
         <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
         <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+        <div class=" flex items-center justify-center">
+          <button class="ny-gradient-btn gradient-btn-disabled-grey 
+                          flex items-center justify-center min-w-10rem px-20px mt-2rem text-4px
+                          rounded-full h-40px text-white font-bold"
+                          @click="$router.push('/community')">
+              {{ $t("community.joinCommunity") }}
+          </button>
+        </div>
       </div>
       <van-pull-refresh v-else
                         class="min-h-full"
@@ -21,10 +29,10 @@
                     :finished="listFinished"
                     :immediate-check="false"
                     :loading-text="$t('common.loading')"
-                    :finished-text="influenceList.length!==0?$t('common.noMore'):''"
+                    :finished-text="communityCC.length!==0?$t('common.noMore'):''"
                     @load="onLoad">
             <div class="container mx-auto max-w-50rem md:max-w-48rem px-15px py-15px">
-              <div v-if="influenceList && influenceList.length === 0"
+              <div v-if="communityCC && communityCC.length === 0"
                    class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
                 <div class="c-text-black text-zinc-700 text-2rem mt-1rem mb-2rem">{{$t('common.none')}}</div>
               </div>
@@ -53,8 +61,7 @@ export default {
     return {
       refreshing: false,
       listLoading: false,
-      listFinished: false,
-      influenceList: [1]
+      listFinished: false
     }
   },
   computed: {
