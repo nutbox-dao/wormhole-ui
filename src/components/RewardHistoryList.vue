@@ -24,7 +24,7 @@
                             :chainName="EVM_CHAINS_ID[chainId || community.chainId]">
               <template #amount>
                     <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
-                      {{ formatAmount(item.amount.toString() / ( 10 ** item.decimals)) + ' ' + item.tokenSymbol }}
+                      {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** item.decimals) : 0) + ' ' + item.tokenSymbol }}
                     </span>
               </template>
             </ChainTokenIcon>
