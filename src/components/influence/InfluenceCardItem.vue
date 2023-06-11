@@ -125,7 +125,6 @@ export default {
           }
           const communityPolicy = policy.community.policys;
           const stake = await getCommunityPolicyStake(EVM_CHAINS_ID[this.community.chainId], this.getAccountInfo.ethAddress, communityPolicy)
-          console.log('stake', stake)
           this.stakeInfo = {}
           for (let key of Object.keys(stake)) {
             const [name, type] = key.split(':');

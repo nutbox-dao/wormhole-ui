@@ -130,7 +130,7 @@ export const getCommunityPolicyStake = async (chainName, ethAddress, policys) =>
             const res = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
             return res.results.transformed;
         }
-        return
+        return {}
     } catch (e) {
         console.log('get stake fail:', e)
     }
