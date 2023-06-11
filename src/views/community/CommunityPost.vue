@@ -232,7 +232,7 @@ export default {
           const promotionPosts = this.promotionPosts ?? [];
           let lastPostId;
           if (promotionPosts.length > 0) {
-            lastPostId = promotionPosts[promotionPosts.length - 1].lastPostId;
+            lastPostId = promotionPosts[promotionPosts.length - 1].postId;
           }
           getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
             if (ps && ps.length > 0) {
@@ -248,7 +248,7 @@ export default {
           const newPosts = this.newPosts ?? [];
           let lastPostId;
           if (newPosts.length > 0) {
-            lastPostId = newPosts[newPosts.length - 1].lastPostId;
+            lastPostId = newPosts[newPosts.length - 1].postId;
           }
           getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
             if (ps && ps.length > 0) {
