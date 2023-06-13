@@ -517,6 +517,7 @@ export default {
     minute: '分',
     second: '秒',
     all: '全部',
-    fold: '收起'
+    fold: '收起',
+    clear: '清除'
   }
 }

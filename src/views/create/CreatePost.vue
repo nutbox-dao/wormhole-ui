@@ -6,7 +6,12 @@
         {{$t('postView.tweetTip')}}
       </div>
       <!-- content -->
-      <div class="mb-6px font-bold mt-1rem">{{$t('curation.typeTweetContent')}}</div>
+      <div class="mb-6px font-bold mt-1rem flex items-end justify-between">
+        <span>{{$t('curation.typeTweetContent')}}</span>
+        <button v-if="showClear"
+                class="text-color99 text-12px bg-white/20 light:bg-black/5 px-6px h-16px rounded-full"
+                @click="onClearContent">{{$t('common.clear')}}</button>
+      </div>
       <div class="border-1 bg-black/40 border-1 border-color8B/30 rounded-8px
                   light:bg-white light:border-colorE3 hover:border-primaryColor">
         <div class="flex flex-wrap p-8px gap-4px border-b-0.5px border-color8B/30"
@@ -15,8 +20,9 @@
           <button v-show="form.topic" class="bg-color62 h-20px text-white px-5px rounded-full text-12px">#{{form.topic}}</button>
         </div>
         <div contenteditable
-             class="desc-input px-1rem min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
+             class="desc-input px-8px pt-10px min-h-6rem whitespace-pre-line leading-24px xl:leading-1.2rem"
              ref="contentRef"
+             @input="contentInput"
              @blur="getBlur('desc')"
              @paste="onPasteEmojiContent"
              v-html="form.contentEl"></div>
@@ -45,7 +51,7 @@
       <SelectCommunity :community-id="form.communityId"
                        @setCommunityId="setCommunityId"
                        @setTag="setTag"></SelectCommunity>
-      <SelectTopic :community-id="form.communityId" 
+      <SelectTopic :community-id="form.communityId"
                       @setTag="setTopic"></SelectTopic>
 
       <!-- tip post -->
@@ -59,7 +65,7 @@
           <span class="mb-4px break-word">{{$t('postView.postExample')}}</span>
         </div>
       </div> -->
-      
+
       <div class="text-white light:text-color7D text-12px mt-25px
                 text-right flex justify-end">
         <button @click="gotoPost"
@@ -99,6 +105,7 @@ export default {
         tweetLength: 0
       },
       contentRange: null,
+      showClear: false
     }
   },
   mounted() {
@@ -112,6 +119,17 @@ export default {
     },
     setTopic(tag) {
       this.form.topic = tag
+    },
+    contentInput(e) {
+      this.showClear = e.target.textContent.length>0
+    },
+    onClearContent() {
+      this.showClear = false
+      this.$refs.contentRef.innerHTML = ''
+      this.form.contentEl = ''
+      this.form.content = ''
+      this.form.tag = ''
+      this.form.topic = ''
     },
     getBlur() {
       const sel = window.getSelection();
@@ -127,6 +145,7 @@ export default {
       if(!this.contentRange) return
       this.contentRange.insertNode(newNode)
       this.$refs.descEmojiPopover.hide()
+      this.showClear = true
     },
     formatElToTextContent(el) {
       el.innerHTML = el.innerHTML.replaceAll('<div>', '\n')
