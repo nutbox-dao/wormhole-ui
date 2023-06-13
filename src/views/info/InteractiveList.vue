@@ -73,7 +73,7 @@ export default {
           }
         }
       } catch (e) {
-        notify({message: e, type: error})
+        notify({message: e, type: "error"})
       } finally {
         this.refreshing = false
       }

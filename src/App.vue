@@ -359,18 +359,10 @@ export default {
             if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
               this.$store.commit('saveRcInfo', res)
             }
-          }catch(e){
-            if (e === 401) {
-              logout(this.getAccountInfo?.twitterId)
-            }
-          }
+          }catch(e){}
           hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
             this.$store.commit('noti/saveNewNotis', newNoti)
-          }).catch(e => {
-            if (e === 401) {
-              logout(this.getAccountInfo?.twitterId)
-            }
-          })
+          }).catch()
         }
 
         // update vp
