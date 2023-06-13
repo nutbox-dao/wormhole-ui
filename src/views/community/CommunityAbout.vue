@@ -31,6 +31,7 @@ import { mapState } from "vuex";
 import { sleep } from '@/utils/helper'
 import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
 import { getBlockNum } from '@/utils/web3/web3'
+import { EVM_CHAINS_ID } from "@/config";
 
 export default {
   name: "CommunityAbout",
@@ -67,7 +68,7 @@ export default {
         }).finally(() => {
           this.loadingToken = false
         })
-        getSpecifyCommunityInfoFromTheGraph(nutboxContract).then(res => {
+        getSpecifyCommunityInfoFromTheGraph(EVM_CHAINS_ID[this.showingCommunity.chainId], nutboxContract).then(res => {
         }).catch(e => {
           console.log(3, e)
         }).finally(() => {

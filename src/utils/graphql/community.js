@@ -1,13 +1,13 @@
 import {
-    gql
-  } from 'graphql-request'
-  import {
-    client
-  } from './index';
-  import store from '@/store'
+  gql
+} from 'graphql-request'
+import {
+  getClient
+} from './index';
+import store from '@/store'
 import { ethers } from 'ethers';
 
-export async function getSpecifyCommunityInfoFromTheGraph(community) {
+export async function getSpecifyCommunityInfoFromTheGraph(chainName, community) {
   const query = gql `
         query Community($id: String!) {
             community(id: $id) {
@@ -70,6 +70,7 @@ export async function getSpecifyCommunityInfoFromTheGraph(community) {
         }
     `
   try {
+    const client = getClient(chainName);
     const data = await client.request(query, {
       id: community.toLowerCase()
     })

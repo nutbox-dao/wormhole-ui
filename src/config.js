@@ -82,7 +82,8 @@ export const TokenIcon = {
     'KLAY': "http://nassets.oss-us-west-1.aliyuncs.com/KLAY.png",
     'NABOX': "http://nassets.oss-us-west-1.aliyuncs.com/NABOX_1.png",
     'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png",
-    'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png"
+    'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png",
+    "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126"
 }
 
 export const TokenName = {
@@ -121,7 +122,8 @@ export const TokenName = {
     'KLAY': 'KLAY',
     'NABOX': 'Nabox_Token',
     'NVT': 'NVT',
-    'ARB': 'Arbitrum'
+    'ARB': 'Arbitrum',
+    "MFERC": 'mFERC'
 }
 
 export const isWrappedToken = {
@@ -183,6 +185,11 @@ export const EVM_CHAINS = {
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
             PNUT: {symbol: 'PNUT', name: 'Peanut', address: '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11', decimals: 18}
         },
+        walnutGraph: {
+            useTheGraph: true,
+            url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbsc'
+        },
+        rewardCalculatorAddress: '0x6ab448C1C6e1870602d3FB867F167029bbFb3181',
         Multi_Config: {
             rpcUrl: 'https://bsc.publicnode.com',
             multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
@@ -235,6 +242,11 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png'
         },
+        walnutGraph: {
+            useTheGraph: true,
+            url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/wanlutinarbitrum'
+        },
+        rewardCalculatorAddress: '0x5A95D35579C3aaF7F1df86540286A9DD90506F00',
         assets: {
           ARB: {symbol: 'ARB', name: 'Arbitrum', address: '0x912CE59144191C1204E64559FE8253a0e49E6548', decimals: 18},
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8', decimals: 6},
@@ -304,6 +316,7 @@ export const EVM_CHAINS = {
 
             NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},
         },
+        rewardCalculatorAddress: '0xb035C2bD1F0D2f36d78B9161Ca8F04aA81DCD20E',
         Multi_Config: {
             rpcUrl: 'https://evmapi.nuls.io',
             multicallAddress: '0x383870Ae4E834155192cEce2fb5B0528CE0790E9',

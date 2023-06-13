@@ -4,7 +4,7 @@ import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAu
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
     getJoinCommunityState as gjcs, getCommunities as gcs } from '@/api/api'
-import { EVM_CHAINS, errCode } from '@/config';
+import { EVM_CHAINS, EVM_CHAINS_ID, errCode } from '@/config';
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 
 export const getCommunities = async () => {
@@ -153,11 +153,12 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
         resolve(distribuitons);
         return;
       }
+      const chainName = EVM_CHAINS_ID[community.chainId]
       let decimals = community.rewardTokenDecimals;
-      const Multi_Config =  EVM_CHAINS['BNB Smart Chain'].Multi_Config
+      const Multi_Config =  EVM_CHAINS[chainName].Multi_Config
 
       try {
-        const rewardCalculatorAddress = '0x6ab448C1C6e1870602d3FB867F167029bbFb3181'
+        const rewardCalculatorAddress = EVM_CHAINS[chainName].rewardCalculatorAddress
         if (true) {
           let count = await aggregate([{
             target: rewardCalculatorAddress,
@@ -185,7 +186,6 @@ export const getSpecifyDistributionEras = async (community, nutboxContract) => {
               ['stopHeight-'+i]
             ]
           }))
-
           let distibution = await aggregate(calls, Multi_Config)
           distibution = distibution.results.transformed
           let distri = []

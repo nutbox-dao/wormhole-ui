@@ -90,8 +90,9 @@
             <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
                           flex 2md:hidden justify-between items-center">
               <div class="flex items-center">
-                <img class="w-32px h-32px rounded-full mr-10px bg-color62/20"
-                     :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
+                <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
+                     :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
+                <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
                 <div class="flex flex-col items-start">
                   <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
                   <div class="flex items-center">
@@ -158,8 +159,9 @@
              class="sm:border-1 border-color8B/30 light:border-transparent
                     bg-blockBg light:bg-white light:shadow-color1A rounded-12px p-15px mb-15px">
           <div class="flex items-center mb-10px">
-            <img class="w-40px h-40px rounded-full mr-10px bg-color62/20"
+            <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                  :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
+            <img v-else class="w-40px h-40px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
             <div class="flex flex-col items-start">
               <div class="text-16px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
               <div class="flex items-center text-14px">
