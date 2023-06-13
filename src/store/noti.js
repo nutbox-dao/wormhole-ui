@@ -13,20 +13,24 @@ export default {
         state.newNotis = newNotis;
       },
       savePostNotis: (state, postNotis) => {
-        state.postNotis = postNotis
+        state.postNotis = postNotis ?? []
       },
-      savetTipNotis: (state, tipNotis) => {
-        state.tipNotis =tipNotis
+      saveTipNotis: (state, tipNotis) => {
+        state.tipNotis = tipNotis ?? []
       },
-      savetSysNotis: (state, sysNotis) => {
-        state.sysNotis =sysNotis
+      saveSysNotis: (state, sysNotis) => {
+        state.sysNotis =sysNotis ?? []
       },
       
       readAll: (state) => {
         state.newNotis = [];
-        state.postNotis = state.postNotis.map(n => n.isRead = 1);
-        state.tipNotis = state.postNotis.map(n => n.isRead = 1);
-        state.sysNotis = state.postNotis.map(n => n.isRead = 1);
+        try {
+          state.postNotis.forEach(n => n.isRead = 1);
+          state.tipNotis.forEach(n => n.isRead = 1);
+          state.sysNotis.forEach(n => n.isRead = 1);
+        }catch(e) {
+          console.log("Read all fail:", e)
+        }
       }
     }
   };
