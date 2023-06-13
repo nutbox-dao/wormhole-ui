@@ -38,19 +38,25 @@
         </div>
         <!-- create new content -->
         <div class="mt-1.8rem relative" v-if="form.category==='tweet' && form.createType==='new'">
-          <div v-show="!onlyQuote" class="mb-6px font-bold">{{$t((form.category === 'tweet' && form.createType==='new') ? 'curation.typeTweetContent' : 'curation.relatedTweet')}}</div>
+          <div v-show="!onlyQuote" class="mb-6px font-bold flex items-end justify-between h-16px">
+            {{$t((form.category === 'tweet' && form.createType==='new') ? 'curation.typeTweetContent' : 'curation.relatedTweet')}}
+            <button v-if="showClear"
+                    class="text-color99 text-12px bg-white/20 light:bg-black/5 px-6px h-16px rounded-full"
+                    @click="onClearContent">{{$t('common.clear')}}</button>
+          </div>
           <div v-show="!onlyQuote" class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px
                       flex flex-col light:bg-white light:border-colorE3 hover:border-primaryColor rounded-8px">
             <div v-show="!onlyQuote" class="flex-1 flex flex-col relative">
               <div contenteditable
-                   class="desc-input z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
+                   class="desc-input z-1 flex-1 px-8px pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem"
                    ref="descContentRef"
+                   @input="contentInput"
                    @blur="getBlur('desc')"
                    @paste="onPaste"
                    v-html="formatEmojiText(form.newContent)">
               </div>
             </div>
-            <div class="py-2 flex justify-between items-center px-1rem">
+            <div class="py-2 flex justify-between items-center px-8px">
               <el-popover ref="descEmojiPopover"
                           trigger="click" width="300"
                           :teleported="true" :persistent="false">
@@ -592,6 +598,7 @@ export default {
       searchTagList: [],
       searchCommunityLoading: false,
       searchTagLoading: false,
+      showClear: false
     }
   },
   computed: {
@@ -624,6 +631,16 @@ export default {
     }
   },
   methods: {
+    contentInput(e) {
+      this.showClear = e.target.textContent.length>0
+    },
+    onClearContent() {
+      this.showClear = false
+      this.$refs.descContentRef.innerHTML = ''
+      this.form.description = ''
+      this.form.tag = ''
+      this.form.topic = ''
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },

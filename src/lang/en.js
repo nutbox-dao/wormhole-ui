@@ -516,6 +516,7 @@ export default {
     minute: 'MIN',
     second: 'S',
     all: 'All',
-    fold: 'Fold'
+    fold: 'Fold',
+    clear: 'Clear'
   }
 }
