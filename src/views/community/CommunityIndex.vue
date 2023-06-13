@@ -50,7 +50,7 @@
 
 <script>
 import CommunityItem from "@/components/community/CommunityItem";
-import { getCommunities } from '@/api/api'
+import { getCommunities } from '@/utils/community'
 import { mapState, mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";
 
@@ -76,8 +76,7 @@ export default {
     async onRefresh() {
       this.refreshing = true
       try {
-        const communities = await getCommunities(this.getAccountInfo?.twitterId)
-        this.$store.commit('community/saveCommunities', communities)
+        await getCommunities()
       } catch (e) {
         showError(501)
       } finally {
@@ -86,7 +85,10 @@ export default {
     }
   },
   mounted () {
-    this.onRefresh()
+    this.onRefresh();
+    this.$bus.on('login', () => {
+      this.onRefresh();
+    })
   },
 }
 </script>

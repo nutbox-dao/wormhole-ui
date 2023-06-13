@@ -202,6 +202,7 @@ export default {
               return;
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
+              this.$bus.emit('login')
               this.$emit('close')
               return;
             }
@@ -221,6 +222,7 @@ export default {
             this.authStep = 'select';
           }else if (userInfo.code === 3) { // log in
             this.$store.commit('saveAccountInfo', userInfo.account)
+            this.$bus.emit('login')
             this.$emit('close')
           }
         }

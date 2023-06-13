@@ -3,9 +3,14 @@ import { checkAccessToken, logout } from '@/utils/account'
 import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAuthorPendingRewards as gcapr,
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
-    getJoinCommunityState as gjcs } from '@/api/api'
+    getJoinCommunityState as gjcs, getCommunities as gcs } from '@/api/api'
 import { EVM_CHAINS, errCode } from '@/config';
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
+
+export const getCommunities = async () => {
+    const coms = await gcs(store.getters.getAccountInfo?.twitterId);
+    store.commit('community/saveCommunities', coms);
+}
 
 export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) => {
     await checkAccessToken();
