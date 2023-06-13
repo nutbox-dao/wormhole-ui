@@ -404,6 +404,7 @@ export default {
     communityFrom: 'From community',
     hot: 'Hot',
     join: 'Join',
+    joined: 'Joined',
     joinCommunity: 'Join community first',
     peopleJoined: '{num} members',
     deposit: 'Stake',

@@ -46,11 +46,11 @@
                       <div>{{$t('community.peopleJoined', {num: showingCommunity.memberCount})}}</div>
                     </div>
                   </div>
-                  <button v-show="!showingCommunity.joined"
+                  <button :disabled="showingCommunity.joined"
                           class="h-34px rounded-full bg-white flex justify-center items-center px-15px shadow-color1A"
                           @click.stop="join">
-                    <img class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
-                    <span class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
+                    <img v-if="!showingCommunity.joined" class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
+                    <span class="text-14px font-500 text-color46">{{ showingCommunity.joined ? $t('community.joined') : $t('community.join')}}</span>
                   </button>
                 </div>
                 <!-- tag -->

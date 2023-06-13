@@ -404,6 +404,7 @@ export default {
     communityFrom: '来自社区',
     hot: '热门',
     join: '加入',
+    joined: '已加入',
     joinCommunity: '先加入一个社区',
     peopleJoined: '{num} 人加入',
     deposit: '质押',

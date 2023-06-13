@@ -20,11 +20,12 @@
               </div>
             </div>
             <!-- 小按钮版 -->
-            <button v-show="!community.joined"
+            <button :disabled="community.joined"
                class="h-34px rounded-full bg-white flex justify-center items-center px-15px shadow-color1A"
                @click.stop="join">
-              <img class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
-              <span class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
+              <img v-if="!community.joined" class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
+              <span v-if="community.joined" class="text-14px font-500 text-color46">{{$t('community.joined')}}</span>
+              <span v-else class="text-14px font-500 text-color46">{{$t('community.joined')}}</span>
             </button>
           </div>
           <div class="flex flex-wrap gap-5px">
