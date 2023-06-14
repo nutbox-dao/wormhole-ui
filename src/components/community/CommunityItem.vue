@@ -25,7 +25,7 @@
                @click.stop="join">
               <img v-if="!community.joined" class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
               <span v-if="community.joined" class="text-14px font-500 text-color46">{{$t('community.joined')}}</span>
-              <span v-else class="text-14px font-500 text-color46">{{$t('community.joined')}}</span>
+              <span v-else class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
             </button>
           </div>
           <div class="flex flex-wrap gap-5px">
