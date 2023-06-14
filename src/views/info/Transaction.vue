@@ -21,13 +21,13 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="showingList.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div class="border-b-0.5px border-listBgBorder py-15px flex items-start"
+        <div class=" flex items-start px-15px"
              v-for="(item, index) of showingList" :key="index">
-          <img v-if="!isReceive(item)" class="w-32px min-w-32px mr-14px"
+          <img v-if="!isReceive(item)" class="w-32px min-w-32px mr-14px mt-15px"
                src="~@/assets/icon-up-arrow.svg" alt="">
-          <img v-else class="w-32px min-w-32px mr-14px"
+          <img v-else class="w-32px min-w-32px mr-14px mt-15px"
                src="~@/assets/icon-down-arrow.svg" alt="">
-          <div class="flex-1 flex">
+          <div class="flex-1 flex border-b-0.5px border-listBgBorder py-15px">
             <div class="flex-1 text-text8F flex flex-col items-start">
               <div class="font-bold text-left text-14px"
                    :class="item.tipResult !== 0?'text-redColor':'light:text-blueDark'">

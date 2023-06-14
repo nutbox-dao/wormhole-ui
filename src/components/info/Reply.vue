@@ -4,7 +4,7 @@
       <img class="w-32px h-32px min-w-32px min-h-32px rounded-full"
            :src="profile(infoData)" alt="">
     </div>
-    <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
+    <div class="flex-1 flex flex-col items-start py-15px border-b-0.5px border-color8B/30 light:border-color7F">
       <div class="flex items-center" >
         <span class="text-14px c-text-black mr-4px">{{ infoData.twitterName }}</span>
         <span class="text-12px leading-18px text-color8B light:text-color7D">

@@ -20,7 +20,8 @@
                 :loading-text="$t('common.loading')"
                 :finished-text="postNotis.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
-        <div v-for="(noti, i) of postNotis" :key="i" class="text-14px">
+        <div v-for="(noti, i) of postNotis" :key="i"
+             class="text-14px px-15px" :class="noti.isRead?'bg-color8B/10 light:bg-black/2':''">
           <Reply v-if="noti.type===2" :info-data="noti"></Reply>
           <Like v-if="noti.type===4" :info-data="noti"></Like>
           <Retweet v-if="noti.type===3" :info-data="noti"></Retweet>
