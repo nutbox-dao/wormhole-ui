@@ -246,7 +246,7 @@ export const EVM_CHAINS = {
             useTheGraph: true,
             url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/wanlutinarbitrum'
         },
-        rewardCalculatorAddress: '0x5A95D35579C3aaF7F1df86540286A9DD90506F00',
+        rewardCalculatorAddress: '0xa3e53F30C9cc6d174a98b311676e026535326f42',
         assets: {
           ARB: {symbol: 'ARB', name: 'Arbitrum', address: '0x912CE59144191C1204E64559FE8253a0e49E6548', decimals: 18},
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8', decimals: 6},
