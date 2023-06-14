@@ -453,7 +453,7 @@ export default {
     system: '系统',
     quoted: '引用了',
     liked: '喜欢了',
-    retweet: '转推了',
+    retweeted: '转推了',
     replyed: '回复了',
     followed: '关注了',
     yourTweet: '你的策展'

@@ -453,7 +453,7 @@ export default {
     system: 'System',
     quoted: 'quoted',
     liked: 'liked',
-    retweet: 'retweeted',
+    retweeted: 'retweeted',
     replyed: 'replyed',
     followed: 'followed',
     yourTweet: 'your curation'
