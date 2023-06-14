@@ -1,19 +1,30 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden relative" id="square-index" >
-    <div class="light:bg-lightHeader sm:light:bg-transparent">
+    <div class="light:bg-transparent">
       <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-        <div class="flex justify-between items-center py-5px">
+        <div class="flex justify-between items-center py-5px mt-14px">
           <div class="flex flex-1 overflow-x-auto overflow-y-hidden no-scroll-bar">
             <button v-for="(tag, index) of subTagList.slice(0, 10)" :key="index"
                     class="text-14px whitespace-nowrap mr-10px px-12px py-5px rounded-full border-1 border-color62"
                     :class="selectedTag===tag?'text-white bg-color62':'text-color62'"
                     @click="setSelectTag(tag)">{{tag}}</button>
           </div>
-          <div class="flex items-center relative">
-            <div class="w-0.5px h-40px bg-color62/34 rounded-full filter blur-1px"></div>
-            <button class="c-text-black text-white light:text-blueDark pl-12px" @click="showMoreTag=!showMoreTag">
+          <div class="flex items-center relative pl-2px">
+            <div class="w-1px h-36px bg-color62/34 filter blur-3px"></div>
+            <button class="font-500 text-white light:text-blueDark px-12px hidden 2md:block text-14px"
+                    @click="showMoreTag=!showMoreTag">
               {{ $t('common.more') }}
             </button>
+            <el-select v-model="rankValue" placement="bottom-end"
+                       class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
+                       size="small">
+              <el-option
+                  v-for="item in rankOptions"
+                  :key="item.value"
+                  :label="$t(`${item.label}`)"
+                  :value="item.value"
+              />
+            </el-select>
           </div>
         </div>
         <el-collapse-transition>
@@ -49,23 +60,6 @@
             <img class="w-14px h-14px ml-4px" src="~@/assets/icon-add-primary.svg" alt="">
           </button>
         </div>
-      </div>
-    </div>
-    <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem">
-      <div class="flex justify-end items-center my-10px">
-        <button class="mr-10px">
-          <img class="h-20px w-20px lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-rank.png" alt="">
-        </button>
-        <el-select v-model="rankValue" placement="bottom-end"
-                   class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
-                   size="small">
-          <el-option
-              v-for="item in rankOptions"
-              :key="item.value"
-              :label="$t(`${item.label}`)"
-              :value="item.value"
-          />
-        </el-select>
       </div>
     </div>
     <div class="flex-1 overflow-auto no-scroll-bar" ref="postPageRef" @scroll="pageScroll">
@@ -338,5 +332,7 @@ export default {
 </script>
 
 <style scoped>
-
+.shadow-right {
+  box-shadow: 0 0 10px 5px rgba(26,26,26,0.05);
+}
 </style>

@@ -3,9 +3,9 @@
     <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
       <img class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
     </div>
-    <div class="flex-1 flex flex-col items-start py-15px border-b-1 border-color8B/30 light:border-color7F">
+    <div class="flex-1 flex flex-col items-start py-15px border-b-0.5px border-color8B/30 light:border-color7F">
       <div class="w-full flex items-center gap-5px">
-        <img 
+        <img
              class="w-32px h-32px min-w-32px min-h-32px rounded-full"
              :src="profile(infoData)" alt="">
       </div>

@@ -34,9 +34,9 @@
         </button> -->
       </div>
     </div>
-    <div class="flex-1 overflow-hidden container mx-auto max-w-600px xl:max-w-30rem px-15px sm:py-20px">
-      <div class="sm:bg-blockBg light:sm:bg-white light:sm:shadow-color1A rounded-16px
-                  max-h-full overflow-auto no-scroll-bar sm:px-15px pb-15px">
+    <div class="flex-1 overflow-hidden container mx-auto max-w-600px xl:max-w-30rem  sm:py-20px">
+      <div class="sm:bg-blockBg light:sm:bg-white light:sm:shadow-color1A sm:rounded-16px
+                  max-h-full overflow-auto no-scroll-bar">
         <InteractiveList v-if="tabIndex===0"></InteractiveList>
         <Transaction v-if="tabIndex===1"></Transaction>
       </div>
