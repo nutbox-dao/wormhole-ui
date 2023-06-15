@@ -14,6 +14,7 @@ export default {
         detailRecords: [],
         customTags: [],
         rewardLists: [[],[],[],[],[],[],[]],
+        customRewardLists: [[],[],[],[],[],[],[],[]],
         // cache the created curation which not push to backend
         pendingTweetCuration: localStorage.getItem('pending-cache-curation'),
         pendingTip: localStorage.getItem('pending-cache-tip'),
@@ -63,6 +64,9 @@ export default {
         },
         saveRewardLists: (state, rewardLists) => {
             state.rewardLists = rewardLists
+        },
+        saveCustomRewardLists: (state, customRewardLists) => {
+            state.customRewardLists = customRewardLists;
         },
         savePendingTweetCuration: (state, pendingTweetCuration) => {
             if (pendingTweetCuration && Object.keys(pendingTweetCuration).length > 0) {

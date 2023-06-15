@@ -133,7 +133,7 @@ export default {
   computed: {
     ...mapGetters(['getAccountInfo']),
     ...mapState('web3', ['chainId', 'account']),
-    ...mapState('curation', ['rewardLists']),
+    ...mapState('curation', ['customRewardLists']),
     chainNames() {
       return Object.keys(EVM_CHAINS)
     },
@@ -141,12 +141,12 @@ export default {
       return Object.values(EVM_CHAINS).map(c => c.id).concat([56, 56])
     },
     showingList() {
-      return this.rewardLists[this.chainTab]
+      return this.customRewardLists[this.chainTab]
     },
     summaryList() {
-      if (this.rewardLists[this.chainTab].length > 0) {
+      if (this.customRewardLists[this.chainTab].length > 0) {
         let result = {}
-        for (let reward of this.rewardLists[this.chainTab]) {
+        for (let reward of this.customRewardLists[this.chainTab]) {
           const sum = (result[reward.token]?.amount ?? 0)
           result[reward.token] = {
             ...reward,
@@ -175,7 +175,7 @@ export default {
     async getRecords(force = false) {
       const index = this.chainTab;
       try{
-        const currentList = this.rewardLists[index];
+        const currentList = this.customRewardLists[index];
         if (currentList && currentList.length > 0 && !force) {
           return;
         }
@@ -199,14 +199,14 @@ export default {
                 console.error('set auto curation feed fail:', e)
               });
             }
-            this.rewardLists[index] = result;
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = result;
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
             getPriceFromOracle('BNB Smart Chain', result).then(res => {
               this.prices[index] = res;
             })
           }else {
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = [];
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
           }
         }else if (index === this.chainNames.length + 1) {
           const records = await autoCurationAuthorRewardList(this.twitterId);
@@ -228,14 +228,14 @@ export default {
                 console.error('set auto curation author reward feed fail:', e)
               })
             }
-            this.rewardLists[index] = result;
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = result;
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
             getPriceFromOracle('BNB Smart Chain', result).then(res => {
               this.prices[index] = res;
             })
           }else{
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = [];
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
           }
         }else {
           const records = await getCurationRewardList(this.twitterId, this.chainIds[index]);
@@ -256,15 +256,15 @@ export default {
                 console.error('set auto curation feed fail:', e)
               });
             }
-            this.rewardLists[index] = result
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = result
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
             getPriceFromOracle(this.chainNames[index], result).then(res => {
               this.prices[index] = res;
             })
 
           }else {
-            this.rewardLists[index] = [];
-            this.$store.commit('curation/saveRewardLists', this.rewardLists)
+            this.customRewardLists[index] = [];
+            this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
           }
         }
       } catch(e) {
@@ -285,6 +285,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.commit('curation/saveCustomRewardLists', [[],[],[],[],[],[],[],[],[]])
     this.getRecords(true);
   },
 }

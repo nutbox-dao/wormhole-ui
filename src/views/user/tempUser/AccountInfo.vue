@@ -164,6 +164,9 @@
                 <button class="w-full h-48px flex items-center justify-center"
                         :class="selectIndex===0?'c-active-tab text-color62':'text-color7D'"
                         @click="selectIndex = 0">{{$t('profileView.curations')}}</button>
+                <button v-if="!getAccountInfo?.twitterId" class="w-full h-48px flex items-center justify-center"
+                        :class="selectIndex===2?'c-active-tab text-color62':'text-color7D'"
+                        @click="selectIndex = 2">{{$t('curation.reward')}}</button>
               </div>
             </div>
           </div>
@@ -213,12 +216,14 @@ import PostDetail from "@/views/post/PostDetail";
 import { getUserVPRC } from '@/api/api'
 import UserEnergyBar from "@/components/UserEnergyBar.vue";
 import HalfCircleProgress from "@/components/HalfCircleProgress.vue"
+import RewardView from './RewardView.vue'
 
 export default {
   name: "AccountInfo",
   components: {
     Post,
     WalletView,
+    RewardView,
     Curations,
     TipModalVue,
     PostDetail,
