@@ -94,7 +94,8 @@
             </div>
           </div>
           <slot name="blog-tag">
-            <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D blog-tag">
+            <div class="flex gap-x-8px text-12px text-color8B light:text-color7D blog-tag
+                        overflow-auto no-scroll-bar 2md:flex-wrap">
               <div v-show="tag != 'iweb3'"
                    class="py-3px px-6px rounded-full mt-10px whitespace-nowrap cursor-pointer border-1 border-color62"
                    :class="selectedTag === tag?'bg-color62/70 text-white':'text-color62'"
