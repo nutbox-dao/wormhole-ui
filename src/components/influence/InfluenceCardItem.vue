@@ -54,8 +54,8 @@
     </div>
     <el-collapse-transition>
       <div v-show="!isFold"
-           class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px">
-        <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
+           class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px sm:max-h-200px overflow-auto no-scroll-bar">
+        <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
           {{$t('community.twitterInfluence')}}: {{ getAccountInfo?.reputation }}
         </div>
         <el-progress class="c-progress-purple flex-1 w-full"
@@ -65,7 +65,7 @@
                      :show-text="false"
                      :percentage="getAccountInfo?.reputation / 1000"/>
         <div v-for="s of stakeInfo" :key="s.name">
-          <div class="text-14px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-15px">
+          <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
             {{s.name}}: {{ formatAmount(s.user) }}
           </div>
           <el-progress class="c-progress-purple flex-1 w-full"
