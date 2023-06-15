@@ -54,7 +54,7 @@
     </div>
     <el-collapse-transition>
       <div v-show="!isFold"
-           class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px max-h-200px overflow-auto no-scroll-bar">
+           class="pl-15px pr-45px pt-17px pb-30px sm:w-1/3 sm:pr-15px sm:max-h-200px overflow-auto no-scroll-bar">
         <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
           {{$t('community.twitterInfluence')}}: {{ getAccountInfo?.reputation }}
         </div>
