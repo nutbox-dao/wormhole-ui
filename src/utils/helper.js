@@ -85,6 +85,9 @@ export const formatAmount = function (value) {
   }
   if (Number.isInteger(nm)) {
     digit = 0
+    if (nm > 1000) {
+      digit = 2
+    }
   }
   value = Number(value)
   if (value < 1e6) {
