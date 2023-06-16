@@ -324,7 +324,7 @@ export default {
           setCommunityAuthorRewardClaimed(this.getAccountInfo?.twitterId, claimedAuthorCuration.map(r => r.curationId))]).catch(e => {
             console.log('set curation distribute fail', e)
           })
-          reward = rewards.filter(r => claimedIds.find(c => c !== r.curationId));
+          rewards = rewards.filter(r => claimedIds.find(c => c !== r.curationId));
           authorRewards = authorRewards.filter(r => claimedIds.find(c => c !== r.curationId));
         }
         if (rewards && rewards.length > 0) {

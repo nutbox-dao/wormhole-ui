@@ -22,7 +22,7 @@ export default {
         customTokens: localStorage.getItem('custom-tokens'),
         selectedTag: 'All',
         communityRewards: [],
-        communityAuthoRewards: []
+        communityAuthorRewards: []
     },
     mutations: {
         saveSelectedTag: (state, tag) => {
@@ -107,8 +107,8 @@ export default {
         saveCommunityRewards: (state, communityRewards) => {
             state.communityRewards = communityRewards
         },
-        saveCommunityAuthorRewards: (state, communityAuthoRewards) => {
-            state.communityAuthoRewards = communityAuthoRewards
+        saveCommunityAuthorRewards: (state, communityAuthorRewards) => {
+            state.communityAuthorRewards = communityAuthorRewards
         }
     },
     getters: {
@@ -190,13 +190,13 @@ export default {
             return []
         },
         getCommunityAuthorRewards: (state) => (communityId) => {
-            if (state.communityAuthoRewards) {
-                return state.communityAuthoRewards.filter(c => c.communityId == communityId)
+            if (state.communityAuthorRewards) {
+                return state.communityAuthorRewards.filter(c => c.communityId == communityId)
             }
             return []
         },
         getRewardCommunityInfo: state => {
-            return [...new Set(state.communityRewards.map(c => c.communityId).concat(state.communityAuthoRewards.map(c => c.communityId)))] 
+            return [...new Set(state.communityRewards.map(c => c.communityId).concat(state.communityAuthorRewards.map(c => c.communityId)))] 
         }
     }
 }

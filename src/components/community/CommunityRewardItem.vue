@@ -171,13 +171,13 @@ export default {
     },
     rewards() {
       if (this.communityId) {
-        return this.getCommunityRewards(this.communityId);
+        return this.getCommunityRewards(this.communityId) ?? [];
       }
       return []
     },
     authorRewards() {
       if (this.communityId) {
-        return this.getCommunityAuthorRewards(this.communityId);
+        return this.getCommunityAuthorRewards(this.communityId) ?? [];
       }
       return []
     },
@@ -250,11 +250,14 @@ export default {
           const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
-            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
             const hash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
             await setCommunityAuthorRewardClaimed(twitterId, ids);
-            const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
-            this.$store.commit('curation/saveCommunityAuthorRewards', list)
+            if (this.communityAuthorRewards) {
+              const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
+              
+              this.$store.commit('curation/saveCommunityAuthorRewards', list)
+            }
         }
       } catch (e) {
         if (e === 'log out') {
