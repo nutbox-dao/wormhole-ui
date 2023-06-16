@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-1.8rem">
+  <div v-if="loading || (activities && activities.length > 0)" class="mt-1.8rem">
     <div class="flex justify-between items-center mb-6px">
       <div class="font-bold">{{$t('community.activity')}}</div>
       ({{ $t('curation.optional') }})

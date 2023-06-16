@@ -11,7 +11,7 @@
           @{{ infoData.twitterUsername }}
         </span>
         <span class="mx-4px text-color8B light:text-color7D"> · </span>
-        <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+        <span class="whitespace-nowrap text-12px leading-18px text-color8B light:text-color7D">
          {{ notiTime(infoData) }}
         </span>
       </div>

@@ -459,10 +459,12 @@ export const IgnoreAuthor = [
     'greattranslatcn',
     'democretard',
     'Mydoglucky2',
+    'Lawrenc09874431',
     '1180358936249032704',
     '1485658668259770370',
     '1443781057703145473',
-    '903140569685270528'
+    '903140569685270528',
+    '1596918985609601024'
 ]
 
 export const STELLAR_TREK_NFT = [
