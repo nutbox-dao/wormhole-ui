@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { parseTimestamp } from '@/utils/helper';
+
 export default {
   name: "Like",
   props: {
