@@ -10,7 +10,7 @@
       </div>
       <div class="w-full my-5px text-left text-14px leading-20px">
         <span class="font-bold">{{infoData.username}} </span>
-        <span>{{ ' ' + $t('info.retweeted') + $t('info.yourTweet') }}</span>
+        <span>{{ ' ' + $t('info.retweeted') + ' ' + $t('info.yourTweet') }}</span>
       </div>
       <div class="text-left text-color99 leading-18px multi-content">
         {{ infoData.content }}
