@@ -443,7 +443,7 @@ export default {
     token: '社区代币',
     currentProgress: '当前进度',
     curationCredit: '策展信用',
-    didRatio: '声誉: ',
+    didRatio: '社交声誉: ',
     comRatio: '社区: ',
     topicRatio: '策展: '
   },
