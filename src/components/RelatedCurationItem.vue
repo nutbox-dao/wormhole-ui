@@ -26,7 +26,7 @@
         <template #amount>
             <span class="pl-30px pr-8px h-20px whitespace-nowrap
                          flex items-center text-12px 2xl:text-0.8rem font-bold text-color62">
-              {{curation.amount.toString() / (10 ** curation.decimals)}} {{curation.tokenSymbol}}
+              {{ formatAmount(curation.amount.toString() / (10 ** curation.decimals))}} {{curation.tokenSymbol}}
             </span>
         </template>
       </ChainTokenIconLarge>
@@ -100,7 +100,7 @@
 
 <script>
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { parseTimestamp } from '@/utils/helper'
+import { parseTimestamp, formatAmount } from '@/utils/helper'
 import { mapGetters } from "vuex";
 import {formatEmojiText, isNumeric} from "@/utils/tool";
 import ChainTokenIconLarge from "@/components/ChainTokenIcon";
@@ -166,6 +166,7 @@ export default {
   },
   methods: {
     formatEmojiText,
+    formatAmount,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
