@@ -4,10 +4,13 @@
       <img class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
     </div>
     <div class="flex-1 flex flex-col items-start py-15px border-b-0.5px border-color8B/30 light:border-color7F">
-      <div class="w-full flex items-center gap-5px">
+      <div class="w-full flex justify-between items-center gap-5px">
         <img
              class="w-32px h-32px min-w-32px min-h-32px rounded-full"
              :src="profile(infoData)" alt="">
+        <span class="whitespace-nowrap text-12px leading-18px text-color8B light:text-color7D">
+         {{ notiTime(infoData) }}
+        </span>
       </div>
       <div class="w-full my-5px text-left text-14px leading-20px">
         <span class="font-bold">{{infoData.username}} </span><span>{{ ' ' }}</span>
