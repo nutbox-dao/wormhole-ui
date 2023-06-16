@@ -115,12 +115,12 @@ const routes = [
         meta: {gotoHome: true},
         children: [
           {
-            path: '',
+            path: 'nft',
             name: 'nft',
             component: UserNftView
           },
           {
-            path: 'token',
+            path: '',
             name: 'token',
             component: UserTokenView
           },

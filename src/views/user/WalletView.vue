@@ -22,11 +22,11 @@
         <router-link :to="`/wallet/${$route.params.user}/wallet`"
                      class="flex items-center rounded-full
                      border-1 border-white/20 leading-14px text-14px py-10px px-24px
-                     light:bg-colorF2 light:text-color7D">{{$t('common.nft')}}</router-link>
-        <router-link :to="`/wallet/${$route.params.user}/wallet/token`"
+                     light:bg-colorF2 light:text-color7D whitespace-nowrap">{{$t('common.token')}}</router-link>
+        <router-link :to="`/wallet/${$route.params.user}/wallet/nft`"
                      class="flex items-center rounded-full
                      border-1 border-white/20 leading-14px text-14px py-10px px-24px
-                     light:bg-colorF2 light:text-color7D whitespace-nowrap">{{$t('common.token')}}</router-link>
+                     light:bg-colorF2 light:text-color7D">{{$t('common.nft')}}</router-link>
       </div>
       <router-view></router-view>
     </div>

@@ -69,7 +69,7 @@
                 </span>
                   <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
                 </div>
-                <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/wallet')"
+                <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/reward')"
                         class="bg-color1A h-30px px-15px rounded-full font-bold text-white text-14px">
                   {{$t('community.enter')}}
                 </button>
