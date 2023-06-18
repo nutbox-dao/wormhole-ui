@@ -28,10 +28,10 @@
               <span>{{ $t('community.comRatio') }}</span>
               <span>{{ parseFloat(policy?.community?.ratio) * 100 }}%</span>
             </p>
-            <p>
+            <!-- <p>
               <span>{{ $t('community.topicRatio') }}</span>
               <span>{{ parseFloat(policy?.topic?.ratio) * 100 }}%</span>
-            </p>
+            </p> -->
           </el-popover>
         </div>
         <div class="flex items-center">
