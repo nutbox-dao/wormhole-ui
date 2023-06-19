@@ -445,7 +445,8 @@ export default {
     curationCredit: '策展信用',
     didRatio: '社交声誉: ',
     comRatio: '社区: ',
-    topicRatio: '策展: '
+    topicRatio: '策展: ',
+    noRewardCanClaim: "没有可领取的奖励"
   },
   info: {
     interactive: '互动',

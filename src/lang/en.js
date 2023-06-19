@@ -445,7 +445,8 @@ export default {
     curationCredit: 'Credit',
     didRatio: 'Social influence: ',
     comRatio: 'Community: ',
-    topicRatio: 'Curation: '
+    topicRatio: 'Curation: ',
+    noRewardCanClaim: "No claimable rewards"
   },
   info: {
     interactive: 'Activities',

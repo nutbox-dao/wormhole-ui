@@ -242,6 +242,12 @@ export default {
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            if (amount == '0') {
+              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'}) 
+              const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
+              this.$store.commit('curation/saveCommunityRewards', list)
+              return;
+            }
             const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, orderIds, amount, sig);
             await setCommunityRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
@@ -251,6 +257,12 @@ export default {
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            if (amount == '0') {
+              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'}) 
+              const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
+              this.$store.commit('curation/saveCommunityAuthorRewards', list)
+              return;
+            }
             const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
             await setCommunityAuthorRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             if (this.communityAuthorRewards) {
