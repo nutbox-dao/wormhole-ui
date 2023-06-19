@@ -197,7 +197,6 @@ export default {
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
     gotoUser(user) {
-      console.log(1, user);
       this.$router.push('/search-user/@' + user.twitterUsername)
     },
     gotoCommunity(community) {
