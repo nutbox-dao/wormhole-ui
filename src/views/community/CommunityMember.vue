@@ -17,7 +17,7 @@
               @load="onLoad">
       <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px gap-5px">
         <span class="flex-1 text-left">{{$t('community.member')}}</span>
-        <span class="flex-1 text-right">{{$t('community.joinTime')}}</span>
+        <span class="flex-1 text-right">{{$t('community.curationCredit')}}</span>
         <span class="flex-1 text-right">{{$t('community.communityToken')}}</span>
       </div>
       <div class="flex justify-between items-center px-15px py-10px gap-5px"
@@ -40,7 +40,7 @@
             <span class="truncate text-14px">{{item.username}}</span>
           </div>
         </div>
-        <span class="flex-1 text-right text-12px">{{ parseTimestamp(item.joinTime) }}</span>
+        <span class="flex-1 text-right text-12px">{{ item.ccPower }}</span>
         <span class="flex-1 text-right text-12px">{{ item.showingBalance }}</span>
       </div>
     </van-list>
@@ -89,6 +89,7 @@ export default {
     }
     if (this.members.length === 0 && this.communityId !== this.showingCommunity.communityId) {
       this.communityId = this.showingCommunity.communityId
+      this.listFinished = false;
       this.refresh()
     }
   },

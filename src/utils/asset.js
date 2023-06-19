@@ -745,7 +745,6 @@ export async function getPriceFromOracle(chainName, tokens) {
                 }
             }
             prices[EVM_CHAINS[chainName].assets.USDT.address] = 1
-            console.log(35,prices, pricesFromNutbox)
             return prices
         }
     } catch (e) {
