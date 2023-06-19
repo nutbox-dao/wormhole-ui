@@ -315,7 +315,7 @@ export default {
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
-    createStepTip: 'You can post a tweet and promote it right away. You can also promote an existing tweet or Twitter Space.',
+    createStepTip: 'You can post a tweet and promote it at the same time. You can promote an existing Tweet or Twitter Space ',
     selectCategoryTip:  'Are you going to promote a tweet or twitter space?',
     selectNewTweet: 'Or create a new tweet',
     useExistTweet: 'Or use an existing tweet',
