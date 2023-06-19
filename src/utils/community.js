@@ -40,10 +40,10 @@ export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId
     }
 }
 
-export const setCommunityRewardClaimed = async (twitterId, ids) => {
+export const setCommunityRewardClaimed = async (twitterId, ids, orderId, transHash) => {
     await checkAccessToken();
     try {
-        const params = await scrc(twitterId, ids)
+        const params = await scrc(twitterId, ids, orderId, transHash)
         return params;
     } catch (e) {
         if (e === 401) {
@@ -54,10 +54,10 @@ export const setCommunityRewardClaimed = async (twitterId, ids) => {
     }
 }
 
-export const setCommunityAuthorRewardClaimed = async (twitterId, ids) => {
+export const setCommunityAuthorRewardClaimed = async (twitterId, ids, orderId, transHash) => {
     await checkAccessToken();
     try {
-        const params = await scarc(twitterId, ids)
+        const params = await scarc(twitterId, ids, orderId, transHash)
         return params;
     } catch (e) {
         if (e === 401) {

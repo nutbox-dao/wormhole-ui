@@ -440,7 +440,7 @@ export const claimCommunityRewards = async (chainName, twitterId, ethAddress, co
     contract = new ethers.Contract(community.communityAddr, claimAbi, provider);
     contract = contract.connect(provider.getSigner());
     const result = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig);
-    return result;
+    return result.hash;
   } catch (e) {
     console.log('claim rewards fail:', e);
     throw errCode.TRANSACTION_FAIL

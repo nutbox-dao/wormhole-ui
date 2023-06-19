@@ -292,11 +292,11 @@ export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids)
 export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId, ids) =>
     post(BACKEND_API_URL + '/community/getClaimAuthorRewardsParas', { communityId, twitterId, ids })
 
-export const setCommunityRewardClaimed = async (twitterId, curationIds) =>
-    post(BACKEND_API_URL + '/community/setCurationIsDistributed', { twitterId, curationIds })
+export const setCommunityRewardClaimed = async (twitterId, curationIds, orderId, transHash) =>
+    post(BACKEND_API_URL + '/community/setCurationIsDistributed', { twitterId, curationIds, orderId, transHash })
 
-export const setCommunityAuthorRewardClaimed = async (twitterId, curationIds) =>
-    post(BACKEND_API_URL + '/community/setCurationAuthorRewardIsDistributed', { twitterId, curationIds })
+export const setCommunityAuthorRewardClaimed = async (twitterId, curationIds, orderId, transHash) =>
+    post(BACKEND_API_URL + '/community/setCurationAuthorRewardIsDistributed', { twitterId, curationIds, orderId, transHash })
 
 export const getCommunityHistoryRewards = async (twitterId, communityId, createAt) =>
     get(BACKEND_API_URL + '/community/getCommunityHistoryRewards', { twitterId, communityId, createAt })

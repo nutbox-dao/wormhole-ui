@@ -241,18 +241,18 @@ export default {
             const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
-            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
-            const hash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
-            await setCommunityRewardClaimed(twitterId, ids);
+            const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, orderIds, amount, sig);
+            await setCommunityRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
             this.$store.commit('curation/saveCommunityRewards', list)
         }else { // author
           const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
             const ids = this.list.map(c => c.curationId)
-            const { chainId, amount, curationIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
-            const hash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
-            await setCommunityAuthorRewardClaimed(twitterId, ids);
+            const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
+            const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
+            await setCommunityAuthorRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             if (this.communityAuthorRewards) {
               const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
               
