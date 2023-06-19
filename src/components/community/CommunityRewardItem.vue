@@ -263,7 +263,7 @@ export default {
               this.$store.commit('curation/saveCommunityAuthorRewards', list)
               return;
             }
-            const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, curationIds, amount, sig);
+            const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, orderIds, amount, sig);
             await setCommunityAuthorRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             if (this.communityAuthorRewards) {
               const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
