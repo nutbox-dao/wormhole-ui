@@ -93,22 +93,16 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import {ethers} from "ethers";
-import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import RewardPost from "@/views/user/RewardPost";
 import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
-import { checkCurationRewards, checkAutoCurationRewards, getClaimParas, claimRewards, getPromotionCurationClaimParas,
-   getChainIdOfCurationContract, getSingerOfCuration, claimPromotionCurationRewards, getAuthorRewardClaimParas,
-   getCurationDetail } from '@/utils/curation'
+import { checkCurationRewards, checkAutoCurationRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
-import {accountChanged, getAccounts} from "@/utils/web3/account";
-import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed, setAutoCurationIsDistributed, setAutoCurationAuthorRewardIsDistributed } from '@/api/api'
+import { setCurationIsFeed } from '@/api/api'
 
 export default {
   components: {RewardCuration, RewardPost, ChainTokenIcon},
@@ -194,11 +188,6 @@ export default {
                 claimedIds.push(records[i].curationId)
               }
             }
-            if (claimedIds.length > 0) {
-              setAutoCurationIsDistributed(this.twitterId, claimedIds).then().catch(e => {
-                console.error('set auto curation feed fail:', e)
-              });
-            }
             this.customRewardLists[index] = result;
             this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)
             getPriceFromOracle('BNB Smart Chain', result).then(res => {
@@ -222,11 +211,6 @@ export default {
               }else {
                 claimdIds.push(records[i].curationId)
               }
-            }
-            if (claimdIds.length > 0) {
-              setAutoCurationAuthorRewardIsDistributed(this.twitterId, claimdIds).then().catch(e => {
-                console.error('set auto curation author reward feed fail:', e)
-              })
             }
             this.customRewardLists[index] = result;
             this.$store.commit('curation/saveCustomRewardLists', this.customRewardLists)

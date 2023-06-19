@@ -118,7 +118,7 @@
     </el-dialog>
   </van-pull-refresh>
 </template>
-
+<!-- this is for promotion reward -->
 <script>
 import { mapGetters, mapState } from 'vuex'
 import {ethers} from "ethers";

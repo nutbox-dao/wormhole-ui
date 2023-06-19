@@ -9,8 +9,10 @@ export const postErr = async (module, title, error) =>
 export const getCommon = async () => 
     get("https://api-walnut.nutbox.app/common")
 
-export const getPrice = async () =>
+export const getPriceBSC = async () =>
     get("https://api-walnut.nutbox.app/token/getPrices")
+export const getPriceARB = async () =>
+    get("https://arbi-api.nutbox.app/token/getPrices")
 
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async(needLogin) =>
@@ -272,20 +274,8 @@ export const autoCurationAuthorRewardList = async (twitterId, createdAt) =>
 export const getClaimParas = async (twitterId, chainId, ids) =>
     post(BACKEND_API_URL + '/curation/getClaimParas', {twitterId, chainId, ids})
 
-export const getPromotionCurationClaimParas = async (twitterId, chainId, ids) =>
-    post(BACKEND_API_URL + '/curation/getPromotionCurationClaimParas', {twitterId, chainId, ids})
-
-export const getAuthorRewardClaimParas = async (twitterId, chainId, ids) =>
-post(BACKEND_API_URL + '/curation/getAuthorRewardClaimParas', {twitterId, chainId, ids})
-
 export const setCurationIsFeed = async (twitterId, curationIds) =>
     post(BACKEND_API_URL + '/curation/setCurationIsFeed', {twitterId, curationIds})
-
-export const setAutoCurationIsDistributed = async (twitterId, curationIds) =>
-    post(BACKEND_API_URL + '/curation/setAutoCurationIsDistributed', {twitterId, curationIds})
-
-    export const setAutoCurationAuthorRewardIsDistributed = async (twitterId, curationIds) =>
-        post(BACKEND_API_URL + '/curation/setAutoCurationAuthorRewardIsDistributed', {twitterId, curationIds})
 
 export const getCurationRewardsOfPost = async (postId) =>
     get(BACKEND_API_URL + '/curation/getCurationRewardsOfPost', {postId})

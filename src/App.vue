@@ -81,7 +81,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { getProfile, getCommon, getPrice, searchUsers, searchCommunityByName,
+import { getProfile, getCommon, getPriceBSC, getPriceARB, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
@@ -152,7 +152,7 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      const [res, res2] = await Promise.all([getCommon(), getPrice()])
+      const [res, res2, res3] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB()])
       let {prices, vestsToSteem} = res;
       this.$store.commit('saveVestsToSteem', vestsToSteem)
       prices = {
@@ -175,6 +175,13 @@ export default {
           const price = res2[p]
           if (price.address === '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11') {
             prices['pnut'] = price.price
+          }
+        }
+      }
+      if (res3 && res3.length > 0) {
+        for (let p of res3) {
+          if (p.price) {
+            prices[p.address.toLowerCase()] = p.price
           }
         }
       }
