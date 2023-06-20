@@ -76,7 +76,7 @@ import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { onCopy } from "@/utils/tool";
 import { getTokenBalance, getLiquidationNft } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
-import { logout, isTokenExpired } from './utils/account';
+import { logout, isTokenExpired, monitorNFTReceiveState } from './utils/account';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
@@ -330,6 +330,12 @@ export default {
       } else {
         this.$store.commit("saveSteemBalance", 0);
       }
+
+      this.$bus.on('login', () => {
+        monitorNFTReceiveState(this.getAccountInfo).catch();
+      })
+      monitorNFTReceiveState(this.getAccountInfo).catch();
+
 
       //get eth balances
       if (ethAddress) {
