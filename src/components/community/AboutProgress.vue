@@ -14,9 +14,14 @@
       <button class="absolute right-0 top-24px text-12px">{{formatNum(max)}}</button>
     </el-tooltip>
     <span v-if="currentBlockNum && blockPosition > 0 && blockPosition < 1"
-          class="current-block absolute top-34px text-12px left-1/2 transform -translate-x-1/2"
+          class="current-block absolute top-34px text-12px flex flex-col"
           v-show="(progressData && progressData.length > 0) && currentBlockNum>progressData[0].startHeight"
-          :style="{left: `${(blockPosition)*100}%`}">{{currentBlockNum}}</span>
+          :style="{left: `${(blockPosition)*100}%`}">
+      <span class="arrow"></span>
+      <span class="absolute top-8px"
+            :class="[blockPosition<0.05?'':'left-1/2 transform -translate-x-1/2',
+            blockPosition>0.95?'left-full transform -translate-x-full':'']">{{currentBlockNum}}</span>
+    </span>
     <div class="c-progress-container relative flex justify-between items-center rounded-full h-16px"
          :style="{background: trackColor}">
       <div class="c-progress-bar" v-for="(data, index) of (progressData ? progressData : [])" :key="index"
@@ -136,13 +141,13 @@ export default {
 .light .progress-tooltip::before {
   background: #EAE5FF;
 }
-.current-block::before {
+.current-block .arrow {
   display: block;
   content: '';
   width: 10px;
   height: 6px;
   background-color: #6246EA;
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  margin: .3rem auto;
+  //margin: .3rem auto;
 }
 </style>

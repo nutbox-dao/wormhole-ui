@@ -10,13 +10,15 @@
     </div>
     <div v-show="specifyDistributionEras.length > 0" class="">
       <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
-      <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
+      <div class="overflow-auto no-scroll-bar">
+        <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
+      </div>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="loadingPool">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    <div class="mt-70px" v-else-if="poolsData && (poolsData.length > 0)">
+    <div class="2md:mt-70px" v-else-if="poolsData && (poolsData.length > 0)">
       <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
       <PoolRatio :animation='false' :pools-data="poolsData"/>
     </div>
