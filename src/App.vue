@@ -27,7 +27,14 @@
       <BottomTabbar v-if="$route.meta.tabbar!=='hidden'"
                     class="flex 2md:hidden"
                     @login="login"></BottomTabbar>
-                    
+      <button
+          class="flex items-center justify-center bg-color62
+                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
+                   rounded-full mt-0.5rem c-text-bold fixed
+                   bottom-6rem 2md:hidden right-1.5rem sm:right-2.5rem z-2"
+          @click="createCuration">
+        <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
+      </button>
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
       </el-dialog>
@@ -295,7 +302,7 @@ export default {
           this.$store.commit('saveShowLogin', true);
         }else if (userInfo.code === 3) { // log in
           if (userInfo.thirdPartInfo && userInfo.thirdPartInfo.callback) {
-            window.location = userInfo.thirdPartInfo.callback.indexOf('?') === -1 
+            window.location = userInfo.thirdPartInfo.callback.indexOf('?') === -1
             ? userInfo.thirdPartInfo.callback + `?originalAddress=${userInfo.thirdPartInfo.ethAddress}&twitterId=${userInfo.account.twitterId}&ethAddress=${userInfo.account.ethAddress}`
             : userInfo.thirdPartInfo.callback + `&originalAddress=${userInfo.thirdPartInfo.ethAddress}&twitterId=${userInfo.account.twitterId}&ethAddress=${userInfo.account.ethAddress}`;
           }else {

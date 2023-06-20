@@ -128,14 +128,6 @@
                    rounded-full mt-0.5rem c-text-bold fixed bottom-10rem 2md:bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
     </button>
-    <button
-        class="flex items-center justify-center bg-color62
-                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
-                   rounded-full mt-0.5rem c-text-bold fixed
-                   bottom-6rem 2md:hidden right-1.5rem sm:right-2.5rem z-2"
-        @click="createCuration">
-      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
-    </button>
   </div>
 </template>
 
