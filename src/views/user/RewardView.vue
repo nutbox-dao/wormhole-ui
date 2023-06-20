@@ -69,14 +69,14 @@
                               flex items-center justify-center min-w-10rem px-20px
                               rounded-full h-40px text-white font-bold text-14px" @click="connect">
                 {{ $t('common.connectMetamask') }}
-                <c-spinner v-show="connecting" class="w-16px h-16px ml-6px"></c-spinner>
+                <c-spinner v-show="connecting" class="w-16px h-16px ml-8px"></c-spinner>
               </button>
-              <button v-else class="flex items-center justify-center bg-ny-btn-gradient text-14px
-                       h-40px px-15px rounded-full text-white"
+              <button v-else class="flex items-center justify-center bg-ny-btn-gradient
+                       h-40px px-15px rounded-full text-white text-14px"
                       :disabled="claiming || accountMismatch"
                       @click="claimReward">
                 {{ $t('curation.claimReward') }}
-                <c-spinner v-show="claiming" class="w-16px h-16px ml-6px"></c-spinner>
+                <c-spinner v-show="claiming" class="w-16px h-16px ml-8px"></c-spinner>
               </button>
               <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
                 {{ $t('walletView.accountMismatch', {account: formatAddress(getAccountInfo.ethAddress) + `(@${getAccountInfo.twitterUsername})`}) }}
