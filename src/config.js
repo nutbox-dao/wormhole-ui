@@ -83,7 +83,8 @@ export const TokenIcon = {
     'NABOX': "http://nassets.oss-us-west-1.aliyuncs.com/NABOX_1.png",
     'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png",
     'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png",
-    "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126"
+    "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126",
+    "ferc": 'https://cdn.wherein.mobi/nutbox/v2/1686657099126'
 }
 
 export const TokenName = {
@@ -123,7 +124,8 @@ export const TokenName = {
     'NABOX': 'Nabox_Token',
     'NVT': 'NVT',
     'ARB': 'Arbitrum',
-    "MFERC": 'mFERC'
+    "MFERC": 'mFERC',
+    "ferc": 'fair-ERC20'
 }
 
 export const isWrappedToken = {
@@ -252,6 +254,8 @@ export const EVM_CHAINS = {
           USDC: {symbol: 'USDC', name: 'USD Coin', address: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8', decimals: 6},
           USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', decimals: 6},
           DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1', decimals: 18},
+          ferc: {symbol: 'ferc', name: 'fair ERC20', address: '0xC365B8Cbde40cB902CaE1BDDf425a4c9E1f60d3f', decimals: 18},
+          MFERC: {symbol: 'MFERC', name: 'mFERC', address: '0xB4ee30dE6BF7e8F9eFBFcC9715021144DEFDe96F', decimals: 18},
         },
         Multi_Config: {
             rpcUrl: 'https://arb1.arbitrum.io/rpc',
