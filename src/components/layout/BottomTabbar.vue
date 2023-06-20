@@ -16,7 +16,7 @@
         {{$t('slider.influence')}}
       </button>
     </router-link>
-    <router-link :to="`/wallet/${getAccountInfo.twitterUsername}/reward`"
+    <router-link :to="`/wallet/${getAccountInfo?.twitterUsername}/reward`"
                  class="flex-1">
       <button class="w-full h-30px flex justify-center items-center"
               :class="/^\/wallet/.test($route.path)?'text-white light:text-black/90':''">
@@ -28,7 +28,7 @@
             class="flex-1 h-30px flex justify-center items-center">
       {{$t('slider.mine')}}
     </button>
-    <router-link v-else :to="`/profile/@${getAccountInfo.twitterUsername}/post`" class="flex-1">
+    <router-link v-else :to="`/profile/@${getAccountInfo?.twitterUsername}/post`" class="flex-1">
       <button class="w-full h-30px flex justify-center items-center">
         {{$t('slider.mine')}}
       </button>

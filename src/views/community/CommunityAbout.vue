@@ -26,26 +26,14 @@
       <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
       <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
         <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-          {{$t('community.communityBalance')}}
+          {{$t('community.pendingReward')}}
         </div>
         <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
           <input class="bg-transparent h-full w-full" disabled
-                 :value="10000" type="number">
-          <span class="">PNUT</span>
-        </div>
-      </div>
-      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
-        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-          {{$t('community.retainedRevenue')}}
-        </div>
-        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-40px">
-          <input class="bg-transparent h-full w-full" disabled
-                 :value="10000" type="number">
-          <span class="">PNUT</span>
+                 :value="formatAmount(communityContractInfo?.balance?.toString() / (10 ** showingCommunity.rewardTokenDecimals))" type="text">
+          <span class="">{{ showingCommunity.rewardTokenSymbol }}</span>
         </div>
       </div>
       <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
@@ -56,19 +44,7 @@
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
           <input class="bg-transparent h-full w-full" disabled
-                 :value="'0xxxxx...'">
-        </div>
-      </div>
-      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
-        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-          {{$t('community.fundRatio')}}
-        </div>
-        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
-                    light:bg-white light:border-colorE3 hover:border-primaryColor
-                    rounded-8px h-40px">
-          <input class="bg-transparent h-full w-full" disabled
-                 :value="0.00" type="number">
-          <span>%</span>
+                 :value="communityContractInfo.storageAddr" type="text">
         </div>
       </div>
     </div>
@@ -80,7 +56,7 @@ import PoolRatio from "@/components/community/PoolRatio.vue";
 import AboutProgress from "@/components/community/AboutProgress.vue";
 import { getSpecifyDistributionEras } from '@/utils/community'
 import { mapState } from "vuex";
-import { sleep } from '@/utils/helper'
+import { sleep, formatAmount } from '@/utils/helper'
 import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
 import { getBlockNum } from '@/utils/web3/web3'
 import { EVM_CHAINS_ID } from "@/config";
@@ -96,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData']),
+    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData', 'communityContractInfo']),
   },
   async activated() {
     let count = 0;
@@ -109,6 +85,7 @@ export default {
     this.refresh()
   },
   methods: {
+    formatAmount,
     async refresh() {
       const nutboxContract = this.configs[this.showingCommunity.communityId]['nutbox_contract']
       if (nutboxContract) {

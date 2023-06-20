@@ -27,6 +27,7 @@
       <BottomTabbar v-if="$route.meta.tabbar!=='hidden'"
                     class="flex 2md:hidden"
                     @login="login"></BottomTabbar>
+                    
       <el-dialog class="c-img-dialog" v-model="modalVisible" :fullscreen="true" title="&nbsp;" :destroy-on-close="true">
         <NFTAnimation/>
       </el-dialog>

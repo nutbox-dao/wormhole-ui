@@ -452,6 +452,7 @@ export default {
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
+    pendingReward: '待领取奖励'
   },
   info: {
     interactive: '互动',

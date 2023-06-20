@@ -30,7 +30,7 @@
           <span class="ml-8px" :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
         </button>
       </router-link>
-      <router-link :to="`/wallet/${getAccountInfo.twitterUsername}/reward`"
+      <router-link :to="`/wallet/${getAccountInfo?.twitterUsername ?? 'template'}/reward`"
                    class="flex-1 w-full" v-slot="{isActive}">
         <button  class="w-full h-60px flex items-center"
                  :class="isActive || isWallet?'text-color62':'text-color99'">
@@ -66,9 +66,9 @@
       </button>
       <template v-else>
         <UserEnergyBar class="flex items-center gap-15px"></UserEnergyBar>
-        <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
+        <div @click="showLogout=true"
                      class="flex items-center">
-          <el-popover popper-class="c-popper" trigger="click" :teleported="false" placement="top-start">
+          <el-popover popper-class="c-popper" trigger="click" :teleported="showLogout" placement="top-start">
             <template #reference>
               <img class="w-50px h-50px min-w-50px min-h-50px rounded-full mr-10px"
                    @error="replaceEmptyImg"
@@ -98,7 +98,7 @@
               </span>
             </div>
           </div>
-        </router-link>
+        </div>
       </template>
       <div class="hidden 2md:flex items-center gap-15px mt-25px">
         <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
@@ -149,7 +149,8 @@ export default {
       searchModalVisible: false,
       MAX_RC,
       MAX_VP,
-      isShowMenu: false
+      isShowMenu: false,
+      showLogout: false
     }
   },
   mounted() {
@@ -160,7 +161,7 @@ export default {
     },
     gotoTwitter() {
       window.open(
-          "https://twitter.com/" + this.getAccountInfo.twitterUsername,
+          "https://twitter.com/" + this.getAccountInfo?.twitterUsername,
           "__blank"
       );
     },
