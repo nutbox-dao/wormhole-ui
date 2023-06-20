@@ -7,7 +7,7 @@
 <!--      <div class="before"></div>-->
 <!--      <div class="after"></div>-->
 <!--    </div>-->
-    <div class="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center items-center z-2">
+    <div class="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center items-center z-2 box">
       <div class="w-16rem nft-card mb-3rem">
         <div class="md:max-w-30rem mx-auto relative">
           <img src="~@/assets/nft.png" alt="">
@@ -22,7 +22,12 @@
           </div>
         </div>
       </div>
-      <button class="gradient-btn c-text-bold h-2.5rem w-8rem rounded-full get-btn"
+      <div class="md:max-w-22rem mx-auto light:bg-white text-14px leading-18px 2md:text-20px 2md:leading-30px
+                  c-text-black get-btn rounded-15px p-15px text-white light:text-black">
+        Congrats! You just minted your Twitter Reputation NFT. This score represents your social influence on Twitter.
+        It is part of your Curation Credit, which determines how much reward you can get on Wormhole3
+      </div>
+      <button class="gradient-btn c-text-bold h-2.5rem w-8rem rounded-full get-btn mt-15px"
               @click="getNft">{{$t('common.get')}}</button>
     </div>
   </div>
@@ -306,5 +311,9 @@ $box-shadow2: ();
     top: 0;
     z-index: -1;
   }
+}
+.box {
+  background-image: linear-gradient(rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  background-size: cover;
 }
 </style>
