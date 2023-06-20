@@ -1,7 +1,7 @@
 <template>
   <div class="w-13rem 2xl:w-15rem min-w-200px flex flex-col justify-between
               border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem">
-    <div class="flex flex-col items-start gap-15px px-15px xl:px-1rem 2xl:px-2rem text-18px">
+    <div class="flex flex-col items-start gap-5px px-15px xl:px-1rem 2xl:px-2rem text-18px">
       <router-link to="/square" class="flex-1 w-full" v-slot="{isActive}">
         <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-home-active.svg" alt="">
@@ -41,6 +41,18 @@
           <span class="ml-8px">{{$t('slider.wallet')}}</span>
         </button>
       </router-link>
+      <router-link v-if="getAccountInfo.twitterUsername"
+                   :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
+                   class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center"
+                 :class="isActive || isProfile?'text-color62':'text-color99'">
+          <img v-show="isActive || isProfile"
+               class="w-16px min-w-16px" src="~@/assets/nav-profile-active.svg" alt="">
+          <img v-show="!isActive && !isProfile"
+               class="w-16px min-w-16px" src="~@/assets/nav-profile.svg" alt="">
+          <span class="ml-8px">{{$t('slider.mine')}}</span>
+        </button>
+      </router-link>
       <Menu class="" @show="(data) => {isShowMenu=data}">
         <template #menu-toggle>
           <button class="w-full h-60px flex items-center" :class="isShowMenu?'text-color62':'text-color99'">
@@ -66,39 +78,37 @@
       </button>
       <template v-else>
         <UserEnergyBar class="flex items-center gap-15px"></UserEnergyBar>
-        <div @click="showLogout=true"
-                     class="flex items-center">
-          <el-popover popper-class="c-popper" trigger="click" :teleported="showLogout" placement="top-start">
-            <template #reference>
+        <el-popover popper-class="c-popper" trigger="click" :teleported="showLogout" placement="top-start">
+          <template #reference>
+            <div class="flex items-center cursor-pointer">
               <img class="w-50px h-50px min-w-50px min-h-50px rounded-full mr-10px"
                    @error="replaceEmptyImg"
                    :src="profileImg"
                    alt=""/>
-            </template>
-            <button class="h-46px flex justify-between items-center px-15px min-w-160px
-                           bg-blockBg light:bg-white light:shadow-color1A rounded-full"
-                    @click="signout">
-              <span>{{$t('logout')}}</span>
-              <i class="w-14px min-w-14px h-14px icon-logout"></i>
-            </button>
-          </el-popover>
-
-          <div class="flex-1 overflow-hidden text-white light:text-color1A">
-            <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px">
-              {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
-            </div>
-            <div @click.stop="gotoTwitter"
-                 class="cursor-pointer flex items-center">
-              <div class="w-14px h-14px min-w-14px min-h-14px p-3px bg-color8B light:bg-black rounded-full mr-5px
+              <div class="flex-1 overflow-hidden text-white light:text-color1A">
+                <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px">
+                  {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
+                </div>
+                <div @click.stop="gotoTwitter"
+                     class="cursor-pointer flex items-center">
+                  <div class="w-14px h-14px min-w-14px min-h-14px p-3px bg-color8B light:bg-black rounded-full mr-5px
                           flex items-center justify-center">
-                <img src="~@/assets/icon-twitter-white.svg" alt="">
-              </div>
-              <span class="text-12px">
+                    <img src="~@/assets/icon-twitter-white.svg" alt="">
+                  </div>
+                  <span class="text-12px">
                 @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
               </span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+          <button class="h-46px flex justify-between items-center px-15px min-w-160px
+                           bg-blockBg light:bg-white light:shadow-color1A rounded-full"
+                  @click="signout">
+            <span>{{$t('logout')}}</span>
+            <i class="w-14px min-w-14px h-14px icon-logout"></i>
+          </button>
+        </el-popover>
       </template>
       <div class="hidden 2md:flex items-center gap-15px mt-25px">
         <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
@@ -142,6 +152,9 @@ export default {
     },
     isWallet() {
       return /^\/wallet/.test(this.$route.path)
+    },
+    isProfile() {
+      return /^\/profile/.test(this.$route.path)
     }
   },
   data() {
