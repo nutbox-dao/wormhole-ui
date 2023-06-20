@@ -28,7 +28,7 @@
               <span v-else class="text-14px font-500 text-color46">{{$t('community.join')}}</span>
             </button>
           </div>
-          <div class="flex flex-wrap gap-5px">
+          <div class="flex flex-wrap gap-5px mt-8px">
             <span v-for="(tag, tIndex) of community.tags ? community.tags.split(',') : []" :key="tIndex"
                   class="border-1 border-color62 rounded-full bg-colorF1 text-color62 text-12px h-18px
                          px-8px flex justify-center items-center">{{tag}}</span>

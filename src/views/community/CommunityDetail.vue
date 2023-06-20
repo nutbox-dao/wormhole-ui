@@ -30,14 +30,14 @@
           <!-- description header -->
           <c-image :src="showingCommunity.banner"
                    class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
-          <div class="relative mt-95px px-15px">
-            <div class="flex items-stretch">
+          <div class="relative mt-95px px-15px truncate">
+            <div class="flex items-stretch truncate">
               <c-image :src="showingCommunity.icon"
                        class="w-72px h-72px min-w-72px min-h-72px border-2 border-colorF7 rounded-36px"></c-image>
-              <div class="flex-1 flex flex-col justify-between ml-15px">
-                <div class="flex justify-between items-start">
-                  <div class="text-left">
-                    <div class="c-text-black text-24px text-white mb-8px">{{showingCommunity.communityName}}</div>
+              <div class="flex-1 flex flex-col justify-between ml-15px truncate">
+                <div class="flex justify-between items-start truncate">
+                  <div class="text-left truncate">
+                    <div class="c-text-black text-24px text-white mb-8px truncate">{{showingCommunity.communityName}}</div>
                     <div class="flex items-center text-white text-12px">
                       <c-image :src="chain.main?.icon"
                                class="w-14px h-14px min-w-14px rounded-full mr-4px"></c-image>
@@ -54,7 +54,7 @@
                   </button>
                 </div>
                 <!-- tag -->
-                <div class="flex flex-wrap gap-5px">
+                <div class="flex flex-wrap gap-5px mt-8px">
                     <span v-for="(tag, tIndex) of showingCommunity.tags ? showingCommunity.tags.split(',') : []" :key="tIndex"
                           class="border-1 border-color62 rounded-full bg-colorF1 text-color62 text-12px h-18px
                                 px-8px flex justify-center items-center">{{tag}}
