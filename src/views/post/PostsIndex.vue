@@ -81,7 +81,7 @@
                   :finished-text="postsList.length!==0?$t('common.noMore'):''"
                   @load="onLoad">
           <div class="sm:px-15px">
-            <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem"
+            <div class="container sm:px-15px mx-auto max-w-50rem md:max-w-48rem"
                  :class="postsList && postsList.length>0?'md:p-1rem':''">
               <div v-if="postsList && postsList.length === 0"
                    class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-card">
@@ -113,20 +113,28 @@
 
       </van-pull-refresh>
     </div>
-    <router-link to="/word-cloud"
-                 class="flex items-center justify-center
-                              h-44px w-44px min-w-44px xl:w-2.8rem xl:min-w-2.8rem xl:h-2.8rem
-                              mt-0.5rem c-text-bold fixed bottom-6rem sm:bottom-2rem
-                              right-1.5rem sm:right-2.5rem xl:right-2.2rem z-999">
-      <img class="w-full" src="~@/assets/word-cloud-entrance.png" alt="">
-    </router-link>
+<!--    <router-link to="/word-cloud"-->
+<!--                 class="flex items-center justify-center-->
+<!--                        h-44px w-44px min-w-44px xl:w-2.8rem xl:min-w-2.8rem xl:h-2.8rem-->
+<!--                        mt-0.5rem c-text-bold fixed bottom-6rem 2md:bottom-2rem-->
+<!--                        right-1.5rem sm:right-2.5rem xl:right-2.2rem z-999">-->
+<!--      <img class="w-full" src="~@/assets/word-cloud-entrance.png" alt="">-->
+<!--    </router-link>-->
     <!-- back top  -->
     <button v-show="scroll>200"
             @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
             class="flex items-center justify-center bg-color62
                    h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
-                   rounded-full mt-0.5rem c-text-bold fixed bottom-10rem sm:bottom-5rem right-1.5rem sm:right-2.5rem z-9999">
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-10rem 2md:bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+    </button>
+    <button
+        class="flex items-center justify-center bg-color62
+                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
+                   rounded-full mt-0.5rem c-text-bold fixed
+                   bottom-6rem 2md:hidden right-1.5rem sm:right-2.5rem z-2"
+        @click="createCuration">
+      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-add-white.svg" alt="">
     </button>
   </div>
 </template>

@@ -31,13 +31,13 @@
                   <img src="~@/assets/icon-twitter-white.svg" alt="">
                 </div>
                 <span class="text-12px">
-                @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
-              </span>
+                  @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
+                </span>
               </div>
             </div>
             <UserEnergyBar class="flex items-center mx-15px gap-15px 2md:hidden"></UserEnergyBar>
           </div>
-          <div class="flex overflow-hidden">
+          <div class="flex overflow-hidden 2md:-mt-15px">
             <div class="hidden sm:block w-6rem min-w-6rem h-6rem
                       md:w-4.8rem md:min-w-4.8rem md:max-w-4.8rem md:h-4.8rem mr-15px"></div>
             <div class="flex-1 overflow-hidden sm:max-w-500px">
@@ -52,26 +52,6 @@
                              bg-color62 text-white light:bg-colorF1 light:text-color62 "
                         @click="gotoSteem">
                   #{{ getAccountInfo ? getAccountInfo.steemId : "" }}
-                </button>
-              </div>
-              <div class="p-15px bg-color62/30 light:bg-colorEF mt-1rem flex items-center justify-between rounded-12px">
-                <div class="flex-1 flex items-center overflow-hidden mr-20px">
-                  <div class="w-30px min-w-30px h-30px rounded-full bg-color62 flex justify-center items-center mr-10px">
-                    <img class="w-14px" src="~@/assets/icon-wallet.svg" alt="">
-                  </div>
-                  <span v-if="getAccountInfo?.ethAddress" class="flex items-center truncate">
-                  <span class="flex-1 whitespace-nowrap text-color7D truncate text-12px truncate">
-                    {{getAccountInfo ? getAccountInfo.ethAddress : ''}}
-                  </span>
-                  <img class="w-14px min-w-14px ml-3px mr-8px"
-                       @click.stop="copyAddress(getAccountInfo.ethAddress)"
-                       src="~@/assets/icon-copy-primary.svg" alt="">
-                </span>
-                  <span v-else class="whitespace-nowrap text-color7D truncate"> {{$t('tips.notRegisterUser')}}</span>
-                </div>
-                <button @click="$router.push('/wallet/' + getAccountInfo.twitterUsername + '/reward')"
-                        class="bg-color1A h-30px px-15px rounded-full font-bold text-white text-14px">
-                  {{$t('community.enter')}}
                 </button>
               </div>
             </div>

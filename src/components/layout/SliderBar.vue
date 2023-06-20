@@ -30,11 +30,15 @@
           <span class="ml-8px" :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
         </button>
       </router-link>
-      <router-link to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
-          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-create-active.svg" alt="">
-          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-create.svg" alt="">
-          <span class="ml-8px">{{$t('slider.create')}}</span>
+      <router-link :to="`/wallet/${getAccountInfo.twitterUsername}/reward`"
+                   class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center"
+                 :class="isActive || isWallet?'text-color62':'text-color99'">
+          <img v-show="isActive || isWallet"
+               class="w-16px min-w-16px" src="~@/assets/nav-wallet-active.svg" alt="">
+          <img v-show="!isActive && !isWallet"
+               class="w-16px min-w-16px" src="~@/assets/nav-wallet.svg" alt="">
+          <span class="ml-8px">{{$t('slider.wallet')}}</span>
         </button>
       </router-link>
       <Menu class="" @show="(data) => {isShowMenu=data}">
@@ -46,6 +50,12 @@
           </button>
         </template>
       </Menu>
+      <router-link to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-44px flex justify-center items-center bg-color62 text-white rounded-full">
+          <span class="mr-8px font-bold">{{$t('slider.create')}}</span>
+          <img class="w-16px h-16px" src="~@/assets/icon-add-white.svg" alt="">
+        </button>
+      </router-link>
     </div>
     <div class="px-15px xl:px-1rem 2xl:px-2rem">
       <button v-if="!getAccountInfo"
@@ -55,13 +65,24 @@
         {{$t('signIn')}}
       </button>
       <template v-else>
-        <UserEnergyBar class="flex items-center gap-15px mb-15px"></UserEnergyBar>
+        <UserEnergyBar class="flex items-center gap-15px"></UserEnergyBar>
         <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
                      class="flex items-center">
-          <img class="w-50px h-50px min-w-50px min-h-50px rounded-full mr-10px"
-              @error="replaceEmptyImg"
-              :src="profileImg"
-              alt=""/>
+          <el-popover popper-class="c-popper" trigger="click" :teleported="false" placement="top-start">
+            <template #reference>
+              <img class="w-50px h-50px min-w-50px min-h-50px rounded-full mr-10px"
+                   @error="replaceEmptyImg"
+                   :src="profileImg"
+                   alt=""/>
+            </template>
+            <button class="h-46px flex justify-between items-center px-15px min-w-160px
+                           bg-blockBg light:bg-white light:shadow-color1A rounded-full"
+                    @click="signout">
+              <span>{{$t('logout')}}</span>
+              <i class="w-14px min-w-14px h-14px icon-logout"></i>
+            </button>
+          </el-popover>
+
           <div class="flex-1 overflow-hidden text-white light:text-color1A">
             <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px">
               {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
@@ -79,6 +100,18 @@
           </div>
         </router-link>
       </template>
+      <div class="hidden 2md:flex items-center gap-15px mt-25px">
+        <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
+                           flex items-center justify-center"
+                @click="gotoDC">
+          <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-discord.svg" alt="">
+        </button>
+        <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
+                           flex items-center justify-center"
+                @click="gotoOfficialTwitter">
+          <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter-white.svg" alt="">
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +122,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import Menu from "@/components/layout/Menu";
 import {MAX_RC, MAX_VP} from "@/config";
 import UserEnergyBar from "@/components/UserEnergyBar.vue";
+import {logout} from "@/utils/account";
 
 export default {
   name: "SliderBar",
@@ -105,6 +139,9 @@ export default {
     newMessage(){
       const newNoti = this.$store.state.noti.newNotis
       return newNoti && newNoti.length > 0
+    },
+    isWallet() {
+      return /^\/wallet/.test(this.$route.path)
     }
   },
   data() {
@@ -126,6 +163,22 @@ export default {
           "https://twitter.com/" + this.getAccountInfo.twitterUsername,
           "__blank"
       );
+    },
+    signout() {
+      this.$refs.menuBox.hide()
+      logout(this.getAccountInfo.twitterId).then(res => {
+      });
+      if (this.$route.meta.gotoHome) {
+        this.$router.replace('/')
+      }
+    },
+    gotoDC() {
+      this.$refs.menuBox.hide()
+      window.open('https://discord.gg/6QbcvSEDWF', '__blank')
+    },
+    gotoOfficialTwitter(){
+      this.$refs.menuBox.hide()
+      window.open('https://twitter.com/wormhole_3', '__blank')
     },
   }
 }

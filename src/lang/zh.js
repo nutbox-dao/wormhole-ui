@@ -446,7 +446,12 @@ export default {
     didRatio: '社交声誉: ',
     comRatio: '社区: ',
     topicRatio: '策展: ',
-    noRewardCanClaim: "没有可领取的奖励"
+    noRewardCanClaim: "没有可领取的奖励",
+    communityAsset: 'Community Asset',
+    communityBalance: 'Community Balance',
+    fundAddress: "Fund Address",
+    fundRatio: "Fund Ratio",
+    retainedRevenue: 'Retained Revenue',
   },
   info: {
     interactive: '互动',
@@ -465,7 +470,8 @@ export default {
     influence: '策展信用',
     info: '消息',
     create: '创建',
-    mine: '我的'
+    mine: '我的',
+    wallet: '钱包'
   },
   err: {
     serverErr: '内部错误',

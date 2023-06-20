@@ -16,9 +16,59 @@
            v-if="loadingPool">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    <div class="mt-30px" v-else-if="poolsData && (poolsData.length > 0)">
+    <div class="mt-70px" v-else-if="poolsData && (poolsData.length > 0)">
       <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
       <PoolRatio :animation='false' :pools-data="poolsData"/>
+    </div>
+    <div class="">
+      <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
+      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+          {{$t('community.communityBalance')}}
+        </div>
+        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px h-40px">
+          <input class="bg-transparent h-full w-full" disabled
+                 :value="10000" type="number">
+          <span class="">PNUT</span>
+        </div>
+      </div>
+      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+          {{$t('community.retainedRevenue')}}
+        </div>
+        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px h-40px">
+          <input class="bg-transparent h-full w-full" disabled
+                 :value="10000" type="number">
+          <span class="">PNUT</span>
+        </div>
+      </div>
+      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+          {{$t('community.fundAddress')}}
+        </div>
+        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px h-40px">
+          <input class="bg-transparent h-full w-full" disabled
+                 :value="'0xxxxx...'">
+        </div>
+      </div>
+      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+          {{$t('community.fundRatio')}}
+        </div>
+        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+                    light:bg-white light:border-colorE3 hover:border-primaryColor
+                    rounded-8px h-40px">
+          <input class="bg-transparent h-full w-full" disabled
+                 :value="0.00" type="number">
+          <span>%</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +94,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData'])
+    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData']),
   },
   async activated() {
     let count = 0;

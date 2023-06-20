@@ -106,7 +106,7 @@ const routes = [
     path: '/wallet/:user',
     name: 'wallet',
     component: WalletIndex,
-    meta: {gotoHome: true, header: 'hidden', tabbar: 'hidden'},
+    meta: {gotoHome: true},
     children: [
       {
         path: '/wallet/:user/wallet',

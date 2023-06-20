@@ -21,7 +21,7 @@
         </div>
         <div class="overflow-x-hidden">
           <div class="text-left font-400 mt-0.5rem">
-            <p class="cursor-pointer text-12px leading-20px 2xl:text-0.8rem 2xl:leading-1.6rem
+            <p class="cursor-pointer text-12px leading-16px 2xl:text-14px 2xl:leading-18px
                       text-color8B light:text-blueDark whitespace-pre-line"
                :class="contentClass">
               {{ post.text }}

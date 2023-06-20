@@ -1,19 +1,21 @@
 <template>
   <div class="w-full sm:max-w-600px lg:max-w-35rem mx-auto p-15px mx-auto flex flex-col">
-    <div v-if="getAccountInfo && getAccountInfo.ethAddress"
-         class="gradient-bg gradient-bg-color3 rounded-12px overflow-hidden mb-20px">
-      <div class="px-17px py-12px mb-1rem flex items-center justify-between cursor-pointer">
-        <span class="c-text-black text-white text-14px 2xl:text-0.8rem">{{$t('profileView.ethWallet')}}</span>
-      </div>
-      <div class="border-1 gradient-border light:gradient-border-colorCB
-                        overflow-hidden rounded-5px mx-0.4rem mb-1rem min-h-30px">
-        <div class="bg-color62/20 light:bg-white p-5px
-                          font-700 text-0.8rem leading-1.4rem light:text-blueDark
-                          break-all flex items-center justify-between">
-          <span class="sm:hidden">{{ getAccountInfo ? formatAddress(getAccountInfo.ethAddress, 16, 16) : '' }}</span>
-          <span class="hidden sm:block">{{ getAccountInfo ? getAccountInfo.ethAddress : ' ' }}</span>
-          <i class="w-20px h-20px ml-5px cursor-pointer icon-copy"
-             @click="copy(getAccountInfo.ethAddress)"></i>
+    <div class="p-15px bg-color62/30 light:bg-white light:shadow-color1A mb-1rem
+                flex items-center justify-between rounded-12px">
+      <div class="flex-1 flex items-center overflow-hidden mr-20px">
+        <div class="w-30px min-w-30px h-30px rounded-full bg-color62 flex justify-center items-center mr-10px">
+          <img class="w-14px" src="~@/assets/icon-wallet.svg" alt="">
+        </div>
+        <div class="flex-1 flex justify-between items-center">
+          <span class="sm:hidden text-color7D truncate text-14px">
+            {{ getAccountInfo ? formatAddress(getAccountInfo.ethAddress, 16, 16) : '' }}
+          </span>
+          <span class="hidden sm:flex flex-1 text-left whitespace-nowrap text-color7D truncate text-14px">
+            {{ getAccountInfo ? getAccountInfo.ethAddress : ' ' }}
+          </span>
+          <img class="w-14px min-w-14px ml-3px mr-8px"
+               @click="copy(getAccountInfo.ethAddress)"
+               src="~@/assets/icon-copy-primary.svg" alt="">
         </div>
       </div>
     </div>

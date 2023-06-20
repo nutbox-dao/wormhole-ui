@@ -1,6 +1,17 @@
 <template>
   <div class="" ref="blogRef">
     <div class="sm:rounded-1rem">
+      <div v-show="showCommunity && post.communityId"
+           @click.stop="$router.push('/community-detail/' + post.communityId)"
+           class="flex items-center mb-5px">
+        <div class="max-h-16px overflow-hidden">
+          <div class="mr-10px max-w-56px max-h-56px flex justify-end"
+               :class="avatarClass">
+            <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="communityIcon" alt="">
+          </div>
+        </div>
+        <span class="text-12px text-color8B light:text-color7D">{{ post.communityName }}</span>
+      </div>
       <div class="flex items-center">
         <Avatar :profile-img="profileImg"
                 :name="post.name"
@@ -109,16 +120,6 @@
           <div v-if="location" class="flex mt-0.8rem pointer-cursor">
             <img src="~@/assets/local.png" class="w-1.2rem h-1.2rem mt-0.2rem" alt="">
             <span class="ml-0.6rem c-text-medium text-blue-500">{{ location }}</span>
-          </div>
-          <div v-show="showCommunity && post.communityId"
-               @click.stop="$router.push('/community-detail/' + post.communityId)"
-               class="flex items-center mt-10px bg-color8B/30 light:bg-color1A w-max py-5px px-10px
-                      text-white text-12px rounded-full">
-            <span class="">{{$t('community.communityFrom')}}</span>
-            <div class="flex items-center">
-              <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="communityIcon" alt="">
-              <span>{{ post.communityName }}</span>
-            </div>
           </div>
           <slot name="bottom-btn-bar">
             <PostButtonGroup ref="postButtonRef"

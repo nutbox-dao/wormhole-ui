@@ -8,7 +8,7 @@
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
         <div class="flex gap-25px tabs overflow-x-auto no-scroll-bar pt-20px">
           <button class="tab h-30px whitespace-nowrap "
-                  :class="chainTab===index?'active-tab c-text-black text-24px':'text-color7D'"
+                  :class="chainTab===index?'active-tab c-text-black text-16px':'text-color7D text-14px'"
                   @click="selectTab(index)"
                   v-for="(name, index) of chainNames" :key="name">
             {{ name }}
@@ -99,7 +99,7 @@
           </div>
         </div>
         <div class="mt-30px">
-          <div class="text-24px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
+          <div class="text-16px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
           <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
             <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
             <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
@@ -135,7 +135,7 @@ import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed,
-  getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed, 
+  getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed,
   setCommunityAuthorRewardClaimed } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
@@ -306,9 +306,9 @@ export default {
           }
           allRewardsByChain[r.chainId].push(r)
         }
-        let results = await Promise.all(Object.keys(allRewardsByChain).map(chainId => 
-                        checkCommunityRewards(EVM_CHAINS_ID[chainId], 
-                        this.getAccountInfo?.twitterId, 
+        let results = await Promise.all(Object.keys(allRewardsByChain).map(chainId =>
+                        checkCommunityRewards(EVM_CHAINS_ID[chainId],
+                        this.getAccountInfo?.twitterId,
                         allRewardsByChain[chainId])))
         results = results.reduce((r, t) => ({...r, ...t}), {})
         let allReadyClaimedReward = {};

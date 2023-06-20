@@ -44,12 +44,12 @@
             <i class="w-14px min-w-14px h-14px icon-exchange"></i>
           </button>
           <div v-if="getAccountInfo && getAccountInfo.twitterUsername"
-               class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
+               class="2md:hidden h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
                @click="signout">
             <span>{{$t('logout')}}</span>
             <i class="w-14px min-w-14px h-14px icon-logout"></i>
           </div>
-          <div class="flex items-center gap-15px">
+          <div class="2md:hidden flex items-center gap-15px">
             <button class="h-24px w-24px bg-color8B light:bg-blueDark rounded-full
                            flex items-center justify-center"
                     @click="gotoDC">

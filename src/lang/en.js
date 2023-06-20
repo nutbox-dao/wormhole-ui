@@ -422,7 +422,7 @@ export default {
     grandTotalPost: 'Total {count} posts',
     enter: 'Enter',
     joinTime: 'Join in',
-    communityToken: 'Balance',
+    communityTokenBalance: 'Balance',
     influenceTip: 'Over {percent}% of community users',
     twitterInfluence: 'Twitter Reputation',
     activity: 'Activities',
@@ -446,7 +446,12 @@ export default {
     didRatio: 'Social influence: ',
     comRatio: 'Community: ',
     topicRatio: 'Curation: ',
-    noRewardCanClaim: "No claimable rewards"
+    noRewardCanClaim: "No claimable rewards",
+    communityAsset: 'Community Asset',
+    communityBalance: 'Community Balance',
+    fundAddress: "Fund Address",
+    fundRatio: "Fund Ratio",
+    retainedRevenue: 'Retained Revenue',
   },
   info: {
     interactive: 'Activities',
@@ -465,7 +470,8 @@ export default {
     influence: 'Credit',
     info: 'Notification',
     create: 'Create',
-    mine: 'Profile'
+    mine: 'Profile',
+    wallet: 'Wallet'
   },
   err: {
     serverErr: 'Server error',

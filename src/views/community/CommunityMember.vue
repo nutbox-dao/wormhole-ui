@@ -18,7 +18,7 @@
       <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px gap-5px">
         <span class="flex-1 text-left">{{$t('community.member')}}</span>
         <span class="flex-1 text-right">{{$t('community.curationCredit')}}</span>
-        <span class="flex-1 text-right">{{$t('community.communityToken')}}</span>
+        <span class="flex-1 text-right">{{$t('community.communityTokenBalance')}}</span>
       </div>
       <div class="flex justify-between items-center px-15px py-10px gap-5px"
            v-for="(item, index) of members" :key="index">
