@@ -270,7 +270,6 @@ export default {
 
           getCommunityContractInfo(EVM_CHAINS_ID[res.chainId], communityId).then(communityInfo => {
             if (communityInfo) {
-              console.log('community contract info:', this.showingCommunity);
               this.$store.commit('community/saveCommunityContractInfo', communityInfo)
             } else {
               console.log('no community contract info')
