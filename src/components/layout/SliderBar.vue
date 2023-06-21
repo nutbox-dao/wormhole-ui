@@ -179,7 +179,7 @@ export default {
       );
     },
     signout() {
-      this.$refs.menuBox.hide()
+      // this.$refs.menuBox.hide()
       logout(this.getAccountInfo.twitterId).then(res => {
       });
       if (this.$route.meta.gotoHome) {
