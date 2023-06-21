@@ -176,7 +176,9 @@
             <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-40px text-white px-15px rounded-full w-full">
               {{$t('community.deposit')}}
             </button>
-            <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-40px text-white px-15px rounded-full w-full">
+            <button v-show="config['swap_url']" @click="open(config['swap_url'])"
+                    class="bg-colorF1 text-blueDark light:bg-color1A light:text-white h-40px
+                           px-15px rounded-full w-full">
               {{$t('community.exchange')}}
             </button>
           </div>
