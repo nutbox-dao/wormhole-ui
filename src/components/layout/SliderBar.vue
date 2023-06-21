@@ -41,7 +41,7 @@
           <span class="ml-8px">{{$t('slider.wallet')}}</span>
         </button>
       </router-link>
-      <router-link v-if="getAccountInfo.twitterUsername"
+      <router-link v-if="getAccountInfo&&getAccountInfo.twitterUsername"
                    :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
                    class="flex-1 w-full" v-slot="{isActive}">
         <button  class="w-full h-60px flex items-center"
