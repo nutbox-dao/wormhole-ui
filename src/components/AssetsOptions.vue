@@ -137,7 +137,7 @@
                 </button>
               </template>
               <template #default>
-                <div class="border-1 border-color8B/30 bg-blockBg max-h-240px flex flex-col overflow-hidden
+                <div class="border-1 border-color8B/30 bg-blockBg h-240px max-h-240px flex flex-col
                                 light:bg-white light:border-colorE3 hover:border-primaryColor
                                 rounded-12px py-10px overflow-x-hidden">
                   <div class="px-10px mb-10px">
@@ -150,14 +150,17 @@
                              type="text" :placeholder="$t('curation.inputErc20')">
                     </div>
                   </div>
-                  <div class="flex-1 overflow-auto">
+                  <div class="flex-1 overflow-y-auto">
                     <div v-if="customToken"
-                         class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
-                              py-3 px-10px overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                      <img v-if="TokenIcon[customToken.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[customToken.symbol]" alt="">
-                      <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
-                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden"
-                           @click="selectedToken = customToken;$refs.tokenPopover.hide()">
+                         class="flex items-center cursor-pointer border-b-1 border-color8B/10 light:border-colorE3
+                                py-3 px-10px  hover:bg-black/30 light:hover:bg-black/10"
+                         @click.stop="selectedToken = customToken;$refs.tokenPopover.hide()">
+                      <img v-if="TokenIcon[customToken.symbol]"
+                           class="w-34px max-h-34px h-34px mr-15px rounded-full"
+                           :src="TokenIcon[customToken.symbol]" alt="">
+                      <img v-else class="w-34px max-h-34px h-34px mr-15px"
+                           src="~@/assets/icon-token-default.svg" alt="">
+                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
                         <span class="text-15px">{{customToken.symbol}}</span>
                         <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {{customToken.address}}
@@ -165,19 +168,23 @@
                       </div>
                     </div>
                     <div v-for="token of tokenList" :key="token.address"
-                         @click="selectedToken=token;$refs.tokenPopover.hide()"
-                         class="h-full w-full flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                           overflow-x-hidden hover:bg-black/30 light:hover:bg-black/10">
-                      <img v-if="TokenIcon[token.symbol]" class="h-34px mr-15px rounded-full" :src="TokenIcon[token.symbol]" alt="">
-                      <img v-else class="h-34px mr-15px" src="~@/assets/icon-token-default.svg" alt="">
+                         @click.stop="selectedToken=token;$refs.tokenPopover.hide()"
+                         class=" flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                            hover:bg-black/30 light:hover:bg-black/10">
+                      <img v-if="TokenIcon[token.symbol]"
+                           class="w-34px max-h-34px h-34px mr-15px rounded-full"
+                           :src="TokenIcon[token.symbol]" alt="">
+                      <img v-else class="w-34px max-h-34px h-34px mr-15px"
+                           src="~@/assets/icon-token-default.svg" alt="">
                       <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
                         <div class="flex items-center">
                           <span class="text-15px">{{token.symbol}}</span>
-                          <span v-show="isWrappedToken[token.address]" class="ml-1rem cursor-pointer text-color62 text-14px" @click.stop="$router.push('/profile/' + '@' + this.getAccountInfo.twitterUsername + '/wallet/token')">{{ $t('common.get') }}</span>
+                          <span v-show="isWrappedToken[token.address]" class="ml-1rem cursor-pointer text-color62 text-14px"
+                                @click.stop="$router.push('/profile/' + '@' + this.getAccountInfo.twitterUsername + '/wallet/token')">{{ $t('common.get') }}</span>
                         </div>
                         <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {{token.address}}
-                          </span>
+                          {{token.address}}
+                        </span>
                       </div>
                     </div>
                   </div>
