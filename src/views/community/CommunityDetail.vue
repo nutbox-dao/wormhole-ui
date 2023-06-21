@@ -77,7 +77,7 @@
               </button>
               <button v-show="config['telegram']"
                       @click="open(config['telegram'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-white"
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
                      src="~@/assets/community-icon-telegram.svg" alt="">
               </button>
               <button v-show="config['official']"
