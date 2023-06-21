@@ -6,6 +6,7 @@ export default {
   curations: 'Curations',
   faq: 'FAQs',
   userguide: 'User Guides',
+  wordcloud: 'Word Cloud',
   user: 'Users',
   aboutUs: 'About Us',
   discord: 'Discord',

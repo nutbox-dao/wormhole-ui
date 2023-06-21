@@ -244,6 +244,15 @@
   background-image: url("~@/assets/menu-guide-light.svg");
 }
 
+.icon-word-cloud {
+  @extend .icon;
+  background-image: url("~@/assets/menu-word-cloud.svg");
+}
+.light .icon-word-cloud {
+  @extend .icon;
+  background-image: url("~@/assets/menu-word-cloud-light.svg");
+}
+
 .icon-referral {
   @extend .icon;
   background-image: url("~@/assets/menu-referral.svg");

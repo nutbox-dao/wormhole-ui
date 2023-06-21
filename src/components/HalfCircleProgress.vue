@@ -29,7 +29,7 @@
               :style="circlePathStyle"></path>
       </svg>
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-9/10 scale-80
-                  text-12px leading-12px c-text-black">
+                  text-12px leading-12px c-text-black brightness-0">
         <slot name="default">
           {{percentage.toFixed(2)}}%
         </slot>

@@ -6,6 +6,7 @@ export default {
   curations: '策展',
   faq: '常见问题',
   userguide: '用户指南',
+  wordcloud: '词云',
   aboutUs: '关于我们',
   user: '用户',
   discord: 'Discord',

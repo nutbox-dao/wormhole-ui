@@ -32,6 +32,11 @@
             <span>{{$t('ref.referre')}}</span>
             <i class="w-14px min-w-14px h-14px icon-referral"></i>
           </div>
+          <router-link to="/word-cloud" @click.stop="$refs.menuBox.hide()"
+                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
+            <span>{{$t('wordcloud')}}</span>
+            <i class="w-14px min-w-14px h-14px icon-word-cloud"></i>
+          </router-link>
           <div class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor"
                @click="changeTheme">
             <span>{{isDark?'Light Mode':'Dark Mode'}}</span>

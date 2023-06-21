@@ -1,30 +1,31 @@
 <template>
   <div class="w-13rem 2xl:w-15rem min-w-200px flex flex-col justify-between
-              border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem">
+              border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem"
+       :class="$route.name==='word-cloud'?'filter-link':''">
     <div class="flex flex-col items-start gap-5px px-15px xl:px-1rem 2xl:px-2rem text-18px">
       <router-link to="/square" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+        <button class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-home-active.svg" alt="">
           <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-home.svg" alt="">
           <span class="ml-8px">{{$t('slider.home')}}</span>
         </button>
       </router-link>
       <router-link to="/community" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+        <button  class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-community-active.svg" alt="">
           <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-community.svg" alt="">
           <span class="ml-8px">{{$t('slider.community')}}</span>
         </button>
       </router-link>
       <router-link to="/influence" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+        <button  class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-influence-active.svg" alt="">
           <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-influence.svg" alt="">
           <span class="ml-8px">{{$t('slider.influence')}}</span>
         </button>
       </router-link>
       <router-link to="/info" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center" :class="isActive?'text-color62':'text-color99'">
+        <button class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-message-active.svg" alt="">
           <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-message.svg" alt="">
           <span class="ml-8px" :class="newMessage ?  'relative c-badge' : ''">{{$t('slider.info')}}</span>
@@ -32,7 +33,7 @@
       </router-link>
       <router-link :to="`/wallet/${getAccountInfo?.twitterUsername ?? 'template'}/reward`"
                    class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center"
+        <button class="w-full h-60px flex items-center brightness-0"
                  :class="isActive || isWallet?'text-color62':'text-color99'">
           <img v-show="isActive || isWallet"
                class="w-16px min-w-16px" src="~@/assets/nav-wallet-active.svg" alt="">
@@ -44,7 +45,7 @@
       <router-link v-if="getAccountInfo&&getAccountInfo.twitterUsername"
                    :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
                    class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center"
+        <button  class="w-full h-60px flex items-center brightness-0"
                  :class="isActive || isProfile?'text-color62':'text-color99'">
           <img v-show="isActive || isProfile"
                class="w-16px min-w-16px" src="~@/assets/nav-profile-active.svg" alt="">
@@ -55,14 +56,14 @@
       </router-link>
       <Menu class="" @show="(data) => {isShowMenu=data}">
         <template #menu-toggle>
-          <button class="w-full h-60px flex items-center" :class="isShowMenu?'text-color62':'text-color99'">
+          <button class="w-full h-60px flex items-center brightness-0" :class="isShowMenu?'text-color62':'text-color99'">
             <img v-show="isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more-active.svg" alt="">
             <img v-show="!isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more.svg" alt="">
             <span class="ml-8px">{{$t('common.more')}}{{$refs.menuBox}}</span>
           </button>
         </template>
       </Menu>
-      <router-link to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
+      <router-link v-if="getAccountInfo" to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
         <button  class="w-full h-44px flex justify-center items-center bg-color62 text-white rounded-full">
           <span class="mr-8px font-bold">{{$t('slider.create')}}</span>
           <img class="w-16px h-16px" src="~@/assets/icon-add-white.svg" alt="">
@@ -86,7 +87,7 @@
                    :src="profileImg"
                    alt=""/>
               <div class="flex-1 overflow-hidden text-white light:text-color1A">
-                <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px">
+                <div class="font-bold text-16px leading-20px light:text-blueDark text-left mb-4px brightness-0">
                   {{ getAccountInfo ? getAccountInfo.twitterName : "" }}
                 </div>
                 <div @click.stop="gotoTwitter"
@@ -95,9 +96,9 @@
                           flex items-center justify-center">
                     <img src="~@/assets/icon-twitter-white.svg" alt="">
                   </div>
-                  <span class="text-12px">
-                @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
-              </span>
+                  <span class="text-12px brightness-0">
+                    @{{getAccountInfo ? getAccountInfo.twitterUsername : " "}}
+                  </span>
                 </div>
               </div>
             </div>

@@ -237,3 +237,8 @@ div[contenteditable] {
   background: #CE395F;
   z-index: 4;
 }
+@media (min-width: 961px) {
+  .filter-link .brightness-0 {
+    filter: brightness(0);
+  }
+}
