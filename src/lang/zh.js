@@ -316,7 +316,7 @@ export default {
     tipToUser: "打赏资产给{'@'}{user}",
     tipToSpeaker: "打赏资产给Spekaers",
     network: '网络',
-    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广现有的推文或 Twitter Space.',
+    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广 Twitter Space.',
     selectCategoryTip:  '你要为推文或twitter space创建推广吗?',
     selectNewTweet: '或创建一条新推文',
     useExistTweet: '或者使用已有的推文',
