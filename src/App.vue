@@ -186,6 +186,7 @@ export default {
           }
         }
       }
+
       if (res3 && res3.length > 0) {
         for (let p of res3) {
           if (p.price) {
@@ -193,6 +194,10 @@ export default {
           }
         }
       }
+
+      prices['ferc'] = prices['0xc365b8cbde40cb902cae1bddf425a4c9e1f60d3f'];
+      prices['mferc'] = prices['0xb4ee30de6bf7e8f9efbfcc9715021144defde96f'];
+      
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
     },
