@@ -188,11 +188,11 @@ export default {
       }
     },
     gotoDC() {
-      this.$refs.menuBox.hide()
+      // this.$refs.menuBox.hide()
       window.open('https://discord.gg/6QbcvSEDWF', '__blank')
     },
     gotoOfficialTwitter(){
-      this.$refs.menuBox.hide()
+      // this.$refs.menuBox.hide()
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
   }
