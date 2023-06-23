@@ -25,7 +25,9 @@
     <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-transparent bg-blockBg light:bg-white
-                  light:shadow-color1A rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto">
+                  light:shadow-color1A rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
+           ref="webDetailPageRef"
+           @scroll="webPageScroll">
         <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
           <!-- description header -->
           <c-image :src="showingCommunity.banner"
@@ -146,7 +148,7 @@
             </button>
           </div>
         </div>
-        <div class="sm:px-15px">
+        <div class="sm:px-15px" >
           <KeepAlive>
             <component :is="activeComponent"
                        :id="showingCommunity.communityId"/>
@@ -252,7 +254,8 @@ export default {
     }
   },
   activated() {
-    if(this.scroll > 0) this.$refs.detailPageRef.scrollTo({top: this.scroll})
+    if(this.scroll > 0 && this.width<=960) this.$refs.detailPageRef.scrollTo({top: this.scroll})
+    if(this.scroll > 0 && this.width>960) this.$refs.webDetailPageRef.scrollTo({top: this.scroll})
     const communityId = this.$route.params.communityId;
     if (!communityId) {
       return this.$router.go(-1);
@@ -301,6 +304,10 @@ export default {
     onCopy,
     pageScroll() {
       this.scroll = this.$refs.detailPageRef.scrollTop
+    },
+    webPageScroll() {
+      console.log('=====')
+      this.scroll = this.$refs.webDetailPageRef.scrollTop
     },
     changeTab(index) {
       this.tabIndex = index
