@@ -36,6 +36,7 @@
 import { getPostNotiByUserId } from '@/api/api'
 import { mapState, mapGetters } from 'vuex';
 import { notify } from '@/utils/notify';
+import { logout } from '@/utils/account';
 import { parseTimestamp } from '@/utils/helper';
 import Reply from "@/components/info/Reply.vue";
 import Like from "@/components/info/Like.vue";
@@ -74,6 +75,13 @@ export default {
           }
         }
       } catch (e) {
+        if (e === 401) {
+          notify({message: this.$t("tips.loginExpire"), type: "error"})
+          logout(this.getAccountInfo.twitterId).then(() => {
+            this.$router.push('/')
+          }).catch();
+          return;
+        }
         notify({message: e, type: "error"})
       } finally {
         this.refreshing = false

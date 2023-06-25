@@ -214,7 +214,8 @@ export default {
     notRegisterUser: '未注册',
     tweetNotFound: '此推文可能已被删除',
     insuffientRC: "OP不足",
-    selectCommunityTag: "请选择帖子发布的社区。"
+    selectCommunityTag: "请选择帖子发布的社区。",
+    loginExpire: '登录信息过期，请重新登录'
   },
   ref: {
     referre: '推荐链接',

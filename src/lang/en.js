@@ -214,7 +214,8 @@ export default {
     notRegisterUser: ' Not registered',
     tweetNotFound: 'This tweet may have been deleted',
     insuffientRC: "Insuffiient OP",
-    selectCommunityTag: "Please selet a community to post."
+    selectCommunityTag: "Please selet a community to post.",
+    loginExpire: 'Login expired, please login again'
   },
   ref: {
     referre: 'Referrer',
