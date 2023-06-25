@@ -431,7 +431,9 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     SIGNATURE_FAILED: 451,
     INVALID_NONCE: 452,
     DB_ERROR: 453,
+
     SERVER_ERR: 500,
+    TWITTER_ERROR:  505,
 
     TWEET_NOT_FOUND: 701
   };

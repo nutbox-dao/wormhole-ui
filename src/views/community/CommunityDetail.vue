@@ -306,7 +306,6 @@ export default {
       this.scroll = this.$refs.detailPageRef.scrollTop
     },
     webPageScroll() {
-      console.log('=====')
       this.scroll = this.$refs.webDetailPageRef.scrollTop
     },
     changeTab(index) {

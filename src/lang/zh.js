@@ -215,7 +215,9 @@ export default {
     tweetNotFound: '此推文可能已被删除',
     insuffientRC: "OP不足",
     selectCommunityTag: "请选择帖子发布的社区。",
-    loginExpire: '登录信息过期，请重新登录'
+    loginExpire: '登录信息过期，请重新登录',
+    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞5次，请稍后再试",
+    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推5次，请稍后再试"
   },
   ref: {
     referre: '推荐链接',

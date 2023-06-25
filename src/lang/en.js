@@ -215,7 +215,9 @@ export default {
     tweetNotFound: 'This tweet may have been deleted',
     insuffientRC: "Insuffiient OP",
     selectCommunityTag: "Please selet a community to post.",
-    loginExpire: 'Login expired, please login again'
+    loginExpire: 'Login expired, please login again',
+    likeTooFrequent: `You can only "like" max. 5 times within a 15 minute period. Please try again later.`,
+    retweetTooFrequent: `You can only "retweet" max. 5 times within a 15 minute period. Please try again later.`
   },
   ref: {
     referre: 'Referrer',
