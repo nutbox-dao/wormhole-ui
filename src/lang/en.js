@@ -214,7 +214,9 @@ export default {
     notRegisterUser: ' Not registered',
     tweetNotFound: 'This tweet may have been deleted',
     insuffientRC: "Insuffiient OP",
-    selectCommunityTag: "Please selet a community to post."
+    selectCommunityTag: "Please selet a community to post.",
+    likeTooFrequent: `You can only "like" max 5 times per 15 minutes, please try later.`,
+    retweetTooFrequent: `You can only "retweet" max 5 times per 15 minutes, please try later.`
   },
   ref: {
     referre: 'Referrer',
