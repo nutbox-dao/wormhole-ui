@@ -32,12 +32,12 @@
         </div>
         <button v-if="(chainId !== community.chainId)"
                 class="ny-gradient-btn gradient-btn-disabled-grey w-full
-                        flex items-center justify-center min-w-10rem px-20px mt-5px text-4px
+                        flex items-center justify-center min-w-10rem px-20px mt-5px text-14px
                         rounded-full h-40px text-white font-bold" @click="connect">
           {{ $t('common.connectMetamask') }}
           <c-spinner v-show="connecting" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
-        <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-4px
+        <button v-else class="flex items-center justify-center bg-ny-btn-gradient mt-5px text-14px
                   h-40px px-20px rounded-full text-white w-full font-bold"
                 :disabled="claiming || accountMismatch || list.length === 0"
                 @click="claimReward">
@@ -243,7 +243,7 @@ export default {
             const ids = this.list.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
             if (amount == '0') {
-              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'}) 
+              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
               const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
               this.$store.commit('curation/saveCommunityRewards', list)
               return;
@@ -258,7 +258,7 @@ export default {
             const ids = this.list.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
             if (amount == '0') {
-              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'}) 
+              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
               const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
               this.$store.commit('curation/saveCommunityAuthorRewards', list)
               return;
@@ -267,7 +267,7 @@ export default {
             await setCommunityAuthorRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             if (this.communityAuthorRewards) {
               const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
-              
+
               this.$store.commit('curation/saveCommunityAuthorRewards', list)
             }
         }
