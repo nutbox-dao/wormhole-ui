@@ -21,21 +21,22 @@
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
                   2md:h-full no-scroll-bar 2md:overflow-auto">
-        <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
-
+        <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px flex flex-col">
           <c-image :src="topic?.banner"
-                   class="w-full h-160px min-h-160px max-h-160px object-cover rounded-t-16px"></c-image>
-          <div class="flex justify-between items-center bg-color1A h-40px px-15px">
-            <span class="c-text-black text-16px text-white">{{ topic?.title }}</span>
-            <div class="flex items-center">
+                   class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px"></c-image>
+          <div class="flex justify-between items-start bg-color1A min-h-40px py-10px px-15px">
+            <span class="c-text-black text-16px leading-20px text-white break-word mr-15px text-left">
+              {{ topic?.title }}
+            </span>
+            <div class="flex items-center h-20px max-h-20px">
               <i class="w-18px h-18px btn-icon-tip"></i>
-              <span class="px-8px font-700 text-12px text-color7D">
+              <span class="px-8px font-700 text-12px leading-20px text-color7D">
                   {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
             </div>
           </div>
           <button @click="$router.go(-1)"
                   class="w-30px h-30px bg-white/20 rounded-full absolute top-15px left-15px
-                         flex items-center justify-center p-5px filter light:invert-30">
+                         hidden 2md:flex items-center justify-center p-5px filter light:invert-30">
             <img src="~@/assets/icon-back.svg" alt="">
           </button>
         </div>
@@ -227,8 +228,8 @@ import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice, formatDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew, 
-  getCommunityActivityById, getCommunityActivePostsByTrending, 
+import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew,
+  getCommunityActivityById, getCommunityActivePostsByTrending,
   getCommunityActivityReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
@@ -325,7 +326,7 @@ export default {
     async getCommunityTopics() {
       let topic;
       if (this.topics.length > 0) {
-        topic = this.topics.find(r => r.activityId === this.topicId) ?? 
+        topic = this.topics.find(r => r.activityId === this.topicId) ??
         this.pendingTopics.find(r => r.activityId === this.topicId) ??
         this.endedTopics.find(r => r.activityId === this.topicId)
       }
