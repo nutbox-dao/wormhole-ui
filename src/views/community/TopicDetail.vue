@@ -96,6 +96,9 @@
           </div>
           <div class="text-14px leading-20px text-left pb-15px">
             {{ topic?.description }}
+            <button class="ml-8px bg-colorBlue text-white rounded-full h-20px px-10px text-12px">
+              {{$t('community.joinIn')}}
+            </button>
           </div>
         </div>
         <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold 2md:hidden

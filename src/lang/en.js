@@ -456,7 +456,8 @@ export default {
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
-    pendingReward: 'Pending reward'
+    pendingReward: 'Pending reward',
+    joinIn: 'Join in'
   },
   info: {
     interactive: 'Activities',
