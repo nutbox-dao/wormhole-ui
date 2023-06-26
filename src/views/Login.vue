@@ -111,7 +111,7 @@ export default {
       }
       setTimeout(() => {
         randomWallet().then(wallet => this.wallet = wallet)
-        createKeypair().then(pair => this.pair = pair) 
+        createKeypair().then(pair => this.pair = pair)
       }, 200);
       // if (loginInfo.wallet) {
       //   this.wallet = loginInfo.wallet;
@@ -140,6 +140,7 @@ export default {
       notify({message, duration, type})
     },
     async login() {
+      const timeoutTip = this.$t('err.loginTimeout')
       this.$gtag.event('login', {
         method: 'login'
       })
@@ -154,14 +155,14 @@ export default {
         let needLogin = false
         if (isIOS && (source === "tokenpocket" || (navigator.userAgent.indexOf('TokenPocket_iOS') >= 0))) {
           console.log('token pocket');
-        } 
+        }
         if (isAndroid || isIOS) {
           needLogin = true;
           // const res = await twitterAuth(true);
           // window.location.href = res;
           // return;
         }
-        
+
         const res = await twitterAuth(needLogin);
         const params = res.split('?')[1].split('&')
         let state;
@@ -210,7 +211,7 @@ export default {
             await sleep(1)
           }
           // time out
-          this.showNotify(this.$t('err.loginTimeout'), 5000, 'error')
+          this.showNotify(timeoutTip, 5000, 'error')
           return;
         }else {
           if (userInfo.code === 0) {
