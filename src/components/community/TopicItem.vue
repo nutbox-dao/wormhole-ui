@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-12px overflow-hidden border-1 border-color8B/30 light:border-color7F">
-    <div class="flex justify-between items-center bg-color1A h-40px px-15px">
-      <span class="c-text-black text-16px text-white">{{ topic.title }}</span>
+    <div class="flex justify-between items-center bg-color1A h-40px px-15px truncate">
+      <span class="c-text-black text-16px text-white truncate mr-15px">{{ topic.title }}</span>
       <div v-if="status==='toBeStart'"
            class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-colorF7F2 text-color62 text-12px ">
