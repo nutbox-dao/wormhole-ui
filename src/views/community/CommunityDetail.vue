@@ -87,6 +87,11 @@
                 <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
                      src="~@/assets/community-icon-official.svg" alt="">
               </button>
+              <button v-show="config['doc']"
+                      @click="open(config['doc'])">
+                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                     src="~@/assets/community-icon-doc.svg" alt="">
+              </button>
             </div>
             <!-- token info -->
             <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
