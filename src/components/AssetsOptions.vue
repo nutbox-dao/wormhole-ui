@@ -160,31 +160,32 @@
                            :src="TokenIcon[customToken.symbol]" alt="">
                       <img v-else class="w-34px max-h-34px h-34px mr-15px"
                            src="~@/assets/icon-token-default.svg" alt="">
-                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark truncate">
                         <span class="text-15px">{{customToken.symbol}}</span>
-                        <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <div class="text-12px truncate">
                             {{customToken.address}}
-                          </span>
+                        </div>
                       </div>
                     </div>
                     <div v-for="token of tokenList" :key="token.address"
                          @click.stop="selectedToken=token;$refs.tokenPopover.hide()"
-                         class=" flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
-                            hover:bg-black/30 light:hover:bg-black/10">
+                         class="flex items-center cursor-pointer border-b-1 border-color8B/10 py-3 px-10px
+                                2md:hover:bg-black/30 2md:light:hover:bg-black/10">
                       <img v-if="TokenIcon[token.symbol]"
                            class="w-34px max-h-34px h-34px mr-15px rounded-full"
                            :src="TokenIcon[token.symbol]" alt="">
                       <img v-else class="w-34px max-h-34px h-34px mr-15px"
                            src="~@/assets/icon-token-default.svg" alt="">
-                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark overflow-x-hidden">
+                      <div class="flex-1 flex flex-col text-color8B light:text-blueDark truncate">
                         <div class="flex items-center">
                           <span class="text-15px">{{token.symbol}}</span>
-                          <span v-show="isWrappedToken[token.address]" class="ml-1rem cursor-pointer text-color62 text-14px"
+                          <span v-show="isWrappedToken[token.address]"
+                                class="ml-1rem cursor-pointer text-color62 text-14px truncate"
                                 @click.stop="$router.push('/profile/' + '@' + this.getAccountInfo.twitterUsername + '/wallet/token')">{{ $t('common.get') }}</span>
                         </div>
-                        <span class="text-12px whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <div class="text-12px truncate">
                           {{token.address}}
-                        </span>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -9,8 +9,8 @@
         <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
         <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
         <div class=" flex items-center justify-center">
-          <button class="ny-gradient-btn gradient-btn-disabled-grey 
-                          flex items-center justify-center min-w-10rem px-20px mt-2rem text-4px
+          <button class="ny-gradient-btn gradient-btn-disabled-grey
+                          flex items-center justify-center min-w-10rem px-20px mt-2rem text-14px
                           rounded-full h-40px text-white font-bold"
                           @click="$router.push('/community')">
               {{ $t("community.joinCommunity") }}
@@ -74,9 +74,9 @@ export default {
       try{
         const res  = await getJoinCommunityState(this.getAccountInfo.twitterId)
         this.$store.commit('community/saveCommunityCC', res)
-        
+
       } catch (e) {
-        
+
       } finally {
         this.refreshing = false
       }

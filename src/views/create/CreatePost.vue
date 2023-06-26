@@ -109,6 +109,14 @@ export default {
     }
   },
   mounted() {
+    const { communityId, communityTag, topicId } = history.state;
+    if (communityId) {
+      this.form.communityId = communityId
+      this.form.tag = communityTag
+    }
+    if (topicId) {
+      this.form.topic = topicId
+    }
   },
   methods: {
     setCommunityId(id) {

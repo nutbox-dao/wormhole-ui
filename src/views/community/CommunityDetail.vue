@@ -1,6 +1,14 @@
 <template>
   <div class="h-full overflow-auto 2md:px-15px 2md:flex 2md:flex-col"
        ref="detailPageRef" @scroll="pageScroll">
+    <button v-if="tabIndex===0" v-show="scroll>200"
+            @click="$refs.detailPageRef.scrollTo({top: 0, behavior: 'smooth'}),
+                    $refs.webDetailPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+            class="flex items-center justify-center bg-color62
+                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
+                   rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
+      <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+    </button>
     <!-- back button -->
     <div v-if="scroll>30 || width>640"
          class="fixed w-full top-0 left-0 z-1 px-15px h-70px pt-23px flex justify-center items-center 2md:hidden

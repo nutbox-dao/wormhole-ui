@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between items-center py-10px gap-15px cursor-pointer">
+    <div class="flex justify-between items-center py-10px gap-15px cursor-pointer text-14px">
         <div class="flex-1 flex items-center truncate">
             <Avatar :profile-img="reward.profileImg"
                     :name="reward.name"
@@ -20,7 +20,7 @@
                 src="@/assets/icon-default-avatar.svg" v-else alt="">
             </template>
             </Avatar>
-            <span class="ml-6px">{{reward.username}}</span>
+            <span class="ml-6px truncate">{{reward.username}}</span>
         </div>
         <span>{{ formatAmount(reward.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(reward.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
     </div>
