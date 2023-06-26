@@ -149,11 +149,11 @@
                                          @onLike="$refs.postRef.onLike()"
                                          :recommend-data="curation"/>
                     </div>
-                    <button class="bg-color62 text-white h-34px font-bold
+                    <!-- <button class="bg-color62 text-white h-34px font-bold
                                w-full rounded-full text-12px"
                             @click="createPromotion">
                       {{ $t('postView.createNewPromotion') }}
-                    </button>
+                    </button> -->
                   </div>
                 </div>
                 <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
@@ -221,11 +221,11 @@
                                        @onLike="$refs.postRef.onLike()"
                                        :recommend-data="curation"/>
                   </div>
-                  <button class="bg-color62 text-white h-34px font-bold
+                  <!-- <button class="bg-color62 text-white h-34px font-bold
                                w-full rounded-full text-12px"
                           @click="createPromotion">
                     {{ $t('postView.createNewPromotion') }}
-                  </button>
+                  </button> -->
                 </div>
               </div>
               <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">

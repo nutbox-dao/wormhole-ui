@@ -115,7 +115,7 @@ export default {
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
     votingPower: 'Curating Power',
-    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (CP). Everyone has 100% CP to start, and it recovers 100% every 24 hours. ',
+    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (VP). Everyone has 100% VP to start, and it recovers 100% every 24 hours. ',
     detail: 'Detail'
   },
   profileView: {
@@ -214,7 +214,10 @@ export default {
     notRegisterUser: ' Not registered',
     tweetNotFound: 'This tweet may have been deleted',
     insuffientRC: "Insuffiient OP",
-    selectCommunityTag: "Please selet a community to post."
+    selectCommunityTag: "Please selet a community to post.",
+    loginExpire: 'Login expired, please login again',
+    likeTooFrequent: `You can only "like" max. 5 times within a 15 minute period. Please try again later.`,
+    retweetTooFrequent: `You can only "retweet" max. 5 times within a 15 minute period. Please try again later.`
   },
   ref: {
     referre: 'Referrer',
@@ -316,7 +319,7 @@ export default {
     tipToUser: "Tip asset to {'@'}{user}",
     tipToSpeaker: "Tip asset to speakers",
     network: 'Network',
-    createStepTip: 'You can post a tweet and promote it at the same time. You can promote an existing Tweet or Twitter Space ',
+    createStepTip: 'You can post a tweet and promote it at the same time. You can promote an existing Twitter Space ',
     selectCategoryTip:  'Are you going to promote a tweet or twitter space?',
     selectNewTweet: 'Or create a new tweet',
     useExistTweet: 'Or use an existing tweet',

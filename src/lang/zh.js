@@ -115,7 +115,7 @@ export default {
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
     votingPower: '策展能量',
-    vpDes: '任何一个策展动作(点赞/引用/转推)都会消耗策展信用（CP）。用户初始会拥有100%的CP，消耗后会在24小时内恢复满。',
+    vpDes: '任何一个策展动作(点赞/引用/转推)都会消耗策展信用（VP）。用户初始会拥有100%的VP，消耗后会在24小时内恢复满。',
     detail: '详情'
   },
   profileView: {
@@ -214,7 +214,10 @@ export default {
     notRegisterUser: '未注册',
     tweetNotFound: '此推文可能已被删除',
     insuffientRC: "OP不足",
-    selectCommunityTag: "请选择帖子发布的社区。"
+    selectCommunityTag: "请选择帖子发布的社区。",
+    loginExpire: '登录信息过期，请重新登录',
+    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞5次，请稍后再试",
+    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推5次，请稍后再试"
   },
   ref: {
     referre: '推荐链接',
@@ -316,7 +319,7 @@ export default {
     tipToUser: "打赏资产给{'@'}{user}",
     tipToSpeaker: "打赏资产给Spekaers",
     network: '网络',
-    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广现有的推文或 Twitter Space.',
+    createStepTip: '你可以发布一条推文并立即推广. 你还可以推广 Twitter Space.',
     selectCategoryTip:  '你要为推文或twitter space创建推广吗?',
     selectNewTweet: '或创建一条新推文',
     useExistTweet: '或者使用已有的推文',
