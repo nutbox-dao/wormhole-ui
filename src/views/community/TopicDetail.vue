@@ -96,7 +96,7 @@
           </div>
           <div class="text-14px leading-20px text-left pb-15px">
             {{ topic?.description }}
-            <button class="ml-8px bg-colorBlue text-white rounded-full h-20px px-10px text-12px">
+            <button @click="join" class="ml-8px bg-color62 text-white rounded-full h-20px px-10px text-14px">
               {{$t('community.joinIn')}}
             </button>
           </div>
@@ -361,6 +361,22 @@ export default {
     },
     async onLoad() {
 
+    },
+    join() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      if (this.showingCommunity.communityId && this.topicId) {
+        this.$router.push({
+          name: 'create-curation',
+          state: {
+            communityId: this.showingCommunity.communityId,
+            communityTag: this.showingCommunity.displayTag,
+            topicId: this.topic.tag
+          }
+        })
+      }
     },
     async rewardRefresh() {
       try{
