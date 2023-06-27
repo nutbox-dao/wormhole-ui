@@ -8,15 +8,15 @@
               @click="tabIndex=0">
         Tweet on-chain
       </button>
-      <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+      <!-- <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
               :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
               @click="tabIndex=1">
         Tweet & Promote
-      </button>
+      </button> -->
     </div>
     <div class="container mx-auto max-w-50rem flex-1 overflow-auto no-scroll-bar">
-      <CreatePost v-if="tabIndex===0"/>
-      <CreateRecommend v-if="tabIndex===1"/>
+      <CreatePost/>
+      <!-- <CreateRecommend v-if="tabIndex===1"/> -->
     </div>
   </div>
 </template>

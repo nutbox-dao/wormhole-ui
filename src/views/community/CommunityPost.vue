@@ -122,8 +122,6 @@ export default {
       if(this.typeIndex == 0) {
         return this.trendingPosts ?? []
       }else if(this.typeIndex == 1) {
-        return this.promotionPosts ?? []
-      }else if (this.typeIndex == 2) {
         return this.newPosts ?? []
       }
       return []
@@ -131,7 +129,8 @@ export default {
   },
   data() {
     return {
-      postType: ['Trending', 'Promotion', 'new'],
+      // postType: ['Trending', 'Promotion', 'new'],
+      postType: ['Trending', 'new'],
       typeIndex: 0,
       listLoading: false,
       listFinished: false,
@@ -182,18 +181,7 @@ export default {
           }).catch(e => {
             notify({message: e, type: 'error'})
           }).finally(() => this.refreshing = false)
-        }else if (this.typeIndex == 1) {
-          getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
-            if (ps && ps.length >= 0) {
-              this.$store.commit('community/savePromotionPosts', ps)
-              if (ps.length < 12) {
-                this.listFinished = true
-              }
-            }
-          }).catch(e => {
-            notify({message: e, type: 'error'})
-          }).finally(() => this.refreshing = false)
-        }else if (this.typeIndex == 2){
+        }else if (this.typeIndex == 1){
           getCommunityNewPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId).then(ps => {
             if (ps && ps.length >= 0) {
               this.$store.commit('community/saveNewPosts', ps)
@@ -228,23 +216,7 @@ export default {
           }).catch(e => {
             notify({message: e, type: 'error'})
           }).finally(() => this.listLoading = false)
-        }else if (this.typeIndex == 1) {
-          const promotionPosts = this.promotionPosts ?? [];
-          let lastPostId;
-          if (promotionPosts.length > 0) {
-            lastPostId = promotionPosts[promotionPosts.length - 1].postId;
-          }
-          getCommunityPromotionPosts(this.getAccountInfo?.twitterId, this.showingCommunity.communityId, lastPostId).then(ps => {
-            if (ps && ps.length > 0) {
-              this.$store.commit('community/savePromotionPosts', promotionPosts.concat(ps))
-              if (ps.length < 12) {
-                this.listFinished = true
-              }
-            }
-          }).catch(e => {
-            notify({message: e, type: 'error'})
-          }).finally(() => this.listLoading = false)
-        }else if (this.typeIndex == 2){
+        } else if (this.typeIndex == 1){
           const newPosts = this.newPosts ?? [];
           let lastPostId;
           if (newPosts.length > 0) {
