@@ -33,16 +33,6 @@
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-<!--            <el-select v-model="rankValue" placement="bottom-end"-->
-<!--                       class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"-->
-<!--                       size="small">-->
-<!--              <el-option-->
-<!--                  v-for="item in rankOptions"-->
-<!--                  :key="item.value"-->
-<!--                  :label="$t(`${item.label}`)"-->
-<!--                  :value="item.value"-->
-<!--              />-->
-<!--            </el-select>-->
           </div>
         </div>
         <el-collapse-transition>
