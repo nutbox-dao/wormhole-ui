@@ -9,22 +9,40 @@
                     :class="selectedTag===tag?'text-white bg-color62':'text-color62'"
                     @click="setSelectTag(tag)">{{tag}}</button>
           </div>
-          <div class="flex items-center relative pl-2px">
+          <div class="flex items-center relative pl-4px">
             <div class="w-1px h-36px bg-color62/34 filter blur-3px"></div>
             <button class="font-500 text-white light:text-blueDark px-12px hidden 2md:block text-14px"
                     @click="showMoreTag=!showMoreTag">
               {{ $t('common.more') }}
             </button>
-            <el-select v-model="rankValue" placement="bottom-end"
-                       class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"
-                       size="small">
-              <el-option
-                  v-for="item in rankOptions"
-                  :key="item.value"
-                  :label="$t(`${item.label}`)"
-                  :value="item.value"
-              />
-            </el-select>
+            <el-dropdown class="bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select h-26px">
+              <button class="flex items-center px-4px">
+                <img class="filter invert-80 light:invert-0 w-26px h-26px min-w-26px 2md:hidden"
+                     :src="rankOptions[rankValue]['icon']" alt="">
+                <span class="text-14px hidden 2md:block ml-6px mr-4px">
+                  {{$t(`${rankOptions[rankValue].label}`)}}
+                </span>
+                <img class="w-10px ml-3px mr-6px" src='~@/assets/icon-arrow-primary.svg' alt="">
+              </button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="item in rankOptions"
+                                    :key="item.value" @click="rankValue=item.value">
+                    {{$t(`${item.label}`)}}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+<!--            <el-select v-model="rankValue" placement="bottom-end"-->
+<!--                       class="w-100px bg-color8B/30 light:bg-color62/10 rounded-8px c-small-select"-->
+<!--                       size="small">-->
+<!--              <el-option-->
+<!--                  v-for="item in rankOptions"-->
+<!--                  :key="item.value"-->
+<!--                  :label="$t(`${item.label}`)"-->
+<!--                  :value="item.value"-->
+<!--              />-->
+<!--            </el-select>-->
           </div>
         </div>
         <el-collapse-transition>
@@ -154,7 +172,10 @@ export default {
       scroll: 0,
       showMoreTag: false,
       // rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'promoted'}],
-      rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}],
+      rankOptions: [
+          {value: 0, label: 'trending', icon: require('@/assets/post-type-icon0.svg')},
+        {value: 1, label: 'new', icon: require('@/assets/post-type-icon1.svg')}
+      ],
       rankValue: 0,
       customizeTagList: [],
       selectedPost: null,
