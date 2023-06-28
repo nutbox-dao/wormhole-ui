@@ -40,8 +40,8 @@
             <img src="~@/assets/icon-back.svg" alt="">
           </button>
         </div>
-        <div class="px-15px">
-          <div class="flex justify-between items-center my-15px">
+        <div class="px-15px overflow-hidden">
+          <div class="flex  justify-between items-center my-15px gap-8px">
             <div v-if="status==='toBeStart'"
                  class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
                   bg-colorF7F2 text-color62 text-12px ">
@@ -59,13 +59,12 @@
               </van-count-down>
             </div>
             <div v-else-if="status==='inProgress'"
-                 class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
-                  bg-color62 text-white text-12px ">
-              <span>🔥 {{$t('community.inProgress')}}</span>
-              <span class="w-1px h-10px bg-color62/50 mx-5px"></span>
+                 class="flex items-center gap-6px
+                        px-8px py-4px rounded-full whitespace-nowrap bg-color62 text-white text-12px ">
+              <span class="">🔥 <span class="hidden xs:block">{{$t('community.inProgress')}}</span></span>
               <span>
-                  {{ formatDateString(topic?.startTime) }} ~ {{ formatDateString(topic?.endTime) }}
-                </span>
+                {{ formatDateString(topic?.startTime) }} ~ {{ formatDateString(topic?.endTime) }}
+              </span>
             </div>
             <div v-else-if="status==='ended'"
                  class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
