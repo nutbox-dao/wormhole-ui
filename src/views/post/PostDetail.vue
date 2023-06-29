@@ -85,8 +85,8 @@
                   </div>
                 </div>
               </div>
-              
-              <div v-show="isWeb" class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
+
+              <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white lg:hidden">
                   <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
                     <div class="c-text-black mr-4px light:text-blueDark text-left text-20px">
                       {{$t('curation.createdCurations')}}
@@ -112,7 +112,7 @@
                                          :post="currentShowingDetail"/>
                   </div>
               </div>
-              
+
               <div class="lg:bg-blockBg lg:light:bg-white light:lg:shadow-lg rounded-12px lg:mt-15px lg:px-15px">
                 <div class="c-text-black text-left text-1.2rem lg:block py-15px">
                   {{ $t('common.comments') }}
@@ -134,7 +134,7 @@
               </div>
             </div>
             <div class="col-span-1 lg:col-span-2 xl:col-span-1 hidden lg:block">
-              <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
+              <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
                 <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
                   <div class="c-text-black mr-4px light:text-blueDark text-left">
                     {{$t('curation.createdCurations')}}

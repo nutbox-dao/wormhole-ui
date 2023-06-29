@@ -1,5 +1,5 @@
 <template>
-  <div class="text-14px">
+  <div class="text-14px" ref="postCurationRef">
     <div class="flex justify-between items-center mb-10px">
       <span class="text-14px c-text-black">{{ $t('curation.startTime') }}</span>
       <button class="h-20px px-12px text-12px bg-white/10 light:bg-color8B/20 rounded-6px"
@@ -45,7 +45,9 @@
     </div> -->
     <div v-if="participant.length > 0" class="mt-15px">
       <div class="grid grid-cols-5 xs:grid-cols-10 lg:grid-cols-5 items-stretch gap-10px">
-        <div class="col-span-1 cursor-pointer" v-for="p of participant.slice(0,19)" :key="p" @click="gotoUserPage(p)">
+        <div class="col-span-1 cursor-pointer"
+             v-for="p of participant.slice(0,19)" :key="p"
+             @click="gotoUserPage(p)">
           <Avatar :profile-img="p.profileImg.replace('normal', '200x200')"
                   :name="p.twitterName"
                   :username="p.twitterUsername"
@@ -55,13 +57,15 @@
                   @gotoUserPage="gotoUserPage(p)">
             <template #avatar-img>
               <img v-if="p.profileImg"
-                   class="w-full min-w-28px h-full min-w-28px  rounded-full object-cover
+                   class="rounded-full object-cover
                       border-2 border-color62 light:border-white bg-color8B/10"
+                   :style="{width: `${mAvatarSize}px`, height: `${mAvatarSize}px`, minWidth: `${mAvatarSize}px`, minHeight: `${mAvatarSize}px`}"
                    @error="replaceEmptyImg"
                    :src="p.profileImg.replace('normal', '200x200')" alt="">
               <img v-else
-                   class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
-                              border-2 border-color62 light:border-white bg-color8B/10"
+                   class="rounded-full
+                          border-2 border-color62 light:border-white bg-color8B/10"
+                   :style="{width: `${mAvatarSize}px`, height: `${mAvatarSize}px`, minWidth: `${mAvatarSize}px`, minHeight: `${mAvatarSize}px`}"
                    src="~@/assets/icon-default-avatar.svg" alt="">
             </template>
           </Avatar>
@@ -125,6 +129,8 @@ import {mapGetters} from "vuex";
 import Submissions from "@/views/curations/Submissions";
 import Avatar from "@/components/Avatar";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import {useWindowSize} from "@vant/use";
+import {onMounted, ref, watch} from "vue";
 
 export default {
   name: "PostCreatedCuration",
@@ -139,6 +145,28 @@ export default {
     post: {
       type: Object,
       default: {}
+    }
+  },
+  setup() {
+    const { width, height } = useWindowSize();
+    const postCurationRef = ref()
+    const mAvatarSize = ref(0)
+    const setAvatarSize = () => {
+      const boxSize = postCurationRef.value.clientWidth || 0
+      if(boxSize<=0) return
+      if(boxSize>427) {
+        mAvatarSize.value = (boxSize-90)/10
+      } else {
+        mAvatarSize.value = (boxSize-40)/5
+      }
+    }
+    watch([width, height], () => {
+      setAvatarSize()
+    });
+    onMounted(() => {setAvatarSize()})
+    return {
+      postCurationRef,
+      mAvatarSize
     }
   },
   data() {
