@@ -461,7 +461,7 @@ export default {
     joinIn: '参与'
   },
   info: {
-    interactive: '互动',
+    interactive: '通知',
     reward: '打赏',
     system: '系统',
     quoted: '引用了',

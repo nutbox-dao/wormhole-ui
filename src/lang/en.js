@@ -461,7 +461,7 @@ export default {
     joinIn: 'Join in'
   },
   info: {
-    interactive: 'Activities',
+    interactive: 'Notification',
     reward: 'Tips',
     system: 'System',
     quoted: 'quoted',
