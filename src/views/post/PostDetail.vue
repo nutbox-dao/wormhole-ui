@@ -120,7 +120,7 @@
               </div>
               <div v-show="tabIndex===1">
                 <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
-                  <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
+                  <!-- <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
                     <div class="c-text-black mr-4px light:text-blueDark text-left text-20px">
                       {{$t('curation.createdPromotion')}}
                     </div>
@@ -130,8 +130,8 @@
                       </template>
                       <div>{{ $t('postView.promotionTips') }}</div>
                     </el-popover>
-                  </div>
-                  <div class="px-20px pb-24px">
+                  </div> -->
+                  <!-- <div class="px-20px pb-24px">
                     <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
                       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
                     </div>
@@ -149,16 +149,11 @@
                                          @onLike="$refs.postRef.onLike()"
                                          :recommend-data="curation"/>
                     </div>
-                    <!-- <button class="bg-color62 text-white h-34px font-bold
-                               w-full rounded-full text-12px"
-                            @click="createPromotion">
-                      {{ $t('postView.createNewPromotion') }}
-                    </button> -->
-                  </div>
+                  </div> -->
                 </div>
                 <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
                   <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
-                    <div class="c-text-black mr-4px light:text-blueDark text-left">
+                    <div class="c-text-black mr-4px light:text-blueDark text-left text-20px">
                       {{$t('curation.createdCurations')}}
                     </div>
                     <el-popover placement="bottom" :width="200" trigger="hover">
@@ -191,7 +186,7 @@
               </div>
             </div>
             <div class="col-span-1 lg:col-span-2 xl:col-span-1 hidden lg:block">
-              <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
+              <!-- <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
                 <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
                   <div class="c-text-black mr-4px light:text-blueDark text-left">
                     {{$t('curation.createdPromotion')}}
@@ -221,13 +216,8 @@
                                        @onLike="$refs.postRef.onLike()"
                                        :recommend-data="curation"/>
                   </div>
-                  <!-- <button class="bg-color62 text-white h-34px font-bold
-                               w-full rounded-full text-12px"
-                          @click="createPromotion">
-                    {{ $t('postView.createNewPromotion') }}
-                  </button> -->
                 </div>
-              </div>
+              </div> -->
               <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white">
                 <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
                   <div class="c-text-black mr-4px light:text-blueDark text-left">
