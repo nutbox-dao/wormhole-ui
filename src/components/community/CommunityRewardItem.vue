@@ -144,8 +144,6 @@ export default {
     return {
       TokenIcon,
       tabIndex: 0,
-      rewardList: [],
-      authorList: [],
       EVM_CHAINS_ID,
       EVM_CHAINS,
       price: {},
@@ -202,9 +200,9 @@ export default {
     },
     list() {
       if (this.tabIndex === 0) {
-        return this.rewardList;
+        return (this.isExpand || this.width>=961) ? this.rewards : this.rewards.slice(0,3)
       }else {
-        return this.authorList
+        return (this.isExpand || this.width>=961) ? this.authorRewards : this.authorRewards.slice(0,3)
       }
     },
     accountMismatch() {
@@ -240,7 +238,7 @@ export default {
         if(this.tabIndex === 0) { //curation
             const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
-            const ids = this.list.map(c => c.curationId)
+            const ids = this.rewards.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
             if (amount == '0') {
               notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
@@ -255,7 +253,7 @@ export default {
         }else { // author
           const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
-            const ids = this.list.map(c => c.curationId)
+            const ids = this.authorRewards.map(c => c.curationId)
             const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
             if (amount == '0') {
               notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
@@ -293,8 +291,6 @@ export default {
     accountChanged().catch()
       getAccounts(true).then(wallet => {
     }).catch();
-    this.rewardList = (this.width>=961? this.rewards : this.rewards.slice(0,3))
-    this.authorList = (this.width>=961? this.authorRewards : this.authorRewards.slice(0,3))
   },
 }
 </script>
