@@ -5,7 +5,20 @@
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
     <div class="h-full overflow-auto">
+
+
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
+        <div class="mt-30px">
+          <div class="text-16px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
+          <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
+            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+          </div>
+          <CommunityRewardItem v-else v-for="communityId of getRewardCommunityInfo" :key="communityId"
+                               :community-id="communityId"></CommunityRewardItem>
+        </div>
+
+        <div class="text-16px c-text-black active-tab w-max mt-30px">{{$t('walletView.promotionReward')}}</div>
         <div class="flex gap-25px tabs overflow-x-auto no-scroll-bar pt-20px">
           <button class="tab h-30px whitespace-nowrap "
                   :class="chainTab===index?'active-tab c-text-black text-16px':'text-color7D text-14px'"
@@ -97,15 +110,6 @@
                    src="~@/assets/icon-select-arrow.svg" alt="">
             </button>
           </div>
-        </div>
-        <div class="mt-30px">
-          <div class="text-16px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
-            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
-          </div>
-          <CommunityRewardItem v-else v-for="communityId of getRewardCommunityInfo" :key="communityId"
-                               :community-id="communityId"></CommunityRewardItem>
         </div>
       </div>
     </div>

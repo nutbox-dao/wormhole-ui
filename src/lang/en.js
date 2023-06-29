@@ -137,6 +137,7 @@ export default {
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',
+    promotionRewardL: 'Promotion reward',
     withdraw: 'Withdraw',
     promotionReward: 'Promotion reward'
   },

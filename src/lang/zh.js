@@ -137,6 +137,7 @@ export default {
     record: '记录',
     historyRecord: '历史记录',
     communityReward: '社区奖励',
+    promotionReward: '推广奖励',
     withdraw: '提现',
     promotionReward: '推广奖励'
   },
