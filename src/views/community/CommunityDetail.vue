@@ -131,9 +131,9 @@
             </div>
           </div>
         </div>
-        <div class="sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 shadow-tab pt-5px">
+        <div class="sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 shadow-tab pt-5px sm:pt-0">
           <div v-if="scroll>=90"
-               class="absolute w-40px h-4px bg-color8B/30 rounded-full left-1/2 top-5px transform -translate-x-1/2"></div>
+               class="absolute w-40px h-4px bg-color8B/30 rounded-full left-1/2 top-5px transform -translate-x-1/2 sm:hidden"></div>
           <div class="w-full overflow-auto no-scroll-bar">
             <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
                 border-b-0.5px border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
@@ -248,7 +248,7 @@ export default {
       communityId: '',
       isAdmin: false,
       activeComponent: markRaw(CommunityPost),
-      infoMaxHeight: 160
+      infoMaxHeight: 1000
     }
   },
   watch: {
@@ -273,7 +273,7 @@ export default {
     }
   },
   activated() {
-    if(this.width<500 && this.scroll < 400) {
+    if(this.width<640 && this.scroll < 400) {
       this.scroll = 90
       this.infoMaxHeight = 160
     }
