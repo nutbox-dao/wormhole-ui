@@ -1,7 +1,7 @@
 <template>
   <div class="py-10px">
     <div class="w-full" ref="wRef"></div>
-    <div class="">
+    <div v-if="!refreshing && spaces && spaces.length>0" class="">
       <div class="px-15px flex justify-between items-center mt-5px">
         <span class="text-16px leading-25px font-bold">Twitter Space</span>
       </div>

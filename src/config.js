@@ -652,19 +652,17 @@ export const Curator_NFT = {
 
 // vp consume
 export const VP_CONSUME = Object.freeze({
-    POST: 30,
-    QUOTE: 20,
-    RETWEET: 15,
-    LIKE: 5,
-    TIP: 10
+    QUOTE: 35,
+    RETWEET: 25,
+    LIKE: 10,
 });
 // rc consume
 export const RC_CONSUME = Object.freeze({
-    POST: 200,
-    QUOTE: 20,
-    RETWEET: 15,
-    COMMENT: 15,
-    LIKE: 5,
+    POST: 300,
+    QUOTE: 35,
+    RETWEET: 25,
+    COMMENT: 10,
+    LIKE: 10,
     TIP: 10,
     FOLLOW: 5
 });
