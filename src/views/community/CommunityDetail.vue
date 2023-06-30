@@ -30,101 +30,103 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
     </div>
-    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px sm:pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-transparent bg-blockBg light:bg-white
-                  light:shadow-color1A rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
+                  light:shadow-color1A sm:rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"
            @scroll="webPageScroll">
-        <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px">
-          <!-- description header -->
-          <c-image :src="showingCommunity.banner"
-                   class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
-          <div class="relative mt-95px px-15px truncate">
-            <div class="flex items-stretch truncate">
-              <c-image :src="showingCommunity.icon"
-                       class="w-72px h-72px min-w-72px min-h-72px border-2 border-colorF7 rounded-36px"></c-image>
-              <div class="flex-1 flex flex-col justify-between ml-15px truncate">
-                <div class="flex justify-between items-start truncate">
-                  <div class="text-left truncate">
-                    <div class="c-text-black text-24px text-white mb-8px truncate">{{showingCommunity.communityName}}</div>
-                    <div class="flex items-center text-white text-12px">
-                      <c-image :src="chain.main?.icon"
-                               class="w-14px h-14px min-w-14px rounded-full mr-4px"></c-image>
-                      <span>{{chain.chainName}}</span>
-                      <div class="w-1px h-12px bg-white mx-8px"></div>
-                      <div>{{$t('community.peopleJoined', {num: showingCommunity.memberCount})}}</div>
+        <div class="overflow-hidden" :style="{maxHeight: `${infoMaxHeight}px`}">
+          <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px" ref="bannerRef">
+            <!-- description header -->
+            <c-image :src="showingCommunity.banner"
+                     class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
+            <div class="relative mt-95px px-15px">
+              <div class="flex items-stretch truncate">
+                <c-image :src="showingCommunity.icon"
+                         class="w-72px h-72px min-w-72px min-h-72px border-2 border-colorF7 rounded-36px bg-white"></c-image>
+                <div class="flex-1 flex flex-col justify-between ml-15px truncate">
+                  <div class="flex justify-between items-start truncate">
+                    <div class="text-left truncate">
+                      <div class="c-text-black text-24px text-white mb-8px truncate">{{showingCommunity.communityName}}</div>
+                      <div class="flex items-center text-white text-12px">
+                        <c-image :src="chain.main?.icon"
+                                 class="w-14px h-14px min-w-14px rounded-full mr-4px"></c-image>
+                        <span>{{chain.chainName}}</span>
+                        <div class="w-1px h-12px bg-white mx-8px"></div>
+                        <div>{{$t('community.peopleJoined', {num: showingCommunity.memberCount})}}</div>
+                      </div>
                     </div>
+                    <button :disabled="showingCommunity.joined"
+                            class="h-34px rounded-full bg-white flex justify-center items-center px-15px shadow-color1A"
+                            @click.stop="join">
+                      <img v-if="!showingCommunity.joined" class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
+                      <span class="text-14px font-500 text-color46">{{ showingCommunity.joined ? $t('community.joined') : $t('community.join')}}</span>
+                    </button>
                   </div>
-                  <button :disabled="showingCommunity.joined"
-                          class="h-34px rounded-full bg-white flex justify-center items-center px-15px shadow-color1A"
-                          @click.stop="join">
-                    <img v-if="!showingCommunity.joined" class="w-14px h-14px mr-4px" src="~@/assets/icon-add-black.svg" alt="">
-                    <span class="text-14px font-500 text-color46">{{ showingCommunity.joined ? $t('community.joined') : $t('community.join')}}</span>
-                  </button>
-                </div>
-                <!-- tag -->
-                <div class="flex flex-wrap gap-5px mt-8px">
+                  <!-- tag -->
+                  <div class="flex flex-wrap gap-5px mt-8px">
                     <span v-for="(tag, tIndex) of showingCommunity.tags ? showingCommunity.tags.split(',') : []" :key="tIndex"
                           class="border-1 border-color62 rounded-full bg-colorF1 text-color62 text-12px h-18px
                                 px-8px flex justify-center items-center">{{tag}}
                     </span>
-                </div>
-              </div>
-            </div>
-            <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
-            <!-- social link -->
-            <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
-              <button v-show="config['twitter']"
-                   @click="open(config['twitter'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
-                     src="~@/assets/community-icon-twitter.svg" alt="">
-              </button>
-              <button v-show="config['discord']"
-                      @click="open(config['discord'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
-                     src="~@/assets/community-icon-discord.svg" alt="">
-              </button>
-              <button v-show="config['telegram']"
-                      @click="open(config['telegram'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
-                     src="~@/assets/community-icon-telegram.svg" alt="">
-              </button>
-              <button v-show="config['official']"
-                      @click="open(config['official'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
-                     src="~@/assets/community-icon-official.svg" alt="">
-              </button>
-              <button v-show="config['doc']"
-                      @click="open(config['doc'])">
-                <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
-                     src="~@/assets/community-icon-doc.svg" alt="">
-              </button>
-            </div>
-            <!-- token info -->
-            <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
-                          flex 2md:hidden justify-between items-center">
-              <div class="flex items-center">
-                <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
-                     :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
-                <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
-                <div class="flex flex-col items-start">
-                  <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
-                  <div class="flex items-center">
-                    <span class="text-color7D text-12px mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
-                    <img class="w-14px h-14px cursor-pointer"
-                         @click="onCopy(showingCommunity.rewardToken)"
-                         src="~@/assets/icon-copy-primary.svg" alt="">
                   </div>
                 </div>
               </div>
-              <div class="flex gap-10px">
-                <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-30px text-white px-15px rounded-full">
-                  {{$t('community.deposit')}}
+              <div class="text-left text-13px leading-20px mt-10px">{{showingCommunity.description}}</div>
+              <!-- social link -->
+              <div v-if="Object.keys(config).length > 0" class="mt-15px flex items-center gap-10px">
+                <button v-show="config['twitter']"
+                        @click="open(config['twitter'])">
+                  <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                       src="~@/assets/community-icon-twitter.svg" alt="">
                 </button>
-                <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-30px text-white px-15px rounded-full">
-                  {{$t('community.exchange')}}
+                <button v-show="config['discord']"
+                        @click="open(config['discord'])">
+                  <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                       src="~@/assets/community-icon-discord.svg" alt="">
                 </button>
+                <button v-show="config['telegram']"
+                        @click="open(config['telegram'])">
+                  <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                       src="~@/assets/community-icon-telegram.svg" alt="">
+                </button>
+                <button v-show="config['official']"
+                        @click="open(config['official'])">
+                  <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                       src="~@/assets/community-icon-official.svg" alt="">
+                </button>
+                <button v-show="config['doc']"
+                        @click="open(config['doc'])">
+                  <img class="w-24px min-w-24px h-24px min-h-24px rounded-full bg-color35"
+                       src="~@/assets/community-icon-doc.svg" alt="">
+                </button>
+              </div>
+              <!-- token info -->
+              <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
+                          flex 2md:hidden justify-between items-center">
+                <div class="flex items-center">
+                  <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
+                       :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
+                  <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
+                  <div class="flex flex-col items-start">
+                    <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
+                    <div class="flex items-center">
+                      <span class="text-color7D text-12px mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
+                      <img class="w-14px h-14px cursor-pointer"
+                           @click="onCopy(showingCommunity.rewardToken)"
+                           src="~@/assets/icon-copy-primary.svg" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex gap-10px">
+                  <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-30px text-white px-15px rounded-full">
+                    {{$t('community.deposit')}}
+                  </button>
+                  <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-30px text-white px-15px rounded-full">
+                    {{$t('community.exchange')}}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -161,7 +163,7 @@
             </button>
           </div>
         </div>
-        <div class="sm:px-15px" >
+        <div class="sm:px-15px tab-box">
           <KeepAlive>
             <component :is="activeComponent"
                        :id="showingCommunity.communityId"/>
@@ -242,7 +244,8 @@ export default {
       tabIndex: 0,
       communityId: '',
       isAdmin: false,
-      activeComponent: markRaw(CommunityPost)
+      activeComponent: markRaw(CommunityPost),
+      infoMaxHeight: 160
     }
   },
   watch: {
@@ -267,6 +270,10 @@ export default {
     }
   },
   activated() {
+    if(this.width<500 && this.scroll < 400) {
+      this.scroll = 90
+      this.infoMaxHeight = 160
+    }
     if(this.scroll > 0 && this.width<=960) this.$refs.detailPageRef.scrollTo({top: this.scroll})
     if(this.scroll > 0 && this.width>960) this.$refs.webDetailPageRef.scrollTo({top: this.scroll})
     const communityId = this.$route.params.communityId;
@@ -316,6 +323,7 @@ export default {
     formatAddress,
     onCopy,
     pageScroll() {
+      if(this.$refs.detailPageRef.scrollTop<90) this.infoMaxHeight = 1000
       this.scroll = this.$refs.detailPageRef.scrollTop
     },
     webPageScroll() {
@@ -363,4 +371,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tab-box {
+  min-height: calc(100vh - 118px);
+}
 </style>
