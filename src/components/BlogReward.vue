@@ -2,20 +2,33 @@
   <div class="flex items-center">
     <el-tooltip :show-after="500" :teleported="false">
       <template #content>
-        <div v-if="showCuratedTip" class="text-white light:text-black max-w-200px">
+        <div v-if="showCuratedTip" class="text-white light:text-black max-w-240px">
           <template v-if="rewards && rewards.length > 0">
-            <ChainTokenIcon v-for="reward of rewards"
-                            :key="post.postId + reward.token" height="20px" width="20px"
-                            class="bg-color62 my-4px p-2px"
-                            :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                            :chainName="reward.chainId?.toString()">
-              <template #amount>
+            <div v-for="reward of rewards"
+                 :key="post.postId + reward.token">
+              <ChainTokenIcon  height="20px" width="20px"
+                               class="bg-color62 my-4px p-2px"
+                               :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                               :chainName="reward.chainId?.toString()">
+                <template #amount>
                   <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
                     {{reward.reward + " " + reward.tokenSymbol}}
                   </span>
-              </template>
-            </ChainTokenIcon>
+                </template>
+              </ChainTokenIcon>
+              <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+                          flex items-center light:shadow-color1A px-8px mt-4px">
+                <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
+                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+              </div>
+              <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+                          flex items-center light:shadow-color1A px-8px mt-4px">
+                <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
+                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+              </div>
+            </div>
           </template>
+          <slot/>
         </div>
         <div v-else class="min-w-130px text-center">
           <img class="w-20px mx-auto my-8px" src="~@/assets/icon-loading.svg" alt="">
@@ -35,6 +48,7 @@ import debounce from "lodash.debounce";
 import {getCurationRewardsOfPost} from "@/api/api";
 import {formatAmount, formatPrice} from "@/utils/helper";
 import {getPriceFromOracle} from "@/utils/asset";
+import {isNumeric} from "@/utils/tool";
 export default {
   name: "BlogReward",
   components: {ChainTokenIcon},
@@ -57,6 +71,10 @@ export default {
     this.getRewards()
   },
   methods: {
+    countdown(time) {
+      if(!time || !isNumeric(time)) return 0
+      return time*1000 - new Date().getTime()
+    },
     getTip: debounce(function t() {
       // get rewards
       // if (this.rewards && this.rewards.length > 0) {

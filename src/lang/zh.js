@@ -360,7 +360,10 @@ export default {
     startTime: '开始时间',
     tasks: '任务',
     blogTweetTip: '查看推特原文',
-    retweet: '转推'
+    retweet: '转推',
+    attendedNum: '{num} guys has attended',
+    rewardTip: 'tips: early attend and more credit, earn more reward',
+    participant: '策展参与人'
   },
   createCuration: {
     option1: '获得 Curation NFT',
@@ -457,7 +460,9 @@ export default {
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
     pendingReward: '待领取奖励',
-    joinIn: '参与'
+    joinIn: '参与',
+    moreCommunities: '更多社区',
+    credit: '信用'
   },
   info: {
     interactive: '互动',
@@ -525,6 +530,7 @@ export default {
     comments: '评论',
     curation: '策展',
     author: '作者',
+    curator: '策展人',
     day: '天',
     hour: '时',
     minute: '分',

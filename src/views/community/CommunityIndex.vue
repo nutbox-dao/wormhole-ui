@@ -30,6 +30,23 @@
                      class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-color1A">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
+                <div class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
+                  {{$t('community.joined')}}
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-15px mb-20px ">
+                  <div class="col-span-1 bg-blockBg light:bg-white rounded-16px flex flex-col items-center p-15px"
+                       v-for="(joinCom, i) of joinedCommunities" :key="i"
+                       @click="$router.push(`/community-detail/${joinCom.communityId}`);">
+                    <img class="w-72px h-72px min-w-72px min-h-72px bg-white rounded-full -16px"
+                         :src="joinCom.icon" alt="">
+                    <div class="c-text-black text-18px text-white light:text-blueDark mt-8px truncate w-full">
+                      {{joinCom.communityName}}
+                    </div>
+                  </div>
+                </div>
+                <div class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
+                  {{$t('community.moreCommunities')}}
+                </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
                   <div v-for="(com, i) of communities" :key="i"
                        @click="$router.push(`/community-detail/${com.communityId}`);">
@@ -67,7 +84,10 @@ export default {
   },
   computed: {
     ...mapState('community', ['communities']),
-    ...mapGetters(['getAccountInfo'])
+    ...mapGetters(['getAccountInfo']),
+    joinedCommunities() {
+      return this.communities.filter(item => item.joined)
+    }
   },
   methods: {
     onLoad() {

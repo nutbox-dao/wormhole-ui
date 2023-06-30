@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-blockBg light:bg-color27 rounded-16px overflow-hidden flex flex-col sm:flex-row">
+  <div class="relative  rounded-16px overflow-hidden flex flex-col sm:flex-row">
     <div class="influence-card w-full sm:w-2/3 sm:max-w-2/3 h-200px rounded-14px relative pt-30px pb-20px px-15px
                 flex flex-col justify-between items-start">
       <div class="flex items-center">

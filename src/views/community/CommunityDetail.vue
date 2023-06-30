@@ -36,8 +36,9 @@
                   light:shadow-color1A sm:rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"
            @scroll="webPageScroll">
-        <div class="overflow-hidden" :style="{maxHeight: `${infoMaxHeight}px`}">
-          <div class="overflow-hidden relative py-15px px-15pxs bg-blockBg light:bg-white sm:rounded-t-16px" ref="bannerRef">
+        <div class="overflow-hidden" :class="scroll>=90?'bg-primaryBg':'bg-blockBg'">
+          <div class="overflow-hidden relative pt-15px px-15pxs  light:bg-white sm:rounded-t-16px"
+               :style="{maxHeight: `${infoMaxHeight}px`}">
             <!-- description header -->
             <c-image :src="showingCommunity.banner"
                      class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
@@ -102,37 +103,38 @@
                        src="~@/assets/community-icon-doc.svg" alt="">
                 </button>
               </div>
-              <!-- token info -->
-              <div v-show="showingCommunity.rewardToken" class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px mt-15px
+            </div>
+          </div>
+          <!-- token info -->
+          <div v-show="showingCommunity.rewardToken"
+               class="bg-color62/20 light:bg-colorF7F2 rounded-12px p-15px m-15px
                           flex 2md:hidden justify-between items-center">
+            <div class="flex items-center">
+              <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
+                   :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
+              <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
+              <div class="flex flex-col items-start">
+                <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
                 <div class="flex items-center">
-                  <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
-                       :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
-                  <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
-                  <div class="flex flex-col items-start">
-                    <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
-                    <div class="flex items-center">
-                      <span class="text-color7D text-12px mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
-                      <img class="w-14px h-14px cursor-pointer"
-                           @click="onCopy(showingCommunity.rewardToken)"
-                           src="~@/assets/icon-copy-primary.svg" alt="">
-                    </div>
-                  </div>
-                </div>
-                <div class="flex gap-10px">
-                  <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-30px text-white px-15px rounded-full">
-                    {{$t('community.deposit')}}
-                  </button>
-                  <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-30px text-white px-15px rounded-full">
-                    {{$t('community.exchange')}}
-                  </button>
+                  <span class="text-color7D text-12px mr-5px">{{formatAddress(showingCommunity.rewardToken)}}</span>
+                  <img class="w-14px h-14px cursor-pointer"
+                       @click="onCopy(showingCommunity.rewardToken)"
+                       src="~@/assets/icon-copy-primary.svg" alt="">
                 </div>
               </div>
+            </div>
+            <div class="flex gap-10px">
+              <button v-show="config['stake_url']" @click="open(config['stake_url'])" class="bg-color62 h-30px text-white px-15px rounded-full">
+                {{$t('community.deposit')}}
+              </button>
+              <button v-show="config['swap_url']" @click="open(config['swap_url'])" class="bg-color1A h-30px text-white px-15px rounded-full">
+                {{$t('community.exchange')}}
+              </button>
             </div>
           </div>
         </div>
         <div class="sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 shadow-tab pt-5px sm:pt-0">
-          <div v-if="scroll>=90"
+          <div v-if="scroll>=150"
                class="absolute w-40px h-4px bg-color8B/30 rounded-full left-1/2 top-5px transform -translate-x-1/2 sm:hidden"></div>
           <div class="w-full overflow-auto no-scroll-bar">
             <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
@@ -146,7 +148,12 @@
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
-                {{$t('community.topic')}}
+                <span :class="newHappenings?'relative c-badge':''">{{$t('community.topic')}}</span>
+              </button>
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                      :class="tabIndex===5?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(5)">
+                {{$t('community.credit')}}
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
@@ -169,6 +176,7 @@
         <div class="sm:px-15px tab-box">
           <KeepAlive>
             <component :is="activeComponent"
+                       :community="showingCommunity"
                        :id="showingCommunity.communityId"/>
           </KeepAlive>
         </div>
@@ -222,6 +230,7 @@ import CommunityTopic from "@/views/community/CommunityTopic";
 import CommunityMember from "@/views/community/CommunityMember";
 import CommunityAbout from "@/views/community/CommunityAbout.vue";
 import CommunityActivity from "@/views/community/CommunityActivity.vue";
+import CommunityCredit from "@/views/community/CommunityCredit.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
@@ -232,7 +241,7 @@ import { getPriceFromOracle } from '@/utils/asset'
 
 export default {
   name: "CommunityDetail",
-  components: {CommunityActivity, CommunityPost, CommunityTopic, CommunityMember},
+  components: {CommunityActivity, CommunityPost, CommunityTopic, CommunityMember, CommunityCredit},
   setup() {
     const { width } = useWindowSize();
     return {
@@ -248,7 +257,8 @@ export default {
       communityId: '',
       isAdmin: false,
       activeComponent: markRaw(CommunityPost),
-      infoMaxHeight: 1000
+      infoMaxHeight: 1000,
+      newHappenings: true
     }
   },
   watch: {
@@ -339,6 +349,7 @@ export default {
       if(this.tabIndex===2) this.activeComponent = markRaw(CommunityMember)
       if(this.tabIndex===3) this.activeComponent = markRaw(CommunityAbout)
       if(this.tabIndex===4) this.activeComponent = markRaw(CommunityActivity)
+      if(this.tabIndex===5) this.activeComponent = markRaw(CommunityCredit)
     },
     checkLogin() {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
@@ -374,7 +385,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tab-box {
-  min-height: calc(100vh - 118px);
+@media (max-width: 500px) {
+  .tab-box {
+    min-height: calc(100vh - 118px);
+  }
 }
 </style>

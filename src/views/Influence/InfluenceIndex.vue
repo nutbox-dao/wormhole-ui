@@ -38,7 +38,9 @@
               </div>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
                 <div v-for="community of communityCC" :key="community.communityId" class="col-span-1">
-                  <InfluenceCardItem :community="community" class="cursor-pointer" @click="gotoCommunity(community)"></InfluenceCardItem>
+                  <InfluenceCardItem :community="community"
+                                     class="cursor-pointer bg-blockBg light:bg-color27"
+                                     @click="gotoCommunity(community)"></InfluenceCardItem>
                 </div>
               </div>
             </div>

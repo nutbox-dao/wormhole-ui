@@ -75,7 +75,9 @@
             </div>
           </div>
           <slot name="blog-reward">
-            <BlogReward :post="post" class="ml-10px"></BlogReward>
+            <BlogReward :post="post" class="ml-10px">
+              <slot name="curation-time"></slot>
+            </BlogReward>
           </slot>
         </div>
       </div>

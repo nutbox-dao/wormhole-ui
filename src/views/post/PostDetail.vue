@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="h-full overflow-hidden flex flex-col">
     <template v-if="currentShowingDetail">
-      <div class="container mx-auto w-full sm:max-w-50rem sticky top-0 lg:relative bg-primaryBg light:bg-white
-                  border-b-1 xs:border-b-0 border-color8B/30 light:border-color7F z-99">
-        <div class="flex h-70px pt-23px justify-center items-center relative">
+      <div class="w-full sticky top-0 lg:relative bg-primaryBg light:bg-white light:md:bg-transparent
+                  border-b-0.5px xs:border-b-0 border-color8B/30 light:border-color7F z-99">
+        <div class="flex h-60px justify-center items-center relative container mx-auto max-w-50rem">
           <span class="text-20px c-text-black max-w-2/3 truncate lg:hidden">{{currentShowingDetail.name}}</span>
           <button @click="$router.go(-1)"
                   class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
@@ -12,15 +12,15 @@
           </button>
         </div>
       </div>
-      <div class="container px-15px mx-auto max-w-50rem pb-2rem pt-15px xs:pt-0">
-        <van-list :loading="listLoading"
-                  :finished="listFinished"
-                  :immediate-check="false"
-                  :finished-text="''"
-                  @load="onLoad">
-          <div class="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-1.5rem">
-            <div class="col-span-1 lg:col-span-3 xl:col-span-2 h-max">
-              <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-lg rounded-12px md:p-15px">
+      <div class="container px-15px mx-auto max-w-50rem py-15px xs:py-0 flex-1 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-15px h-full overflow-hidden">
+          <div class="col-span-1 lg:col-span-3 h-full overflow-auto no-scroll-bar">
+            <van-list :loading="listLoading"
+                      :finished="listFinished"
+                      :immediate-check="false"
+                      :finished-text="''"
+                      @load="onLoad">
+              <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-color1A rounded-12px md:p-15px">
                 <Space v-if="currentShowingDetail.spaceId" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
@@ -28,7 +28,22 @@
                 <Blog v-else ref="postRef"
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
-                      :is-detail='true'/>
+                      :is-detail='true'>
+                  <template #curation-time>
+                    <div class="w-200px max-w-200px">
+                      <div class="mt-8px" v-if="!curationLoading && curationList.length>0">
+                        <div class="">estimated amount for reference</div>
+                        <div class="flex justify-center items-center text-12px mt-4px">
+                          <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}</span>
+                          <span class="whitespace-nowrap"
+                                :class="new Date().getTime() > curationList[0].endtime * 1000?'text-orangeColor':'text-greenColor'">
+                          {{ parseSpaceStartTime(curationList[0].endtime * 1000) }}
+                        </span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </Blog>
                 <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D ">
                   <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px
                                  whitespace-nowrap cursor-pointer"
@@ -85,35 +100,31 @@
                   </div>
                 </div>
               </div>
-
-              <div class="border-1 border-color84/30 rounded-20px overflow-hidden mt-12px light:bg-white lg:hidden">
-                  <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
-                    <div class="c-text-black mr-4px light:text-blueDark text-left text-20px">
-                      {{$t('curation.createdCurations')}}
+              <div class="bg-color62/20  rounded-12px px-15px py-8px
+                          flex lg:hidden justify-between items-center min-h-54px md:mt-15px">
+                <img v-if="curationLoading|| participantLoading"
+                     class="h-40px mx-auto"
+                     src="~@/assets/profile-loading.gif" alt="" />
+                <template v-if="participant.length>0">
+                  <span class="flex-1 text-left">
+                    {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
+                  </span>
+                  <div class="flex items-center">
+                    <div v-for="p of participant.slice(0,3)" :key="p">
+                      <img v-if="p.profileImg"
+                           class="h-30px w-30px min-w-30px min-h-30px rounded-full border-2 border-color62 light:border-white bg-color8B/10 -ml-10px"
+                           @error="replaceEmptyImg"
+                           :src="p.profileImg.replace('normal', '200x200')" alt="">
+                      <img v-else
+                           class="h-30px w-30px min-w-30px min-h-30px rounded-full border-2 border-color62 light:border-white bg-color8B/10"
+                           src="~@/assets/icon-default-avatar.svg" alt="">
                     </div>
-                    <el-popover placement="bottom" :width="200" trigger="hover">
-                      <template #reference>
-                        <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
-                      </template>
-                      <div>{{ $t('postView.curationTips') }}</div>
-                    </el-popover>
+                    <button class="text-12px ml-5px" @click="showAttendedList=true">{{$t('common.more')}} >>></button>
                   </div>
-                  <div class="px-20px pb-24px">
-                    <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
-                      <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-                    </div>
-                    <div v-if="!curationLoading && curationList.length===0" class="py-2rem">
-                      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-                      <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
-                    </div>
-                    <PostCreatedCuration v-if="curationList.length > 0"
-                                         class="py-15px "
-                                         :curation-data="curationList[0]"
-                                         :post="currentShowingDetail"/>
-                  </div>
+                </template>
               </div>
-
-              <div class="lg:bg-blockBg lg:light:bg-white light:lg:shadow-lg rounded-12px lg:mt-15px lg:px-15px">
+              <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-color1A rounded-12px
+                          md:pb-15px md:mt-15px md:px-15px mb-15px">
                 <div class="c-text-black text-left text-1.2rem lg:block py-15px">
                   {{ $t('common.comments') }}
                 </div>
@@ -132,37 +143,28 @@
                   <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
                 </div>
               </div>
-            </div>
-            <div class="col-span-1 lg:col-span-2 xl:col-span-1 hidden lg:block">
-              <div class="border-1 border-color84/30 rounded-20px overflow-hidden light:bg-white">
-                <div class="flex items-center bg-inputBg light:bg-color84/5 px-20px pt-24px pb-10px">
-                  <div class="c-text-black mr-4px light:text-blueDark text-left">
-                    {{$t('curation.createdCurations')}}
-                  </div>
-                  <el-popover placement="bottom" :width="200" trigger="hover">
-                    <template #reference>
-                      <img class="w-16px h-16px min-w-16px min-h-16px" src="~@/assets/icon-question-purple.svg" alt="">
-                    </template>
-                    <div>{{ $t('postView.curationTips') }}</div>
-                  </el-popover>
-                </div>
-                <div class="px-20px pb-24px">
-                  <div v-if="curationLoading" class="c-text-black text-1.8rem min-h-1rem">
-                    <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-                  </div>
-                  <div v-if="!curationLoading && curationList.length===0" class="py-2rem">
-                    <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-                    <div class="text-color8B light:text-color7D text-12px mt-4px">{{$t('common.none')}}</div>
-                  </div>
-                  <PostCreatedCuration v-if="curationList.length > 0"
-                                       class="py-15px "
-                                       :curation-data="curationList[0]"
-                                       :post="currentShowingDetail"/>
-                </div>
+            </van-list>
+          </div>
+          <div class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
+            <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
+                        max-h-full overflow-hidden flex flex-col">
+              <div v-if="curationLoading || participantLoading" class="c-text-black py-2rem min-h-1rem">
+                <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
               </div>
+              <CurationAttendedList class="flex-1 overflow-hidden"
+                                    v-else-if="curationList.length>0"
+                                    :records="participant"
+                                    :post="currentShowingDetail"
+                                    :curation="curationList[0]"
+                                    :state="curationList[0].curationStatus"
+                                    @close="showAttendedList=false">
+                <div class="h-24px flex items-center text-12px">
+                  {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
+                </div>
+              </CurationAttendedList>
             </div>
           </div>
-        </van-list>
+        </div>
       </div>
     </template>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
@@ -184,6 +186,27 @@
         </div>
       </transition>
     </van-popup>
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="showAttendedList"
+               teleport="body"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showAttendedList"
+             class="dark:bg-glass light:bg-white rounded-t-12px">
+          <CurationAttendedList class="max-h-60vh min-h-60vh"
+                                :records="participant"
+                                :post="currentShowingDetail"
+                                :curation="curationList[0]"
+                                :state="curationList[0].curationStatus"
+                                @close="showAttendedList=false">
+              <div class="h-24px flex items-center">
+                {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
+              </div>
+          </CurationAttendedList>
+        </div>
+      </transition>
+    </van-popup>
   </div>
 </template>
 
@@ -192,10 +215,17 @@ import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import Comment from '@/views/user/components/Comment'
 import { mapState, mapGetters } from 'vuex'
-import { getPostById, getCommentsByPostid, getCurationsOfTweet, getAllTipsByTweetId, getTopTipsOfTweetId } from '@/api/api'
+import {
+  getPostById,
+  getCommentsByPostid,
+  getCurationsOfTweet,
+  getAllTipsByTweetId,
+  getTopTipsOfTweetId,
+  getAutoCurationRecord
+} from '@/api/api'
 import { getPosts } from '@/utils/steem'
 import { EVM_CHAINS } from '@/config'
-import { formatAmount } from '@/utils/helper'
+import {formatAmount, formatPrice, parseSpaceStartTime} from '@/utils/helper'
 import iconTop1 from "@/assets/icon-top1.svg";
 import iconTop2 from "@/assets/icon-top2.svg";
 import iconTop3 from "@/assets/icon-top3.svg";
@@ -204,13 +234,17 @@ import PostCreatedCuration from "@/components/PostCreatedCuration";
 import TipModalVue from "@/components/TipModal";
 import { useWindowSize } from '@vant/use';
 import {ref, watch} from 'vue';
-import { getCuratorNFT } from '@/utils/asset'
+import {getCuratorNFT, getPriceFromOracle} from '@/utils/asset'
 import { notify } from "@/utils/notify";
 import PostButtonGroup from "@/components/PostButtonGroup";
+import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import CurationAttendedList from "@/components/CurationAttendedList.vue";
+import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
 
 export default {
   name: "PostDetail",
-  components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue, Space, PostButtonGroup},
+  components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue, Space, PostButtonGroup,
+    CurationAttendedList, ChainTokenIcon},
   computed: {
     ...mapState('postsModule', ['currentShowingDetail']),
     ...mapGetters(['getAccountInfo']),
@@ -234,6 +268,11 @@ export default {
       }
       return []
     },
+  },
+  watch: {
+    curationList(val) {
+      if(val.length>0) this.getParticipant()
+    }
   },
   setup() {
     const { width, height } = useWindowSize();
@@ -263,7 +302,11 @@ export default {
       curationLoading:false,
       curations: [],
       updateInterval: null,
-      creatingCuration: false
+      creatingCuration: false,
+      participant: [],
+      count: 0,
+      participantLoading: false,
+      showAttendedList: false
     }
   },
   mounted() {
@@ -307,6 +350,7 @@ export default {
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
   methods: {
+    parseSpaceStartTime,
     formatAmount,
     async onLoad() {
       if(this.listLoading || this.listFinished) return
@@ -332,9 +376,18 @@ export default {
       // this.listFinished = false
       // this.onLoad()
     },
+    getParticipant() {
+      if(this.participantLoading) return
+      const id = this.curationList[0].curationId;
+      this.participantLoading = true
+      getAutoCurationRecord(id).then(res => {
+        this.participant = res ?? []
+      }).catch(console.log).finally(() => {this.participantLoading = false})
+    },
     updateCurationInfo() {
       const postId = this.$route.params.postId
       // update tip info
+      if (this.count++ % 3 === 0 && this.curationList.length>0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {
           if (!res) return;
           this.tips = res

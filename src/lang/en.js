@@ -360,7 +360,10 @@ export default {
     startTime: 'Start time',
     tasks: 'Tasks',
     blogTweetTip: 'Go to original tweet',
-    retweet: 'Retweet'
+    retweet: 'Retweet',
+    attendedNum: '{num} guys has attended',
+    rewardTip: 'tips: early attend and more credit, earn more reward',
+    participant: 'Curation participant'
   },
   createCuration: {
     option1: 'Get Curation NFT',
@@ -457,7 +460,9 @@ export default {
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
     pendingReward: 'Pending reward',
-    joinIn: 'Join in'
+    joinIn: 'Join in',
+    moreCommunities: 'More Communities',
+    credit: 'Credit'
   },
   info: {
     interactive: 'Activities',
@@ -525,6 +530,7 @@ export default {
     comments: 'Comments',
     curation: 'Curation',
     author: 'Author',
+    curator: 'Curator',
     day: 'DAY',
     hour: 'HOURS',
     minute: 'MIN',
