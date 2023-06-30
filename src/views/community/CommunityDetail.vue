@@ -131,38 +131,39 @@
             </div>
           </div>
         </div>
-        <div class="w-full overflow-auto no-scroll-bar sticky top-70px 2md:top-0
-                      bg-primaryBg light:bg-white z-9 shadow-tab relative pt-5px">
+        <div class="sticky top-70px 2md:top-0 bg-primaryBg light:bg-white z-9 shadow-tab pt-5px">
           <div v-if="scroll>=90"
                class="absolute w-40px h-4px bg-color8B/30 rounded-full left-1/2 top-5px transform -translate-x-1/2"></div>
-          <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
+          <div class="w-full overflow-auto no-scroll-bar">
+            <div class="flex items-center justify-center gap-30px h-48px text-14px 2md:text-18px font-bold
                 border-b-0.5px border-color8B/30 light:border-color7F sm:bg-blockBg sm:light:bg-white
                 px-15px w-min min-w-full">
-            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                    :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
-                    @click="changeTab(0)">
-              {{$t('community.post')}}
-            </button>
-            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                    :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
-                    @click="changeTab(1)">
-              {{$t('community.topic')}}
-            </button>
-            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                    :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
-                    @click="changeTab(2)">
-              {{$t('community.member')}}
-            </button>
-            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
-                    :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
-                    @click="changeTab(3)">
-              {{$t('community.about')}}
-            </button>
-            <button class="h-full px-5px 2md:px-10px 2md:hidden whitespace-nowrap"
-                    :class="tabIndex===4?'c-active-tab text-color62':'text-color7D'"
-                    @click="changeTab(4)">
-              {{$t('community.activity')}}
-            </button>
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                      :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(0)">
+                {{$t('community.post')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                      :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(1)">
+                {{$t('community.topic')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                      :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(2)">
+                {{$t('community.member')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                      :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(3)">
+                {{$t('community.about')}}
+              </button>
+              <button class="h-full px-5px 2md:px-10px 2md:hidden whitespace-nowrap"
+                      :class="tabIndex===4?'c-active-tab text-color62':'text-color7D'"
+                      @click="changeTab(4)">
+                {{$t('community.activity')}}
+              </button>
+            </div>
           </div>
         </div>
         <div class="sm:px-15px tab-box">
