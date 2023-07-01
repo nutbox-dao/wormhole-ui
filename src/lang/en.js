@@ -137,6 +137,7 @@ export default {
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',
+    promotionRewardL: 'Promotion reward',
     withdraw: 'Withdraw',
     promotionReward: 'Promotion reward'
   },
@@ -465,7 +466,7 @@ export default {
     credit: 'Credit'
   },
   info: {
-    interactive: 'Activities',
+    interactive: 'Notification',
     reward: 'Tips',
     system: 'System',
     quoted: 'quoted',

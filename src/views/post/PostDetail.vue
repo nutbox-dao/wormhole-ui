@@ -363,7 +363,7 @@ export default {
         if (comments && comments.length > 0) {
           this.comments = this.comments.concat(comments);
         }
-        if (comments.length < 20) {
+        if (comments.length < 10) {
           this.listFinished = true
         }
       } catch (e) {

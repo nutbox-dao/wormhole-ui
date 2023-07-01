@@ -137,6 +137,7 @@ export default {
     record: '记录',
     historyRecord: '历史记录',
     communityReward: '社区奖励',
+    promotionReward: '推广奖励',
     withdraw: '提现',
     promotionReward: '推广奖励'
   },
@@ -465,7 +466,7 @@ export default {
     credit: '信用'
   },
   info: {
-    interactive: '互动',
+    interactive: '通知',
     reward: '打赏',
     system: '系统',
     quoted: '引用了',
