@@ -17,18 +17,38 @@
               class="absolute left-15px">
         <i class="icon-back w-20px h-20px"></i>
       </button>
-      <span class="text-20px c-text-black">{{showingCommunity.communityName}}</span>
+      <div class="w-full flex justify-between items-center pl-30px">
+        <span class="text-16px c-text-black">{{showingCommunity.communityName}}</span>
+        <div class="flex items-center gap-8px filter light:brightness-0">
+          <button @click="changeTab(2)">
+            <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+          </button>
+          <button @click="changeTab(3)">
+            <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+          </button>
+          <button @click="changeTab(4)">
+            <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+          </button>
+        </div>
+      </div>
     </div>
     <div v-else
-         class="fixed w-full top-0 left-0 z-1 px-15px h-70px flex justify-center items-center 2md:hidden">
-      <!-- <router-link to="/community" class="absolute left-15px">
-        <img class="w-20px h-20px" src="~@/assets/icon-back.svg" alt="">
-      </router-link> -->
+         class="fixed w-full top-0 left-0 right-0 z-1 px-15px h-70px flex justify-between items-center 2md:hidden">
       <button @click="$router.go(-1)"
-              class="absolute left-15px w-30px h-30px bg-colorF7 rounded-full
-                     flex items-center justify-center p-5px">
+              class="w-30px h-30px bg-colorF7 rounded-full flex items-center justify-center p-5px">
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
+      <div class="flex items-center gap-8px filter light:brightness-0">
+        <button @click="changeTab(2)">
+          <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+        </button>
+        <button @click="changeTab(3)">
+          <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+        </button>
+        <button @click="changeTab(4)">
+          <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+        </button>
+      </div>
     </div>
     <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px sm:pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
@@ -36,7 +56,7 @@
                   light:shadow-color1A sm:rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"
            @scroll="webPageScroll">
-        <div class="overflow-hidden" :class="scroll>=90?'bg-primaryBg':'bg-blockBg'">
+        <div class="overflow-hidden" :class="scroll>=90?'bg-primaryBg light:bg-white':'bg-blockBg light:bg-white'">
           <div class="overflow-hidden relative pt-15px px-15pxs  light:bg-white sm:rounded-t-16px"
                :style="{maxHeight: `${infoMaxHeight}px`}">
             <!-- description header -->
@@ -156,12 +176,12 @@
                       @click="changeTab(5)">
                 {{$t('community.credit')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap hidden 2md:block"
                       :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(2)">
                 {{$t('community.member')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+              <button class="h-full px-5px 2md:px-10px whitespace-nowrap hidden 2md:block"
                       :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(3)">
                 {{$t('community.about')}}

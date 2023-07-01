@@ -100,8 +100,8 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-color62/20  rounded-12px px-15px py-8px
-                          flex lg:hidden justify-between items-center min-h-54px md:mt-15px">
+              <div class="bg-color62/20  rounded-12px px-15px py-8px min-h-54px md:mt-15px
+                          flex lg:hidden justify-between items-center">
                 <img v-if="curationLoading|| participantLoading"
                      class="h-40px mx-auto"
                      src="~@/assets/profile-loading.gif" alt="" />
@@ -109,7 +109,7 @@
                   <span class="flex-1 text-left">
                     {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
                   </span>
-                  <div class="flex items-center">
+                  <div class="flex items-center" @click="showAttendedList=true">
                     <div v-for="p of participant.slice(0,3)" :key="p">
                       <img v-if="p.profileImg"
                            class="h-30px w-30px min-w-30px min-h-30px rounded-full border-2 border-color62 light:border-white bg-color8B/10 -ml-10px"
@@ -119,7 +119,7 @@
                            class="h-30px w-30px min-w-30px min-h-30px rounded-full border-2 border-color62 light:border-white bg-color8B/10"
                            src="~@/assets/icon-default-avatar.svg" alt="">
                     </div>
-                    <button class="text-12px ml-5px" @click="showAttendedList=true">{{$t('common.more')}} >>></button>
+                    <button class="text-12px ml-5px">{{$t('common.more')}} >>></button>
                   </div>
                 </template>
               </div>
@@ -148,7 +148,8 @@
           <div class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
                         max-h-full overflow-hidden flex flex-col">
-              <div v-if="curationLoading || participantLoading" class="c-text-black py-2rem min-h-1rem">
+              <div v-if="(curationLoading || participantLoading) && participant.length===0"
+                   class="c-text-black py-2rem min-h-1rem">
                 <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
               </div>
               <CurationAttendedList class="flex-1 overflow-hidden"

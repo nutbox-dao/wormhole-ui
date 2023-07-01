@@ -27,16 +27,16 @@
                   </span>
               </template>
             </ChainTokenIcon>
-            <div class="flex gap-15px px-1px">
-              <div class="flex-1 border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+            <div class="flex flex-wrap gap-8px mt-3px">
+              <div class="flex-1 bg-color8B/30 light:bg-colorF7 rounded-full h-20px text-12px
+                          flex items-center px-8px mt-4px whitespace-nowrap">
                 <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
-                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+                <span>0.000 {{reward.tokenSymbol}}</span>
               </div>
-              <div class="flex-1 border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+              <div class="flex-1 bg-color8B/30 light:bg-colorF7 rounded-full h-20px text-12px
+                          flex items-center px-8px mt-4px whitespace-nowrap">
                 <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
-                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+                <span>0.000 {{reward.tokenSymbol}}</span>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
         <div class="h-24px absolute right-15px flex items-center">({{price}})</div>
       </div>
 
-      <div class="my-8px text-color62 text-center">{{$t('curation.rewardTip')}}</div>
+      <div class="mt-12px mb-8px text-12px text-color62 text-center italic px-10px">{{$t('curation.rewardTip')}}</div>
       <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
         <span class="w-3/7">{{$t('curation.attended')}}</span>
         <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span>

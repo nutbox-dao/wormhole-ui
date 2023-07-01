@@ -362,7 +362,7 @@ export default {
     tasks: 'Tasks',
     blogTweetTip: 'Go to original tweet',
     retweet: 'Retweet',
-    attendedNum: '{num} guys has attended',
+    attendedNum: '{num} guys has curated',
     rewardTip: 'tips: early attend and more credit, earn more reward',
     participant: 'Curation participant'
   },

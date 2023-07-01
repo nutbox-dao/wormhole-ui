@@ -19,11 +19,6 @@
           <img class="w-12px min-w-12px h-12px min-h-12px mr-3px" src="~@/assets/icon-time.svg" alt="">
           <span>{{parseTimestamp(post.postTime)}}</span>
         </div>
-        <!-- <div class="flex items-center">
-          <img class="w-12px h-12px mr-3px"
-               src="~@/assets/icon-member-white.svg" alt="">
-          <span>35</span>
-        </div> -->
       </div>
     </div>
     <div class="w-full h-1px bg-color8B/30 light:bg-color7F"></div>
