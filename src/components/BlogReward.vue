@@ -73,12 +73,17 @@ export default {
             let reward = '???'
             let amount = '???'
 
-            if (r.amount > 0) {
+            if (r.amount && r.amount != 0 && r.amount !='0') {
               amount = r.amount / (10 ** r.decimals)
               if (r.authorReward > 0 && r.isPromotion == 1) {
                 amount += r.authorReward / (10 ** r.decimals)
               }
               reward = formatAmount(amount);
+            }else if(r.estimateAmount && r.estimateAmount != 0 && r.estimateAmount != '0') {
+              amount = r.estimateAmount / (10 ** r.decimals)
+              if (r.isPromotion === 1) {
+                amount += r.estimateAuthorReward / (10 ** r.decimals)
+              }
             }
             return {
               ...r,
