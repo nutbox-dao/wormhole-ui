@@ -148,7 +148,8 @@
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
-                <span :class="newHappenings?'relative c-badge':''">{{$t('community.topic')}}</span>
+                      {{$t('community.topic')}}
+                <!-- <span :class="newHappenings?'relative c-badge':''">{{$t('community.topic')}}</span> -->
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===5?'c-active-tab text-color62':'text-color7D'"

@@ -463,7 +463,8 @@ export default {
     pendingReward: '待领取奖励',
     joinIn: '参与',
     moreCommunities: '更多社区',
-    credit: '信用'
+    credit: '信用',
+    joinFirst: "请先加入社区"
   },
   info: {
     interactive: '通知',
@@ -478,6 +479,7 @@ export default {
   },
   slider: {
     home: '首页',
+    square: '广场',
     community: '社区',
     influence: '策展信用',
     info: '消息',

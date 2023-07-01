@@ -463,7 +463,8 @@ export default {
     pendingReward: 'Pending reward',
     joinIn: 'Join in',
     moreCommunities: 'More Communities',
-    credit: 'Credit'
+    credit: 'Credit',
+    joinFirst: 'Please Join community first'
   },
   info: {
     interactive: 'Notification',
@@ -478,6 +479,7 @@ export default {
   },
   slider: {
     home: 'Home',
+    square: 'Square',
     community: 'Community',
     influence: 'Credit',
     info: 'Notification',

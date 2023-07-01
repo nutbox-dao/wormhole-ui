@@ -41,7 +41,7 @@ import QuoteTree from '@/views/Tree';
 const routes = [
   {
     path: '/',
-    redirect: '/square',
+    redirect: '/community',
   },
   {
     path: '/square/:referee?',

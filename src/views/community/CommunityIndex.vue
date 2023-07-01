@@ -30,7 +30,7 @@
                      class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-color1A">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
                 </div>
-                <div class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
+                <div v-show="refreshing || joinedCommunities.length > 0" class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
                   {{$t('community.joined')}}
                 </div>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-15px mb-20px ">
@@ -44,11 +44,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
+                <div v-show="refreshing || pendingCommunities.length > 0" class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
                   {{$t('community.moreCommunities')}}
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
-                  <div v-for="(com, i) of communities" :key="i"
+                  <div v-for="(com, i) of pendingCommunities" :key="i"
                        @click="$router.push(`/community-detail/${com.communityId}`);">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-0.5px border-color8B/30 light:border-transparent bg-blockBg
@@ -87,6 +87,9 @@ export default {
     ...mapGetters(['getAccountInfo']),
     joinedCommunities() {
       return this.communities.filter(item => item.joined)
+    },
+    pendingCommunities() {
+      return this.communities.filter(item => !item.joined)
     }
   },
   methods: {
