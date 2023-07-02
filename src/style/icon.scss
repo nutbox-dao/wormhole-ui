@@ -359,16 +359,14 @@
   background-image: url("~@/assets/btn-like-active.svg");
 }
 
-.btn-icon-unlike {
+.btn-icon-dislike {
   @extend .icon;
-  background-image: url("~@/assets/btn-like.svg");
-  transform: rotateX(180deg);
+  background-image: url("~@/assets/btn-dislike.svg");
 }
 
-.btn-icon-unlike-active {
+.btn-icon-dislike-active {
   @extend .icon;
-  background-image: url("~@/assets/btn-like-active.svg");
-  transform: rotateX(180deg);
+  background-image: url("~@/assets/btn-dislike-active.svg");
 }
 
 .btn-icon-follow {
@@ -403,4 +401,20 @@
 .light .icon-arrow-right {
   @extend .icon;
   background-image: url("~@/assets/icon-arrow-black.svg");
+}
+.icon-trending {
+  @extend .icon;
+  background-image: url("~@/assets/icon-trending.svg");
+}
+.icon-trending-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-trending-active.svg");
+}
+.icon-new {
+  @extend .icon;
+  background-image: url("~@/assets/icon-new.svg");
+}
+.icon-new-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-new-active.svg");
 }
