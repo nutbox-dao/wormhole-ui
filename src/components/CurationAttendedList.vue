@@ -13,38 +13,32 @@
           <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
         </button>
       </div>
-      <div class="px-15px flex justify-between relative">
-        <div v-if="rewards && rewards.length > 0" class="flex-1">
-          <div v-for="reward of rewards"
-               :key="post.postId + reward.token">
-            <ChainTokenIcon  height="20px" width="20px"
-                             class="bg-color62 p-2px"
-                             :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                             :chainName="reward.chainId?.toString()">
-              <template #amount>
-                  <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
-                    {{reward.reward + " " + reward.tokenSymbol}}
-                  </span>
+      <div class="px-15px relative">
+        <BlogReward :is-popover="false" :post="post"></BlogReward>
+        <template v-if="curation.endtime*1000>new Date().getTime()">
+          <div class="mt-6px text-12px">estimated amount for reference</div>
+          <div class="flex justify-center items-center text-12px font-bold">
+            <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
+            <van-count-down v-if="curation.endtime" class="text-color62"
+                            :time="countdown(curation.endtime)">
+              <template #default="timeData">
+                              <span v-if="timeData.days>0">
+                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
+                              </span>
+                <span v-else-if="timeData.hours>0">
+                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
+                              </span>
+                <span v-else>
+                                {{ timeData.minutes }} m {{ timeData.seconds }} s
+                              </span>
               </template>
-            </ChainTokenIcon>
-            <div class="flex flex-wrap gap-8px mt-3px">
-              <div class="flex-1 bg-color8B/30 light:bg-colorF7 rounded-full h-20px text-12px
-                          flex items-center px-8px mt-4px whitespace-nowrap">
-                <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
-                <span>0.000 {{reward.tokenSymbol}}</span>
-              </div>
-              <div class="flex-1 bg-color8B/30 light:bg-colorF7 rounded-full h-20px text-12px
-                          flex items-center px-8px mt-4px whitespace-nowrap">
-                <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
-                <span>0.000 {{reward.tokenSymbol}}</span>
-              </div>
-            </div>
+            </van-count-down>
           </div>
-        </div>
-        <div class="h-24px absolute right-15px flex items-center">({{price}})</div>
+        </template>
+        <div v-else class="text-12px">amount settled already</div>
       </div>
 
-      <div class="mt-12px mb-8px text-12px text-color62 text-center italic px-10px">{{$t('curation.rewardTip')}}</div>
+      <div class="mt-8px text-12px text-color62 text-center italic px-10px">{{$t('curation.rewardTip')}}</div>
       <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
         <span class="w-3/7">{{$t('curation.attended')}}</span>
         <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span>
@@ -73,10 +67,12 @@
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {getPriceFromOracle} from "@/utils/asset";
+import BlogReward from "@/components/BlogReward.vue";
+import {isNumeric} from "@/utils/tool";
 
 export default {
   name: "CurationAttendedList",
-  components: {ChainTokenIcon},
+  components: {ChainTokenIcon, BlogReward},
   props: {
     records: {
       type: Array,
@@ -107,6 +103,10 @@ export default {
     this.getRewards()
   },
   methods: {
+    countdown(time) {
+      if(!time || !isNumeric(time)) return 0
+      return time*1000 - new Date().getTime()
+    },
     parseTimestamp,
     formatAmount,
     async getRewards() {

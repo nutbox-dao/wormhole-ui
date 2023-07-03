@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <el-tooltip :show-after="500" :teleported="false">
+    <el-tooltip v-if="isPopover" :show-after="500" :teleported="false">
       <template #content>
         <div v-if="showCuratedTip" class="text-white light:text-black max-w-240px">
           <template v-if="rewards && rewards.length > 0">
@@ -39,6 +39,37 @@
         <span class="px-8px font-700 text-12px text-color62">{{ totalPrice }}</span>
       </button>
     </el-tooltip>
+    <div v-else class="text-white light:text-black flex-1 relative">
+      <div class="h-24px absolute right-0 flex items-center">({{totalPrice}})</div>
+      <template v-if="rewards && rewards.length > 0">
+        <div v-for="reward of rewards"
+             :key="post.postId + reward.token" class="w-full">
+          <ChainTokenIcon  height="20px" width="20px"
+                           class="bg-color62 my-4px p-2px"
+                           :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                           :chainName="reward.chainId?.toString()">
+            <template #amount>
+                  <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
+                    {{reward.reward + " " + reward.tokenSymbol}}
+                  </span>
+            </template>
+          </ChainTokenIcon>
+          <div class="w-full flex justify-between gap-8px">
+            <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+                          flex items-center light:shadow-color1A px-8px mt-4px">
+              <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
+              <span class="text-black">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
+            </div>
+            <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+                          flex items-center light:shadow-color1A px-8px mt-4px">
+              <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
+              <span class="text-black">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
+            </div>
+          </div>
+        </div>
+      </template>
+      <slot/>
+    </div>
   </div>
 </template>
 
@@ -54,6 +85,10 @@ export default {
   name: "BlogReward",
   components: {ChainTokenIcon},
   props: {
+    isPopover: {
+      type: Boolean,
+      default: true
+    },
     post: {
       type: Object,
       default: () => {
@@ -72,7 +107,7 @@ export default {
   },
   computed: {
     curationType() {
-      return this.post.curationType 
+      return this.post.curationType
     }
   },
   mounted() {

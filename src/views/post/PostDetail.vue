@@ -32,14 +32,27 @@
                   <template #curation-time>
                     <div class="w-200px max-w-200px">
                       <div class="mt-8px" v-if="!curationLoading && curationList.length>0">
-                        <div class="">estimated amount for reference</div>
-                        <div class="flex justify-center items-center text-12px mt-4px">
-                          <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}</span>
-                          <span class="whitespace-nowrap"
-                                :class="new Date().getTime() > curationList[0].endtime * 1000?'text-orangeColor':'text-greenColor'">
-                          {{ parseSpaceStartTime(curationList[0].endtime * 1000) }}
-                        </span>
-                        </div>
+                        <template v-if="curationList[0].endtime*1000>new Date().getTime()">
+                          <div class="">estimated amount for reference</div>
+                          <div class="flex justify-center items-center text-12px">
+                            <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
+                            <van-count-down v-if="curationList[0].endtime" class="text-color62"
+                                            :time="countdown(curationList[0].endtime)">
+                              <template #default="timeData">
+                              <span v-if="timeData.days>0">
+                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
+                              </span>
+                                <span v-else-if="timeData.hours>0">
+                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
+                              </span>
+                                <span v-else>
+                                {{ timeData.minutes }} m {{ timeData.seconds }} s
+                              </span>
+                              </template>
+                            </van-count-down>
+                          </div>
+                        </template>
+                        <div v-else class="">amount settled already</div>
                       </div>
                     </div>
                   </template>
@@ -241,6 +254,7 @@ import PostButtonGroup from "@/components/PostButtonGroup";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import CurationAttendedList from "@/components/CurationAttendedList.vue";
 import ChainTokenIcon from "@/components/ChainTokenIcon.vue";
+import {isNumeric} from "@/utils/tool";
 
 export default {
   name: "PostDetail",
@@ -351,7 +365,10 @@ export default {
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
   methods: {
-    parseSpaceStartTime,
+    countdown(time) {
+      if(!time || !isNumeric(time)) return 0
+      return time*1000 - new Date().getTime()
+    },
     formatAmount,
     async onLoad() {
       if(this.listLoading || this.listFinished) return
