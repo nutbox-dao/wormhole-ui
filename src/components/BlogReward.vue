@@ -84,6 +84,7 @@ export default {
               if (r.isPromotion === 1) {
                 amount += r.estimateAuthorReward / (10 ** r.decimals)
               }
+              reward = formatAmount(amount)
             }
             return {
               ...r,
