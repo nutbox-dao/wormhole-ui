@@ -84,7 +84,11 @@ export const TokenIcon = {
     'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png",
     'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png",
     "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126",
-    "ferc": 'https://cdn.wherein.mobi/nutbox/v2/1686657099126'
+    "ferc": 'https://cdn.wherein.mobi/nutbox/v2/1686657099126',
+    "wDMN": 'https://cdn.wherein.mobi/community/logo/damoon.jpg',
+    "nulsmoon":'https://cdn.wherein.mobi/community/logo/nulsmoon.png',
+    'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',
+    'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg'
 }
 
 export const TokenName = {
