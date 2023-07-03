@@ -19,12 +19,12 @@
               <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
                           flex items-center light:shadow-color1A px-8px mt-4px">
                 <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
-                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+                <span class="text-black">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
               </div>
               <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
                           flex items-center light:shadow-color1A px-8px mt-4px">
                 <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
-                <span class="text-black">0.000 {{reward.tokenSymbol}}</span>
+                <span class="text-black">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
               </div>
             </div>
           </template>
@@ -36,7 +36,7 @@
       </template>
       <button @click.stop @mouseover="getTip" class="flex items-center">
         <img class="w-14px h-14px min-w-14px" src="~@/assets/icon-coin-primary.svg" alt="">
-        <span class="px-8px font-700 text-12px text-color62">{{ price }}</span>
+        <span class="px-8px font-700 text-12px text-color62">{{ totalPrice }}</span>
       </button>
     </el-tooltip>
   </div>
@@ -49,6 +49,7 @@ import {getCurationRewardsOfPost} from "@/api/api";
 import {formatAmount, formatPrice} from "@/utils/helper";
 import {getPriceFromOracle} from "@/utils/asset";
 import {isNumeric} from "@/utils/tool";
+import { EVM_CHAINS_ID } from '@/config'
 export default {
   name: "BlogReward",
   components: {ChainTokenIcon},
@@ -64,7 +65,14 @@ export default {
     return {
       showCuratedTip: true,
       rewards: [],
-      price: '0.00'
+      totalPrice: '0.00',
+      curationPrice: '0.00',
+      authorPrice: '0.00'
+    }
+  },
+  computed: {
+    curationType() {
+      return this.post.curationType 
     }
   },
   mounted() {
@@ -88,39 +96,65 @@ export default {
         const res = this.post.reward
         if (res && res.length > 0) {
           this.rewards = res.map(r => {
+            // total reward
             let reward = '???'
             let amount = '???'
+            // curator reward
+            let curationReward = '???'
+            let curationAmount = '???'
+            // author reward
+            let authorReward = '???'
+            let authorAmount = '???'
 
             if (r.amount && r.amount != 0 && r.amount !='0') {
               amount = r.amount / (10 ** r.decimals)
+              curationAmount = amount
+              curationReward = formatAmount(amount)
               if (r.authorReward > 0 && r.isPromotion == 1) {
                 amount += r.authorReward / (10 ** r.decimals)
+                authorAmount = r.authorReward / (10 ** r.decimals);
+                authorReward = formatAmount(authorAmount)
               }
               reward = formatAmount(amount);
             }else if(r.estimateAmount && r.estimateAmount != 0 && r.estimateAmount != '0') {
               amount = r.estimateAmount / (10 ** r.decimals)
+              curationAmount = amount
+              curationReward = formatAmount(curationAmount)
               if (r.isPromotion === 1) {
                 amount += r.estimateAuthorReward / (10 ** r.decimals)
+                authorAmount = r.estimateAuthorReward / (10 ** r.decimals);
+                authorReward = formatAmount(authorAmount)
               }
+              reward = formatAmount(amount)
             }
             return {
               ...r,
-            reward,
-            amount
+              reward,
+              amount,
+              curationAmount,
+              curationReward,
+              authorAmount,
+              authorReward
             }
           });
-          const prices = await Promise.all(this.rewards.map(reward => getPriceFromOracle(reward.chainId, [reward])));
-          let price = 0;
-          for (let i = 0; i < prices.length; i++) {
-            const p = prices[i];
-            if (p) {
-              if (this.rewards[i].amount !== '???'){
-                price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token] ?? 0)
-              }
-            }
+          let totalPrice = 0;
+          let curationPrice = 0;
+          let authorPrice = 0;
+          let communityPrice = this.showingCommunity?.rewardPrice ?? 0;
+
+          if (!communityPrice) {
+            communityPrice = await getPriceFromOracle(res[0].chainId, res)
+            communityPrice = communityPrice[res[0].token]
+          };
+          if (this.rewards[0].amount !== '???'){
+            totalPrice += parseFloat(this.rewards[0].amount) * parseFloat(communityPrice ?? 0)
+            curationPrice += parseFloat(this.rewards[0].curationAmount) * parseFloat(communityPrice ?? 0)
+            authorPrice += parseFloat(this.rewards[0].authorAmount) * parseFloat(communityPrice ?? 0)
           }
-          if (price > 0) {
-            this.price = formatPrice(price)
+          if (totalPrice > 0) {
+            this.totalPrice = formatPrice(totalPrice)
+            this.curationPrice = formatPrice(curationPrice)
+            this.authorPrice = formatPrice(authorPrice)
           }
         }else {
           this.rewards = []
