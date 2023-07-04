@@ -82,10 +82,6 @@ export default {
     this.getRewards()
   },
   methods: {
-    countdown(time) {
-      if(!time || !isNumeric(time)) return 0
-      return time*1000 - new Date().getTime()
-    },
     parseTimestamp,
     formatAmount,
     async getRewards() {

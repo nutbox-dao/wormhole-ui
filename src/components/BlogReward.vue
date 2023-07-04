@@ -29,26 +29,26 @@
             </div>
           </template>
           <div v-if="post.endtime*1000>new Date().getTime()">
-            <div class="">estimated amount for reference</div>
-            <div class="flex justify-center items-center text-12px">
+            <div class="text-12px mt-6px">estimated amount for reference</div>
+            <div class="flex justify-center items-center text-12px font-bold">
               <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
               <van-count-down v-if="post.endtime" class="text-color62"
                               :time="countdown(post.endtime)">
                 <template #default="timeData">
-                              <span v-if="timeData.days>0">
-                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
-                              </span>
+                  <span v-if="timeData.days>0">
+                    {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
+                  </span>
                   <span v-else-if="timeData.hours>0">
-                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
+                    {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
+                  </span>
                   <span v-else>
-                                {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
+                    {{ timeData.minutes }} m {{ timeData.seconds }} s
+                  </span>
                 </template>
               </van-count-down>
             </div>
           </div>
-          <div v-else class="">amount settled already</div>
+          <div v-else class="text-12px mt-6px">amount settled already</div>
         </div>
         <div v-else class="min-w-130px text-center">
           <img class="w-20px mx-auto my-8px" src="~@/assets/icon-loading.svg" alt="">
@@ -74,38 +74,38 @@
                   </span>
             </template>
           </ChainTokenIcon>
-          <div class="w-full flex justify-between gap-8px">
+          <div class="w-full flex flex-wrap justify-between gap-x-8px gap-y-2px mb-6px">
             <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+                          flex items-center light:shadow-color1A px-8px mt-4px whitespace-nowrap">
               <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
-              <span class="text-black">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
+              <span class="text-black whitespace-nowrap">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
             </div>
             <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+                          flex items-center light:shadow-color1A px-8px mt-4px whitespace-nowrap">
               <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
-              <span class="text-black">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
+              <span class="text-black whitespace-nowrap">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
             </div>
           </div>
-          <div v-if="post.endtime*1000>new Date().getTime()">
-            <div class="">estimated amount for reference</div>
-            <div class="flex justify-center items-center text-12px">
+          <template v-if="post.endtime*1000>new Date().getTime()">
+            <div class="text-12px">estimated amount for reference</div>
+            <div class="flex justify-center items-center text-12px font-bold">
               <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
               <van-count-down v-if="post.endtime" class="text-color62"
                               :time="countdown(post.endtime)">
                 <template #default="timeData">
-                              <span v-if="timeData.days>0">
-                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
-                              </span>
+                  <span v-if="timeData.days>0">
+                    {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
+                  </span>
                   <span v-else-if="timeData.hours>0">
-                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
+                    {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
+                  </span>
                   <span v-else>
-                                {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
+                    {{ timeData.minutes }} m {{ timeData.seconds }} s
+                  </span>
                 </template>
               </van-count-down>
             </div>
-          </div>
+          </template>
           <div v-else class="">amount settled already</div>
         </div>
       </template>
