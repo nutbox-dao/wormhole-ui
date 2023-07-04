@@ -29,33 +29,6 @@
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
                       :is-detail='true'>
-                  <template #curation-time>
-                    <div class="w-200px max-w-200px">
-                      <div class="mt-8px" v-if="!curationLoading && curationList.length>0">
-                        <template v-if="curationList[0].endtime*1000>new Date().getTime()">
-                          <div class="">estimated amount for reference</div>
-                          <div class="flex justify-center items-center text-12px">
-                            <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
-                            <van-count-down v-if="curationList[0].endtime" class="text-color62"
-                                            :time="countdown(curationList[0].endtime)">
-                              <template #default="timeData">
-                              <span v-if="timeData.days>0">
-                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
-                              </span>
-                                <span v-else-if="timeData.hours>0">
-                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
-                                <span v-else>
-                                {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
-                              </template>
-                            </van-count-down>
-                          </div>
-                        </template>
-                        <div v-else class="">amount settled already</div>
-                      </div>
-                    </div>
-                  </template>
                 </Blog>
                 <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D ">
                   <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px

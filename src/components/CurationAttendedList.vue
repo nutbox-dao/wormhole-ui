@@ -15,27 +15,6 @@
       </div>
       <div class="px-15px relative">
         <BlogReward :is-popover="false" :post="post"></BlogReward>
-        <template v-if="curation.endtime*1000>new Date().getTime()">
-          <div class="mt-6px text-12px">estimated amount for reference</div>
-          <div class="flex justify-center items-center text-12px font-bold">
-            <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
-            <van-count-down v-if="curation.endtime" class="text-color62"
-                            :time="countdown(curation.endtime)">
-              <template #default="timeData">
-                              <span v-if="timeData.days>0">
-                                {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m
-                              </span>
-                <span v-else-if="timeData.hours>0">
-                                {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
-                <span v-else>
-                                {{ timeData.minutes }} m {{ timeData.seconds }} s
-                              </span>
-              </template>
-            </van-count-down>
-          </div>
-        </template>
-        <div v-else class="text-12px">amount settled already</div>
       </div>
 
       <div class="mt-8px text-12px text-color62 text-center italic px-10px">{{$t('curation.rewardTip')}}</div>
