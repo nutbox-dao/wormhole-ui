@@ -39,7 +39,7 @@
                        :text-inside="false"
                        :stroke-width="10"
                        :show-text="false"
-                       :percentage="(community.memberCount - community.userIndex) * 100 / community.memberCount"/>
+                       :percentage="(community.memberCount - community.userIndex + 1) * 100 / community.memberCount"/>
           <button class="bg-white/20 w-20px h-20px rounded-full flex justify-center items-center ml-10px sm:hidden"
                   @click.stop="this.isFold=!this.isFold,getDetail">
             <img class="w-16px transform spin-slow"
@@ -48,7 +48,7 @@
           </button>
         </div>
         <div class="text-12px text-white/80 text-left mt-10px">
-          {{$t('community.influenceTip', {percent: ((community.memberCount - community.userIndex) * 100 / community.memberCount).toFixed(2)})}}
+          {{$t('community.influenceTip', {percent: ((community.memberCount - community.userIndex + 1) * 100 / community.memberCount).toFixed(2)})}}
         </div>
       </div>
     </div>
