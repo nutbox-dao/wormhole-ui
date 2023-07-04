@@ -29,8 +29,8 @@
             </div>
           </template>
           <div v-if="post.endtime*1000>new Date().getTime()">
-            <div class="text-12px mt-6px">estimated amount for reference</div>
-            <div class="flex justify-center items-center text-12px font-bold">
+            <div class="text-12px mt-6px text-left">estimated amount for reference</div>
+            <div class="flex items-center text-12px font-bold">
               <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
               <van-count-down v-if="post.endtime" class="text-color62"
                               :time="countdown(post.endtime)">
@@ -48,7 +48,7 @@
               </van-count-down>
             </div>
           </div>
-          <div v-else class="text-12px mt-6px">amount settled already</div>
+          <div v-else class="text-12px mt-6px text-left">amount settled already</div>
         </div>
         <div v-else class="min-w-130px text-center">
           <img class="w-20px mx-auto my-8px" src="~@/assets/icon-loading.svg" alt="">
@@ -87,8 +87,8 @@
             </div>
           </div>
           <template v-if="post.endtime*1000>new Date().getTime()">
-            <div class="text-12px">estimated amount for reference</div>
-            <div class="flex justify-center items-center text-12px font-bold">
+            <div class="text-12px text-left">estimated amount for reference</div>
+            <div class="flex items-center text-12px font-bold">
               <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
               <van-count-down v-if="post.endtime" class="text-color62"
                               :time="countdown(post.endtime)">
@@ -106,7 +106,7 @@
               </van-count-down>
             </div>
           </template>
-          <div v-else class="">amount settled already</div>
+          <div v-else class="text-12px text-left">amount settled already</div>
         </div>
       </template>
     </div>

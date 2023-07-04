@@ -17,7 +17,7 @@
         <BlogReward :is-popover="false" :post="post"></BlogReward>
       </div>
 
-      <div class="mt-8px text-12px text-color62 text-center italic px-10px">{{$t('curation.rewardTip')}}</div>
+      <div class="mt-8px text-12px text-color62 text-left italic px-15px">{{$t('curation.rewardTip')}}</div>
       <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
         <span class="w-3/7">{{$t('curation.attended')}}</span>
         <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span>
