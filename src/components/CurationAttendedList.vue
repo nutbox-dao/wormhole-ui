@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="flex-1 overflow-auto pb-15px no-scroll-bar">
-      <div class="flex justify-between items-center py-1rem px-1.5rem text-left border-b-0.5px border-color8B/30 gap-10px"
+      <div class="flex justify-between items-center py-15px px-15px text-left border-b-0.5px border-color8B/30 gap-10px"
            v-for="record of (records ?? [])" :key="record.id">
         <div class="w-3/7 flex items-center cursor-pointer truncate"
              @click="$router.push('/account-info/@' + record.twitterUsername)">
