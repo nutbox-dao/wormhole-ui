@@ -17,22 +17,22 @@
                 </template>
               </ChainTokenIcon>
               <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+                          flex items-center light:shadow-color1A px-8px mt-6px">
                 <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
                 <span class="text-black">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
               </div>
               <div class="border-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px">
+                          flex items-center light:shadow-color1A px-8px mt-6px">
                 <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
                 <span class="text-black">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
               </div>
             </div>
           </template>
           <div v-if="post.endtime*1000>new Date().getTime()">
-            <div class="text-12px mt-6px text-left">estimated amount for reference</div>
+            <div class="text-12px mt-8px text-left"><span class="text-color62">estimated</span> amount for reference</div>
             <div class="flex items-center text-12px font-bold">
-              <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
-              <van-count-down v-if="post.endtime" class="text-color62"
+              <span class="whitespace-nowrap mr-10px mt-8px">{{ $t('curation.endTime') }}:</span>
+              <van-count-down v-if="post.endtime" class="text-color62 mt-8px"
                               :time="countdown(post.endtime)">
                 <template #default="timeData">
                   <span v-if="timeData.days>0">
@@ -76,21 +76,21 @@
           </ChainTokenIcon>
           <div class="w-full flex flex-wrap justify-between gap-x-8px gap-y-2px mb-6px">
             <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px whitespace-nowrap">
+                          flex items-center light:shadow-color1A px-8px mt-6px whitespace-nowrap">
               <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
               <span class="text-black whitespace-nowrap">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
             </div>
             <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
-                          flex items-center light:shadow-color1A px-8px mt-4px whitespace-nowrap">
+                          flex items-center light:shadow-color1A px-8px mt-6px whitespace-nowrap">
               <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
               <span class="text-black whitespace-nowrap">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
             </div>
           </div>
           <template v-if="post.endtime*1000>new Date().getTime()">
-            <div class="text-12px text-left">estimated amount for reference</div>
+            <div class="text-12px text-left"><span class="text-color62">estimated</span> amount for reference</div>
             <div class="flex items-center text-12px font-bold">
-              <span class="whitespace-nowrap mr-10px">{{ $t('curation.endTime') }}:</span>
-              <van-count-down v-if="post.endtime" class="text-color62"
+              <span class="whitespace-nowrap mr-10px mt-8px">{{ $t('curation.endTime') }}:</span>
+              <van-count-down v-if="post.endtime" class="text-color62 mt-8px"
                               :time="countdown(post.endtime)">
                 <template #default="timeData">
                   <span v-if="timeData.days>0">

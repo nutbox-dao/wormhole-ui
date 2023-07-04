@@ -20,14 +20,14 @@
       <div class="mt-8px text-12px text-color62 text-left italic px-15px">{{$t('curation.rewardTip')}}</div>
       <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
         <span class="w-3/7">{{$t('curation.attended')}}</span>
-        <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span>
+        <!-- <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span> -->
         <span class="w-2/7 text-right">{{$t('curation.reward')}}</span>
       </div>
     </div>
     <div class="flex-1 overflow-auto pb-15px no-scroll-bar">
       <div class="flex justify-between items-center py-15px px-15px text-left border-b-0.5px border-color8B/30 gap-10px"
-           v-for="record of (records ?? [])" :key="record.id">
-        <div class="w-3/7 flex items-center cursor-pointer truncate"
+           v-for="record of (list ?? [])" :key="record.id">
+        <div class="w-4/7 flex items-center cursor-pointer truncate"
              @click="$router.push('/account-info/@' + record.twitterUsername)">
           <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border "
                :src="record.profileImg" alt="">
@@ -35,8 +35,8 @@
             {{record.twitterUsername}}
           </div>
         </div>
-        <div class="w-2/7 text-right">10000</div>
-        <div class="w-2/7 text-right">$0.0</div>
+        <!-- <div class="w-2/7 text-right">10000</div> -->
+        <div class="w-3/7 text-right">{{ showingReward(record) }}</div>
       </div>
     </div>
   </div>
@@ -45,9 +45,12 @@
 <script>
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
+import { getAutoCurationRecord } from '@/api/api'
 import {getPriceFromOracle} from "@/utils/asset";
 import BlogReward from "@/components/BlogReward.vue";
 import {isNumeric} from "@/utils/tool";
+import { mapState } from "vuex";
+import { EVM_CHAINS_ID } from '@/config'
 
 export default {
   name: "CurationAttendedList",
@@ -74,55 +77,50 @@ export default {
   },
   data() {
     return {
-      rewards: [],
-      price: '0.00'
+      price: 0,
+      list: []
     }
   },
-  mounted() {
-    this.getRewards()
+  computed: {
+    ...mapState('community', ['showingCommunity'])
+  },
+  async mounted() {
+    this.list = this.records;
+    if (this.showingCommunity && this.showingCommunity.rewardPrice) {
+      this.price = this.showingCommunity.rewardPrice
+    }else {
+      const prices = await getPriceFromOracle(EVM_CHAINS_ID[this.curation.chainId], [{token: this.curation.token, decimals: this.curation.decimals}])
+      this.price = prices[this.curation.token]
+    }
   },
   methods: {
     parseTimestamp,
     formatAmount,
-    async getRewards() {
-      // getCurationRewardsOfPost(this.post.postId).then(async res => {
-      const res = this.post.reward
-      if (res && res.length > 0) {
-        this.rewards = res.map(r => {
-          let reward = '???'
-          let amount = '???'
-
-          if (r.amount > 0) {
-            amount = r.amount / (10 ** r.decimals)
-            if (r.authorReward > 0 && r.isPromotion == 1) {
-              amount += r.authorReward / (10 ** r.decimals)
-            }
-            reward = formatAmount(amount);
-          }
-          return {
-            ...r,
-            reward,
-            amount
-          }
-        });
-        const prices = await Promise.all(this.rewards.map(reward => getPriceFromOracle(reward.chainId, [reward])));
-        let price = 0;
-        for (let i = 0; i < prices.length; i++) {
-          const p = prices[i];
-          if (p) {
-            if (this.rewards[i].amount !== '???'){
-              price += parseFloat(this.rewards[i].amount) * parseFloat(p[this.rewards[i].token] ?? 0)
-            }
-          }
-        }
-        if (price > 0) {
-          this.price = formatPrice(price)
-        }
-      }else {
-        this.rewards = []
+    showingReward(reward) {
+      let amount = 0;
+      let p = 0;
+      if (reward.amount > 0) {
+        amount = reward.amount / (10 ** reward.decimals)
+      }else if (reward.estimateAmount > 0) {
+        amount = reward.estimateAmount / (10 ** reward.decimals)
       }
-      // }).catch(e => {this.rewards = []; console.log(4, e)}).finally(() => this.showCuratedTip = true)
+      return `${formatAmount(amount)}(${formatPrice(amount * this.price)})`
     },
+    onLoad() {
+      let time;
+      if (this.list.length > 0 && !this.refreshing) {
+        time = this.list[this.list.length - 1].createAt
+      }
+      getAutoCurationRecord(this.curation.curationId, time).then(list=>{
+          if(this.refreshing) this.list = []
+          this.refreshing = false
+          this.finished = list.length<30
+          this.list = this.list.concat(list)
+        }).finally(r => {
+          this.loading = false
+          this.refreshing = false
+        })
+    }
   }
 }
 </script>
