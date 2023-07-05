@@ -325,6 +325,10 @@ export const EVM_CHAINS = {
 
             NVT: {symbol: 'NVT', name: 'NVT', address: '0xCBE315d0163E372A82436F67C64097d6634394a9', decimals: 8, icon: ''},
         },
+        walnutGraph: {
+            useTheGraph: false,
+            url: 'https://enuls-graph.nutbox.app/v1/common/search'
+        },
         rewardCalculatorAddress: '0xb035C2bD1F0D2f36d78B9161Ca8F04aA81DCD20E',
         Multi_Config: {
             rpcUrl: 'https://evmapi.nuls.io',

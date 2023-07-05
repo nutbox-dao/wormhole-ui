@@ -34,7 +34,7 @@
                   {{$t('community.joined')}}
                 </div>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-15px mb-20px ">
-                  <div class="col-span-1 bg-blockBg light:bg-white rounded-16px flex flex-col items-center p-15px"
+                  <button class="col-span-1 bg-blockBg light:bg-white rounded-16px flex flex-col items-center p-15px"
                        v-for="(joinCom, i) of joinedCommunities" :key="i"
                        @click="$router.push(`/community-detail/${joinCom.communityId}`);">
                     <img class="w-72px h-72px min-w-72px min-h-72px bg-white rounded-full -16px"
@@ -42,19 +42,19 @@
                     <div class="c-text-black text-18px text-white light:text-blueDark mt-8px truncate w-full">
                       {{joinCom.communityName}}
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div v-show="refreshing || pendingCommunities.length > 0" class="text-left text-16px font-bold text-color8B light:text-color7D mb-8px">
                   {{$t('community.moreCommunities')}}
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-15px">
-                  <div v-for="(com, i) of pendingCommunities" :key="i"
+                  <button v-for="(com, i) of pendingCommunities" :key="i"
                        @click="$router.push(`/community-detail/${com.communityId}`);">
                     <CommunityItem class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
                                           border-0.5px border-color8B/30 light:border-transparent bg-blockBg
                                           light:bg-white light:shadow-color1A"
                                           :community="com"></CommunityItem>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
