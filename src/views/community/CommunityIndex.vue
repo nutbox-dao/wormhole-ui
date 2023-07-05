@@ -17,7 +17,7 @@
                         :loading-text="$t('common.loading')"
                         :pulling-text="$t('common.pullRefresh')"
                         :loosing-text="$t('common.loosingRefresh')">
-        <div class="h-full overflow-auto">
+        <div class="h-full overflow-auto no-scroll-bar">
           <van-list :loading="listLoading"
                     :finished="listFinished"
                     :immediate-check="false"

@@ -25,19 +25,25 @@
       </div>
     </div>
     <div class="flex-1 overflow-auto pb-15px no-scroll-bar">
-      <div class="flex justify-between items-center py-15px px-15px text-left border-b-0.5px border-color8B/30 gap-10px"
-           v-for="record of (list ?? [])" :key="record.id">
-        <div class="w-4/7 flex items-center cursor-pointer truncate"
-             @click="$router.push('/account-info/@' + record.twitterUsername)">
-          <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border "
-               :src="record.profileImg" alt="">
-          <div class="text-12px leading-18px ml-8px truncate">
-            {{record.twitterUsername}}
+      <van-list :loading="listLoading"
+                :finished="listFinished"
+                :immediate-check="false"
+                :loading-text="$t('common.loading')"
+                @load="onLoad">
+        <div class="flex justify-between items-center py-15px px-15px text-left border-b-0.5px border-color8B/30 gap-10px"
+             v-for="record of (list ?? [])" :key="record.id">
+          <div class="w-4/7 flex items-center cursor-pointer truncate"
+               @click="$router.push('/account-info/@' + record.twitterUsername)">
+            <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border "
+                 :src="record.profileImg" alt="">
+            <div class="text-12px leading-18px ml-8px truncate">
+              {{record.twitterUsername}}
+            </div>
           </div>
+          <!-- <div class="w-2/7 text-right">10000</div> -->
+          <div class="w-3/7 text-right">{{ showingReward(record) }}</div>
         </div>
-        <!-- <div class="w-2/7 text-right">10000</div> -->
-        <div class="w-3/7 text-right">{{ showingReward(record) }}</div>
-      </div>
+      </van-list>
     </div>
   </div>
 </template>
@@ -78,6 +84,8 @@ export default {
   data() {
     return {
       price: 0,
+      listLoading: false,
+      listFinished: false,
       list: []
     }
   },
@@ -107,18 +115,17 @@ export default {
       return `${formatAmount(amount)}(${formatPrice(amount * this.price)})`
     },
     onLoad() {
+      if(this.listLoading || this.listFinished) return
       let time;
-      if (this.list.length > 0 && !this.refreshing) {
+      if (this.list.length > 0) {
         time = this.list[this.list.length - 1].createAt
       }
+      this.listLoading = true
       getAutoCurationRecord(this.curation.curationId, time).then(list=>{
-          if(this.refreshing) this.list = []
-          this.refreshing = false
-          this.finished = list.length<30
+          this.listFinished = list.length<30
           this.list = this.list.concat(list)
         }).finally(r => {
-          this.loading = false
-          this.refreshing = false
+          this.listLoading = false
         })
     }
   }
