@@ -86,7 +86,7 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-color62/20  rounded-12px px-15px py-8px min-h-54px md:mt-15px
+              <div v-show="curationLoading || participant.length > 0" class="bg-color62/20  rounded-12px px-15px py-8px min-h-54px md:mt-15px
                           flex lg:hidden justify-between items-center">
                 <img v-if="curationLoading|| participantLoading"
                      class="h-40px mx-auto"

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-15px">
+  <div class="py-15px px-15px">
     <InfluenceCardItem v-if="community.joined" :community="communityCCscore"
                        class="cursor-pointer bg-primaryBg light:bg-color27"></InfluenceCardItem>
     <div v-else class="text-color8B light:text-color7D text-12px mt-15px">
