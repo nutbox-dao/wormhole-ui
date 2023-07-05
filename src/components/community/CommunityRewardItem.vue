@@ -214,7 +214,9 @@ export default {
     parseTimestamp,
     formatAmount,
     formatPrice,
-    gotoDetail() {},
+    gotoDetail(reward) {
+      this.$router.push('/post-detail/' + reward.tweetId)
+    },
     async connect() {
       try {
         this.connecting = true

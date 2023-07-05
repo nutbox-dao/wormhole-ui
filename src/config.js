@@ -88,7 +88,8 @@ export const TokenIcon = {
     "wDMN": 'https://cdn.wherein.mobi/community/logo/damoon.jpg',
     "nulsmoon":'https://cdn.wherein.mobi/community/logo/nulsmoon.png',
     'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',
-    'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg'
+    'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg',
+    "wAIR": 'https://cdn.wherein.mobi/community/logo/wh3-airdrop.png'
 }
 
 export const TokenName = {
