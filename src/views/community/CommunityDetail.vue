@@ -20,14 +20,11 @@
       <div class="w-full flex justify-between items-center pl-30px">
         <span class="text-16px c-text-black">{{showingCommunity.communityName}}</span>
         <div class="flex items-center gap-8px">
-          <button @click="changeTab(2)" class="filter light:brightness-0">
+          <button @click="changeTab(2)" class="filter invert-0 light:invert-100">
             <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
           </button>
           <button @click="changeTab(3)" class="filter invert-100 light:invert-0">
             <img class="w-16px h-16px" src="~@/assets/icon-rank-white.svg" alt="">
-          </button>
-          <button @click="changeTab(4)" class="filter light:brightness-0">
-            <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
           </button>
         </div>
       </div>
@@ -39,14 +36,11 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
       <div class="flex items-center gap-8px">
-        <button @click="changeTab(2)" class="filter light:brightness-0">
+        <button @click="changeTab(2)" class="filter invert-0 light:invert-100">
           <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
         </button>
         <button @click="changeTab(3)" class="filter invert-100 light:invert-0">
           <img class="w-16px h-16px" src="~@/assets/icon-rank-white.svg" alt="">
-        </button>
-        <button @click="changeTab(4)" class="filter light:brightness-0">
-          <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
         </button>
       </div>
     </div>
