@@ -56,12 +56,16 @@
                   light:shadow-color1A sm:rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"
            @scroll="webPageScroll">
-        <div class="overflow-hidden" :class="scroll>=90?'bg-primaryBg light:bg-white':'bg-blockBg light:bg-white'">
+        <div class="overflow-hidden sm:rounded-t-16px"
+             :class="scroll>=90?'bg-primaryBg light:bg-white':'bg-blockBg light:bg-white'">
           <div class="overflow-hidden relative pt-15px px-15pxs  light:bg-white sm:rounded-t-16px"
                :style="{maxHeight: `${infoMaxHeight}px`}">
             <!-- description header -->
-            <c-image :src="showingCommunity.banner"
-                     class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0 border-b-0.5px border-colorF7"></c-image>
+            <div class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0">
+              <c-image :src="showingCommunity.banner"
+                       class="w-full h-160px min-h-160px max-h-160px object-cover absolute top-0 left-0"></c-image>
+              <div class="absolute top-0 left-0 w-full h-160px min-h-160px max-h-160px bg-img-overlay"></div>
+            </div>
             <div class="relative mt-95px px-15px">
               <div class="flex items-stretch truncate">
                 <c-image :src="showingCommunity.icon"

@@ -1,8 +1,12 @@
 <template>
   <div class="rounded-16px overflow-hidden relative pt-50px pb-15px px-15px
               border-1 border-color8B/30 light:border-colorF2 bg-blockBg light:bg-white">
-    <img class="w-full h-100px min-h-100px max-h-100px object-cover absolute top-0 left-0"
-         :src="community.banner" alt="">
+    <div class="w-full h-100px min-h-100px max-h-100px object-cover absolute top-0 left-0">
+      <img class="w-full h-full object-cover"
+           :src="community.banner" alt="">
+      <div class="absolute top-0 left-0 h-full w-full bg-img-overlay"></div>
+    </div>
+
     <div class="relative">
       <div class="flex items-stretch">
         <img class="w-72px h-72px min-w-72px min-h-72px border-2 border-colorF7 rounded-36px"

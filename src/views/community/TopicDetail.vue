@@ -22,8 +22,12 @@
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
                   2md:h-full no-scroll-bar 2md:overflow-auto">
         <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px flex flex-col">
-          <c-image :src="topic?.banner"
-                   class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px"></c-image>
+          <div class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px">
+            <c-image :src="topic?.banner"
+                     class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px"></c-image>
+            <div class="absolute top-0 left-0 w-full h-160px min-h-160px max-h-160px bg-img-overlay sm:rounded-t-16px"></div>
+          </div>
+
           <div class="flex justify-between items-start bg-color1A min-h-40px py-10px px-15px">
             <span class="c-text-black text-16px leading-20px text-white break-word mr-15px text-left">
               {{ topic?.title }}
