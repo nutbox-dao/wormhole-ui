@@ -24,7 +24,7 @@
             <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
           </button>
           <button @click="changeTab(3)">
-            <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
+            <img class="w-16px h-16px" src="~@/assets/icon-rank-white.svg" alt="">
           </button>
           <button @click="changeTab(4)">
             <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
