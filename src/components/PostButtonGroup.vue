@@ -701,6 +701,10 @@ export default {
           notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
           return;
         }
+        if (e === errCode.INSUFFICIENT_VP) {
+          notify({message: this.$t('tips.insufficientVP'), type: 'info', duration: 5000});
+          return;
+        }
         if (e === errCode.TWITTER_ERROR) {
           notify({message: this.$t('tips.likeTooFrequent'), type: 'info', duration: 5000});
           return;
