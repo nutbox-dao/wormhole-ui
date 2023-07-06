@@ -89,6 +89,7 @@ export default {
     }
     if (this.members.length === 0 && this.communityId !== this.showingCommunity.communityId) {
       this.communityId = this.showingCommunity.communityId
+      this.$store.commit('community/saveMembers', []);
       this.listFinished = false;
       this.refresh()
     }
