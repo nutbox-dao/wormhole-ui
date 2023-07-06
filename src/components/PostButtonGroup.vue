@@ -570,6 +570,9 @@ export default {
       try{
         this.isFollowing = true
         const result = await followPost(this.post.postId)
+        if (this.post.communityId) {
+          joinCommunity(this.post.communityId).catch();
+        }
         this.post.followed = 1
         this.post.followCount  = this.post.followCount ? this.post.followCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
