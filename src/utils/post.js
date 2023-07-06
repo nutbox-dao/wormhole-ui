@@ -3,6 +3,24 @@ import { checkAccessToken, logout } from '@/utils/account'
 import { likePost as lp, unLikePost as ulp, retweetPost as rtp, quotePost as qp, replyPost as rep, userFollow as fp } from '@/api/api'
 import { VP_CONSUME, RC_CONSUME, errCode } from '@/config';
 
+function checkVP(consume) {
+    const vpInfo = store.state.vpInfo;
+    const vp = store.state.vp;
+    if (vp >= consume && vpInfo.lastUpdateTime > 0) {
+        return true;
+    }
+    return false;
+}
+
+function checkRC(consume) {
+    const rcInfo = store.state.rcInfo;
+    const rc = store.state.rc;
+    if (rc >= consume && rcInfo.lastUpdateRCTime > 0) {
+        return true;
+    }
+    return false;
+}
+
 function updateUserVpLocal(consume) {
     const vpInfo = store.state.vpInfo;
     const vp = store.state.vp;
@@ -31,9 +49,12 @@ export const likePost = async (tweetId, authorId, up=true) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = udpateUserRCLocal(RC_CONSUME.LIKE)
+        const rcResult = checkRC(RC_CONSUME.LIKE)
         if (!rcResult) {
             throw errCode.INSUFFICIENT_RC;
+        }
+        if (!checkVP(VP_CONSUME.LIKE)) {
+            throw errCode.INSUFFICIENT_VP;
         }
         let r;
         if (up) {
@@ -43,6 +64,7 @@ export const likePost = async (tweetId, authorId, up=true) => {
         }
         if (authorId !== twitterId) {
             updateUserVpLocal(VP_CONSUME.LIKE)
+            udpateUserRCLocal(RC_CONSUME.LIKE)
         }
         console.log('user like tweet result:', r, up);
         if(r) {
@@ -82,13 +104,17 @@ export const retweetPost = async (tweetId, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = udpateUserRCLocal(RC_CONSUME.RETWEET)
+        const rcResult = checkRC(RC_CONSUME.RETWEET)
         if (!rcResult) {
             throw errCode.INSUFFICIENT_RC;
+        }
+        if (!checkVP(VP_CONSUME.RETWEET)) {
+            throw errCode.INSUFFICIENT_VP;
         }
         const r = await rtp(twitterId, tweetId)
         if (twitterId !== authorId) {
             updateUserVpLocal(VP_CONSUME.RETWEET)
+            udpateUserRCLocal(RC_CONSUME.RETWEET)
         }
         console.log('user retweet result:', r);
         if(r) {
@@ -129,13 +155,17 @@ export const quotePost = async (tweetId, content, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = udpateUserRCLocal(RC_CONSUME.QUOTE)
+        const rcResult = checkRC(RC_CONSUME.QUOTE)
         if (!rcResult) {
             throw errCode.INSUFFICIENT_RC;
+        }
+        if(!checkVP(VP_CONSUME.QUOTE)) {
+            throw errCode.INSUFFICIENT_VP;
         }
         const r = await qp(twitterId, tweetId, content)
         if (authorId !== twitterId) {
             updateUserVpLocal(VP_CONSUME.QUOTE)
+            udpateUserRCLocal(RC_CONSUME.QUOTE)
         }
         console.log('user reply tweet result:', r);
         if(r) {

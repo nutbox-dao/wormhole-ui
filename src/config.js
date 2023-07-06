@@ -429,6 +429,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     UPLOAD_FAIL: 111,
 
     INSUFFICIENT_RC: 307,
+    INSUFFICIENT_VP: 308,
     BLOCK_CHAIN_ERR: 351,
     CONTRACT_CREATE_FAIL: 352,
     USER_CANCEL_SIGNING: 353,

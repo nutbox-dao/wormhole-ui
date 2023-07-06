@@ -518,7 +518,7 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
           return;
         }
         notify({message: e, type: 'error'})
@@ -550,7 +550,11 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_VP) {
+          notify({message: this.$t('tips.insufficientVP'), type: 'info', duration: 5000});
           return;
         }
         notify({message: e, type: 'error'})
@@ -579,7 +583,7 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
           return;
         }
         notify({message: e, type: 'error'})
@@ -612,7 +616,11 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_VP) {
+          notify({message: this.$t('tips.insufficientVP'), type: 'info', duration: 5000});
           return;
         }
         if (e === errCode.TWITTER_ERROR) {
@@ -639,6 +647,7 @@ export default {
         this.post.likeCount  = this.post.likeCount ? this.post.likeCount + 1 : 1
         this.$bus.emit('updatePostIndetail', {postDetail: this.post})
       } catch (e) {
+        console.log('like post fail:', e === errCode.INSUFFICIENT_VP, e == errCode.INSUFFICIENT_VP)
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
           return
@@ -648,7 +657,11 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
+          return;
+        }
+        if (e === errCode.INSUFFICIENT_VP) {
+          notify({message: this.$t('tips.insufficientVP'), type: 'info', duration: 5000});
           return;
         }
         if (e === errCode.TWITTER_ERROR) {
@@ -682,7 +695,7 @@ export default {
           return;
         }
         if (e === errCode.INSUFFICIENT_RC) {
-          notify({message: this.$t('tips.insuffientRC'), type: 'info', duration: 5000})
+          notify({message: this.$t('tips.insufficientRC'), type: 'info', duration: 5000})
           return;
         }
         if (e === errCode.TWITTER_ERROR) {
