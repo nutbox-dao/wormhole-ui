@@ -184,6 +184,9 @@ div[contenteditable] {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  &-5 {
+    -webkit-line-clamp: 5;
+  }
 }
 .recommend-curation {
   .id-time {

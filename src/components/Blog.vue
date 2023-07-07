@@ -89,7 +89,7 @@
                  class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
               <a v-if="isIgnoreAccount" :href="steemUrl" class="text-blue-500 break-all" target="_blank">{{steemUrl}}</a>
               <div class="whitespace-pre-line"
-                   :class="(imgurls && imgurls.length>0 && !isDetail)?'multi-content':''"
+                   :class="!isDetail?(imgurls && imgurls.length>0 ?'multi-content':'multi-content multi-content-5'):''"
                    v-else v-html="formatEmojiText(content)"></div>
             </div>
           </div>
