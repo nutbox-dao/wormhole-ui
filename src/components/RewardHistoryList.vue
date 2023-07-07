@@ -163,7 +163,6 @@ export default {
     }
   },
   mounted () {
-    console.log(32, this.chainId, this.type);
     this.refresh();
   },
 }

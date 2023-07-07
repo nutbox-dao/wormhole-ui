@@ -43,7 +43,7 @@
         </button>
       </router-link>
       <router-link v-if="getAccountInfo&&getAccountInfo.twitterUsername"
-                   :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
+                   :to="`/profile/@${getAccountInfo.twitterUsername}`"
                    class="flex-1 w-full" v-slot="{isActive}">
         <button  class="w-full h-60px flex items-center brightness-0"
                  :class="isActive || isProfile?'text-color62':'text-color99'">

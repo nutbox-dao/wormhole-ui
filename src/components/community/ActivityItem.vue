@@ -1,8 +1,7 @@
 <template>
   <div class="text-left">
     <div class="font-bold c-text-black text-14px mb-10px">{{type}}</div>
-    <div class="text-15px leading-21px break-word multi-content">
-      {{ op.content }}
+    <div class="text-15px leading-21px break-word multi-content" v-html="op.content">
     </div>
     <div class="flex justify-between items-center mt-10px text-12px">
       <div class="flex items-center">

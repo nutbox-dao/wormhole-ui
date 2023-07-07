@@ -61,8 +61,7 @@
           </span>
         </div>
       </div>
-      <div class="text-14px leading-20px text-left mt-15px">
-        {{ topic.description }}
+      <div class="text-14px leading-20px text-left mt-15px" v-html="formatEmojiText(topic.description)">
       </div>
       <button class="w-full h-40px gradient-bg gradient-bg-color3 text-white c-text-black text-16px rounded-full mt-10px"
               @click="$router.push(`/topic-detail/${topic.activityId}`)">
@@ -75,6 +74,7 @@
 <script>
 import {isNumeric} from "@/utils/tool";
 import { getDateString, parseSpaceStartTime } from "@/utils/helper"
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "TopicItem",
@@ -101,6 +101,7 @@ export default {
   methods: {
     getDateString,
     parseSpaceStartTime,
+    formatEmojiText,
     countdown(time) {
       if(!time || !isNumeric(time)) return 0
       return time*1000 - new Date().getTime()

@@ -97,12 +97,11 @@
               </div>
             </div>
           </div>
-          <div class="text-14px leading-20px text-left pb-15px">
-            {{ topic?.description }}
-            <button @click="join" class="ml-8px bg-color62 text-white rounded-full h-20px px-10px text-14px">
+          <div class="text-14px leading-20px text-left pb-15px" v-html="topic?.description">
+          </div>
+          <button @click="join" class="ml-8px bg-color62 text-white rounded-full h-20px px-10px text-14px">
               {{$t('community.joinIn')}}
             </button>
-          </div>
         </div>
         <div class="flex items-center justify-center gap-30px h-48px text-18px font-bold 2md:hidden
                 border-b-0.5px border-color8B/30 light:border-color7F bg-primaryBg light:bg-white
@@ -245,6 +244,7 @@ import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 import Avatar from "@/components/Avatar.vue";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import ActivityRewardItem from "@/components/community/ActivityRewardItem.vue";
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "TopicDetail",
@@ -294,7 +294,7 @@ export default {
         return this.newPostsList
       }
       return []
-    }
+    },
   },
   watch: {
     topic(newValue, oldValue) {
@@ -312,6 +312,7 @@ export default {
     formatPrice,
     formatAddress,
     formatDateString,
+    formatEmojiText,
     onCopy,
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;

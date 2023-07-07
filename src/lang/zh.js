@@ -126,7 +126,10 @@ export default {
     people: '人',
     curations: '策展',
     post: '帖子',
-    onChainTweet: '链上推文'
+    onChainTweet: '推文',
+    liked: '喜欢',
+    quoted: '引用',
+    retweeted: '转推'
   },
   walletView: {
     totalBalance: '总余额',
