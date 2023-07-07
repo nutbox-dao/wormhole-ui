@@ -138,21 +138,7 @@ const routes = [
     path: '/profile/:user',
     name: 'user',
     component: UserIndexView,
-    meta: {gotoHome: true, header: 'hidden'},
-    children: [
-      {
-        path: '/profile/:user/post',
-        name: 'post',
-        component: UserPostView,
-        meta: {keepAlive: true, gotoHome: true}
-      },
-      {
-        path: '/profile/:user/curations',
-        name: 'profile-curations',
-        component: CurationsView,
-        meta: {keepAlive: true, gotoHome: true}
-      }
-    ]
+    meta: {gotoHome: true, header: 'hidden'}
   },
   {
     path: '/post-detail/:postId',

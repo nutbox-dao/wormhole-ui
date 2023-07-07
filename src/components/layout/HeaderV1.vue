@@ -72,7 +72,7 @@
             <img class="ml-5px w-14px min-w-14px h-14px"
                  src="~@/assets/icon-add-white.svg" alt="">
           </button>
-          <router-link :to="`/profile/@${getAccountInfo.twitterUsername}/post`"
+          <router-link :to="`/profile/@${getAccountInfo.twitterUsername}`"
                        class="w-35px h-35px xl:h-40px xl:w-40px mr-0.4rem relative p-2px">
             <img class="w-full h-full rounded-full"
                  :src="profileImg" @error="replaceEmptyImg" alt="">

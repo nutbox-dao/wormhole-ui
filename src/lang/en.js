@@ -126,7 +126,10 @@ export default {
     people: 'People',
     curations: 'Curations',
     post: 'Post',
-    onChainTweet: 'On-chain tweet'
+    onChainTweet: 'Tweets',
+    liked: 'Likes',
+    quoted: 'Quotes',
+    retweeted: 'Retweets'
   },
   walletView: {
     totalBalance: 'Total balance',

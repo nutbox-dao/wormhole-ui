@@ -7,13 +7,13 @@
       <van-list :loading="loading"
                 :finished="finished"
                 :immediate-check="false"
-                :finished-text="$t('common.noMore')"
+                :finished-text="showingPosts.length > 0 ? $t('common.noMore') : ''"
                 @load="onLoad">
         <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-             v-if="refreshing && (!posts || posts.length === 0)">
+             v-if="refreshing && (!showingPosts || showingPosts.length === 0)">
           <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
         </div>
-        <div v-if="posts.length===0 && !refreshing"
+        <div v-if="showingPosts.length===0 && !refreshing"
              class="py-3rem rounded-12px">
           <div v-if="getAccountInfo && getAccountInfo.isPending">
             <div class="text-zinc-400 text-0.8rem leading-1.4rem">
@@ -34,8 +34,8 @@
             </div>
           </div>
         </div>
-        <div class="" v-for="p of posts" :key="p.postId">
-          <Blog @click="goteDetail(p)"
+        <div class="" v-for="p of showingPosts" :key="p.postId">
+          <Blog @click="gotoDetail(p)"
                 :post="p"
                 class="border-b-0.5px border-white/20 light:border-black/16 md:border-listBgBorder py-20px px-15px sm:px-0"/>
         </div>
@@ -47,7 +47,7 @@
 <script>
 import Blog from "@/components/Blog";
 import { mapState, mapGetters } from 'vuex'
-import { getUsersPosts } from '@/api/api'
+import { getUserCreatedCurations, getUserLikedCurations, getUserQuotedCurations, getUserRetweetedCurations } from '@/api/api'
 import { sleep, formatPrice } from '@/utils/helper'
 import { getPost, getPosts, getAccountRC } from '@/utils/steem'
 
@@ -55,10 +55,17 @@ export default {
   name: "Transaction",
   components: {Blog},
   computed: {
-    ...mapState(['accountInfo', 'posts', 'rcPercent', 'steemBalance', 'prices']),
     ...mapGetters(['getAccountInfo']),
-    steemValue() {
-      return formatPrice(this.steemBalance * this.prices['steem'])
+    showingPosts() {
+      if (this.selected === 0) {
+        return this.tweets
+      }else if(this.selected === 1) {
+        return this.likes
+      }else if (this.selected === 2) {
+        return this.quotes
+      }else if (this.selected === 3) {
+        return this.retweets
+      }
     }
   },
   data() {
@@ -68,26 +75,26 @@ export default {
       finished: false,
       pageSize: 10,
       pageIndex: 0,
-      scroll: 0
+      scroll: 0,
+      tweets: [],
+      likes: [],
+      quotes: [],
+      retweets: []
     }
+  },
+  watch: {
+    selected(newValue, oldValue) {
+      this.finished = false;
+      this.onRefresh();
+    }
+  },
+  props: {
+    selected: {
+      type: Number,
+      default: 0
+    },
   },
   async mounted () {
-    while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
-      if (this.getAccountInfo && this.getAccountInfo.isPending) {
-        break;
-      }
-      await sleep(1)
-    }
-    // if (this.getAccountInfo.steemId) {
-    //   getAccountRC(this.getAccountInfo.steemId).then(rc => {
-    //     this.$store.commit('saveRcPercent', parseFloat(rc[0] / rc[1] * 100).toFixed(2))
-    //   }).catch()
-    // }else {
-    //   this.$store.commit('saveRcPercent',100.00)
-    // }
-  },
-  async activated() {
-    // document.getElementById('user-index').scrollTo({top: this.scroll})
     while(!this.getAccountInfo || !this.getAccountInfo.twitterUsername){
       if (this.getAccountInfo && this.getAccountInfo.isPending) {
         this.refreshing = false
@@ -95,48 +102,68 @@ export default {
       }
       await sleep(1)
     }
-    if(!this.posts || this.posts.length === 0) {
-      this.onRefresh()
-    }
+    this.onRefresh()
   },
   methods: {
-    onRefresh() {
+    async onRefresh() {
       console.log('refresh')
       this.refreshing = true
-      let time;
-      if (this.posts && this.posts.length > 0) {
-        time = this.posts[0].postTime
+      try{
+        const twitterId = this.getAccountInfo.twitterId;
+        let posts = [];
+        if (this.selected === 0) {
+          posts = await getUserCreatedCurations(twitterId, twitterId);
+          this.tweets = posts;
+        }else if(this.selected === 1) {
+          posts = await getUserLikedCurations(twitterId, twitterId);
+          this.likes = posts;
+        }else if(this.selected === 2) {
+          posts = await getUserQuotedCurations(twitterId, twitterId);
+          this.quotes = posts;
+        }else {
+          posts = await getUserRetweetedCurations(twitterId, twitterId);
+          this.retweets = posts;
+        }
+        if (posts.length === 0) {
+          this.finished = true;
+        }
+      } catch (e) {
+        console.log('get user related posts fail:', e)
+      } finally {
+        this.refreshing = false
       }
-
-      getUsersPosts(this.getAccountInfo.twitterId, this.getAccountInfo.twitterId).then(async (res) => {
-        const posts = await getPosts(res)
-        this.$store.commit('savePosts', posts.concat(this.posts))
-        this.refreshing = false
-      }).catch(e => {
-        this.refreshing = false
-      })
     },
-    onLoad() {
+    async onLoad() {
       console.log('load more')
-      if (this.finished || this.loading) return;
-      let time;
-      if (this.posts && this.posts.length > 0) {
-        this.loading = true
-        time = this.posts[this.posts.length - 1].postTime
-        getUsersPosts(this.getAccountInfo.twitterId, this.getAccountInfo.twitterId, time).then(async (res) => {
-         const posts = await getPosts(res)
-          this.$store.commit('savePosts', this.posts.concat(posts))
-          if (res.length < this.pageSize) {
-            this.finished = true
-          }
-          this.loading = false
-        }).catch(e => {
-          this.loading = false
-          this.finished = true
-        })
+      if (this.finished || this.loading || this.showingPosts.length === 0) return;
+      this.refreshing = true
+      try{
+        const twitterId = this.getAccountInfo.twitterId;
+        const curationCreatedAt = this.showingPosts[this.showingPosts.length - 1].curationCreatedAt;
+        let posts = [];
+        if (this.selected === 0) {
+          posts = await getUserCreatedCurations(twitterId, twitterId, curationCreatedAt);
+          this.tweets = this.tweets.concat(posts);
+        }else if(this.selected === 1) {
+          posts = await getUserLikedCurations(twitterId, twitterId, curationCreatedAt);
+          this.likes = this.likes.concat(posts);
+        }else if(this.selected === 2) {
+          posts = await getUserQuotedCurations(twitterId, twitterId, curationCreatedAt);
+          this.quotes = this.quotes.concat(posts);
+        }else {
+          posts = await getUserRetweetedCurations(twitterId, twitterId, curationCreatedAt);
+          this.retweets = this.retweets.concat(posts);
+        }
+        if (posts.length === 0) {
+          this.finished = true;
+        }
+      } catch (e) {
+        console.log('get user related posts fail:', e)
+      } finally {
+        this.refreshing = false
       }
     },
-    goteDetail(p) {
+    gotoDetail(p) {
       // let el = document.getElementById('user-index');
       // this.scroll = el.scrollTop
       this.$store.commit('postsModule/saveCurrentShowingDetail', p)

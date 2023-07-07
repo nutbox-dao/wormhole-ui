@@ -154,16 +154,16 @@
         </div>
         <div class="container max-w-50rem mx-auto flex-1 bg-blockBg light:bg-white light:shadow-color1A
                   sm:rounded-16px sm:mb-15px">
-          <div class="w-full sticky top-70px 2md:-top-1px z-9 bg-blockBg light:bg-white rounded-t-16px shadow-tab sm:shadow-none">
+          <div v-if="!getAccountInfo?.twitterId" class="w-full sticky top-70px 2md:-top-1px z-9 bg-blockBg light:bg-white rounded-t-16px shadow-tab sm:shadow-none">
             <div class="text-14px 2md:text-18px font-bold px-15px
                     border-b-0.5px border-color8B/30 light:border-color7F">
               <div class="container mx-auto sm:max-w-30rem flex items-center justify-center">
                 <button class="w-full h-48px flex items-center justify-center"
                         :class="selectIndex===1?'c-active-tab text-color62':'text-color7D'"
-                        @click="selectIndex = 1">{{$t('profileView.post')}}</button>
-                <button class="w-full h-48px flex items-center justify-center"
+                        @click="selectIndex = 1">{{$t('profileView.onChainTweet')}}</button>
+                <!-- <button class="w-full h-48px flex items-center justify-center"
                         :class="selectIndex===0?'c-active-tab text-color62':'text-color7D'"
-                        @click="selectIndex = 0">{{$t('profileView.curations')}}</button>
+                        @click="selectIndex = 0">{{$t('profileView.curations')}}</button> -->
                 <button v-if="!getAccountInfo?.twitterId" class="w-full h-48px flex items-center justify-center"
                         :class="selectIndex===2?'c-active-tab text-color62':'text-color7D'"
                         @click="selectIndex = 2">{{$t('curation.reward')}}</button>
