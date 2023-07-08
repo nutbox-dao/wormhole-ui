@@ -22,9 +22,9 @@
                 @load="onLoad">
         <div v-for="(noti, i) of postNotis" :key="i"
              class="text-14px px-15px" :class="noti.isRead?'bg-color8B/10 light:bg-black/2':''">
-          <Reply v-if="noti.type===3" :info-data="noti"></Reply>
-          <Like v-if="noti.type===4" :info-data="noti"></Like>
-          <Retweet v-if="noti.type===2" :info-data="noti"></Retweet>
+          <Reply v-if="noti.type===3" :info-data="noti" @click="goto(noti)"></Reply>
+          <Like v-if="noti.type===4" :info-data="noti" @click="goto(noti)"></Like>
+          <Retweet v-if="noti.type===2" :info-data="noti" @click="goto(noti)"></Retweet>
           <Retweet v-if="noti.type===1" :info-data="noti"></Retweet>
         </div>
       </van-list>
@@ -109,6 +109,9 @@ export default {
       } finally {
         this.listLoading = false
       }
+    },
+    goto(noti) {
+      this.$router.push('/post-detail/' + noti.postId)
     },
     notiTime(noti) {
       let time = noti.quoteTime || noti.likeTime || noti.retweetTime || noti.commentTime || noti.postTime;

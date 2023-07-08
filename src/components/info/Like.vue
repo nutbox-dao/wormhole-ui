@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex cursor-pointer">
     <div class="w-32px h-32px min-w-32px min-h-32px flex items-center justify-center mr-8px mt-15px">
       <img class="w-20px h-20px min-w-20px" src="~@/assets/info-like.svg" alt="">
     </div>
