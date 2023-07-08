@@ -123,22 +123,14 @@
           <template v-if="tabIndex===0">
             <div class="flex items-center justify-between mt-20px">
               <span class="c-text-black text-14px">Post ({{ topic?.postCounts }})</span>
-              <el-dropdown>
-                <button class="text-14px text-color62 flex items-center">
-                  <span class="font-bold">{{postType[typeIndex]}}</span>
-                  <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
+              <div class="flex items-center gap-8px">
+                <button @click="typeIndex=0">
+                  <i class="w-24px h-24px block" :class="typeIndex===0?'icon-trending-active':'icon-trending'"></i>
                 </button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item v-for="(type, index) of postType" :key="type"
-                                      @click="typeIndex=index">
-                        <span class="text-12px" :class="typeIndex===index?'text-color62':''">
-                          {{type}}
-                        </span>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
+                <button @click="typeIndex=1">
+                  <i class="w-24px h-24px block" :class="typeIndex===1?'icon-new-active':'icon-new'"></i>
+                </button>
+              </div>
             </div>
             <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
                  v-if="refreshing && (!postsList || postsList.length === 0)">
