@@ -662,23 +662,23 @@ export const Curator_NFT = {
 
 // vp consume
 export const VP_CONSUME = Object.freeze({
-    QUOTE: 35,
-    RETWEET: 25,
-    LIKE: 10,
+    QUOTE: 20,
+    RETWEET: 15,
+    LIKE: 5,
 });
 // rc consume
 export const RC_CONSUME = Object.freeze({
-    POST: 300,
-    QUOTE: 35,
-    RETWEET: 25,
-    COMMENT: 10,
-    LIKE: 10,
-    TIP: 10,
+    POST: 200,
+    QUOTE: 20,
+    RETWEET: 15,
+    COMMENT: 5,
+    LIKE: 5,
+    TIP: 5,
     FOLLOW: 5
 });
 
-export const MAX_VP = 100;
-export const VP_RECOVER_DAY = 1;
+export const MAX_VP = 200;
+export const VP_RECOVER_DAY = 3;
 
-export const MAX_RC = 1000;
-export const RC_RECOVER_DAY = 1;
+export const MAX_RC = 2000;
+export const RC_RECOVER_DAY = 3;

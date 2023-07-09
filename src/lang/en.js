@@ -90,7 +90,7 @@ export default {
     tweetPost: 'Tweet a post',
     socialToken: 'Social token',
     resourceCredits: 'Resource Credits',
-    p1: 'All operation on Wormhole3 consume Operation Power (OP). Everyone has 100% OP to start, and it recovers 100% every 24 hours. Note that if OP is too low your operation cannot sync to blockchain.',
+    p1: 'All operation on Wormhole3 consume Operation Power (OP). Everyone has 100% OP to start, and it recovers 100% every 3 days. Note that if OP is too low your operation cannot sync to blockchain.',
     goTweet: 'Go tweet',
     tips: 'Tips',
     p2: 'Replace {\'{***}\'} to real content.',
@@ -115,7 +115,7 @@ export default {
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
     votingPower: 'Curating Power',
-    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (VP). Everyone has 100% VP to start, and it recovers 100% every 24 hours. ',
+    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (VP). Everyone has 100% VP to start, and it recovers 100% every 3 days. ',
     detail: 'Detail'
   },
   profileView: {
