@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <el-tooltip v-if="isPopover" :show-after="500" :teleported="false">
+    <el-tooltip v-if="isPopover" :show-after="500" :teleported="teleported">
       <template #content>
         <div v-if="showCuratedTip" class="text-white light:text-black max-w-240px">
           <template v-if="rewards && rewards.length > 0">
@@ -135,6 +135,10 @@ export default {
         return {}
       }
     },
+    teleported: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

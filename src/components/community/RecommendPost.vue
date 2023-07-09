@@ -12,7 +12,7 @@
             </div>
           </div>
         </div>
-        <BlogReward :post="post" class="ml-10px -mr-8px"></BlogReward>
+        <BlogReward :post="post" class="ml-10px -mr-8px" :teleported="true"></BlogReward>
       </div>
       <div class="flex justify-between items-center mt-8px text-12px filter text-color99">
         <div class="flex items-center">

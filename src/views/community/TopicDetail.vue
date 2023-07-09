@@ -65,7 +65,7 @@
             <div v-else-if="status==='inProgress'"
                  class="flex items-center gap-6px
                         px-8px py-4px rounded-full whitespace-nowrap bg-color62 text-white text-12px ">
-              <span class="">🔥 <span class="hidden xs:block">{{$t('community.inProgress')}}</span></span>
+              <span class="flex">🔥 <span class="hidden xs:block">{{$t('community.inProgress')}}</span></span>
               <span>
                 {{ formatDateString(topic?.startTime) }} ~ {{ formatDateString(topic?.endTime) }}
               </span>
