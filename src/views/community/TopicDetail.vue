@@ -20,7 +20,9 @@
     <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
-                  2md:h-full no-scroll-bar 2md:overflow-auto">
+                  2md:h-full no-scroll-bar 2md:overflow-auto"
+           ref="webDetailPageRef"
+           @scroll="webPageScroll">
         <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px flex flex-col">
           <div class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px">
             <c-image :src="topic?.banner"
@@ -322,6 +324,9 @@ export default {
     pageScroll() {
       this.scroll = this.$refs.detailPageRef.scrollTop
     },
+    webPageScroll() {
+      this.scroll = this.$refs.webDetailPageRef.scrollTop
+    },
     countdown(time) {
       if(!time || !isNumeric(time)) return 0
       return time*1000 - new Date().getTime()
@@ -435,7 +440,17 @@ export default {
 
     }
   },
+  activated() {
+    if(this.scroll > 0 && this.width<=960) this.$refs.detailPageRef.scrollTo({top: this.scroll})
+    if(this.scroll > 0 && this.width>960) this.$refs.webDetailPageRef.scrollTo({top: this.scroll})
+  },
   mounted () {
+    this.$bus.on('refreshDetail', () => {
+      console.log('====== refresh')
+      this.scroll = 0
+      this.$refs.detailPageRef.scrollTo({top: 0})
+      this.$refs.webDetailPageRef.scrollTo({top: 0})
+    })
     const topicId = this.$route.params.topicId;
     this.topicId = topicId
     if (!topicId) {
