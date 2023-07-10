@@ -89,7 +89,8 @@ export const TokenIcon = {
     "nulsmoon":'https://cdn.wherein.mobi/community/logo/nulsmoon.png',
     'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',
     'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg',
-    "wAIR": 'https://cdn.wherein.mobi/community/logo/wh3-airdrop.png'
+    "wAIR": 'https://cdn.wherein.mobi/community/logo/wh3-airdrop.png',
+    "Wormhole Ctalks": 'https://cdn.wherein.mobi/community/logo/ctalks.png'
 }
 
 export const TokenName = {
@@ -130,7 +131,8 @@ export const TokenName = {
     'NVT': 'NVT',
     'ARB': 'Arbitrum',
     "MFERC": 'mFERC',
-    "ferc": 'fair-ERC20'
+    "ferc": 'fair-ERC20',
+    "wCTLK": 'Wormhole Ctalks'
 }
 
 export const isWrappedToken = {

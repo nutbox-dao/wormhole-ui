@@ -215,6 +215,7 @@ export default {
     formatAmount,
     formatPrice,
     gotoDetail(reward) {
+      this.$store.commit('postsModule/saveCurrentShowingDetail', null)
       this.$router.push('/post-detail/' + reward.tweetId)
     },
     async connect() {
