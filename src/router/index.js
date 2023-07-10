@@ -162,7 +162,7 @@ const routes = [
     path: '/topic-detail/:topicId',
     name: 'topic-detail',
     component: TopicDetail,
-    meta: {header: 'hidden', tabbar: 'hidden'}
+    meta: {header: 'hidden', tabbar: 'hidden', keepAlive: true}
   },
   {
     path: '/influence',
