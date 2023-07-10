@@ -22,7 +22,7 @@
             </Avatar>
             <span class="ml-6px truncate">{{reward.username}}</span>
         </div>
-        <span>{{ formatAmount(reward.amount / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(reward.amount / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+        <span>{{ showingReward(reward) }}</span>
     </div>
 </template>
 
@@ -51,13 +51,23 @@ export default {
         Avatar,
     },
     computed: {
-        ...mapState('community', ['showingCommunity'])
+        ...mapState('community', ['showingCommunity']),
     },
     methods: {
         formatAmount,
         formatPrice,
         replaceEmptyImg(e) {
             e.target.src = emptyAvatar;
+        },
+        showingReward(reward) {
+            let amount = 0;
+            let p = 0;
+            if (reward.reward > 0) {
+                amount = reward.reward / (10 ** reward.decimals)
+            }else if (reward.estimateReward > 0) {
+                amount = reward.estimateReward / (10 ** reward.decimals)
+            }
+            return `${formatAmount(amount)}(${formatPrice(amount * this.showingCommunity.rewardPrice)})`
         },
     },
 }

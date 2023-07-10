@@ -415,16 +415,33 @@ export default {
       try{
         this.rewardRefreshing = true
         const reward = await getCommunityActivityReward(this.topic.activityId);
-        console.log(52, reward);
+        if (reward.length === 0) {
+          this.rewardListFinished = true
+        }
         this.rewardsList = reward ?? []
       } catch(e) {
-
+        console.log('Refresh topic reward fail:', e)
       } finally {
         this.rewardRefreshing = false
       }
     },
     async rewardOnLoad () {
-
+      if (this.rewardsList. length === 0 || this.rewardListFinished || this.rewardRefreshing || this.rewardListLoading){
+        return;
+      }
+      try{
+        this.rewardListLoading = true;
+        const reward = await getCommunityActivityReward(this.topic.activityId, this.rewardsList[this.rewardsList.length - 1].createTime);
+        if (reward.length > 0) {
+          this.rewardsList = this.rewardsList.concat(reward)
+        }else {
+          this.rewardListFinished = true;
+        }
+      } catch (e) {
+        console.log('Load more topic reward fail:', e)
+      } finally {
+        this.rewardListLoading = false;
+      }
     }
   },
   mounted () {
