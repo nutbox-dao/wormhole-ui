@@ -1,6 +1,6 @@
 <template>
-  <div class="sm:rounded-12px overflow-hidden" ref="blogRef">
-    <div class="px-15px pt-15px pb-10px">
+  <div class="sm:rounded-12px overflow-hidden h-140px flex flex-col justify-between" ref="blogRef">
+    <div class="px-15px pt-15px pb-10px flex-1">
       <div class="flex items-start">
         <div class="flex-1 overflow-hidden" @click="gotoSteem($event)">
           <div class="text-left font-400">
