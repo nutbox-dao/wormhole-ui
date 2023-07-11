@@ -468,7 +468,8 @@ export default {
     joinIn: 'Join in',
     moreCommunities: 'More Communities',
     credit: 'Credit',
-    joinFirst: 'Please Join community first'
+    joinFirst: 'Please Join community first',
+    topicPending: 'This happenings is pending start'
   },
   info: {
     interactive: 'Notification',

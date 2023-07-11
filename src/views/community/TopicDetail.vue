@@ -405,6 +405,10 @@ export default {
         this.$store.commit('saveShowLogin', true)
         return
       }
+      if (Date.now() < new Date(this.topic.startTime).getTime()) {
+        notify({message: this.$t('community.topicPending'), type: 'info'})
+        return;
+      }
       if (this.showingCommunity.communityId && this.topicId) {
         this.$router.push({
           name: 'create-curation',

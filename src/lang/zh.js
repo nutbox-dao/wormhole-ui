@@ -468,7 +468,8 @@ export default {
     joinIn: '参与',
     moreCommunities: '更多社区',
     credit: '信用',
-    joinFirst: "请先加入社区"
+    joinFirst: "请先加入社区",
+    topicPending: '活动还未开始'
   },
   info: {
     interactive: '通知',
