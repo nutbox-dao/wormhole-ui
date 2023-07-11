@@ -450,15 +450,27 @@ export default {
     }
   },
   activated() {
-    if(this.scroll > 0 && this.width<=960) this.$refs.detailPageRef.scrollTo({top: this.scroll})
-    if(this.scroll > 0 && this.width>960) this.$refs.webDetailPageRef.scrollTo({top: this.scroll})
+    if(this.scroll > 0 && this.width<=960) this.$refs.detailPageRef?.scrollTo({top: this.scroll})
+    if(this.scroll > 0 && this.width>960) this.$refs.webDetailPageRef?.scrollTo({top: this.scroll})
+    const topicId = this.$route.params.topicId;
+      if (this.topicId !== topicId) {
+        this.topicId = topicId
+        if (!topicId) {
+          return this.$router.go(-1);
+        }
+        this.topic = {}
+        this.rewardsList = []
+        this.trendingPostsList = []
+        this.newPostsList = []
+        this.getCommunityTopics();
+      }
   },
   mounted () {
     this.$bus.on('refreshDetail', () => {
       console.log('====== refresh')
       this.scroll = 0
-      this.$refs.detailPageRef.scrollTo({top: 0})
-      this.$refs.webDetailPageRef.scrollTo({top: 0})
+      this.$refs.detailPageRef?.scrollTo({top: 0})
+      this.$refs.webDetailPageRef?.scrollTo({top: 0})
     })
     const topicId = this.$route.params.topicId;
     this.topicId = topicId
