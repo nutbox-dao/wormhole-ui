@@ -61,7 +61,7 @@ export default {
       if (this.chain.toLowerCase() === 'steem') {
         return require('@/assets/steem.png')
       }
-      return TokenIcon[this.token.symbol];
+      return TokenIcon[this.token.symbol] ?? this.token.icon;
     },
     chain() {
       if (!this.chainName) {

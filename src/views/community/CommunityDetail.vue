@@ -130,7 +130,7 @@
             <div class="flex items-center">
               <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-32px h-32px rounded-full mr-10px bg-color62/20"
                    :src="TokenIcon[showingCommunity?.rewardTokenSymbol]" alt="">
-              <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
+              <img v-else class="w-32px h-32px rounded-full mr-10px bg-color62/20" :src="showingCommunity.icon" alt="">
               <div class="flex flex-col items-start">
                 <div class="text-14px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
                 <div class="flex items-center">
@@ -208,7 +208,7 @@
           <div class="flex items-center mb-10px">
             <img v-if="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" class="w-40px h-40px rounded-full mr-10px bg-color62/20"
                  :src="TokenIcon[showingCommunity?.rewardTokenSymbol ?? '']" alt="">
-            <img v-else class="w-40px h-40px rounded-full mr-10px bg-color62/20" src="~@/assets/icon-token-default.svg" alt="">
+            <img v-else class="w-40px h-40px rounded-full mr-10px bg-color62/20" :src="showingCommunity.icon" alt="">
             <div class="flex flex-col items-start">
               <div class="text-16px font-500 mb-2px">{{ showingCommunity?.rewardTokenSymbol ?? '' }}</div>
               <div class="flex items-center text-14px">

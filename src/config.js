@@ -86,11 +86,9 @@ export const TokenIcon = {
     "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126",
     "ferc": 'https://cdn.wherein.mobi/nutbox/v2/1686657099126',
     "wDMN": 'https://cdn.wherein.mobi/community/logo/damoon.jpg',
-    "nulsmoon":'https://cdn.wherein.mobi/community/logo/nulsmoon.png',
     'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',
     'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg',
     "wAIR": 'https://cdn.wherein.mobi/community/logo/wh3-airdrop.png',
-    "Wormhole Ctalks": 'https://cdn.wherein.mobi/community/logo/ctalks.png',
     "BIBI": 'https://cdn.wherein.mobi/community/logo/bibi.png'
 }
 

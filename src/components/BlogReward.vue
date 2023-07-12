@@ -8,7 +8,7 @@
                  :key="post.postId + reward.token">
               <ChainTokenIcon  height="20px" width="20px"
                                class="bg-color62 my-4px p-2px"
-                               :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                               :token="{symbol: reward.tokenSymbol, address: reward.token, icon: post.communityIcon}"
                                :chainName="reward.chainId?.toString()">
                 <template #amount>
                   <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
@@ -66,7 +66,7 @@
              :key="post.postId + reward.token" class="w-full">
           <ChainTokenIcon  height="20px" width="20px"
                            class="bg-color62 my-4px p-2px"
-                           :token="{symbol: reward.tokenSymbol, address: reward.token}"
+                           :token="{symbol: reward.tokenSymbol, address: reward.token, icon: post.communityIcon}"
                            :chainName="reward.chainId?.toString()">
             <template #amount>
                   <span class="px-8px c-text-black text-white whitespace-nowrap flex items-right text-14px 2xl:text-0.8rem">
