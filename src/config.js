@@ -90,7 +90,8 @@ export const TokenIcon = {
     'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',
     'wPFP': 'https://cdn.wherein.mobi/community/logo/pfpdao.jpg',
     "wAIR": 'https://cdn.wherein.mobi/community/logo/wh3-airdrop.png',
-    "Wormhole Ctalks": 'https://cdn.wherein.mobi/community/logo/ctalks.png'
+    "Wormhole Ctalks": 'https://cdn.wherein.mobi/community/logo/ctalks.png',
+    "BIBI": 'https://cdn.wherein.mobi/community/logo/bibi.png'
 }
 
 export const TokenName = {
