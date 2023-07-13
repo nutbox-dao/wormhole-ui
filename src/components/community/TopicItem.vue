@@ -40,7 +40,11 @@
     </div>
     <div class="p-15px">
       <div class="flex justify-between items-center">
-        <span class="text-15px c-text-black">{{$t('community.grandTotalPost', {count: topic.postCounts})}}</span>
+        <div class="flex items-center bg-tag-gradient rounded-8px py-5px px-6px">
+          <img class="h-20px min-h-20px" src="~@/assets/icon-gold.png" alt="">
+          <span class="ml-5px font-700 text-12px leading-20px text-white">
+            {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+        </div>
         <div class="flex items-center ml-11px">
           <div class="-ml-11px" v-for="p of topic.participates.slice(0,3)" :key="p">
             <img v-if="p"
@@ -61,6 +65,7 @@
           </span>
         </div>
       </div>
+      <div class="text-15px c-text-black text-left mt-10px">{{$t('community.grandTotalPost', {count: topic.postCounts})}}</div>
       <div class="text-14px leading-20px text-left mt-15px" v-html="formatEmojiText(topic.description)">
       </div>
       <button class="w-full h-40px gradient-bg gradient-bg-color3 text-white c-text-black text-16px rounded-full mt-10px"
@@ -73,8 +78,9 @@
 
 <script>
 import {isNumeric} from "@/utils/tool";
-import { getDateString, parseSpaceStartTime } from "@/utils/helper"
+import { getDateString, parseSpaceStartTime,formatPrice, formatAmount } from "@/utils/helper"
 import {formatEmojiText} from "@/utils/tool";
+import {mapState} from "vuex";
 
 export default {
   name: "TopicItem",
@@ -85,6 +91,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('community', ['showingCommunity']),
     status() {
       if(!this.topic.startTime) return ''
       const currentTime = new Date().getTime()
@@ -99,6 +106,8 @@ export default {
     }
   },
   methods: {
+    formatAmount,
+    formatPrice,
     getDateString,
     parseSpaceStartTime,
     formatEmojiText,

@@ -24,21 +24,21 @@
            ref="webDetailPageRef"
            @scroll="webPageScroll">
         <div class="relative bg-blockBg light:bg-white sm:rounded-t-16px flex flex-col">
-          <div class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px">
+          <div class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px relative">
             <c-image :src="topic?.banner"
                      class="w-full h-160px min-h-160px max-h-160px object-cover sm:rounded-t-16px"></c-image>
             <div class="absolute top-0 left-0 w-full h-160px min-h-160px max-h-160px bg-img-overlay sm:rounded-t-16px"></div>
+            <div class="absolute bottom-10px right-15px flex items-center bg-black/60 rounded-8px py-8px px-10px">
+              <img class="h-25px min-h-25px" src="~@/assets/icon-gold.png" alt="">
+              <span class="ml-5px font-700 text-14px leading-20px text-white">
+                  {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
+            </div>
           </div>
 
           <div class="flex justify-between items-start bg-color1A min-h-40px py-10px px-15px">
             <span class="c-text-black text-16px leading-20px text-white break-word mr-15px text-left">
               {{ topic?.title }}
             </span>
-            <div class="flex items-center h-20px max-h-20px">
-              <i class="w-18px h-18px btn-icon-tip"></i>
-              <span class="px-8px font-700 text-12px leading-20px text-color7D">
-                  {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
-            </div>
           </div>
           <button @click="$router.go(-1)"
                   class="w-30px h-30px bg-white/20 rounded-full absolute top-15px left-15px
