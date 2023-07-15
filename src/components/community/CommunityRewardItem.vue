@@ -24,7 +24,7 @@
       <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-15px
                   flex flex-col justify-between items-center text-12px 2xl:text-14px font-bold">
         <div class="w-full flex items-center">
-          <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol]" alt="">
+          <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol] ?? community.communityIcon" alt="">
           <div class="flex flex-col items-start">
             <span class="font-bold mb-4px text-14px">{{ community.tokenSymbol }}</span>
             <span class="text-12px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
@@ -69,7 +69,7 @@
              class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
           <div class="flex-1 flex justify-between items-center">
             <ChainTokenIcon height="30px" width="30px"
-                            :token="{symbol: item.tokenSymbol, address: item.token}"
+                            :token="{symbol: item.tokenSymbol, address: item.token, icon: community.communityIcon}"
                             :chainName="EVM_CHAINS_ID[community.chainId]">
               <template #amount>
                 <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">

@@ -29,7 +29,9 @@ function updateUserVpLocal(consume) {
             ...vpInfo,
             votingPower: vpInfo.votingPower - consume
         })
+        return true;
     }
+    return false;
 }
 
 function udpateUserRCLocal(consume) {
@@ -45,16 +47,35 @@ function udpateUserRCLocal(consume) {
     return false;
 }
 
+function addBackVp(consume) {
+    const vpInfo = store.state.vpInfo;
+    store.commit('saveVpInfo', {
+        ...vpInfo,
+        votingPower: vpInfo.votingPower + consume
+    })
+}
+
+function addBackRc(consume) {
+    const rcInfo = store.state.rcInfo;
+    store.commit('saveRcInfo', {
+        ...rcInfo,
+        rc: rcInfo.rc + consume
+    })
+}
+
 export const likePost = async (tweetId, authorId, up=true) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = checkRC(RC_CONSUME.LIKE)
-        if (!rcResult) {
-            throw errCode.INSUFFICIENT_RC;
-        }
-        if (!checkVP(VP_CONSUME.LIKE)) {
-            throw errCode.INSUFFICIENT_VP;
+
+        if (authorId !== twitterId) {
+            const rcResult = udpateUserRCLocal(RC_CONSUME.LIKE)
+            if (!rcResult) {
+                throw errCode.INSUFFICIENT_RC;
+            }
+            if (!updateUserVpLocal(VP_CONSUME.LIKE)) {
+                throw errCode.INSUFFICIENT_VP;
+            }
         }
         let r;
         if (up) {
@@ -62,15 +83,16 @@ export const likePost = async (tweetId, authorId, up=true) => {
         }else {
             r = await ulp(twitterId, tweetId)
         }
-        if (authorId !== twitterId) {
-            updateUserVpLocal(VP_CONSUME.LIKE)
-            udpateUserRCLocal(RC_CONSUME.LIKE)
-        }
         console.log('user like tweet result:', r, up);
         if(r) {
             return r
+        }else if(authorId !== twitterId) {
+            addBackVp(VP_CONSUME.LIKE);
+            addBackRc(RC_CONSUME.LIKE)
         }
     }catch(e) {
+        addBackVp(VP_CONSUME.LIKE);
+        addBackRc(RC_CONSUME.LIKE)
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
@@ -104,23 +126,26 @@ export const retweetPost = async (tweetId, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = checkRC(RC_CONSUME.RETWEET)
-        if (!rcResult) {
-            throw errCode.INSUFFICIENT_RC;
-        }
-        if (!checkVP(VP_CONSUME.RETWEET)) {
-            throw errCode.INSUFFICIENT_VP;
+        if (twitterId !== authorId) {
+            const rcResult = udpateUserRCLocal(RC_CONSUME.RETWEET)
+            if (!rcResult) {
+                throw errCode.INSUFFICIENT_RC;
+            }
+            if (!updateUserVpLocal(VP_CONSUME.RETWEET)) {
+                throw errCode.INSUFFICIENT_VP;
+            }
         }
         const r = await rtp(twitterId, tweetId)
-        if (twitterId !== authorId) {
-            updateUserVpLocal(VP_CONSUME.RETWEET)
-            udpateUserRCLocal(RC_CONSUME.RETWEET)
-        }
         console.log('user retweet result:', r);
         if(r) {
             return r
+        }else if(twitterId !== authorId) {
+            addBackVp(VP_CONSUME.RETWEET);
+            addBackRc(RC_CONSUME.RETWEET)
         }
     }catch(e) {
+        addBackVp(VP_CONSUME.RETWEET);
+        addBackRc(RC_CONSUME.RETWEET)
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
@@ -155,23 +180,27 @@ export const quotePost = async (tweetId, content, authorId) => {
     await checkAccessToken();
     const twitterId = store.getters.getAccountInfo.twitterId;
     try {
-        const rcResult = checkRC(RC_CONSUME.QUOTE)
-        if (!rcResult) {
-            throw errCode.INSUFFICIENT_RC;
-        }
-        if(!checkVP(VP_CONSUME.QUOTE)) {
-            throw errCode.INSUFFICIENT_VP;
+        if(authorId !== twitterId) {
+            const rcResult = udpateUserRCLocal(RC_CONSUME.QUOTE)
+            if (!rcResult) {
+                throw errCode.INSUFFICIENT_RC;
+            }
+            if(!updateUserVpLocal(VP_CONSUME.QUOTE)) {
+                throw errCode.INSUFFICIENT_VP;
+            }
         }
         const r = await qp(twitterId, tweetId, content)
-        if (authorId !== twitterId) {
-            updateUserVpLocal(VP_CONSUME.QUOTE)
-            udpateUserRCLocal(RC_CONSUME.QUOTE)
-        }
+        
         console.log('user reply tweet result:', r);
         if(r) {
             return r
+        }else if (authorId !== twitterId) {
+            addBackVp(VP_CONSUME.QUOTE);
+            addBackRc(RC_CONSUME.QUOTE)
         }
     }catch(e) {
+        addBackVp(VP_CONSUME.QUOTE);
+        addBackRc(RC_CONSUME.QUOTE)
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
