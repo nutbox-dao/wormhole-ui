@@ -8,6 +8,7 @@ import curation from './curation'
 import {testAccount} from "@/views/square/test-data";
 import community from './community'
 import noti from './noti'
+import { MAX_VP, MAX_RC, RC_RECOVER_DAY, VP_RECOVER_DAY } from "@/config"
 
 export default Vuex.createStore({
   state: {
@@ -169,12 +170,16 @@ export default Vuex.createStore({
     },
     saveVpInfo: (state, vpInfo) => {
       state.vpInfo = vpInfo
+      let vp = parseFloat(vpInfo.votingPower + (Date.now() - vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
+      state.vp = vp > MAX_VP ? MAX_VP : vp.toFixed(2)
     },
     saveRc: (state, rc) => {
       state.rc = rc
     },
     saveRcInfo: (state, rcInfo) => {
       state.rcInfo = rcInfo
+      let rc = rcInfo.rc + (Date.now() - rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY)
+      state.rc = rc > MAX_RC ? MAX_RC : rc.toFixed(2);
     }
   },
   modules: {

@@ -24,6 +24,7 @@ function checkRC(consume) {
 function updateUserVpLocal(consume) {
     const vpInfo = store.state.vpInfo;
     const vp = store.state.vp;
+    console.log(vp, vpInfo, consume)
     if (vp >= consume && vpInfo.lastUpdateTime > 0) {
         store.commit('saveVpInfo', {
             ...vpInfo,
