@@ -270,6 +270,52 @@ export default {
           this.searchComList = communities
         }
       }
+    },
+    async updatePriceAndVpOp() {
+      // update curating power and new noti
+      let c = 0;
+      let d = 0;
+
+      while(true) {
+        try{
+          if (d % 5 === 0) {
+            await this.monitorPrices()
+          }
+          d++;
+          if(this.getAccountInfo && this.getAccountInfo.twitterId) {
+            if (c % 30 === 0 || !this.vpInfo.lastUpdateTime) {
+              c = 0;
+              try {
+                const res = await getUserVPRC(this.getAccountInfo.twitterId);
+                if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
+                  this.$store.commit('saveVpInfo', res)
+                }
+                if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
+                  this.$store.commit('saveRcInfo', res)
+                }
+              }catch(e){}
+              hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
+                this.$store.commit('noti/saveNewNotis', newNoti)
+              }).catch()
+            }
+
+            // update vp
+            let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
+            
+            this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
+
+            // update rc
+            let rc = parseFloat(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
+            this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc.toFixed(2));
+            c++;
+          }else {
+            c = 0;
+          }
+        }catch(e) {
+          console.log('get commen price fail:', e)
+        }
+        await sleep(3)
+      }
     }
   },
   async mounted() {
@@ -370,47 +416,7 @@ export default {
       })
     }
 
-    // update curating power and new noti
-    let c = 0;
-    setInterval(async () => {
-      if(this.getAccountInfo && this.getAccountInfo.twitterId) {
-        if (c % 30 === 0 || !this.vpInfo.lastUpdateTime) {
-          c = 0;
-          try {
-            const res = await getUserVPRC(this.getAccountInfo.twitterId);
-            if (res && res.lastUpdateTime !== this.vpInfo.lastUpdateTime) {
-              this.$store.commit('saveVpInfo', res)
-            }
-            if (res && res.lastUpdateRCTime !== this.rcInfo.lastUpdateRCTime) {
-              this.$store.commit('saveRcInfo', res)
-            }
-          }catch(e){}
-          hasNewNoti(this.getAccountInfo.twitterId).then(newNoti => {
-            this.$store.commit('noti/saveNewNotis', newNoti)
-          }).catch()
-        }
-
-        // update vp
-        let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
-        this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
-
-        // update rc
-        let rc = parseFloat(this.rcInfo.rc + (Date.now() - this.rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY));
-        this.$store.commit('saveRc', rc > MAX_RC ? MAX_RC : rc.toFixed(2));
-        c++;
-      }else {
-        c = 0;
-      }
-    }, 3000);
-
-    while(true) {
-      try{
-        await this.monitorPrices()
-      }catch(e) {
-        console.log('get commen price fail:', e)
-      }
-      await sleep(15)
-    }
+    this.updatePriceAndVpOp();
   },
 }
 </script>
