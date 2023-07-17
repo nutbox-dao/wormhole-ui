@@ -24,7 +24,31 @@
                 <Space v-if="currentShowingDetail.spaceId" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
-                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"></Space>
+                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+                  <template #bottom-btn-bar>
+                    <div @click.stop
+                         class="flex justify-between items-center gap-8px flex-1 max-w-3/5 2md:max-w-1/2 mt-15px">
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-like-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-retweet-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-quote-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                    </div>
+                  </template>
+                </Space>
                 <Blog v-else ref="postRef"
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
