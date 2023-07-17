@@ -24,7 +24,8 @@
                 <Space v-if="currentShowingDetail.spaceId" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
-                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"></Space>
+                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
+                </Space>
                 <Blog v-else ref="postRef"
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
