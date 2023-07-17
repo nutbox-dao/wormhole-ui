@@ -49,6 +49,26 @@
             <div class="text-12px leading-18px ml-8px truncate">
               {{record.twitterUsername}}
             </div>
+            <div class="flex justify-between items-center gap-4px ml-8px">
+              <el-tooltip placement="top-start">
+                <i @click.stop class="w-16px h-16px min-w-16px btn-icon-like-active"></i>
+                <template #content>
+                  <div class="text-white light:text-black">+5</div>
+                </template>
+              </el-tooltip>
+              <el-tooltip placement="top-start">
+                <i @click.stop class="w-16px h-16px min-w-16px btn-icon-retweet-active"></i>
+                <template #content>
+                  <div class="text-white light:text-black">+5</div>
+                </template>
+              </el-tooltip>
+              <el-tooltip placement="top-start">
+                <i @click.stop class="w-16px h-16px min-w-16px btn-icon-quote-active"></i>
+                <template #content>
+                  <div class="text-white light:text-black">+5</div>
+                </template>
+              </el-tooltip>
+            </div>
           </div>
           <!-- <div class="w-2/7 text-right">10000</div> -->
           <div class="w-3/7 text-right">{{ showingReward(record) }}</div>
