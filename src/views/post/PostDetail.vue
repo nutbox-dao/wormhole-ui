@@ -29,6 +29,29 @@
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
                       :is-detail='true'>
+                  <template #bottom-btn-bar>
+                    <div @click.stop
+                         class="flex justify-between items-center gap-8px flex-1 max-w-3/5 2md:max-w-1/2 mt-15px">
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-like-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-retweet-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                      <el-tooltip placement="top-start">
+                        <i @click.stop class="w-20px h-20px min-w-20px btn-icon-quote-active"></i>
+                        <template #content>
+                          <div class="text-white light:text-black">+5</div>
+                        </template>
+                      </el-tooltip>
+                    </div>
+                  </template>
                 </Blog>
                 <div class="flex gap-x-0.8rem font-200 text-0.6rem flex-wrap text-color8B light:text-color7D ">
                   <button class="border-1 border-color62 py-3px px-6px rounded-full mt-10px

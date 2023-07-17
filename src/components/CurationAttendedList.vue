@@ -34,8 +34,18 @@
              v-for="record of (list ?? [])" :key="record.id">
           <div class="w-4/7 flex items-center cursor-pointer truncate"
                @click="$router.push('/account-info/@' + record.twitterUsername)">
-            <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border "
-                 :src="record.profileImg" alt="">
+            <Avatar :profile-img="record.profileImg"
+                    :name="record.twitterName"
+                    :username="record.twitterUsername"
+                    :steem-id="record.steemId"
+                    :eth-address="record.ethAddress"
+                    :reputation="record.reputation"
+                    @gotoUserPage="$router.push({path : '/account-info/@' + record.twitterUsername})">
+              <template #avatar-img>
+                <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border cursor-pointer bg-color8B/10"
+                     :src="record.profileImg" alt="">
+              </template>
+            </Avatar>
             <div class="text-12px leading-18px ml-8px truncate">
               {{record.twitterUsername}}
             </div>
@@ -57,10 +67,11 @@ import BlogReward from "@/components/BlogReward.vue";
 import {isNumeric} from "@/utils/tool";
 import { mapState } from "vuex";
 import { EVM_CHAINS_ID } from '@/config'
+import Avatar from "@/components/Avatar";
 
 export default {
   name: "CurationAttendedList",
-  components: {ChainTokenIcon, BlogReward},
+  components: {ChainTokenIcon, BlogReward, Avatar},
   props: {
     records: {
       type: Array,
