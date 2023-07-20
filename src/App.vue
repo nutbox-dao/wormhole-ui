@@ -149,8 +149,8 @@ export default {
       e.target.src = emptyAvatar;
     },
     setSelectTag(tag) {
-      this.$router.push('/')
-      this.$store.commit('postsModule/saveSelectedTag', tag)
+      this.$router.push('/square')
+      this.$store.commit('postsModule/saveSelectedTag', tag.replace('#', ''))
     },
     beforeCloseLogin(done) {
       if(this.$refs.loginRef.authStep === 'login') this.$store.commit('saveShowLogin', false)

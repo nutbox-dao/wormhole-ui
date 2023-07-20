@@ -69,7 +69,7 @@
                      :class="selectedTag === tag?'bg-color62 light:bg-color62 text-white':
                      'bg-blockBg text-white light:text-color62 light:bg-colorF7'"
                      v-for="tag of seachTagList.slice(0, showSearchTagNum)" :key="tag"
-                     @click.stop="$emit('setSelectTag', selectedTag);showSearchList=false">
+                     @click.stop="$emit('setSelectTag', tag);showSearchList=false">
                   #{{ tag.replace('#', '') }}
                 </button>
               </div>
