@@ -88,7 +88,7 @@ import { logout, isTokenExpired, monitorNFTReceiveState } from './utils/account'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+// import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { getProfile, getCommon, getPriceBSC, getPriceARB, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
