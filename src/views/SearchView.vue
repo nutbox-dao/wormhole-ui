@@ -163,8 +163,8 @@ export default {
       this.searchCommunityList = []
     },
     setSelectTag(tag) {
-      this.$router.push('/')
-      this.$store.commit('postsModule/saveSelectedTag', tag)
+      this.$router.push('/square')
+      this.$store.commit('postsModule/saveSelectedTag', tag.replace('#', ''))
       this.$emit('close')
     },
     gotoUser(user) {

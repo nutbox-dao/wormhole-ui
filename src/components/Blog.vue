@@ -318,7 +318,8 @@ export default {
       }
     },
     onSelectTag(tag) {
-      this.$store.commit('postsModule/saveSelectedTag', tag)
+      this.$router.push('/square')
+      this.$store.commit('postsModule/saveSelectedTag', tag.replace("#", ''))
     },
     onFollow() {
       this.$refs.postButtonRef.userFollow()
