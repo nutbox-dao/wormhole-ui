@@ -83,16 +83,16 @@ export const likePost = async (tweetId, authorId, up=true) => {
         }else {
             r = await ulp(twitterId, tweetId)
         }
+
         console.log('user like tweet result:', r, up);
         if(r) {
             return r
-        }else if(authorId !== twitterId) {
+        }
+    }catch(e) {
+        if (authorId !== twitterId) {
             addBackVp(VP_CONSUME.LIKE);
             addBackRc(RC_CONSUME.LIKE)
         }
-    }catch(e) {
-        addBackVp(VP_CONSUME.LIKE);
-        addBackRc(RC_CONSUME.LIKE)
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
@@ -139,13 +139,12 @@ export const retweetPost = async (tweetId, authorId) => {
         console.log('user retweet result:', r);
         if(r) {
             return r
-        }else if(twitterId !== authorId) {
-            addBackVp(VP_CONSUME.RETWEET);
-            addBackRc(RC_CONSUME.RETWEET)
         }
     }catch(e) {
-        addBackVp(VP_CONSUME.RETWEET);
-        addBackRc(RC_CONSUME.RETWEET)
+        if (authorId !== twitterId) {
+            addBackVp(VP_CONSUME.RETWEET);
+            addBackRc(RC_CONSUME.RETWEET);
+        }
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
@@ -194,13 +193,12 @@ export const quotePost = async (tweetId, content, authorId) => {
         console.log('user reply tweet result:', r);
         if(r) {
             return r
-        }else if (authorId !== twitterId) {
-            addBackVp(VP_CONSUME.QUOTE);
-            addBackRc(RC_CONSUME.QUOTE)
         }
     }catch(e) {
-        addBackVp(VP_CONSUME.QUOTE);
-        addBackRc(RC_CONSUME.QUOTE)
+        if (authorId !== twitterId) {
+            addBackVp(VP_CONSUME.QUOTE);
+            addBackRc(RC_CONSUME.QUOTE);
+        }
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
