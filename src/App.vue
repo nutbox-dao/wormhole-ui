@@ -107,7 +107,7 @@ export default {
       pubKey: '',
       showMenu: false,
       elLocal: {
-        'zh': null
+        // 'zh': null
       },
       isDark: false,
       closeLoginTipVisible: false,
