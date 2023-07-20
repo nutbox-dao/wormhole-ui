@@ -88,7 +88,7 @@ import { logout, isTokenExpired, monitorNFTReceiveState } from './utils/account'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
-// import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { getProfile, getCommon, getPriceBSC, getPriceARB, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
@@ -107,7 +107,7 @@ export default {
       pubKey: '',
       showMenu: false,
       elLocal: {
-        // 'zh': null
+        'zh': zhCn
       },
       isDark: false,
       closeLoginTipVisible: false,
@@ -197,7 +197,7 @@ export default {
 
       prices['ferc'] = prices['0xc365b8cbde40cb902cae1bddf425a4c9e1f60d3f'];
       prices['mferc'] = prices['0xb4ee30de6bf7e8f9efbfcc9715021144defde96f'];
-      
+
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
     },
@@ -301,7 +301,7 @@ export default {
 
             // update vp
             let vp = parseFloat(this.vpInfo.votingPower + (Date.now() - this.vpInfo.lastUpdateTime) * MAX_VP / (86400000 * VP_RECOVER_DAY))
-            
+
             this.$store.commit('saveVp', vp > MAX_VP ? MAX_VP : vp.toFixed(2));
 
             // update rc
