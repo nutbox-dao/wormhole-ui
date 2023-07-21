@@ -2,7 +2,7 @@
   <div class="h-full">
     <el-popover popper-class="c-popper"
                 :disabled="clientWidth<500"
-                :teleported="false"
+                :teleported="teleported"
                 :show-after="500"
                 :persistent="true"
                 :show-arrow="false" width="240px">
@@ -74,6 +74,10 @@ export default {
     reputation: {
       type: Number,
       default: ''
+    },
+    teleported: {
+      type:Boolean,
+      default: false
     }
   },
   data() {
@@ -86,7 +90,7 @@ export default {
     try{
       // this.accountInfo = await getUserInfo(this.username)
     }catch(e) {
-      
+
     }
   },
   methods: {

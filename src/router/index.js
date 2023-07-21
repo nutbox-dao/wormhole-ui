@@ -37,6 +37,8 @@ import TopicDetail from "@/views/community/TopicDetail";
 import InfluenceIndex from "@/views/Influence/InfluenceIndex";
 import InfoIndex from "@/views/info/InfoIndex";
 import QuoteTree from '@/views/Tree';
+import ReferralView from '@/views/referral/Index'
+import ReferralReward from '@/views/user/ReferralRewardView'
 
 const routes = [
   {
@@ -131,6 +133,12 @@ const routes = [
         name: 'reward',
         component: RewardView,
         meta: {gotoHome: true}
+      },
+      {
+        path: '/wallet/:user/ref-reward',
+        name: 'ref-reward',
+        component: ReferralReward,
+        meta: {gotoHome: true}
       }
     ]
   },
@@ -181,7 +189,13 @@ const routes = [
     name: 'quote-tree',
     component: QuoteTree,
     mata: {header: 'hidden', tabbar: 'hidden', keepAlive: true}
-  }
+  },
+  {
+    path: '/referral',
+    name: 'referral',
+    component: ReferralView,
+    meta: {header: 'hidden', tabbar: 'hidden'}
+  },
 ]
 
 const router = VueRouter.createRouter({

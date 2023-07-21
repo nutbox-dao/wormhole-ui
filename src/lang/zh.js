@@ -141,8 +141,7 @@ export default {
     historyRecord: '历史记录',
     communityReward: '社区奖励',
     promotionReward: '推广奖励',
-    withdraw: '提现',
-    promotionReward: '推广奖励'
+    withdraw: '提现'
   },
   token: {
     noNft: "你当前没有任何NFT.",
@@ -230,7 +229,15 @@ export default {
     inputReferee: "输入推荐码(可选)",
     refDes: "此代码来自你已经是 wormhole3 用户的推荐人.",
     wrongReferee: "推荐码错误",
-    copied: "已复制推荐链接!"
+    copied: "已复制推荐链接!",
+    inviteP1: "邀请您加入 Wormhole3\n 开启Web3世界 tweet to earn 的社区建设之路",
+    myReferral:"我的推荐链接",
+    myFriends:"我邀请的伙伴",
+    registrationTime: "注册时间",
+    invitationLevel: "邀请层级",
+    lastLoginTime: "最近登录",
+    rewards: "推荐奖励",
+    referralRewardP1:"你的邀请奖励如下"
   },
   airdrop: {
     testToken: '测试币',

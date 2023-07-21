@@ -230,7 +230,15 @@ export default {
     inputReferee: "Input referral code(Optional)",
     refDes: "This code is from your referrer who is already a wormhole3 user.",
     wrongReferee: "Wrong referral code",
-    copied: "Copied referrer link!"
+    copied: "Copied referrer link!",
+    inviteP1: "邀请您加入 Wormhole3\n 开启Web3世界 tweet to earn 的社区建设之路",
+    myReferral:"我的推荐链接",
+    myFriends:"我邀请的伙伴",
+    registrationTime: "Registration time",
+    invitationLevel: "邀请层级",
+    lastLoginTime: "最近登录",
+    rewards: "Referral Rewards",
+    referralRewardP1:"你的邀请奖励如下"
   },
   airdrop: {
     testToken: 'Test Token',

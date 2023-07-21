@@ -11,6 +11,12 @@
             {{$t('myReward')}}
           </button>
         </router-link>
+        <router-link :to="`/wallet/${$route.params.user}/ref-reward`" v-slot="{isActive}">
+          <button class="w-full h-48px flex items-center justify-center px-15px"
+                  :class="isActive?'c-active-tab text-color62':'text-color7D'">
+            {{$t('ref.rewards')}}
+          </button>
+        </router-link>
         <router-link v-if="getAccountInfo && getAccountInfo.isRegistry === 1"
                      :to="`/wallet/${$route.params.user}/wallet`" v-slot="{isActive}">
           <button class="w-full h-48px flex items-center justify-center px-15px"
