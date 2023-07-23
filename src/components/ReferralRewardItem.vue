@@ -55,24 +55,27 @@
         <div v-for="(item, index) of list" :key="index"
              class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
           <div class="flex-1 flex justify-between items-center">
-            <ChainTokenIcon height="30px" width="30px"
-                            :token="{symbol: item.tokenSymbol, address: item.token, icon: community.communityIcon}"
-                            :chainName="EVM_CHAINS_ID[community.chainId]">
-              <template #amount>
-                <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
-                  {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** item.decimals) : 0) + ' ' + item.tokenSymbol }}
-                </span>
+            <Avatar :profile-img="item.profileImg"
+                    :name="item.twitterName"
+                    :username="item.twitterUsername"
+                    :steem-id="item.steemId"
+                    :eth-address="item.ethAddress"
+                    :reputation="item.reputation"
+                    :teleported="true"
+                    @gotoUserPage="$router.push({path : '/account-info/@' + item.twitterUsername})">
+              <template #avatar-img>
+                <img class="w-32px min-w-32px h-32px rounded-full mr-5px border-0.5px border-color62/20"
+                     @click.stop="$router.push({path : '/account-info/@' + item.twitterUsername})"
+                     :src="item.profileImg || defaultAvatar" alt="">
               </template>
-            </ChainTokenIcon>
+            </Avatar>
+            <span>
+              {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** community.rewardTokenDecimals) : 0) + ' ' + community.rewardTokenSymbol }}  
+            </span>
             <span class="text-color8B text-12px font-500">
-              {{ parseTimestamp(item.createAt) }}
+              {{ parseTimestamp(item.createTime) }}
             </span>
           </div>
-          <button class="flex items-center"
-                  @click="gotoDetail(item)">
-            <img class="w-12px transform -rotate-90 ml-10px"
-                 src="~@/assets/icon-select-arrow.svg" alt="">
-          </button>
         </div>
       </div>
       <div class="2md:hidden pt-15px">
@@ -97,6 +100,8 @@
 
 <script>
 import {TokenIcon} from "@/config";
+import Avatar from "@/components/Avatar";
+import defaultAvatar from "@/assets/icon-default-avatar.svg";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {useWindowSize} from "@vant/use";
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
@@ -108,13 +113,13 @@ import RewardHistoryList from "@/components/RewardHistoryList";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { notify } from "@/utils/notify";
-import { getCommunityClaimRewardsParas, getCommunityClaimAuthorRewardsParas,
+import { getCommunityClaimRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
 import { claimCommunityRewards } from '@/utils/curation'
 
 export default {
   name: "CommunityRewardItem",
-  components: {ChainTokenIcon, RewardHistoryList},
+  components: {ChainTokenIcon, RewardHistoryList, Avatar},
   setup() {
     const {width} = useWindowSize()
     return {
@@ -153,37 +158,11 @@ export default {
       }
       return []
     },
-    authorRewards() {
-      if (this.communityId) {
-        return this.getCommunityAuthorRewards(this.communityId) ?? [];
-      }
-      return []
-    },
-    totalRewards() {
-      if (this.rewards.length > 0) {
-        return this.rewards.reduce((s, t) => s + t.amount / (10 ** t.decimals), 0)
-      }
-      return 0
-    },
-    totalAuthorReward() {
-      if (this.authorRewards.length > 0) {
-        return this.authorRewards.reduce((s, t) => s + t.amount / (10 ** t.decimals), 0)
-      }
-      return 0
-    },
     totalReward() {
-      if (this.tabIndex === 0) {
-        return this.totalRewards;
-      }else {
-        return this.totalAuthorReward;
-      }
+      return this.community.amount / (10 ** this.community.rewardTokenDecimals)
     },
     list() {
-      if (this.tabIndex === 0) {
-        return (this.isExpand || this.width>=961) ? this.rewards : this.rewards.slice(0,3)
-      }else {
-        return (this.isExpand || this.width>=961) ? this.authorRewards : this.authorRewards.slice(0,3)
-      }
+      return this.inviteRewards[this.communityId].list ?? []
     },
     accountMismatch() {
       return this.getAccountInfo?.ethAddress !== this.account
@@ -194,10 +173,6 @@ export default {
     parseTimestamp,
     formatAmount,
     formatPrice,
-    gotoDetail(reward) {
-      this.$store.commit('postsModule/saveCurrentShowingDetail', null)
-      this.$router.push('/post-detail/' + reward.tweetId)
-    },
     async connect() {
       try {
         this.connecting = true
@@ -218,7 +193,6 @@ export default {
       if(this.claiming) return;
       try{
         this.claiming = true
-        if(this.tabIndex === 0) { //curation
             const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
             const ids = this.rewards.map(c => c.curationId)
@@ -233,25 +207,7 @@ export default {
             await setCommunityRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
             this.$store.commit('curation/saveCommunityRewards', list)
-        }else { // author
-          const chainName = EVM_CHAINS_ID[this.community.chainId]
-            this.claiming = true
-            const ids = this.authorRewards.map(c => c.curationId)
-            const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimAuthorRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
-            if (amount == '0') {
-              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
-              const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
-              this.$store.commit('curation/saveCommunityAuthorRewards', list)
-              return;
-            }
-            const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, orderIds, amount, sig);
-            await setCommunityAuthorRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
-            if (this.communityAuthorRewards) {
-              const list = this.communityAuthorRewards.filter(r => r.communityId !== this.community.communityId);
-
-              this.$store.commit('curation/saveCommunityAuthorRewards', list)
-            }
-        }
+        
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
@@ -267,8 +223,8 @@ export default {
   },
   mounted() {
     getPriceFromOracle(EVM_CHAINS_ID[this.community.chainId], [
-      this.community
-    ]).then(res => {
+    {token: this.community.rewardToken}
+  ]).then(res => {
       this.price = res[this.community.token];
     })
     accountChanged().catch()
