@@ -50,8 +50,8 @@
         <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllInviteRewards')}}</div>
       </div>
       <div v-else
-           class="flex-1 no-scroll-bar 2md:overflow-auto reward-list"
-           :class="isExpand?'expand':''">
+           class="flex-1 no-scroll-bar overflow-auto  max-h-210px"
+           v-infinite-scroll="load">
         <div v-for="(item, index) of list" :key="index"
              class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
           <div class="flex-1 flex items-center">
@@ -77,15 +77,18 @@
             {{ parseTimestamp(item.createTime) }}
           </span>
         </div>
+        <div v-if="listLoading" class="py-10px flex justify-center items-center">
+          <img class="w-20px h-20px min-w-20px" src="~@/assets/icon-loading.svg" alt="">
+        </div>
       </div>
-      <div class="2md:hidden pt-15px">
-        <button class="text-color8B flex items-center justify-center mx-auto" @click="isExpand=!isExpand">
-<!--          <span>{{$t('common.all')}}</span>-->
-          <img class="w-12px transform spin-slow"
-               :class="isExpand?'rotate-180':'rotate-0'"
-               src="~@/assets/icon-select-arrow.svg" alt="">
-        </button>
-      </div>
+<!--      <div class="2md:hidden pt-15px">-->
+<!--        <button class="text-color8B flex items-center justify-center mx-auto" @click="isExpand=!isExpand">-->
+<!--&lt;!&ndash;          <span>{{$t('common.all')}}</span>&ndash;&gt;-->
+<!--          <img class="w-12px transform spin-slow"-->
+<!--               :class="isExpand?'rotate-180':'rotate-0'"-->
+<!--               src="~@/assets/icon-select-arrow.svg" alt="">-->
+<!--        </button>-->
+<!--      </div>-->
     </div>
     <el-dialog v-model="historyModalVisible"
                class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
@@ -142,7 +145,9 @@ export default {
       isExpand: false,
       historyModalVisible: false,
       connecting: false,
-      claiming: false
+      claiming: false,
+      listLoading: false,
+      listFinished: false
     }
   },
   computed: {
@@ -219,6 +224,9 @@ export default {
       } finally {
         this.claiming = false
       }
+    },
+    load() {
+
     }
   },
   mounted() {
