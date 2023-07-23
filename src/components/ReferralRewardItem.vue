@@ -54,7 +54,7 @@
            :class="isExpand?'expand':''">
         <div v-for="(item, index) of list" :key="index"
              class="border-b-1px border-listBgBorder py-15px flex justify-between items-center">
-          <div class="flex-1 flex justify-between items-center">
+          <div class="flex-1 flex items-center">
             <Avatar :profile-img="item.profileImg"
                     :name="item.twitterName"
                     :username="item.twitterUsername"
@@ -70,12 +70,12 @@
               </template>
             </Avatar>
             <span>
-              {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** community.rewardTokenDecimals) : 0) + ' ' + community.rewardTokenSymbol }}  
-            </span>
-            <span class="text-color8B text-12px font-500">
-              {{ parseTimestamp(item.createTime) }}
+              {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** community.rewardTokenDecimals) : 0) + ' ' + community.rewardTokenSymbol }}
             </span>
           </div>
+          <span class="text-color8B text-12px font-500">
+            {{ parseTimestamp(item.createTime) }}
+          </span>
         </div>
       </div>
       <div class="2md:hidden pt-15px">
@@ -207,7 +207,7 @@ export default {
             await setCommunityRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
             const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
             this.$store.commit('curation/saveCommunityRewards', list)
-        
+
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)

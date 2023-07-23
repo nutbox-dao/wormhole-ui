@@ -5,17 +5,27 @@
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
     <div class="h-full overflow-auto">
-      <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
-        <div class="mt-30px">
-          <div v-if="(!inviteRewards || Object.keys(inviteRewards).length === 0)" class="py-2rem">
-            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+      <van-list :loading="listLoading"
+                :finished="listFinished"
+                :immediate-check="false"
+                :loosing-text="$t('common.pullRefresh')"
+                :loading-text="$t('common.loading')"
+                :finished-text="$t('common.noMore')"
+                @load="onLoad">
+        <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
+          <div class="mt-30px">
+            <div v-if="(!inviteRewards || Object.keys(inviteRewards).length === 0)" class="py-2rem">
+              <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+              <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+            </div>
+            <ReferralRewardItem v-else v-for="communityId of Object.keys(inviteRewards)" :key="communityId"
+                                :community-id="communityId"></ReferralRewardItem>
           </div>
-          <ReferralRewardItem v-else v-for="communityId of Object.keys(inviteRewards)" :key="communityId"
-                              :community-id="communityId"></ReferralRewardItem>
         </div>
-      </div>
+      </van-list>
     </div>
+
+
     <el-dialog v-model="historyModalVisible"
                class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
       <RewardHistoryList
@@ -62,7 +72,9 @@ export default {
       TokenIcon,
       historyModalVisible: false,
       loadingCommunityRewards: false,
-      collapseNames: []
+      collapseNames: [],
+      listLoading: false,
+      listFinished: false
     }
   },
   computed: {
@@ -96,7 +108,7 @@ export default {
         const currentList = this.inviteRewards;
         if (currentList && Object.keys(currentList).length > 0 && !force) {
           return;
-        }        
+        }
         let summary = await getPendingClaimSummary(this.getAccountInfo.twitterId)
         console.log(432, summary)
         this.$store.commit('curation/saveInviteRewards', summary)
@@ -132,6 +144,9 @@ export default {
       } else {
         this.checkRewardList.push(token)
       }
+    },
+    onLoad() {
+
     }
   },
   mounted () {
