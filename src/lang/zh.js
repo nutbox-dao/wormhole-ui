@@ -237,7 +237,11 @@ export default {
     invitationLevel: "邀请层级",
     lastLoginTime: "最近登录",
     rewards: "推荐奖励",
-    referralRewardP1:"你的邀请奖励如下"
+    referralRewardP1:"你的邀请奖励如下",
+    tipTitle: "权益说明：",
+    tip1: "被邀请人成功注册后，会享受到策展奖励服务费8折优惠；",
+    tip2: "您会享有被邀请人在平台每一笔策展奖励服务费的25%～50%作为佣金；",
+    tip3: "您的被邀请人如果邀请其他伙伴成功注册，您也会享有第二级被邀请人每一笔策展奖励服务费的25%作为佣金",
   },
   airdrop: {
     testToken: '测试币',

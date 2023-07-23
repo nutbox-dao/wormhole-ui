@@ -32,7 +32,7 @@ export default {
   components: {InviteLink, InviterList},
   data() {
     return {
-      tabIndex: 1
+      tabIndex: 0
     }
   }
 }

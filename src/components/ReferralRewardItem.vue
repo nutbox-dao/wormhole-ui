@@ -4,16 +4,16 @@
     <div class="flex-1 flex flex-col justify-between">
       <div class="flex items-center">
         <img class="bg-color62 rounded-full w-34px h-34px"
-             :src="community.communityIcon" alt="">
+             :src="community.icon" alt="">
         <span class="ml-10px c-text-black">{{ community.communityName }}</span>
       </div>
       <div class="mt-30px text-left">{{$t('ref.referralRewardP1')}}</div>
       <div class="bg-color62/10 reward-box rounded-12px overflow-hidden p-15px mt-10px
                   flex flex-col justify-between items-center text-12px 2xl:text-14px font-bold">
         <div class="w-full flex items-center">
-          <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.tokenSymbol] ?? community.communityIcon" alt="">
+          <img class="w-40px h-40px rounded-full mr-10px" :src="TokenIcon[community.rewardTokenSymbol] ?? community.icon" alt="">
           <div class="flex flex-col items-start">
-            <span class="font-bold mb-4px text-14px">{{ community.tokenSymbol }}</span>
+            <span class="font-bold mb-4px text-14px">{{ community.rewardTokenSymbol }}</span>
             <span class="text-12px text-color7D">{{ formatAmount(totalReward) }}({{ formatPrice(totalReward * price) }})</span>
           </div>
         </div>
@@ -141,18 +141,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
     ...mapState('web3', ['chainId', 'account']),
     ...mapGetters(['getAccountInfo']),
-    ...mapState('curation', ['rewardLists', 'communityRewards', 'communityAuthorRewards']),
+    ...mapState('curation', ['inviteRewards']),
     community() {
-      if (this.rewards && this.rewards.length > 0) {
-        return this.rewards[0]
-      }
-      if (this.authorRewards && this.authorRewards.length > 0) {
-        return this.authorRewards[0]
-      }
-      return {}
+      return this.inviteRewards[this.communityId];
     },
     rewards() {
       if (this.communityId) {

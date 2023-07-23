@@ -33,7 +33,7 @@
               {{$t('ref.inviteP1')}}
             </div>
             <img class="w-60px h-60px min-w-60px min-h-60px rounded-full absolute right-25px top-25px shadow-color1A"
-                 :src="getAccountInfo.profileImg" alt="">
+                 :src='getAccountInfo.profileImg.replace("normal", "400x400")' alt="">
           </div>
           <div class="px-1/5 pb-1/10 pt-1/10">
             <img v-if="qrSrc"
@@ -63,11 +63,11 @@
             </button>
           </div>
         </div>
-        <div>权益说明：</div>
+        <div>{{ $t('ref.tipTitle') }}</div>
         <ul class="list-disc pl-20px mt-8px">
-          <li>被邀请人成功注册后，会享受到策展奖励服务费8折优惠；</li>
-          <li>您会享有被邀请人在平台每一笔策展奖励服务费的25%～50%作为佣金；</li>
-          <li>您的被邀请人如果邀请其他伙伴成功注册，您也会享有第二级被邀请人每一笔策展奖励服务费的25%作为佣金。</li>
+          <li>{{ $t('ref.tip1') }}</li>
+          <li>{{ $t('ref.tip2') }}</li>
+          <li>{{ $t('ref.tip3') }}</li>
         </ul>
       </div>
     </div>

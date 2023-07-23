@@ -7,7 +7,7 @@ import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
         retweetCuration as retc, quoteCuration as qc, replyCuration as rc, 
-        preNewCuration as pnc } from '@/api/api'
+        preNewCuration as pnc, getInvitorsOfUser as giou } from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -671,7 +671,7 @@ export const retweetCuration = async (twitterId, curationId) => {
 export const checkMyCurationRecord = async (twitterId, curationId) => {
    await checkAccessToken();
    try {
-      const res = ccr(twitterId, curationId);
+      const res = await ccr(twitterId, curationId);
       return res;
    } catch (e) {
       if (e === 401) {
@@ -684,7 +684,7 @@ export const checkMyCurationRecord = async (twitterId, curationId) => {
 export const checkMyPopupRecord = async (twitterId, popupId) =>  {
   await checkAccessToken();
   try {
-    const res = cpr(twitterId, popupId);
+    const res = await cpr(twitterId, popupId);
     return res;
   }catch(e) {
     if (e === 401) {
@@ -692,4 +692,19 @@ export const checkMyPopupRecord = async (twitterId, popupId) =>  {
       throw 'log out'
     }
   }
+}
+
+
+/****************************************  Invitation  ***********************************************/
+export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) => {
+    await checkAccessToken();
+    try {
+      const res = await giou(twitterId, pageSize, pageIndex);
+      return res;
+    } catch (e) {
+      if (e === 401) {
+        await logout(twitterId);
+        throw 'log out'
+      }
+    }
 }

@@ -194,7 +194,7 @@ const routes = [
     path: '/referral',
     name: 'referral',
     component: ReferralView,
-    meta: {header: 'hidden', tabbar: 'hidden'}
+    meta: {header: 'hidden', tabbar: 'hidden', gotoHome: true}
   },
 ]
 
