@@ -4,27 +4,24 @@
                     :loading-text="$t('common.loading')"
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
-    <div class="h-full overflow-auto">
-      <van-list :loading="listLoading"
-                :finished="listFinished"
-                :immediate-check="false"
-                :loosing-text="$t('common.pullRefresh')"
-                :loading-text="$t('common.loading')"
-                :finished-text="$t('common.noMore')"
-                @load="onLoad">
-        <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
-          <div class="mt-30px">
-            <div v-if="(!inviteRewards || Object.keys(inviteRewards).length === 0)" class="py-2rem">
-              <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-              <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
-            </div>
-            <ReferralRewardItem v-else v-for="communityId of Object.keys(inviteRewards)" :key="communityId"
-                                :community-id="communityId"></ReferralRewardItem>
+    <van-list :loading="listLoading"
+              :finished="listFinished"
+              :immediate-check="false"
+              :loosing-text="$t('common.pullRefresh')"
+              :loading-text="$t('common.loading')"
+              :finished-text="$t('common.noMore')"
+              @load="onLoad">
+      <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
+        <div class="mt-30px">
+          <div v-if="(!inviteRewards || Object.keys(inviteRewards).length === 0)" class="py-2rem">
+            <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+            <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
           </div>
+          <ReferralRewardItem v-else v-for="communityId of Object.keys(inviteRewards)" :key="communityId"
+                              :community-id="communityId"></ReferralRewardItem>
         </div>
-      </van-list>
-    </div>
-
+      </div>
+    </van-list>
 
     <el-dialog v-model="historyModalVisible"
                class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
