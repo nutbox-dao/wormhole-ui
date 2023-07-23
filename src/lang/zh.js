@@ -135,6 +135,7 @@ export default {
     totalBalance: '总余额',
     tipHistory: '打赏历史',
     claimedAllRewards: `没有可以收取的奖励`,
+    claimedAllInviteRewards: '没有可以收取的返佣',
     inputAmount: '请输入token数量',
     accountMismatch: '您需要使用 {account} 进行操作。',
     record: '记录',

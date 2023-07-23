@@ -135,6 +135,7 @@ export default {
     totalBalance: 'Total balance',
     tipHistory: 'Tip History',
     claimedAllRewards: `There's no curation rewards to claim.`,
+    claimedAllInviteRewards: `There's no invitation rewards to claim`,
     inputAmount: 'Enter token amount',
     accountMismatch: 'You must use {account} to operate.',
     record: 'Detail',

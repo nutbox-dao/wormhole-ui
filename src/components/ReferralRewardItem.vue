@@ -47,7 +47,7 @@
       </div>
       <div v-if="list.length===0"
            class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-        <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllRewards')}}</div>
+        <div class="c-text-black text-color7D text-14px mb-2rem">{{$t('walletView.claimedAllInviteRewards')}}</div>
       </div>
       <div v-else
            class="flex-1 no-scroll-bar 2md:overflow-auto reward-list"
