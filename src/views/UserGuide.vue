@@ -1,9 +1,10 @@
 <template>
     <div>
-      <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2 bg-primaryBg light:bg-white top-level">
+      <div class="border-b-0.5px border-color84/30 light:border-colorD6 sticky -top-1 z-2
+                  bg-primaryBg light:bg-white 2md:bg-transparent 2md:light:bg-transparent top-level">
         <div class="pt-25px sm:px-0 container mx-auto sm:max-w-600px lg:max-w-35rem
                     overflow-x-auto overflow-y-hidden no-scroll-bar pl-40px">
-          <div class="absolute left-0 bg-primaryBg light:bg-white z-2">
+          <div class="absolute left-0 bg-primaryBg light:bg-white z-2 2md:hidden">
             <button @click="$router.go(-1)"
                     class=" h-40px w-40px flex items-center justify-center rounded-full">
               <i class="icon-back w-20px h-20px"></i>
