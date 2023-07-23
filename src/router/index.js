@@ -88,11 +88,13 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQView,
+    meta: {header: 'hidden', tabbar: 'hidden'}
   },
   {
     path: '/userguide',
     name: 'user-guide',
-    component: UserGuide
+    component: UserGuide,
+    meta: {header: 'hidden', tabbar: 'hidden'}
   },
   {
     path: '/about',
