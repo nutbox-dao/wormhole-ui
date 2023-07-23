@@ -33,10 +33,10 @@
                        sortable width="160">
         <template #default="scope">{{formatDateString(scope.row.registerTime)}}</template>
       </el-table-column>
-      <el-table-column prop="level"
+      <!-- <el-table-column prop="level"
                        :label="$t('ref.invitationLevel')" width="140">
         <template #default="scope">{{scope.row.level}}</template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column prop="lastLoginTime" class-name="text-right"
                        :label="$t('ref.lastLoginTime')"
                        sortable width="150">

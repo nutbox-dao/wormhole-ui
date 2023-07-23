@@ -67,7 +67,7 @@
         <ul class="list-disc pl-20px mt-8px">
           <li>{{ $t('ref.tip1') }}</li>
           <li>{{ $t('ref.tip2') }}</li>
-          <li>{{ $t('ref.tip3') }}</li>
+          <!-- <li>{{ $t('ref.tip3') }}</li> -->
         </ul>
       </div>
     </div>

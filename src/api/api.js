@@ -433,3 +433,6 @@ export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
 
 export const getPendingClaimSummary = async (twitterId) =>
     get(BACKEND_API_URL + '/invitation/getPendingClaimSummary', {twitterId})
+
+export const getMoreInvitationReward = async (twitterId, communityId, createTime, isFeed) =>
+    get(BACKEND_API_URL + '/getMoreInvitationReward', {twitterId, communityId, createTime, isFeed})

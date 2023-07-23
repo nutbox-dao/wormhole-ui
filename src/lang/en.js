@@ -242,7 +242,7 @@ export default {
     referralRewardP1:"Your invite commission",
     tipTitle: "Equity Statement",
     tip1: "After the invitee successfully registers, they will enjoy a 20% discount on the curation reward service fee;",
-    tip2: "You will enjoy a commission of 25% to 50% of each curation reward service fee for the invitee on the platform;",
+    tip2: "You will enjoy a commission of 50% of each curation reward service fee for the invitee on the platform;",
     tip3: "If your invitee successfully invites other partners to register, you will also enjoy a commission of 25% of each curation reward service fee for the second level invitee",
   },
   airdrop: {

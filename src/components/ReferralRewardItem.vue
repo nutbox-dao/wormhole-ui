@@ -40,10 +40,10 @@
          :class="list.length>2?'2md:h-212px 2md:max-h-212px':''">
       <div class="flex justify-between items-center mb-8px">
         <span class="font-bold text-left text-16px">{{$t('walletView.record')}}</span>
-        <button class="flex items-center text-14px" @click="historyModalVisible=true">
+        <!-- <button class="flex items-center text-14px" @click="historyModalVisible=true">
           <span class="light:opacity-40">{{$t('walletView.historyRecord')}}</span>
           <i class="icon-back w-12px h-12px transform -rotate-180 light:opacity-40"></i>
-        </button>
+        </button> -->
       </div>
       <div v-if="list.length===0"
            class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
@@ -119,6 +119,8 @@ import { notify } from "@/utils/notify";
 import { getCommunityClaimRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
 import { claimCommunityRewards } from '@/utils/curation'
+import { getMoreInvitationReward } from '@/api/api'
+import { el } from "element-plus/es/locale";
 
 export default {
   name: "CommunityRewardItem",
@@ -225,8 +227,22 @@ export default {
         this.claiming = false
       }
     },
-    load() {
-
+    async load() {
+      try{
+        if (this.listLoading || this.listFinished || this.list.length === 0) return;
+        this.listLoading = true;
+        const createTime = this.list[this.list.length - 1].createTime
+        const res = await getMoreInvitationReward(this.getAccountInfo.twitterId, this.communityId, createTime, 0)
+        if (res.length > 0) {
+          this.inviteRewards[this.communityId].list = this.inviteRewards[this.communityId].list.connect(res);
+        }else {
+          this.listFinished = true;
+        }
+      } catch(e) {
+        console.log(53, e)
+      } finally {
+        this.listLoading = false
+      }
     }
   },
   mounted() {
