@@ -1,8 +1,15 @@
 <template>
   <div class="faq-view overflow-auto">
-    <div class="c-text-black text-center py-1rem text-1.5rem md:text-1.2rem">{{$t('faq')}}</div>
-    <div class="container mx-auto text-left max-w-43rem fade-in c-text-medium">
-      <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem mb-1rem">
+    <div class="border-b-0.5px 2md:border-b-0 border-color8B/30 light:border-colorD6
+                flex items-center justify-center gap-30px h-70px pt-23px 2md:h-48px 2md:pt-0 text-14px font-bold">
+      <button @click="$router.go(-1)"
+              class="absolute left-15px 2md:hidden">
+        <i class="icon-back w-20px h-20px"></i>
+      </button>
+      <div class="c-text-black text-center py-1rem text-1.5rem md:text-1.2rem">{{$t('faq')}}</div>
+    </div>
+    <div class="container mx-auto text-left max-w-43rem fade-in c-text-medium px-15px">
+      <div class="flex-1 flex flex-wrap gap-x-1.5rem gap-y-0.8rem py-15px">
         <button class="leading-30px whitespace-nowrap px-1rem rounded-full border-1 h-30px cursor-pointer"
                 :class="tabIndex===0?'bg-color62/20 light:bg-colorF1 text-color62 border-color62 font-bold':
               'border-color8B/30 light:border-colorE3 light:border-colorE3 text-color84 light:text-color7D light:bg-colorF2'"

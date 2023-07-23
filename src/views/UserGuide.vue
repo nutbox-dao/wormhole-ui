@@ -1,36 +1,43 @@
 <template>
     <div>
-      <div class="border-b-1 border-color84/30 light:border-colorF4 sticky -top-1 z-2 bg-primaryBg light:bg-white top-level">
+      <div class="border-b-0.5px border-color84/30 light:border-colorD6 sticky -top-1 z-2
+                  bg-primaryBg light:bg-white 2md:bg-transparent 2md:light:bg-transparent top-level">
         <div class="pt-25px sm:px-0 container mx-auto sm:max-w-600px lg:max-w-35rem
-                    overflow-x-auto overflow-y-hidden no-scroll-bar">
-          <div class="flex text-16px xl:text-0.9rem font-bold ">
+                    overflow-x-auto overflow-y-hidden no-scroll-bar pl-40px">
+          <div class="absolute left-0 bg-primaryBg light:bg-white z-2 2md:hidden">
+            <button @click="$router.go(-1)"
+                    class=" h-40px w-40px flex items-center justify-center rounded-full">
+              <i class="icon-back w-20px h-20px"></i>
+            </button>
+          </div>
+          <div class="flex text-16px xl:text-0.9rem font-bold">
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
-                           border-b-2 md:border-b-4 whitespace-nowrap"
-                    :class="tabIndex===0?'text-color62 border-color62':'text-color7D border-transparent'"
+                            whitespace-nowrap"
+                    :class="tabIndex===0?'c-active-tab text-color62':'text-color7D'"
                     @click="tabIndex=0">
               {{$t('guide.registrationGuide')}}
             </button>
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
-                           border-b-2 md:border-b-4 whitespace-nowrap"
-                    :class="tabIndex===1?'text-color62 border-color62':'text-color7D border-transparent'"
+                            whitespace-nowrap"
+                    :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                     @click="tabIndex=1">
               {{$t('guide.attendGuide')}}
             </button>
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
-                           border-b-2 md:border-b-4 whitespace-nowrap"
-                    :class="tabIndex===2?'text-color62 border-color62':'text-color7D border-transparent'"
+                            whitespace-nowrap"
+                    :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                     @click="tabIndex=2">
               {{$t('guide.curationTweetGuide')}}
             </button>
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
-                           border-b-2 md:border-b-4 whitespace-nowrap"
-                    :class="tabIndex===3?'text-color62 border-color62':'text-color7D border-transparent'"
+                            whitespace-nowrap"
+                    :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
                     @click="tabIndex=3">
               {{$t('guide.curationSpaceGuide')}}
             </button>
             <button class="w-full px-2rem h-40px xl:h-2.4rem flex items-center justify-center
-                           border-b-2 md:border-b-4 whitespace-nowrap"
-                    :class="tabIndex===4?'text-color62 border-color62':'text-color7D border-transparent'"
+                            whitespace-nowrap"
+                    :class="tabIndex===4?'c-active-tab text-color62':'text-color7D'"
                     @click="tabIndex=4">
               {{$t('guide.otherGuide')}}
             </button>
