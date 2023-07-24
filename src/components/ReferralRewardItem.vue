@@ -120,7 +120,6 @@ import { getCommunityClaimRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
 import { claimCommunityRewards } from '@/utils/curation'
 import { getMoreInvitationReward } from '@/api/api'
-import { el } from "element-plus/es/locale";
 
 export default {
   name: "CommunityRewardItem",
