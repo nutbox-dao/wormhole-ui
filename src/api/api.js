@@ -426,3 +426,19 @@ export const searchCommunityByName = async (communityName) =>
 
 export const getCommunityOps = async (communityId, createTime) =>
     get(BACKEND_API_URL + '/community/getCommunityOps', {communityId, createTime})
+
+/****************************************  Invitation  ***********************************************/
+export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
+    post(BACKEND_API_URL + '/invitation/getInvitorsOfUser', {twitterId, pageSize, pageIndex})
+
+export const getPendingClaimSummary = async (twitterId) =>
+    get(BACKEND_API_URL + '/invitation/getPendingClaimSummary', {twitterId})
+
+export const getMoreInvitationReward = async (twitterId, communityId, createTime, isFeed) =>
+    get(BACKEND_API_URL + '/invitation/getMoreInvitationReward', {twitterId, communityId, createTime, isFeed})
+
+export const getClaimRewardsParas = async (communityId, twitterId) =>
+    post(BACKEND_API_URL + '/invitation/getClaimRewardsParas', {communityId, twitterId})
+
+export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) =>
+    post(BACKEND_API_URL + '/invitation/setClaimed', {orderId, communityId, twitterId, transHash})

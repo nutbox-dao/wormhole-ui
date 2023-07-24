@@ -445,6 +445,9 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
 
     SERVER_ERR: 500,
     TWITTER_ERROR:  505,
+    USER_NOT_REGISTERED: 508,
+    USER_ORDER_PENDING: 509,
+    NO_REWARD_TO_CLAIM: 510,
 
     TWEET_NOT_FOUND: 701
   };

@@ -22,7 +22,9 @@ export default {
         customTokens: localStorage.getItem('custom-tokens'),
         selectedTag: 'All',
         communityRewards: [],
-        communityAuthorRewards: []
+        communityAuthorRewards: [],
+        inviteRewards: {},
+
     },
     mutations: {
         saveSelectedTag: (state, tag) => {
@@ -109,6 +111,9 @@ export default {
         },
         saveCommunityAuthorRewards: (state, communityAuthorRewards) => {
             state.communityAuthorRewards = communityAuthorRewards
+        },
+        saveInviteRewards: (state, inviteRewards) => {
+            state.inviteRewards = inviteRewards;
         }
     },
     getters: {
@@ -197,6 +202,6 @@ export default {
         },
         getRewardCommunityInfo: state => {
             return [...new Set(state.communityRewards.map(c => c.communityId).concat(state.communityAuthorRewards.map(c => c.communityId)))] 
-        }
+        },
     }
 }
