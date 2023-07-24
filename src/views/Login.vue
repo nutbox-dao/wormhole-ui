@@ -30,21 +30,23 @@
       <div class="c-text-black break-word text-1.4rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
         {{$t('signUpView.p1')}}
       </div>
-      <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
-              :disabled="!!thirdPartInfo.ethAddress"
-              @click="authStep = 'create'">
-        {{$t('signUpView.createAccount')}}
+      <button @click="connectMetamask" :disabled="connecting"
+              class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem
+                     flex justify-center items-center">
+        <img class="w-1.7rem mr-1rem" src="~@/assets/icon-metamask.png" alt="">
+        <span class="">{{$t('signUpView.metamask')}}</span>
+        <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
       </button>
       <div class="flex justify-center items-center mt-1.5rem ">
         <span class="w-10rem h-1px bg-color8B/30 light:bg-colorD6 block"></span>
         <span class="mx-1rem text-color8B/30 light:text-color7D xl:text-0.8rem">{{$t('signUpView.or')}}</span>
         <span class="w-10rem h-1px bg-color8B/30 light:bg-colorD6 block"></span>
       </div>
-      <button @click="connectMetamask" :disabled="connecting"
-              class="h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center">
-        <img class="w-1.7rem mr-1rem" src="~@/assets/icon-metamask.png" alt="">
-        <span class="text-color8B light:text-color7D underline font-bold">{{$t('signUpView.metamask')}}</span>
-        <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
+      <button class="h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center
+                     text-color8B light:text-color7D underline font-bold"
+              :disabled="!!thirdPartInfo.ethAddress"
+              @click="authStep = 'create'">
+        {{$t('signUpView.createAccount')}}
       </button>
     </div>
     <div v-else>
@@ -86,7 +88,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'login',
+      authStep: 'select',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
