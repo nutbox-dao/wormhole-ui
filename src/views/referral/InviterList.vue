@@ -79,12 +79,12 @@ export default {
       if (this.listLoading || this.finishLoading) return;
       try{
         this.listLoading = true;
-        const index = this.tableData.length / 20;
+        const index = Math.floor((this.tableData.length + 1) / 20);
         const invitees = await getInvitorsOfUser(this.getAccountInfo.twitterId, 20, index);
         if (invitees && invitees.length > 0) {
           this.tableData = this.tableData.concat(invitees);
         }
-        if (invitees.length <= 1) {
+        if (invitees.length < 20) {
           this.finishLoading = true;
         }
       } catch (e) {

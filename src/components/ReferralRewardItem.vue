@@ -234,15 +234,18 @@ export default {
         this.listLoading = true;
         const createTime = this.list[this.list.length - 1].createTime
         const res = await getMoreInvitationReward(this.getAccountInfo.twitterId, this.communityId, createTime, 0)
+       console.log(43 ,res, res.length, this.listFinished);
+      //  return;
         if (res.length > 0) {
           this.inviteRewards[this.communityId].list = this.inviteRewards[this.communityId].list.concat(res);
         }else {
+          console.log(545)
           this.listFinished = true;
         }
       } catch(e) {
         console.log(53, e)
       } finally {
-        this.listLoading = false
+        // this.listLoading = false
       }
     }
   },

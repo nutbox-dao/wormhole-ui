@@ -104,6 +104,7 @@ export default {
           return;
         }
         let summary = await getPendingClaimSummary(this.getAccountInfo.twitterId)
+
         this.$store.commit('curation/saveInviteRewards', summary)
       } catch (e) {
         if (e === 'log out') {
