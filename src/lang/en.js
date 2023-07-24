@@ -26,7 +26,7 @@ export default {
   curated: 'Curated',
   promoted: 'Promoted',
   signUpView: {
-    p1: 'You have not yet registered.',
+    p1: 'You have not yet bind your address.',
     p2: 'Sign up and...',
     createAccount: 'Create a new wallet',
     notAuth: "Twitter auth fail",

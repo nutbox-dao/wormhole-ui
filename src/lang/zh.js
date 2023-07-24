@@ -26,7 +26,7 @@ export default {
   curated: '已策展',
   promoted: '推广',
   signUpView: {
-    p1: '你还没有注册.',
+    p1: '你还没有绑定你的地址.',
     p2: '注册然后...',
     createAccount: '创建一个新钱包',
     notAuth: " Twitter授权失败",

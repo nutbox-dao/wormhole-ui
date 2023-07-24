@@ -83,7 +83,7 @@ export const TokenIcon = {
     'NABOX': "http://nassets.oss-us-west-1.aliyuncs.com/NABOX_1.png",
     'NVT': "http://nassets.oss-us-west-1.aliyuncs.com/NVT_9.png",
     'ARB': "https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png",
-    "MFERC": "https://cdn.wherein.mobi/nutbox/v2/1686657099126",
+    "MFERC": "https://cdn.wherein.mobi/community/logo/mobi-logo.jpg",
     "ferc": 'https://cdn.wherein.mobi/nutbox/v2/1686657099126',
     "wDMN": 'https://cdn.wherein.mobi/community/logo/damoon.jpg',
     'wCH': 'https://cdn.wherein.mobi/community/logo/ch90.png',

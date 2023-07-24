@@ -239,7 +239,6 @@ export default {
         if (res.length > 0) {
           this.inviteRewards[this.communityId].list = this.inviteRewards[this.communityId].list.concat(res);
         }else {
-          console.log(545)
           this.listFinished = true;
         }
       } catch(e) {
@@ -253,7 +252,7 @@ export default {
     getPriceFromOracle(EVM_CHAINS_ID[this.community.chainId], [
     {token: this.community.rewardToken}
   ]).then(res => {
-      this.price = res[this.community.token];
+      this.price = res[this.community.rewardToken];
     })
     accountChanged().catch()
       getAccounts(true).then(wallet => {
