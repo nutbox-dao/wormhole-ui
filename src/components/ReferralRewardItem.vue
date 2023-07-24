@@ -77,7 +77,7 @@
             {{ parseTimestamp(item.createTime) }}
           </span>
         </div>
-        <div v-if="listLoading" class="py-10px flex justify-center items-center">
+        <div v-if="listLoading && !listFinished" class="py-10px flex justify-center items-center">
           <img class="w-20px h-20px min-w-20px" src="~@/assets/icon-loading.svg" alt="">
         </div>
       </div>
