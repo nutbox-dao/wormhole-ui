@@ -435,4 +435,10 @@ export const getPendingClaimSummary = async (twitterId) =>
     get(BACKEND_API_URL + '/invitation/getPendingClaimSummary', {twitterId})
 
 export const getMoreInvitationReward = async (twitterId, communityId, createTime, isFeed) =>
-    get(BACKEND_API_URL + '/getMoreInvitationReward', {twitterId, communityId, createTime, isFeed})
+    get(BACKEND_API_URL + '/invitation/getMoreInvitationReward', {twitterId, communityId, createTime, isFeed})
+
+export const getClaimRewardsParas = async (communityId, twitterId) =>
+    post(BACKEND_API_URL + '/invitation/getClaimRewardsParas', {communityId, twitterId})
+
+export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) =>
+    post(BACKEND_API_URL + '/invitation/setClaimed', {orderId, communityId, twitterId, transHash})

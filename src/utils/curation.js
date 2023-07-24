@@ -7,7 +7,8 @@ import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,
         retweetCuration as retc, quoteCuration as qc, replyCuration as rc, 
-        preNewCuration as pnc, getInvitorsOfUser as giou } from '@/api/api'
+        preNewCuration as pnc, getInvitorsOfUser as giou, getClaimRewardsParas as gcrp,
+        setInvitationRewardClaimed as sirc } from '@/api/api'
 import { aggregate } from '@makerdao/multicall';
 
 const abi = [
@@ -697,7 +698,7 @@ export const checkMyPopupRecord = async (twitterId, popupId) =>  {
 
 /****************************************  Invitation  ***********************************************/
 export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) => {
-    await checkAccessToken();
+    // await checkAccessToken();
     try {
       const res = await giou(twitterId, pageSize, pageIndex);
       return res;
@@ -706,5 +707,31 @@ export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) => {
         await logout(twitterId);
         throw 'log out'
       }
+      throw e
     }
+}
+
+export const getClaimRewardsParas = async (communityId, twitterId) => {
+  try {
+    const res = await gcrp(communityId, twitterId);
+    return res;
+  } catch (e) {
+    if (e === 401) {
+      await logout(twitterId);
+      throw 'log out'
+    }
+    throw e
+  }
+}
+
+export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) => {
+  try {
+    return await sirc(orderId, communityId, twitterId, transHash)
+  } catch (e) {
+    if (e === 401) {
+      await logout(twitterId);
+      throw 'log out'
+    }
+    throw e
+  }
 }

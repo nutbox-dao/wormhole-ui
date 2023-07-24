@@ -85,9 +85,6 @@ export default {
     chainIds() {
       return Object.values(EVM_CHAINS).map(c => c.id)
     },
-    showingList() {
-      return this.rewardLists[this.chainTab]
-    },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
     }
@@ -107,7 +104,6 @@ export default {
           return;
         }
         let summary = await getPendingClaimSummary(this.getAccountInfo.twitterId)
-        console.log(432, summary)
         this.$store.commit('curation/saveInviteRewards', summary)
       } catch (e) {
         if (e === 'log out') {

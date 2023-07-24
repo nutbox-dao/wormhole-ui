@@ -471,6 +471,7 @@ export default {
     comRatio: '社区: ',
     topicRatio: '策展: ',
     noRewardCanClaim: "没有可领取的奖励",
+    orderClaimPending: '有正在领取中的订单，请稍后再试！',
     communityAsset: 'Community Asset',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",

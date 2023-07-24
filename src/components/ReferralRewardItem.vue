@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import {TokenIcon} from "@/config";
+import {TokenIcon, errCode} from "@/config";
 import Avatar from "@/components/Avatar";
 import defaultAvatar from "@/assets/icon-default-avatar.svg";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
@@ -118,9 +118,8 @@ import { setupNetwork } from '@/utils/web3/web3'
 import { notify } from "@/utils/notify";
 import { getCommunityClaimRewardsParas,
   setCommunityRewardClaimed, setCommunityAuthorRewardClaimed } from '@/utils/community'
-import { claimCommunityRewards } from '@/utils/curation'
+import { claimCommunityRewards, getClaimRewardsParas, setInvitationRewardClaimed } from '@/utils/curation'
 import { getMoreInvitationReward } from '@/api/api'
-import { el } from "element-plus/es/locale";
 
 export default {
   name: "CommunityRewardItem",
@@ -202,23 +201,25 @@ export default {
         this.claiming = true
             const chainName = EVM_CHAINS_ID[this.community.chainId]
             this.claiming = true
-            const ids = this.rewards.map(c => c.curationId)
-            const { chainId, amount, curationIds, orderIds, ethAddress, sig, twitterId } = await getCommunityClaimRewardsParas(this.community.communityId, this.getAccountInfo.twitterId, ids)
-            if (amount == '0') {
-              notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
-              const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
-              this.$store.commit('curation/saveCommunityRewards', list)
-              return;
-            }
+            const { chainId, amount, rewardIds, orderIds, orderId, ethAddress, sig, twitterId } = await getClaimRewardsParas(this.communityId, this.getAccountInfo.twitterId);
             const transHash = await claimCommunityRewards(chainName, twitterId, ethAddress, this.community.communityId, orderIds, amount, sig);
-            await setCommunityRewardClaimed(twitterId, ids, orderIds[0].hex.substring(14), transHash);
-            const list = this.communityRewards.filter(r => r.communityId !== this.community.communityId);
-            this.$store.commit('curation/saveCommunityRewards', list)
-
+            await setInvitationRewardClaimed(orderId, this.communityId, this.getAccountInfo.twitterId, transHash);
+            delete this.inviteRewards[this.communityId];
+            this.$store.commit('curation/saveInviteRewards', this.inviteRewards);
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
           this.$route.push('/')
+          return;
+        }
+        if (e === errCode.NO_REWARD_TO_CLAIM) {
+          delete this.inviteRewards[this.communityId];
+          this.$store.commit('curation/saveInviteRewards', this.inviteRewards);
+          notify({message: this.$t('community.noRewardCanClaim'), type: 'info'})
+          return;
+        }
+        if (e === errCode.USER_ORDER_PENDING) {
+          notify({message: this.$t('community.orderClaimPending'), type: 'info'})
           return;
         }
         console.log('Claim failed:', e);
@@ -234,7 +235,7 @@ export default {
         const createTime = this.list[this.list.length - 1].createTime
         const res = await getMoreInvitationReward(this.getAccountInfo.twitterId, this.communityId, createTime, 0)
         if (res.length > 0) {
-          this.inviteRewards[this.communityId].list = this.inviteRewards[this.communityId].list.connect(res);
+          this.inviteRewards[this.communityId].list = this.inviteRewards[this.communityId].list.concat(res);
         }else {
           this.listFinished = true;
         }

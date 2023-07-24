@@ -472,6 +472,7 @@ export default {
     comRatio: 'Community: ',
     topicRatio: 'Curation: ',
     noRewardCanClaim: "No claimable rewards",
+    orderClaimPending: 'There is another claim order in pending, please try later.',
     communityAsset: 'Community Asset',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",
