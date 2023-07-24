@@ -323,6 +323,7 @@ export default {
     const referee = this.$route.query.referee;
     if (referee) {
       this.$store.commit('saveReferee', referee);
+      this.$store.commit('saveShowLogin', true)
     }
     let state = null
     let params = this.$route.fullPath
