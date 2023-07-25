@@ -20,9 +20,9 @@
       <div class="w-full flex justify-between items-center pl-30px">
         <span class="text-16px c-text-black">{{showingCommunity.communityName}}</span>
         <div class="flex items-center gap-8px">
-          <button @click="changeTab(2)" class="filter invert-100 light:invert-0">
+          <!-- <button @click="changeTab(2)" class="filter invert-100 light:invert-0">
             <img class="w-16px h-16px" src="~@/assets/icon-rank-white.svg" alt="">
-          </button>
+          </button> -->
           <button @click="changeTab(3)" class="filter invert-0 light:invert-100">
             <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
           </button>
@@ -36,9 +36,9 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
       <div class="flex items-center gap-8px">
-        <button @click="changeTab(2)" class="filter invert-100 light:invert-0">
+        <!-- <button @click="changeTab(2)" class="filter invert-100 light:invert-0">
           <img class="w-16px h-16px" src="~@/assets/icon-rank-white.svg" alt="">
-        </button>
+        </button> -->
         <button @click="changeTab(3)" class="filter invert-0 light:invert-100">
           <img class="w-16px h-16px" src="~@/assets/icon-warning-white.svg" alt="">
         </button>
@@ -174,11 +174,11 @@
                       @click="changeTab(5)">
                 {{$t('community.credit')}}
               </button>
-              <button class="h-full px-5px 2md:px-10px whitespace-nowrap hidden 2md:block"
+              <!-- <button class="h-full px-5px 2md:px-10px whitespace-nowrap hidden 2md:block"
                       :class="tabIndex===2?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(2)">
                 {{$t('community.member')}}
-              </button>
+              </button> -->
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap hidden 2md:block"
                       :class="tabIndex===3?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(3)">
