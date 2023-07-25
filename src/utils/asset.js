@@ -711,7 +711,6 @@ export async function getPriceFromOracle(chainName, tokens) {
           }
         }
       }
-      console.log(66, chainName, tokens)
     try {
         if (!tokens || tokens.length === 0) return 
         if (chainName === 'ENULS') {
