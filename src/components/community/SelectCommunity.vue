@@ -24,13 +24,13 @@
       <el-collapse-transition>
         <div>
           <div class="grid grid-cols-2 gap-x-10px
-                            max-h-150px overflow-auto no-scroll-bar">
+                            max-h-100px overflow-auto no-scroll-bar">
             <div v-if="searchCommunityLoading && searchCommunityList.length===0 && searchCommunityText.trim().length>0"
                  class="col-span-2 mt-12px">
               <img class="w-24px h-24px mx-auto"
                    src="~@/assets/icon-loading.svg" alt="">
             </div>
-            <div v-for="(item,index) of searchCommunityList.slice(0, 4)"
+            <div v-for="(item,index) of searchCommunityList"
                  :key="item.communityId"
                  class="col-span-1 flex items-center bg-blockBg light:bg-colorF7F2
                         rounded-8px h-40px px-15px border-2px mt-10px cursor-pointer"
