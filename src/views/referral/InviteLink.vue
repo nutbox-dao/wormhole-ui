@@ -177,7 +177,7 @@ export default {
         this.modalVisible = true
       } else {
         let aLink = document.createElement('a')
-        aLink.download = 'my-twitter-persona'
+        aLink.download = 'Invitation'
         aLink.style.display = 'none'
         aLink.href = this.downloadImgUrl
         document.body.appendChild(aLink)
