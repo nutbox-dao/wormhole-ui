@@ -91,6 +91,7 @@ export default {
         console.log(42, e)
       } finally {
         this.listLoading = false;
+        this.finishLoading = true
       }
     }
   }
