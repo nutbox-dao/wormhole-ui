@@ -226,7 +226,7 @@ export default {
     retweetTooFrequent: `You can only "retweet" max. 5 times within a 15 minute period. Please try again later.`
   },
   ref: {
-    referre: 'Referrer',
+    referre: 'Invitation',
     refereeCode: 'Invitation code',
     inputReferee: "Input invitation code(Optional)",
     refDes: "This code is from your referrer who is already a wormhole3 user.",
@@ -244,7 +244,7 @@ export default {
     tipTitle: "Details of the Invitation Scheme:",
     tip1: "For Invitees- After the invitee successfully registers, they will enjoy a 20% discount on all reward claim service fee. ",
     tip2: "For You- As the referrer, you will receive a commission to the amount of 50% of the service fee collected each time your invitee claims reward.",
-    tip3: "The pilot scheme will run for 3 months while we assess feedback form the community. ",
+    tip3: "The pilot scheme will run for 3 months while we assess feedback from the community.",
   },
   airdrop: {
     testToken: 'Test Token',
