@@ -7,6 +7,11 @@
       <div class="col-span-1 sm:hidden">
         <div class="text-left">
           <div class="inline leading-20px text-14px text-left">
+            {{ $t('ref.referralDesc') }}
+          </div>
+        </div>
+        <div class="text-left mt-1rem">
+          <div class="inline leading-20px text-14px text-left">
             {{$t('ref.refereeCode')}}:
             <span class="mx-8px">{{getAccountInfo.twitterId}}</span>
           </div>
@@ -16,7 +21,7 @@
         </div>
         <div class="text-left">
           <div class="inline leading-20px text-14px text-left">
-            {{$t('ref.referre')}}:
+            {{$t('ref.myReferral')}}:
             <span class="mx-8px">{{inviteLink}}</span>
           </div>
           <button class="h-20px" @click="onCopy(inviteLink)">
@@ -46,6 +51,11 @@
         <div class="hidden sm:block mb-20px text-left">
           <div class="text-left">
             <div class="inline leading-20px text-14px text-left">
+              {{ $t('ref.referralDesc') }}
+            </div>
+          </div>
+          <div class="text-left mt-1rem">
+            <div class="inline leading-20px text-14px text-left">
               {{$t('ref.refereeCode')}}:
               <span class="mx-8px">{{getAccountInfo.twitterId}}</span>
             </div>
@@ -69,6 +79,9 @@
           <li>{{ $t('ref.tip2') }}</li>
           <!-- <li>{{ $t('ref.tip3') }}</li> -->
         </ul>
+        <div class="mt-1rem">
+          {{ $t('ref.tip3') }}
+        </div>
       </div>
     </div>
   </div>
