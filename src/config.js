@@ -273,6 +273,31 @@ export const EVM_CHAINS = {
         oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
         communityCuration: '0xDda7947F795B4636C68a14bC590fEb08cA69eef3'
     },
+    Linea: {
+        rpc: 'https://rpc.linea.build',
+        scan: 'https://lineascan.build/',
+        chainName: 'Linea',
+        tokenScan: 'https://lineascan.build/token/',
+        id: 59144,
+        main: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18,
+            icon: 'https://l2beat.com/icons/linea.png'
+        },
+        assets: {
+            BUSD: {symbol: 'BUSD', name: 'BSC USD', address: '0x7d43AABC515C356145049227CeE54B608342c0ad', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
+        },
+        Multi_Config: {
+            rpcUrl: 'https://rpc.linea.build',
+            multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
+            interval: 3000
+        },
+        curation: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
+        popup: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
+        oracle: null,
+        communityCuration: '0xdf74187fe7de3C6F6b2f01fF76E021e3b470eDb0'
+    },
     'ENULS': {
         rpc: 'https://evmapi.nuls.io',
         scan: 'https://evmscan.nuls.io',

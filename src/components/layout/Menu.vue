@@ -20,16 +20,16 @@
             <span>{{$t('faq')}}</span>
             <i class="w-14px min-w-14px h-14px icon-faq"></i>
           </router-link>
-          <router-link to="/userguide" @click.stop="$refs.menuBox.hide()"
-                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
-            <span>{{$t('userguide')}}</span>
-            <i class="w-14px min-w-14px h-14px icon-userguide"></i>
-          </router-link>
+<!--          <router-link to="/userguide" @click.stop="$refs.menuBox.hide()"-->
+<!--                       class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">-->
+<!--            <span>{{$t('userguide')}}</span>-->
+<!--            <i class="w-14px min-w-14px h-14px icon-userguide"></i>-->
+<!--          </router-link>-->
 
           <router-link v-if="getAccountInfo && getAccountInfo.twitterUsername"
                        to="/referral" @click.stop="$refs.menuBox.hide()"
                        class="h-46px min-h-46px flex-1 flex justify-between items-center cursor-pointer hover:text-primaryColor">
-            <span>{{$t('ref.referre')}}</span>
+            <span :class="getAccountInfo&&getAccountInfo.twitterUsername ?'relative c-badge' : ''">{{$t('ref.referre')}}</span>
             <i class="w-14px min-w-14px h-14px icon-referral"></i>
           </router-link>
 
