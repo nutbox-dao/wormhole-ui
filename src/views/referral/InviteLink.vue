@@ -4,7 +4,7 @@
       <div class="opacity-0 absolute -top-200vh">
         <qrcode-vue id="qr-canvas" :value="inviteLink" :size="200" background="transparent"/>
       </div>
-      <div class="opacity-0 absolute -top-200vh w-640px h-800px">
+      <div class="opacity-0 absolute -top-200vh w-640px h-800px min-w-640px min-h-800px max-w-640px max-h-800px">
         <div class="w-640px h-800px bg-white text-blueDark light:shadow-color1A rounded-20px
                     flex flex-col"
              id="share-link-img">
@@ -14,7 +14,7 @@
               <strong class="text-colorA2 c-text-black">{{getAccountInfo['twitterUsername']}}</strong>
               {{$t('ref.inviteP1')}}
             </div>
-            <img class="w-120px h-120px min-w-120px min-h-120px rounded-full shadow-color1A"
+            <img class="w-120px h-120px min-w-120px min-h-120px max-w-120px max-h-120px rounded-full shadow-color1A"
                  :src='getAccountInfo.profileImg.replace("normal", "400x400")' alt="">
           </div>
           <div class="flex-1 flex flex-col justify-center items-center">
@@ -177,7 +177,7 @@ export default {
         this.modalVisible = true
       } else {
         let aLink = document.createElement('a')
-        aLink.download = 'my-twitter-persona'
+        aLink.download = 'invite-link'
         aLink.style.display = 'none'
         aLink.href = this.downloadImgUrl
         document.body.appendChild(aLink)
