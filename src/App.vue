@@ -15,7 +15,7 @@
         <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
                    :profile-img="profileImg"
                    @login="login"></SliderBar>
-        <div class="flex-1 overflow-auto relative c-page-container 2xl:pr-13rem">
+        <div class="flex-1 overflow-auto no-scroll-bar relative c-page-container 2xl:pr-13rem">
           <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name"/>
