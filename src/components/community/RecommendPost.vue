@@ -12,7 +12,12 @@
             </div>
           </div>
         </div>
-        <BlogReward :post="post" class="ml-10px -mr-8px" :teleported="true"></BlogReward>
+        <div class="ml-10px -mr-8px">
+          <BlogReward class="ml-10px -mr-8px" :post="post" :teleported="true"></BlogReward>
+          <div v-if="post.endtime > (Date.now() / 1000)" class="flex justify-end">
+            <img class="w-48px h-24px mt-4px" src="~@/assets/new.png" alt="">
+          </div>
+        </div>
       </div>
       <div class="flex justify-between items-center mt-8px text-12px filter text-color99">
         <div class="flex items-center">
@@ -246,6 +251,7 @@ export default {
     } else if(urls) {
       this.urls = urls
     }
+    console.log(this.post)
     this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
     // if(this.$refs.curatedTipRef) {
     //   console.log('========', this.$refs.curatedTipRef.onOpen)

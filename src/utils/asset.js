@@ -67,6 +67,7 @@ async function multicallBalances(address, chain) {
             [e.symbol, val => val.toString() / (10 ** e.decimals)]
         ]
     })))
+    console.log(2, calls, chain.Multi_Config)
     const res = await aggregate(calls, chain.Multi_Config)
     const balances = res.results.transformed
     return balances
@@ -724,7 +725,7 @@ export async function getPriceFromOracle(chainName, tokens) {
             // https://docs.1inch.io/docs/spot-price-aggregator/introduction/
             let oracle = EVM_CHAINS[chainName].oracle
             let pricesFromNutbox = store.state.prices ?? [];
-            if (!oracle) return;
+            if (!oracle) return {};
             let call = tokens.filter(t => t.token != EVM_CHAINS[chainName].assets.USDT.address).map(t => ({
                 target: oracle,
                 call: [
