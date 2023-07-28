@@ -117,6 +117,17 @@ export default {
       this.listFinished = false;
       this.refresh()
     }
+    if (this.communityCCscore?.userIndex > -1){
+      return;
+    }
+    try{
+      const res  = await getJoinCommunityState(this.getAccountInfo.twitterId)
+      this.$store.commit('community/saveCommunityCC', res)
+    } catch (e) {
+      console.log(3, e)
+    } finally {
+      this.refreshing = false
+    }
   },
   methods: {
     parseTimestamp,
@@ -171,17 +182,7 @@ export default {
     }
   },
   async mounted () {
-    if (this.communityCCscore?.userIndex > -1){
-      return;
-    }
-    try{
-        const res  = await getJoinCommunityState(this.getAccountInfo.twitterId)
-        this.$store.commit('community/saveCommunityCC', res)
-      } catch (e) {
-        console.log(3, e)
-      } finally {
-        this.refreshing = false
-      }
+    
   },
 }
 </script>
