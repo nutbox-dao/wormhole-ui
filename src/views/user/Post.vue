@@ -135,8 +135,8 @@ export default {
     },
     async onLoad() {
       console.log('load more')
-      if (this.finished || this.loading || this.showingPosts.length === 0) return;
-      this.refreshing = true
+      if (this.finished || this.loading || this.refreshing || this.showingPosts.length === 0) return;
+      this.loading = true
       try{
         const twitterId = this.getAccountInfo.twitterId;
         const curationCreatedAt = this.showingPosts[this.showingPosts.length - 1].curationCreatedAt;
@@ -160,7 +160,7 @@ export default {
       } catch (e) {
         console.log('get user related posts fail:', e)
       } finally {
-        this.refreshing = false
+        this.loading = false
       }
     },
     gotoDetail(p) {
