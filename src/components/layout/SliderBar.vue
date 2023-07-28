@@ -59,7 +59,9 @@
           <button class="w-full h-60px flex items-center brightness-0" :class="isShowMenu?'text-color62':'text-color99'">
             <img v-show="isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more-active.svg" alt="">
             <img v-show="!isShowMenu" class="w-16px min-w-16px" src="~@/assets/nav-more.svg" alt="">
-            <span class="ml-8px">{{$t('common.more')}}{{$refs.menuBox}}</span>
+            <span class="ml-8px" :class="getAccountInfo&&getAccountInfo.twitterUsername ?'relative c-badge':''">
+              {{$t('common.more')}}
+            </span>
           </button>
         </template>
       </Menu>
