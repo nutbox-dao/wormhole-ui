@@ -120,10 +120,10 @@
         </div>
         <div class="bg-blockBg light:bg-white light:shadow-popper-tip rounded-12px py-1rem px-1.5rem mb-1rem">
           <div class="c-text-black text-18px 2md:text-20px">
-            8、领取奖励会收取手续费吗？
+            8、领取奖励会收取服务费吗？
           </div>
           <div class="text-14px leading-24px mt-1rem">
-            从ver0.5.3开始，虫洞平台将从用户领取的奖励部分收取手续费。目前为从收取的奖励中的5%作为平台手续费，对应所有社区和所有的奖励。
+            从ver0.5.3开始，虫洞平台将从用户领取的奖励部分收取服务费。目前为从收取的奖励中的5%作为平台服务费，对应所有社区和所有的奖励。
             该方案为试运行中，为期3个月。
           </div>
         </div>
