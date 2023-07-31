@@ -67,7 +67,6 @@ async function multicallBalances(address, chain) {
             [e.symbol, val => val.toString() / (10 ** e.decimals)]
         ]
     })))
-    console.log(2, calls, chain.Multi_Config)
     const res = await aggregate(calls, chain.Multi_Config)
     const balances = res.results.transformed
     return balances

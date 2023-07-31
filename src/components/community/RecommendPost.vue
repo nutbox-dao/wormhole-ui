@@ -251,7 +251,6 @@ export default {
     } else if(urls) {
       this.urls = urls
     }
-    console.log(this.post)
     this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
     // if(this.$refs.curatedTipRef) {
     //   console.log('========', this.$refs.curatedTipRef.onOpen)
