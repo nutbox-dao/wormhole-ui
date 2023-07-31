@@ -279,7 +279,7 @@ export default {
       while(true) {
         try{
           if (d % 5 === 0) {
-            await this.monitorPrices()
+            this.monitorPrices().catch();
           }
           d++;
           if(this.getAccountInfo && this.getAccountInfo.twitterId) {
