@@ -2,9 +2,8 @@
   <div class="h-full overflow-auto 2md:px-15px 2md:flex 2md:flex-col"
        ref="detailPageRef" @scroll="pageScroll">
     <button v-if="tabIndex===0" v-show="scroll>200"
-            @click="$refs.detailPageRef.scrollTo({top: 0, behavior: 'smooth'}),
-                    $refs.webDetailPageRef.scrollTo({top: 0, behavior: 'smooth'})"
-            class="flex items-center justify-center bg-color62
+            @click="$refs.detailPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+            class="flex items-center justify-center bg-color62 2md:hidden
                    h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
       <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
@@ -45,7 +44,14 @@
       </div>
     </div>
     <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px sm:pb-15px
-                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
+                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px relative">
+      <button v-if="tabIndex===0" v-show="scroll>200"
+              @click="$refs.webDetailPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+              class="hidden 2md:flex items-center justify-center bg-color62
+                   h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
+                   rounded-full mt-0.5rem c-text-bold absolute bottom-1.5rem right-35/100 z-9999">
+        <img class="w-20px min-w-20px h-20px 2xl:w-1rem 2xl:h-1rem" src="~@/assets/icon-arrow-top.svg" alt="">
+      </button>
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-transparent bg-blockBg light:bg-white
                   light:shadow-color1A sm:rounded-16px h-max 2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"

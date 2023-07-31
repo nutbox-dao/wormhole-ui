@@ -4,9 +4,10 @@
                 @show="$emit('show', true)" @hide="$emit('show', false)">
       <template #reference>
         <slot name="menu-toggle">
-          <button class="bg-transparent h-2rem flex items-center">
+          <button class="bg-transparent flex items-center">
             <img class="w-17px h-17px xl:h-1.2rem xl:w-1.2rem filter light:invert-100"
                  src="~@/assets/icon-menu-toggle.svg" alt="">
+            <i class="c-badge"></i>
           </button>
         </slot>
       </template>
