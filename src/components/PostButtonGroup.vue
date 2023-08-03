@@ -72,7 +72,7 @@
           <div class="flex-1 overflow-auto px-15px no-scroll-bar">
             <div class="flex justify-start items-stretch">
               <div class="flex flex-col items-center mr-10px md:mr-1rem">
-                <img class="rounded-full gradient-border w-3.6rem h-3.6rem"
+                <img class="rounded-full gradient-border w-3.6rem h-3.6rem min-w-3.6rem"
                      :src="profileImg" alt="">
                 <div class="flex-1 my-10px w-2px bg-color8B/30 light:bg-color7D"></div>
               </div>
@@ -85,21 +85,21 @@
                 </span>
                   </div>
                   <div class="flex items-center id-time">
-                  <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+                  <span class="text-12px leading-18px 2xl:text-14px 2xl:leading-18px text-color8B light:text-color7D">
                     @{{ post.username }}
                   </span>
                     <span class="mx-4px text-color8B light:text-color7D"> · </span>
-                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem
-                               2xl:leading-1rem text-color8B light:text-color7D">
+                    <span class="whitespace-nowrap text-color8B light:text-color7D
+                                 text-12px leading-18px 2xl:text-14px 2xl:leading-18px ">
                     {{ parseTimestamp(post.postTime) }}
                   </span>
                   </div>
                 </div>
                 <div class="text-left font-400 mt-0.5rem">
-                  <div class="text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem
+                  <div class="text-12px leading-18px 2xl:text-14px 2xl:leading-20px
                             text-colorD9 light:text-color46">
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
-                    <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
+                    <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
                   </div>
                   <Space v-if="post.spaceId" :space="post" :show-avatar="false">
                     <template #bottom-btn-bar><div></div></template>
@@ -114,24 +114,24 @@
                           v-if="post.retweetInfo && post.retweetInfo.length>10 && !isIgnoreAccount"
                           :retweetInfo="post.retweetInfo"/>
                 </div>
-                <div class="py-10px">
+                <div class="py-10px text-14px">
                   <span class="text-color8B light:text-color7D mr-10px">{{$t('curation.replyTo')}} </span>
                   <span class="text-colorBlue">@{{ post.username }}</span>
                 </div>
               </div>
             </div>
             <div class="flex">
-              <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3.6rem h-3.6rem"
+              <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3.6rem h-3.6rem min-w-3.6rem"
                    :src="userProfileImg" alt="">
               <div class="border-1 bg-black/40 border-1 border-color8B/30 min-h-134px flex-1
                       flex flex-col light:bg-white light:border-colorE3 rounded-8px">
-                <div class="flex-1 flex flex-col relative">
+                <div class="flex-1 flex flex-col relative text-14px">
                   <div v-show="showInputTip"
-                       class="absolute px-1rem top-5px leading-24px 2xl:leading-1rem opacity-50">
+                       class="absolute px-15px top-5px leading-24px 2xl:leading-18px opacity-50">
                     {{$t('curation.tweetReply')}}
                   </div>
                   <div contenteditable
-                       class="z-1 flex-1 px-1rem pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
+                       class="z-1 flex-1 px-15px pt-5px whitespace-pre-line leading-24px 2xl:leading-18px content-input-box break-word"
                        ref="contentRef"
                        @blur="getBlur"
                        @paste="onPasteEmojiContent"
@@ -139,7 +139,7 @@
                        v-html="formatEmojiText(inputContent)">
                   </div>
                 </div>
-                <div class="py-2 flex justify-between items-center px-1rem">
+                <div class="py-2 flex justify-between items-center px-15px">
                   <el-popover ref="emojiPopover"
                               trigger="click" width="300"
                               :teleported="true" :persistent="false">
@@ -194,11 +194,11 @@
             <div class="flex-1">
               <div class="flex flex-col relative">
                 <div v-show="showInputTip"
-                     class="absolute top-5px leading-24px 2xl:leading-1rem opacity-50">
+                     class="absolute top-5px leading-24px 2xl:leading-18px opacity-50">
                   {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
                 </div>
                 <div contenteditable
-                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-1rem content-input-box break-word"
+                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-18px content-input-box break-word"
                      ref="contentRef"
                      @blur="getBlur"
                      @paste="onPasteEmojiContent"
@@ -208,30 +208,30 @@
               </div>
               <div class="mt-1rem border-1 border-listBgBorder bg-white/10 rounded-12px p-15px">
                 <div class="flex items-center flex-wrap">
-                  <img class="rounded-full gradient-border w-1.6rem h-1.6rem mr-5px"
+                  <img class="rounded-full gradient-border w-1.6rem h-1.6rem mr-5px min-w-1.6rem"
                        :src="profileImg" alt="">
                   <div class="flex items-center flex-wrap">
                       <span class="c-text-black text-left mr-3 cursor-pointer
-                        text-16px leading-18px 2xl:text-1rem 2xl:leading-1.5rem light:text-blueDark">
+                        text-16px leading-18px 2xl:text-14px 2xl:leading-20px light:text-blueDark">
                         {{ post.name }}
                       </span>
                   </div>
                   <div class="flex items-center id-time">
-                      <span class="text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+                      <span class="text-12px leading-18px 2xl:text-14px 2xl:leading-18px text-color8B light:text-color7D">
                         @{{ post.username }}
                       </span>
                     <span class="mx-4px text-color8B light:text-color7D"> · </span>
-                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem
-                               2xl:leading-1rem text-color8B light:text-color7D">
+                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-14px
+                               2xl:leading-18px text-color8B light:text-color7D">
                         {{ parseTimestamp(post.postTime) }}
                       </span>
                   </div>
                 </div>
                 <div class="text-left font-400 mt-0.5rem">
-                  <div class="text-12px leading-18px 2xl:text-0.9rem 2xl:leading-1.2rem
+                  <div class="text-12px leading-18px 2xl:text-14px 2xl:leading-20px
                             text-colorD9 light:text-color46">
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
-                    <div class="whitespace-pre-line" v-else v-html="formatEmojiText(content)"></div>
+                    <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
                   </div>
                   <Space v-if="post.spaceId" :space="post" :show-avatar="false">
                     <template #bottom-btn-bar><div></div></template>
