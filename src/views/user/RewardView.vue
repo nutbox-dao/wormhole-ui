@@ -1,125 +1,24 @@
 <template>
-  <van-pull-refresh v-model="loading[chainTab]" @refresh="onRefresh"
-                    class=""
+  <van-pull-refresh v-model="isRefresh" @refresh="onRefresh"
+                    class="h-full"
                     :loading-text="$t('common.loading')"
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
     <div class="h-full overflow-auto">
-
-
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
         <div class="mt-30px">
           <div class="text-16px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <div v-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
+          <img v-if="loadingCommunityRewards && getRewardCommunityInfo.length===0"
+               class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+          <div v-else-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
             <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
             <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
           </div>
           <CommunityRewardItem v-else v-for="communityId of getRewardCommunityInfo" :key="communityId"
                                :community-id="communityId"></CommunityRewardItem>
         </div>
-
-        <div class="text-16px c-text-black active-tab w-max mt-30px">{{$t('walletView.promotionReward')}}</div>
-        <div class="flex gap-25px tabs overflow-x-auto no-scroll-bar pt-20px">
-          <button class="tab h-30px whitespace-nowrap "
-                  :class="chainTab===index?'active-tab c-text-black text-16px':'text-color7D text-14px'"
-                  @click="selectTab(index)"
-                  v-for="(name, index) of chainNames" :key="name">
-            {{ name }}
-          </button>
-        </div>
-      </div>
-      <div class="md:pb-4rem sm:max-w-600px lg:max-w-35rem mx-auto flex flex-col px-15px pb-20px">
-        <div class="bg-blockBg light:bg-colorF7F2/50 light:shadow-md p-15px rounded-12px mt-15px">
-          <div class="bg-color62/10 light:bg-colorEF reward-box rounded-12px overflow-hidden p-15px
-                      2md:flex-1">
-            <div v-if="summaryList.length > 0"
-                 class="text-left flex flex-col font-bold text-12px 2xl:text-14px">
-              <el-collapse v-model="collapseNames" class="c-collapse" accordion>
-                <el-collapse-item v-for="reward of summaryList" :key="reward.token" :name="reward.token">
-                  <template #title>
-                    <div class="flex items-center">
-                      <button class="w-16px h-16px min-w-16px min-h-16px rounded-full
-                                     border-1 border-color62 bg-primaryBg light:bg-white mr-15px"
-                              @click.stop="checkboxGroupChange(reward.token)">
-                        <img v-if="checkRewardList.indexOf(reward.token)>=0" class="w-full h-full"
-                             src="~@/assets/icon-selected-primary.svg" alt="">
-                      </button>
-                      <ChainTokenIcon height="30px" width="30px"
-                                      :token="{symbol: reward.tokenSymbol, address: reward.token}"
-                                      :chainName="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]">
-                        <template #amount>
-                          <div class="text-white light:text-color1A flex flex-col whitespace-nowrap px-8px">
-                            <span class="text-14px c-text-black ">
-                              {{ formatAmount(reward.amount) + ' ' + reward.tokenSymbol }}
-                            </span>
-                            <span class="text-12px mt-6px">
-                              $({{formatAmount(reward.amount * (this.prices[chainTab] ? this.prices[chainTab][reward.token] : 0))}})
-                            </span>
-                          </div>
-                        </template>
-                      </ChainTokenIcon>
-                    </div>
-                  </template>
-                  <div class="py-8px px-10px bg-primaryBg light:bg-colorFB rounded-8px">
-                    <div v-if="showingList.length > 0"
-                         class="">
-                      <RewardCuration :rewards="showingList.filter(r => r.token === reward.token)"
-                                      :token="reward.token"
-                                      :chain-name="chainNames[chainTab]"
-                                      @fold="collapseNames = []"/>
-                    </div>
-                    <div v-else-if="loading[chainTab]" class="py-15px">
-                      <img class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
-                    </div>
-                    <div v-else class="py-15px text-center text-color7D text-14px">
-                      {{$t('walletView.claimedAllRewards')}}
-                    </div>
-                  </div>
-                </el-collapse-item>
-              </el-collapse>
-              <button v-if="(chainId !== chainIds[chainTab])"
-                      class="ny-gradient-btn gradient-btn-disabled-grey
-                              flex items-center justify-center min-w-10rem px-20px
-                              rounded-full h-40px text-white font-bold text-14px" @click="connect">
-                {{ $t('common.connectMetamask') }}
-                <c-spinner v-show="connecting" class="w-16px h-16px ml-8px"></c-spinner>
-              </button>
-              <button v-else class="flex items-center justify-center bg-ny-btn-gradient
-                       h-40px px-15px rounded-full text-white text-14px"
-                      :disabled="claiming || accountMismatch"
-                      @click="claimReward">
-                {{ $t('curation.claimReward') }}
-                <c-spinner v-show="claiming" class="w-16px h-16px ml-8px"></c-spinner>
-              </button>
-              <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
-                {{ $t('walletView.accountMismatch', {account: formatAddress(getAccountInfo.ethAddress) + `(@${getAccountInfo.twitterUsername})`}) }}
-              </div>
-            </div>
-            <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem min-h-1rem">
-              <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-            </div>
-            <div v-else class="px-1.5rem rounded-12px min-h-160px flex justify-center items-center">
-              <div class="c-text-black text-16px">{{$t('walletView.claimedAllRewards')}}</div>
-            </div>
-          </div>
-          <div class="text-center mt-10px">
-            <button class="text-color8B flex items-center justify-center mx-auto text-14px"
-                    @click="historyModalVisible=true">
-              <span>{{$t('walletView.historyRecord')}}</span>
-              <img class="w-12px transform -rotate-90 ml-10px"
-                   src="~@/assets/icon-select-arrow.svg" alt="">
-            </button>
-          </div>
-        </div>
       </div>
     </div>
-    <el-dialog v-model="historyModalVisible"
-               class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
-      <RewardHistoryList
-        :chain-id="chainIds[chainTab]"
-        :type="'promotion'"
-          class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
-    </el-dialog>
   </van-pull-refresh>
 </template>
 <!-- this is for promotion reward -->
@@ -165,7 +64,8 @@ export default {
       TokenIcon,
       historyModalVisible: false,
       loadingCommunityRewards: false,
-      collapseNames: []
+      collapseNames: [],
+      isRefresh: false
     }
   },
   computed: {
@@ -206,11 +106,13 @@ export default {
     selectTab(index) {
       this.chainTab = index;
       this.checkRewardList = []
-      this.getRecords()
+      // this.getRecords()
     },
     onRefresh() {
-      this.getRecords(true);
+      this.isRefresh = true
+      // this.getRecords(true);
       this.getCommunityRewardsM(true);
+      this.isRefresh = false
     },
     async getRecords(force = false) {
       const index = this.chainTab;
@@ -375,7 +277,7 @@ export default {
     if (this.twitterId && !this.getAccountInfo) {
       this.needLogin = true
     }
-    this.getRecords(true);
+    // this.getRecords(true);
     this.getCommunityRewardsM(true);
     accountChanged().catch()
     getAccounts(true).then(wallet => {
