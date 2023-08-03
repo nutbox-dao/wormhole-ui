@@ -1,12 +1,12 @@
 <template>
   <div class="h-full overflow-hidden flex flex-col">
     <div class="border-b-0.5px border-color8B/30 light:border-colorD6
-                bg-primaryBg light:bg-transparent z-9">
-      <div class="container mx-auto max-w-600px xl:max-w-30rem px-15px relative
+                bg-primaryBg light:bg-transparent z-9 overflow-auto no-scroll-bar">
+      <div class="container mx-auto max-w-600px xl:max-w-30rem w-min px-15px relative
                   flex items-center justify-center gap-30px
                   2md:h-70px 2md:pt-23px 2md:h-48px 2md:pt-0 text-14px font-bold">
         <router-link :to="`/wallet/${$route.params.user}/reward`" v-slot="{isActive}">
-          <button class="w-full h-48px flex items-center justify-center px-15px whitespace-nowrap"
+          <button class="w-full h-48px w-min flex items-center justify-center px-15px whitespace-nowrap"
                   :class="isActive?'c-active-tab text-color62':'text-color7D'">
             {{$t('myReward')}}
           </button>
