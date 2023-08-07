@@ -28,6 +28,7 @@
 <script>
 import { TokenIcon, EVM_CHAINS } from "@/config"
 import {formatAddress, copyAddress} from "@/utils/tool";
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "ChainTokenIcon",
@@ -53,6 +54,10 @@ export default {
       type: String,
       default: ''
     }
+  },
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
   },
   computed: {
     icon() {
@@ -99,7 +104,7 @@ export default {
     formatAddress,
     copyAddress,
     hideTip() {
-      setTimeout(() => {
+      this.setTimer(() => {
         this.$refs.tokenTipRef.onClose()
       }, 3000)
     },

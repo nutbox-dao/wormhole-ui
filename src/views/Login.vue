@@ -78,10 +78,15 @@ import { connectMetamask } from '@/utils/web3/web3'
 import { createKeypair } from '@/utils/tweet-nacl'
 import { ethers } from 'ethers'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "Login",
   components: {CreateAccount, MetaMaskAccount},
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
+  },
   data() {
     return {
       loging: false,
@@ -111,7 +116,7 @@ export default {
         this.connectMetamask()
         return;
       }
-      setTimeout(() => {
+      this.setTimer(() => {
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
       }, 200);

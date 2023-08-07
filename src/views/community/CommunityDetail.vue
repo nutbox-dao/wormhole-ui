@@ -173,7 +173,7 @@
                       :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
                       {{$t('community.topic')}}
-                <!-- <span :class="newHappenings?'relative c-badge':''">{{$t('community.topic')}}</span> -->
+                 <i :class="newHappenings?'relative c-badge':''"></i>
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===5?'c-active-tab text-color62':'text-color7D'"
@@ -263,15 +263,15 @@ import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps }
 import { notify } from "@/utils/notify";
 import {markRaw, watch} from "vue";
 import { getPriceFromOracle } from '@/utils/asset'
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "CommunityDetail",
   components: {CommunityActivity, CommunityPost, CommunityTopic, CommunityMember, CommunityCredit},
   setup() {
     const { width } = useWindowSize();
-    return {
-      width
-    }
+    const { setTimer } = useTimer()
+    return {width, setTimer}
   },
   data() {
     return {
@@ -289,6 +289,9 @@ export default {
   watch: {
     width(val) {
       if(val>961 && this.tabIndex===4) this.changeTab(0)
+    },
+    tabIndex(val) {
+      if(val===1) this.setTimer(() => {this.newHappenings = false}, 10000)
     }
   },
   computed: {
@@ -405,6 +408,7 @@ export default {
     }
   },
   mounted () {
+    if(this.tabIndex===1) this.setTimer(() => {this.newHappenings = false}, 10000)
   },
 }
 </script>

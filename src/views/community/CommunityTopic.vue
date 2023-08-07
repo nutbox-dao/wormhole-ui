@@ -1,54 +1,7 @@
 <template>
   <div class="py-10px">
-    <div class="w-full" ref="wRef"></div>
-    <div v-if="!refreshing && spaces && spaces.length>0" class="">
-      <div class="px-15px flex justify-between items-center mt-5px">
-        <span class="text-16px leading-25px font-bold">Twitter Space</span>
-      </div>
-      <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-           v-if="refreshing && (!spaces || spaces.length === 0)">
-        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-      </div>
-      <div v-else-if="!refreshing && (!spaces || spaces.length === 0)" class="py-2rem">
-        <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-        <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
-      </div>
-      <template v-else>
-        <van-swipe :loop="false"
-                   :autoplay="0"
-                   :width="width<640?width*0.85:($refs.wRef?$refs.wRef.clientWidth:'')"
-                   :initial-swipe="activeSpaceIndex"
-                   :show-indicators="false">
-          <van-swipe-item v-for="(space, i) of spaces" :key="i"
-                          class="swipe-item pl-15px">
-            <Space :show-avatar="false" :space="space" @click="gotoDetail(space)">
-              <template #bottom-btn-bar><div></div></template>
-            </Space>
-          </van-swipe-item>
-        </van-swipe>
-        <div class="hidden sm:flex justify-center items-center mt-10px">
-          <button class="w-30px h-30px bg-color62/20 rounded-full flex justify-center items-center
-                        disabled:opacity-30"
-                  :disabled="activeSpaceIndex===0"
-                  @click="activeSpaceIndex-=1">
-            <img class="w-12px h-12px transform rotate-90" src="~@/assets/icon-arrow-primary.svg" alt="">
-          </button>
-          <div class="flex items-center gap-5px mx-20px">
-                  <span v-for="i of spaces.length" :key="i"
-                        class="w-4px h-4px min-w-4px min-h-4px rounded-full bg-color62 block"
-                        :class="activeSpaceIndex+1===i?'':'opacity-10'"></span>
-          </div>
-          <button class="w-30px h-30px bg-color62/20 rounded-full flex justify-center items-center
-                        disabled:opacity-30"
-                  :disabled="activeSpaceIndex===spaces.length-1"
-                  @click="activeSpaceIndex+=1">
-            <img class="w-12px h-12px transform -rotate-90" src="~@/assets/icon-arrow-primary.svg" alt="">
-          </button>
-        </div>
-      </template>
-    </div>
-    <div class="mb-4px flex justify-between items-center mt-20px px-15px">
-      <span class="text-16px leading-25px font-bold">{{$t('community.topic')}}</span>
+    <div class="mb-10px flex justify-between items-center px-15px">
+      <span class="text-16px leading-25px font-bold">Space/{{$t('community.topic')}}</span>
       <el-dropdown>
         <button class="text-14px text-color62 flex items-center">
           <span class="font-bold">{{$t('community.'+topicType[typeIndex])}}</span>
@@ -67,10 +20,10 @@
       </el-dropdown>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
-         v-if="refreshing && (!showingTopics || showingTopics.length === 0)">
+         v-if="refreshing && (!showingTopics || showingTopics.length === 0) && (!spaces || spaces.length === 0)">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <div v-else-if="!refreshing && (!showingTopics || showingTopics.length === 0)" class="py-2rem">
+    <div v-else-if="!refreshing && (!showingTopics || showingTopics.length === 0) && (!spaces || spaces.length === 0)" class="py-2rem">
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
       <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
@@ -89,6 +42,20 @@
                 :finished-text="showingTopics.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div class="px-15px">
+          <Space v-for="(space, i) of spaces" :key="i"
+                 class="mb-15px"
+                 :show-avatar="false"
+                 :space="space"
+                 @click="gotoDetail(space)">
+            <template #bottom-btn-bar-inside>
+              <div class="border-t-1 border-white/20">
+                <PostButtonGroup class="px-15px py-10px filter brightness-500 "
+                                 ref="postButtonRef"
+                                 :post="space" :is-detail="false"/>
+              </div>
+            </template>
+            <template #bottom-btn-bar><div></div></template>
+          </Space>
           <div v-for="topic of showingTopics" :key="topic.activityId" class="mb-15px">
             <TopicItem :topic="topic"></TopicItem>
           </div>
@@ -160,9 +127,7 @@ export default {
   methods: {
     async refresh() {
       try{
-        if (this.refreshing || this.listLoading) {
-          return;
-        }
+        if (this.refreshing || this.listLoading) return
         this.refreshing = true;
         let state = '';
         if (this.typeIndex === 0) { //ongoing

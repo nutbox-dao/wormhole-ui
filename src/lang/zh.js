@@ -403,7 +403,11 @@ export default {
   space: {
     listening: 'Listening',
     ended: '已结束',
-    canceled: '已取消'
+    canceled: '已取消',
+    notStarted: '未开始',
+    setReminder: '设置提醒',
+    playRecording: '播放录音',
+    joinNow: '立刻参加'
   },
   guide: {
     registrationGuide: '注册指南',

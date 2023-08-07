@@ -404,7 +404,11 @@ export default {
   space: {
     listening: 'Listening',
     ended: 'Ended',
-    canceled: 'Canceled'
+    canceled: 'Canceled',
+    notStarted: 'Not started yet',
+    setReminder: 'Set reminder',
+    playRecording: 'Play recording',
+    joinNow: 'Join now'
   },
   guide: {
     registrationGuide: 'Registration Guide',

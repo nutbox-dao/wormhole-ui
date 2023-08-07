@@ -129,10 +129,15 @@ import QrcodeVue from 'qrcode.vue'
 import {mapGetters} from "vuex";
 import {onCopy} from "@/utils/tool";
 import domtoimage from 'dom-to-image';
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "InviteLink",
   components: {QrcodeVue},
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
+  },
   data() {
     return {
       qrSrc: '',
@@ -187,7 +192,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
+    this.setTimer(() => {
       this.getQrImg()
     })
   }

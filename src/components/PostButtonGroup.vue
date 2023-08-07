@@ -101,7 +101,7 @@
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
                     <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
                   </div>
-                  <Space v-if="post.spaceId" :space="post" :show-avatar="false">
+                  <Space v-if="post.spaceId" :space="post" :show-avatar="false" class="mt-10px">
                     <template #bottom-btn-bar><div></div></template>
                   </Space>
                   <div v-if="imgurls" class="text-colorD9 light:text-color46">
@@ -188,89 +188,92 @@
               <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
             </button>
           </div>
-          <div class="flex-1 flex overflow-auto px-15px no-scroll-bar">
-            <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3rem h-3rem"
-                 :src="userProfileImg" alt="">
-            <div class="flex-1">
-              <div class="flex flex-col relative">
-                <div v-show="showInputTip"
-                     class="absolute top-5px leading-24px 2xl:leading-18px opacity-50">
-                  {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
+          <div class="flex-1 overflow-auto no-scroll-bar">
+            <div class="flex px-15px">
+              <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3rem h-3rem"
+                   :src="userProfileImg" alt="">
+              <div class="flex-1 overflow-x-hidden">
+                <div class="flex flex-col relative">
+                  <div v-show="showInputTip"
+                       class="absolute top-5px leading-24px 2xl:leading-18px opacity-50">
+                    {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
+                  </div>
+                  <div contenteditable
+                       class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-18px content-input-box break-word"
+                       ref="contentRef"
+                       @blur="getBlur"
+                       @paste="onPasteEmojiContent"
+                       @input="contentInputChange"
+                       v-html="formatEmojiText(inputContent)">
+                  </div>
                 </div>
-                <div contenteditable
-                     class="z-1 flex-1 pt-5px whitespace-pre-line leading-24px 2xl:leading-18px content-input-box break-word"
-                     ref="contentRef"
-                     @blur="getBlur"
-                     @paste="onPasteEmojiContent"
-                     @input="contentInputChange"
-                     v-html="formatEmojiText(inputContent)">
-                </div>
-              </div>
-              <div class="mt-1rem border-1 border-listBgBorder bg-white/10 rounded-12px p-15px">
-                <div class="flex items-center flex-wrap">
-                  <img class="rounded-full gradient-border w-1.6rem h-1.6rem mr-5px min-w-1.6rem"
-                       :src="profileImg" alt="">
+                <div class="mt-1rem border-1 border-listBgBorder bg-white/10 rounded-12px p-15px">
                   <div class="flex items-center flex-wrap">
+                    <img class="rounded-full gradient-border w-1.6rem h-1.6rem mr-5px min-w-1.6rem"
+                         :src="profileImg" alt="">
+                    <div class="flex items-center flex-wrap">
                       <span class="c-text-black text-left mr-3 cursor-pointer
                         text-16px leading-18px 2xl:text-14px 2xl:leading-20px light:text-blueDark">
                         {{ post.name }}
                       </span>
-                  </div>
-                  <div class="flex items-center id-time">
+                    </div>
+                    <div class="flex items-center id-time">
                       <span class="text-12px leading-18px 2xl:text-14px 2xl:leading-18px text-color8B light:text-color7D">
                         @{{ post.username }}
                       </span>
-                    <span class="mx-4px text-color8B light:text-color7D"> · </span>
-                    <span class="whitespace-nowrap text-12px leading-18px 2xl:text-14px
+                      <span class="mx-4px text-color8B light:text-color7D"> · </span>
+                      <span class="whitespace-nowrap text-12px leading-18px 2xl:text-14px
                                2xl:leading-18px text-color8B light:text-color7D">
                         {{ parseTimestamp(post.postTime) }}
                       </span>
+                    </div>
                   </div>
-                </div>
-                <div class="text-left font-400 mt-0.5rem">
-                  <div class="text-12px leading-18px 2xl:text-14px 2xl:leading-20px
+                  <div class="text-left font-400 mt-0.5rem">
+                    <div class="text-12px leading-18px 2xl:text-14px 2xl:leading-20px
                             text-colorD9 light:text-color46">
-                    <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
-                    <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
-                  </div>
-                  <Space v-if="post.spaceId" :space="post" :show-avatar="false">
-                    <template #bottom-btn-bar><div></div></template>
-                  </Space>
-                  <div v-if="imgurls" class="text-colorD9 light:text-color46">
-                    <span v-for="(url, index) of imgurls.slice(0,4)" :key="index" :title="url">[Pic]</span>
+                      <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
+                      <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
+                    </div>
+                    <Space v-if="post.spaceId" :space="post" :show-avatar="false" class="mt-10px">
+                      <template #bottom-btn-bar><div></div></template>
+                    </Space>
+                    <div v-if="imgurls" class="text-colorD9 light:text-color46">
+                      <span v-for="(url, index) of imgurls.slice(0,4)" :key="index" :title="url">[Pic]</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="flex justify-between py-1rem">
-                <div class="flex justify-between items-center">
-                  <el-popover ref="emojiPopover" placement="top"
-                              trigger="click" width="300"
-                              :teleported="true" :persistent="false">
-                    <template #reference>
-                      <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
-                    </template>
-                    <template #default>
-                      <div class="h-310px lg:h-400px ">
-                        <EmojiPicker :options="{
+                <div class="flex justify-between py-1rem">
+                  <div class="flex justify-between items-center">
+                    <el-popover ref="emojiPopover" placement="top"
+                                trigger="click" width="300"
+                                :teleported="true" :persistent="false">
+                      <template #reference>
+                        <img class="w-1.8rem h-1.8rem lg:w-1.4rem lg:h-1.4rem" src="~@/assets/icon-emoji.svg" alt="">
+                      </template>
+                      <template #default>
+                        <div class="h-310px lg:h-400px ">
+                          <EmojiPicker :options="{
                                     imgSrc:'/emoji/',
                                     locals: $i18n.locale==='zh'?'zh_CN':'en',
                                     hasSkinTones:false,
                                     hasGroupIcons:false}"
-                                     @select="(e) =>selectEmoji(e)" />
-                      </div>
-                    </template>
-                  </el-popover>
-                </div>
-                <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
+                                       @select="(e) =>selectEmoji(e)" />
+                        </div>
+                      </template>
+                    </el-popover>
+                  </div>
+                  <button class="gradient-btn gradient-btn-disabled-grey flex justify-center items-center
                                h-44px 2xl:h-2rem min-w-6rem px-20px rounded-full text-16px 2xl:text-0.8rem"
-                        :disabled="isQuoting"
-                        @click="userQuote">
-                  {{isDefaultQuote ? $t('curation.tweet') : $t('postView.createNewCuration')}}
-                  <c-spinner v-show="isQuoting" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
-                </button>
+                          :disabled="isQuoting"
+                          @click="userQuote">
+                    {{isDefaultQuote ? $t('curation.tweet') : $t('postView.createNewCuration')}}
+                    <c-spinner v-show="isQuoting" class="w-1.5rem h-1.5rem ml-0.5rem" color="white"></c-spinner>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </transition>
     </van-popup>
@@ -314,11 +317,16 @@ import { getCurationRewardsOfPost } from '@/api/api'
 import debounce from 'lodash.debounce'
 import { getPriceFromOracle } from '@/utils/asset'
 import { joinCommunity } from "@/utils/community";
+import {useTimer} from "@/utils/hooks";
 
 
 export default {
   name: "PostButtonGroup",
   components: {Repost, EmojiPicker, TipModalVue, Space, ChainTokenIcon},
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
+  },
   props: {
     post: {
       type: Object,
@@ -424,7 +432,7 @@ export default {
       this.contentRange = sel.getRangeAt(0);
     },
     setInputFocus() {
-      setTimeout(() => {
+      this.setTimer(() => {
         document.getElementsByClassName('content-input-box')[0].focus()
       }, 500)
     },

@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 overflow-auto no-scroll-bar" ref="postPageRef" @scroll="pageScroll">
+    <div class="flex-1 overflow-auto no-scroll-bar" ref="postPageRef" @scroll="pageScroll($refs.postPageRef)">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!postsList || postsList.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -130,7 +130,7 @@
 <!--    </router-link>-->
     <!-- back top  -->
     <button v-show="scroll>200"
-            @click="$refs.postPageRef.scrollTo({top: 0, behavior: 'smooth'})"
+            @click="pageScrollToTop($refs.postPageRef)"
             class="flex items-center justify-center bg-color62
                    h-40px w-40px min-w-40px 2xl:w-2rem 2xl:min-w-2rem 2xl:h-2rem
                    rounded-full mt-0.5rem c-text-bold fixed bottom-10rem 2md:bottom-2rem right-1.5rem sm:right-2.5rem z-9999">
@@ -146,10 +146,20 @@ import { getTrendingTags, getPostByTrending, getPostByTime, getCuratedPostByNew 
 import { showError } from '@/utils/notify'
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
+import {usePageScroll} from "@/utils/hooks";
 
 export default {
   name: "PostsIndex",
   components: {CurationsTip, Blog, Space},
+  setup() {
+    const { scroll, pageScroll, pageScrollTo, pageScrollToTop} = usePageScroll()
+    return {
+      scroll,
+      pageScroll,
+      pageScrollTo,
+      pageScrollToTop
+    }
+  },
   data() {
     return {
       listLoading: false,
@@ -159,7 +169,6 @@ export default {
       subActiveTagIndex: 0,
       modalVisible: false,
       position: document.body.clientWidth < 768?'bottom':'center',
-      scroll: 0,
       showMoreTag: false,
       // rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'promoted'}],
       rankOptions: [
@@ -204,7 +213,7 @@ export default {
     }
   },
   activated() {
-    if(this.scroll > 0) this.$refs.postPageRef.scrollTo({top: this.scroll})
+    this.pageScrollTo(this.$refs.postPageRef)
     if (this.postsList.length > 0) return;
     this.onRefresh()
   },
@@ -220,9 +229,6 @@ export default {
     },
     deleteCustomizeTag(index) {
       this.customizeTagList.splice(index, 1)
-    },
-    pageScroll() {
-      this.scroll = this.$refs.postPageRef.scrollTop
     },
     async onLoad() {
       if(this.refreshing || this.listLoading) return
