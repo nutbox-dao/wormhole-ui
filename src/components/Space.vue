@@ -1,5 +1,16 @@
 <template>
-  <div class="text-14px">
+  <div class="text-14px" ref="spaceRef">
+    <div v-show="showCommunity && space.communityId"
+         @click.stop="$router.push('/community-detail/' + space.communityId)"
+         class="flex items-center mb-5px">
+      <div class="max-h-16px overflow-hidden">
+        <div class="mr-10px max-w-56px max-h-56px flex justify-end"
+             :class="avatarClass">
+          <img class="w-16px h-16px bg-color8B/30 rounded-full mx-4px" :src="space.communityIcon" alt="">
+        </div>
+      </div>
+      <span class="text-12px text-color8B light:text-color7D">{{ space.communityName }}</span>
+    </div>
     <div v-if="showAvatar" class="flex items-center">
       <Avatar :profile-img="profileImg"
               :name="space.name"
@@ -44,6 +55,12 @@
       <div v-if="showAvatar"
            class="mr-10px max-w-56px max-h-56px" :class="[avatarClass]"></div>
       <div class="flex-1 truncate">
+        <div v-if="isDetail" class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem mb-15px">
+          <div class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
+            <div class="whitespace-pre-line"
+                 v-html="formatEmojiText(content)"></div>
+          </div>
+        </div>
         <div class="flex-1 rounded-12px
                     min-h-154px bg-tag-gradient overflow-hidden relative">
           <div class="p-17px 2xl:p-1rem">
@@ -94,7 +111,7 @@
             </div>
           </div>
           <div class="absolute right-0 top-0 status-flag text-14px font-bold
-                      h-60px w-120px pr-10px text-right pt-10px"
+                      h-60px w-120px pr-10px text-right pt-10px text-white"
                :class="`bg-${space.spaceState}`">
             {{state}}
           </div>
@@ -114,6 +131,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {parseTimestamp} from "@/utils/helper";
 import PostButtonGroup from "@/components/PostButtonGroup";
 import Avatar from "@/components/Avatar";
+import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "Space",
@@ -134,6 +152,10 @@ export default {
     isDetail: {
       type: Boolean,
       default: false
+    },
+    showCommunity:{
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -168,7 +190,25 @@ export default {
         default:
           break;
       }
-    }
+    },
+    content() {
+      let content = ''
+      if (this.space.longContentStatus === 1) {
+        for (let c of JSON.parse(this.space.content)) {
+          if (c && c !== 'null' && c !== 'undefined') {
+            content += c + '\n'
+          }
+        }
+      }else {
+        content = this.space.content
+      }
+      content = content.replace(this.reg, '');
+      // content = content.replace('\n', '</br>')
+      for (let url of this.urls){
+        content = content.replace(url, `<span data-url="${url}" class="text-blue-500 text-14px break-all">${url}</span>`)
+      }
+      return content
+    },
   },
   data() {
     return {
@@ -177,10 +217,17 @@ export default {
         2: 'Listening',
         3: 'Ended',
         4: 'Canceled'
-      }
+      },
+      urls: [],
+      imgurls: [],
+      allurls: [],
+      url: null,
+      reg: '',
+      urlreg: '',
     }
   },
   methods: {
+    formatEmojiText,
     parseSpaceStartTime,
     parseTimestamp,
     gotoUserPage() {
@@ -195,18 +242,40 @@ export default {
       this.$refs.postButtonRef.otherPreQuote()
     }
   },
+  mounted () {
+    this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
+    this.reg = /(https?:[^:<>"]*\/)([^:<>"]*)(\.((png!thumbnail)|(png)|(jpg)|(webp)))/g
+    if (!this.space.content) return;
+    const urls = this.space.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.urlreg)
+    this.allurls = urls
+    this.imgurls = this.space.content.replace(' ', '').replace('\r', '').replace('\t', '').match(this.reg)
+    if (urls && this.imgurls) {
+      this.urls = urls.filter(u => this.imgurls.indexOf(u) < 0)
+    } else if(urls) {
+      this.urls = urls
+    }
+    this.imgurls = this.imgurls?.map(u => 'https://steemitimages.com/0x0/' + u)
+    // if(this.$refs.curatedTipRef) {
+    //   console.log('========', this.$refs.curatedTipRef.onOpen)
+    //   this.$refs.curatedTipRef.onOpen = () => {
+    //     console.log('test')
+    //   }
+    // }
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .status-flag {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
-  background: #FA910D;
+  display: none;
 }
 .bg-2,.bg-live {
-  background: #19AF00;
+  background: #1FB759;
+  display: block;
 }
 .bg-3,.bg-ended,.bg-4,.bg-canceled {
-  background: #A0A0A0;
+  background: #F54B45;
+  display: block;
 }
 </style>

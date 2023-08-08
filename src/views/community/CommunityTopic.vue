@@ -2,22 +2,14 @@
   <div class="py-10px">
     <div class="mb-10px flex justify-between items-center px-15px">
       <span class="text-16px leading-25px font-bold">Space/{{$t('community.topic')}}</span>
-      <el-dropdown>
-        <button class="text-14px text-color62 flex items-center">
-          <span class="font-bold">{{$t('community.'+topicType[typeIndex])}}</span>
-          <img class="w-12px ml-4px" src="~@/assets/icon-arrow-primary.svg" alt="">
+      <div class="flex items-center gap-8px">
+        <button @click="typeIndex=0">
+          <i class="w-24px h-24px block" :class="typeIndex===0?'icon-ongoing-active':'icon-ongoing'"></i>
         </button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item v-for="(type, index) of topicType" :key="type"
-                              @click="typeChange(index)">
-                <span :class="typeIndex===index?'text-color62':''">
-                  {{$t('community.'+type)}}
-                </span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+        <button @click="typeIndex=2">
+          <i class="w-24px h-24px block" :class="typeIndex===2?'icon-ended-active':'icon-ended'"></i>
+        </button>
+      </div>
     </div>
     <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
          v-if="refreshing && (!showingTopics || showingTopics.length === 0) && (!spaces || spaces.length === 0)">
@@ -84,7 +76,6 @@ export default {
   data() {
     return {
       topicType: ['inProgress', 'pending', 'ended'],
-      activeSpaceIndex: 0,
       typeIndex: 0,
       listLoading: false,
       listFinished: false,

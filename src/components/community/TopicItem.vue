@@ -74,7 +74,7 @@
       </button>
     </div>
     <div class="absolute right-0 top-0 status-flag text-14px font-bold
-                h-60px w-120px pr-10px text-right pt-10px"
+                h-60px w-120px pr-10px text-right pt-10px text-white"
          :class="`bg-${status}`">
       {{$t('community.'+status)}}
     </div>
@@ -134,11 +134,11 @@ export default {
   display: none;
 }
 .status-flag.bg-inProgress {
-  background: #19AF00;
+  background: #1FB759;
   display: block;
 }
 .bg-ended {
-  background: #A0A0A0;
+  background: #F54B45;
   display: block;
 }
 </style>

@@ -418,3 +418,20 @@
   @extend .icon;
   background-image: url("~@/assets/icon-new-active.svg");
 }
+.icon-ongoing {
+  @extend .icon;
+  background-image: url("~@/assets/icon-ongoing.svg");
+}
+.icon-ongoing-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-ongoing-active.svg");
+}
+
+.icon-ended {
+  @extend .icon;
+  background-image: url("~@/assets/icon-ended.svg");
+}
+.icon-ended-active {
+  @extend .icon;
+  background-image: url("~@/assets/icon-ended-active.svg");
+}

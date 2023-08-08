@@ -1,29 +1,31 @@
 <template>
   <div class="relative flex flex-col text-14px">
-    <div>
-      <div class="flex justify-between items-center pt-12px pb-15px px-15px">
-        <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
-          <div class="c-text-black text-20px py-6px">
-            {{$t('curation.participants')}}
+    <slot name="top-info">
+      <div>
+        <div class="flex justify-between items-center pt-12px pb-15px px-15px">
+          <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
+            <div class="c-text-black text-20px py-6px">
+              {{$t('curation.participants')}}
+            </div>
+            <slot></slot>
           </div>
-          <slot></slot>
+          <button class="lg:hidden"
+                  @click="$emit('close')">
+            <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+          </button>
         </div>
-        <button class="lg:hidden"
-                @click="$emit('close')">
-          <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
-        </button>
-      </div>
-      <div class="px-15px relative">
-        <BlogReward :is-popover="false" :post="post"></BlogReward>
-      </div>
+        <div class="px-15px relative">
+          <BlogReward :is-popover="false" :post="post"></BlogReward>
+        </div>
 
-      <div class="mt-8px text-12px text-color62 text-left italic px-15px">{{$t('curation.rewardTip')}}</div>
-      <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
-        <span class="w-3/7">{{$t('curation.attended')}}</span>
-        <!-- <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span> -->
-        <span class="w-2/7 text-right">{{$t('curation.reward')}}</span>
+        <div class="mt-8px text-12px text-color62 text-left italic px-15px">{{$t('curation.rewardTip')}}</div>
+        <div class="flex justify-between items-center px-15px pt-15px pb-8px text-left border-b-0.5px border-color8B/30 gap-10px">
+          <span class="w-3/7">{{$t('curation.attended')}}</span>
+          <!-- <span class="w-2/7 text-right">{{$t('community.curationCredit')}}</span> -->
+          <span class="w-2/7 text-right">{{$t('curation.reward')}}</span>
+        </div>
       </div>
-    </div>
+    </slot>
     <div class="flex-1 overflow-auto pb-15px no-scroll-bar">
       <van-list :loading="listLoading"
                 :finished="listFinished"

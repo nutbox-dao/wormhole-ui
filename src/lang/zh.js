@@ -323,9 +323,9 @@ export default {
     preview: '预览',
     requirements: '要求',
     details: '描述',
-    host: 'Host',
-    coHost: 'Co-Host',
-    speaker: 'Speaker',
+    host: '主持人',
+    coHost: '共同主持人',
+    speaker: '发言人',
     coHosts: 'Co-Hosts',
     speakers: 'Speakers',
     optional: '可选',
@@ -407,7 +407,14 @@ export default {
     notStarted: '未开始',
     setReminder: '设置提醒',
     playRecording: '播放录音',
-    joinNow: '立刻参加'
+    joinNow: '立刻参加',
+    income: '收益',
+    settled: '已结算',
+    unsettlement: '待结算',
+    spaceWarning: 'Space未达到策展要求',
+    spaceWarningTip1: 'Space持续时间需超过5分钟以上',
+    spaceWarningTip2: 'Space参与者人需超过5人以上',
+    spaceWarningTip3: '参与策展人需包含社区credit排名top30中的10人以上',
   },
   guide: {
     registrationGuide: '注册指南',
@@ -563,6 +570,7 @@ export default {
     second: '秒',
     all: '全部',
     fold: '收起',
-    clear: '清除'
+    clear: '清除',
+    people: '人'
   }
 }
