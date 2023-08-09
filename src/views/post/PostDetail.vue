@@ -46,7 +46,7 @@
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
                     <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
                                 flex-1 flex justify-between items-center truncate relative"
-                         @click.stop="tip">
+                         @click.stop="tip(currentShowingDetail)">
                       <span class="text-14px absolute w-full h-full top-0 left-0
                                    flex items-center justify-center font-bold text-white">
                         {{$t('curation.tipToUser', {user: currentShowingDetail.username})}}
@@ -55,12 +55,33 @@
                   </div>
                 </div>
               </div>
-              <div v-show="curationLoading || participant.length > 0" class="bg-color62/20  rounded-12px px-15px py-8px min-h-54px md:mt-15px
-                          flex lg:hidden justify-between items-center">
-                <img v-if="curationLoading|| participantLoading"
-                     class="h-40px mx-auto"
-                     src="~@/assets/profile-loading.gif" alt="" />
-                <template v-if="participant.length>0">
+              <template v-if="currentShowingDetail.spaceId">
+                <div v-if="curationLoading|| participantLoading"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
+                  <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                </div>
+                <SpaceIncome class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
+                             :space="currentShowingDetail">
+                  <div class="border-t-1 border-color8B/30 light:border-colorE3 flex items-center justify-between h-44px">
+                    <button v-if="participant.length>0" class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            @click="showAttendedList=true">
+                      {{$t('common.curation')}} ({{participant[0].totalCount}} {{$t('common.people')}})>>
+                    </button>
+                    <button class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            @click="showSpeakerModal=true">Space >></button>
+                  </div>
+                </SpaceIncome>
+              </template>
+              <template v-else>
+                <div v-if="curationLoading|| participantLoading"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
+                  <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                </div>
+                <div v-else-if="participant.length>0"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
                   <span class="flex-1 text-left">
                     {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
                   </span>
@@ -76,8 +97,8 @@
                     </div>
                     <button class="text-12px ml-5px">{{$t('common.more')}} >>></button>
                   </div>
-                </template>
-              </div>
+                </div>
+              </template>
               <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-color1A rounded-12px
                           md:pb-15px md:mt-15px md:px-15px mb-15px">
                 <div class="c-text-black text-left text-16px 2xl:text-18px lg:block py-15px">
@@ -100,14 +121,15 @@
               </div>
             </van-list>
           </div>
-          <!--Space-->
+          <!--Space web-->
           <div v-if="currentShowingDetail.spaceId"
                class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="max-h-full overflow-hidden flex flex-col">
-              <SpaceIncome class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A"
+              <SpaceIncome class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
                            :space="currentShowingDetail"></SpaceIncome>
-              <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A mt-15px">
-                <div class="flex items-center justify-center gap-30px h-48px text-14px font-bold
+              <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
+                          flex-1 overflow-hidden mt-15px flex flex-col">
+                <div class="flex items-center justify-center gap-30px h-48px min-h-48px text-14px font-bold
                             border-b-0.5px border-color8B/30 light:border-color7F
                             px-15px w-min min-w-full">
                   <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
@@ -119,37 +141,41 @@
                           :class="spaceTabType==='space'?'c-active-tab text-color62':'text-color7D'"
                           @click="spaceTabType='space'">Space</button>
                 </div>
-                <div v-if="(curationLoading || participantLoading) && participant.length===0"
-                     class="c-text-black py-2rem min-h-1rem">
-                  <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
-                </div>
-                <div v-else-if="(!curationLoading && !participantLoading) && participant.length===0"
-                     class="c-text-black py-2rem min-h-1rem">
-                  <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-                  <div class="text-12px text-color8B mt-10px">{{$t('common.none')}}</div>
-                </div>
-                <CurationAttendedList class="flex-1 overflow-hidden"
-                                      v-else-if="curationList.length>0"
-                                      :records="participant"
-                                      :post="currentShowingDetail"
-                                      :curation="curationList[0]"
-                                      :state="curationList[0].curationStatus"
-                                      @close="showAttendedList=false">
-                  <template #top-info>
+                <div v-show="spaceTabType==='curation'">
+                  <div v-if="(curationLoading || participantLoading) && participant.length===0"
+                       class="c-text-black py-2rem min-h-1rem">
+                    <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                  </div>
+                  <div v-else-if="(!curationLoading && !participantLoading) && participant.length===0"
+                       class="c-text-black py-2rem min-h-1rem">
+                    <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                    <div class="text-12px text-color8B mt-10px">{{$t('common.none')}}</div>
+                  </div>
+                  <SpaceAttendedList class="flex-1 overflow-hidden"
+                                     v-else-if="curationList.length>0"
+                                     :records="participant"
+                                     :post="currentShowingDetail"
+                                     :curation="curationList[0]"
+                                     @close="showAttendedList=false">
                     <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
-                      <div class="c-text-black text-20px py-6px">
+                      <div class="c-text-black text-16px py-6px">
                         {{$t('curation.participants')}}
                       </div>
                       <div class="h-24px flex items-center text-12px">
                         {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
                       </div>
                     </div>
-                  </template>
-
-                </CurationAttendedList>
+                  </SpaceAttendedList>
+                </div>
+                <div class="flex-1 overflow-auto">
+                  <SpaceSpeaker v-show="spaceTabType==='space'"
+                                :space="currentShowingDetail" @tip="tip"/>
+                </div>
               </div>
+
             </div>
           </div>
+          <!--Post web-->
           <div v-else class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
                         max-h-full overflow-hidden flex flex-col">
@@ -175,6 +201,24 @@
     </template>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
                :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="showSpeakerModal"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showSpeakerModal"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px">
+          <div class="pt-20px pb-10px flex justify-end px-15px">
+            <button @click="showSpeakerModal=false">
+              <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+            </button>
+          </div>
+          <div class="max-h-60vh overflow-auto">
+            <SpaceSpeaker :space="currentShowingDetail" @tip="tip"/>
+          </div>
+        </div>
+      </transition>
+    </van-popup>
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="showTip"
                :position="position">
       <transition name="el-zoom-in-bottom">
@@ -185,7 +229,7 @@
             <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
           </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
-                       :tipToUser="currentShowingDetail"
+                       :tipToUser="tipUser"
                        :parent-tweet-id="currentShowingDetail.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
@@ -200,7 +244,23 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showAttendedList"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <CurationAttendedList class="max-h-60vh min-h-60vh"
+          <SpaceAttendedList v-if="currentShowingDetail.spaceId"
+                             class="flex-1 overflow-hidden"
+                             :records="participant"
+                             :post="currentShowingDetail"
+                             :curation="curationList[0]"
+                             @close="showAttendedList=false">
+            <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
+              <div class="c-text-black text-16px py-6px">
+                {{$t('curation.participants')}}
+              </div>
+              <div class="h-24px flex items-center text-12px">
+                {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
+              </div>
+            </div>
+          </SpaceAttendedList>
+          <CurationAttendedList v-else
+                                class="max-h-60vh min-h-60vh"
                                 :records="participant"
                                 :post="currentShowingDetail"
                                 :curation="curationList[0]"
@@ -220,6 +280,8 @@
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import SpaceIncome from "@/components/SpaceIncome.vue";
+import SpaceSpeaker from "@/components/SpaceSpeaker.vue";
+import SpaceAttendedList from "@/components/SpaceAttendedList.vue";
 import Comment from '@/views/user/components/Comment'
 import { mapState, mapGetters } from 'vuex'
 import {
@@ -252,7 +314,7 @@ import {isNumeric} from "@/utils/tool";
 export default {
   name: "PostDetail",
   components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue, Space, PostButtonGroup,
-    CurationAttendedList, ChainTokenIcon, SpaceIncome},
+    CurationAttendedList, ChainTokenIcon, SpaceIncome, SpaceSpeaker, SpaceAttendedList},
   computed: {
     ...mapState('postsModule', ['currentShowingDetail']),
     ...mapGetters(['getAccountInfo']),
@@ -315,7 +377,9 @@ export default {
       count: 0,
       participantLoading: false,
       showAttendedList: false,
-      spaceTabType: 'curation'
+      spaceTabType: 'curation',
+      tipUser: {},
+      showSpeakerModal: false
     }
   },
   mounted() {
@@ -419,11 +483,12 @@ export default {
         return `@${tip.fromUsername} tips ${formatAmount(tip.amount / (10 ** tip.decimals))} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
-    tip() {
+    tip(user) {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
       }
+      this.tipUser = user
       this.showTip = true
     },
     createPromotion() {
