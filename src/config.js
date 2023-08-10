@@ -145,7 +145,8 @@ export const EVM_CHAINS_ID = {
     137: 'Polygon',
     42161: 'Arbitrum',
     1284: 'Moonbeam',
-    119: 'ENULS'
+    119: 'ENULS',
+    59144: 'Linea'
 }
 /**
  * EVM Chains
@@ -285,6 +286,10 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://l2beat.com/icons/linea.png'
         },
+        walnutGraph: {
+            useTheGraph: false,
+            url: 'https://linea-graph.nutbox.app/v1/common/search'
+        },
         assets: {
             BUSD: {symbol: 'BUSD', name: 'BSC USD', address: '0x7d43AABC515C356145049227CeE54B608342c0ad', decimals: 18, icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png'},
         },
@@ -293,6 +298,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
             interval: 3000
         },
+        rewardCalculatorAddress: '0xF21649D901A082772Bd7B5d5eD5039C7a43A5789',
         curation: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
         popup: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         oracle: null,
