@@ -13,6 +13,8 @@ export const getPriceBSC = async () =>
     get("https://api-walnut.nutbox.app/token/getPrices")
 export const getPriceARB = async () =>
     get("https://arbi-api.nutbox.app/token/getPrices")
+export const getPriceLinea = async () =>
+    get("https://api-linea.nutbox.app/token/getPrices")
 
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async(needLogin) =>

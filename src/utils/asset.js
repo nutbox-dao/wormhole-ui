@@ -720,6 +720,16 @@ export async function getPriceFromOracle(chainName, tokens) {
             let balance = await axios.get(api);
             balance = balance.data
             return balance
+        }else if (chainName === 'Linea') {
+            let pricesFromNutbox = store.state.prices ?? {};
+            let prices = {}
+            for (let t of tokens) {
+                if (pricesFromNutbox[t.token.toLowerCase()]) {
+                    prices[t.token] = pricesFromNutbox[t.token.toLowerCase()]
+                }
+            }
+            prices[EVM_CHAINS[chainName].assets.BUSD.address] = 1
+            return prices
         }else {
             // https://docs.1inch.io/docs/spot-price-aggregator/introduction/
             let oracle = EVM_CHAINS[chainName].oracle

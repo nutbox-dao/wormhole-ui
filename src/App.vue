@@ -89,7 +89,7 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import { getProfile, getCommon, getPriceBSC, getPriceARB, searchUsers, searchCommunityByName,
+import { getProfile, getCommon, getPriceBSC, getPriceARB, getPriceLinea, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
@@ -160,7 +160,7 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      const [res, res2, res3] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB()])
+      const [res, res2, res3, res4] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB(), getPriceLinea()])
       let {prices, vestsToSteem} = res;
       this.$store.commit('saveVestsToSteem', vestsToSteem)
       prices = {
@@ -195,8 +195,17 @@ export default {
         }
       }
 
+      if (res4 && res4.length > 0) {
+        for (let p of res4) {
+          if (p.price) {
+            prices[p.address.toLowerCase()] = p.price
+          }
+        }
+      }
+
       prices['ferc'] = prices['0xc365b8cbde40cb902cae1bddf425a4c9e1f60d3f'];
       prices['mferc'] = prices['0xb4ee30de6bf7e8f9efbfcc9715021144defde96f'];
+      prices['nerc'] = prices['0xf3cb1dca9fba743952273e353b44976fa58c30ec'];
 
       if (parseFloat(prices.eth) === 0) return;
       this.$store.commit('savePrices', prices)
