@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="35px" viewBox="0 0 46 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组</title>
+    <defs>
+        <linearGradient x1="-37.4933009%" y1="40.5352%" x2="167.70282%" y2="49.5986604%" id="linearGradient-1">
+            <stop stop-color="#AE88FE" offset="0%"></stop>
+            <stop stop-color="#923CFF" offset="48.4375%"></stop>
+            <stop stop-color="#00B2FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="tag-host" transform="translate(-5.550395, 2.281650)">
+            <g id="编组" transform="translate(7.550395, 0.000000)">
+                <rect id="矩形" stroke="#FBF9FF" stroke-width="2" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(20.826546, 15.572635) rotate(-30.000000) translate(-20.826546, -15.572635) " x="0.326545778" y="9.42658543" width="41" height="12.2921" rx="6.14605"></rect>
+                <text id="Speaker" transform="translate(20.913707, 15.915510) rotate(-30.000000) translate(-20.913707, -15.915510) " font-family="Helvetica-Bold, Helvetica" font-size="8" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="4.91370662" y="17.91551">Speaker</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
