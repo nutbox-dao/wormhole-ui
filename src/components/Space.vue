@@ -14,7 +14,7 @@
     <div v-if="showAvatar" class="flex items-center">
       <Avatar :profile-img="profileImg"
               :name="space.name"
-              :username="space.username"
+              :username="space.twitterUsername"
               :steem-id="space.steemId"
               :eth-address="space.ethAddress"
               :reputation="space.reputation"
@@ -36,12 +36,12 @@
             <div class="flex items-center flex-wrap">
               <a class="c-text-black text-left cursor-pointer
                         text-16px leading-18px  light:text-blueDark"
-                 @click.stop="gotoUserPage()">{{ space.name }}</a>
+                 @click.stop="gotoUserPage()">{{ space.twitterName }}</a>
             </div>
           </div>
           <div class="flex items-center id-time">
               <span class="text-12px leading-18px  text-color8B light:text-color7D">
-                @{{ space.username }}
+                @{{ space.twitterUsername }}
               </span>
             <span class="mx-4px text-color8B light:text-color7D"> · </span>
             <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
@@ -74,13 +74,13 @@
                      src="~@/assets/icon-default-avatar.svg" alt="">
                 <div class="flex items-center flex-wrap" @click.stop="gotoUserPage()">
                   <a class="c-text-black text-left ml-5px text-14px leading-18px cursor-pointer text-white">
-                    @{{ space.authorUsername ?? space.username }}</a>
+                    @{{ space.twitterUsername }}</a>
                   <button class="h-18px border-1px border-white rounded-full px-8px text-12px ml-6px">{{$t('curation.host')}}</button>
                 </div>
               </div>
             </div>
             <div class="text-left c-text-black text-16px text-white mb-8px truncate">
-              {{ space.spaceTitle ?? space.authorName ?? space.name }}
+              {{ space.twitterName }}
             </div>
             <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
               {{ parseSpaceStartTime(space.spaceStartedAt) }}
@@ -91,6 +91,7 @@
             <div v-if="space.spaceState===3 || space.spaceState==='ended'"
                  class="text-left text-white mb-8px text-12px font-bold">
               7月18日 1小时23分钟 160人收听
+              {{ space.startTime }} 
             </div>
             <div class="h-30px 2xl:1.5rem">
               <button v-if="space.spaceState===1 || space.spaceState==='scheduled'"
@@ -275,7 +276,7 @@ export default {
   display: block;
 }
 .bg-3,.bg-ended,.bg-4,.bg-canceled {
-  background: #F54B45;
+  background: #7c7c7c;
   display: block;
 }
 </style>

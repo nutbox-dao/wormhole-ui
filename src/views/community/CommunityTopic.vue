@@ -141,7 +141,7 @@ export default {
     },
     gotoDetail(space) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);
-      this.$router.push('/post-detail/' + space.postId);
+      this.$router.push('/post-detail/' + space.tweetId);
     },
     typeChange(index) {
       if(index===this.typeIndex) return
