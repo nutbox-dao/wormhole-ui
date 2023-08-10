@@ -6,8 +6,8 @@
         <button @click="typeIndex=0">
           <i class="w-24px h-24px block" :class="typeIndex===0?'icon-ongoing-active':'icon-ongoing'"></i>
         </button>
-        <button @click="typeIndex=2">
-          <i class="w-24px h-24px block" :class="typeIndex===2?'icon-ended-active':'icon-ended'"></i>
+        <button @click="typeIndex=1">
+          <i class="w-24px h-24px block" :class="typeIndex===1?'icon-ended-active':'icon-ended'"></i>
         </button>
       </div>
     </div>
@@ -34,22 +34,13 @@
                 :finished-text="showingTopics.length!==0?$t('common.noMore'):''"
                 @load="onLoad">
         <div class="px-15px">
-          <Space v-for="(space, i) of spaces" :key="i"
-                 class="mb-15px"
-                 :show-avatar="false"
-                 :space="space"
-                 @click="gotoDetail(space)">
-            <template #bottom-btn-bar-inside>
-              <div class="border-t-1 border-white/20">
-                <PostButtonGroup class="px-15px py-10px filter brightness-500 "
-                                 ref="postButtonRef"
-                                 :post="space" :is-detail="false"/>
-              </div>
-            </template>
-            <template #bottom-btn-bar><div></div></template>
-          </Space>
           <div v-for="topic of showingTopics" :key="topic.activityId" class="mb-15px">
-            <TopicItem :topic="topic"></TopicItem>
+            <Space v-if="topic.type === 1" class="mb-15px"
+                 :show-avatar="false"
+                 :space="topic"
+                 @click="gotoDetail(topic)">
+            </Space>
+            <TopicItem v-else :topic="topic"></TopicItem>
           </div>
         </div>
       </van-list>
@@ -60,7 +51,7 @@
 <script>
 import Space from "@/components/Space";
 import TopicItem from "@/components/community/TopicItem";
-import { getCommunitySpaces, getCommunityActivities } from '@/api/api'
+import { getCommunityNotEndedSpacesAndActivities, getCommunityEndedSpacesAndActivities } from '@/api/api'
 import { mapState, mapGetters } from "vuex";
 import {useWindowSize} from "@vant/use";
 import {sleep} from "@/utils/helper";
@@ -87,11 +78,9 @@ export default {
     ...mapState('community', ['showingCommunity', 'topics', 'pendingTopics', 'endedTopics', 'spaces']),
     ...mapGetters(['getAccountInfo']),
     showingTopics() {
-      if (this.typeIndex === 0) { //ongoing
+      if (this.typeIndex === 0) { //not ended
           return this.topics ?? []
-        }else if(this.typeIndex === 1) { // pending
-          return this.pendingTopics ?? []
-        }else { // ended
+        }else if(this.typeIndex === 1) { // ended
           return this.endedTopics ?? []
         }
     }
@@ -121,22 +110,25 @@ export default {
         if (this.refreshing || this.listLoading) return
         this.refreshing = true;
         let state = '';
-        if (this.typeIndex === 0) { //ongoing
-          state = 'ongoing'
-        }else if(this.typeIndex === 1) { // pending
-          state = 'pending'
-        }else { // ended
+        if (this.typeIndex === 0) { // not ended
+          state = 'notEnded'
+        }else if(this.typeIndex === 1) { // ended
           state = 'ended'
         }
-        const [topics, spaces] = await Promise.all([getCommunityActivities(this.communityId, state), getCommunitySpaces(this.getAccountInfo?.twitterId, this.communityId)]);
-        if(state === 'ongoing') {
-          this.$store.commit('community/saveTopics', topics);
-        }else if (state === 'pending') {
-          this.$store.commit('community/savePendingTopics', topics);
+        let happenings;
+        if (state === 'ended') {
+          happenings = await getCommunityEndedSpacesAndActivities(this.communityId, 0)
         }else {
-          this.$store.commit('community/saveEndedTopics', topics);
+          happenings = await getCommunityNotEndedSpacesAndActivities(this.communityId, 0)
         }
-        this.$store.commit('community/saveSpaces', spaces);
+        if(state === 'notEndec') {
+          this.$store.commit('community/saveTopics', happenings);
+        }else {
+          this.$store.commit('community/saveEndedTopics', happenings);
+        }
+        if (happenings.length < 10) {
+          this.finished = true;
+        }
       } catch (e) {
         console.log(66, e);
       } finally {
@@ -144,6 +136,7 @@ export default {
       }
     },
     async onLoad() {
+
     },
     gotoDetail(space) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);

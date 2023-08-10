@@ -427,6 +427,12 @@ export const searchCommunityByName = async (communityName) =>
 export const getCommunityOps = async (communityId, createTime) =>
     get(BACKEND_API_URL + '/community/getCommunityOps', {communityId, createTime})
 
+export const getCommunityNotEndedSpacesAndActivities = async (communityId, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityNotEndedSpacesAndActivities', {communityId, pageIndex})
+
+export const getCommunityEndedSpacesAndActivities = async (communityId, pageIndex) =>
+    get(BACKEND_API_URL + '/community/getCommunityEndedSpacesAndActivities', {communityId, pageIndex})
+
 /****************************************  Invitation  ***********************************************/
 export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
     post(BACKEND_API_URL + '/invitation/getInvitorsOfUser', {twitterId, pageSize, pageIndex})
