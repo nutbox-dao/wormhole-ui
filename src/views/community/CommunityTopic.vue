@@ -39,6 +39,7 @@
                  :show-avatar="false"
                  :space="topic"
                  @click="gotoDetail(topic)">
+              <template #bottom-btn-bar><div></div></template>
             </Space>
             <TopicItem v-else :topic="topic"></TopicItem>
           </div>
