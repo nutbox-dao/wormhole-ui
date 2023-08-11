@@ -408,7 +408,8 @@ export default {
     notStarted: 'Not started yet',
     setReminder: 'Set reminder',
     playRecording: 'Play recording',
-    joinNow: 'Join now'
+    joinNow: 'Join now',
+    listenerNum: " listeners"
   },
   guide: {
     registrationGuide: 'Registration Guide',

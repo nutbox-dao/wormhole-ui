@@ -83,28 +83,24 @@
               {{ space.twitterName }}
             </div>
             <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.spaceStartedAt) }}
+              {{ parseSpaceStartTime(space.startTime) }}
             </div>
-            <div v-if="space.spaceState==='scheduled'" class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.scheduledStart) }}
-            </div>
-            <div v-if="space.spaceState===3 || space.spaceState==='ended'"
+            <div v-if="space.spaceState===3"
                  class="text-left text-white mb-8px text-12px font-bold">
-              7月18日 1小时23分钟 160人收听
-              {{ space.startTime }} 
+              {{ parseSpaceStartTime(space.startTime) }}  |  {{ spaceDuration(space.startTime, space.endTime) }}  |  {{ space.participantCount + $t('space.listenerNum') }}
             </div>
             <div class="h-30px 2xl:1.5rem">
-              <button v-if="space.spaceState===1 || space.spaceState==='scheduled'"
+              <button v-if="space.spaceState===1"
                       class="bg-white h-full w-full rounded-full font-bold flex justify-center items-center"
                       @click.stop="gotoSpace">
                 <span class="c-text-black text-14px 2xl:text-0.8rem text-black">{{ $t('space.setReminder') }}</span>
               </button>
-              <button v-if="space.spaceState===2 || space.spaceState==='live'"
+              <button v-if="space.spaceState===2"
                       class="bg-white h-full w-full rounded-full font-bold flex justify-center items-center"
                       @click.stop="gotoSpace">
                 <span class="c-text-black text-14px 2xl:text-0.8rem text-black">{{ $t('space.joinNow') }}</span>
               </button>
-              <button v-if="space.spaceState===3 || space.spaceState==='ended'"
+              <button v-if="space.spaceState===3"
                       class="bg-white h-full w-full rounded-full font-bold flex justify-center items-center"
                       @click.stop="gotoSpace">
                 <span class="c-text-black text-14px 2xl:text-0.8rem text-black">{{ $t('space.playRecording') }}</span>
@@ -231,6 +227,23 @@ export default {
     formatEmojiText,
     parseSpaceStartTime,
     parseTimestamp,
+    spaceDuration(startTime, endTime) {
+      if (startTime && endTime) {
+        let diff = (new Date(endTime).getTime() - (new Date(startTime).getTime())) / 1000;
+        let h;
+        let m;
+        let s;
+        h = Math.floor(diff / 3600)
+        m = Math.floor(diff % 3600 / 60)
+        s = diff % 60 
+        if (h > 0) {
+          return `${h} Hour ${m} Min`
+        }else {
+          return `${m} Min ${s} Sec`
+        }
+      }
+      return ''
+    },
     gotoUserPage() {
     },
     gotoSpace () {
@@ -271,7 +284,7 @@ export default {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
   display: none;
 }
-.bg-2,.bg-live {
+.bg-2,.bg-live,.bg-1,.bg-schedulde {
   background: #1FB759;
   display: block;
 }

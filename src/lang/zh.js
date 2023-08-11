@@ -401,7 +401,7 @@ export default {
     ended: '已结束'
   },
   space: {
-    listening: 'Listening',
+    listening: '进行中',
     ended: '已结束',
     canceled: '已取消',
     notStarted: '未开始',
@@ -415,6 +415,7 @@ export default {
     spaceWarningTip1: 'Space持续时间需超过5分钟以上',
     spaceWarningTip2: 'Space参与者人需超过5人以上',
     spaceWarningTip3: '参与策展人需包含社区credit排名top30中的10人以上',
+    listenerNum: "人收听"
   },
   guide: {
     registrationGuide: '注册指南',

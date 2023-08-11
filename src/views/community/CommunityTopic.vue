@@ -28,7 +28,7 @@
                       :pulling-text="$t('common.pullRefresh')"
                       :loosing-text="$t('common.loosingRefresh')">
       <van-list :loading="listLoading"
-                :finished="listFinished"
+                :finished="listFinished[typeIndex]"
                 :immediate-check="false"
                 :loading-text="$t('common.loading')"
                 :finished-text="showingTopics.length!==0?$t('common.noMore'):''"
@@ -70,7 +70,7 @@ export default {
       topicType: ['inProgress', 'pending', 'ended'],
       typeIndex: 0,
       listLoading: false,
-      listFinished: false,
+      listFinished: [false, false],
       refreshing: false,
       communityId: ''
     }
@@ -111,6 +111,7 @@ export default {
         if (this.refreshing || this.listLoading) return
         this.refreshing = true;
         let state = '';
+        let typeIndex = this.typeIndex;
         if (this.typeIndex === 0) { // not ended
           state = 'notEnded'
         }else if(this.typeIndex === 1) { // ended
@@ -122,13 +123,13 @@ export default {
         }else {
           happenings = await getCommunityNotEndedSpacesAndActivities(this.communityId, 0)
         }
-        if(state === 'notEndec') {
+        if(state === 'notEnded') {
           this.$store.commit('community/saveTopics', happenings);
         }else {
           this.$store.commit('community/saveEndedTopics', happenings);
         }
         if (happenings.length < 10) {
-          this.finished = true;
+          this.listFinished[typeIndex] = true;
         }
       } catch (e) {
         console.log(66, e);
@@ -137,7 +138,36 @@ export default {
       }
     },
     async onLoad() {
-
+      try{
+        if (this.refreshing || this.listLoading || this.listFinished[this.typeIndex] || this.showingTopics.length == 0) return
+        this.listLoading = true;
+        let state = '';
+        let typeIndex = this.typeIndex;
+        if (this.typeIndex === 0) { // not ended
+          state = 'notEnded'
+        }else if(this.typeIndex === 1) { // ended
+          state = 'ended'
+        }
+        let happenings;
+        let pageIndex = Math.floor((this.showingTopics.length + 1) / 10)
+        if (state === 'ended') {
+          happenings = await getCommunityEndedSpacesAndActivities(this.communityId, pageIndex)
+        }else {
+          happenings = await getCommunityNotEndedSpacesAndActivities(this.communityId, pageIndex)
+        }
+        if(state === 'notEnded') {
+          this.$store.commit('community/saveTopics', this.topics.concat(happenings));
+        }else {
+          this.$store.commit('community/saveEndedTopics', this.endedTopics.concat(happenings));
+        }
+        if (happenings.length < 10) {
+          this.listFinished[typeIndex] = true;
+        }
+      } catch (e) {
+        console.log(66, e);
+      } finally {
+        this.listLoading = false;
+      }
     },
     gotoDetail(space) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);
