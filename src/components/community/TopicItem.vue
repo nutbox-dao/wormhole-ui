@@ -138,7 +138,7 @@ export default {
   display: block;
 }
 .bg-ended {
-  background: #F54B45;
+  background: #7c7c7c;
   display: block;
 }
 </style>

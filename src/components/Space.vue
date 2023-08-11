@@ -13,11 +13,11 @@
     </div>
     <div v-if="showAvatar" class="flex items-center">
       <Avatar :profile-img="profileImg"
-              :name="space.name"
-              :username="space.twitterUsername"
-              :steem-id="space.steemId"
-              :eth-address="space.ethAddress"
-              :reputation="space.reputation"
+              :name="space.spaceTwitterName"
+              :username="space.spaceTwitterUsername"
+              :steem-id="space.spaceSteemId"
+              :eth-address="space.spaceEthAddress"
+              :reputation="space.spaceReputation"
               @gotoUserPage="gotoUserPage">
         <template #avatar-img>
           <img v-if="profileImg" @click.stop="gotoUserPage()"
@@ -36,12 +36,12 @@
             <div class="flex items-center flex-wrap">
               <a class="c-text-black text-left cursor-pointer
                         text-16px leading-18px  light:text-blueDark"
-                 @click.stop="gotoUserPage()">{{ space.twitterName }}</a>
+                 @click.stop="gotoUserPage()">{{ space.spaceTwitterName }}</a>
             </div>
           </div>
           <div class="flex items-center id-time">
               <span class="text-12px leading-18px  text-color8B light:text-color7D">
-                @{{ space.twitterUsername }}
+                @{{ space.spaceTwitterUsername }}
               </span>
             <span class="mx-4px text-color8B light:text-color7D"> · </span>
             <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
@@ -66,28 +66,28 @@
           <div class="p-17px 2xl:p-1rem">
             <div class="flex justify-between items-center text-14px mb-10px">
               <div class="flex items-center">
-                <img v-if="space.authorProfileImg || space.profileImg"
+                <img v-if="space.spaceProfileImg"
                      class="w-30px h-30px xl:w-1.5rem xl:h-1.5rem rounded-full"
                      @error="replaceEmptyImg"
-                     :src="(space.authorProfileImg ?? space.profileImg).replace('normal', '200x200')" alt="">
+                     :src="(space.spaceProfileImg).replace('normal', '200x200')" alt="">
                 <img v-else class="w-30px h-30px xl:w-1.5rem xl:h-1.5rem rounded-full opacity-50"
                      src="~@/assets/icon-default-avatar.svg" alt="">
                 <div class="flex items-center flex-wrap" @click.stop="gotoUserPage()">
                   <a class="c-text-black text-left ml-5px text-14px leading-18px cursor-pointer text-white">
-                    @{{ space.twitterUsername }}</a>
+                    @{{ space.spaceTwitterUsername }}</a>
                   <button class="h-18px border-1px border-white rounded-full px-8px text-12px ml-6px">{{$t('curation.host')}}</button>
                 </div>
               </div>
             </div>
             <div class="text-left c-text-black text-16px text-white mb-8px truncate">
-              {{ space.twitterName }}
+              {{ space.spaceTwitterName }}
             </div>
             <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.startTime) }}
+              {{ parseSpaceStartTime(space.spaceStartTime) }}
             </div>
             <div v-if="space.spaceState===3"
                  class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.startTime) }}  |  {{ spaceDuration(space.startTime, space.endTime) }}  |  {{ space.participantCount + $t('space.listenerNum') }}
+              {{ parseSpaceStartTime(space.spaceStartTime) }}  |  {{ spaceDuration(space.spaceStartTime, space.spaceEndTime) }}  |  {{ space.participantCount + $t('space.listenerNum') }}
             </div>
             <div class="h-30px 2xl:1.5rem">
               <button v-if="space.spaceState===1"
@@ -157,12 +157,11 @@ export default {
   },
   computed: {
     profileImg() {
-      if (!this.space.profileImg) return null
-      if (this.space.profileImg) {
-        return this.space.profileImg.replace('normal', '200x200')
-      }else {
-        return 'https://profile-images.heywallet.com/' + this.getAccountInfo.twitterId
+      if (!this.space.spaceProfileImg) return null
+      if (this.space.spaceProfileImg) {
+        return this.space.spaceProfileImg.replace('normal', '200x200')
       }
+      return ''
     },
     state() {
       switch (this.space.spaceState) {
@@ -245,6 +244,7 @@ export default {
       return ''
     },
     gotoUserPage() {
+      this.$router.push('/account-info/@' + this.space.spaceTwitterUsername)
     },
     gotoSpace () {
       window.open('https://twitter.com/i/spaces/' + this.space.spaceId)
