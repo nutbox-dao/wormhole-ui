@@ -97,6 +97,9 @@ export const formatAmount = function (value) {
   }else if(value < 1e12) {
     value = value / 1e9
     unit = 'B'
+  } else {
+    value = value / 1e12
+    unit = 'T'
   }
   const str = value.toFixed(digit).toString();
   let integer = str;
