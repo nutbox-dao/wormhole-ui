@@ -787,3 +787,31 @@ export async function getTokenBalancesOfUsers(chainName, token, users) {
         return false
     }
 }
+
+export async function getTokenSupply(chainName, token) {
+    try {
+        let calls = [{
+            target: token,
+            call: [
+                'decimals()(uint8)',
+            ],
+            returns: [
+                ['decimals']
+            ]
+        },{
+            target: token,
+            call: [
+                'totalSupply()(uint256)',
+            ],
+            returns: [
+                ['supply']
+            ]
+        }]
+        const res = await aggregate(calls, EVM_CHAINS[chainName].Multi_Config);
+        const balances = res.results.transformed;
+        return balances.supply / ( 10 ** balances.decimals);
+    } catch (e) {
+        console.log('get users token balance', e);
+        return false
+    }
+}

@@ -143,7 +143,6 @@ export default {
     communityReward: 'Community reward',
     promotionRewardL: 'Promotion reward',
     withdraw: 'Withdraw',
-    promotionReward: 'Promotion reward'
   },
   token: {
     noNft: "You havn't got any NFTs.",
@@ -484,7 +483,14 @@ export default {
     moreCommunities: 'More Communities',
     credit: 'Credit',
     joinFirst: 'Please Join community first',
-    topicPending: 'This happenings is pending start'
+    topicPending: 'This happenings is pending start',
+    price: "Price",
+    totalSupply: 'Supply',
+    cap: 'Cap.',
+    communityPool: 'Pools',
+    tokenDistribution: 'Token allocation',
+    normalTweet: 'Tweet',
+    announcement: 'Announcement'
   },
   info: {
     interactive: 'Notification',

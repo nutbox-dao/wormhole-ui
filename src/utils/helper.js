@@ -127,6 +127,12 @@ export const formatAmount = function (value) {
   if(Number(value) < 1) {
     digit = 4
   }
+  if (Number(value) < 0.00001) {
+    digit = 8
+  }
+  if (Number(value) < 0.000000001) {
+    digit = 10
+  }
   if (abb) {
     value = Number(value)
     if (value < 1000) {}
