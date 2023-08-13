@@ -1,12 +1,23 @@
 <template>
-  <div class="flex flex-col items-center">
-    <div class="flex flex-wrap items-center justify-center gap-10px">
-      <button v-for="(item, index) of chartData.data.datasets[0].data" :key="index"
-              class="flex justify-between items-center h-34px px-10px rounded-8px"
-              :style="{'background': getColor(index)}">
-        <span class="text-14px text-white">{{ item.name || "--" }}: </span>
-        <span class="text-14px text-white">{{ parseFloat(item.ratio) }}%</span>
-      </button>
+  <div class="flex flex-col xs:flex-row 2md:flex-col lg:flex-row items-center">
+<!--    <div class="flex flex-wrap items-center justify-center gap-10px">-->
+<!--      <button v-for="(item, index) of chartData.data.datasets[0].data" :key="index"-->
+<!--              class="flex justify-between items-center h-34px px-10px rounded-8px"-->
+<!--              :style="{'background': getColor(index)}">-->
+<!--        <span class="text-14px text-white">{{ item.name || "&#45;&#45;" }}: </span>-->
+<!--        <span class="text-14px text-white">{{ parseFloat(item.ratio) }}%</span>-->
+<!--      </button>-->
+<!--    </div>-->
+    <div class="flex-1 w-full flex flex-col gap-10px">
+      <div class="flex justify-between"
+           v-for="(item, index) of chartData.data.datasets[0].data" :key="index">
+        <div class="flex items-center flex-1">
+          <span class="border-4 rounded-full w-12px h-12px min-w-12px block mr-8px"
+                :style="{ 'border-color': getColor(index)}"></span>
+          <span class="text-14px">{{ item.name || "--" }}</span>
+        </div>
+        <span class="text-14px">{{ parseFloat(item.ratio) }}%</span>
+      </div>
     </div>
     <div class="flex-1 mx-auto w-full max-w-80vw sm:max-w-20rem">
       <canvas :id="canvasId" class="mx-auto"></canvas>
@@ -33,6 +44,36 @@ export default {
   data () {
     return {
       chart: null,
+      colorList: [
+        '#FE6A07',
+        '#7CBF4D',
+        '#70ACFF',
+        '#FFE14D',
+        '#CC85FF',
+        '#FF9500',
+        '#00C7D9',
+        '#9D94FF',
+        '#FF73AD',
+        '#FF7366',
+        '#FF4D97',
+        '#C881D2',
+        '#DAD0ED',
+        '#2780FD',
+        '#00B9CD',
+        '#91CF94',
+        '#F4F5CE',
+        '#FCB62E',
+        '#FF9C26',
+        '#FF7366',
+        '#F57BA3',
+        '#6456FF',
+        '#70ACFF',
+        '#5AD9E8',
+        '#D1EAD2',
+        '#9DAC00',
+        '#FFE14D',
+        '#FFCD7A'
+      ],
       chartData: {
         type: 'doughnut',
         plugins: [ChartDataLabels],
@@ -87,16 +128,16 @@ export default {
     }
   },
   computed: {
-    colorList () {
-      let l = []
-      let opacity=1
-      const sub = 1/this.poolsData.length>0.15?0.15:0.1
-      for(let i=1; i<this.poolsData.length+1; i++) {
-        l.push(`rgba(98, 70, 234, ${opacity})`)
-        opacity-=sub
-      }
-      return l
-    },
+    // colorList () {
+    //   let l = []
+    //   let opacity=1
+    //   const sub = 1/this.poolsData.length>0.15?0.15:0.1
+    //   for(let i=1; i<this.poolsData.length+1; i++) {
+    //     l.push(`rgba(98, 70, 234, ${opacity})`)
+    //     opacity-=sub
+    //   }
+    //   return l
+    // },
     getColor () {
       return (index) => {
         return this.colorList[index % this.colorList.length]
