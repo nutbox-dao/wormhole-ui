@@ -8,46 +8,96 @@
       <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
       <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
     </div>
-    <div v-show="specifyDistributionEras.length > 0" class="">
-      <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
-      <div class="overflow-auto no-scroll-bar">
-        <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
+    <template v-else>
+      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+        <div class="text-14px font-bold mb-10px text-left">{{ $t('community.token') }}</div>
+        <div class="grid gird-cols-1 sm:grid-cols-2 xl:grid-cols-5">
+          <div class="col-span-1 xl:col-span-2 flex items-center">
+            <img class="w-50px h-50px mr-10px border-0.5px border-color8B/30 rounded-full"
+                 :src="showingCommunity && showingCommunity.icon" alt=""/>
+            <div class="flex-1 flex flex-col items-start gap-5px">
+              <span class="text-16px">{{ showingCommunity['rewardTokenSymbol'] || '--' }}</span>
+              <div class="flex items-center gap-6px">
+                <div class="token-address text-12px text-color8B light:text-color7D"
+                     @click="copyAddress(showingCommunity['rewardToken'])">
+                  {{ showingCommunity['rewardTokenName'] || '--' }}
+                </div>
+                <button class="">
+                  <img class="w-14px" src="~@/assets/icon-copy-gray.svg" alt="">
+                </button>
+                <button class="">
+                  <img class="w-14px" src="~@/assets/icon-link-gray.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-1 xl:col-span-3 flex flex-col gap-8px 2md:border-l-0.5px border-color8B/30 pl-15px">
+            <div class="flex items-center justify-between">
+              <div class="text-color8B light:text-color7D text-12px">{{ $t('community.price') }}</div>
+              <div class="text-14px font-bold">--</div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-color8B light:text-color7D text-12px">{{ $t('community.totalSupply') }}</div>
+              <div class="text-14px font-bold">--</div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-color8B light:text-color7D text-12px">{{ $t('community.cap') }}</div>
+              <div class="text-14px font-bold">--</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+      <div v-show="specifyDistributionEras.length > 0"
+           class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+        <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
+        <div class="overflow-auto no-scroll-bar">
+          <AboutProgress :progress-data="specifyDistributionEras"></AboutProgress>
+        </div>
+      </div>
+      <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="loadingPool">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    <div class="2md:mt-70px" v-else-if="poolsData && (poolsData.length > 0)">
-      <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
-      <PoolRatio :animation='false' :pools-data="poolsData"/>
-    </div>
-    <div class="">
-      <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
-      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
-        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-          {{$t('community.pendingReward')}}
-        </div>
-        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px"
+           v-else-if="poolsData && (poolsData.length > 0)">
+        <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
+        <PoolRatio :animation='false' :pools-data="poolsData"/>
+      </div>
+      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+        <div class="text-14px font-bold mb-15px text-left">{{$t('community.tokenDistribution')}}</div>
+        <PoolRatio :animation='false' :pools-data="tokenDistribution" canvas-id="token-distribution-pie"/>
+      </div>
+      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+        <div class="text-14px font-bold mb-15px text-left">Tweet Pool</div>
+        <PoolRatio :animation='false' :pools-data="tweetPool" canvas-id="tweet-pie"/>
+      </div>
+      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+        <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
+        <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+          <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+            {{$t('community.pendingReward')}}
+          </div>
+          <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
-          <input class="bg-transparent h-full w-full" disabled
-                 :value="formatAmount(communityContractInfo?.balance?.toString() / (10 ** showingCommunity.rewardTokenDecimals))" type="text">
-          <span class="">{{ showingCommunity.rewardTokenSymbol }}</span>
+            <input class="bg-transparent h-full w-full" disabled
+                   :value="formatAmount(communityContractInfo?.balance?.toString() / (10 ** showingCommunity.rewardTokenDecimals))" type="text">
+            <span class="">{{ showingCommunity.rewardTokenSymbol }}</span>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
-        <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-          {{$t('community.fundAddress')}}
-        </div>
-        <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
+        <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
+          <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
+            {{$t('community.fundAddress')}}
+          </div>
+          <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
-          <input class="bg-transparent h-full w-full" disabled
-                 :value="communityContractInfo.storageAddr" type="text">
+            <input class="bg-transparent h-full w-full" disabled
+                   :value="communityContractInfo.storageAddr" type="text">
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -60,6 +110,8 @@ import { sleep, formatAmount } from '@/utils/helper'
 import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
 import { getBlockNum } from '@/utils/web3/web3'
 import { EVM_CHAINS_ID } from "@/config";
+import {copyAddress} from "@/utils/tool";
+import i18n from "@/lang";
 
 export default {
   name: "CommunityAbout",
@@ -68,7 +120,16 @@ export default {
     return {
       communtiyId: '',
       loadingToken: true,
-      loadingPool: true
+      loadingPool: true,
+      tokenDistribution: [
+        {name: i18n.global.t('community.communityPool'), ratio: 10*100 },
+        {name: i18n.global.t('community.communityAsset'), ratio: 90*100 }
+      ],
+      tweetPool: [
+        {name: i18n.global.t('community.normalTweet'), ratio: 10*100 },
+        {name: i18n.global.t('community.announcement'), ratio: 40*100 },
+        {name: 'Space', ratio: 50*100 },
+      ]
     }
   },
   computed: {
@@ -85,6 +146,7 @@ export default {
     this.refresh()
   },
   methods: {
+    copyAddress,
     formatAmount,
     async refresh() {
       const nutboxContract = this.configs[this.showingCommunity.communityId]['nutbox_contract']

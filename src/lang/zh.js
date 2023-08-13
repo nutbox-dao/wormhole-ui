@@ -495,7 +495,14 @@ export default {
     moreCommunities: '更多社区',
     credit: '信用',
     joinFirst: "请先加入社区",
-    topicPending: '活动还未开始'
+    topicPending: '活动还未开始',
+    price: "价格",
+    totalSupply: '供应量',
+    cap: '市值',
+    communityPool: '社区矿池',
+    tokenDistribution: '代币分发',
+    normalTweet: '普通 Tweet',
+    announcement: '社区公告'
   },
   info: {
     interactive: '通知',
