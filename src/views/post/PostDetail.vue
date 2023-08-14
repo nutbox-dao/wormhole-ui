@@ -125,8 +125,8 @@
           <div v-if="currentShowingDetail.spaceId"
                class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="max-h-full overflow-hidden flex flex-col">
-              <SpaceIncome class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
-                           :space="currentShowingDetail"></SpaceIncome>
+              <SpaceIncome v-if="spaceInfo" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
+                           :space="spaceInfo"></SpaceIncome>
               <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
                           flex-1 overflow-hidden mt-15px flex flex-col">
                 <div class="flex items-center justify-center gap-30px h-48px min-h-48px text-14px font-bold
@@ -151,7 +151,7 @@
                     <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
                     <div class="text-12px text-color8B mt-10px">{{$t('common.none')}}</div>
                   </div>
-                  <SpaceAttendedList class="flex-1 overflow-hidden"
+                  <!-- <SpaceAttendedList class="flex-1 overflow-hidden"
                                      v-else-if="curationList.length>0"
                                      :records="participant"
                                      :post="currentShowingDetail"
@@ -165,11 +165,14 @@
                         {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
                       </div>
                     </div>
-                  </SpaceAttendedList>
+                  </SpaceAttendedList> -->
                 </div>
                 <div class="flex-1 overflow-auto">
                   <SpaceSpeaker v-show="spaceTabType==='space'"
-                                :space="currentShowingDetail" @tip="tip"/>
+                                :participant="speakerParticipant" 
+                                :post="currentShowingDetail" 
+                                :space="spaceInfo"
+                                @tip="tip"/>
                 </div>
               </div>
 
@@ -212,7 +215,10 @@
             </button>
           </div>
           <div class="max-h-60vh overflow-auto">
-            <SpaceSpeaker :space="currentShowingDetail" @tip="tip"/>
+            <SpaceSpeaker :participant="speakerParticipant"
+             :post="currentShowingDetail"
+             :space="spaceInfo"
+              @tip="tip"/>
           </div>
         </div>
       </transition>
@@ -290,11 +296,14 @@ import {
   getCurationsOfTweet,
   getAllTipsByTweetId,
   getTopTipsOfTweetId,
-  getAutoCurationRecord
+  getAutoCurationRecord,
+  getSpaceInfo,
+  spaceCurationRecord,
+  spaceSpeakerRecord
 } from '@/api/api'
 import { getPosts } from '@/utils/steem'
 import { EVM_CHAINS } from '@/config'
-import {formatAmount, formatPrice, parseSpaceStartTime} from '@/utils/helper'
+import {formatAmount, formatPrice, parseSpaceStartTime, sleep} from '@/utils/helper'
 import iconTop1 from "@/assets/icon-top1.svg";
 import iconTop2 from "@/assets/icon-top2.svg";
 import iconTop3 from "@/assets/icon-top3.svg";
@@ -374,15 +383,18 @@ export default {
       updateInterval: null,
       creatingCuration: false,
       participant: [],
+      speakerParticipant: [],
       count: 0,
       participantLoading: false,
+      spaceInfoLoading: false,
       showAttendedList: false,
       spaceTabType: 'curation',
       tipUser: {},
-      showSpeakerModal: false
+      showSpeakerModal: false,
+      spaceInfo: null
     }
   },
-  mounted() {
+  async mounted() {
     const postId = this.$route.params.postId
     this.postId = postId
     this.$gtag.pageview('/post-detail/' + postId)
@@ -419,6 +431,10 @@ export default {
     }).catch(e => console.log('get curation of tweet fail:', e)).finally(() => {
       this.curationLoading = false
     })
+    let c = 0;
+    while(!this.currentShowingDetail || c++ > 50) {
+      await sleep(0.2)
+    }
     this.updateCurationInfo()
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
@@ -456,12 +472,38 @@ export default {
       if(this.participantLoading) return
       const id = this.curationList[0].curationId;
       this.participantLoading = true
-      getAutoCurationRecord(id).then(res => {
-        this.participant = res ?? []
-      }).catch(console.log).finally(() => {this.participantLoading = false})
+      if (this.curationList[0].curationType === 2 && this.currentShowingDetail) {
+        const spaceState = this.currentShowingDetail.spaceState;
+        if (spaceState === 1 || spaceState === 2 || (spaceState === 4 && !this.spaceInfo)) {
+          this.spaceInfoLoading = true
+          getSpaceInfo(this.currentShowingDetail.spaceId).then(res => {
+            this.spaceInfo = res ?? []
+          }).catch(console.log)
+          .finally(() => {
+            this.spaceInfoLoading = false
+          })
+          spaceSpeakerRecord(id).then(res => {
+            this.speakerParticipant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.participantLoading = false
+          })
+          spaceCurationRecord(id).then(res => {
+            this.participant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.participantLoading = false
+          })
+        }else {
+          this.participantLoading = false
+        }
+      }else {
+        getAutoCurationRecord(id).then(res => {
+          this.participant = res ?? []
+        }).catch(console.log).finally(() => {this.participantLoading = false})
+      }
     },
     updateCurationInfo() {
       const postId = this.$route.params.postId
+      if (!this.currentShowingDetail) return;
       // update tip info
       if (this.count++ % 3 === 0 && this.curationList.length>0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {

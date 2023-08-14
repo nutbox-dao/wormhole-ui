@@ -4,7 +4,13 @@
          class="c-text-black py-2rem min-h-1rem">
       <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
     </div>
-    <div class="px-15px">
+    <div v-else-if="!participant || participant.length === 0">
+      <div class="c-text-black py-2rem min-h-1rem">
+        <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+        <div class="mt-1rem">{{$t('common.none')}}</div>
+      </div>
+    </div>
+    <div v-else class="px-15px">
       <div class="flex justify-between items-center pt-10px">
         <div class="c-text-black text-16px">
           {{$t('curation.speaker')}}
@@ -15,6 +21,7 @@
       </div>
       <div class="flex items-center justify-between py-10px">
         <div class="flex items-center w-1/2 truncate pl-8px pt-10px">
+          <!-- profile image -->
           <div class="border-2 gradient-border gradient-border-color3 rounded-full relative mr-4px">
             <img v-if="host.profileImg"
                  @click="gotoUserTwitter(host)"
@@ -28,7 +35,7 @@
           <span class="text-center truncate">{{host.name}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
-          <div>60 min</div>
+          <div></div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', host)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -51,7 +58,7 @@
           <span class="text-center truncate">{{u.name}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
-          <div>60 min</div>
+          <div></div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -74,7 +81,7 @@
           <span class="text-center truncate">{{u.name}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
-          <div>60 min</div>
+          <div>{{ u.speakerTime }} min</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -87,7 +94,7 @@
 </template>
 
 <script>
-import {getSpaceInfoById} from "@/api/api";
+import {getSpaceInfo} from "@/api/api";
 import TipModal from "@/components/TipModal.vue";
 
 export default {
@@ -97,6 +104,14 @@ export default {
     space: {
       type: Object,
       default: () => {}
+    },
+    post: {
+      type: Object,
+      default: () => {}
+    },
+    participant: {
+      type: Array,
+      default: []
     }
   },
   data() {
@@ -107,7 +122,30 @@ export default {
       speakers: [],
       tipModalVisible: false,
       tipToUser: {},
-
+      isCalc: false
+    }
+  },
+  computed: {
+    isCalc() {
+      return this.space && this.space.isCalc 
+    },
+    host() {
+      if (this.participant && this.post) {
+        return this.participant.find(p => this.post.spaceTwitterId === p.twitterId) ?? {}
+      }
+      return {}
+    },
+    coHosts() {
+      if(this.participant && this.post) {
+        return this.participant.filter(p => p.twitterId !== this.post.spaceTwitterId && p. hostAmount > '0')
+      }
+      return []
+    },
+    speakers() {
+      if (this.participant && this.post) {
+        return this.participant.filter(p => p.speakerAmount > '0')
+      }
+      return []
     }
   },
   methods: {
@@ -119,15 +157,19 @@ export default {
     }
   },
   mounted() {
-    if(this.space.spaceId) {
-      getSpaceInfoById(this.space.spaceId).then(res => {
-        if (res && res.spaceId) {
-          this.host = res.hosts.find(h => h.twitterId === res.creatorId)
-          this.coHosts = res.hosts.filter(h => h.twitterId !== res.creatorId);
-          this.speakers = res.speakers ?? [];        }
-      }).finally(() => {
-        this.loading = false;
-      })
+    this.isCalc = this.space && this.space.isCalc
+    if (this.participant && this.participant.length > 0) {
+      for (let p of this.participant) {
+        if (this.post.spaceTwitterId === p.twitterId) {
+          this.host = p
+        }else {
+          if (p.hostAmount > '0') {
+            this.coHosts.push(p)
+          }else {
+            this.speakers.push(p)
+          }
+        }
+      }
     }
   }
 }

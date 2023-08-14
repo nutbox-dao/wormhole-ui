@@ -412,9 +412,9 @@ export default {
     settled: '已结算',
     unsettlement: '待结算',
     spaceWarning: 'Space未达到策展要求',
-    spaceWarningTip1: 'Space持续时间需超过5分钟以上',
-    spaceWarningTip2: 'Space参与者人需超过5人以上',
-    spaceWarningTip3: '参与策展人需包含社区credit排名top30中的10人以上',
+    spaceWarningTip4: 'Space持续时间需超过10分钟以上',
+    spaceWarningTip3: 'Space参与者人需超过10人以上',
+    spaceWarningTip2: '参与策展人需包含社区credit排名top30中的10人以上',
     listenerNum: "人收听"
   },
   guide: {
@@ -579,6 +579,6 @@ export default {
     all: '全部',
     fold: '收起',
     clear: '清除',
-    people: '人'
+    people: '人',
   }
 }

@@ -216,6 +216,16 @@ export const replyToCurationByWH3 = async (twitterId, twitterUsername, curationI
 export const curation_test = async (twitterId) =>
     post(BACKEND_API_URL + '/curation/test', {twitterId})
 
+/****************************************  spaces  ***********************************************/
+export const getSpaceInfo = async (spaceId) =>
+    get(BACKEND_API_URL + '/space/bySpaceId', { spaceId })
+
+export const spaceCurationRecord = async (curationId, createAt, isFeed) =>
+    get(BACKEND_API_URL + '/space/curationRecord', { curationId, createAt, isFeed })
+
+export const spaceSpeakerRecord = async (curationId) =>
+    get(BACKEND_API_URL + '/space/speakerRecord', { curationId })
+
 /****************************************  topics  ***********************************************/
 export const getPopularTopics = async () =>
     get(BACKEND_API_URL + '/post/getTrendingTags')
@@ -239,10 +249,6 @@ export const newPopup = async (popup) =>
 
 export const checkMyPopupRecord = async (twitterId, popupId) =>
     post(BACKEND_API_URL + '/popup/checkMyParticipantion', {twitterId, popupId})
-
-/****************************************  space  ***********************************************/
-export const getSpaceInfoById = async (spaceId) =>
-    get(BACKEND_API_URL + '/space/bySpaceId', {spaceId})
 
 /****************************************  tip  ***********************************************/
 export const tipEVM = async (tip) =>

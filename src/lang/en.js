@@ -404,10 +404,17 @@ export default {
     listening: 'Listening',
     ended: 'Ended',
     canceled: 'Canceled',
-    notStarted: 'Not started yet',
+    notStarted: 'Scheduled',
     setReminder: 'Set reminder',
     playRecording: 'Play recording',
     joinNow: 'Join now',
+    income: 'Rewards',
+    settled: 'Settled',
+    unsettlement: 'Pending',
+    spaceWarning: 'Space did not meet the reward requirements',
+    spaceWarningTip4: 'Space must last more than 10 minutes',
+    spaceWarningTip3: 'Space must has at least 10 participants',
+    spaceWarningTip2: 'Space must receive more than 10 curator of top 30 CC members',
     listenerNum: " listeners"
   },
   guide: {
@@ -571,6 +578,7 @@ export default {
     second: 'S',
     all: 'All',
     fold: 'Fold',
-    clear: 'Clear'
+    clear: 'Clear',
+    people: ''
   }
 }
