@@ -27,19 +27,19 @@
               {{record.twitterUsername}}
             </div>
             <div class="flex justify-between items-center gap-4px ml-8px">
-              <el-tooltip v-if="(record.taskRecord & 4) === 4" placement="top-start">
+              <el-tooltip v-if="(record.curationRewardType & 4) === 4" placement="top-start">
                 <i @click.stop class="w-16px h-16px min-w-16px btn-icon-like-active"></i>
                 <template #content>
                   <div class="text-white light:text-black">+5</div>
                 </template>
               </el-tooltip>
-              <el-tooltip v-if="(record.taskRecord & 16) === 16" placement="top-start">
+              <el-tooltip v-if="(record.curationRewardType & 2) === 2" placement="top-start">
                 <i @click.stop class="w-16px h-16px min-w-16px btn-icon-retweet-active"></i>
                 <template #content>
                   <div class="text-white light:text-black">+15</div>
                 </template>
               </el-tooltip>
-              <el-tooltip v-if="(record.taskRecord & 1) === 1" placement="top-start">
+              <el-tooltip v-if="(record.curationRewardType & 1) === 1" placement="top-start">
                 <i @click.stop class="w-16px h-16px min-w-16px btn-icon-quote-active"></i>
                 <template #content>
                   <div class="text-white light:text-black">+20</div>
