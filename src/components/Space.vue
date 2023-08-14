@@ -63,8 +63,8 @@
         </div>
         <div class="flex-1 rounded-12px
                     min-h-154px bg-tag-gradient overflow-hidden relative">
-          <div class="p-17px 2xl:p-1rem">
-            <div class="flex justify-between items-center text-14px mb-10px">
+          <div class="p-17px 2xl:p-1rem flex flex-col justify-between">
+            <div class="w-full flex justify-between items-center text-14px mb-10px">
               <div class="flex items-center">
                 <img v-if="space.spaceProfileImg"
                      class="w-30px h-30px xl:w-1.5rem xl:h-1.5rem rounded-full"
@@ -79,15 +79,17 @@
                 </div>
               </div>
             </div>
-            <div class="text-left c-text-black text-16px text-white mb-8px truncate">
-              {{ space.spaceTwitterName }}
-            </div>
-            <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.spaceStartTime) }}
-            </div>
-            <div v-if="space.spaceState===3"
-                 class="text-left text-white mb-8px text-12px font-bold">
-              {{ parseSpaceStartTime(space.spaceStartTime) }}  |  {{ spaceDuration(space.spaceStartTime, space.spaceEndTime) }}  |  {{ space.participantCount + $t('space.listenerNum') }}
+            <div class="flex-1 w-full">
+              <div class="text-left c-text-black text-16px text-white mb-8px truncate">
+                {{ space.spaceTwitterName }}
+              </div>
+              <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
+                {{ parseSpaceStartTime(space.spaceStartTime) }}
+              </div>
+              <div v-if="space.spaceState===3"
+                   class="text-left text-white mb-8px text-12px font-bold">
+                {{ parseSpaceStartTime(space.spaceStartTime) }}  |  {{ spaceDuration(space.spaceStartTime, space.spaceEndTime) }}  |  {{ space.participantCount + $t('space.listenerNum') }}
+              </div>
             </div>
             <div class="h-30px 2xl:1.5rem">
               <button v-if="space.spaceState===1"
@@ -234,7 +236,7 @@ export default {
         let s;
         h = Math.floor(diff / 3600)
         m = Math.floor(diff % 3600 / 60)
-        s = diff % 60 
+        s = diff % 60
         if (h > 0) {
           return `${h} Hour ${m} Min`
         }else {
