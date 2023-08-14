@@ -16,7 +16,7 @@
                 :style="{ 'border-color': getColor(index)}"></span>
           <span class="text-14px">{{ item.name || "--" }}</span>
         </div>
-        <span class="text-14px">{{ parseFloat(item.ratio) }}%</span>
+        <span class="text-14px">{{ parseFloat(item.ratio) }}%{{ item.value ? `(${item.value})` : '' }}</span>
       </div>
     </div>
     <div class="flex-1 mx-auto w-full max-w-80vw sm:max-w-20rem">
@@ -33,6 +33,7 @@ import {
   Tooltip
 } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { formatAmount } from '@/utils/helper'
 
 Chart.register(
   ArcElement,
@@ -204,7 +205,8 @@ export default {
     this.chartData.data.datasets = [{
       data:  this.poolsData.map(pool => ({
         name: pool.name,
-        ratio: parseFloat(pool.ratio) / 100
+        ratio: parseFloat(pool.ratio) / 100,
+        value: pool.value ? formatAmount(pool.value) : null
       })),
       backgroundColor: this.colorList
     }]

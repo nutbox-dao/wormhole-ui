@@ -22,10 +22,10 @@
                      @click="copyAddress(showingCommunity['rewardToken'])">
                   {{ showingCommunity['rewardTokenName'] || '--' }}
                 </div>
-                <button class="">
+                <button class="" @click="copyAddress(showingCommunity['rewardToken'])">
                   <img class="w-14px" src="~@/assets/icon-copy-gray.svg" alt="">
                 </button>
-                <button class="">
+                <button class="" @click="gotoToken">
                   <img class="w-14px" src="~@/assets/icon-link-gray.svg" alt="">
                 </button>
               </div>
@@ -34,15 +34,15 @@
           <div class="col-span-1 xl:col-span-3 flex flex-col gap-8px 2md:border-l-0.5px border-color8B/30 pl-15px">
             <div class="flex items-center justify-between">
               <div class="text-color8B light:text-color7D text-12px">{{ $t('community.price') }}</div>
-              <div class="text-14px font-bold">--</div>
+              <div class="text-14px font-bold">{{ showingCommunity.rewardPrice }}</div>
             </div>
             <div class="flex items-center justify-between">
               <div class="text-color8B light:text-color7D text-12px">{{ $t('community.totalSupply') }}</div>
-              <div class="text-14px font-bold">--</div>
+              <div class="text-14px font-bold">{{ supply }}</div>
             </div>
             <div class="flex items-center justify-between">
               <div class="text-color8B light:text-color7D text-12px">{{ $t('community.cap') }}</div>
-              <div class="text-14px font-bold">--</div>
+              <div class="text-14px font-bold">{{ cap }}</div>
             </div>
           </div>
         </div>
@@ -58,17 +58,18 @@
            v-if="loadingPool">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px"
-           v-else-if="poolsData && (poolsData.length > 0)">
-        <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
-        <PoolRatio :animation='false' :pools-data="poolsData"/>
+      <div v-else-if="poolsData && (poolsData.length > 0)">
+        <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+          <div class="text-14px font-bold mb-15px text-left">{{$t('community.tokenDistribution')}}</div>
+          <PoolRatio :animation='false' :pools-data="tokenDistribution" canvas-id="token-distribution-pie"/>
+        </div>
+        <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
+          <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
+          <PoolRatio :animation='false' :pools-data="poolsData"/>
+        </div>
       </div>
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
-        <div class="text-14px font-bold mb-15px text-left">{{$t('community.tokenDistribution')}}</div>
-        <PoolRatio :animation='false' :pools-data="tokenDistribution" canvas-id="token-distribution-pie"/>
-      </div>
-      <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
-        <div class="text-14px font-bold mb-15px text-left">Tweet Pool</div>
+        <div class="text-14px font-bold mb-15px text-left">tweet Pool</div>
         <PoolRatio :animation='false' :pools-data="tweetPool" canvas-id="tweet-pie"/>
       </div>
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
@@ -105,11 +106,12 @@
 import PoolRatio from "@/components/community/PoolRatio.vue";
 import AboutProgress from "@/components/community/AboutProgress.vue";
 import { getSpecifyDistributionEras } from '@/utils/community'
+import { getTokenSupply } from '@/utils/asset'
 import { mapState } from "vuex";
-import { sleep, formatAmount } from '@/utils/helper'
+import { sleep, formatAmount, formatPrice } from '@/utils/helper'
 import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
 import { getBlockNum } from '@/utils/web3/web3'
-import { EVM_CHAINS_ID } from "@/config";
+import { EVM_CHAINS_ID, EVM_CHAINS } from "@/config";
 import {copyAddress} from "@/utils/tool";
 import i18n from "@/lang";
 
@@ -125,15 +127,26 @@ export default {
         {name: i18n.global.t('community.communityPool'), ratio: 10*100 },
         {name: i18n.global.t('community.communityAsset'), ratio: 90*100 }
       ],
-      tweetPool: [
-        {name: i18n.global.t('community.normalTweet'), ratio: 10*100 },
-        {name: i18n.global.t('community.announcement'), ratio: 40*100 },
-        {name: 'Space', ratio: 50*100 },
-      ]
+      supply: 0,
+      cap: 0
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData', 'communityContractInfo']),
+    ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData', 'communityContractInfo', 'nutboxCommunityInfo']),
+    tweetPool() {
+      if (this.showingCommunity && this.showingCommunity.rewardPerDay) {
+        const reward = this.showingCommunity.rewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
+        const ann = this.showingCommunity.annRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
+        const space = this.showingCommunity.spaceRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
+        const total = reward + ann + space
+        return [
+          {name: i18n.global.t('community.normalTweet'), ratio: parseFloat((reward / total)*10000).toFixed(0), value: reward },
+          {name: i18n.global.t('community.announcement'), ratio: parseFloat((ann / total)*10000).toFixed(0), value: ann },
+          {name: 'Space', ratio: parseFloat((space / total)*10000).toFixed(0), value: space },
+        ]
+      }
+      return []
+    }
   },
   async activated() {
     let count = 0;
@@ -148,6 +161,9 @@ export default {
   methods: {
     copyAddress,
     formatAmount,
+    gotoToken() {
+      window.open(EVM_CHAINS[EVM_CHAINS_ID[this.showingCommunity.chainId]].tokenScan + this.showingCommunity['rewardToken'], '__blank')
+    },
     async refresh() {
       const nutboxContract = this.configs[this.showingCommunity.communityId]['nutbox_contract']
       if (nutboxContract) {
@@ -159,7 +175,15 @@ export default {
         }).finally(() => {
           this.loadingToken = false
         })
+        getTokenSupply(EVM_CHAINS_ID[this.showingCommunity.chainId], this.showingCommunity.rewardToken).then(supply => {
+          this.supply = formatAmount(supply)
+          this.cap = formatPrice(supply * this.showingCommunity.rewardPrice)
+        })
         getSpecifyCommunityInfoFromTheGraph(EVM_CHAINS_ID[this.showingCommunity.chainId], nutboxContract).then(res => {
+          this.tokenDistribution = [
+          {name: i18n.global.t('community.communityPool'), ratio: 10000 - res.feeRatio },
+          {name: i18n.global.t('community.communityAsset'), ratio: res.feeRatio }
+          ]
         }).catch(e => {
           console.log(3, e)
         }).finally(() => {
