@@ -75,6 +75,9 @@
         <!--      <div>{{$t('space.spaceWarningTip2')}}</div>-->
         <!--      <div>{{$t('space.spaceWarningTip3')}}</div>-->
       </div>
+      <div v-if="space.spaceCancelType === 1" class="px-15px py-8px bg-color62 rounded-b-12px text-14px text-white">
+        {{ $t('space.spaceWaringTip1') }}
+      </div>
       <slot></slot>
     </div>
   </div>

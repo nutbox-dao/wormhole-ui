@@ -415,6 +415,7 @@ export default {
     spaceWarningTip4: 'Space must last more than 10 minutes',
     spaceWarningTip3: 'Space must has at least 10 participants',
     spaceWarningTip2: 'Space must receive more than 10 curator of top 30 CC members',
+    spaceWarningTip1: "Space is canceled by host",
     listenerNum: " listeners"
   },
   guide: {
