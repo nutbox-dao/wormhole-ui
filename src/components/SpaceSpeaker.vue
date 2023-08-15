@@ -11,14 +11,14 @@
       </div>
     </div>
     <div v-else class="px-15px">
-      <div class="flex justify-between items-center pt-10px">
+      <!-- <div class="flex justify-between items-center pt-10px">
         <div class="c-text-black text-16px">
           {{$t('curation.speaker')}}
         </div>
         <div class="text-12px">
           {{speakers.length}} {{$t('common.people')}}
         </div>
-      </div>
+      </div> -->
       <div class="flex items-center justify-between py-10px">
         <div class="flex items-center w-1/2 truncate pl-8px pt-10px">
           <!-- profile image -->
@@ -32,7 +32,7 @@
                  src="~@/assets/icon-default-avatar.svg" alt="">
             <img class="absolute -top-10px -left-8px" src="~@/assets/tag-host.svg" alt="">
           </div>
-          <span class="text-center truncate">{{host.name}}</span>
+          <span class="text-center truncate">{{host.twitterName}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
           <div></div>
@@ -55,7 +55,7 @@
                  src="~@/assets/icon-default-avatar.svg" alt="">
             <img class="absolute -top-10px -left-8px" src="~@/assets/tag-co-hosts.svg" alt="">
           </div>
-          <span class="text-center truncate">{{u.name}}</span>
+          <span class="text-center truncate">{{u.twitterName}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
           <div></div>
@@ -78,7 +78,7 @@
                  src="~@/assets/icon-default-avatar.svg" alt="">
             <img class="absolute -top-10px -left-8px" src="~@/assets/tag-speaker.svg" alt="">
           </div>
-          <span class="text-center truncate">{{u.name}}</span>
+          <span class="text-center truncate">{{u.twitterName}}</span>
         </div>
         <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
           <div>{{ u.speakerTime }} min</div>
@@ -136,14 +136,14 @@ export default {
       return {}
     },
     coHosts() {
-      if(this.participant && this.post) {
-        return this.participant.filter(p => p.twitterId !== this.post.spaceTwitterId && p. hostAmount > '0')
+      if(this.participant) {
+        return this.participant.filter(p => (p.curationRewardType & 16) > 0)
       }
       return []
     },
     speakers() {
-      if (this.participant && this.post) {
-        return this.participant.filter(p => p.speakerAmount > '0')
+      if (this.participant) {
+        return this.participant.filter(p => (p.curationRewardType & 32) > 8)
       }
       return []
     }

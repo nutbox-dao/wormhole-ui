@@ -64,13 +64,14 @@
                 <SpaceIncome v-if="spaceInfo" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
                              :space="spaceInfo">
                   <div class="border-t-1 border-color8B/30 light:border-colorE3 flex items-center justify-between h-44px">
-                    <button v-if="participant && participant.length>0" 
+                    <button
                             class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            :disabled="!participant || participant.length == 0"
                             @click="showAttendedList=true">
                       {{$t('common.curation')}} ({{participant.length}} {{$t('common.people')}})>>
                     </button>
-                    <button v-if="speakerParticipant && speakerParticipant.length > 0" 
-                            class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                    <button class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            :disabled="!speakerParticipant || speakerParticipant.length == 0"
                             @click="showSpeakerModal=true">Space >></button>
                   </div>
                 </SpaceIncome>
@@ -374,8 +375,8 @@ export default {
       participant: [],
       speakerParticipant: [],
       count: 0,
-      participantLoading: false,
-      spaceInfoLoading: false,
+      participantLoading: true,
+      spaceInfoLoading: true,
       showAttendedList: false,
       spaceTabType: 'curation',
       tipUser: {},
@@ -457,10 +458,11 @@ export default {
       // this.listFinished = false
       // this.onLoad()
     },
-    getParticipant() {
-      if(this.participantLoading) return
+    async getParticipant() {
+      while(!this.curations || this.curations.length === 0) {
+        await sleep(0.2)
+      }
       const id = this.curationList[0].curationId;
-      this.participantLoading = true
       if (this.curationList[0].curationType === 2 && this.currentShowingDetail) {
         const spaceState = this.currentShowingDetail.spaceState;
         if (spaceState === 1 || spaceState === 2 || (spaceState === 4 && !this.spaceInfo)) {
@@ -493,8 +495,9 @@ export default {
     updateCurationInfo() {
       const postId = this.$route.params.postId
       if (!this.currentShowingDetail) return;
+
       // update tip info
-      if (this.count++ % 3 === 0 && this.curationList.length>0) this.getParticipant()
+      if (this.count++ % 3 === 0 && this.curations.length  > 0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {
           if (!res) return;
           this.tips = res
@@ -519,7 +522,12 @@ export default {
         this.$store.commit('saveShowLogin', true)
         return
       }
-      this.tipUser = user
+      this.tipUser = {
+        name: user.twitterName,
+        username: user.twitterUsername, 
+        twitterId: user.twitterId,
+        ethAddress: user.ethAddress
+      }
       this.showTip = true
     },
     createPromotion() {
