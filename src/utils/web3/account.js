@@ -10,11 +10,11 @@ import { CHAIN_ID } from '@/config.js'
  */
 export const getAccounts = async (update=false) => {
     const metamask = await getEthWeb()
-    const unlock = await metamask._metamask.isUnlocked()
-    if (!unlock) {
-        store.commit('web3/saveAccount', null);
-        return
-    }
+    // const unlock = await metamask._metamask.isUnlocked()
+    // if (!unlock) {
+    //     store.commit('web3/saveAccount', null);
+    //     return
+    // }
     
     if (parseInt(store.state.web3.chainId !== parseInt(CHAIN_ID))) {
         store.commit('web3/saveAccount', null)
