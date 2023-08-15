@@ -49,9 +49,9 @@
             </div>
           </div>
           <!--已结束-->
-<!--          <div class="w-3/7 text-right">{{ showingReward(record) }}</div>-->
+         <div v-if="space && space.isCalc" class="w-3/7 text-right">{{ showingReward(record) }}</div>
           <!--未开始/进行中-->
-          <div class="w-3/7 text-right">2023-04-27 01:37:54</div>
+          <div v-else class="w-3/7 text-right">{{ parseTimestamp(record.createAt) }}</div>
         </div>
       </van-list>
     </div>
@@ -118,10 +118,8 @@ export default {
     showingReward(reward) {
       let amount = 0;
       let p = 0;
-      if (reward.amount > 0) {
-        amount = reward.amount / (10 ** reward.decimals)
-      }else if (reward.estimateAmount > 0) {
-        amount = reward.estimateAmount / (10 ** reward.decimals)
+      if (reward.curateAmount > 0) {
+        amount = reward.curateAmount / (10 ** reward.decimals)
       }
       return `${formatAmount(amount)}(${formatPrice(amount * this.price)})`
     },

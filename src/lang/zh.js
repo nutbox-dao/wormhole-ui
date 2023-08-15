@@ -324,7 +324,7 @@ export default {
     requirements: '要求',
     details: '描述',
     host: '主持人',
-    coHost: '共同主持人',
+    coHost: '联合主持人',
     speaker: '发言人',
     coHosts: 'Co-Hosts',
     speakers: 'Speakers',

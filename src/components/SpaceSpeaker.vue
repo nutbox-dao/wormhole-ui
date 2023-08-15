@@ -80,7 +80,7 @@
           </div>
           <div class="flex-1 flex flex-col items-start is-justify-center truncate">
             <span class="text-center truncate">{{u.twitterName}}</span>
-            <span class="font-bold mt-8px text-14px text-color99">60分钟</span>
+            <span class="font-bold mt-8px text-14px text-color99">{{ u.speakerTime + ' Mins' }}</span>
           </div>
         </div>
         <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
@@ -99,7 +99,10 @@
 <script>
 import {getSpaceInfo} from "@/api/api";
 import TipModal from "@/components/TipModal.vue";
-import { formatAmount, formatPrice } from "@/utils/helper";
+import { formatAmount, formatPrice, sleep } from "@/utils/helper";
+import { mapState } from 'vuex'
+import { getPriceFromOracle } from "@/utils/asset";
+import { EVM_CHAINS_ID } from '@/config'
 
 export default {
   name: "SpaceSpeaker",
@@ -126,10 +129,12 @@ export default {
       speakers: [],
       tipModalVisible: false,
       tipToUser: {},
-      isCalc: false
+      isCalc: false,
+      price: 0
     }
   },
   computed: {
+    ...mapState('community', ['showingCommunity']),
     isCalc() {
       return this.space && this.space.isCalc
     },
@@ -157,14 +162,14 @@ export default {
       return url.replace('normal', '200x200')
     },
     gotoUserTwitter(user) {
-      window.open(`https://twitter.com/` + user.username)
+      window.open(`https://twitter.com/` + user.twitterUsername)
     },
     showingAmount(amount) {
-      const a = amount / (10 ** this.post.decimals)
-      return `${formatAmount(a)}(${formatPrice(a)})`
+      const a = amount / (10 ** this.space.decimals)
+      return `${formatAmount(a)}(${formatPrice(a * this.price)})`
     }
   },
-  mounted() {
+  async mounted() {
     this.isCalc = this.space && this.space.isCalc
     if (this.participant && this.participant.length > 0) {
       for (let p of this.participant) {
@@ -178,6 +183,16 @@ export default {
           }
         }
       }
+    }
+    if (this.showingCommunity && this.showingCommunity.rewardPrice) {
+      this.price = this.showingCommunity.rewardPrice
+    }else {
+      let count = 0
+      while(!this.space || count++ < 60) {
+        await sleep(0.1)
+      }
+      const prices = await getPriceFromOracle(EVM_CHAINS_ID[this.space.chainId], [{token: this.space.token, decimals: this.space.decimals}])
+      this.price = prices[this.space.token]
     }
   }
 }

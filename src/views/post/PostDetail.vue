@@ -68,7 +68,7 @@
                             class="flex-1 whitespace-nowrap text-color62 c-text-black"
                             :disabled="!participant || participant.length == 0"
                             @click="showAttendedList=true">
-                      {{$t('common.curation')}} ({{participant.length}} {{$t('common.people')}})>>
+                      {{$t('common.curator')}} >>
                     </button>
                     <button class="flex-1 whitespace-nowrap text-color62 c-text-black"
                             :disabled="!speakerParticipant || speakerParticipant.length == 0"
@@ -159,6 +159,7 @@
                                      :records="participant"
                                      :post="currentShowingDetail"
                                      :curation="curationList[0]"
+                                     :space="spaceInfo"
                                      @close="showAttendedList=false">
                   </SpaceAttendedList>
                 </div>
@@ -250,13 +251,14 @@
                              :records="participant"
                              :post="currentShowingDetail"
                              :curation="curationList[0]"
+                             :space="spaceInfo"
                              @close="showAttendedList=false">
             <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
               <div class="c-text-black text-16px py-6px">
                 {{$t('curation.participants')}}
               </div>
               <div class="h-24px flex items-center text-12px">
-                {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
+                {{$t('curation.attendedNum', {num:participant.length})}}
               </div>
             </div>
           </SpaceAttendedList>
@@ -465,7 +467,7 @@ export default {
       const id = this.curationList[0].curationId;
       if (this.curationList[0].curationType === 2 && this.currentShowingDetail) {
         const spaceState = this.currentShowingDetail.spaceState;
-        if (spaceState === 1 || spaceState === 2 || (spaceState === 4 && !this.spaceInfo)) {
+        if (spaceState === 1 || spaceState === 2 || (spaceState === 3 && !this.spaceInfo)) {
           this.spaceInfoLoading = true
           getSpaceInfo(this.currentShowingDetail.spaceId).then(res => {
             this.spaceInfo = res ?? []

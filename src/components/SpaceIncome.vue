@@ -8,10 +8,17 @@
         <button v-else-if="space.spaceState === 4"
                 class="text-white h-24px bg-color62 px-10px rounded-full text-12px">{{$t('space.unsettlement')}}</button>
       </div>
-      <div v-if="isSettle" class="px-15px pb-8px">
-        <BlogReward :is-popover="false" :post="space">
-          <template #default><div></div></template>
-        </BlogReward>
+      <div v-if="isSettle" class="px-14px pb-8px flex justify-between items-center">
+        <div></div>
+        <div class="px-18px bg-color62 rounded-full h-36px px-10px text-white text-14px flex items-center">
+          <span class="font-bold">
+            {{ formatAmount(totalAmount) }} {{ space.tokenSymbol }}
+          </span>
+          &nbsp;
+          <span class="font-bold orange-color">
+            ({{ formatPrice(totalAmount * price) }})
+          </span>
+        </div>
       </div>
       <div class="grid grid-cols-2 gap-10px px-15px pb-15px">
         <div class="col-span-1 border-0.5px border-color8B/30 rounded-10px p-8px">
@@ -88,6 +95,8 @@ import Countdown from "@/components/Countdown.vue";
 import BlogReward from "@/components/BlogReward.vue";
 import { mapState } from 'vuex'
 import { formatAmount, formatPrice } from "@/utils/helper";
+import { getPriceFromOracle } from "@/utils/asset";
+import { EVM_CHAINS_ID } from '@/config'
 
 export default {
   name: "SpaceIncome",
@@ -99,29 +108,45 @@ export default {
     },
   },
   computed: {
+    ...mapState('community', ['showingCommunity']),
     isSettle() {
       return this.space.isCalc 
     },
     pendingCalc() {
-      return this.space.spaceState = 4 && !this.isSettle;
+      return this.space.spaceState = 3 && !this.isSettle;
+    },
+    totalAmount() {
+      if (this.space.amount) {
+        return parseFloat(this.space.amount / (10 ** this.space.decimals))
+      }
+      return 0
     },
     amount() {
-      if (this.space.amount) {
-        let a = parseFloat(this.space.amount / (10 ** this.space.decimals));
-        a = formatAmount(a / 4);
-        return a; 
-      }
-      return 0;
-    }
+      return formatAmount(this.totalAmount / 4);
+    },
+  },
+  methods: {
+    formatAmount,
+    formatPrice
   },
   data() {
     return {
-      
+      price: 0
     }
-  }
+  },
+  async mounted () {
+    if (this.showingCommunity && this.showingCommunity.rewardPrice) {
+      this.price = this.showingCommunity.rewardPrice
+    }else {
+      const prices = await getPriceFromOracle(EVM_CHAINS_ID[this.space.chainId], [{token: this.space.token, decimals: this.space.decimals}])
+      this.price = prices[this.space.token]
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.orange-color {
+  color: #e0792a
+}
 </style>
