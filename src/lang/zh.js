@@ -16,7 +16,7 @@ export default {
   faucet: '水龙头',
   logout: '登出',
   myWallet: '我的钱包',
-  myReward: '我的奖励',
+  myReward: '策展奖励',
   search: '搜索',
   noRelatedUser: '没有相关的用户信息',
   noRelatedTags: '没有相关的话题信息',
@@ -142,6 +142,7 @@ export default {
     historyRecord: '历史记录',
     communityReward: '社区奖励',
     promotionReward: '推广奖励',
+    spaceReward: 'Space奖励',
     withdraw: '提现',
   },
   token: {

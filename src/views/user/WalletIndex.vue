@@ -11,6 +11,12 @@
             {{$t('myReward')}}
           </button>
         </router-link>
+        <router-link :to="`/wallet/${$route.params.user}/space-reward`" v-slot="{isActive}">
+          <button class="w-full h-48px flex items-center justify-center px-15px whitespace-nowrap"
+                  :class="isActive?'c-active-tab text-color62':'text-color7D'">
+            {{$t('walletView.spaceReward')}}
+          </button>
+        </router-link>
         <router-link :to="`/wallet/${$route.params.user}/promotion-reward`" v-slot="{isActive}">
           <button class="w-full h-48px flex items-center justify-center px-15px whitespace-nowrap"
                   :class="isActive?'c-active-tab text-color62':'text-color7D'">

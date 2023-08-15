@@ -16,7 +16,7 @@ export default {
   faucet: 'Faucet',
   logout: 'Log out',
   myWallet: 'My wallet',
-  myReward: 'My reward',
+  myReward: 'Curation reward',
   search: 'Search',
   noRelatedUser: 'No related user info',
   noRelatedTags: 'No related tag info',
@@ -141,7 +141,8 @@ export default {
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',
-    promotionRewardL: 'Promotion reward',
+    promotionReward: 'Promotion reward',
+    spaceReward: 'Space reward',
     withdraw: 'Withdraw',
   },
   token: {

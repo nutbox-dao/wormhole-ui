@@ -39,6 +39,7 @@ import InfoIndex from "@/views/info/InfoIndex";
 import QuoteTree from '@/views/Tree';
 import ReferralView from '@/views/referral/Index'
 import ReferralReward from '@/views/user/ReferralRewardView'
+import SpaceReward from '@/views/user/SpaceRewardView';
 import RewardPromotion from "@/views/user/RewardPromotion.vue";
 
 const routes = [
@@ -135,6 +136,12 @@ const routes = [
         path: '/wallet/:user/reward',
         name: 'reward',
         component: RewardView,
+        meta: {gotoHome: true}
+      },
+      {
+        path: '/wallet/:user/space-reward',
+        name: 'space-reward',
+        component: SpaceReward,
         meta: {gotoHome: true}
       },
       {
