@@ -35,7 +35,7 @@
           <span class="text-center truncate">{{host.twitterName}}</span>
         </div>
         <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
-          <div v-if="isCalc">0.00($0.00)</div>
+          <div v-if="isCalc">{{ showingAmount(host.hostAmount) }}</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', host)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -58,7 +58,7 @@
           <span class="text-center truncate">{{u.twitterName}}</span>
         </div>
         <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
-          <div v-if="isCalc">0.00($0.00)</div>
+          <div v-if="isCalc">{{ showingAmount(u.hostAmount) }}</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -84,7 +84,7 @@
           </div>
         </div>
         <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
-          <div v-if="isCalc">{{ '00' }}</div>
+          <div v-if="isCalc">{{ showingAmount(u.speakerAmount) }}</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -99,6 +99,7 @@
 <script>
 import {getSpaceInfo} from "@/api/api";
 import TipModal from "@/components/TipModal.vue";
+import { formatAmount, formatPrice } from "@/utils/helper";
 
 export default {
   name: "SpaceSpeaker",
@@ -157,6 +158,10 @@ export default {
     },
     gotoUserTwitter(user) {
       window.open(`https://twitter.com/` + user.username)
+    },
+    showingAmount(amount) {
+      const a = amount / (10 ** this.post.decimals)
+      return `${formatAmount(a)}(${formatPrice(a)})`
     }
   },
   mounted() {
