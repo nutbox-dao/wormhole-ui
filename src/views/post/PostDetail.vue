@@ -61,20 +61,22 @@
                             flex lg:hidden justify-between items-center">
                   <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
                 </div>
-                <SpaceIncome class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
-                             :space="currentShowingDetail">
+                <SpaceIncome v-if="spaceInfo" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
+                             :space="spaceInfo">
                   <div class="border-t-1 border-color8B/30 light:border-colorE3 flex items-center justify-between h-44px">
-                    <button v-if="participant.length>0" class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                    <button v-if="participant && participant.length>0" 
+                            class="flex-1 whitespace-nowrap text-color62 c-text-black"
                             @click="showAttendedList=true">
-                      {{$t('common.curation')}} ({{participant[0].totalCount}} {{$t('common.people')}})>>
+                      {{$t('common.curation')}} ({{participant.length}} {{$t('common.people')}})>>
                     </button>
-                    <button class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                    <button v-if="speakerParticipant && speakerParticipant.length > 0" 
+                            class="flex-1 whitespace-nowrap text-color62 c-text-black"
                             @click="showSpeakerModal=true">Space >></button>
                   </div>
                 </SpaceIncome>
               </template>
               <template v-else>
-                <div v-if="curationLoading|| participantLoading"
+                <div v-if="curationLoading || participantLoading"
                      class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
                             flex lg:hidden justify-between items-center">
                   <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
@@ -83,7 +85,7 @@
                      class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
                             flex lg:hidden justify-between items-center">
                   <span class="flex-1 text-left">
-                    {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
+                    {{$t('curation.attendedNum', {num:(participant[0].totalCount ?? participant.length)})}}
                   </span>
                   <div class="flex items-center" @click="showAttendedList=true">
                     <div v-for="p of participant.slice(0,3)" :key="p">
@@ -151,21 +153,13 @@
                     <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
                     <div class="text-12px text-color8B mt-10px">{{$t('common.none')}}</div>
                   </div>
-                  <!-- <SpaceAttendedList class="flex-1 overflow-hidden"
-                                     v-else-if="curationList.length>0"
+                  <SpaceAttendedList class="flex-1 overflow-hidden"
+                                     v-else-if="participant.length>0"
                                      :records="participant"
                                      :post="currentShowingDetail"
                                      :curation="curationList[0]"
                                      @close="showAttendedList=false">
-                    <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
-                      <div class="c-text-black text-16px py-6px">
-                        {{$t('curation.participants')}}
-                      </div>
-                      <div class="h-24px flex items-center text-12px">
-                        {{$t('curation.attendedNum', {num:participant.length>0?participant[0].totalCount:'--'})}}
-                      </div>
-                    </div>
-                  </SpaceAttendedList> -->
+                  </SpaceAttendedList>
                 </div>
                 <div class="flex-1 overflow-auto">
                   <SpaceSpeaker v-show="spaceTabType==='space'"
@@ -347,11 +341,6 @@ export default {
       }
       return []
     },
-  },
-  watch: {
-    curationList(val) {
-      if(val.length>0) this.getParticipant()
-    }
   },
   setup() {
     const { width, height } = useWindowSize();
