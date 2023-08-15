@@ -63,7 +63,7 @@
         </div>
         <div class="flex-1 rounded-12px
                     min-h-154px bg-tag-gradient overflow-hidden relative">
-          <div class="p-17px 2xl:p-1rem flex flex-col justify-between">
+          <div class="p-17px 2xl:p-1rem min-h-154px flex flex-col justify-between">
             <div class="w-full flex justify-between items-center text-14px mb-10px">
               <div class="flex items-center">
                 <img v-if="space.spaceProfileImg"

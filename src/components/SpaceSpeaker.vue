@@ -34,8 +34,8 @@
           </div>
           <span class="text-center truncate">{{host.twitterName}}</span>
         </div>
-        <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
-          <div></div>
+        <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
+          <div>0.00($0.00)</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', host)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -57,8 +57,8 @@
           </div>
           <span class="text-center truncate">{{u.twitterName}}</span>
         </div>
-        <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
-          <div></div>
+        <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
+          <div>0.00($0.00)</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
             <img class="h-16px mr-4px" src="~@/assets/tips-img.svg" alt="">
@@ -80,7 +80,7 @@
           </div>
           <span class="text-center truncate">{{u.twitterName}}</span>
         </div>
-        <div class="pl-10px pt-10px flex items-center flex-1 justify-between">
+        <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
           <div>{{ u.speakerTime }} min</div>
           <button class="bg-color62 rounded-full h-28px px-10px text-white text-12px flex items-center"
                   @click="$emit('tip', u)">
@@ -127,7 +127,7 @@ export default {
   },
   computed: {
     isCalc() {
-      return this.space && this.space.isCalc 
+      return this.space && this.space.isCalc
     },
     host() {
       if (this.participant && this.post) {
