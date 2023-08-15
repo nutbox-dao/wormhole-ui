@@ -78,7 +78,10 @@
                  src="~@/assets/icon-default-avatar.svg" alt="">
             <img class="absolute -top-10px -left-8px" src="~@/assets/tag-speaker.svg" alt="">
           </div>
-          <span class="text-center truncate">{{u.twitterName}}</span>
+          <div class="flex-1 flex flex-col items-start is-justify-center truncate">
+            <span class="text-center truncate">{{u.twitterName}}</span>
+            <span class="font-bold mt-8px text-14px text-color99">60分钟</span>
+          </div>
         </div>
         <div class="pl-10px pt-10px flex-1 flex flex-col justify-center items-end gap-5px">
           <div v-if="isCalc">{{ '00' }}</div>

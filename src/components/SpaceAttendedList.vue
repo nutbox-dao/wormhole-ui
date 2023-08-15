@@ -17,6 +17,7 @@
                     :steem-id="record.steemId"
                     :eth-address="record.ethAddress"
                     :reputation="record.reputation"
+                    :teleported="list.length<5"
                     @gotoUserPage="$router.push({path : '/account-info/@' + record.twitterUsername})">
               <template #avatar-img>
                 <img class="w-30px min-w-30px h-30px rounded-full border-1 gradient-border cursor-pointer bg-color8B/10"
