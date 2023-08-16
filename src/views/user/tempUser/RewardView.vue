@@ -79,7 +79,6 @@
                   @click="tabIndex=1">{{$t('common.post')}}</button>
         </div> -->
         <RewardCuration :rewards="showingList" :chain-name="chainTab >= chainNames.length ? 'BNB Smart Chain' : chainNames[chainTab]"/>
-        <!-- <RewardPost v-show="tabIndex===1"/> -->
       </div>
       <div v-else-if="loading[chainTab]" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -95,7 +94,6 @@
 import { mapGetters, mapState } from 'vuex'
 import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
-import RewardPost from "@/views/user/RewardPost";
 import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS } from '@/config';
@@ -105,7 +103,7 @@ import { formatAmount } from '@/utils/helper'
 import { setCurationIsFeed } from '@/api/api'
 
 export default {
-  components: {RewardCuration, RewardPost, ChainTokenIcon},
+  components: {RewardCuration, ChainTokenIcon},
   props: {
     twitterId: {
       type: String,

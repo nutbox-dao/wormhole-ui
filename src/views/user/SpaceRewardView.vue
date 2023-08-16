@@ -43,7 +43,8 @@ import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { setCurationIsFeed,
   getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed,
-  setCommunityAuthorRewardClaimed, getPendingClaimSummary } from '@/api/api'
+  setCommunityAuthorRewardClaimed, getPendingClaimSummary,
+  getSpaceCurationRewardList } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import ReferralRewardItem from "@/components/ReferralRewardItem";
@@ -94,9 +95,9 @@ export default {
     formatAddress,
     formatAmount,
     onRefresh() {
-      this.getCommunityRewardsM(true);
+      this.getSpaceCurationRewards(true);
     },
-    async getCommunityRewardsM(force = false) {
+    async getSpaceCurationRewards(force = false) {
       try{
         if (this.loadingCommunityRewards) return;
         this.loadingCommunityRewards = true;
@@ -132,23 +133,13 @@ export default {
         this.connecting = false
       }
     },
-    checkboxGroupChange(token) {
-      const index = this.checkRewardList.indexOf(token)
-      if(index>=0) {
-        this.checkRewardList.splice(index, 1)
-      } else {
-        this.checkRewardList.push(token)
-      }
-    },
-    onLoad() {
-
-    }
   },
   mounted () {
     if (this.twitterId && !this.getAccountInfo) {
       this.needLogin = true
+      this.$router.push('/')
     }
-    this.getCommunityRewardsM(true);
+    this.getSpaceCurationRewards(true);
   },
 }
 </script>
