@@ -61,7 +61,7 @@
 <script>
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
-import { getAutoCurationRecord } from '@/api/api'
+import { spaceCurationRecord } from '@/api/api'
 import {getPriceFromOracle} from "@/utils/asset";
 import BlogReward from "@/components/BlogReward.vue";
 import {isNumeric} from "@/utils/tool";
@@ -130,10 +130,10 @@ export default {
         time = this.list[this.list.length - 1].createAt
       }
       this.listLoading = true
-      getAutoCurationRecord(this.curation.curationId, time).then(list=>{
+      spaceCurationRecord(this.space.curationId, time).then(list => {
         this.listFinished = list.length<30
         this.list = this.list.concat(list)
-      }).finally(r => {
+      }).catch(console.log).finally(() => {
         this.listLoading = false
       })
     }
