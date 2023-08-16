@@ -24,20 +24,14 @@
 <!-- this is for promotion reward -->
 <script>
 import { mapGetters, mapState } from 'vuex'
-import {ethers} from "ethers";
-import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
-import { getCurationRewardList } from "@/utils/account"
-import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
-import { checkCurationRewards, checkCommunityRewards, getClaimParas, claimRewards } from '@/utils/curation'
+import { checkCommunityRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed,
-  getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed,
-  setCommunityAuthorRewardClaimed } from '@/api/api'
+import { getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";
@@ -104,88 +98,11 @@ export default {
     selectTab(index) {
       this.chainTab = index;
       this.checkRewardList = []
-      // this.getRecords()
     },
     onRefresh() {
       this.isRefresh = true
-      // this.getRecords(true);
       this.getCommunityRewardsM(true);
       this.isRefresh = false
-    },
-    async getRecords(force = false) {
-      const index = this.chainTab;
-      try{
-        const currentList = this.rewardLists[index];
-        if (currentList && currentList.length > 0 && !force) {
-          return;
-        }
-        this.loading[index] = true
-
-        const records = await getCurationRewardList(this.getAccountInfo.twitterId, this.chainIds[index]);
-        if (records && records.length > 0) {
-          const claimed = await checkCurationRewards(this.chainNames[index], this.getAccountInfo.twitterId, records.map(r => r.curationId));
-          let result = [];
-          let claimedIds = [];
-          for (let i = 0; i < claimed.length; i++) {
-            if (!claimed[i]) {
-              result.push(records[i])
-              // getCurationDetail(this.chainNames[index], records[i].curationId)
-            }else {
-              claimedIds.push(records[i].curationId)
-            }
-          }
-          if (claimedIds.length > 0) {
-            setCurationIsFeed(this.getAccountInfo.twitterId, claimedIds).then().catch(e => {
-              console.error('set auto curation feed fail:', e)
-            });
-          }
-          this.rewardLists[index] = result
-          this.$store.commit('curation/saveRewardLists', this.rewardLists)
-          getPriceFromOracle(this.chainNames[index], result).then(res => {
-            this.prices[index] = res;
-          })
-
-        }else {
-          this.rewardLists[index] = [];
-          this.$store.commit('curation/saveRewardLists', this.rewardLists)
-        }
-      } catch(e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-        }
-        console.log('error', e);
-      } finally {
-        this.loading[index] = false
-      }
-    },
-    async claimReward() {
-      try{
-        const index = this.chainTab
-
-        const chainName = this.chainNames[index]
-        const selectTokens = Object.values(this.checkRewardList);
-        if (selectTokens.length === 0) {
-          return;
-        }
-        this.claiming = true
-        const ids = this.showingList.filter(r => selectTokens.indexOf(r.token) !== -1).map(r => r.curationId);
-        const { chainId, amounts, curationIds, ethAddress, sig, twitterId } = await getClaimParas(chainName, this.getAccountInfo.twitterId, ids)
-        const hash = await claimRewards(chainName, twitterId, ethAddress, curationIds, amounts, sig);
-        await setCurationIsFeed(twitterId, ids);
-        this.rewardLists[index] = [];
-        this.$store.commit('curation/saveRewardLists', this.rewardLists);
-        this.getRecords();
-      } catch(e) {
-        if (e === 'log out') {
-          this.$store.commit('saveShowLogin', true)
-          this.$route.push('/')
-          return;
-        }
-        console.log('Claim failed:', e);
-        notify({message: this.$t('err.transErr'), type: 'error'})
-      } finally {
-        this.claiming = false
-      }
     },
     async getCommunityRewardsM(force = false) {
       try{
@@ -200,37 +117,6 @@ export default {
             getCommunityPendingRewards(this.getAccountInfo.twitterId),
             getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
 
-          // check claimed
-        let allRewards = rewards.concat(authorRewards);
-        if (allRewards.length === 0) return;
-        let allRewardsByChain = {};
-        for (let r of allRewards) {
-          if (!allRewardsByChain[r.chainId]){
-            allRewardsByChain[r.chainId] = []
-          }
-          allRewardsByChain[r.chainId].push(r)
-        }
-        let results = await Promise.all(Object.keys(allRewardsByChain).map(chainId =>
-                        checkCommunityRewards(EVM_CHAINS_ID[chainId],
-                        this.getAccountInfo?.twitterId,
-                        allRewardsByChain[chainId])))
-        results = results.reduce((r, t) => ({...r, ...t}), {})
-        let allReadyClaimedReward = {};
-        Object.keys(results).filter(key => results[key]).forEach(key => {
-          allReadyClaimedReward[key] = results[key]
-        })
-        const claimedIds = Object.keys(allReadyClaimedReward)
-        // set Claimed
-        if (claimedIds.length > 0) {
-          let claimedCuration = rewards.filter(r => claimedIds.find(c => c === r.curationId));
-          let claimedAuthorCuration = authorRewards.filter(r => claimedIds.find(c => c === r.curationId));
-          await Promise.all([setCommunityRewardClaimed(this.getAccountInfo?.twitterId, claimedCuration.map(r => r.curationId)),
-          setCommunityAuthorRewardClaimed(this.getAccountInfo?.twitterId, claimedAuthorCuration.map(r => r.curationId))]).catch(e => {
-            console.log('set curation distribute fail', e)
-          })
-          rewards = rewards.filter(r => claimedIds.find(c => c !== r.curationId));
-          authorRewards = authorRewards.filter(r => claimedIds.find(c => c !== r.curationId));
-        }
         if (rewards && rewards.length > 0) {
           this.$store.commit('curation/saveCommunityRewards', rewards)
         }
@@ -275,7 +161,6 @@ export default {
     if (this.twitterId && !this.getAccountInfo) {
       this.needLogin = true
     }
-    // this.getRecords(true);
     this.getCommunityRewardsM(true);
     accountChanged().catch()
     getAccounts(true).then(wallet => {

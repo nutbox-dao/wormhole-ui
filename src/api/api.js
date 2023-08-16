@@ -226,6 +226,18 @@ export const spaceCurationRecord = async (curationId, createAt, isFeed) =>
 export const spaceSpeakerRecord = async (curationId) =>
     get(BACKEND_API_URL + '/space/speakerRecord', { curationId })
 
+export const getSpaceCurationRewardList = async (twitterId, createAt) =>
+    get(BACKEND_API_URL + '/space/getSpaceCurationRewardList', { twitterId, createAt })
+
+export const getSpaceCurationHistoryRewardList = async (twitterId, communityId, createAt) => 
+    get(BACKEND_API_URL + '/space/getSpaceCurationHistoryRewardList', { twitterId, communityId, createAt })
+
+export const getSpaceClaimRewardsParas = async (communityId, twitterId, ids) =>
+    post(BACKEND_API_URL + '/space/getSpaceClaimRewardsParas', {communityId, twitterId, ids})
+
+export const setSpaceRewardClaimed = async (twitterId, curationIds, orderId, transHash) =>
+    post(BACKEND_API_URL +'/space/setSpaceRewardClaimed', {twitterId, curationIds, orderId, transHash})
+
 /****************************************  topics  ***********************************************/
 export const getPopularTopics = async () =>
     get(BACKEND_API_URL + '/post/getTrendingTags')

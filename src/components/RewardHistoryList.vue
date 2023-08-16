@@ -24,7 +24,10 @@
                             :chainName="EVM_CHAINS_ID[chainId || community.chainId]">
               <template #amount>
                     <span class="px-8px c-text-black whitespace-nowrap flex items-center text-14px 2xl:text-0.8rem">
-                      {{ formatAmount(item.amount ? item.amount.toString() / ( 10 ** item.decimals) : 0) + ' ' + item.tokenSymbol }}
+                      {{ formatAmount(type === 'space' 
+                        ? item.totalAmount 
+                        : (item.amount ? item.amount.toString() / ( 10 ** item.decimals) : 0)) + ' ' + item.tokenSymbol 
+                      }}
                     </span>
               </template>
             </ChainTokenIcon>
@@ -45,7 +48,7 @@
 <script>
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {formatAmount, parseTimestamp} from "@/utils/helper";
-import { curationRewardListHistory, getCommunityHistoryRewards, getCommunityAuthorHistoryRewards } from '@/api/api';
+import { curationRewardListHistory, getCommunityHistoryRewards, getCommunityAuthorHistoryRewards, getSpaceCurationHistoryRewardList } from '@/api/api';
 import { mapGetters } from "vuex";
 import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
 
@@ -111,12 +114,16 @@ export default {
         if (this.type === 'promotion') {
           list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId, this.list[this.list.length - 1].createAt);
           this.list = this.list.concat(list);
+        }else if (this.type === 'space') {
+          list = await getSpaceCurationHistoryRewardList(this.getAccountInfo.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
+          list = this.handleSpaceRewardsAmount(list)
+          this.list = this.list.concat(list);
         }else {
           if (this.isAuthor) {
-            const list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
+            list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
             this.list = this.list.concat(list);
           }else {
-            const list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
+            list = await getCommunityHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId, this.list[this.list.length - 1].createAt)
             this.list = this.list.concat(list);
           }
         }
@@ -139,6 +146,10 @@ export default {
         if (this.type === 'promotion') {
           list = await curationRewardListHistory(this.getAccountInfo.twitterId, this.chainId);
           this.list = list;
+        }else if (this.type === 'space') {
+          list = await getSpaceCurationHistoryRewardList(this.getAccountInfo.twitterId, this.community.communityId)
+          list = this.handleSpaceRewardsAmount(list)
+          this.list = list;
         }else {
           if (this.isAuthor) {
             list = await getCommunityAuthorHistoryRewards(this.getAccountInfo?.twitterId, this.community.communityId)
@@ -160,6 +171,16 @@ export default {
     gotoDetail(curation) {
       this.$store.commit('postsModule/saveCurrentShowingDetail', null);
       this.$router.push('/post-detail/' + curation.tweetId);
+    },
+    handleSpaceRewardsAmount(rewards) {
+      if (rewards.length == 0) return rewards;
+      rewards.forEach(r => {
+        r.hostNum = r.hostAmount / (10 ** r.decimals);
+        r.speakerNum = r.speakerAmount / (10 ** r.decimals);
+        r.curateNum = r.curateAmount / (10 ** r.decimals);
+        r.totalAmount = r.hostNum + r.speakerNum + r.curateNum;
+      });
+      return rewards;
     }
   },
   mounted () {

@@ -3,7 +3,8 @@ import { checkAccessToken, logout } from '@/utils/account'
 import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAuthorPendingRewards as gcapr,
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
-    getJoinCommunityState as gjcs, getCommunities as gcs } from '@/api/api'
+    getJoinCommunityState as gjcs, getCommunities as gcs, getSpaceClaimRewardsParas as gscrp,
+    setSpaceRewardClaimed as ssrc } from '@/api/api'
 import { EVM_CHAINS, EVM_CHAINS_ID, errCode } from '@/config';
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 
@@ -40,11 +41,38 @@ export const getCommunityClaimAuthorRewardsParas = async (communityId, twitterId
     }
 }
 
+export const getSpaceClaimRewardsParas = async (communityId, twitterId, ids) => {
+    await checkAccessToken();
+    try {
+        const params = await gscrp(communityId, twitterId, ids)
+        return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
 export const setCommunityRewardClaimed = async (twitterId, ids, orderId, transHash) => {
     await checkAccessToken();
     try {
         const params = await scrc(twitterId, ids, orderId, transHash)
         return params;
+    } catch (e) {
+        if (e === 401) {
+            await logout(twitterId)
+            throw 'log out'
+        }
+        throw e
+    }
+}
+
+export const setSpaceRewardClaimed = async (twitterId, ids, orderId, transHash) => {
+    await checkAccessToken();
+    try {
+        return await ssrc(twitterId, ids, orderId, transHash)
     } catch (e) {
         if (e === 401) {
             await logout(twitterId)

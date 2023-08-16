@@ -13,23 +13,17 @@
               @load="onLoad">
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
         <div class="mt-30px">
-          <div v-if="(!inviteRewards || Object.keys(inviteRewards).length === 0)" class="py-2rem">
+          <img v-if="loadingSpaceRewards && getSpaceRewardCommunityInfo.length===0"
+               class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+          <div v-else-if="(!getSpaceRewardCommunityInfo || getSpaceRewardCommunityInfo.length === 0)" class="py-2rem">
             <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
             <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
           </div>
-          <ReferralRewardItem v-else v-for="communityId of Object.keys(inviteRewards)" :key="communityId"
-                              :community-id="communityId"></ReferralRewardItem>
+          <SpaceRewardItem v-else v-for="communityId of getSpaceRewardCommunityInfo" :key="communityId"
+                              :community-id="communityId"></SpaceRewardItem>
         </div>
       </div>
     </van-list>
-
-    <el-dialog v-model="historyModalVisible"
-               class="c-dialog c-dialog-lg c-dialog-center c-dialog-no-bg c-dialog-no-shadow">
-      <RewardHistoryList
-        :chain-id="chainIds[chainTab]"
-        :type="'promotion'"
-          class="max-h-70vh overflow-hidden bg-blockBg light:bg-white p-15px rounded-12px"></RewardHistoryList>
-    </el-dialog>
   </van-pull-refresh>
 </template>
 <!-- this is for promotion reward -->
@@ -41,18 +35,15 @@ import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { setCurationIsFeed,
-  getCommunityPendingRewards, getCommunityAuthorPendingRewards, setCommunityRewardClaimed,
-  setCommunityAuthorRewardClaimed, getPendingClaimSummary,
-  getSpaceCurationRewardList } from '@/api/api'
+import { getSpaceCurationRewardList } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
-import ReferralRewardItem from "@/components/ReferralRewardItem";
+import SpaceRewardItem from "@/components/SpaceRewardItem";
 
 import RewardHistoryList from "@/components/RewardHistoryList";
 
 export default {
-  components: {ReferralRewardItem, RewardHistoryList},
+  components: {SpaceRewardItem, RewardHistoryList},
   name: 'SpaceRewardView',
   setup() {
     const {width} = useWindowSize()
@@ -70,7 +61,7 @@ export default {
       checkRewardList: [],
       TokenIcon,
       historyModalVisible: false,
-      loadingCommunityRewards: false,
+      loadingSpaceRewards: false,
       collapseNames: [],
       listLoading: false,
       listFinished: false
@@ -78,9 +69,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
+    ...mapGetters('curation', ['getSpaceCommunityRewards', 'getSpaceRewardCommunityInfo']),
     ...mapState('web3', ['chainId', 'account']),
-    ...mapState('curation', ['rewardLists', 'communityRewards', 'communityAuthorRewards', 'inviteRewards']),
+    ...mapState('curation', ['rewardLists', 'spaceRewards']),
     chainNames() {
       return Object.keys(EVM_CHAINS)
     },
@@ -99,22 +90,23 @@ export default {
     },
     async getSpaceCurationRewards(force = false) {
       try{
-        if (this.loadingCommunityRewards) return;
-        this.loadingCommunityRewards = true;
-        const currentList = this.inviteRewards;
+        if (this.loadingSpaceRewards) return;
+        this.loadingSpaceRewards = true;
+        const currentList = this.spaceRewards;
         if (currentList && Object.keys(currentList).length > 0 && !force) {
           return;
         }
-        let summary = await getPendingClaimSummary(this.getAccountInfo.twitterId)
+        let allRecords = await getSpaceCurationRewardList(this.getAccountInfo.twitterId)
+        allRecords = this.handleRewardsAmount(allRecords);
 
-        this.$store.commit('curation/saveInviteRewards', summary)
+        this.$store.commit('curation/saveSpaceRewards', allRecords ?? [])
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
         }
         console.log('error', e);
       } finally {
-        this.loadingCommunityRewards = false
+        this.loadingSpaceRewards = false
       }
     },
     async connect() {
@@ -133,6 +125,16 @@ export default {
         this.connecting = false
       }
     },
+    handleRewardsAmount(rewards) {
+      if (rewards.length == 0) return rewards;
+      rewards.forEach(r => {
+        r.hostNum = r.hostAmount / (10 ** r.decimals);
+        r.speakerNum = r.speakerAmount / (10 ** r.decimals);
+        r.curateNum = r.curateAmount / (10 ** r.decimals);
+        r.totalAmount = r.hostNum + r.speakerNum + r.curateNum;
+      });
+      return rewards;
+    }
   },
   mounted () {
     if (this.twitterId && !this.getAccountInfo) {
