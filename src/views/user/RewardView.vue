@@ -27,7 +27,6 @@ import { mapGetters, mapState } from 'vuex'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
-import RewardCuration from "@/views/user/RewardCuration";
 import { getCurationRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
@@ -45,7 +44,7 @@ import CommunityRewardItem from "@/components/community/CommunityRewardItem";
 import RewardHistoryList from "@/components/RewardHistoryList";
 
 export default {
-  components: {RewardCuration, ChainTokenIcon, CommunityRewardItem, RewardHistoryList},
+  components: { ChainTokenIcon, CommunityRewardItem, RewardHistoryList},
   setup() {
     const {width} = useWindowSize()
     return {
