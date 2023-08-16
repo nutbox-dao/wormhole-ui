@@ -222,8 +222,9 @@ export default {
     insufficientVP: "Insufficient VP",
     selectCommunityTag: "Please selet a community to post.",
     loginExpire: 'Login expired, please login again',
-    likeTooFrequent: `You can only "like" max. 5 times within a 15 minute period. Please try again later.`,
-    retweetTooFrequent: `You can only "retweet" max. 5 times within a 15 minute period. Please try again later.`
+    likeTooFrequent: `You can only "like" max. 50 times within a 15 minute period. Please try again later.`,
+    retweetTooFrequent: `You can only "retweet" max. 50 times within a 15 minute period. Please try again later.`,
+    quoteTooFrequent: `You can only "quote" max. 50 times within a 15 minute period. Please try again later.`
   },
   ref: {
     referre: 'Invitation',

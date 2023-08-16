@@ -565,6 +565,10 @@ export default {
           notify({message: this.$t('tips.insufficientVP'), type: 'info', duration: 5000});
           return;
         }
+        if (e === errCode.TWITTER_ERROR) {
+          notify({message: this.$t('tips.quoteTooFrequent'), type: 'info', duration: 5000});
+          return;
+        }
         notify({message: e, type: 'error'})
       } finally {
         this.isQuoting = false
