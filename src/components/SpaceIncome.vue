@@ -22,7 +22,7 @@
       </div>
       <div class="grid grid-cols-2 gap-10px px-15px pb-15px">
         <div class="col-span-1 border-0.5px border-color8B/30 rounded-10px p-8px">
-          <div class="flex justify-between items-center text-12px ">
+          <div class="flex justify-between items-center text-12px text-color8B light:text-color7D">
             <div class="flex items-center gap-4px">
               <img class="w-14px h-14px min-w-14px"
                    src="~@/assets/icon-curator-primary.svg" alt="">
