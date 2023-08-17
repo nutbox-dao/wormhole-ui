@@ -30,26 +30,54 @@
                src="@/assets/icon-default-avatar.svg" v-else alt="">
         </template>
       </Avatar>
+      
       <div class="flex-1 flex justify-between sm:items-center">
-        <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
-          <div class="flex items-center sm:mr-6px">
-            <div class="flex items-center flex-wrap">
-              <a class="c-text-black text-left cursor-pointer
-                        text-16px leading-18px  light:text-blueDark"
-                 @click.stop="gotoUserPage()">{{ space.spaceTwitterName }}</a>
+          <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
+            <div class="flex items-center sm:mr-6px">
+              <div class="flex items-center flex-wrap">
+                <a class="c-text-black text-left cursor-pointer
+                      text-16px leading-18px  light:text-blueDark"
+                   @click.stop="gotoUserPage()">{{ space.spaceTwitterName }}</a>
+              </div>
+              <div @click.stop class="ml-4px flex items-center sm:hidden">
+                <el-tooltip>
+                  <template #content>
+                    <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+                  </template>
+                  <button @click="gotoTweet($event)"
+                          class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+                    <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+                  </button>
+                </el-tooltip>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center id-time">
+            <div class="flex items-center id-time">
               <span class="text-12px leading-18px  text-color8B light:text-color7D">
                 @{{ space.spaceTwitterUsername }}
               </span>
-            <span class="mx-4px text-color8B light:text-color7D"> · </span>
-            <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
+              <span class="mx-4px text-color8B light:text-color7D"> · </span>
+              <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
                {{ parseTimestamp(space.postTime) }}
               </span>
+            </div>
+            <div class="ml-4px items-center hidden sm:flex">
+              <el-tooltip>
+                <template #content>
+                  <span class="text-white light:text-black">{{$t('curation.blogTweetTip')}}</span>
+                </template>
+                <button @click="gotoTweet($event)"
+                        class="text-white ml-6px flex justify-center items-center w-16px h-16px rounded-full disabled-no-opacity">
+                  <img class="w-16px h-16px" src="~@/assets/icon-twitter-blue.svg" alt="">
+                </button>
+              </el-tooltip>
+            </div>
           </div>
+          <slot name="blog-reward">
+            <BlogReward :post="post" class="ml-10px">
+              <slot name="curation-time"></slot>
+            </BlogReward>
+          </slot>
         </div>
-      </div>
     </div>
     <div class="flex mt-5px sm:mt-0 relative">
       <div v-if="showAvatar"
@@ -244,6 +272,10 @@ export default {
         }
       }
       return ''
+    },
+    gotoTweet(e) {
+      e.stopPropagation();
+      window.open(`https://twitter.com/${this.space.spaceTwitterUsername}/status/${this.space.postId}`)
     },
     gotoUserPage() {
       this.$router.push('/account-info/@' + this.space.spaceTwitterUsername)

@@ -61,7 +61,7 @@
                             flex lg:hidden justify-between items-center">
                   <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
                 </div>
-                <SpaceIncome v-if="spaceInfo" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
+                <SpaceIncome v-if="spaceInfo && (spaceInfo.spaceState === 2 || spaceInfo.spaceState === 3)" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
                              :space="spaceInfo">
                   <div class="border-t-1 border-color8B/30 light:border-colorE3 flex items-center justify-between h-44px">
                     <button
@@ -128,7 +128,7 @@
           <div v-if="currentShowingDetail.spaceId"
                class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="max-h-full overflow-hidden flex flex-col">
-              <SpaceIncome v-if="spaceInfo" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
+              <SpaceIncome v-if="spaceInfo && (spaceInfo.spaceState === 2 || spaceInfo.spaceState === 3)" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
                            :space="spaceInfo"></SpaceIncome>
               <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
                           flex-1 overflow-hidden mt-15px flex flex-col">
