@@ -4,9 +4,9 @@
            v-if="loadingToken">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
       </div>
-    <div v-else-if="!loadingToken && !loadingPool && (!specifyDistributionEras || specifyDistributionEras.length === 0)" class="py-2rem">
-      <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
-      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
+    <div v-else-if="!loadingToken && !loadingPool && (!specifyDistributionEras || specifyDistributionEras.length === 0)">
+      <!-- <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+      <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div> -->
     </div>
     <template v-else>
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
@@ -61,16 +61,18 @@
       <div v-else-if="poolsData && (poolsData.length > 0)">
         <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
           <div class="text-14px font-bold mb-15px text-left">{{$t('community.tokenDistribution')}}</div>
-          <PoolRatio :animation='false' :pools-data="tokenDistribution" canvas-id="token-distribution-pie"/>
+          <PoolRatio :animation='false' :pools-data="tokenDistribution" :canvas-id="'token-distribution-pie-' + communityId"/>
         </div>
         <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
           <div class="text-14px font-bold mb-15px text-left">{{$t('community.pool')}}</div>
           <PoolRatio :animation='false' :pools-data="poolsData"/>
         </div>
       </div>
+    </template>
+    <template v-if="!loadingAsset">
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
-        <div class="text-14px font-bold mb-15px text-left">tweet Pool</div>
-        <PoolRatio :animation='false' :pools-data="tweetPool" canvas-id="tweet-pie"/>
+        <div class="text-14px font-bold mb-15px text-left">Tweet Pool</div>
+        <PoolRatio :animation='false' :pools-data="tweetPool" :canvas-id="'tweet-pie-' + communityId"/>
       </div>
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
         <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
@@ -82,7 +84,7 @@
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
             <input class="bg-transparent h-full w-full" disabled
-                   :value="formatAmount(communityContractInfo?.balance?.toString() / (10 ** showingCommunity.rewardTokenDecimals))" type="text">
+                    :value="formatAmount(communityContractInfo?.balance?.toString() / (10 ** showingCommunity.rewardTokenDecimals))" type="text">
             <span class="">{{ showingCommunity.rewardTokenSymbol }}</span>
           </div>
         </div>
@@ -94,11 +96,15 @@
                     light:bg-white light:border-colorE3 hover:border-primaryColor
                     rounded-8px h-40px">
             <input class="bg-transparent h-full w-full" disabled
-                   :value="communityContractInfo.storageAddr" type="text">
+                    :value="communityContractInfo.storageAddr" type="text">
           </div>
         </div>
       </div>
     </template>
+      <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
+           v-else="loadingAsset">
+        <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+      </div>
   </div>
 </template>
 
@@ -120,9 +126,10 @@ export default {
   components: {PoolRatio, AboutProgress},
   data() {
     return {
-      communtiyId: '',
+      communityId: '',
       loadingToken: true,
       loadingPool: true,
+      loadingAsset: true,
       tokenDistribution: [
         {name: i18n.global.t('community.communityPool'), ratio: 10*100 },
         {name: i18n.global.t('community.communityAsset'), ratio: 90*100 }
@@ -134,7 +141,7 @@ export default {
   computed: {
     ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData', 'communityContractInfo', 'nutboxCommunityInfo']),
     tweetPool() {
-      if (this.showingCommunity && this.showingCommunity.rewardPerDay) {
+      if (this.showingCommunity) {
         const reward = this.showingCommunity.rewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
         const ann = this.showingCommunity.annRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
         const space = this.showingCommunity.spaceRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
@@ -150,9 +157,11 @@ export default {
   },
   async activated() {
     let count = 0;
-    while ((!this.showingCommunity || !this.showingCommunity.communityId || !this.configs[this.showingCommunity.communityId]) && count++ < 30) {
+    this.loadingAsset = true;
+    while ((!this.showingCommunity || !this.showingCommunity.configs || !this.configs[this.showingCommunity.communityId]) && count++ < 30) {
       await sleep(0.2)
     }
+    this.loadingAsset = false
     if (this.communityId !== this.showingCommunity.communityId) {
       this.communityId = this.showingCommunity.communityId
     }
