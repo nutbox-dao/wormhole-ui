@@ -1,6 +1,8 @@
 import { Base64 } from 'js-base64'
 import { errCode } from '@/config'
 import axios from 'axios';
+import { dayjs } from 'element-plus';
+import zh from 'dayjs/locale/zh-cn';
 
 const b64uLookup = {
     "/": "_",
@@ -270,8 +272,14 @@ export function parseSpaceStartTime(time) {
   let monthMap = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ]
+  const local = localStorage.getItem('language')
   let d1 = new Date(time)
-  return `${d1.getUTCHours() >= 12 ? prefixInteger(d1.getUTCHours() - 12, 2) + ":" + prefixInteger(d1.getMinutes(), 2) + 'PM' : prefixInteger(d1.getUTCHours(), 2) + ':' + prefixInteger(d1.getMinutes(), 2) + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`
+  if (local === 'zh') {
+    return dayjs(time).locale('zh-cn').format('MMMDo HH:mm')
+  }else {
+    return dayjs(time).locale('en').format('MMM Do HH:mm')
+    // return `${d1.getUTCHours() >= 12 ? prefixInteger(d1.getUTCHours() - 12, 2) + ":" + prefixInteger(d1.getMinutes(), 2) + 'PM' : prefixInteger(d1.getUTCHours(), 2) + ':' + prefixInteger(d1.getMinutes(), 2) + 'AM'}(UTC),${monthMap[d1.getUTCMonth()]} ${d1.getUTCDate()}`;
+  }
 }
 
 export function stringLength(str) {
