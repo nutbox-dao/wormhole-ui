@@ -470,6 +470,9 @@ export default {
         if (spaceState === 1 || spaceState === 2 || (spaceState === 3 && !this.spaceInfo)) {
           this.spaceInfoLoading = true
           getSpaceInfo(this.currentShowingDetail.spaceId).then(res => {
+            this.currentShowingDetail.spaceState = res.spaceState
+            res.hostIds = JSON.parse(res.hostIds);
+            res.speakerIds = JSON.parse(res.speakerIds)
             this.spaceInfo = res ?? []
           }).catch(console.log)
           .finally(() => {

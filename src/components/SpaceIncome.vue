@@ -50,7 +50,7 @@
                    src="~@/assets/icon-co-host-primary.svg" alt="">
               <span>{{$t('curation.coHost')}}</span>
             </div>
-            <div class="">{{ space.hosts ? space.hosts.length - 1 : 0 }} {{$t('common.people')}}</div>
+            <div class="">{{ space.hostIds ? space.hostIds.length - 1 : 0 }} {{$t('common.people')}}</div>
           </div>
           <div v-if="isSettle" class="mt-10px c-text-black">{{ amount }} {{ space.tokenSymbol }}</div>
         </div>
@@ -61,7 +61,7 @@
                    src="~@/assets/icon-speaker-primary.svg" alt="">
               <span>{{$t('curation.speaker')}}</span>
             </div>
-            <div class="">{{ space.speakder ? space.speakers.length : 0 }} {{$t('common.people')}}</div>
+            <div class="">{{ space.speakerIds ? space.speakerIds.length : 0 }} {{$t('common.people')}}</div>
           </div>
           <div v-if="isSettle" class="mt-10px c-text-black">{{ amount }} {{ space.tokenSymbol }}</div>
         </div>
@@ -113,7 +113,7 @@ export default {
       return this.space.isCalc 
     },
     pendingCalc() {
-      return this.space.spaceState = 3 && !this.isSettle;
+      return this.space.spaceState === 3 && !this.isSettle;
     },
     totalAmount() {
       if (this.space.amount) {

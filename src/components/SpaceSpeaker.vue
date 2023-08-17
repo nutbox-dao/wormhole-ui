@@ -124,12 +124,8 @@ export default {
   data() {
     return {
       loading: false,
-      host: {},
-      coHosts: [],
-      speakers: [],
       tipModalVisible: false,
       tipToUser: {},
-      isCalc: false,
       price: 0
     }
   },
@@ -171,19 +167,7 @@ export default {
   },
   async mounted() {
     this.isCalc = this.space && this.space.isCalc
-    if (this.participant && this.participant.length > 0) {
-      for (let p of this.participant) {
-        if (this.post.spaceTwitterId === p.twitterId) {
-          this.host = p
-        }else {
-          if (p.hostAmount > '0') {
-            this.coHosts.push(p)
-          }else {
-            this.speakers.push(p)
-          }
-        }
-      }
-    }
+    
     if (this.showingCommunity && this.showingCommunity.rewardPrice) {
       this.price = this.showingCommunity.rewardPrice
     }else {
