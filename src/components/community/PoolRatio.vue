@@ -189,28 +189,37 @@ export default {
     poolsData: {
       handler: function (data) {
         this.chartData.data.datasets = [{
-          data: data,
+          data: data.map(pool => ({
+            name: pool.name,
+            ratio: parseFloat(pool.ratio) / 100,
+            value: pool.value ? formatAmount(pool.value) : null
+          })),
           backgroundColor: this.colorList
         }]
         this.chart.update()
       },
       deep: true
-    }
+    },
+  },
+  methods: {
+    updateData() {
+      if (!this.animation) this.chartData.options.animation = false
+        this.chartData.options.aspectRatio = this.aspectRatio
+        this.chartData.options.plugins.tooltip.callbacks.label = this.tooltipLabelFormatter
+        const ctx = document.getElementById(this.canvasId)
+        this.chartData.data.datasets = [{
+          data:  this.poolsData.map(pool => ({
+            name: pool.name,
+            ratio: parseFloat(pool.ratio) / 100,
+            value: pool.value ? formatAmount(pool.value) : null
+          })),
+          backgroundColor: this.colorList
+        }]
+        this.chart = new Chart(ctx, this.chartData)
+      }
   },
   mounted () {
-    if (!this.animation) this.chartData.options.animation = false
-    this.chartData.options.aspectRatio = this.aspectRatio
-    this.chartData.options.plugins.tooltip.callbacks.label = this.tooltipLabelFormatter
-    const ctx = document.getElementById(this.canvasId)
-    this.chartData.data.datasets = [{
-      data:  this.poolsData.map(pool => ({
-        name: pool.name,
-        ratio: parseFloat(pool.ratio) / 100,
-        value: pool.value ? formatAmount(pool.value) : null
-      })),
-      backgroundColor: this.colorList
-    }]
-    this.chart = new Chart(ctx, this.chartData)
+    this.updateData()
   }
 }
 </script>

@@ -478,7 +478,7 @@ export default {
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
-    pendingReward: 'Pending reward',
+    pendingReward: 'Reward pool',
     joinIn: 'Join in',
     moreCommunities: 'More Communities',
     credit: 'Credit',
