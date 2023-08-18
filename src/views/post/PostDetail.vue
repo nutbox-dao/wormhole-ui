@@ -144,7 +144,7 @@
                           :class="spaceTabType==='space'?'c-active-tab text-color62':'text-color7D'"
                           @click="spaceTabType='space'">Space</button>
                 </div>
-                <div v-show="spaceTabType==='curation'">
+                <div v-show="spaceTabType==='curation'" class="flex-1 overflow-hidden flex flex-col">
                   <div v-if="(curationLoading || participantLoading) && participant.length===0"
                        class="c-text-black py-2rem min-h-1rem">
                     <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -165,8 +165,8 @@
                 </div>
                 <div class="flex-1 overflow-auto">
                   <SpaceSpeaker v-show="spaceTabType==='space'"
-                                :participant="speakerParticipant" 
-                                :post="currentShowingDetail" 
+                                :participant="speakerParticipant"
+                                :post="currentShowingDetail"
                                 :space="spaceInfo"
                                 @tip="tip"/>
                 </div>
@@ -247,7 +247,7 @@
         <div v-if="showAttendedList"
              class="dark:bg-glass light:bg-white rounded-t-12px">
           <SpaceAttendedList v-if="currentShowingDetail.spaceId"
-                             class="flex-1 overflow-hidden"
+                             class="max-h-60vh min-h-60vh overflow-hidden"
                              :records="participant"
                              :post="currentShowingDetail"
                              :curation="curationList[0]"
@@ -529,7 +529,7 @@ export default {
       }
       this.tipUser = {
         name: user.twitterName,
-        username: user.twitterUsername, 
+        username: user.twitterUsername,
         twitterId: user.twitterId,
         ethAddress: user.ethAddress
       }
