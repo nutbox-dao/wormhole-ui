@@ -72,17 +72,15 @@
                    :time="space.endtime * 1000"/>
         后结算
       </div>
-      <div v-if="space.spaceCancelType > 1" class="px-15px py-8px bg-color62 text-12px text-left leading-18px text-white">
+      <div v-if="space && (space.spaceCancelType > 1)" class="px-15px py-8px bg-color62 text-12px text-left leading-18px text-white">
         <div class="flex items-center mb-4px">
           <img class="w-14px h-14px min-w-14px inline-flex mr-4px"
                src="~@/assets/icon-warning-white.svg" alt="">
           <span class="font-bold">{{$t('space.spaceWarning')}}</span>
         </div>
-        <div>{{$t('space.spaceWarningTip' + sapce.spaceCancelType)}}</div>
-        <!--      <div>{{$t('space.spaceWarningTip2')}}</div>-->
-        <!--      <div>{{$t('space.spaceWarningTip3')}}</div>-->
+        <div v-if="space">{{$t('space.spaceWarningTip' + space.spaceCancelType)}}</div>
       </div>
-      <div v-if="space.spaceCancelType === 1" class="px-15px py-8px bg-color62 rounded-b-12px text-14px text-white">
+      <div v-if="space && (space.spaceCancelType === 1)" class="px-15px py-8px bg-color62 rounded-b-12px text-14px text-white">
         {{ $t('space.spaceWaringTip1') }}
       </div>
       <slot></slot>
