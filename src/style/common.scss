@@ -111,7 +111,7 @@ button.disabled-no-opacity {
 .hover {
   cursor: pointer;
 }
-.no-scroll-bar::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
 }
 .modal-bg {

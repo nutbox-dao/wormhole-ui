@@ -18,7 +18,7 @@
         <div class="flex items-center cursor-pointer bg-color62 text-color46 h-36px rounded-6px px-15px"
              @click="copyAddress(token.address)">
           <span class="text-white light:text-blueDark">{{formatAddress(token.address)}}</span>
-          <i class="w-14px h-14px 2xl:w-1.2rem 2xl:h-1.2rem icon-copy ml-4px"></i>
+          <i class="w-14px h-14px icon-copy ml-4px"></i>
         </div>
       </template>
     </el-tooltip>
@@ -28,6 +28,7 @@
 <script>
 import { TokenIcon, EVM_CHAINS } from "@/config"
 import {formatAddress, copyAddress} from "@/utils/tool";
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "ChainTokenIcon",
@@ -53,6 +54,10 @@ export default {
       type: String,
       default: ''
     }
+  },
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
   },
   computed: {
     icon() {
@@ -99,7 +104,7 @@ export default {
     formatAddress,
     copyAddress,
     hideTip() {
-      setTimeout(() => {
+      this.setTimer(() => {
         this.$refs.tokenTipRef.onClose()
       }, 3000)
     },

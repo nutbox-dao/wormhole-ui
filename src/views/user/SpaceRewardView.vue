@@ -1,44 +1,50 @@
 <template>
-  <van-pull-refresh v-model="isRefresh" @refresh="onRefresh"
-                    class="h-full"
+  <van-pull-refresh v-model="loading[chainTab]" @refresh="onRefresh"
+                    class=""
                     :loading-text="$t('common.loading')"
                     pulling-text="Pull to refresh data"
                     loosing-text="Release to refresh">
-    <div class="h-full overflow-auto">
+    <van-list :loading="listLoading"
+              :finished="listFinished"
+              :immediate-check="false"
+              :loosing-text="$t('common.pullRefresh')"
+              :loading-text="$t('common.loading')"
+              :finished-text="$t('common.noMore')"
+              @load="onLoad">
       <div class="sm:max-w-600px lg:max-w-35rem mx-auto px-15px">
         <div class="mt-30px">
-          <div class="text-16px c-text-black active-tab w-max">{{$t('walletView.communityReward')}}</div>
-          <img v-if="loadingCommunityRewards && getRewardCommunityInfo.length===0"
+          <img v-if="loadingSpaceRewards && getSpaceRewardCommunityInfo.length===0"
                class="w-5rem mx-auto" src="~@/assets/profile-loading.gif" alt="" />
-          <div v-else-if="(!getRewardCommunityInfo || getRewardCommunityInfo.length === 0)" class="py-2rem">
+          <div v-else-if="(!getSpaceRewardCommunityInfo || getSpaceRewardCommunityInfo.length === 0)" class="py-2rem">
             <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
             <div class="text-color8B light:text-color7D text-12px mt-15px">{{$t('common.none')}}</div>
           </div>
-          <CommunityRewardItem v-else v-for="communityId of getRewardCommunityInfo" :key="communityId"
-                               :community-id="communityId"></CommunityRewardItem>
+          <SpaceRewardItem v-else v-for="communityId of getSpaceRewardCommunityInfo" :key="communityId"
+                              :community-id="communityId"></SpaceRewardItem>
         </div>
       </div>
-    </div>
+    </van-list>
   </van-pull-refresh>
 </template>
 <!-- this is for promotion reward -->
 <script>
 import { mapGetters, mapState } from 'vuex'
+import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
-import { checkCommunityRewards } from '@/utils/curation'
-import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
-import { getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
+import { getSpaceCurationRewardList } from '@/api/api'
 import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
-import CommunityRewardItem from "@/components/community/CommunityRewardItem";
+import SpaceRewardItem from "@/components/SpaceRewardItem";
+
 import RewardHistoryList from "@/components/RewardHistoryList";
 
 export default {
-  components: { ChainTokenIcon, CommunityRewardItem, RewardHistoryList},
+  components: {SpaceRewardItem, RewardHistoryList},
+  name: 'SpaceRewardView',
   setup() {
     const {width} = useWindowSize()
     return {
@@ -55,38 +61,22 @@ export default {
       checkRewardList: [],
       TokenIcon,
       historyModalVisible: false,
-      loadingCommunityRewards: false,
+      loadingSpaceRewards: false,
       collapseNames: [],
-      isRefresh: false
+      listLoading: false,
+      listFinished: false
     }
   },
   computed: {
     ...mapGetters(['getAccountInfo']),
-    ...mapGetters('curation', ['getRewardCommunityInfo', 'getCommunityRewards', 'getCommunityAuthorRewards']),
+    ...mapGetters('curation', ['getSpaceCommunityRewards', 'getSpaceRewardCommunityInfo']),
     ...mapState('web3', ['chainId', 'account']),
-    ...mapState('curation', ['rewardLists', 'communityRewards', 'communityAuthorRewards']),
+    ...mapState('curation', ['rewardLists', 'spaceRewards']),
     chainNames() {
       return Object.keys(EVM_CHAINS)
     },
     chainIds() {
       return Object.values(EVM_CHAINS).map(c => c.id)
-    },
-    showingList() {
-      return this.rewardLists[this.chainTab]
-    },
-    summaryList() {
-      if (this.rewardLists[this.chainTab].length > 0) {
-        let result = {}
-        for (let reward of this.rewardLists[this.chainTab]) {
-          const sum = (result[reward.token]?.amount ?? 0)
-          result[reward.token] = {
-            ...reward,
-            amount: sum + (reward.amount.toString() / (10 ** reward.decimals))
-          }
-        }
-        return Object.values(result)
-      }
-      return []
     },
     accountMismatch() {
       return this.getAccountInfo.ethAddress !== this.account
@@ -95,41 +85,28 @@ export default {
   methods: {
     formatAddress,
     formatAmount,
-    selectTab(index) {
-      this.chainTab = index;
-      this.checkRewardList = []
-    },
     onRefresh() {
-      this.isRefresh = true
-      this.getCommunityRewardsM(true);
-      this.isRefresh = false
+      this.getSpaceCurationRewards(true);
     },
-    async getCommunityRewardsM(force = false) {
+    async getSpaceCurationRewards(force = false) {
       try{
-        if (this.loadingCommunityRewards) return;
-        this.loadingCommunityRewards = true;
-        const currentList = this.communityRewards;
-        if (currentList && currentList.length > 0 && !force) {
+        if (this.loadingSpaceRewards) return;
+        this.loadingSpaceRewards = true;
+        const currentList = this.spaceRewards;
+        if (currentList && Object.keys(currentList).length > 0 && !force) {
           return;
         }
-        let [rewards, authorRewards] =
-          await Promise.all([
-            getCommunityPendingRewards(this.getAccountInfo.twitterId),
-            getCommunityAuthorPendingRewards(this.getAccountInfo.twitterId)])
+        let allRecords = await getSpaceCurationRewardList(this.getAccountInfo.twitterId)
+        allRecords = this.handleRewardsAmount(allRecords);
 
-        if (rewards && rewards.length > 0) {
-          this.$store.commit('curation/saveCommunityRewards', rewards)
-        }
-        if (authorRewards && authorRewards.length > 0) {
-          this.$store.commit('curation/saveCommunityAuthorRewards', authorRewards)
-        }
+        this.$store.commit('curation/saveSpaceRewards', allRecords ?? [])
       } catch (e) {
         if (e === 'log out') {
           this.$store.commit('saveShowLogin', true)
         }
         console.log('error', e);
       } finally {
-        this.loadingCommunityRewards = false
+        this.loadingSpaceRewards = false
       }
     },
     async connect() {
@@ -148,23 +125,23 @@ export default {
         this.connecting = false
       }
     },
-    checkboxGroupChange(token) {
-      const index = this.checkRewardList.indexOf(token)
-      if(index>=0) {
-        this.checkRewardList.splice(index, 1)
-      } else {
-        this.checkRewardList.push(token)
-      }
+    handleRewardsAmount(rewards) {
+      if (rewards.length == 0) return rewards;
+      rewards.forEach(r => {
+        r.hostNum = r.hostAmount / (10 ** r.decimals);
+        r.speakerNum = r.speakerAmount / (10 ** r.decimals);
+        r.curateNum = r.curateAmount / (10 ** r.decimals);
+        r.totalAmount = r.hostNum + r.speakerNum + r.curateNum;
+      });
+      return rewards;
     }
   },
   mounted () {
     if (this.twitterId && !this.getAccountInfo) {
       this.needLogin = true
+      this.$router.push('/')
     }
-    this.getCommunityRewardsM(true);
-    accountChanged().catch()
-    getAccounts(true).then(wallet => {
-    }).catch();
+    this.getSpaceCurationRewards(true);
   },
 }
 </script>

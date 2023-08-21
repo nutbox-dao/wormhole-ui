@@ -131,17 +131,6 @@ export default {
         this.connecting = false
       }
     },
-    checkboxGroupChange(token) {
-      const index = this.checkRewardList.indexOf(token)
-      if(index>=0) {
-        this.checkRewardList.splice(index, 1)
-      } else {
-        this.checkRewardList.push(token)
-      }
-    },
-    onLoad() {
-
-    }
   },
   mounted () {
     if (this.twitterId && !this.getAccountInfo) {

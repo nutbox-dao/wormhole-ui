@@ -47,7 +47,6 @@
           </div>
         </div>
       </div>
-
       <div v-show="specifyDistributionEras.length > 0"
            class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
         <div class="text-14px font-bold mb-10px text-left">{{$t('community.disStrategy')}}</div>
@@ -76,7 +75,7 @@
         <PoolRatio :animation='false' :pools-data="tweetPool" :canvas-id="'tweet-pie-' + communityId"/>
       </div>
       <div class="mb-15px bg-primaryBg light:bg-white light:shadow-color1A p-15px rounded-12px">
-        <div class="text-14px font-bold text-left mb-15px">{{$t('community.communityAsset')}}</div>
+        <div class="text-14px font-bold text-left mb-15px">Tweet pool</div>
         <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
           <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
             {{$t('community.pendingReward')}}
@@ -91,7 +90,7 @@
         </div>
         <div class="flex flex-col xs:flex-row items-center text-14px mt-10px">
           <div class="w-full xs:w-3/10 text-left mb-4px xs:mb-0">
-            {{$t('community.fundAddress')}}
+            Pool contract
           </div>
           <div class="w-full xs:w-7/10 flex justify-between items-center px-15px border-1 bg-black/40 border-1 border-color8B/30
                     light:bg-white light:border-colorE3 hover:border-primaryColor

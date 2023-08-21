@@ -16,7 +16,7 @@ export default {
   faucet: 'Faucet',
   logout: 'Log out',
   myWallet: 'My wallet',
-  myReward: 'My reward',
+  myReward: 'Curation reward',
   search: 'Search',
   noRelatedUser: 'No related user info',
   noRelatedTags: 'No related tag info',
@@ -141,7 +141,8 @@ export default {
     record: 'Detail',
     historyRecord: 'History',
     communityReward: 'Community reward',
-    promotionRewardL: 'Promotion reward',
+    promotionReward: 'Promotion reward',
+    spaceReward: 'Space reward',
     withdraw: 'Withdraw',
   },
   token: {
@@ -221,8 +222,9 @@ export default {
     insufficientVP: "Insufficient VP",
     selectCommunityTag: "Please selet a community to post.",
     loginExpire: 'Login expired, please login again',
-    likeTooFrequent: `You can only "like" max. 5 times within a 15 minute period. Please try again later.`,
-    retweetTooFrequent: `You can only "retweet" max. 5 times within a 15 minute period. Please try again later.`
+    likeTooFrequent: `You can only "like" max. 50 times within a 15 minute period. Please try again later.`,
+    retweetTooFrequent: `You can only "retweet" max. 50 times within a 15 minute period. Please try again later.`,
+    quoteTooFrequent: `You can only "quote" max. 50 times within a 15 minute period. Please try again later.`
   },
   ref: {
     referre: 'Invitation',
@@ -403,7 +405,20 @@ export default {
   space: {
     listening: 'Listening',
     ended: 'Ended',
-    canceled: 'Canceled'
+    canceled: 'Canceled',
+    notStarted: 'Scheduled',
+    setReminder: 'Set reminder',
+    playRecording: 'Play recording',
+    joinNow: 'Join now',
+    income: 'Rewards',
+    settled: 'Settled',
+    unsettlement: 'Pending',
+    spaceWarning: 'Space did not meet the reward requirements',
+    spaceWarningTip4: 'Space must last more than 10 minutes',
+    spaceWarningTip3: 'Space must has at least 10 participants',
+    spaceWarningTip2: 'Space must receive more than 10 curator of top 30 CC members',
+    spaceWarningTip1: "Space is canceled by host",
+    listenerNum: " listeners"
   },
   guide: {
     registrationGuide: 'Registration Guide',
@@ -473,12 +488,12 @@ export default {
     topicRatio: 'Curation: ',
     noRewardCanClaim: "No claimable rewards",
     orderClaimPending: 'There is another claim order in pending, please try later.',
-    communityAsset: 'Community Asset',
+    communityAsset: 'DAO treasury',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
-    pendingReward: 'Reward pool',
+    pendingReward: 'Unclaimed Reward',
     joinIn: 'Join in',
     moreCommunities: 'More Communities',
     credit: 'Credit',
@@ -566,6 +581,7 @@ export default {
     second: 'S',
     all: 'All',
     fold: 'Fold',
-    clear: 'Clear'
+    clear: 'Clear',
+    people: ''
   }
 }

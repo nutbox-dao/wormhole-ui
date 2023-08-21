@@ -16,7 +16,7 @@ export default {
   faucet: '水龙头',
   logout: '登出',
   myWallet: '我的钱包',
-  myReward: '我的奖励',
+  myReward: '策展奖励',
   search: '搜索',
   noRelatedUser: '没有相关的用户信息',
   noRelatedTags: '没有相关的话题信息',
@@ -142,6 +142,7 @@ export default {
     historyRecord: '历史记录',
     communityReward: '社区奖励',
     promotionReward: '推广奖励',
+    spaceReward: 'Space奖励',
     withdraw: '提现',
   },
   token: {
@@ -221,8 +222,9 @@ export default {
     insufficientVP: 'VP不足',
     selectCommunityTag: "请选择帖子发布的社区。",
     loginExpire: '登录信息过期，请重新登录',
-    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞5次，请稍后再试",
-    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推5次，请稍后再试"
+    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞50次，请稍后再试",
+    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推50次，请稍后再试",
+    quoteTooFrequent: "操作太频繁，15分钟内最多只能引用50次，请稍后再试"
   },
   ref: {
     referre: '推荐链接',
@@ -323,9 +325,9 @@ export default {
     preview: '预览',
     requirements: '要求',
     details: '描述',
-    host: 'Host',
-    coHost: 'Co-Host',
-    speaker: 'Speaker',
+    host: '主持人',
+    coHost: '联合主持人',
+    speaker: '发言人',
     coHosts: 'Co-Hosts',
     speakers: 'Speakers',
     optional: '可选',
@@ -401,9 +403,22 @@ export default {
     ended: '已结束'
   },
   space: {
-    listening: 'Listening',
+    listening: '进行中',
     ended: '已结束',
-    canceled: '已取消'
+    canceled: '已取消',
+    notStarted: '未开始',
+    setReminder: '设置提醒',
+    playRecording: '播放录音',
+    joinNow: '立刻参加',
+    income: '收益',
+    settled: '已结算',
+    unsettlement: '待结算',
+    spaceWarning: 'Space未达到策展要求',
+    spaceWarningTip4: 'Space持续时间需超过10分钟以上',
+    spaceWarningTip3: 'Space参与者人需超过10人以上',
+    spaceWarningTip2: '参与策展人需包含社区credit排名top30中的10人以上',
+    spaceWarningTip1: 'Space已被主持人取消',
+    listenerNum: "人收听"
   },
   guide: {
     registrationGuide: '注册指南',
@@ -473,12 +488,12 @@ export default {
     topicRatio: '策展: ',
     noRewardCanClaim: "没有可领取的奖励",
     orderClaimPending: '有正在领取中的订单，请稍后再试！',
-    communityAsset: 'Community Asset',
+    communityAsset: 'DAO 国库',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
-    pendingReward: '奖励池',
+    pendingReward: '待领取',
     joinIn: '参与',
     moreCommunities: '更多社区',
     credit: '信用',
@@ -566,6 +581,7 @@ export default {
     second: '秒',
     all: '全部',
     fold: '收起',
-    clear: '清除'
+    clear: '清除',
+    people: '人',
   }
 }

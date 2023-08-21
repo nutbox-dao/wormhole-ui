@@ -33,6 +33,7 @@
 </template>
 
 <script>
+// This vue is for promotion page card list
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import { formatAmount, parseTimestamp } from "@/utils/helper";
 import {useWindowSize} from "@vant/use";

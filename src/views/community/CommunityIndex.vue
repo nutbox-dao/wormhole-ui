@@ -5,7 +5,8 @@
         {{$t('community.hot')}}
       </div>
     </div> -->
-    <div class="flex-1 overflow-auto no-scroll-bar">
+    <div class="flex-1 overflow-auto no-scroll-bar"
+         ref="communityPageRef" @scroll="pageScroll($refs.communityPageRef)">
       <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
            v-if="refreshing && (!communities || communities.length === 0)">
         <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -70,10 +71,20 @@ import CommunityItem from "@/components/community/CommunityItem";
 import { getCommunities } from '@/utils/community'
 import { mapState, mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";
+import {usePageScroll} from "@/utils/hooks";
 
 export default {
   name: "CommunityIndex",
   components: {CommunityItem},
+  setup() {
+    const { scroll, pageScroll, pageScrollTo, pageScrollToTop} = usePageScroll()
+    return {
+      scroll,
+      pageScroll,
+      pageScrollTo,
+      pageScrollToTop
+    }
+  },
   data() {
     return {
       refreshing: false,
@@ -106,6 +117,9 @@ export default {
         this.refreshing = false
       }
     }
+  },
+  activated() {
+    this.pageScrollTo(this.$refs.communityPageRef)
   },
   mounted () {
     this.onRefresh();

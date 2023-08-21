@@ -471,7 +471,7 @@
 import TweetAttendTip from "@/components/TweetAttendTip";
 import { mapState, mapGetters } from "vuex";
 import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
-   getSpaceInfoById, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
+  getSpaceInfo, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep, stringLength } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ERC20List, errCode, EVM_CHAINS } from "@/config";
@@ -1001,7 +1001,7 @@ export default {
 
         // update space host profile
         if (this.detailCuration.spaceId) {
-          getSpaceInfoById(this.detailCuration.spaceId).then(res => {
+          getSpaceInfo(this.detailCuration.spaceId).then(res => {
             if (res && res.spaceId) {
               this.space = res
             }

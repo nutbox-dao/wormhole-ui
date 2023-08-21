@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-12px overflow-hidden border-1 border-color8B/30 light:border-color7F">
+  <div class="rounded-12px overflow-hidden border-1 border-color8B/30 light:border-color7F relative">
     <div class="flex justify-between items-center bg-color1A h-40px px-15px truncate">
       <span class="c-text-black text-16px text-white truncate mr-15px">{{ topic.title }}</span>
       <div v-if="status==='toBeStart'"
@@ -26,17 +26,17 @@
           </template>
         </van-count-down>
       </div>
-      <div v-else-if="status==='inProgress'"
-           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
-                  bg-color62 text-white text-12px ">
-        🔥 {{$t('community.inProgress')}}
-      </div>
-      <div v-else-if="status==='ended'"
-           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap
-                  bg-colorF0 text-color66 text-12px">
-        <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">
-        <span>{{$t('community.ended')}}</span>
-      </div>
+<!--      <div v-else-if="status==='inProgress'"-->
+<!--           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap-->
+<!--                  bg-color62 text-white text-12px ">-->
+<!--        🔥 {{$t('community.inProgress')}}-->
+<!--      </div>-->
+<!--      <div v-else-if="status==='ended'"-->
+<!--           class="flex items-center px-8px py-4px rounded-full whitespace-nowrap-->
+<!--                  bg-colorF0 text-color66 text-12px">-->
+<!--        <img class="w-14px h-14px mr-2px" src="~@/assets/icon-delete.svg" alt="">-->
+<!--        <span>{{$t('community.ended')}}</span>-->
+<!--      </div>-->
     </div>
     <div class="p-15px">
       <div class="flex justify-between items-center">
@@ -72,6 +72,11 @@
               @click="goTopicDetail(topic)">
         {{$t('community.enter')}}
       </button>
+    </div>
+    <div class="absolute right-0 top-0 status-flag text-14px font-bold
+                h-60px w-120px pr-10px text-right pt-10px text-white"
+         :class="`bg-${status}`">
+      {{$t('community.'+status)}}
     </div>
   </div>
 </template>
@@ -123,6 +128,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.status-flag {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+  display: none;
+}
+.status-flag.bg-inProgress {
+  background: #1FB759;
+  display: block;
+}
+.bg-ended {
+  background: #7c7c7c;
+  display: block;
+}
 </style>

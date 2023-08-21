@@ -26,7 +26,6 @@ import PostsIndex from "@/views/post/PostsIndex";
 import CurationDetail from "@/views/curations/CurationDetail";
 import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
-import RewardView from "@/views/user/RewardView";
 import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/create/CreateView.vue";
 import WalletIndex from "@/views/user/WalletIndex";
@@ -38,7 +37,9 @@ import InfluenceIndex from "@/views/Influence/InfluenceIndex";
 import InfoIndex from "@/views/info/InfoIndex";
 import QuoteTree from '@/views/Tree';
 import ReferralView from '@/views/referral/Index'
+import RewardView from "@/views/user/RewardView";
 import ReferralReward from '@/views/user/ReferralRewardView'
+import SpaceReward from '@/views/user/SpaceRewardView';
 import RewardPromotion from "@/views/user/RewardPromotion.vue";
 
 const routes = [
@@ -135,6 +136,12 @@ const routes = [
         path: '/wallet/:user/reward',
         name: 'reward',
         component: RewardView,
+        meta: {gotoHome: true}
+      },
+      {
+        path: '/wallet/:user/space-reward',
+        name: 'space-reward',
+        component: SpaceReward,
         meta: {gotoHome: true}
       },
       {

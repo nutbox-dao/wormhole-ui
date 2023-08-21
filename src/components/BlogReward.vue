@@ -60,7 +60,7 @@
       </button>
     </el-tooltip>
     <div v-else class="text-white light:text-black flex-1 relative">
-      <div class="h-24px absolute right-0 flex items-center">({{totalPrice}})</div>
+      <div class="h-28px absolute right-0 flex items-center">({{totalPrice}})</div>
       <template v-if="rewards && rewards.length > 0">
         <div v-for="reward of rewards"
              :key="post.postId + reward.token" class="w-full">
@@ -74,39 +74,41 @@
                   </span>
             </template>
           </ChainTokenIcon>
-          <div class="w-full flex flex-wrap justify-between gap-x-8px gap-y-2px mb-6px">
-            <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+          <slot name="default">
+            <div class="w-full flex flex-wrap justify-between gap-x-8px gap-y-2px mb-6px">
+              <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
                           flex items-center light:shadow-color1A px-8px mt-6px whitespace-nowrap">
-              <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
-              <span class="text-black whitespace-nowrap">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
-            </div>
-            <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
+                <span class="text-color62 mr-4px">{{$t('common.author')}}:</span>
+                <span class="text-black whitespace-nowrap">{{ reward.authorReward }} {{reward.tokenSymbol}}</span>
+              </div>
+              <div class="border-1 flex-1 border-color8B/30 bg-white rounded-full h-20px text-12px
                           flex items-center light:shadow-color1A px-8px mt-6px whitespace-nowrap">
-              <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
-              <span class="text-black whitespace-nowrap">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
+                <span class="text-color62 mr-4px">{{$t('common.curator')}}:</span>
+                <span class="text-black whitespace-nowrap">{{ reward.curationReward }} {{reward.tokenSymbol}}</span>
+              </div>
             </div>
-          </div>
-          <template v-if="post.endtime*1000>new Date().getTime()">
-            <div class="text-12px text-left"><span class="text-color62">estimated</span> amount for reference</div>
-            <div class="flex items-center text-12px font-bold">
-              <span class="whitespace-nowrap mr-10px mt-8px">{{ $t('curation.endTime') }}:</span>
-              <van-count-down v-if="post.endtime" class="text-color62 mt-8px"
-                              :time="countdown(post.endtime)">
-                <template #default="timeData">
+            <template v-if="post.endtime*1000>new Date().getTime()">
+              <div class="text-12px text-left"><span class="text-color62">estimated</span> amount for reference</div>
+              <div class="flex items-center text-12px font-bold">
+                <span class="whitespace-nowrap mr-10px mt-8px">{{ $t('curation.endTime') }}:</span>
+                <van-count-down v-if="post.endtime" class="text-color62 mt-8px"
+                                :time="countdown(post.endtime)">
+                  <template #default="timeData">
                   <span v-if="timeData.days>0">
                     {{ timeData.days }} d {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
                   </span>
-                  <span v-else-if="timeData.hours>0">
+                    <span v-else-if="timeData.hours>0">
                     {{ timeData.hours }} h {{ timeData.minutes }} m {{ timeData.seconds }} s
                   </span>
-                  <span v-else>
+                    <span v-else>
                     {{ timeData.minutes }} m {{ timeData.seconds }} s
                   </span>
-                </template>
-              </van-count-down>
-            </div>
-          </template>
-          <div v-else class="text-12px text-left">amount settled already</div>
+                  </template>
+                </van-count-down>
+              </div>
+            </template>
+            <div v-else class="text-12px text-left">amount settled already</div>
+          </slot>
         </div>
       </template>
     </div>

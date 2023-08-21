@@ -23,6 +23,7 @@ export default {
         selectedTag: 'All',
         communityRewards: [],
         communityAuthorRewards: [],
+        spaceRewards: [],
         inviteRewards: {},
 
     },
@@ -112,6 +113,9 @@ export default {
         saveCommunityAuthorRewards: (state, communityAuthorRewards) => {
             state.communityAuthorRewards = communityAuthorRewards
         },
+        saveSpaceRewards: (state, spaceRewards) => {
+            state.spaceRewards = spaceRewards;
+        },
         saveInviteRewards: (state, inviteRewards) => {
             state.inviteRewards = inviteRewards;
         }
@@ -188,6 +192,7 @@ export default {
                 return null
             }
         },
+        // curation rewards
         getCommunityRewards: (state) => (communityId) => {
             if (state.communityRewards) {
                 return state.communityRewards.filter(c => c.communityId === communityId)
@@ -203,5 +208,16 @@ export default {
         getRewardCommunityInfo: state => {
             return [...new Set(state.communityRewards.map(c => c.communityId).concat(state.communityAuthorRewards.map(c => c.communityId)))] 
         },
+
+        // space rewards
+        getSpaceCommunityRewards: (state) => (communityId) => {
+            if (state.spaceRewards) {
+                return state.spaceRewards.filter(c => c.communityId === communityId)
+            }
+            return []
+        },
+        getSpaceRewardCommunityInfo: (state) => {
+            return [...new Set(state.spaceRewards.map(c => c.communityId))] 
+        }
     }
 }

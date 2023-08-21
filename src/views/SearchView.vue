@@ -103,11 +103,16 @@
 import {searchTags, searchUsers, searchCommunityByName} from "@/api/api";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {mapState} from "vuex";
+import {useTimer} from "@/utils/hooks";
 
 export default {
   name: "SearchView",
   computed: {
     ...mapState('postsModule', ['selectedTag']),
+  },
+  setup() {
+    const { setTimer } = useTimer()
+    return {setTimer}
   },
   data() {
     return {
@@ -125,7 +130,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
+    this.setTimer(() => {
       this.$refs.searchInputRef.focus()
     }, 500)
   },

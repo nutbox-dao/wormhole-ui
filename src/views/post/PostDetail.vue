@@ -40,61 +40,53 @@
                     {{cTag}}
                   </button>
                 </div>
-                <div class="border-0 light:border-1 gradient-border gradient-border-color91
-                          my-1rem rounded-15px overflow-hidden">
+                <div v-if="!currentShowingDetail.spaceId"
+                     class="border-0 light:border-1 gradient-border gradient-border-color91
+                            mt-1rem rounded-15px overflow-hidden">
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
                     <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
-                        flex-1 flex justify-between items-center truncate relative"
-                         @click.stop="tip">
-                      <el-carousel v-if="tips && tips.length>0"
-                                   class="w-full hidden sm:block"
-                                   height="54px" indicator-position="none" :loop="true"
-                                   direction="vertical" :autoplay="true"
-                                   :interval="2500">
-                        <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
-                          <div class="flex-1 c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</div>
-                        </el-carousel-item>
-                      </el-carousel>
-                      <van-notice-bar class="w-full bg-transparent px-0 sm:hidden"
-                                      scrollable :speed="100"
-                                      v-if="tips && tips.length>0">
-                        <template #default>
-                    <span v-for="item in tips" :key="item"
-                          class="mr-4rem c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</span>
-                        </template>
-                      </van-notice-bar>
-                      <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center font-bold text-white">
-                      {{$t('curation.tipToUser', {user: currentShowingDetail.username})}}
-                    </span>
-                      <button v-if="top3Tip && top3Tip.length > 0" @click.stop="tipCollapse=!tipCollapse"
-                              class="ml-10px bg-black rounded-full text-white h-24px min-w-60px flex items-center justify-center
-                             leading-18px text-12px 2xl:text-0.7rem 2xl:leading-0.8rem px-3px">Top3</button>
+                                flex-1 flex justify-between items-center truncate relative"
+                         @click.stop="tip(currentShowingDetail)">
+                      <span class="text-14px absolute w-full h-full top-0 left-0
+                                   flex items-center justify-center font-bold text-white">
+                        {{$t('curation.tipToUser', {user: currentShowingDetail.username})}}
+                      </span>
                     </div>
-                    <el-collapse-transition>
-                      <div v-show="tipCollapse" class="pb-10px px-18px">
-                        <div class="px-25px py-6px bg-white text-black rounded-10px">
-                          <div class="h-32px flex justify-between items-center text-12px"
-                               v-for="(tip, index) of top3Tip" :key="'tops' + tip.hash">
-                            <div class="flex items-center">
-                              <img class="w-18px" :src="top3Icons[index]" alt="">
-                              <span>{{tip.fromUsername}}</span>
-                            </div>
-                            <span>{{tip.amount}} STEEM</span>
-                          </div>
-                        </div>
-                      </div>
-                    </el-collapse-transition>
                   </div>
                 </div>
               </div>
-              <div v-show="curationLoading || participant.length > 0" class="bg-color62/20  rounded-12px px-15px py-8px min-h-54px md:mt-15px
-                          flex lg:hidden justify-between items-center">
-                <img v-if="curationLoading|| participantLoading"
-                     class="h-40px mx-auto"
-                     src="~@/assets/profile-loading.gif" alt="" />
-                <template v-if="participant.length>0">
+              <template v-if="currentShowingDetail.spaceId">
+                <div v-if="curationLoading|| participantLoading"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
+                  <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                </div>
+                <SpaceIncome v-if="spaceInfo && (spaceInfo.spaceState === 2 || spaceInfo.spaceState === 3)" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A lg:hidden mt-15px"
+                             :space="spaceInfo">
+                  <div class="border-t-1 border-color8B/30 light:border-colorE3 flex items-center justify-between h-44px">
+                    <button
+                            class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            :disabled="!participant || participant.length == 0"
+                            @click="showAttendedList=true">
+                      {{$t('common.curator')}} >>
+                    </button>
+                    <button class="flex-1 whitespace-nowrap text-color62 c-text-black"
+                            :disabled="!speakerParticipant || speakerParticipant.length == 0"
+                            @click="showSpeakerModal=true">Space >></button>
+                  </div>
+                </SpaceIncome>
+              </template>
+              <template v-else>
+                <div v-if="curationLoading || participantLoading"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
+                  <img class="h-40px mx-auto" src="~@/assets/profile-loading.gif" alt="" />
+                </div>
+                <div v-else-if="participant.length>0"
+                     class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
+                            flex lg:hidden justify-between items-center">
                   <span class="flex-1 text-left">
-                    {{$t('curation.attendedNum', {num:participant[0].totalCount})}}
+                    {{$t('curation.attendedNum', {num:(participant[0].totalCount ?? participant.length)})}}
                   </span>
                   <div class="flex items-center" @click="showAttendedList=true">
                     <div v-for="p of participant.slice(0,3)" :key="p">
@@ -108,11 +100,11 @@
                     </div>
                     <button class="text-12px ml-5px">{{$t('common.more')}} >>></button>
                   </div>
-                </template>
-              </div>
+                </div>
+              </template>
               <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-color1A rounded-12px
                           md:pb-15px md:mt-15px md:px-15px mb-15px">
-                <div class="c-text-black text-left text-1.2rem lg:block py-15px">
+                <div class="c-text-black text-left text-16px 2xl:text-18px lg:block py-15px">
                   {{ $t('common.comments') }}
                 </div>
                 <div v-if="commentLoading" class="c-text-black text-1.8rem mb-3rem min-h-1rem">
@@ -132,7 +124,58 @@
               </div>
             </van-list>
           </div>
-          <div class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
+          <!--Space web-->
+          <div v-if="currentShowingDetail.spaceId"
+               class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
+            <div class="max-h-full overflow-hidden flex flex-col">
+              <SpaceIncome v-if="spaceInfo && (spaceInfo.spaceState === 2 || spaceInfo.spaceState === 3)" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
+                           :space="spaceInfo"></SpaceIncome>
+              <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
+                          flex-1 overflow-hidden mt-15px flex flex-col">
+                <div class="flex items-center justify-center gap-30px h-48px min-h-48px text-14px font-bold
+                            border-b-0.5px border-color8B/30 light:border-color7F
+                            px-15px w-min min-w-full">
+                  <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                          :class="spaceTabType==='curation'?'c-active-tab text-color62':'text-color7D'"
+                          @click="spaceTabType='curation'">
+                    {{$t('common.curation')}}
+                  </button>
+                  <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                          :class="spaceTabType==='space'?'c-active-tab text-color62':'text-color7D'"
+                          @click="spaceTabType='space'">Space</button>
+                </div>
+                <div v-show="spaceTabType==='curation'" class="flex-1 overflow-hidden flex flex-col">
+                  <div v-if="(curationLoading || participantLoading) && participant.length===0"
+                       class="c-text-black py-2rem min-h-1rem">
+                    <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
+                  </div>
+                  <div v-else-if="(!curationLoading && !participantLoading) && participant.length===0"
+                       class="c-text-black py-2rem min-h-1rem">
+                    <img class="w-50px mx-auto" src="~@/assets/no-data.svg" alt="" />
+                    <div class="text-12px text-color8B mt-10px">{{$t('common.none')}}</div>
+                  </div>
+                  <SpaceAttendedList class="flex-1 overflow-hidden"
+                                     v-else-if="participant.length>0"
+                                     :records="participant"
+                                     :post="currentShowingDetail"
+                                     :curation="curationList[0]"
+                                     :space="spaceInfo"
+                                     @close="showAttendedList=false">
+                  </SpaceAttendedList>
+                </div>
+                <div class="flex-1 overflow-auto">
+                  <SpaceSpeaker v-show="spaceTabType==='space'"
+                                :participant="speakerParticipant"
+                                :post="currentShowingDetail"
+                                :space="spaceInfo"
+                                @tip="tip"/>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!--Post web-->
+          <div v-else class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A
                         max-h-full overflow-hidden flex flex-col">
               <div v-if="(curationLoading || participantLoading) && participant.length===0"
@@ -157,6 +200,27 @@
     </template>
     <van-popup class="md:w-600px bg-black light:bg-transparent"
                :class="position==='center'?'rounded-12px':'rounded-t-12px'"
+               v-model:show="showSpeakerModal"
+               :position="position">
+      <transition name="el-zoom-in-bottom">
+        <div v-if="showSpeakerModal"
+             class="relative dark:bg-glass light:bg-colorF7 rounded-t-12px">
+          <div class="pt-20px pb-10px flex justify-end px-15px">
+            <button @click="showSpeakerModal=false">
+              <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
+            </button>
+          </div>
+          <div class="max-h-60vh overflow-auto">
+            <SpaceSpeaker :participant="speakerParticipant"
+             :post="currentShowingDetail"
+             :space="spaceInfo"
+              @tip="tip"/>
+          </div>
+        </div>
+      </transition>
+    </van-popup>
+    <van-popup class="md:w-600px bg-black light:bg-transparent"
+               :class="position==='center'?'rounded-12px':'rounded-t-12px'"
                v-model:show="showTip"
                :position="position">
       <transition name="el-zoom-in-bottom">
@@ -167,7 +231,7 @@
             <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
           </button>
           <TipModalVue class="pt-70px 2xl:pt-3.5rem h-60vh"
-                       :tipToUser="currentShowingDetail"
+                       :tipToUser="tipUser"
                        :parent-tweet-id="currentShowingDetail.postId"
                        @close="showTip=false"
                        @back="showTip=false"></TipModalVue>
@@ -182,7 +246,24 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showAttendedList"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <CurationAttendedList class="max-h-60vh min-h-60vh"
+          <SpaceAttendedList v-if="currentShowingDetail.spaceId"
+                             class="max-h-60vh min-h-60vh overflow-hidden"
+                             :records="participant"
+                             :post="currentShowingDetail"
+                             :curation="curationList[0]"
+                             :space="spaceInfo"
+                             @close="showAttendedList=false">
+            <div class="flex-1 flex justify-between flex-col xs:flex-row xs:items-center">
+              <div class="c-text-black text-16px py-6px">
+                {{$t('curation.participants')}}
+              </div>
+              <div class="h-24px flex items-center text-12px">
+                {{$t('curation.attendedNum', {num:participant.length})}}
+              </div>
+            </div>
+          </SpaceAttendedList>
+          <CurationAttendedList v-else
+                                class="max-h-60vh min-h-60vh"
                                 :records="participant"
                                 :post="currentShowingDetail"
                                 :curation="curationList[0]"
@@ -201,6 +282,9 @@
 <script>
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
+import SpaceIncome from "@/components/SpaceIncome.vue";
+import SpaceSpeaker from "@/components/SpaceSpeaker.vue";
+import SpaceAttendedList from "@/components/SpaceAttendedList.vue";
 import Comment from '@/views/user/components/Comment'
 import { mapState, mapGetters } from 'vuex'
 import {
@@ -209,11 +293,14 @@ import {
   getCurationsOfTweet,
   getAllTipsByTweetId,
   getTopTipsOfTweetId,
-  getAutoCurationRecord
+  getAutoCurationRecord,
+  getSpaceInfo,
+  spaceCurationRecord,
+  spaceSpeakerRecord
 } from '@/api/api'
 import { getPosts } from '@/utils/steem'
 import { EVM_CHAINS } from '@/config'
-import {formatAmount, formatPrice, parseSpaceStartTime} from '@/utils/helper'
+import {formatAmount, formatPrice, parseSpaceStartTime, sleep} from '@/utils/helper'
 import iconTop1 from "@/assets/icon-top1.svg";
 import iconTop2 from "@/assets/icon-top2.svg";
 import iconTop3 from "@/assets/icon-top3.svg";
@@ -233,7 +320,7 @@ import {isNumeric} from "@/utils/tool";
 export default {
   name: "PostDetail",
   components: {Blog, Comment, PostRecommendItem, PostCreatedCuration, TipModalVue, Space, PostButtonGroup,
-    CurationAttendedList, ChainTokenIcon},
+    CurationAttendedList, ChainTokenIcon, SpaceIncome, SpaceSpeaker, SpaceAttendedList},
   computed: {
     ...mapState('postsModule', ['currentShowingDetail']),
     ...mapGetters(['getAccountInfo']),
@@ -257,11 +344,6 @@ export default {
       }
       return []
     },
-  },
-  watch: {
-    curationList(val) {
-      if(val.length>0) this.getParticipant()
-    }
   },
   setup() {
     const { width, height } = useWindowSize();
@@ -293,12 +375,18 @@ export default {
       updateInterval: null,
       creatingCuration: false,
       participant: [],
+      speakerParticipant: [],
       count: 0,
-      participantLoading: false,
-      showAttendedList: false
+      participantLoading: true,
+      spaceInfoLoading: true,
+      showAttendedList: false,
+      spaceTabType: 'curation',
+      tipUser: {},
+      showSpeakerModal: false,
+      spaceInfo: null
     }
   },
-  mounted() {
+  async mounted() {
     const postId = this.$route.params.postId
     this.postId = postId
     this.$gtag.pageview('/post-detail/' + postId)
@@ -335,6 +423,10 @@ export default {
     }).catch(e => console.log('get curation of tweet fail:', e)).finally(() => {
       this.curationLoading = false
     })
+    let c = 0;
+    while(!this.currentShowingDetail || c++ > 50) {
+      await sleep(0.2)
+    }
     this.updateCurationInfo()
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
   },
@@ -368,18 +460,49 @@ export default {
       // this.listFinished = false
       // this.onLoad()
     },
-    getParticipant() {
-      if(this.participantLoading) return
+    async getParticipant() {
+      while(!this.curations || this.curations.length === 0) {
+        await sleep(0.2)
+      }
       const id = this.curationList[0].curationId;
-      this.participantLoading = true
-      getAutoCurationRecord(id).then(res => {
-        this.participant = res ?? []
-      }).catch(console.log).finally(() => {this.participantLoading = false})
+      if (this.curationList[0].curationType === 2 && this.currentShowingDetail) {
+        const spaceState = this.currentShowingDetail.spaceState;
+        if (spaceState === 1 || spaceState === 2 || (spaceState === 3 && !this.spaceInfo)) {
+          this.spaceInfoLoading = true
+          getSpaceInfo(this.currentShowingDetail.spaceId).then(res => {
+            this.currentShowingDetail.spaceState = res.spaceState
+            res.hostIds = JSON.parse(res.hostIds);
+            res.speakerIds = JSON.parse(res.speakerIds)
+            this.spaceInfo = res ?? []
+          }).catch(console.log)
+          .finally(() => {
+            this.spaceInfoLoading = false
+          })
+          spaceSpeakerRecord(id).then(res => {
+            this.speakerParticipant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.participantLoading = false
+          })
+          spaceCurationRecord(id).then(res => {
+            this.participant = res ?? []
+          }).catch(console.log).finally(() => {
+            this.participantLoading = false
+          })
+        }else {
+          this.participantLoading = false
+        }
+      }else {
+        getAutoCurationRecord(id).then(res => {
+          this.participant = res ?? []
+        }).catch(console.log).finally(() => {this.participantLoading = false})
+      }
     },
     updateCurationInfo() {
       const postId = this.$route.params.postId
+      if (!this.currentShowingDetail) return;
+
       // update tip info
-      if (this.count++ % 3 === 0 && this.curationList.length>0) this.getParticipant()
+      if (this.count++ % 3 === 0 && this.curations.length  > 0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {
           if (!res) return;
           this.tips = res
@@ -399,10 +522,16 @@ export default {
         return `@${tip.fromUsername} tips ${formatAmount(tip.amount / (10 ** tip.decimals))} ${tip.symbol}(${chainName}) to @${tip.toUsername}`
       }
     },
-    tip() {
+    tip(user) {
       if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
         this.$store.commit('saveShowLogin', true)
         return
+      }
+      this.tipUser = {
+        name: user.twitterName,
+        username: user.twitterUsername,
+        twitterId: user.twitterId,
+        ethAddress: user.ethAddress
       }
       this.showTip = true
     },

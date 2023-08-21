@@ -173,7 +173,7 @@
                       :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                       @click="changeTab(1)">
                       {{$t('community.topic')}}
-                <!-- <span :class="newHappenings?'relative c-badge':''">{{$t('community.topic')}}</span> -->
+                 <i :class="newHappenings?'relative c-badge':''"></i>
               </button>
               <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                       :class="tabIndex===5?'c-active-tab text-color62':'text-color7D'"
@@ -259,19 +259,20 @@ import CommunityCredit from "@/views/community/CommunityCredit.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
-import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps } from '@/api/api'
+import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps, getCommunityNotis } from '@/api/api'
 import { notify } from "@/utils/notify";
 import {markRaw, watch} from "vue";
 import { getPriceFromOracle } from '@/utils/asset'
+import {useTimer} from "@/utils/hooks";
+import { dayjs } from "element-plus";
 
 export default {
   name: "CommunityDetail",
   components: {CommunityActivity, CommunityPost, CommunityTopic, CommunityMember, CommunityCredit},
   setup() {
     const { width } = useWindowSize();
-    return {
-      width
-    }
+    const { setTimer } = useTimer()
+    return {width, setTimer}
   },
   data() {
     return {
@@ -283,12 +284,15 @@ export default {
       isAdmin: false,
       activeComponent: markRaw(CommunityPost),
       infoMaxHeight: 1000,
-      newHappenings: true
+      newHappenings: false
     }
   },
   watch: {
     width(val) {
       if(val>961 && this.tabIndex===4) this.changeTab(0)
+    },
+    tabIndex(val) {
+      if(val===1) this.setTimer(() => {this.newHappenings = false}, 10000)
     }
   },
   computed: {
@@ -354,7 +358,25 @@ export default {
         console.log(54, e);
         notify({error: e, type: 'error'})
       })
-
+      getCommunityNotis(communityId).then(res => {
+        let storageNoti = localStorage.getItem('community-noti-' + communityId);
+        storageNoti = storageNoti ?? [];
+        if (res && res.length > 0) {
+          for (let noti of res) {
+            const current = storageNoti.find(n => n.type === noti.type);
+            // now is only for happenings noti
+            if (noti.type === 'space' || noti.type === 'activity') {
+              if ((!current || current.typeId < noti.typeId) && dayjs().diff(dayjs(noti.updateTime), 'h') < 72) {
+                this.newHappenings = true;
+                break;
+              }
+            }
+          }
+        }
+        localStorage.setItem('community-noti-' + communityId, res);
+      }).catch(e => {
+        notify({error: e, type: 'error'})
+      })
     }
   },
   methods: {
@@ -405,6 +427,7 @@ export default {
     }
   },
   mounted () {
+    if(this.tabIndex===1) this.setTimer(() => {this.newHappenings = false}, 10000)
   },
 }
 </script>
