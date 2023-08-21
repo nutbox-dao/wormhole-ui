@@ -259,11 +259,12 @@ import CommunityCredit from "@/views/community/CommunityCredit.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
-import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps } from '@/api/api'
+import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps, getCommunityNotis } from '@/api/api'
 import { notify } from "@/utils/notify";
 import {markRaw, watch} from "vue";
 import { getPriceFromOracle } from '@/utils/asset'
 import {useTimer} from "@/utils/hooks";
+import { dayjs } from "element-plus";
 
 export default {
   name: "CommunityDetail",
@@ -283,7 +284,7 @@ export default {
       isAdmin: false,
       activeComponent: markRaw(CommunityPost),
       infoMaxHeight: 1000,
-      newHappenings: true
+      newHappenings: false
     }
   },
   watch: {
@@ -357,7 +358,25 @@ export default {
         console.log(54, e);
         notify({error: e, type: 'error'})
       })
-
+      getCommunityNotis(communityId).then(res => {
+        let storageNoti = localStorage.getItem('community-noti-' + communityId);
+        storageNoti = storageNoti ?? [];
+        if (res && res.length > 0) {
+          for (let noti of res) {
+            const current = storageNoti.find(n => n.type === noti.type);
+            // now is only for happenings noti
+            if (noti.type === 'space' || noti.type === 'activity') {
+              if ((!current || current.typeId < noti.typeId) && dayjs().diff(dayjs(noti.updateTime), 'h') < 72) {
+                this.newHappenings = true;
+                break;
+              }
+            }
+          }
+        }
+        localStorage.setItem('community-noti-' + communityId, res);
+      }).catch(e => {
+        notify({error: e, type: 'error'})
+      })
     }
   },
   methods: {

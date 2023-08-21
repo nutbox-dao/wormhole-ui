@@ -444,6 +444,7 @@ export const getJoinCommunityState = async (twitterId, communityIds) =>
 export const searchCommunityByName = async (communityName) =>
     get(BACKEND_API_URL + '/community/searchCommunityByName', {communityName})
 
+// community operations
 export const getCommunityOps = async (communityId, createTime) =>
     get(BACKEND_API_URL + '/community/getCommunityOps', {communityId, createTime})
 
@@ -452,6 +453,9 @@ export const getCommunityNotEndedSpacesAndActivities = async (communityId, pageI
 
 export const getCommunityEndedSpacesAndActivities = async (communityId, pageIndex) =>
     get(BACKEND_API_URL + '/community/getCommunityEndedSpacesAndActivities', {communityId, pageIndex})
+
+export const getCommunityNotis = async (communityId) =>
+    get(BACKEND_API_URL + '/community/getCommunityNotis', {communityId})
 
 /****************************************  Invitation  ***********************************************/
 export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>

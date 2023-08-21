@@ -488,7 +488,7 @@ export default {
     topicRatio: '策展: ',
     noRewardCanClaim: "没有可领取的奖励",
     orderClaimPending: '有正在领取中的订单，请稍后再试！',
-    communityAsset: 'Community Asset',
+    communityAsset: 'DAO 国库',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",

@@ -41,7 +41,7 @@
                       text-16px leading-18px  light:text-blueDark"
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
                 <span class="text-14px leading-18px  text-color8B light:text-color7D">
-                  ({{ post.reputation }})
+                  ({{ post.reputation > 0 ? post.reputation : 1 }})
                 </span>
               </div>
               <div @click.stop class="ml-4px flex items-center sm:hidden">

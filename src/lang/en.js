@@ -488,7 +488,7 @@ export default {
     topicRatio: 'Curation: ',
     noRewardCanClaim: "No claimable rewards",
     orderClaimPending: 'There is another claim order in pending, please try later.',
-    communityAsset: 'Community Asset',
+    communityAsset: 'DAO treasury',
     communityBalance: 'Community Balance',
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
