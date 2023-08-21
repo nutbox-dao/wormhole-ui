@@ -493,7 +493,7 @@ export default {
     fundAddress: "Fund Address",
     fundRatio: "Fund Ratio",
     retainedRevenue: 'Retained Revenue',
-    pendingReward: '奖励池',
+    pendingReward: '待领取',
     joinIn: '参与',
     moreCommunities: '更多社区',
     credit: '信用',
