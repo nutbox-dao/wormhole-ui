@@ -40,6 +40,9 @@
                 <a class="c-text-black text-left cursor-pointer
                       text-16px leading-18px  light:text-blueDark"
                    @click.stop="gotoUserPage()">{{ post.name }}</a>
+                <span class="text-14px leading-18px  text-color8B light:text-color7D">
+                  ({{ post.reputation }})
+                </span>
               </div>
               <div @click.stop class="ml-4px flex items-center sm:hidden">
                 <el-tooltip>
@@ -54,10 +57,10 @@
               </div>
             </div>
             <div class="flex items-center id-time">
-              <span class="text-12px leading-18px  text-color8B light:text-color7D">
-                @{{ post.username }}
+              <!-- <span class="text-12px leading-18px  text-color8B light:text-color7D">
+                ({{ post.reputation }})
               </span>
-              <span class="mx-4px text-color8B light:text-color7D"> · </span>
+              <span class="mx-4px text-color8B light:text-color7D"> · </span> -->
               <span class="whitespace-nowrap text-12px leading-18px 2xl:text-0.7rem 2xl:leading-1rem text-color8B light:text-color7D">
                {{ parseTimestamp(post.postTime) }}
               </span>
