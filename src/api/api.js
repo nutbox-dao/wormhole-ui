@@ -91,6 +91,9 @@ export const setNotiReaded = async (twitterId, ids) =>
 export const readAll = async (twitterId) =>
     post(BACKEND_API_URL + '/noti/readAll', {twitterId})
 
+export const getCommunityNotis = async (communityId) =>
+    get(BACKEND_API_URL + '/noti/getCommunityNotis', {communityId})
+
 /****************************************  posts  ***********************************************/
 export const getUsersPosts = async (twitterId, targetTwitterId, lastTime) => 
     get(BACKEND_API_URL + '/post/getUserPostByTime', {twitterId, targetTwitterId, lastTime})
@@ -453,9 +456,6 @@ export const getCommunityNotEndedSpacesAndActivities = async (communityId, pageI
 
 export const getCommunityEndedSpacesAndActivities = async (communityId, pageIndex) =>
     get(BACKEND_API_URL + '/community/getCommunityEndedSpacesAndActivities', {communityId, pageIndex})
-
-export const getCommunityNotis = async (communityId) =>
-    get(BACKEND_API_URL + '/community/getCommunityNotis', {communityId})
 
 /****************************************  Invitation  ***********************************************/
 export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
