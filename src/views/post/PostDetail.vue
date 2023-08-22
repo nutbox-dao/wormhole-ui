@@ -331,12 +331,6 @@ export default {
       }
       return []
     },
-    promotionList() {
-      if (this.curations) {
-        return this.curations.filter(c => !c.isPromotion)
-      }
-      return []
-    },
     top3Tip() {
       if (this.tips && this.tips.length > 0) {
         const steemTips = this.tips.filter(t => t.chainName == 'STEEM');
@@ -424,7 +418,7 @@ export default {
       this.curationLoading = false
     })
     let c = 0;
-    while(!this.currentShowingDetail || c++ > 50) {
+    while(!this.currentShowingDetail || !this.curations || this.curations.length === 0 || c++ > 50) {
       await sleep(0.2)
     }
     this.updateCurationInfo()
@@ -461,9 +455,6 @@ export default {
       // this.onLoad()
     },
     async getParticipant() {
-      while(!this.curations || this.curations.length === 0) {
-        await sleep(0.2)
-      }
       const id = this.curationList[0].curationId;
       if (this.curationList[0].curationType === 2 && this.currentShowingDetail) {
         const spaceState = this.currentShowingDetail.spaceState;
@@ -500,7 +491,6 @@ export default {
     updateCurationInfo() {
       const postId = this.$route.params.postId
       if (!this.currentShowingDetail) return;
-
       // update tip info
       if (this.count++ % 3 === 0 && this.curations.length  > 0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {
