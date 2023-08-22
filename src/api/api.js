@@ -461,6 +461,9 @@ export const getCommunityEndedSpacesAndActivities = async (communityId, pageInde
 export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
     post(BACKEND_API_URL + '/invitation/getInvitorsOfUser', {twitterId, pageSize, pageIndex})
 
+export const getInvitorsCountOfUser = async (twitterId) =>
+    post(BACKEND_API_URL + '/invitation/getInvitorsCountOfUser', {twitterId})
+
 export const getPendingClaimSummary = async (twitterId) =>
     get(BACKEND_API_URL + '/invitation/getPendingClaimSummary', {twitterId})
 

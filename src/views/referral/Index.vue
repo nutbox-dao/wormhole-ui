@@ -16,7 +16,7 @@
         <button class="w-full h-48px flex items-center justify-center px-15px"
                 :class="tabIndex===1?'c-active-tab text-color62':'text-color7D'"
                 @click="tabIndex=1">
-          {{$t('ref.myFriends')}}
+          {{$t('ref.myFriends')}}({{ inviteesCount }})
         </button>
       </div>
     </div>
@@ -30,14 +30,30 @@
 <script>
 import InviteLink from "@/views/referral/InviteLink";
 import InviterList from "@/views/referral/InviterList";
+import { getInvitorsCountOfUser } from '@/api/api'
+import { mapGetters } from 'vuex'
+
 export default {
   name: "Index",
   components: {InviteLink, InviterList},
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      inviteesCount: 0
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['getAccountInfo'])
+  },
+  mounted () {
+    if (this.getAccountInfo?.twitterId) {
+      getInvitorsCountOfUser(this.getAccountInfo.twitterId).then(count => {
+        this.inviteesCount = count
+      }).catch()
+    }else {
+      this.$router.replace('/')
+    }
+  },
 }
 </script>
 
