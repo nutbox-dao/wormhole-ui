@@ -124,16 +124,7 @@
                 @click="gotoOfficialTwitter">
           <img class="w-14px min-w-14px h-14px" src="~@/assets/icon-twitter-white.svg" alt="">
         </button>
-        <button v-show="!getAccountInfo"
-         class="h-26px bg-color8B light:bg-blueDark rounded-full flex items-center justify-between"
-          @click="changeLang">
-          <span class="text-18px h-26px px-8px flex items-center" :class="lang === 'en' ? 'bg-color62 rounded-full' : ''">
-            EN
-          </span>
-          <span class="text-18px h-26px px-8px flex items-center" :class="lang === 'zh' ? 'bg-color62 rounded-full' : ''">
-            CH
-          </span>
-        </button>
+        <LanguageChangeButtonVue v-show="!getAccountInfo"/>
       </div>
     </div>
   </div>
@@ -146,11 +137,11 @@ import Menu from "@/components/layout/Menu";
 import {MAX_RC, MAX_VP} from "@/config";
 import UserEnergyBar from "@/components/UserEnergyBar.vue";
 import {logout} from "@/utils/account";
-import i18n from "@/lang";
+import LanguageChangeButtonVue from "../LanguageChangeButton.vue";
 
 export default {
   name: "SliderBar",
-  components: {Menu, UserEnergyBar},
+  components: {Menu, UserEnergyBar, LanguageChangeButtonVue},
   props: {
     profileImg: {
       type: String,
@@ -209,11 +200,6 @@ export default {
       // this.$refs.menuBox.hide()
       window.open('https://twitter.com/wormhole_3', '__blank')
     },
-    changeLang() {
-      this.lang = this.lang === 'en'? 'zh':'en'
-      i18n.global.locale = this.lang
-      localStorage.setItem('language', this.lang)
-    }
   }
 }
 </script>
