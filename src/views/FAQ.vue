@@ -7,7 +7,7 @@
         <i class="icon-back w-20px h-20px"></i>
       </button>
       <div class="c-text-black text-center py-1rem text-1.5rem md:text-1.2rem">{{$t('faq')}}</div>
-      <LanguageChangeButtonVue class="absolute right-15px"/>
+      <LanguageChangeButtonVue class="absolute right-15px 2md:hidden"/>
     </div>
     <div class="container mx-auto text-left max-w-43rem fade-in c-text-medium p-15px break-word">
       <div v-if="$i18n.locale==='zh'">
