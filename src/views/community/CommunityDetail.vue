@@ -365,6 +365,7 @@ export default {
         }else {
           storageNoti = []
         }
+        
         if (res && res.length > 0) {
           for (let noti of res) {
             const current = storageNoti.find(n => n.type === noti.type);
