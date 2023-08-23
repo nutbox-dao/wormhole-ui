@@ -109,7 +109,7 @@
             </div>
             <div class="flex-1 w-full">
               <div class="text-left c-text-black text-16px text-white mb-8px truncate">
-                {{ space.spaceTwitterName }}
+                {{ space.spaceTitle ?? space.spaceTwitterName }}
               </div>
               <div v-if="space.spaceState===1" class="text-left text-white mb-8px text-12px font-bold">
                 {{ parseSpaceStartTime(space.spaceStartTime) }}
