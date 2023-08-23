@@ -40,7 +40,9 @@
           </el-tooltip>
         </div>
       </div>
-      <div v-else></div>
+      <div v-else>
+        <LanguageChangeButtonVue/>
+      </div>
       <div class="flex items-center">
         <button class="relative" @click="searchModalVisible=true">
           <img class="w-24px h-24px min-w-24px"
@@ -72,10 +74,12 @@ import SearchView from "@/views/SearchView";
 import {mapState, mapGetters} from "vuex";
 import { MAX_VP, MAX_RC } from "@/config";
 import HalfCircleProgress from "@/components/HalfCircleProgress.vue";
+import LanguageChangeButtonVue from "@/components/LanguageChangeButton.vue";
+
 
 export default {
   name: "Header",
-  components: {SearchView, HalfCircleProgress},
+  components: {SearchView, HalfCircleProgress, LanguageChangeButtonVue},
   computed: {
     ...mapState([
       "rc",
