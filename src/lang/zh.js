@@ -516,7 +516,8 @@ export default {
     retweeted: '转推了',
     replyed: '回复了',
     followed: '关注了',
-    yourTweet: '你的策展'
+    yourTweet: '你的策展',
+    register: '{account} 通过你的推荐链接完成了注册。'
   },
   slider: {
     home: '首页',
