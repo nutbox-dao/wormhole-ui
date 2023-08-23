@@ -30,7 +30,7 @@
                src="@/assets/icon-default-avatar.svg" v-else alt="">
         </template>
       </Avatar>
-      
+
       <div class="flex-1 flex justify-between sm:items-center">
           <div class="flex-1 flex flex-col items-start sm:flex-wrap sm:flex-row sm:items-center">
             <div class="flex items-center sm:mr-6px">
@@ -84,7 +84,8 @@
            class="mr-10px max-w-56px max-h-56px" :class="[avatarClass]"></div>
       <div class="flex-1 truncate">
         <div v-if="isDetail" class="text-left font-400 mt-1rem sm:mt-0.5rem md:mt-0rem mb-15px">
-          <div class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
+          <div @click.stop="clickContent"
+               class="cursor-pointer text-14px leading-18px  text-colorD9 light:text-color46">
             <div class="whitespace-pre-line"
                  v-html="formatEmojiText(content)"></div>
           </div>
@@ -288,7 +289,15 @@ export default {
     },
     onQuote() {
       this.$refs.postButtonRef.otherPreQuote()
-    }
+    },
+    clickContent(e) {
+      if(e.target.dataset.url) {
+        window.open(e.target.dataset.url, '_blank')
+      } else {
+        // goto detail
+        this.$refs.blogRef.click()
+      }
+    },
   },
   mounted () {
     this.urlreg = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_#@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g
