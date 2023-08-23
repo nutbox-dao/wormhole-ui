@@ -360,7 +360,11 @@ export default {
       })
       getCommunityNotis(communityId).then(res => {
         let storageNoti = localStorage.getItem('community-noti-' + communityId);
-        storageNoti = storageNoti ?? [];
+        if (storageNoti.length > 4) {
+          storageNoti = JSON.parse(storageNoti)
+        }else {
+          storageNoti = []
+        }
         if (res && res.length > 0) {
           for (let noti of res) {
             const current = storageNoti.find(n => n.type === noti.type);
@@ -373,8 +377,9 @@ export default {
             }
           }
         }
-        localStorage.setItem('community-noti-' + communityId, res);
+        localStorage.setItem('community-noti-' + communityId, JSON.stringify(res));
       }).catch(e => {
+        console.log(e)
         notify({error: e, type: 'error'})
       })
     }

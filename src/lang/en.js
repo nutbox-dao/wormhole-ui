@@ -516,7 +516,8 @@ export default {
     retweeted: 'retweeted',
     replyed: 'replyed',
     followed: 'followed',
-    yourTweet: 'your curation'
+    yourTweet: 'your curation',
+    register: '{user} had registered through your invitation link'
   },
   slider: {
     home: 'Home',
