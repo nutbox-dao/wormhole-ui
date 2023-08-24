@@ -54,7 +54,8 @@ export default {
     skip: '跳过',
     verify: '验证',
     verifying: '验证中...',
-    back: '返回'
+    back: '返回',
+    choseWords: '请在下列单词中依次点击您记录的助记词中的第{firstIndex}和{lastIndex}个单词'
   },
   metamaskView: {
     p1: '请确认你的地址',

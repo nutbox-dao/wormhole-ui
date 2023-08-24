@@ -22,13 +22,14 @@
             {{$t('verifyView.p2')}}
           </div>
           <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem mt-1.25rem"
-                  @click="showSaveKey=true">
+                  @click="randomIndex();showSaveKey=true">
             {{$t('verifyView.saveBtn')}}
           </button>
         </template>
         <template v-else>
-          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem">
-            {{$t('verifyView.p7')}}
+          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem" style="word-break: break-word">
+            {{$t('verifyView.choseWords', {firstIndex: lang == 'zh' ? `${indexArray[0]},${indexArray[1]}` : `${indexArray[0]}th,${indexArray[1]}th`,
+             lastIndex:  lang == 'zh' ? `${indexArray[2]}` : `${indexArray[2]}th`})}}
           </div>
           <div class="key-box flex items-center border-2 border-color84/30
                     light:bg-gradient-input light:text-white light:border-color62
@@ -36,11 +37,21 @@
                     text-1rem lg:leading-2rem leading-1.6rem mb-0.8rem"
                style="word-spacing: 1rem; word-break: break-word">
             <div class="flex-1 grid grid-cols-4 gap-x-0.5rem" v-if="wallet && wallet.nemonic">
-              <span class="col-span-1 text-left" v-for="(word, i) of wallet.nemonic.split(' ')" :key="i">{{word}}</span>
+              <button class="col-span-1 text-left" v-for="(word, i) of shulffleWords" :key="i"
+                @click="choseWord(word)">
+                 {{word}}
+              </button>
             </div>
-            <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
+            <!-- <img class="w-1.3rem h-1.3rem ml-1rem cursor-pointer"
                  @click="onCopy(wallet.nemonic)"
-                 src="~@/assets/icon-copy.svg" alt="">
+                 src="~@/assets/icon-copy.svg" alt=""> -->
+          </div>
+
+          <div class="flex-1 grid grid-cols-4 gap-x-0.5rem">
+            <button class="gradient-btn col-span-1 py-10px my-10px rounded-14px flex justify-center items-center text-1rem" v-for="(word, i) of selectedWords" :key="i + 'select'"
+              @click="delWord(i)">
+                {{word}}
+            </button>
           </div>
           <div class="flex justify-center items-start mx-auto">
             <el-checkbox v-model="checked"  class="c-checkbox z-0"/>
@@ -49,8 +60,12 @@
             </div>
           </div>
           <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
+            <button class="mr-3rem gradient-btn gradient-btn-disabled-grey c-text-black h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
+                  @click="showSaveKey=false">
+                  {{$t('verifyView.back')}}
+            </button>
             <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
-                  :disabled="!checked"  
+                  :disabled="!checked || !wordsChecked"
                   @click="step=2">
               {{$t('verifyView.sureBtn')}}
             </button>
@@ -143,16 +158,60 @@ export default {
       step: 1,
       showSaveKey: false,
       isSigningup: false,
-      authError: false
+      authError: false,
+      indexArray: [],
+      selectedWords: [],
+      shulffleWords: []
     }
   },
   computed: {
-    ...mapState(['referee'])
+    ...mapState(['referee']),
+    lang() {
+      return localStorage.getItem('language')
+    },
+    wordsChecked() {
+      if (this.selectedWords.length !== 3) {
+        return false
+      }
+      const [selectedfirst, selectedsecond, selectedthird] = this.selectedWords;
+      const nemonic = this.wallet.nemonic.split(' ')
+      const [first, second, third] = [nemonic[this.indexArray[0] - 1], nemonic[this.indexArray[1] - 1], nemonic[this.indexArray[2] - 1]]
+      if (selectedfirst === first && selectedsecond === second && selectedthird === third) {
+        return true;
+      }
+      return false;
+    },
   },
   methods: {
     onCopy,
     showNotify(message, duration, type) {
         notify({message, duration, type})
+    },
+    choseWord(word) {
+      if (this.selectedWords.length >= 3) return;
+      this.selectedWords.push(word)
+    },
+    delWord(index) {
+      this.selectedWords.splice(index, 1)
+    },
+    randomIndex() {
+      this.indexArray = []
+      while(this.indexArray.length < 3) {
+        let num = parseInt(Math.random() * 12)
+        if (this.indexArray.indexOf(num) == -1 && num !== 0) {
+          this.indexArray.push(num)
+        }
+      }
+      this.shulffleWords = []
+      let leftWords = [...this.wallet.nemonic.split(' ')]
+      let length = 11;
+      while(this.shulffleWords.length < 12) {
+        let index = parseInt(Math.random() * length);
+        length--;
+        this.shulffleWords.push(leftWords.splice(index, 1)[0])
+      }
+      this.indexArray = this.indexArray.sort((a,b) => a - b);
+
     },
     async signup() {
       this.$gtag.event('sync up with new account', {
@@ -216,7 +275,6 @@ export default {
       await sleep(0.6);
       randomWallet().then(wallet => {
         this.wallet = wallet
-        console.log(4, this.wallet);
       })
     }
   },

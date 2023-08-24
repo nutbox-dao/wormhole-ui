@@ -54,7 +54,8 @@ export default {
     skip: 'Skip',
     verify: 'Verify',
     verifying: 'Verifying...',
-    back: 'Back'
+    back: 'Back',
+    choseWords: 'Please click on the {firstIndex} and {lastIndex} words in the mnemonic phrase you recorded in order'
   },
   metamaskView: {
     p1: 'Please confirm your address',
