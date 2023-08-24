@@ -79,6 +79,7 @@ import { createKeypair } from '@/utils/tweet-nacl'
 import { ethers } from 'ethers'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {useTimer} from "@/utils/hooks";
+import { mapState } from 'vuex'
 
 export default {
   name: "Login",
@@ -99,7 +100,6 @@ export default {
       ethAddress: '',
       accountInfo: {},
       walletAddress: '',
-      referee: '',
       wallet: {},
       pair: {},
       pendingAccount: {},
@@ -136,7 +136,7 @@ export default {
     Cookie.remove('account-auth-info');
   },
   computed: {
-    // ...mapState(['ethAddress', 'accountInfo']),
+    ...mapState(['referee']),
     // ...mapGetters(['getPrivateKey'])
   },
   methods: {
@@ -170,7 +170,7 @@ export default {
           // return;
         }
 
-        const res = await twitterAuth(needLogin);
+        const res = await twitterAuth({needLogin, referee: this.referee});
         const params = res.split('?')[1].split('&')
         let state;
         for (let p of params) {

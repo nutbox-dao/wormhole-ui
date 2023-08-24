@@ -17,8 +17,8 @@ export const getPriceLinea = async () =>
     get("https://api-linea.nutbox.app/token/getPrices")
 
 /****************************************  auth  ***********************************************/
-export const twitterAuth = async(needLogin) =>
-    get(BACKEND_API_URL + '/auth/login', {needLogin})
+export const twitterAuth = async(params) =>
+    get(BACKEND_API_URL + '/auth/login', params)
 
 export const testTwitterAuth = async() =>
     post(BACKEND_API_URL + '/auth/login', {needLogin: true, callback: 'https://deschool.app/studio/', ethAddress: '0x710FaA3d63F590832E8E7c71ecCe752456Ae3809', communityId: 'cab1b9a9ee34'})

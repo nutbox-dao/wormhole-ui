@@ -329,11 +329,17 @@ export default {
   },
   async mounted() {
     await this.$router.isReady();
-    const referee = this.$route.query.referee;
+    // referee is a param from a invitation link
+    // registerreferee is from the twitter auth callback
+    const {referee, registerreferee} = this.$route.query;
     if (referee) {
       this.$store.commit('saveReferee', referee);
-      this.$store.commit('saveShowLogin', true)
+      if (!this.getAccountInfo)
+        this.$store.commit('saveShowLogin', true)
+    }else if(registerreferee) {
+      this.$store.commit('saveReferee', registerreferee);
     }
+
     let state = null
     let params = this.$route.fullPath
     for (let p of params.split('?')) {
