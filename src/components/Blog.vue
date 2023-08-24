@@ -78,7 +78,7 @@
             </div>
           </div>
           <slot name="blog-reward">
-            <BlogReward :post="post" class="ml-10px">
+            <BlogReward v-if="!noCuration" :post="post" class="ml-10px">
               <slot name="curation-time"></slot>
             </BlogReward>
           </slot>
@@ -186,6 +186,10 @@ export default {
     showCommunity:{
       type: Boolean,
       default: true
+    },
+    noCuration: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

@@ -21,12 +21,13 @@
                       :finished-text="''"
                       @load="onLoad">
               <div class="md:bg-blockBg md:light:bg-white light:lg:shadow-color1A rounded-12px md:p-15px">
-                <Space v-if="currentShowingDetail.spaceId" ref="postRef"
+                <Space v-if="isSpace" ref="postRef"
                        :space="currentShowingDetail"
                        :is-detail='true'
                        avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem">
                 </Space>
                 <Blog v-else ref="postRef"
+                      :no-curation="noCuration"
                       :post="currentShowingDetail"
                       avatar-class="min-w-35px min-h-35px w-2.2rem h-2.2rem md:w-3rem md:h-3rem"
                       :is-detail='true'>
@@ -40,7 +41,7 @@
                     {{cTag}}
                   </button>
                 </div>
-                <div v-if="!currentShowingDetail.spaceId"
+                <div v-if="!isSpace"
                      class="border-0 light:border-1 gradient-border gradient-border-color91
                             mt-1rem rounded-15px overflow-hidden">
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
@@ -55,7 +56,7 @@
                   </div>
                 </div>
               </div>
-              <template v-if="currentShowingDetail.spaceId">
+              <template v-if="isSpace">
                 <div v-if="curationLoading|| participantLoading"
                      class="bg-color62/20 rounded-12px px-15px py-8px min-h-54px mt-15px
                             flex lg:hidden justify-between items-center">
@@ -125,7 +126,7 @@
             </van-list>
           </div>
           <!--Space web-->
-          <div v-if="currentShowingDetail.spaceId"
+          <div v-if="isSpace"
                class="col-span-1 lg:col-span-2 hidden lg:block h-full overflow-hidden pb-15px">
             <div class="max-h-full overflow-hidden flex flex-col">
               <SpaceIncome v-if="spaceInfo && (spaceInfo.spaceState === 2 || spaceInfo.spaceState === 3)" class="rounded-16px bg-blockBg light:bg-white light:shadow-color1A h-max"
@@ -246,7 +247,7 @@
       <transition name="el-zoom-in-bottom">
         <div v-if="showAttendedList"
              class="dark:bg-glass light:bg-white rounded-t-12px">
-          <SpaceAttendedList v-if="currentShowingDetail.spaceId"
+          <SpaceAttendedList v-if="isSpace"
                              class="max-h-60vh min-h-60vh overflow-hidden"
                              :records="participant"
                              :post="currentShowingDetail"
@@ -338,6 +339,9 @@ export default {
       }
       return []
     },
+    isSpace() {
+      return this.currentShowingDetail?.curationType === 2
+    }
   },
   setup() {
     const { width, height } = useWindowSize();
@@ -377,7 +381,8 @@ export default {
       spaceTabType: 'curation',
       tipUser: {},
       showSpeakerModal: false,
-      spaceInfo: null
+      spaceInfo: null,
+      noCuration: false
     }
   },
   async mounted() {
@@ -413,6 +418,11 @@ export default {
     }
     this.curationLoading = true
     getCurationsOfTweet(postId).then(curations => {
+      if (!curations || curations.length === 0) {
+        this.noCuration = true;
+        this.curations = curations;
+        return;
+      }
       this.curations = curations
     }).catch(e => console.log('get curation of tweet fail:', e)).finally(() => {
       this.curationLoading = false
@@ -420,6 +430,11 @@ export default {
     let c = 0;
     while(!this.currentShowingDetail || !this.curations || this.curations.length === 0 || c++ > 50) {
       await sleep(0.2)
+      if (this.noCuration) break;
+    }
+    if (this.noCuration) {
+      this.participantLoading = false;
+      return;
     }
     this.updateCurationInfo()
     this.updateInterval = setInterval(this.updateCurationInfo, 10000);
@@ -490,7 +505,7 @@ export default {
     },
     updateCurationInfo() {
       const postId = this.$route.params.postId
-      if (!this.currentShowingDetail) return;
+      if (!this.currentShowingDetail || this.noCuration) return;
       // update tip info
       if (this.count++ % 3 === 0 && this.curations.length  > 0) this.getParticipant()
       getAllTipsByTweetId(postId).then(res => {
