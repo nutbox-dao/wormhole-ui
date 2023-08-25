@@ -28,6 +28,12 @@
               {{record.twitterUsername}}
             </div>
             <div class="flex justify-between items-center gap-4px ml-8px">
+              <el-tooltip v-if="record.votePower >= (space?space.voteThreshold:1000000)" placement="top-start">
+                <i @click.stop class="w-16px h-16px min-w-16px btn-icon-vote-active"></i>
+                <template #content>
+                  <div class="text-white light:text-black">voter</div>
+                </template>
+              </el-tooltip>
               <el-tooltip v-if="(record.curationRewardType & 4) === 4" placement="top-start">
                 <i @click.stop class="w-16px h-16px min-w-16px btn-icon-like-active"></i>
                 <template #content>
@@ -101,7 +107,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('community', ['showingCommunity'])
+    ...mapState('community', ['showingCommunity']),
   },
   async mounted() {
     this.list = this.records;

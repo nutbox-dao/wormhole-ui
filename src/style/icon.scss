@@ -329,6 +329,11 @@
   background-image: url("~@/assets/btn-retweet-active.svg");
 }
 
+.btn-icon-vote-active {
+  @extend .icon;
+  background-image: url("~@/assets/btn-vote-active.svg")
+}
+
 .btn-icon-quote {
   @extend .icon;
   background-image: url("~@/assets/btn-quote.svg");

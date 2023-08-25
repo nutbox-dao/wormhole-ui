@@ -202,6 +202,9 @@ export default {
         case 2:
           return this.$t('space.listening')
         case 3:
+          if (this.space.endtime > (new Date().getTime() / 1000)) {
+            return this.$t('space.unsettlement')
+          }
           return this.$t('space.ended')
         case 4:
           return this.$t('space.canceled')
@@ -211,6 +214,9 @@ export default {
         case 'live':
           return this.$t('space.listening')
         case 'ended':
+          if (this.space.endtime > (new Date().getTime() / 1000)) {
+            return this.$t('space.unsettlement')
+          }
           return this.$t('space.ended')
         case 'canceled':
           return this.$t('space.canceled')
