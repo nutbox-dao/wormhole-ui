@@ -360,7 +360,7 @@ export default {
       })
       getCommunityNotis(communityId).then(res => {
         let storageNoti = localStorage.getItem('community-noti-' + communityId);
-        if (storageNoti.length > 4) {
+        if (storageNoti && storageNoti.length > 4) {
           storageNoti = JSON.parse(storageNoti)
         }else {
           storageNoti = []
