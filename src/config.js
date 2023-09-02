@@ -274,6 +274,30 @@ export const EVM_CHAINS = {
         oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
         communityCuration: '0xDda7947F795B4636C68a14bC590fEb08cA69eef3'
     },
+    Base: {
+        rpc: "https://mainnet.base.org/",
+        scan: "https://basescan.org/",
+        chainName: "Base",
+        tokenScan: "https://basescan.org/token/",
+        id: 8453,
+        main: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18,
+            icon: 'https://l2beat.com/icons/linea.png'
+        },
+        walnutGraph: {
+
+        },
+        assets: {
+
+        },
+        Multi_Config: {
+            rpcUrl: 'https://mainnet.base.org/',
+            multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
+            interval: 3000
+        }
+    },
     Linea: {
         rpc: 'https://rpc.linea.build',
         scan: 'https://lineascan.build/',
