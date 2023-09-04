@@ -1,7 +1,7 @@
 <template>
     <div>
         <button
-         class="h-24px bg-color8B light:bg-blueDark rounded-full flex items-center justify-between"
+         class="text-white h-24px bg-color8B light:bg-blueDark rounded-full flex items-center justify-between"
           @click="changeLang">
           <span class="text-14px h-24px px-8px flex items-center" :class="lang === 'en' ? 'bg-color62 rounded-full' : ''">
             EN
