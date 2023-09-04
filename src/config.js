@@ -131,7 +131,8 @@ export const TokenName = {
     'ARB': 'Arbitrum',
     "MFERC": 'mFERC',
     "ferc": 'fair-ERC20',
-    "wCTLK": 'Wormhole Ctalks'
+    "wCTLK": 'Wormhole Ctalks', 
+    "USDbC": 'USD Base Coin'
 }
 
 export const isWrappedToken = {
@@ -146,7 +147,8 @@ export const EVM_CHAINS_ID = {
     42161: 'Arbitrum',
     1284: 'Moonbeam',
     119: 'ENULS',
-    59144: 'Linea'
+    59144: 'Linea',
+    8453: 'Base'
 }
 /**
  * EVM Chains
@@ -284,20 +286,25 @@ export const EVM_CHAINS = {
             name: 'ETH',
             symbol: 'ETH',
             decimals: 18,
-            icon: 'https://l2beat.com/icons/linea.png'
+            icon: 'https://cdn.wherein.mobi/wormhole3/logo/base-icon.png'
         },
         walnutGraph: {
             useTheGraph: true,
-            url: ''
+            url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbase'
         },
         assets: {
-
+            USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', decimals: 6},
+            USDbC: {symbol: 'USDbC', name: 'USD Base Coin', address: '0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA', decimals: 6},
         },
         Multi_Config: {
             rpcUrl: 'https://mainnet.base.org/',
             multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
             interval: 3000
-        }
+        },
+        curation: '',
+        popup: '',
+        oracle: '0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B',
+        communityCuration: "0x3686218f11c58ca46479acc5DdEE7e41374dF73A"
     },
     Linea: {
         rpc: 'https://rpc.linea.build',
