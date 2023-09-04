@@ -287,7 +287,8 @@ export const EVM_CHAINS = {
             icon: 'https://l2beat.com/icons/linea.png'
         },
         walnutGraph: {
-
+            useTheGraph: true,
+            url: ''
         },
         assets: {
 
