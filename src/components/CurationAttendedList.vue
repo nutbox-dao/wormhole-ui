@@ -53,6 +53,12 @@
               <el-tooltip v-if="(record.taskRecord & 4) === 4" placement="top-start">
                 <i @click.stop class="w-16px h-16px min-w-16px btn-icon-like-active"></i>
                 <template #content>
+                  <div class="text-white light:text-black">+3</div>
+                </template>
+              </el-tooltip>
+              <el-tooltip v-if="(record.taskRecord & 2) === 2" placement="top-start">
+                <i @click.stop class="w-16px h-16px min-w-16px btn-icon-reply-active"></i>
+                <template #content>
                   <div class="text-white light:text-black">+5</div>
                 </template>
               </el-tooltip>
