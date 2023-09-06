@@ -129,8 +129,8 @@
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">点赞</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-120px">3</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">3</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">转推</td>
@@ -145,7 +145,7 @@
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">回复</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">关注</td>
@@ -381,8 +381,8 @@
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Like</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-120px">3</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">3</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Retweet</td>
@@ -397,7 +397,7 @@
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Reply</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Follow</td>

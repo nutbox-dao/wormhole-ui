@@ -161,12 +161,17 @@ export const replyPost = async (tweetId, content, parentTwitterId) => {
         if (!rcResult) {
             throw errCode.INSUFFICIENT_RC;
         }
+        if (!updateUserVpLocal(VP_CONSUME.COMMENT)) {
+            throw errCode.INSUFFICIENT_VP;
+        }
         const r = await rep(twitterId, tweetId, content, parentTwitterId)
         console.log('user reply tweet result:', r);
         if(r) {
             return r
         }
     }catch(e) {
+        addBackVp(VP_CONSUME.COMMENT);
+        addBackRc(RC_CONSUME.COMMENT);
         if (e === 401) {
             await logout(twitterId)
             throw 'log out'
