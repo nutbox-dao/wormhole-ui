@@ -109,7 +109,7 @@
               <li>
                 <div class="c-text-black">Voting Power (VP): </div>
                 <div>
-                  所有策展行为都需要消耗VP (包括点赞，转推，引用)，每个行为的具体消耗量如下表格。
+                  所有策展行为都需要消耗VP (包括点赞，回复，转推，引用)，每个行为的具体消耗量如下表格。
                   初始，每人有200 VP值，恢复时间为3天。如VP值不足，则无法策展，也无法获得相应奖励，但不影响在Twitter上的正常操作。
                 </div>
               </li>
@@ -315,7 +315,7 @@
               <li>
                 <div class="c-text-black">Voting Power (VP): </div>
                 <ul class="list-disc pl-15px">
-                  <li>Any curation operation consumes OP, this includes like, retweet, quote. </li>
+                  <li>Any curation operation consumes OP, this includes like, reply,  retweet, quote. </li>
                   <li>Everyone has 200 VP to begin with, and it takes 3 days to recover 100%.</li>
                   <li>If your VP is insufficient, your curation won't take effect, and therefore you won't be eligible for curator rewards.</li>
                   <li>But take note VP does not affect your actions on Twitter.</li>
