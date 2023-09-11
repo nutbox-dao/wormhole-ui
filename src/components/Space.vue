@@ -157,13 +157,13 @@
 import { parseSpaceStartTime } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {parseTimestamp} from "@/utils/helper";
-import PostButtonGroup from "@/components/PostButtonGroup";
+import PostButtonGroup from "@/components/PostButtonGroup.vue";
 import Avatar from "@/components/Avatar";
 import {formatEmojiText} from "@/utils/tool";
 
 export default {
   name: "Space",
-  components: {PostButtonGroup, Avatar},
+  components: {Avatar},
   props: {
     space: {
       type: Object,

@@ -93,7 +93,7 @@
 import RecommendPost from "@/components/community/RecommendPost";
 import Blog from "@/components/Blog";
 import {useWindowSize} from "@vant/use";
-import { getCommunityActivePosts, getCommunityTrendingPosts, getCommunityNewPosts, getCommunityPromotionPosts, getCommunityAnnouncement } from '@/api/api'
+import { getCommunityTrendingPosts, getCommunityNewPosts, getCommunityPromotionPosts, getCommunityAnnouncement } from '@/api/api'
 import { mapGetters, mapState } from "vuex";
 import { sleep } from "@/utils/helper";
 import { notify } from '@/utils/notify'
