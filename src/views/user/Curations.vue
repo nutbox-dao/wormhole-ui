@@ -89,7 +89,7 @@
 <script>
 import CurationItem from "@/components/CurationItem";
 import RelatedCurationItemVue from "@/components/RelatedCurationItem.vue";
-import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
+// import { getMyJoinedCurations, getMyCreatedCurations } from "@/api/api"
 import { mapState, mapGetters } from 'vuex'
 import TweetAndStartCuration from "@/components/TweetAndStartCuration";
 import { CURATION_SHORT_URL } from '@/config'

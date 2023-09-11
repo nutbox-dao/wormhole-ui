@@ -164,10 +164,7 @@ $height: 800;
 $box-shadow: ();
 $box-shadow2: ();
 @for $i from 0 through $particles {
-  $box-shadow: $box-shadow,
-  random($width)- calc( $width / 2) + px
-  random($height)- calc($height / 1.2) + px
-  hsl(random(360), 100, 50);
+  $box-shadow: $box-shadow, random($width)- calc( $width / 2) + px random($height)- calc($height / 1.2) + px rgb(random(360), 100, 50);
   $box-shadow2: $box-shadow2, 0 0 #fff;
 }
 

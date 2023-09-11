@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="icon" href="/favicon.ico">
     <title>Wormhole3</title>
     <meta name="description" content="Build your influence with a decentralized curation protocol">
     <meta name="og:site_name" content="Wormhole3" />
@@ -19,7 +19,17 @@
     <meta name="twitter:image" content="https://cdn.wherein.mobi/wormhole3/logo/wh3_twitter_img.png" />
   </head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LERTNRZPMF"></script>
+<!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-LERTNRZPMF"></script>-->
+  <script>window.global = window;</script>
+  <script type="module">
+    import process from "process";
+    import { Buffer } from "buffer";
+    import EventEmitter from "events";
+
+    window.Buffer = Buffer;
+    window.process = process;
+    window.EventEmitter = EventEmitter;
+  </script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -29,9 +39,10 @@
 </script>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but Wormhole3 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

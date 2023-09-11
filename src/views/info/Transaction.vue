@@ -72,7 +72,7 @@ import { mapState, mapGetters } from 'vuex'
 import { EVM_CHAINS, SteemScan } from '@/config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
-import { getUsersTips, getTipNotiByUserId } from '@/utils/account'
+import { getUsersTips } from '@/utils/account'
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge.vue";
 
 export default {
