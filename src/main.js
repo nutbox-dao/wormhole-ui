@@ -6,7 +6,6 @@ import i18n from './lang/index'
 import Cookie from 'vue-cookies'
 import Spinner from "@/components/Spinner";
 import CustomImage from "@/components/CustomImage";
-import { List, PullRefresh, ImagePreview, Popup } from 'vant'
 import mitt from 'mitt'
 import 'vant/es/image-preview/style';
 import 'element-plus/dist/index.css'
@@ -16,15 +15,15 @@ import 'windi.css'
 import { createMetaManager } from 'vue-meta'
 import VueGtag from 'vue-gtag'
 import { GAID } from './config'
+import { registerSW } from 'virtual:pwa-register'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
 window.$vueApp.component('c-spinner', Spinner)
 window.$vueApp.component('c-image', CustomImage)
-window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(List).use(VueGtag, {
+window.$vueApp.use(store).use(router).use(i18n).use(Cookie).use(VueGtag, {
   config: {id: GAID}
-})
-.use(PullRefresh).use(ImagePreview).use(Popup).use(createMetaManager())
+}).use(createMetaManager())
 window.$vueApp.mount('#app')
 window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
   return path + (path.endsWith('/') ? '' : '/') + pathToAppend
@@ -32,3 +31,7 @@ window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
 String.prototype.splice = function(idx, rem, str) {
   return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
 };
+
+const updateSW = registerSW({
+  onOfflineReady() {},
+})

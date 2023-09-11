@@ -82,6 +82,7 @@ export default {
         }
         this.listLoading = true
         const newOps = await getCommunityOps(this.communityId, this.ops[this.ops.length - 1].createTime)
+        if(newOps.length === 0) this.listFinished = true
         if (newOps && newOps.length > 0) {
           this.$store.commit('community/saveOps', this.ops.concat(newOps))
         }
