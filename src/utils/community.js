@@ -169,6 +169,51 @@ export const getCommunityPolicyStake = async (chainName, ethAddress, policys) =>
     }
 }
 
+export const getCommunityNFTHolding = async (chainName, ethAddress, policys) => {
+    try {
+        let call = []
+        if (policys && policys.length > 0) {
+            for (let p of policys) {
+                if (p.type === 'nft-hold') {
+                    const target = p.contract
+                    call.push({
+                        target,
+                        call: [
+                            'symbol()(string)'
+                        ],
+                        returns: [
+                            [target + ':symbol']
+                        ]
+                    });
+                    call.push({
+                        target,
+                        call: [
+                            p.method,
+                            ethAddress
+                        ],
+                        returns: [
+                            [target + ':hold', val => val / 1]
+                        ]
+                    });
+                    call.push({
+                        target,
+                        call: [
+                            'totalSupply()(uint256)'
+                        ],
+                        returns: [
+                            [target + ':supply', val => val / 1]
+                        ]
+                    })
+                }
+            }
+            const res = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
+            return res.results.transformed;
+        }
+        return {}
+    } catch (e) {
+        console.log('get nft holding fail:', e)
+    }
+}
 
 /**
  * get community distribution eras
