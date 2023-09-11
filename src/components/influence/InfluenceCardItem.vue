@@ -28,6 +28,10 @@
               <span>{{ $t('community.comRatio') }}</span>
               <span>{{ parseFloat(policy?.community?.ratio) * 100 }}%</span>
             </p>
+            <p>
+              <span>{{ $t('community.nftRatio') }}</span>
+              <span>{{ parseFloat(policy?.nft?.ratio) * 100 }}%</span>
+            </p>
             <!-- <p>
               <span>{{ $t('community.topicRatio') }}</span>
               <span>{{ parseFloat(policy?.topic?.ratio) * 100 }}%</span>
@@ -73,7 +77,18 @@
                        :text-inside="false"
                        :stroke-width="6"
                        :show-text="false"
-                       :percentage="s.user * 100 / s.total"/>
+                       :percentage="s.user * 100 / s.total ?? 1"/>
+        </div>
+        <div v-for="s of nftHolding" :key="s.symbol">
+          <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
+            {{s.symbol + $t('community.hold')}}: {{ formatAmount(s.hold) }}
+          </div>
+          <el-progress class="c-progress-purple flex-1 w-full"
+                       color="#7700E0"
+                       :text-inside="false"
+                       :stroke-width="6"
+                       :show-text="false"
+                       :percentage="s.hold * 100 / (s.supply ?? 1)"/>
         </div>
       </div>
     </el-collapse-transition>
@@ -83,7 +98,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import {useWindowSize} from "@vant/use";
-import { getCommunityPolicyStake } from '@/utils/community'
+import { getCommunityPolicyStake, getCommunityNFTHolding } from '@/utils/community'
 import { EVM_CHAINS_ID } from '@/config'
 import { formatAddress } from '@/utils/tool';
 import { formatAmount } from '@/utils/helper';
@@ -107,6 +122,7 @@ export default {
       isFold: true,
       gettingDetail: false,
       stakeInfo: [],
+      nftHolding: [],
       policy: {}
     }
   },
@@ -125,6 +141,19 @@ export default {
           }
           const communityPolicy = policy.community.policys;
           const stake = await getCommunityPolicyStake(EVM_CHAINS_ID[this.community.chainId], this.getAccountInfo.ethAddress, communityPolicy)
+          if (policy.nft && policy.nft.policys && policy.nft.policys.length > 0) {
+            const nftHold = await getCommunityNFTHolding(EVM_CHAINS_ID[this.community.chainId], this.getAccountInfo.ethAddress, policy.nft.policys)
+            this.nftHolding = {};
+            for (let key of Object.keys(nftHold)) {
+              const [contract, type] = key.split(':');
+              if (!this.nftHolding[contract]) {
+                this.nftHolding[contract] = {}
+                this.nftHolding[contract]['contract'] = contract
+              }
+              this.nftHolding[contract][type] = nftHold[key]
+            }
+            this.nftHolding = Object.values(this.nftHolding)
+          }
           this.stakeInfo = {}
           for (let key of Object.keys(stake)) {
             const [name, type] = key.split(':');
