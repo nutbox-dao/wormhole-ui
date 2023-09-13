@@ -26,7 +26,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       // strategies: 'injectManifest',
       devOptions: {
-        enabled: true
+        enabled: false
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024

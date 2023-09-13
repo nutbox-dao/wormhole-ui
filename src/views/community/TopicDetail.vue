@@ -201,10 +201,20 @@
         </div>
       </div>
       <div class="col-span-1 hidden 2md:block 2md:h-full 2md:overflow-hidden 2md:flex-1 2md:overflow-hidden">
-        <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px
+        <div class="border-1 border-color8B/30 light:border-color7F rounded-12px
                     2md:flex 2md:flex-col max-h-full overflow-auto">
-          <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
-          <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar">
+<!--          <div class="text-left font-bold c-text-black text-16px px-15px pt-15px">{{$t('community.award')}}</div>-->
+          <div class="flex items-center justify-center gap-30px h-48px min-h-48px text-14px font-bold
+                            border-b-0.5px border-color8B/30 light:border-color7F
+                            px-15px w-min min-w-full">
+            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                    :class="rewardType==='creator'?'c-active-tab text-color62':'text-color7D'"
+                    @click="rewardType='creator'">Creator</button>
+            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                    :class="rewardType==='curator'?'c-active-tab text-color62':'text-color7D'"
+                    @click="rewardType='curator'">Curator</button>
+          </div>
+          <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar px-15px">
             <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
                  v-if="rewardRefreshing && rewardsList.length === 0">
               <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -269,7 +279,8 @@ export default {
       rewardListLoading: false,
       rewardListFinished: false,
       rewardRefreshing: false,
-      rewardsList: []
+      rewardsList: [],
+      rewardType: 'creator'
     }
   },
   computed: {
