@@ -118,7 +118,12 @@
           <button class="h-full px-10px"
                   :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
                   @click="tabIndex=1">
-            {{$t('community.award')}}
+            Creator
+          </button>
+          <button class="h-full px-10px"
+                  :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
+                  @click="tabIndex=2">
+            Curator
           </button>
         </div>
         <div class="px-15px">
@@ -166,7 +171,7 @@
               </van-list>
             </van-pull-refresh>
           </template>
-          <template v-if="tabIndex===1">
+          <template v-if="tabIndex===1 || tabIndex===2">
             <div class="text-left font-bold c-text-black text-14px flex justify-between items-center py-10px">
               <span>{{$t('community.member')}}</span>
               <span>{{$t('community.token')}}</span>
