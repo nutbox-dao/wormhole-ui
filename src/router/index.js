@@ -24,7 +24,6 @@ import WalletView from "@/views/user/WalletView";
 import AboutUsView from "@/views/AboutView";
 import PostsIndex from "@/views/post/PostsIndex";
 import CurationDetail from "@/views/curations/CurationDetail";
-// import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
 // import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/create/CreateView.vue";
