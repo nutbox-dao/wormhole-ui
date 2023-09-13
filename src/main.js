@@ -15,7 +15,7 @@ import 'windi.css'
 import { createMetaManager } from 'vue-meta'
 import VueGtag from 'vue-gtag'
 import { GAID } from './config'
-import { registerSW } from 'virtual:pwa-register'
+// import { registerSW } from 'virtual:pwa-register'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
