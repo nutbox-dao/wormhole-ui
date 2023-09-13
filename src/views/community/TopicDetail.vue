@@ -116,14 +116,14 @@
             {{$t('community.post')}}
           </button>
           <button class="h-full px-10px"
-                  :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
-                  @click="tabIndex=1">
-            Creator
+                :class="(rewardType==='creator' && tabIndex===1)?'active-tab text-color62':'text-color7D'"
+                @click="tabIndex=1;rewardType='creator'">
+                {{ $t('common.author') }}
           </button>
           <button class="h-full px-10px"
-                  :class="tabIndex===2?'active-tab text-color62':'text-color7D'"
-                  @click="tabIndex=2">
-            Curator
+                  :class="(rewardType==='curator' && tabIndex===1)?'active-tab text-color62':'text-color7D'"
+                  @click="tabIndex=1;rewardType='curator'">
+                  {{ $t('common.curator') }}
           </button>
         </div>
         <div class="px-15px">
@@ -171,7 +171,7 @@
               </van-list>
             </van-pull-refresh>
           </template>
-          <template v-if="tabIndex===1 || tabIndex===2">
+          <template v-if="tabIndex===1">
             <div class="text-left font-bold c-text-black text-14px flex justify-between items-center py-10px">
               <span>{{$t('community.member')}}</span>
               <span>{{$t('community.token')}}</span>
@@ -214,10 +214,10 @@
                             px-15px w-min min-w-full">
             <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                     :class="rewardType==='creator'?'c-active-tab text-color62':'text-color7D'"
-                    @click="rewardType='creator'">{{ $t('common.author') }}</button>
+                    @click="rewardType='creator';tabIndex=0">{{ $t('common.author') }}</button>
             <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
                     :class="rewardType==='curator'?'c-active-tab text-color62':'text-color7D'"
-                    @click="rewardType='curator'">{{ $t('common.curator') }}</button>
+                    @click="rewardType='curator';tabIndex=0">{{ $t('common.curator') }}</button>
           </div>
           <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar px-15px">
             <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
@@ -325,6 +325,9 @@ export default {
     },
     typeIndex() {
       this.refresh();
+    },
+    rewardType() {
+      this.rewardRefresh();
     }
   },
   methods: {
@@ -448,11 +451,19 @@ export default {
       try{
         this.rewardRefreshing = true
         let reward;
-        reward = await getCommunityTopicCuratorReward(this.topic.activityId, 0, 30);
-        if (reward.length === 0) {
-          this.rewardListFinished = true
+        if (this.rewardType === 'creator') {
+          reward = await getCommunityTopicCreatorReward(this.topic.activityId, 0, 30);
+          if (reward.length === 0) {
+            this.rewardListFinished = true
+          }
+          this.creatorRewardsList = reward ?? []
+        }else {
+          reward = await getCommunityTopicCuratorReward(this.topic.activityId, 0, 30);
+          if (reward.length === 0) {
+            this.rewardListFinished = true
+          }
+          this.curatorRewardsList = reward ?? []
         }
-        this.rewardsList = reward ?? []
       } catch(e) {
         console.log('Refresh topic reward fail:', e)
       } finally {
@@ -460,16 +471,22 @@ export default {
       }
     },
     async rewardOnLoad () {
-      if (this.rewardsList.length === 0 || this.rewardListFinished || this.rewardRefreshing || this.rewardListLoading){
+      if (this.rewardsList.length === 0 || this.rewardRefreshing || this.rewardListLoading){
         return;
       }
       try{
         this.rewardListLoading = true;
-        const reward = await getCommunityTopicCuratorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
-        if (reward.length > 0) {
-          this.rewardsList = this.rewardsList.concat(reward)
+        let reward;
+        if (this.rewardType === 'creator') {
+          reward = await getCommunityTopicCreatorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
+          if (reward.length > 0) {
+            this.creatorRewardsList = this.creatorRewardsList.concat(reward)
+          }
         }else {
-          this.rewardListFinished = true;
+          reward = await getCommunityTopicCuratorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
+          if (reward.length > 0) {
+            this.curatorRewardsList = this.curatorRewardsList.concat(reward)
+          }
         }
       } catch (e) {
         console.log('Load more topic reward fail:', e)
