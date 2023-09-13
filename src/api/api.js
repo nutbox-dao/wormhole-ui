@@ -429,6 +429,12 @@ export const getCommunityActivePostsByNew = async (twitterId, activityId, lastPo
 export const getCommunityActivityReward = async (activityId, createTime) =>
     get(BACKEND_API_URL + '/community/getCommunityActivityReward', { activityId, createTime })
 
+export const getCommunityTopicCuratorReward = async (activityId, pageIndex, pageSize) =>
+    get(BACKEND_API_URL +'/community/getCommunityTopicCuratorReward', { activityId, pageIndex, pageSize })
+
+export const getCommunityTopicCreatorReward = async (activityId, pageIndex, pageSize) =>
+    get(BACKEND_API_URL +'/community/getCommunityTopicCreatorReward', { activityId, pageIndex, pageSize })
+
 export const getCommunityAnnouncement = async (twitterId, communityId, lastPostId) =>
     get(BACKEND_API_URL + '/community/getCommunityAnnouncement', {twitterId, communityId, lastPostId})
 

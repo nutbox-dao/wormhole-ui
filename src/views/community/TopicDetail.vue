@@ -231,7 +231,7 @@ import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew,
   getCommunityActivityById, getCommunityActivePostsByTrending,
-  getCommunityActivityReward } from '@/api/api'
+  getCommunityActivityReward, getCommunityTopicCreatorReward, getCommunityTopicCuratorReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -423,7 +423,7 @@ export default {
     async rewardRefresh() {
       try{
         this.rewardRefreshing = true
-        const reward = await getCommunityActivityReward(this.topic.activityId);
+        const reward = await getCommunityTopicCuratorReward(this.topic.activityId, 0, 30);
         if (reward.length === 0) {
           this.rewardListFinished = true
         }
@@ -435,12 +435,12 @@ export default {
       }
     },
     async rewardOnLoad () {
-      if (this.rewardsList. length === 0 || this.rewardListFinished || this.rewardRefreshing || this.rewardListLoading){
+      if (this.rewardsList.length === 0 || this.rewardListFinished || this.rewardRefreshing || this.rewardListLoading){
         return;
       }
       try{
         this.rewardListLoading = true;
-        const reward = await getCommunityActivityReward(this.topic.activityId, this.rewardsList[this.rewardsList.length - 1].createTime);
+        const reward = await getCommunityTopicCuratorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
         if (reward.length > 0) {
           this.rewardsList = this.rewardsList.concat(reward)
         }else {
