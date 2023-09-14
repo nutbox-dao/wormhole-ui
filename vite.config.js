@@ -23,6 +23,7 @@ export default defineConfig({
       ]
     }),
     VitePWA({
+      disable: true,
       registerType: 'autoUpdate',
       // strategies: 'injectManifest',
       devOptions: {
