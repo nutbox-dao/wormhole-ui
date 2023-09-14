@@ -259,6 +259,7 @@ export default {
           }
         }catch(e) {
           console.log(532, e);
+          this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
         }finally {
           this.isSigningup = false
         }
