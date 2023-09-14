@@ -46,7 +46,7 @@
             {{ formatAmount(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals)) }}({{ formatPrice(topic?.totalReward / (10 ** showingCommunity.rewardTokenDecimals) * showingCommunity.rewardPrice) }})</span>
         </div>
         <div class="flex items-center ml-11px">
-          <div class="-ml-11px" v-for="p of topic.participates.slice(0,3)" :key="p">
+          <!-- <div class="-ml-11px" v-for="p of topic.participates.slice(0,3)" :key="p">
             <img v-if="p"
                  class="w-28px min-w-28px h-28px xl:w-1.2rem xl:min-w-1.2rem xl:h-1.2rem rounded-full
                         border-2 border-color62 light:border-white bg-color8B/10"
@@ -62,7 +62,7 @@
                        border-2 border-blockBg bg-primaryColor
                        light:border-white light:bg-color62 light:text-white text-10px">
             +{{ topic.membersCount - 3 }}
-          </span>
+          </span> -->
         </div>
       </div>
       <div class="text-15px c-text-black text-left mt-10px">{{$t('community.grandTotalPost', {count: topic.postCounts})}}</div>
