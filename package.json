@@ -3,26 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "browser": {
-    "crypto": false
+    "crypto": "crypto-browserify",
+    "stream": "stream-browserify"
   },
   "dependencies": {
     "@makerdao/multicall": "^0.12.0",
     "@ssthouse/vue3-tree-chart": "^0.2.6",
+    "@vant/compat": "^1.0.0",
     "@vue/compat": "^3.2.36",
     "axios": "^0.27.2",
     "axios-retry": "^3.2.5",
     "bs58": "^5.0.0",
+    "buffer": "^6.0.3",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "core-js": "^3.8.3",
     "dom-to-image": "^2.6.0",
-    "element-plus": "^2.2.2",
+    "element-plus": "^2.2.8",
     "ethers": "^5.6.8",
+    "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
     "js-base64": "^3.7.2",
     "js-sha256": "^0.9.0",
@@ -36,7 +39,7 @@
     "steem": "^0.7.11",
     "tiny-emitter": "^2.1.0",
     "tweetnacl": "^1.0.3",
-    "vant": "^3.5.2",
+    "vant": "^4.6.8",
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.1",
     "vue-cropper": "^1.0.5",
@@ -49,19 +52,15 @@
     "yarn": "^1.22.15"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "^5.0.1",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "^5.0.1",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@vitejs/plugin-vue": "^4.0.0",
     "sass": "^1.52.1",
-    "sass-loader": "^13.0.0",
     "unplugin-auto-import": "^0.8.6",
     "unplugin-vue-components": "^0.19.6",
+    "vite": "^4.0.0",
+    "vite-plugin-pwa": "^0.16.5",
+    "vite-plugin-windicss": "^1.9.1",
     "vue-cli-plugin-windicss": "~1.1.4"
   },
   "eslintConfig": {

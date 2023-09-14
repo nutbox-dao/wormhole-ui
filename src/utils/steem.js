@@ -1,6 +1,6 @@
 import axios from "axios"
-import steem from "steem"
-const { auth } = require("steem");
+import steem, {auth} from "steem"
+// const { auth } = require("steem");
 import { sha256 } from 'js-sha256'
 import { hexTou8array, stringToHex } from '@/utils/helper'
 import base58 from 'bs58'
@@ -70,8 +70,8 @@ export const getAccountRC = async (account) => {
 
 /**
  * Get voting powering status
- * @param {*} account 
- * @returns 
+ * @param {*} account
+ * @returns
  */
 export function getVPHF20(account) {
     var totalShares = parseFloat(account.vesting_shares) + parseFloat(account.received_vesting_shares) - parseFloat(account.delegated_vesting_shares) - parseFloat(account.vesting_withdraw_rate);
@@ -162,7 +162,7 @@ export const generateBrainKey = (key) => {
 
 const generateAuth = (user, pass, type) => {
     const key = auth.getPrivateKeys(user, pass, [type]);
-  
+
     const publicKey = auth.wifToPublic(Object.values(key)[0]);
     if (type == "memo") {
       return {

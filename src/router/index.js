@@ -1,16 +1,16 @@
 import * as Vue from 'vue'
 import * as VueRouter from 'vue-router'
 import store from '@/store'
-import HomeView from '@/views/HomeView.vue'
-import VerifyView from '@/views/CreateAccount'
-import LoginView from '@/views/Login'
+// import HomeView from '@/views/HomeView.vue'
+// import VerifyView from '@/views/CreateAccount'
+// import LoginView from '@/views/Login'
 import LoginCodeView from '@/views/LoginCode'
 import FAQView from '@/views/FAQ'
 import UserIndexView from '@/views/user/UserIndex'
 import UserTokenView from '@/views/user/Token'
 import UserNftView from '@/views/user/NFT'
-import UserTransactionView from '@/views/info/Transaction.vue'
-import UserPostView from '@/views/user/Post'
+// import UserTransactionView from '@/views/info/Transaction.vue'
+// import UserPostView from '@/views/user/Post'
 import UserPostDetailView from '@/views/post/PostDetail'
 // other user's profile view
 import AccountInfoView from '@/views/user/tempUser/AccountInfo'
@@ -24,9 +24,8 @@ import WalletView from "@/views/user/WalletView";
 import AboutUsView from "@/views/AboutView";
 import PostsIndex from "@/views/post/PostsIndex";
 import CurationDetail from "@/views/curations/CurationDetail";
-import CurationsView from "@/views/user/Curations";
 import FaucetView from "@/views/Faucet"
-import UserGuide from '@/views/UserGuide';
+// import UserGuide from '@/views/UserGuide';
 import CreateView from "@/views/create/CreateView.vue";
 import WalletIndex from "@/views/user/WalletIndex";
 import WordCloud from '@/views/word-cloud/Index'
@@ -92,12 +91,12 @@ const routes = [
     component: FAQView,
     meta: {header: 'hidden', tabbar: 'hidden'}
   },
-  {
-    path: '/userguide',
-    name: 'user-guide',
-    component: UserGuide,
-    meta: {header: 'hidden', tabbar: 'hidden'}
-  },
+  // {
+  //   path: '/userguide',
+  //   name: 'user-guide',
+  //   component: UserGuide,
+  //   meta: {header: 'hidden', tabbar: 'hidden'}
+  // },
   {
     path: '/about',
     name: 'about',

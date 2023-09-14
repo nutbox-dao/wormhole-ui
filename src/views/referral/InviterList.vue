@@ -1,7 +1,7 @@
 <template>
-  <div class="px-15px py-15px 2md:py-40px max-w-640px mx-auto h-full overflow-hidden">
+  <div class="px-15px py-15px 2md:py-40px max-w-640px mx-auto h-full overflow-hidden flex flex-col">
     <el-table v-infinite-scroll="load"
-              class="max-h-full border-0.5px border-color8B/30 rounded-12px no-scroll-bar
+              class="max-h-full overflow-hidden border-0.5px border-color8B/30 rounded-12px no-scroll-bar
                      bg-blockBg light:bg-white light:shadow-color1A"
               :data="tableData"
               :default-sort="{ prop: 'date' }"

@@ -122,7 +122,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import ConnectMainchainBTNVue from '@/components/ConnectMainchainBTN.vue'
-import { formatBalance, formatUserAddress, formatPrice, formatAmount, sleep } from '@/utils/helper'
+import { formatPrice, formatAmount, sleep } from '@/utils/helper'
 import { getTokenBalance, getUserTokensFromCuration, depositWrappedToken } from '@/utils/asset'
 import { chainChanged } from '@/utils/web3/web3'
 import { TWITTER_MONITOR_RULE, TokenIcon, TokenName, EVM_CHAINS, isWrappedToken } from '@/config'

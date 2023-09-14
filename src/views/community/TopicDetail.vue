@@ -116,9 +116,14 @@
             {{$t('community.post')}}
           </button>
           <button class="h-full px-10px"
-                  :class="tabIndex===1?'active-tab text-color62':'text-color7D'"
-                  @click="tabIndex=1">
-            {{$t('community.award')}}
+                :class="(rewardType==='creator' && tabIndex===1)?'active-tab text-color62':'text-color7D'"
+                @click="tabIndex=1;rewardType='creator'">
+                {{ $t('common.author') }}
+          </button>
+          <button class="h-full px-10px"
+                  :class="(rewardType==='curator' && tabIndex===1)?'active-tab text-color62':'text-color7D'"
+                  @click="tabIndex=1;rewardType='curator'">
+                  {{ $t('common.curator') }}
           </button>
         </div>
         <div class="px-15px">
@@ -201,10 +206,20 @@
         </div>
       </div>
       <div class="col-span-1 hidden 2md:block 2md:h-full 2md:overflow-hidden 2md:flex-1 2md:overflow-hidden">
-        <div class="border-1 border-color8B/30 light:border-color7F rounded-12px p-15px
+        <div class="border-1 border-color8B/30 light:border-color7F rounded-12px
                     2md:flex 2md:flex-col max-h-full overflow-auto">
-          <div class="text-left font-bold c-text-black text-16px">{{$t('community.award')}}</div>
-          <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar">
+<!--          <div class="text-left font-bold c-text-black text-16px px-15px pt-15px">{{$t('community.award')}}</div>-->
+          <div class="flex items-center justify-center gap-30px h-48px min-h-48px text-14px font-bold
+                            border-b-0.5px border-color8B/30 light:border-color7F
+                            px-15px w-min min-w-full">
+            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                    :class="rewardType==='creator'?'c-active-tab text-color62':'text-color7D'"
+                    @click="rewardType='creator';tabIndex=0">{{ $t('common.author') }}</button>
+            <button class="h-full px-5px 2md:px-10px whitespace-nowrap"
+                    :class="rewardType==='curator'?'c-active-tab text-color62':'text-color7D'"
+                    @click="rewardType='curator';tabIndex=0">{{ $t('common.curator') }}</button>
+          </div>
+          <div v-infinite-scroll="rewardOnLoad" class="2md:flex-1 2md:overflow-auto no-scroll-bar px-15px">
             <div class="c-text-black text-1.8rem mb-3rem min-h-1rem"
                  v-if="rewardRefreshing && rewardsList.length === 0">
               <img class="w-5rem mx-auto py-3rem" src="~@/assets/profile-loading.gif" alt="" />
@@ -231,7 +246,7 @@ import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
 import { getCommunityByTopicId, getCommunityActivities, getCommunityActivePostsByNew,
   getCommunityActivityById, getCommunityActivePostsByTrending,
-  getCommunityActivityReward } from '@/api/api'
+  getCommunityActivityReward, getCommunityTopicCreatorReward, getCommunityTopicCuratorReward } from '@/api/api'
 import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
@@ -269,7 +284,9 @@ export default {
       rewardListLoading: false,
       rewardListFinished: false,
       rewardRefreshing: false,
-      rewardsList: []
+      creatorRewardsList: [],
+      curatorRewardsList: [],
+      rewardType: 'creator'
     }
   },
   computed: {
@@ -291,6 +308,13 @@ export default {
       }
       return []
     },
+    rewardsList() {
+      if (this.rewardType === 'creator') {
+        return this.creatorRewardsList
+      }else {
+        return this.curatorRewardsList
+      }
+    }
   },
   watch: {
     topic(newValue, oldValue) {
@@ -301,6 +325,9 @@ export default {
     },
     typeIndex() {
       this.refresh();
+    },
+    rewardType() {
+      this.rewardRefresh();
     }
   },
   methods: {
@@ -423,11 +450,20 @@ export default {
     async rewardRefresh() {
       try{
         this.rewardRefreshing = true
-        const reward = await getCommunityActivityReward(this.topic.activityId);
-        if (reward.length === 0) {
-          this.rewardListFinished = true
+        let reward;
+        if (this.rewardType === 'creator') {
+          reward = await getCommunityTopicCreatorReward(this.topic.activityId, 0, 30);
+          if (reward.length === 0) {
+            this.rewardListFinished = true
+          }
+          this.creatorRewardsList = reward ?? []
+        }else {
+          reward = await getCommunityTopicCuratorReward(this.topic.activityId, 0, 30);
+          if (reward.length === 0) {
+            this.rewardListFinished = true
+          }
+          this.curatorRewardsList = reward ?? []
         }
-        this.rewardsList = reward ?? []
       } catch(e) {
         console.log('Refresh topic reward fail:', e)
       } finally {
@@ -435,16 +471,22 @@ export default {
       }
     },
     async rewardOnLoad () {
-      if (this.rewardsList. length === 0 || this.rewardListFinished || this.rewardRefreshing || this.rewardListLoading){
+      if (this.rewardsList.length === 0 || this.rewardRefreshing || this.rewardListLoading){
         return;
       }
       try{
         this.rewardListLoading = true;
-        const reward = await getCommunityActivityReward(this.topic.activityId, this.rewardsList[this.rewardsList.length - 1].createTime);
-        if (reward.length > 0) {
-          this.rewardsList = this.rewardsList.concat(reward)
+        let reward;
+        if (this.rewardType === 'creator') {
+          reward = await getCommunityTopicCreatorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
+          if (reward.length > 0) {
+            this.creatorRewardsList = this.creatorRewardsList.concat(reward)
+          }
         }else {
-          this.rewardListFinished = true;
+          reward = await getCommunityTopicCuratorReward(this.topic.activityId, Math.floor((this.rewardsList.length - 1) / 30 ) + 1, 30);
+          if (reward.length > 0) {
+            this.curatorRewardsList = this.curatorRewardsList.concat(reward)
+          }
         }
       } catch (e) {
         console.log('Load more topic reward fail:', e)

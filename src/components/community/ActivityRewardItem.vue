@@ -60,13 +60,7 @@ export default {
             e.target.src = emptyAvatar;
         },
         showingReward(reward) {
-            let amount = 0;
-            let p = 0;
-            if (reward.reward > 0) {
-                amount = reward.reward / (10 ** reward.decimals)
-            }else if (reward.estimateReward > 0) {
-                amount = reward.estimateReward / (10 ** reward.decimals)
-            }
+            let amount = reward.amount / (10 ** this.showingCommunity.rewardTokenDecimals);
             return `${formatAmount(amount)}(${formatPrice(amount * this.showingCommunity.rewardPrice)})`
         },
     },
