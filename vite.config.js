@@ -26,7 +26,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       // strategies: 'injectManifest',
       devOptions: {
-        enabled: false
+        enabled: true
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
@@ -36,6 +36,7 @@ export default defineConfig({
         name: 'Wormhole3',
         short_name: 'Wormhole3',
         description: 'Build your influence with a decentralized curation protocol',
+        background_color: '#0D1117',
         theme_color: '#0D1117',
         icons: [
           {

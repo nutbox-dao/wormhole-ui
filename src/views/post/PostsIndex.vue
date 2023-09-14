@@ -147,6 +147,8 @@ import { showError } from '@/utils/notify'
 import Blog from "@/components/Blog";
 import Space from "@/components/Space";
 import {usePageScroll} from "@/utils/hooks";
+import postType0Img from '@/assets/post-type-icon0.svg'
+import postType1Img from '@/assets/post-type-icon1.svg'
 
 export default {
   name: "PostsIndex",
@@ -172,8 +174,8 @@ export default {
       showMoreTag: false,
       // rankOptions: [{value: 0, label: 'trending'}, {value: 1, label: 'new'}, {value: 2, label: 'promoted'}],
       rankOptions: [
-          {value: 0, label: 'trending', icon: require('@/assets/post-type-icon0.svg')},
-        {value: 1, label: 'new', icon: require('@/assets/post-type-icon1.svg')}
+          {value: 0, label: 'trending', icon: postType0Img},
+        {value: 1, label: 'new', icon: postType1Img}
       ],
       rankValue: 0,
       customizeTagList: [],

@@ -31,6 +31,7 @@
 import { TokenIcon, EVM_CHAINS } from "@/config"
 import {formatAddress, copyAddress} from "@/utils/tool";
 import {useTimer} from "@/utils/hooks";
+import steemImg from '@/assets/steem.png'
 
 export default {
   name: "ChainTokenIconLarge",
@@ -64,7 +65,7 @@ export default {
   computed: {
     icon() {
       if (this.chain.toLowerCase() === 'steem') {
-        return require('@/assets/steem.png')
+        return  steemImg
       }
       return TokenIcon[this.token.symbol] ?? this.token.icon;
     },
