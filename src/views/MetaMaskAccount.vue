@@ -178,21 +178,27 @@ export default {
         try{
           this.isSigning = true
           const sig = await signMessage(SignUpMessage, this.account)
+          console.log(1)
           if (!sig) {
             this.showNotify(this.$t('tips.dismatchAddress'), 5000, 'error')
             return;
           }
+          console.log(2);
           const salt = bytesToHex(ethers.utils.randomBytes(4))
+          console.log(3, salt)
           let pair = this.pair;
-            await sleep(0.6);
+          await sleep(0.6);
           if (!pair.privateKey) {
             pair = await createKeypair();
           }
+          console.log(4)
           const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
           this.pwd = pwd,
           this.salt = salt
           this.sendPubKey = pair.publicKey
+          console.log(5, this.pwd)
           this.step = 2
+          console.log(6)
         } catch (e) {
           console.log('sign message fail:', e);
         } finally {
@@ -259,6 +265,7 @@ export default {
           }
         }catch(e) {
           console.log(532, e);
+          this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
         }finally {
           this.isSigningup = false
         }
