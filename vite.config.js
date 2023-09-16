@@ -35,6 +35,7 @@ export default defineConfig({
       },
       includeAssets: ['favicon.ico'],
       manifest: {
+        id: 'Wormhole3',
         name: 'Wormhole3',
         short_name: 'Wormhole3',
         description: 'Build your influence with a decentralized curation protocol',
