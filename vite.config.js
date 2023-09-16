@@ -23,21 +23,23 @@ export default defineConfig({
       ]
     }),
     VitePWA({
+      // disable: true,
       registerType: 'autoUpdate',
-      // strategies: 'injectManifest',
+      strategies: 'injectManifest',
       devOptions: {
         enabled: true
       },
       workbox: {
-        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html}']
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico'],
       manifest: {
         name: 'Wormhole3',
         short_name: 'Wormhole3',
         description: 'Build your influence with a decentralized curation protocol',
-        background_color: '#0D1117',
-        theme_color: '#0D1117',
+        background_color: '#6246EA',
+        theme_color: '#6246EA',
         icons: [
           {
             src: 'pwa-192x192.png',
