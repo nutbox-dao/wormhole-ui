@@ -6,6 +6,8 @@ import store from '@/store'
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
+export const uiLog = async (str) =>
+    get(BACKEND_API_URL + 'sys/collect-log', {str})
 export const getCommon = async () =>
     get("https://api-walnut.nutbox.app/common")
 
@@ -481,3 +483,4 @@ export const getClaimRewardsParas = async (communityId, twitterId) =>
 
 export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) =>
     post(BACKEND_API_URL + '/invitation/setClaimed', {orderId, communityId, twitterId, transHash})
+

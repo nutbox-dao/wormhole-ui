@@ -106,7 +106,7 @@
 
 <script>
 import { onCopy } from "@/utils/tool";
-import { getUserByEth, register, check } from '@/api/api'
+import { getUserByEth, register, check, uiLog } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
@@ -175,31 +175,33 @@ export default {
       if(this.isRegister){
         this.$emit('back')
       }else {
+        const random = new Date().getTime()
         try{
           this.isSigning = true
           const sig = await signMessage(SignUpMessage, this.account)
-          console.log(1)
+          uiLog(random + ':1').catch()
           if (!sig) {
             this.showNotify(this.$t('tips.dismatchAddress'), 5000, 'error')
             return;
           }
-          console.log(2);
+          uiLog(random + ':2').catch()
           const salt = bytesToHex(ethers.utils.randomBytes(4))
-          console.log(3, salt)
+          uiLog(random + ':3:' + salt).catch()
           let pair = this.pair;
           await sleep(0.6);
           if (!pair.privateKey) {
             pair = await createKeypair();
           }
-          console.log(4)
+          uiLog(random + ':4').catch()
           const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
           this.pwd = pwd,
           this.salt = salt
           this.sendPubKey = pair.publicKey
-          console.log(5, this.pwd)
+          uiLog(random + ':5').catch()
           this.step = 2
-          console.log(6)
+          uiLog(random + ':6').catch()
         } catch (e) {
+          uiLog(random + ':7:' + e).catch()
           console.log('sign message fail:', e);
         } finally {
           this.isSigning = false
