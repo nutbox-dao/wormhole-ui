@@ -7,11 +7,20 @@ import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import * as path from 'path'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    nodePolyfills({
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+    }),
     WindiCSS(),
     AutoImport({
       resolvers: [ElementPlusResolver()]
@@ -70,15 +79,22 @@ export default defineConfig({
     viteCommonjs()
   ],
   resolve: {
-    alias: {
-      '@': path.resolve('src'),
-      '~@': path.resolve('src')
-    },
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve('src'),
+      },
+      {
+        find: '~@',
+        replacement:path.resolve('src')
+      }
+    ],
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     process: "process/browser",
     stream: "stream-browserify",
     zlib: "browserify-zlib",
-    util: 'util'
+    util: 'util',
+    buffer: 'buffer'
   },
   css: {
     postcss: {

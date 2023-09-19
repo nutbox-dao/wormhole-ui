@@ -1,5 +1,5 @@
 import axios from "axios"
-import steem, {auth} from "steem"
+import steem from "steem"
 // const { auth } = require("steem");
 import { sha256 } from 'js-sha256'
 import { hexTou8array, stringToHex } from '@/utils/helper'
@@ -161,9 +161,9 @@ export const generateBrainKey = (key) => {
 }
 
 const generateAuth = (user, pass, type) => {
-    const key = auth.getPrivateKeys(user, pass, [type]);
+    const key = steem.auth.getPrivateKeys(user, pass, [type]);
 
-    const publicKey = auth.wifToPublic(Object.values(key)[0]);
+    const publicKey = steem.auth.wifToPublic(Object.values(key)[0]);
     if (type == "memo") {
       return {
         key: key,
@@ -232,7 +232,7 @@ export const verifyAuth = async (name, key, role='posting') => {
             originalPub.push(k[0]);
         }
     }
-    const pub = auth.wifToPublic(key);
+    const pub = steem.auth.wifToPublic(key);
     return originalPub.indexOf(pub) !== -1;
 }
 
