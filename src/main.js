@@ -15,7 +15,6 @@ import 'windi.css'
 import { createMetaManager } from 'vue-meta'
 import VueGtag from 'vue-gtag'
 import { GAID } from './config'
-import { registerSW } from 'virtual:pwa-register'
 
 window.$vueApp = Vue.createApp(App)
 window.$vueApp.config.globalProperties.$bus = mitt()
@@ -31,7 +30,3 @@ window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
 String.prototype.splice = function(idx, rem, str) {
   return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
 };
-
-const updateSW = registerSW({
-  onOfflineReady() {},
-})

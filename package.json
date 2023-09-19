@@ -33,13 +33,13 @@
     "lodash.debounce": "^4.0.8",
     "lottie-web": "^5.10.1",
     "mitt": "^3.0.0",
-    "node-polyfill-webpack-plugin": "^2.0.0",
     "pull-refresh-vue3": "^0.3.1",
     "qrcode.vue": "^3.3.4",
     "steem": "^0.7.11",
     "tiny-emitter": "^2.1.0",
     "tweetnacl": "^1.0.3",
     "vant": "^4.6.8",
+    "vite-plugin-node-polyfills": "^0.14.1",
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.1",
     "vue-cropper": "^1.0.5",
@@ -49,6 +49,7 @@
     "vue-router": "^4.0.8",
     "vue3-twemoji-picker-final": "^0.0.15",
     "vuex": "^4.0.2",
+    "workbox-precaching": "^7.0.0",
     "yarn": "^1.22.15"
   },
   "devDependencies": {

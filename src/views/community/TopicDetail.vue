@@ -19,6 +19,13 @@
     </div>
     <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
                 2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
+      <div class="2md:col-span-3">
+        <button @click="$router.go(-1)"
+                class="w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full hidden
+                       2md:flex items-center justify-center p-5px">
+          <i class="icon-back w-20px h-20px"></i>
+        </button>
+      </div>
       <div class="col-span-2 sm:border-1 border-color8B/30 light:border-color7F rounded-16px h-max
                   2md:h-full no-scroll-bar 2md:overflow-auto"
            ref="webDetailPageRef"
@@ -40,11 +47,6 @@
               {{ topic?.title }}
             </span>
           </div>
-          <button @click="$router.go(-1)"
-                  class="w-30px h-30px bg-white/20 rounded-full absolute top-15px left-15px
-                         hidden 2md:flex items-center justify-center p-5px filter light:invert-30">
-            <img src="~@/assets/icon-back.svg" alt="">
-          </button>
         </div>
         <div class="px-15px overflow-hidden">
           <div class="flex  justify-between items-center my-15px gap-8px">

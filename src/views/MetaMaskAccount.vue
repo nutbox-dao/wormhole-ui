@@ -184,7 +184,7 @@ export default {
           }
           const salt = bytesToHex(ethers.utils.randomBytes(4))
           let pair = this.pair;
-            await sleep(0.6);
+          await sleep(0.6);
           if (!pair.privateKey) {
             pair = await createKeypair();
           }
@@ -259,6 +259,7 @@ export default {
           }
         }catch(e) {
           console.log(532, e);
+          this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
         }finally {
           this.isSigningup = false
         }

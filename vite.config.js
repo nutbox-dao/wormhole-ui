@@ -7,11 +7,20 @@ import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import * as path from 'path'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    nodePolyfills({
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+    }),
     WindiCSS(),
     AutoImport({
       resolvers: [ElementPlusResolver()]
@@ -23,22 +32,24 @@ export default defineConfig({
       ]
     }),
     VitePWA({
-      disable: true,
+      // disable: true,
       registerType: 'autoUpdate',
-      // strategies: 'injectManifest',
+      strategies: 'injectManifest',
       devOptions: {
         enabled: true
       },
       workbox: {
-        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html}']
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico'],
       manifest: {
+        id: 'Wormhole3',
         name: 'Wormhole3',
         short_name: 'Wormhole3',
         description: 'Build your influence with a decentralized curation protocol',
-        background_color: '#0D1117',
-        theme_color: '#0D1117',
+        background_color: '#6246EA',
+        theme_color: '#6246EA',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -68,15 +79,22 @@ export default defineConfig({
     viteCommonjs()
   ],
   resolve: {
-    alias: {
-      '@': path.resolve('src'),
-      '~@': path.resolve('src')
-    },
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve('src'),
+      },
+      {
+        find: '~@',
+        replacement:path.resolve('src')
+      }
+    ],
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     process: "process/browser",
     stream: "stream-browserify",
     zlib: "browserify-zlib",
-    util: 'util'
+    util: 'util',
+    buffer: 'buffer'
   },
   css: {
     postcss: {
