@@ -30,7 +30,7 @@
             </p>
             <p>
               <span>{{ $t('community.nftRatio') }}</span>
-              <span>{{ parseFloat(policy?.nft?.ratio) * 100 }}%</span>
+              <span>{{ parseFloat(policy?.nft?.ratio ?? 0) * 100 }}%</span>
             </p>
             <!-- <p>
               <span>{{ $t('community.topicRatio') }}</span>
