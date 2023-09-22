@@ -234,7 +234,7 @@ export default {
     refDes: "This code is from your referrer who is already a wormhole3 user.",
     wrongReferee: "Wrong invittation code",
     copied: "Copied referrer link!",
-    inviteP1: "invite you to join @wormhole_3.\nStart your journey to decentralized community building while tweet-to-earn exciting rewards! ",
+    inviteP1: "invite you to join {'@'}wormhole_3.\nStart your journey to decentralized community building while tweet-to-earn exciting rewards! ",
     myReferral:"Invitation Link",
     myFriends:"Invitees",
     registrationTime: "Registration time",

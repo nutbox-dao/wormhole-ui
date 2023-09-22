@@ -234,7 +234,7 @@ export default {
     refDes: "此代码来自你已经是 wormhole3 用户的推荐人.",
     wrongReferee: "推荐码错误",
     copied: "已复制推荐链接!",
-    inviteP1: "邀请您加入 @wormhole_3\n 开启Web3世界 tweet to earn 的社区建设之路",
+    inviteP1: "邀请您加入 {'@'}wormhole_3\n 开启Web3世界 tweet to earn 的社区建设之路",
     myReferral:"我的推荐链接",
     myFriends:"我邀请的伙伴",
     registrationTime: "注册时间",
