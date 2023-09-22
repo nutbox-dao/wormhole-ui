@@ -44,7 +44,7 @@ import RewardPromotion from "@/views/user/RewardPromotion.vue";
 const routes = [
   {
     path: '/',
-    redirect: '/community',
+    redirect: '/square',
   },
   {
     path: '/square/:referee?',
