@@ -248,7 +248,9 @@ export default {
     tip2: "邀请人：邀请人可以从被邀请人的服务费中分得50%的收益。",
     tip3: "该规则将在社区试运行3个月",
     inputTip: '请输入邀请码',
-    myInviter: '我的邀请人'
+    myInviter: '我的邀请人',
+    invitorNotRegistry: "该邀请人还未注册",
+    wrongCode: '邀请码错误'
   },
   airdrop: {
     testToken: '测试币',

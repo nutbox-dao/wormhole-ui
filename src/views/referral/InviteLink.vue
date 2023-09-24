@@ -102,6 +102,36 @@
             </button>
           </div>
         </div>
+        <div v-if="!invitor" class="flex items-start justify-center mt-30px mb-30px gap-10px mx-auto">
+          <span class="whitespace-nowrap h-34px flex items-center">{{$t('ref.myInviter')}}:</span>
+          <div class="max-w-300px">
+            <div class="border-1 border-colorA2 rounded-full px-15px h-34px">
+              <input type="text" class="bg-transparent h-full w-full"
+                    v-model="invitorCode"
+                     :placeholder="$t('ref.inputTip')">
+            </div>
+            <div v-show="invitorNotRegistry" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
+              {{ $t('ref.invitorNotRegistry') }}
+            </div>
+            <div v-show="wrongCode" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
+              {{ $t('ref.wrongCode') }}
+            </div>
+          </div>
+          <button class="bg-color62 text-white h-34px px-10px rounded-full text-12px font-bold
+                         flex items-center justify-center disabled:opacity-50"
+                  :disabled="loading"
+                  @click="addInvitor">
+            {{$t('common.confirm')}}
+            <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+          </button>
+        </div>
+        <div v-else class="px-15px py-8px w-min mx-auto
+                    flex items-center justify-center mt-30px gap-8px">
+          <span class="whitespace-nowrap">{{$t('ref.myInviter')}}:</span>
+          <img class="w-40px h-40px min-w-40px min-h-40px rounded-full shadow-color1A"
+               :src='invitor.profileImg.replace("normal", "400x400")' alt="">
+          <span class="text-16px font-bold">{{ invitor.twitterUsername }}</span>
+        </div>
         <div>{{ $t('ref.tipTitle') }}</div>
         <ul class=" pl-20px mt-8px">
           <li>{{ $t('ref.tip1') }}</li>
@@ -110,30 +140,6 @@
         </ul>
         <div class="mt-1rem">
           {{ $t('ref.tip3') }}
-        </div>
-        <div class="flex items-start justify-center mt-30px gap-10px">
-          <span class="whitespace-nowrap h-34px flex items-center">{{$t('ref.myInviter')}}:</span>
-          <div class="max-w-200px">
-            <div class="border-1 border-colorA2 rounded-full px-15px h-34px">
-              <input type="text" class="bg-transparent h-full w-full"
-                     :placeholder="$t('ref.inputTip')">
-            </div>
-            <div class="text-red-500 mt-10px text-12px leading-16px text-center break-word">错误信息</div>
-          </div>
-          <button class="bg-color62 text-white h-34px px-10px rounded-full text-12px font-bold
-                         flex items-center justify-center disabled:opacity-50"
-                  :disabled="loading"
-                  @click="">
-            {{$t('common.confirm')}}
-            <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
-          </button>
-        </div>
-        <div class="px-15px py-8px w-min mx-auto
-                    flex items-center justify-center mt-30px gap-8px">
-          <span class="whitespace-nowrap">{{$t('ref.myInviter')}}:</span>
-          <img class="w-40px h-40px min-w-40px min-h-40px rounded-full shadow-color1A"
-               :src='getAccountInfo.profileImg.replace("normal", "400x400")' alt="">
-          <span class="text-16px font-bold">username</span>
         </div>
       </div>
     </div>
@@ -156,6 +162,7 @@ import {mapGetters} from "vuex";
 import {onCopy} from "@/utils/tool";
 import domtoimage from 'dom-to-image';
 import {useTimer} from "@/utils/hooks";
+import { getMyInvitor, addInvitation } from '@/api/api';
 
 export default {
   name: "InviteLink",
@@ -169,7 +176,11 @@ export default {
       qrSrc: '',
       downloadImgUrl: '',
       modalVisible: false,
-      loading: true
+      loading: false,
+      invitor: null,
+      invitorNotRegistry: false,
+      wrongCode: false,
+      invitorCode: null
     }
   },
   computed: {
@@ -216,11 +227,38 @@ export default {
         aLink.click();
         document.body.removeChild(aLink)
       }
+    },
+    async addInvitor() {
+      try{
+        this.loading = true
+        this.wrongCode = false
+        this.invitorNotRegistry = false
+
+        // check invitor 
+        if (/[0-9]+/.test(this.invitorCode)) {
+          await addInvitation(this.invitorCode, this.getAccountInfo.twitterId);
+          this.invitor = await getMyInvitor(this.getAccountInfo.twitterId)
+        }else {
+          this.wrongCode = true
+        }
+      } catch(e) {
+        if (e === 508) {
+          this.invitorNotRegistry = true
+        }
+        if (e === 501) {
+          this.wrongCode = true
+        }
+      } finally {
+        this.loading = false
+      }
     }
   },
   mounted() {
     this.setTimer(() => {
       this.getQrImg()
+    })
+    getMyInvitor(this.getAccountInfo.twitterId).then(invitor => {
+      this.invitor = invitor
     })
   }
 }

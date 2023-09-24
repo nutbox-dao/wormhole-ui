@@ -472,6 +472,12 @@ export const getInvitorsOfUser = async (twitterId, pageSize, pageIndex) =>
 export const getInvitorsCountOfUser = async (twitterId) =>
     post(BACKEND_API_URL + '/invitation/getInvitorsCountOfUser', {twitterId})
 
+export const getMyInvitor = async (twitterId) =>
+    get(BACKEND_API_URL + '/invitation/getMyInvitor', {twitterId})
+
+export const addInvitation = async (referee, twitterId) =>
+    post(BACKEND_API_URL + '/invitation/addInvitation', {referee, twitterId})
+
 export const getPendingClaimSummary = async (twitterId) =>
     get(BACKEND_API_URL + '/invitation/getPendingClaimSummary', {twitterId})
 
@@ -483,4 +489,3 @@ export const getClaimRewardsParas = async (communityId, twitterId) =>
 
 export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) =>
     post(BACKEND_API_URL + '/invitation/setClaimed', {orderId, communityId, twitterId, transHash})
-
