@@ -26,26 +26,27 @@
       </div>
 
       <div class="col-span-1 sm:hidden">
-        <div class="">
-          <div class="inline leading-20px text-14px text-left c-text-black text-center">
-            {{ $t('ref.referralDesc') }}
-          </div>
+        <div class="inline leading-20px text-14px c-text-black text-center">
+          {{ $t('ref.referralDesc') }}
         </div>
-        <div class="text-left mt-1rem">
-          <div class="inline leading-20px text-14px text-left">
+        <div class="text-center mt-1rem">
+          <div>
             {{$t('ref.refereeCode')}}:
-            <span class="mx-8px">{{getAccountInfo.twitterId}}</span>
           </div>
-          <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
-            <i class="icon-copy w-16px h-16px"></i>
-          </button>
+          <div class="inline leading-20px text-left">
+            <span class="mx-8px text-24px text-colorA2 c-text-black">{{getAccountInfo.twitterId}}</span>
+            <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
+              <i class="icon-copy w-16px h-16px"></i>
+            </button>
+          </div>
         </div>
-        <div class="text-left">
-          <div class="inline leading-20px text-14px text-left">
-            {{$t('ref.myReferral')}}:
-            <span class="mx-8px">{{inviteLink}}</span>
-          </div>
-          <button class="h-20px" @click="onCopy(inviteLink)">
+        <div class="text-center mt-10px">
+          {{$t('ref.referre')}}:
+        </div>
+        <div class="leading-20px text-14px text-left border-1 border-colorA2 rounded-full
+                      flex items-center px-20px py-8px justify-center w-min mx-auto">
+          <span class="mx-8px xl:whitespace-nowrap">{{inviteLink}}</span>
+          <button class="h-14px" @click="onCopy(inviteLink)">
             <i class="icon-copy w-16px h-16px"></i>
           </button>
         </div>
@@ -89,7 +90,6 @@
                 <i class="icon-copy w-16px h-16px"></i>
               </button>
             </div>
-
           </div>
           <div class="text-center mt-10px">
             {{$t('ref.referre')}}:
@@ -111,14 +111,26 @@
         <div class="mt-1rem">
           {{ $t('ref.tip3') }}
         </div>
-        <div class="border-1 border-colorA2 rounded-full px-15px py-8px w-min mx-auto
-                    flex items-center justify-center mt-30px">
-          <span class="whitespace-nowrap">My inviter:</span>
-          <input type="text" class="bg-transparent h-full w-full min-w-80px px-0.5rem">
+        <div class="flex items-start justify-center mt-30px gap-10px">
+          <span class="whitespace-nowrap h-34px flex items-center">{{$t('ref.myInviter')}}:</span>
+          <div class="max-w-200px">
+            <div class="border-1 border-colorA2 rounded-full px-15px h-34px">
+              <input type="text" class="bg-transparent h-full w-full"
+                     :placeholder="$t('ref.inputTip')">
+            </div>
+            <div class="text-red-500 mt-10px text-12px leading-16px text-center break-word">错误信息</div>
+          </div>
+          <button class="bg-color62 text-white h-34px px-10px rounded-full text-12px font-bold
+                         flex items-center justify-center disabled:opacity-50"
+                  :disabled="loading"
+                  @click="">
+            {{$t('common.confirm')}}
+            <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+          </button>
         </div>
         <div class="px-15px py-8px w-min mx-auto
                     flex items-center justify-center mt-30px gap-8px">
-          <span class="whitespace-nowrap">My inviter:</span>
+          <span class="whitespace-nowrap">{{$t('ref.myInviter')}}:</span>
           <img class="w-40px h-40px min-w-40px min-h-40px rounded-full shadow-color1A"
                :src='getAccountInfo.profileImg.replace("normal", "400x400")' alt="">
           <span class="text-16px font-bold">username</span>
@@ -156,7 +168,8 @@ export default {
     return {
       qrSrc: '',
       downloadImgUrl: '',
-      modalVisible: false
+      modalVisible: false,
+      loading: true
     }
   },
   computed: {

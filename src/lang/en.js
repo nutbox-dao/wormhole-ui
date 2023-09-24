@@ -247,6 +247,8 @@ export default {
     tip1: "For Invitees- After the invitee successfully registers, they will enjoy a 20% discount on all reward claim service fee. ",
     tip2: "For You- As the referrer, you will receive a commission to the amount of 50% of the service fee collected each time your invitee claims reward.",
     tip3: "The pilot scheme will run for 3 months while we assess feedback from the community.",
+    inputTip: 'Please enter the invitation code',
+    myInviter: 'My inviter'
   },
   airdrop: {
     testToken: 'Test Token',
