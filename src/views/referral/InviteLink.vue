@@ -26,26 +26,27 @@
       </div>
 
       <div class="col-span-1 sm:hidden">
-        <div class="text-left">
-          <div class="inline leading-20px text-14px text-left">
-            {{ $t('ref.referralDesc') }}
-          </div>
+        <div class="inline leading-20px text-14px c-text-black text-center">
+          {{ $t('ref.referralDesc') }}
         </div>
-        <div class="text-left mt-1rem">
-          <div class="inline leading-20px text-14px text-left">
+        <div class="text-center mt-1rem">
+          <div>
             {{$t('ref.refereeCode')}}:
-            <span class="mx-8px">{{getAccountInfo.twitterId}}</span>
           </div>
-          <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
-            <i class="icon-copy w-16px h-16px"></i>
-          </button>
+          <div class="inline leading-20px text-left">
+            <span class="mx-8px text-24px text-colorA2 c-text-black">{{getAccountInfo.twitterId}}</span>
+            <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
+              <i class="icon-copy w-16px h-16px"></i>
+            </button>
+          </div>
         </div>
-        <div class="text-left">
-          <div class="inline leading-20px text-14px text-left">
-            {{$t('ref.myReferral')}}:
-            <span class="mx-8px">{{inviteLink}}</span>
-          </div>
-          <button class="h-20px" @click="onCopy(inviteLink)">
+        <div class="text-center mt-10px">
+          {{$t('ref.referre')}}:
+        </div>
+        <div class="leading-20px text-14px text-left border-1 border-colorA2 rounded-full
+                      flex items-center px-20px py-8px justify-center w-min mx-auto">
+          <span class="mx-8px xl:whitespace-nowrap">{{inviteLink}}</span>
+          <button class="h-14px" @click="onCopy(inviteLink)">
             <i class="icon-copy w-16px h-16px"></i>
           </button>
         </div>
@@ -74,34 +75,65 @@
           </button>
         </div>
       </div>
-      <div class="col-span-1 xl:col-span-3 text-left text-14px leading-20px flex flex-col justify-center">
-        <div class="hidden sm:block mb-20px text-left">
-          <div class="text-left">
-            <div class="inline leading-20px text-14px text-left">
-              {{ $t('ref.referralDesc') }}
-            </div>
+      <div class="col-span-1 xl:col-span-3 text-14px leading-20px flex flex-col justify-center">
+        <div class="hidden sm:block mb-20px text-center">
+          <div class="inline leading-20px text-14px c-text-black text-center">
+            {{ $t('ref.referralDesc') }}
           </div>
-          <div class="text-left mt-1rem">
-            <div class="inline leading-20px text-14px text-left">
+          <div class="text-center mt-1rem">
+            <div>
               {{$t('ref.refereeCode')}}:
-              <span class="mx-8px">{{getAccountInfo.twitterId}}</span>
             </div>
-            <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
-              <i class="icon-copy w-16px h-16px"></i>
-            </button>
+            <div class="inline leading-20px text-left">
+              <span class="mx-8px text-24px text-colorA2 c-text-black">{{getAccountInfo.twitterId}}</span>
+              <button class="h-20px" @click="onCopy(getAccountInfo.twitterId)">
+                <i class="icon-copy w-16px h-16px"></i>
+              </button>
+            </div>
           </div>
-          <div class="text-left">
-            <div class="inline leading-20px text-14px text-left">
-              {{$t('ref.referre')}}:
-              <span class="mx-8px">{{inviteLink}}</span>
-            </div>
-            <button class="h-20px" @click="onCopy(inviteLink)">
+          <div class="text-center mt-10px">
+            {{$t('ref.referre')}}:
+          </div>
+          <div class="leading-20px text-14px text-left border-1 border-colorA2 rounded-full
+                      flex items-center px-20px py-8px justify-center w-min mx-auto">
+            <span class="mx-8px xl:whitespace-nowrap">{{inviteLink}}</span>
+            <button class="h-14px" @click="onCopy(inviteLink)">
               <i class="icon-copy w-16px h-16px"></i>
             </button>
           </div>
         </div>
+        <div v-if="!invitor" class="flex items-start justify-center mt-30px mb-30px gap-10px mx-auto">
+          <span class="whitespace-nowrap h-34px flex items-center">{{$t('ref.myInviter')}}:</span>
+          <div class="max-w-300px">
+            <div class="border-1 border-colorA2 rounded-full px-15px h-34px">
+              <input type="text" class="bg-transparent h-full w-full"
+                    v-model="invitorCode"
+                     :placeholder="$t('ref.inputTip')">
+            </div>
+            <div v-show="invitorNotRegistry" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
+              {{ $t('ref.invitorNotRegistry') }}
+            </div>
+            <div v-show="wrongCode" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
+              {{ $t('ref.wrongCode') }}
+            </div>
+          </div>
+          <button class="bg-color62 text-white h-34px px-10px rounded-full text-12px font-bold
+                         flex items-center justify-center disabled:opacity-50"
+                  :disabled="loading"
+                  @click="addInvitor">
+            {{$t('common.confirm')}}
+            <c-spinner v-show="loading" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
+          </button>
+        </div>
+        <div v-else class="px-15px py-8px w-min mx-auto
+                    flex items-center justify-center mt-30px gap-8px">
+          <span class="whitespace-nowrap">{{$t('ref.myInviter')}}:</span>
+          <img class="w-40px h-40px min-w-40px min-h-40px rounded-full shadow-color1A"
+               :src='invitor.profileImg.replace("normal", "400x400")' alt="">
+          <span class="text-16px font-bold">{{ invitor.twitterUsername }}</span>
+        </div>
         <div>{{ $t('ref.tipTitle') }}</div>
-        <ul class="list-disc pl-20px mt-8px">
+        <ul class=" pl-20px mt-8px">
           <li>{{ $t('ref.tip1') }}</li>
           <li>{{ $t('ref.tip2') }}</li>
           <!-- <li>{{ $t('ref.tip3') }}</li> -->
@@ -130,6 +162,7 @@ import {mapGetters} from "vuex";
 import {onCopy} from "@/utils/tool";
 import domtoimage from 'dom-to-image';
 import {useTimer} from "@/utils/hooks";
+import { getMyInvitor, addInvitation } from '@/api/api';
 
 export default {
   name: "InviteLink",
@@ -142,7 +175,12 @@ export default {
     return {
       qrSrc: '',
       downloadImgUrl: '',
-      modalVisible: false
+      modalVisible: false,
+      loading: false,
+      invitor: null,
+      invitorNotRegistry: false,
+      wrongCode: false,
+      invitorCode: null
     }
   },
   computed: {
@@ -189,11 +227,38 @@ export default {
         aLink.click();
         document.body.removeChild(aLink)
       }
+    },
+    async addInvitor() {
+      try{
+        this.loading = true
+        this.wrongCode = false
+        this.invitorNotRegistry = false
+
+        // check invitor 
+        if (/[0-9]+/.test(this.invitorCode)) {
+          await addInvitation(this.invitorCode, this.getAccountInfo.twitterId);
+          this.invitor = await getMyInvitor(this.getAccountInfo.twitterId)
+        }else {
+          this.wrongCode = true
+        }
+      } catch(e) {
+        if (e === 508) {
+          this.invitorNotRegistry = true
+        }
+        if (e === 501) {
+          this.wrongCode = true
+        }
+      } finally {
+        this.loading = false
+      }
     }
   },
   mounted() {
     this.setTimer(() => {
       this.getQrImg()
+    })
+    getMyInvitor(this.getAccountInfo.twitterId).then(invitor => {
+      this.invitor = invitor
     })
   }
 }
