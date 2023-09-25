@@ -77,6 +77,7 @@ export default {
     formatDateString,
     async load() {
       if (this.listLoading || this.finishLoading) return;
+      console.log(1)
       try{
         this.listLoading = true;
         const index = Math.floor((this.tableData.length + 1) / 20);
@@ -91,7 +92,6 @@ export default {
         console.log(42, e)
       } finally {
         this.listLoading = false;
-        this.finishLoading = true
       }
     }
   }
