@@ -251,6 +251,7 @@ export default {
     inputTip: 'Please enter the invitation code',
     myInviter: 'My inviter',
     invitorNotRegistry: 'The invitor not registered.',
+    invitorRegisterAfterYou: "The invitor register after you is not allowed",
     wrongCode: "The code is invalid"
   },
   airdrop: {

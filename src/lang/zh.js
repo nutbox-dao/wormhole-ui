@@ -251,6 +251,7 @@ export default {
     inputTip: '请输入邀请码',
     myInviter: '我的邀请人',
     invitorNotRegistry: "该邀请人还未注册",
+    invitorRegisterAfterYou: "邀请人注册时间晚于你注册的时间",
     wrongCode: '邀请码错误'
   },
   airdrop: {
