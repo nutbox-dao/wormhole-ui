@@ -29,9 +29,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="registerTime"
-                       :label="$t('ref.registrationTime')"
+                       :label="$t('ref.inviteTime')"
                        sortable width="160">
-        <template #default="scope">{{formatDateString(scope.row.registerTime)}}</template>
+        <template #default="scope">{{formatDateString(scope.row.createTime)}}</template>
       </el-table-column>
       <!-- <el-table-column prop="level"
                        :label="$t('ref.invitationLevel')" width="140">

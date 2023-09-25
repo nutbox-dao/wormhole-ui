@@ -238,6 +238,7 @@ export default {
     myReferral:"我的推荐链接",
     myFriends:"我邀请的伙伴",
     registrationTime: "注册时间",
+    inviteTime: "邀请时间",
     invitationLevel: "邀请层级",
     lastLoginTime: "最近登录",
     rewards: "推荐奖励",

@@ -238,6 +238,7 @@ export default {
     myReferral:"Invitation Link",
     myFriends:"Invitees",
     registrationTime: "Registration time",
+    inviteTime: "Invite time",
     invitationLevel: "Invite level",
     lastLoginTime: "Last seen",
     rewards: "Invitation Rewards",
