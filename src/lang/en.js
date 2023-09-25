@@ -252,6 +252,7 @@ export default {
     myInviter: 'My inviter',
     invitorNotRegistry: 'The invitor not registered.',
     invitorRegisterAfterYou: "The invitor register after you is not allowed",
+    canntInviteSelf: "Can't invite yourself",
     wrongCode: "The code is invalid"
   },
   airdrop: {

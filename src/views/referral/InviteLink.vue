@@ -119,6 +119,9 @@
             <div v-show="invitorRegisterAfterYou" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
               {{ $t('ref.invitorRegisterAfterYou') }}
             </div>
+            <div v-show="canntInviteSelf" class="text-red-500 mt-10px text-12px leading-16px text-center break-word">
+              {{ $t('ref.canntInviteSelf') }}
+            </div>
           </div>
           <button class="bg-color62 text-white h-34px px-10px rounded-full text-12px font-bold
                          flex items-center justify-center disabled:opacity-50"
@@ -183,6 +186,7 @@ export default {
       invitor: null,
       invitorNotRegistry: false,
       invitorRegisterAfterYou: false,
+      canntInviteSelf: false,
       wrongCode: false,
       invitorCode: null
     }
@@ -238,6 +242,7 @@ export default {
         this.wrongCode = false
         this.invitorNotRegistry = false
         this.invitorRegisterAfterYou = false
+        this.canntInviteSelf = false
 
         // check invitor 
         if (/[0-9]+/.test(this.invitorCode)) {
@@ -253,6 +258,8 @@ export default {
           this.wrongCode = true
         } else if (e === 511) {
           this.invitorRegisterAfterYou = true;
+        } else if (e === 512) {
+          this.canntInviteSelf = true;
         }
       } finally {
         this.loading = false
