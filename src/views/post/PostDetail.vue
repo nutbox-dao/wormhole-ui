@@ -46,13 +46,46 @@
                             mt-1rem rounded-15px overflow-hidden">
                   <div class="h-min bg-color62 text-white text-left cursor-pointer tip-bg">
                     <div class="text-white light:text-blueDark pl-60px sm:pl-60px pr-18px font-bold min-h-54px
-                                flex-1 flex justify-between items-center truncate relative"
+                        flex-1 flex justify-between items-center truncate relative"
                          @click.stop="tip(currentShowingDetail)">
-                      <span class="text-14px absolute w-full h-full top-0 left-0
-                                   flex items-center justify-center font-bold text-white">
+                      <el-carousel v-if="tips && tips.length>0"
+                                   class="w-full hidden sm:block"
+                                   height="54px" indicator-position="none" :loop="true"
+                                   direction="vertical" :autoplay="true"
+                                   :interval="2500">
+                        <el-carousel-item v-for="item in tips" :key="item" class="flex items-center">
+                          <div class="flex-1 c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</div>
+                        </el-carousel-item>
+                      </el-carousel>
+                      <van-notice-bar class="w-full bg-transparent px-0 sm:hidden"
+                                      scrollable :speed="100"
+                                      v-if="tips && tips.length>0">
+                        <template #default>
+                          <span v-for="item in tips" :key="item"
+                            class="mr-4rem c-text-black text-12px xl:text-0.7rem text-white">{{tipStr(item)}}</span>
+                        </template>
+                      </van-notice-bar>
+                      <span v-else class="text-14px absolute w-full h-full top-0 left-0 flex items-center justify-center font-bold text-white">
                         {{$t('curation.tipToUser', {user: currentShowingDetail.username})}}
                       </span>
+                      <button v-if="top3Tip && top3Tip.length > 0" @click.stop="tipCollapse=!tipCollapse"
+                              class="ml-10px bg-black rounded-full text-white h-24px min-w-60px flex items-center justify-center
+                             leading-18px text-12px 2xl:text-0.7rem 2xl:leading-0.8rem px-3px">Top3</button>
                     </div>
+                    <el-collapse-transition>
+                      <div v-show="tipCollapse" class="pb-10px px-18px">
+                        <div class="px-25px py-6px bg-white text-black rounded-10px">
+                          <div class="h-32px flex justify-between items-center text-12px"
+                               v-for="(tip, index) of top3Tip" :key="'tops' + tip.hash">
+                            <div class="flex items-center">
+                              <img class="w-18px" :src="top3Icons[index]" alt="">
+                              <span>{{tip.fromUsername}}</span>
+                            </div>
+                            <span>{{tip.amount}} STEEM</span>
+                          </div>
+                        </div>
+                      </div>
+                    </el-collapse-transition>
                   </div>
                 </div>
               </div>

@@ -188,12 +188,12 @@
               <i class="w-18px h-18px 2xl:w-1rem 2xl:h-1rem icon-close"></i>
             </button>
           </div>
-          <div class="flex-1 overflow-auto no-scroll-bar">
-            <div class="flex px-15px">
+          <div class="flex-1 overflow-hidden">
+            <div class="flex px-15px" >
               <img class="mr-10px md:mr-1rem rounded-full gradient-border w-3rem h-3rem"
                    :src="userProfileImg" alt="">
-              <div class="flex-1 overflow-x-hidden">
-                <div class="flex flex-col relative">
+              <div class="flex-1 overflow-x-hidden flex flex-col">
+                <div class="flex flex-col relative max-h-30vh overflow-auto">
                   <div v-show="showInputTip"
                        class="absolute top-5px leading-24px 2xl:leading-18px opacity-50">
                     {{isDefaultQuote?$t('curation.tweetInputTip'):$t('curation.inputCurationDes')}}
@@ -318,6 +318,7 @@ import debounce from 'lodash.debounce'
 import { getPriceFromOracle } from '@/utils/asset'
 import { joinCommunity } from "@/utils/community";
 import {useTimer} from "@/utils/hooks";
+import {watch, ref} from "vue";
 
 
 export default {
@@ -422,6 +423,11 @@ export default {
       }
       return content
     },
+  },
+  watch: {
+    '$refs.replayBoxRef.scrollHeight' () {
+      console.log('sdsdsd');
+    }
   },
   methods: {
     parseTimestamp,
