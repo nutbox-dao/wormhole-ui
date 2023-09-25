@@ -110,7 +110,7 @@
             </div>
           </div>
           <slot name="blog-tag">
-            <div class="flex gap-x-8px text-12px text-color8B light:text-color7D blog-tag
+            <div v-if="!isIgnoreAccount" class="flex gap-x-8px text-12px text-color8B light:text-color7D blog-tag
                         overflow-auto no-scroll-bar 2md:flex-wrap">
               <div v-show="tag != 'iweb3'"
                    class="py-3px px-6px rounded-full mt-10px whitespace-nowrap cursor-pointer border-1 border-color62"
