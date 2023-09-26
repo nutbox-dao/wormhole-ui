@@ -5,7 +5,7 @@ import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAu
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
     getJoinCommunityState as gjcs, getCommunities as gcs, getSpaceClaimRewardsParas as gscrp,
     setSpaceRewardClaimed as ssrc } from '@/api/api'
-import { EVM_CHAINS, EVM_CHAINS_ID, errCode } from '@/config';
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config';
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 
 export const getCommunities = async () => {

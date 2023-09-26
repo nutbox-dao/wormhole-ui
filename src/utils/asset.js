@@ -1,6 +1,7 @@
 import { aggregate } from "@makerdao/multicall";
-import { Multi_Config, ERC20List, EVM_CHAINS, REPUTATION_NFT, CURATION_FUND_CONTRACT,
+import { Multi_Config, REPUTATION_NFT, CURATION_FUND_CONTRACT,
      STELLAR_TREK_NFT, LIQUIDATION_NFT, WC2022_NFT, Christmas_NFT } from "@/config";
+import { EVM_CHAINS } from '@/chain-config'
 import store from '@/store'
 import { getLiquidationMetaBy as getLiqMeta } from '@/api/api'
 import { ethers } from 'ethers'

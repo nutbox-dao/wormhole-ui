@@ -205,12 +205,12 @@
 </template>
 
 <script>
-import {EVM_CHAINS} from "@/config";
+import {EVM_CHAINS} from "@/chain-config";
 import {setupNetwork} from "@/utils/web3/web3";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import {notify} from "@/utils/notify";
 import {getERC20TokenBalance, getTokenInfo} from "@/utils/asset";
-import {TokenIcon, isWrappedToken} from "@/config";
+import { TokenIcon, isWrappedToken } from "@/chain-config"
 import {formatAddress} from "@/utils/tool";
 import {formatAmount} from "@/utils/helper";
 import {ethers} from "ethers";

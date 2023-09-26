@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { TokenIcon, EVM_CHAINS } from "@/config"
+import { EVM_CHAINS } from "@/chain-config"
+import { TokenIcon } from "@/chain-config";
 import {formatAddress, copyAddress} from "@/utils/tool";
 import {useTimer} from "@/utils/hooks";
 import steemImg from '@/assets/steem.png'

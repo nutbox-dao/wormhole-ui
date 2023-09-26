@@ -102,7 +102,7 @@ import TipModal from "@/components/TipModal.vue";
 import { formatAmount, formatPrice, sleep } from "@/utils/helper";
 import { mapState } from 'vuex'
 import { getPriceFromOracle } from "@/utils/asset";
-import { EVM_CHAINS_ID } from '@/config'
+import { EVM_CHAINS_ID } from '@/chain-config'
 
 export default {
   name: "SpaceSpeaker",

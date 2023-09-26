@@ -492,7 +492,9 @@ import { getSpaceIdFromUrls } from '@/utils/twitter-tool'
 import { mapGetters, mapState } from 'vuex'
 import { notify, showError } from "@/utils/notify";
 import {replyToCurationByWH3, getPopularTopics, searchCommunityByName, searchTags, getCommunities} from '@/api/api'
-import { CURATION_SHORT_URL, EVM_CHAINS, TokenIcon } from "@/config";
+import { CURATION_SHORT_URL } from "@/config";
+import { EVM_CHAINS } from '@/chain-config'
+import { TokenIcon } from "@/chain-config";
 import { ethers } from 'ethers'
 import { sleep, formatAmount } from '@/utils/helper'
 import { randomCurationId, creteNewCuration, newCurationWithTweet, newCuration, preNewCuration } from '@/utils/curation'

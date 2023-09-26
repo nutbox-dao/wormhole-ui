@@ -2,14 +2,9 @@ import {
   sleep
 } from "../helper"
 import {
-  CHAIN_ID,
-  RPC_NODE,
-  CHAIN_NAME,
-  MainToken,
-  BLOCK_CHAIN_BROWER,
   EVM_CHAINS,
   EVM_CHAINS_ID
-} from '@/config'
+} from '@/chain-config'
 import store from '@/store'
 import { ethers } from 'ethers'
 

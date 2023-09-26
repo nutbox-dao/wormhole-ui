@@ -69,7 +69,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS, SteemScan } from '@/config'
+import { SteemScan } from '@/config'
+import { EVM_CHAINS } from '@/chain-config'
 import { sleep, formatAmount } from '@/utils/helper'
 import { ethers } from 'ethers'
 import { getUsersTips } from '@/utils/account'

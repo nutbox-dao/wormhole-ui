@@ -78,7 +78,7 @@ import {getPriceFromOracle} from "@/utils/asset";
 import BlogReward from "@/components/BlogReward.vue";
 import {isNumeric} from "@/utils/tool";
 import { mapState } from "vuex";
-import { EVM_CHAINS_ID } from '@/config'
+import { EVM_CHAINS_ID } from '@/chain-config'
 import Avatar from "@/components/Avatar";
 
 export default {

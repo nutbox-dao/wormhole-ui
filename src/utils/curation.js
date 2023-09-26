@@ -2,7 +2,8 @@ import { ethers } from  'ethers'
 import { u8arryToHex } from './helper'
 import { getEthWeb } from "./web3/web3";
 import { waitForTx } from './ethers'
-import { errCode, EVM_CHAINS, RPC_NODE, AutoCurationContract } from '@/config'
+import { errCode, AutoCurationContract } from '@/config'
+import { EVM_CHAINS } from '@/chain-config'
 import { checkAccessToken, logout } from '@/utils/account'
 import { newCuration as nc, newCurationWithTweet as ncwt, tipEVM as te, newPopup as npp, getClaimParas as gcp,
         likeCuration as lc, followCuration as fc, checkMyCurationRecord as ccr, checkMyPopupRecord as cpr,

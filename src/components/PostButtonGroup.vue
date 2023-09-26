@@ -303,7 +303,7 @@
 
 <script>
 import {followPost, likePost, quotePost, replyPost, retweetPost} from "@/utils/post";
-import {errCode, IgnoreAuthor, EVM_CHAINS} from "@/config";
+import {errCode, IgnoreAuthor} from "@/config";
 import {notify} from "@/utils/notify";
 import {mapGetters} from "vuex";
 import {parseTimestamp, stringLength, formatAmount} from "@/utils/helper";

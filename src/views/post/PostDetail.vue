@@ -333,7 +333,7 @@ import {
   spaceSpeakerRecord
 } from '@/api/api'
 import { getPosts } from '@/utils/steem'
-import { EVM_CHAINS } from '@/config'
+import { EVM_CHAINS } from '@/chain-config'
 import {formatAmount, formatPrice, parseSpaceStartTime, sleep} from '@/utils/helper'
 import iconTop1 from "@/assets/icon-top1.svg";
 import iconTop2 from "@/assets/icon-top2.svg";

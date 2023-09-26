@@ -94,7 +94,7 @@ import BlogReward from "@/components/BlogReward.vue";
 import { mapState } from 'vuex'
 import { formatAmount, formatPrice } from "@/utils/helper";
 import { getPriceFromOracle } from "@/utils/asset";
-import { EVM_CHAINS_ID } from '@/config'
+import { EVM_CHAINS_ID } from '@/chain-config'
 
 export default {
   name: "SpaceIncome",

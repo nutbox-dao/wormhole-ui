@@ -50,7 +50,7 @@ import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {formatAmount, parseTimestamp} from "@/utils/helper";
 import { curationRewardListHistory, getCommunityHistoryRewards, getCommunityAuthorHistoryRewards, getSpaceCurationHistoryRewardList } from '@/api/api';
 import { mapGetters } from "vuex";
-import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
+import { EVM_CHAINS, EVM_CHAINS_ID } from "@/chain-config";
 
 export default {
   name: "RewardHistoryList",
