@@ -247,7 +247,8 @@
 import GetNft from "@/views/user/components/GetNft";
 import { mapGetters, mapState } from 'vuex'
 import { getStellarTreks, getLiquidationNft, getWc2022, getChritmasNFT, getCuratorNFT } from '@/utils/asset'
-import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT, Curator_NFT } from '@/config'
+import { Curator_NFT } from '@/nft-config'
+import { Christmas_NFT, WC2022_NFT, STELLAR_TREK_NFT } from '@/nft-config'
 import { getUserNYCards } from '@/utils/new-year'
 import { BLESS_CARD_NAME, BLESS_CARD_DESC } from '@/ny-config'
 
