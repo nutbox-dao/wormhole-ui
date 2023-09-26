@@ -1,8 +1,5 @@
 import { get, post, put } from "./axios"
 import { BACKEND_API_URL } from '../config'
-import curation from "@/store/curation"
-import { sleep } from "@/utils/helper"
-import store from '@/store'
 
 export const postErr = async (module, title, error) =>
     post(BACKEND_API_URL + '/sys/err', {module, title, error})
@@ -489,3 +486,11 @@ export const getClaimRewardsParas = async (communityId, twitterId) =>
 
 export const setInvitationRewardClaimed = async (orderId, communityId, twitterId, transHash) =>
     post(BACKEND_API_URL + '/invitation/setClaimed', {orderId, communityId, twitterId, transHash})
+
+
+/****************************************  Community manage  ***********************************************/
+export const getWh3CommunityByEth = async (ethAddress) =>
+    get(BACKEND_API_URL + '/community/getCommunityByEth', { ethAddress })
+
+export const createWh3Community = async (infoStr, ethAddress, signature) =>
+    put(BACKEND_API_URL + '/community/createCommunity', {infoStr, ethAddress, signature})
