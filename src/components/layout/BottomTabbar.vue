@@ -1,6 +1,6 @@
 <template>
   <div class="light:bg-white flex border-t-1 border-headerBorder light:border-headerBorderLight
-              pt-7px pb-23px text-color8B light:text-black/40 font-bold">
+              pt-7px pb-30px text-color8B light:text-black/40 font-bold">
     <router-link to="/community" class="flex-1">
       <button  class="w-full h-30px flex justify-center items-center">
         {{$t('slider.community')}}

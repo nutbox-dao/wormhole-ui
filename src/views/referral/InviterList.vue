@@ -76,6 +76,10 @@ export default {
   methods: {
     formatDateString,
     async load() {
+      if (!this.getAccountInfo) {
+        this.$router.push('/')
+        return;
+      }
       if (this.listLoading || this.finishLoading) return;
       console.log(1)
       try{
@@ -94,7 +98,13 @@ export default {
         this.listLoading = false;
       }
     }
-  }
+  },
+  mounted () {
+    if (!this.getAccountInfo) {
+        this.$router.push('/')
+        return;
+    }
+  },
 }
 </script>
 
