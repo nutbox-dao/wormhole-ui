@@ -1,14 +1,14 @@
 <template>
   <div class="light:bg-white flex border-t-1 border-headerBorder light:border-headerBorderLight
               pt-7px pb-30px text-color8B light:text-black/40 font-bold">
-    <router-link to="/community" class="flex-1">
-      <button  class="w-full h-30px flex justify-center items-center">
-        {{$t('slider.community')}}
-      </button>
-    </router-link>
     <router-link to="/square" class="flex-1">
       <button  class="w-full h-30px flex justify-center items-center">
         {{$t('slider.square')}}
+      </button>
+    </router-link>
+    <router-link to="/community" class="flex-1">
+      <button  class="w-full h-30px flex justify-center items-center">
+        {{$t('slider.community')}}
       </button>
     </router-link>
     <!-- <router-link to="/influence" class="flex-1">

@@ -3,18 +3,18 @@
               border-r-0.5px border-headerBorder light:border-headerBorderLight pb-2rem"
        :class="$route.name==='word-cloud'?'filter-link':''">
     <div class="flex flex-col items-start gap-5px px-15px xl:px-1rem 2xl:px-2rem text-18px">
-      <router-link to="/community" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
-          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-community-active.svg" alt="">
-          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-community.svg" alt="">
-          <span class="ml-8px">{{$t('slider.community')}}</span>
-        </button>
-      </router-link>
       <router-link to="/square" class="flex-1 w-full" v-slot="{isActive}">
         <button class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
           <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-home-active.svg" alt="">
           <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-home.svg" alt="">
           <span class="ml-8px">{{$t('slider.square')}}</span>
+        </button>
+      </router-link>
+      <router-link to="/community" class="flex-1 w-full" v-slot="{isActive}">
+        <button  class="w-full h-60px flex items-center brightness-0" :class="isActive?'text-color62':'text-color99'">
+          <img v-show="isActive" class="w-16px min-w-16px" src="~@/assets/nav-community-active.svg" alt="">
+          <img v-show="!isActive" class="w-16px min-w-16px" src="~@/assets/nav-community.svg" alt="">
+          <span class="ml-8px">{{$t('slider.community')}}</span>
         </button>
       </router-link>
       <!-- <router-link to="/influence" class="flex-1 w-full" v-slot="{isActive}">
