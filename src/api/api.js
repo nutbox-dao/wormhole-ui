@@ -494,3 +494,6 @@ export const getWh3CommunityByEth = async (ethAddress) =>
 
 export const createWh3Community = async (infoStr, ethAddress, signature) =>
     put(BACKEND_API_URL + '/community/createCommunity', {infoStr, ethAddress, signature})
+
+export const getMyNutboxCommunityInfo = async (communityId) =>
+    get("https://arbi-api.nutbox.app/community/get", { communityId })
