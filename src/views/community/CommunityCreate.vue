@@ -34,13 +34,13 @@
             <input class="w-full bg-transparent" type="text" placeholder="e.g.“Ethereum”">
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
           <div class="text-16px">Token symbol</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
             <input class="w-full bg-transparent" type="text" placeholder="e.g.“Eth”">
           </div>
         </div>
-        <div class="mt-20px flex items-center justify-between gap-15px">
+        <div class="mt-40px flex items-center justify-between gap-15px">
           <div class="text-16px whitespace-nowrap">Transaction begin</div>
           <div class="w-full max-w-300px overflow-hidden py-4px bg-blockBg light:bg-white light:shadow-color1A
                       rounded-5px flex items-center">
@@ -116,13 +116,31 @@
             <input class="w-full bg-transparent" type="text" placeholder="e.g.“Mferc”">
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
           <div class="text-16px">Official link</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
             <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://www.wormhole.io”">
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
+          <div class="text-16px">Twitter link</div>
+          <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://twitter.com/wormhole_3”">
+          </div>
+        </div>
+        <div class="mt-40px">
+          <div class="text-16px">Discord link</div>
+          <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://discord.com/invite/6QbcvSEDWF”">
+          </div>
+        </div>
+        <div class="mt-40px">
+          <div class="text-16px">YouTube link</div>
+          <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://www.youtube.com/@Wormhole3/featured”">
+          </div>
+        </div>
+        <div class="mt-40px">
           <div class="text-16px mb-8px">Description</div>
           <div class="border-1 border-color4F light:border-colorD6 rounded-5px">
             <textarea class="w-full bg-transparent p-10px"
@@ -130,7 +148,7 @@
                       placeholder="Community description"></textarea>
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
           <div class="flex items-center justify-between gap-15px">
             <div class="text-16px whitespace-nowrap">Category tag</div>
             <div class="w-full max-w-300px overflow-hidden py-4px px-10px bg-blockBg light:bg-white light:shadow-color1A
@@ -235,13 +253,13 @@
             <input class="w-full bg-transparent" type="text" placeholder="100%Content mining">
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
           <div class="text-16px">Official Twitter</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
             <input class="w-full bg-transparent" type="text" placeholder="@ twitter ID">
           </div>
         </div>
-        <div class="mt-20px">
+        <div class="mt-40px">
           <div class="text-16px">On-chain Community tag</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px flex items-center">
             <span class="text-16px font-bold text-color99 mr-10px">#</span>
