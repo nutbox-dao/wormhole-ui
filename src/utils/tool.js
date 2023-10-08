@@ -36,7 +36,7 @@ export function formatEmojiText(str) {
   str = str.replace(regStr, (char) => {
     let code = char.codePointAt(char).toString(16)
     if(code.length<4) code = code + '-20e3'
-    return `<img class="w-18px h-18px mx-2px inline-block" src="/emoji/svg/${code}.svg" alt="${char}"/>`
+    return `<img class="w-18px h-18px mx-2px inline-block" src="/emoji/svg/${code}.svg" onerror="showAltText(this)" alt="${char}"/><text class="hidden">${char}</text>`
   });
   return str
 }

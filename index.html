@@ -29,6 +29,12 @@
   gtag('js', new Date());
 
   gtag('config', 'G-LERTNRZPMF');
+  function showAltText (image) {
+    // console.log(image.nextSibling)
+    image.classList=['hidden']
+    if(image.nextSibling) image.nextSibling.classList=['inline-block text-18px mx-2px']
+    // image.classList=['w-0 opacity-0']
+  }
 </script>
   <body>
     <noscript>

@@ -18,7 +18,7 @@
       <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px gap-5px">
         <span class="flex-1 text-left">{{$t('community.member')}}</span>
         <span class="flex-1 text-right">{{$t('community.curationCredit')}}</span>
-        <span class="flex-1 text-right">{{$t('community.communityTokenBalance')}}</span>
+        <!-- <span class="flex-1 text-right">{{$t('community.communityTokenBalance')}}</span> -->
       </div>
       <div class="flex justify-between items-center px-15px py-10px gap-5px"
            v-for="(item, index) of members" :key="index">
@@ -41,7 +41,7 @@
           </div>
         </div>
         <span class="flex-1 text-right text-12px">{{ item.ccPower }}</span>
-        <span class="flex-1 text-right text-12px">{{ item.showingBalance }}</span>
+        <!-- <span class="flex-1 text-right text-12px">{{ item.showingBalance }}</span> -->
       </div>
     </van-list>
   </div>
@@ -102,7 +102,7 @@ export default {
         this.listLoading = true;
         let members = await getCommunityMembers(this.showingCommunity.communityId, 20, parseInt((this.members.length -1) / 20) + 1);
         if (members.length > 0) {
-          members = await this.getBalances(members)
+          // members = await this.getBalances(members)
           this.$store.commit('community/saveMembers', this.members.concat(members ?? []));
         }else {
           this.finished = true
@@ -119,7 +119,7 @@ export default {
         this.refreshing = true;
         let members = await getCommunityMembers(this.showingCommunity.communityId);
         this.$store.commit('community/saveMembers', members ?? []);
-        members = await this.getBalances(members)
+        // members = await this.getBalances(members)
         this.$store.commit('community/saveMembers', members ?? []);
         if (members.length === 0) {
           this.finished = true
