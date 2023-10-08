@@ -31,13 +31,19 @@
         <div class="mt-30px">
           <div class="text-16px">Token name</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
-            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Ethereum”">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Ethereum”" v-model="form.tokenName">
+          </div>
+          <div class="text-14 text-red-500 mt-10px" v-show="wrongName">
+            Illegal input
           </div>
         </div>
         <div class="mt-20px">
           <div class="text-16px">Token symbol</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
-            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Eth”">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Eth”" v-model="form.tokenSymbol">
+          </div>
+          <div class="text-14 text-red-500 mt-10px" v-show="wrongSymbol">
+            Illegal input
           </div>
         </div>
         <div class="mt-20px flex items-center justify-between gap-15px">
@@ -49,6 +55,9 @@
                             type="datetime" placeholder="Pick a day"/>
             <img class="w-20px mr-10px" src="~@/assets/icon-arrow-circle.svg" alt="">
           </div>
+        </div>
+        <div class="text-14 text-color99 mt-16px">
+          Here we help you deploy a token contract which mean users can't transfer this token anyway. But you can provide a begin transfer time. User can transfer token after your setted begin time. The token can be transfered if you do not set this time.
         </div>
         <div>
           <div class="text-16px whitespace-nowrap mb-10px mt-30px">Token Model</div>
@@ -90,14 +99,17 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-20px mt-30px">
+        <button class="flex items-center gap-20px mt-30px" @click="gotoNutbox">
           <span class="text-20px">Advanced Token Model</span>
           <img src="~@/assets/community-create.svg" alt="">
+        </button>
+        <div class="text-14 text-color99 mt-16px">
+          If you need set your own token distribution strategy, you can go to nutbox to create your community.
         </div>
         <div class="flex gap-20px">
           <button class="bg-color62 disabled:bg-blockBg light:disabled:bg-black/35 px-30px h-40px text-16px font-bold
                        mt-40px rounded-8px text-white"
-                  @click="step=2">Create</button>
+                  @click="deployToken">Create</button>
         </div>
       </div>
       <!-- step 2 -->
@@ -201,6 +213,7 @@
                   @click="step=3">Confirm</button>
         </div>
       </div>
+      <!-- step 3 -->
       <div v-show="step===3">
         <div class="text-36px c-text-black">
           Points claimable
@@ -220,6 +233,7 @@
                   @click="step=4">Confirm</button>
         </div>
       </div>
+      <!-- step 4 -->
       <div v-show="step===4">
         <div class="text-36px c-text-black">
           Pool
@@ -288,6 +302,7 @@ import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
 import { uploadImage, formatAmount } from "@/utils/helper";
 import { getDistribution } from "@/utils/nutbox/utils"
+import { createCommunity } from "@/utils/nutbox/community"
 
 export default {
   name: "CommunityCreate",
@@ -321,8 +336,13 @@ export default {
         '#FFE14D',
         '#FFCD7A'
       ],
+      wrongName: false,
+      wrongSymbol: false,
+      wrongTime: false,
       step: 1,
       form: {
+        tokenName: '',
+        tokenSymbol: '',  
         startTime: '',
         categoryTags: [],
         tokenLogo: '',
@@ -341,12 +361,13 @@ export default {
       cropFixedNumber: [1, 1],
       cropImgSize: [200, 200],
       progressData: [
-        {amount: 10, background: "rgba(255, 149, 0, 0.25)", percentage: 10000000, startHeight: "17256610", stopHeight: "27256610"},
-        {amount: 5, background: "rgba(255, 149, 0, 0.5)", percentage: 9999999, startHeight: "27256611", stopHeight: "37256610"},
-        {amount: 2.5, background: "rgba(255, 149, 0, 0.75)", percentage: 9999999, startHeight: "37256611", stopHeight: "47256610"},
-        {amount: 1.25, background: "rgba(255, 149, 0, 1)", percentage: 9952743388, startHeight: "47256611", stopHeight: "9999999999"},
+        {amount: 10, background: "rgba(255, 149, 0, 0.25)", percentage: 10000000, startHeight: "17256610", stopHeight: "27256610"}
       ],
-      supply: 0
+      supply: 0,
+      deployingToken: false,
+      uploadingCommunityInfo: false,
+      createingPooling: false,
+      approveingTransfer: false
     }
   },
   computed: {
@@ -455,6 +476,46 @@ export default {
         this.logoUploadLoading = true
         this.form.icon = await uploadImage(this.logoFile)
         this.logoUploadLoading = false
+      }
+    },
+    gotoNutbox() {
+      window.open('https://arbi.nutbox.app/#/community/index', '__blank')
+    },
+    async deployToken() {
+      try{
+        this.deployingToken = true
+        // check token info
+        const v1 = /^[\x00-\x7F]+$/.test(this.form.tokenName)
+        if (!v1) {
+          this.wrongName = true;
+          return;
+        }
+        this.wrongName = false
+        const v2 = /^[\x00-\x7F]+$/.test(this.form.tokenSymbol)
+
+        if (!v2) {
+          this.wrongSymbol = true;
+          return;
+        }
+        this.wrongSymbol = false;
+
+        // check datetime
+        const startStamp = new Date(this.form.startTime).getTime()
+        const now = new Date().getTime()
+        if (now > startStamp) {
+          this.wrongTime = true
+          return;
+        }
+        this.wrongTime = false
+        this.form.startTime = startStamp
+
+        // deploy token
+        const createdCommunity = await createCommunity('Arbitrum', this.form, this.progressData)
+        console.log(2345, createdCommunity)
+      } catch (e) {
+        console.log('create nutbox community fail:', e)
+      } finally {
+        this.deployingToken = false
       }
     }
   },

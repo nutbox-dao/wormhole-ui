@@ -101,6 +101,31 @@ export const abis = {
         }
       ],
     CommunityFactory: [
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "creator",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "community",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "communityToken",
+            "type": "address"
+          }
+        ],
+        "name": "CommunityCreated",
+        "type": "event"
+      },
         {
           "inputs": [
             {
