@@ -240,27 +240,11 @@
           </div>
         </div>
         <div class="mt-20px">
-          <div class="flex items-center justify-between gap-15px">
-            <div class="text-16px whitespace-nowrap">On-chain Community tag</div>
-            <div class="w-full max-w-300px overflow-hidden py-4px px-10px bg-blockBg light:bg-white light:shadow-color1A
-                        rounded-5px flex items-center h-40px">
-              <span class="text-16px font-bold text-color99 mr-10px">#</span>
-              <input class="bg-transparent w-full" type="text" v-model="chainTag">
-              <button :disabled="!chainTag.trim()" @click="form.chainTags.push(chainTag)">
-                <img class="w-20px" src="~@/assets/icon-add-primary.svg" alt="">
-              </button>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-15px py-20px border-b-1 border-color4F light:border-colorD6">
-            <button v-for="(tag, index) of form.chainTags" :key="index"
-                    class="px-15px h-30px rounded-full relative text-white"
-                    :style="{background: colorList[index]}">
-              {{tag}}
-              <span class="bg-color62 absolute -top-10px w-18px h-18px rounded-full p-4px"
-                    @click="deleteTag(form.chainTags, index)">
-                <img class="w-full" src="~@/assets/icon-close-white.svg" alt="">
-              </span>
-            </button>
+          <div class="text-16px">On-chain Community tag</div>
+          <div class="border-b-1 border-color4F light:border-colorD6 py-8px flex items-center">
+            <span class="text-16px font-bold text-color99 mr-10px">#</span>
+            <input class="w-full bg-transparent" v-model="form.chainTag"
+                   type="text" placeholder="chain tag">
           </div>
         </div>
         <div class="flex gap-20px">
@@ -342,9 +326,8 @@ export default {
         startTime: '',
         categoryTags: [],
         tokenLogo: '',
-        chainTags: []
+        chainTag: ''
       },
-      chainTag: '',
       inputTag: '',
       uploadType: 'token',
       tokenLogoFile: null,
