@@ -1,6 +1,6 @@
 <template>
   <div class="h-full overflow-hidden flex flex-col
-              container mx-auto text-left max-w-600px fade-in c-text-medium p-15px break-word">
+              container mx-auto text-left max-w-43rem fade-in c-text-medium p-15px break-word">
     <button @click="$router.go(-1)"
             class="w-20px xs:w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full
                          flex items-center justify-center">
@@ -61,37 +61,39 @@
         </div>
         <div>
           <div class="text-16px whitespace-nowrap mb-10px mt-30px">Token Model</div>
-          <div class="bg-blockBg light:bg-white px-15px rounded-5px pt-50px pb-20px relative">
-            <div class="c-progress-container relative flex justify-between items-center rounded-full h-5px ">
-              <el-tooltip placement="top-start">
-                <template #content>
-                  <span class="text-white light:text-blueDark">{{min}}</span>
-                </template>
-                <button class="absolute text-color8B left-0 top-14px text-12px">{{formatNum(min)}}</button>
-              </el-tooltip>
-              <el-tooltip placement="top-start">
-                <template #content>
-                  <span class="text-white light:text-blueDark">{{max}}</span>
-                </template>
-                <button class="absolute text-color8B right-0 top-14px text-12px">{{formatNum(max)}}</button>
-              </el-tooltip>
-              <div class="c-progress-bar" v-for="(data, index) of (progressData ? progressData : [])" :key="index"
-                   :style="{ flex: 1,  background: colorList[index]}" >
+          <div class="bg-blockBg light:bg-white px-15px rounded-5px pb-20px relative ">
+            <div class="relative overflow-auto pt-50px pb-20px">
+              <div class="w-full min-w-780px c-progress-container relative flex justify-between items-center rounded-full h-5px ">
+                <el-tooltip placement="top-start">
+                  <template #content>
+                    <span class="text-white light:text-blueDark">{{min}}</span>
+                  </template>
+                  <button class="absolute text-color8B left-0 top-14px text-12px">{{formatNum(min)}}</button>
+                </el-tooltip>
+                <el-tooltip placement="top-start">
+                  <template #content>
+                    <span class="text-white light:text-blueDark">{{max}}</span>
+                  </template>
+                  <button class="absolute text-color8B right-0 top-14px text-12px">{{formatNum(max)}}</button>
+                </el-tooltip>
+                <div class="c-progress-bar" v-for="(data, index) of (progressData ? progressData : [])" :key="index"
+                     :style="{ flex: 1,  background: colorList[index]}" >
                 <span class="progress-tooltip absolute left-1/2 transform -translate-x-1/2 bottom-8px
                              text-color8B light:text-color62
                              px-15px py-8px rounded-full shadow-popper-tip whitespace-nowrap">
                   {{data.amount}}</span>
-                <el-tooltip v-if="index<progressData.length-1" placement="top-start">
-                  <template #content>
-                    <span class="text-white light:text-blueDark whitespace-nowrap">{{data.stopHeight}}</span>
-                  </template>
-                  <button class="absolute text-color8B right-0 transform translate-x-1/2 top-14px text-12px whitespace-nowrap">
-                    {{formatNum(data.stopHeight)}}
-                  </button>
-                </el-tooltip>
+                  <el-tooltip v-if="index<progressData.length-1" placement="top-start">
+                    <template #content>
+                      <span class="text-white light:text-blueDark whitespace-nowrap">{{data.stopHeight}}</span>
+                    </template>
+                    <button class="absolute text-color8B right-0 transform translate-x-1/2 top-14px text-12px whitespace-nowrap">
+                      {{formatNum(data.stopHeight)}}
+                    </button>
+                  </el-tooltip>
+                </div>
               </div>
             </div>
-            <div class="grid grid-cols-1 xs:grid-cols-2 mt-60px gap-x-100px gap-y-20px">
+            <div class="grid grid-cols-1 xs:grid-cols-2 mt-40px gap-x-100px gap-y-20px">
               <div class="col-span-1 flex justify-between items-center">
                 <span class="text-color8B light:text-color7D">Total supply</span>
                 <span>{{ formatAmount(supply) }}</span>
