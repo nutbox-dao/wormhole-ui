@@ -46,7 +46,7 @@
                       rounded-5px flex items-center">
             <el-date-picker class="c-input-date bg-blockBg light:bg-white border-0"
                             v-model="form.startTime"
-                            type="date" placeholder="Pick a day"/>
+                            type="datetime" placeholder="Pick a day"/>
             <img class="w-20px mr-10px" src="~@/assets/icon-arrow-circle.svg" alt="">
           </div>
         </div>
