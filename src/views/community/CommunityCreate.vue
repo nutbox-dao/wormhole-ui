@@ -512,8 +512,9 @@ export default {
         this.form.startTime = startStamp
 
         // deploy token
-        const createdCommunity = await createCommunity('Arbitrum', this.form, this.progressData)
-        console.log(2345, createdCommunity)
+        // const createdCommunity = await createCommunity('Arbitrum', this.form, this.progressData)
+        // console.log(2345, createdCommunity)
+        this.step = 2
       } catch (e) {
         console.log('create nutbox community fail:', e)
       } finally {
