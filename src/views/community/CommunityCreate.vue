@@ -17,6 +17,7 @@
         <button class="w-24px min-w-24px h-24px rounded-6px"
                 :class="step>=3?'bg-color62':'bg-color4F light:bg-color7D'">3</button>
       </div>
+      <!-- step 1 -->
       <div v-show="step===1">
         <div class="text-36px c-text-black">
           Create  token
@@ -80,12 +81,8 @@
             </div>
             <div class="grid grid-cols-1 xs:grid-cols-2 mt-60px gap-x-100px gap-y-20px">
               <div class="col-span-1 flex justify-between items-center">
-                <span class="text-color8B light:text-color7D">Total</span>
-                <span>50,000,000</span>
-              </div>
-              <div class="col-span-1 flex justify-between items-center">
-                <span class="text-color8B light:text-color7D">Max supply</span>
-                <span>100,000,000</span>
+                <span class="text-color8B light:text-color7D">Total supply</span>
+                <span>{{ formatAmount(supply) }}</span>
               </div>
             </div>
           </div>
@@ -100,6 +97,7 @@
                   @click="step=2">Create</button>
         </div>
       </div>
+      <!-- step 2 -->
       <div v-show="step===2">
         <div class="text-36px c-text-black">
           Community info
@@ -282,7 +280,8 @@
 <script>
 import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
-import {uploadImage} from "@/utils/helper";
+import { uploadImage, formatAmount } from "@/utils/helper";
+import { getDistribution } from "@/utils/nutbox/utils"
 
 export default {
   name: "CommunityCreate",
@@ -342,6 +341,7 @@ export default {
         {amount: 2.5, background: "rgba(255, 149, 0, 0.75)", percentage: 9999999, startHeight: "37256611", stopHeight: "47256610"},
         {amount: 1.25, background: "rgba(255, 149, 0, 1)", percentage: 9952743388, startHeight: "47256611", stopHeight: "9999999999"},
       ],
+      supply: 0
     }
   },
   computed: {
@@ -355,6 +355,7 @@ export default {
     },
   },
   methods: {
+    formatAmount,
     formatNum (num) {
       if (!this.isNumeric(num)) return 'Max'
       num = parseFloat(num).toFixed(2)
@@ -451,7 +452,15 @@ export default {
         this.logoUploadLoading = false
       }
     }
-  }
+  },
+  async mounted () {
+    getDistribution("Arbitrum").then(progress => {
+      this.supply = progress.reduce((t, p) => t += (parseInt(p.stopHeight) - parseInt(p.startHeight) + 1) * parseFloat(p.amount), 0)
+      this.progressData = progress
+    }).catch(e => {
+      console.log(333, e)
+    });
+  },
 }
 </script>
 

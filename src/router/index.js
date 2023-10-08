@@ -180,7 +180,7 @@ const routes = [
     path: '/community-create',
     name: 'community-create',
     component: CommunityCreate,
-    meta: {header: 'hidden', tabbar: "hidden"}
+    meta: {header: 'hidden', tabbar: "hidden", gotoHome: true}
   },
   {
     path: '/community-detail/:communityId',

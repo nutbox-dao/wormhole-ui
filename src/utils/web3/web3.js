@@ -166,6 +166,7 @@ export const getBlockNum = async (chainId) => {
   if (rpc) {
     const provider = new ethers.providers.JsonRpcProvider(rpc);
     const blockNumber = await provider.getBlockNumber();
-      store.commit("community/saveCurrentBlockNum", blockNumber);
+    store.commit("community/saveCurrentBlockNum", blockNumber);
+    return blockNumber
   }
 }
