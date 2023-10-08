@@ -16,6 +16,9 @@
         <div class="h-1px w-full" :class="step>=3?'bg-color62':'bg-color4F light:bg-colorD6'"></div>
         <button class="w-24px min-w-24px h-24px rounded-6px"
                 :class="step>=3?'bg-color62':'bg-color4F light:bg-color7D'">3</button>
+        <div class="h-1px w-full" :class="step>=4?'bg-color62':'bg-color4F light:bg-colorD6'"></div>
+        <button class="w-24px min-w-24px h-24px rounded-6px"
+                :class="step>=4?'bg-color62':'bg-color4F light:bg-color7D'">4</button>
       </div>
       <!-- step 1 -->
       <div v-show="step===1">
@@ -195,10 +198,29 @@
                   @click="step=1">Back</button>
           <button class="bg-color62 disabled:bg-blockBg light:disabled:bg-black/35 px-30px h-40px text-16px font-bold
                        mt-40px rounded-8px text-white"
-                  @click="step=3">Submit</button>
+                  @click="step=3">Confirm</button>
         </div>
       </div>
       <div v-show="step===3">
+        <div class="text-36px c-text-black">
+          Points claimable
+        </div>
+        <div class="font-500 mt-30px text-16px">
+          Step 3. Points claimable
+        </div>
+        <div class="text-color8B light:text-color7D mt-20px">
+          将策展奖励合约添加到积分代币的转账白名单中
+        </div>
+        <div class="flex gap-20px">
+          <button class="border-1 border-color62 text-color62 px-30px h-40px text-16px font-bold
+                       mt-40px rounded-8px"
+                  @click="step=2">Back</button>
+          <button class="bg-color62 disabled:bg-blockBg light:disabled:bg-black/35 px-30px h-40px text-16px font-bold
+                       mt-40px rounded-8px text-white"
+                  @click="step=4">Confirm</button>
+        </div>
+      </div>
+      <div v-show="step===4">
         <div class="text-36px c-text-black">
           Pool
         </div>
@@ -244,7 +266,7 @@
         <div class="flex gap-20px">
           <button class="border-1 border-color62 text-color62 px-30px h-40px text-16px font-bold
                        mt-40px rounded-8px"
-                  @click="step=2">Back</button>
+                  @click="step=3">Back</button>
           <button class="bg-color62 disabled:bg-blockBg light:disabled:bg-black/35 px-30px h-40px text-16px font-bold
                        mt-40px rounded-8px text-white"
           >Submit</button>
