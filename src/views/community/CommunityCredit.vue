@@ -20,12 +20,14 @@
               :finished-text="members.length!==0?$t('common.noMore'):''"
               @load="onLoad">
       <div class="flex justify-between items-center px-15px c-text-black text-14px py-10px gap-5px">
+        <span class="w-50px text-12px text-left"></span>
         <span class="flex-1 text-left">{{$t('community.member')}}</span>
         <span class="flex-1 text-right">{{$t('community.curationCredit')}}</span>
         <!-- <span class="flex-1 text-right">{{$t('community.communityTokenBalance')}}</span> -->
       </div>
       <div class="flex justify-between items-center px-15px py-10px gap-5px"
            v-for="(item, index) of members" :key="index">
+        <div class="w-50px text-12px text-left text-color8B font-bold">{{index+1}}</div>
         <div class="flex items-center flex-1 truncate">
           <div class="flex items-center">
             <Avatar :profile-img="item.profileImg || defaultAvatar"
@@ -182,7 +184,7 @@ export default {
     }
   },
   async mounted () {
-    
+
   },
 }
 </script>
