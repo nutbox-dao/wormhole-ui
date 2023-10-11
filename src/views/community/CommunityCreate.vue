@@ -237,10 +237,10 @@
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center justify-between py-30px">
-          <div class="text-16px mb-8px whitespace-nowrap text-left">Community Poster</div>
+          <div class="text-16px mb-8px whitespace-nowrap text-left">Community Poster<span class="text-red-500 ml-1rem">require</span></div>
           <div class="flex-1 flex items-center justify-between md:justify-end gap-20px">
             <el-upload
-                class="bg-blockBg bg-blockBg light:bg-white w-300px h-70px flex justify-center items-center rounded-12px overflow-hidden"
+                class="bg-blockBg bg-blockBg light:bg-white w-270px h-70px flex justify-center items-center rounded-12px overflow-hidden"
                 action="#"
                 :show-file-list="false"
                 :http-request="(options)=> addUploadImg(options, 'poster')">
@@ -405,7 +405,10 @@ export default {
         name: '',
         icon: '',
         banner: '',
-        tokenIcon: '',
+        poster: '',
+        firstBlock: '',
+        tokenAddress: '',
+        tokenLogo: '',
         description: '',
         twitterId: '',
         tags: '',
@@ -421,8 +424,10 @@ export default {
         annPerDay: '0',
         spacePerDay: '0',
         official: '',
+        website: '',
         discord: '',
         telegram: '',
+        twitter: '',
         nutboxContract: ''
       },
       inputTag: '',
