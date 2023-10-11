@@ -207,9 +207,9 @@
               <img v-if="tokenLogoPreviewSrc"
                    :src="tokenLogoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
-            <button class="bg-color62 text-white h-40px px-15px rounded-8px flex items-center justify-center gap-8px"
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!tokenLogoPreviewSrc || tokenLogoUploadLoading" @click="onUpload('token')">
               <span>Upload</span>
               <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="tokenLogoUploadLoading"></c-spinner>
@@ -227,12 +227,32 @@
               <img v-if="logoPreviewSrc"
                    :src="logoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
-            <button class="bg-color62 text-white h-40px px-15px rounded-8px flex items-center justify-center gap-8px"
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!logoPreviewSrc || logoUploadLoading" @click="onUpload('logo')">
               <span>Upload</span>
               <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="logoUploadLoading"></c-spinner>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between py-30px">
+          <div class="text-16px mb-8px whitespace-nowrap text-left">Community Poster</div>
+          <div class="flex-1 flex items-center justify-between md:justify-end gap-20px">
+            <el-upload
+                class="bg-blockBg bg-blockBg light:bg-white w-300px h-70px flex justify-center items-center rounded-12px overflow-hidden"
+                action="#"
+                :show-file-list="false"
+                :http-request="(options)=> addUploadImg(options, 'poster')">
+              <img v-if="posterPreviewSrc"
+                   :src="posterPreviewSrc" alt=""
+                   class="w-full h-full object-cover" />
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
+            </el-upload>
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
+                    :disabled="!posterPreviewSrc || posterUploadLoading" @click="onUpload('poster')">
+              <span class="whitespace-nowrap">Upload</span>
+              <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="posterUploadLoading"></c-spinner>
             </button>
           </div>
         </div>
@@ -309,7 +329,7 @@
         <canvas id="cropper-canvas"></canvas>
         <VueCropper
             ref="cropper"
-            class="cropper-rounded-circle"
+            :class="uploadType==='poster'?'':'cropper-rounded-circle'"
             :infoTrue="true"
             :autoCrop="true"
             :img="cropperImgSrc"
@@ -374,7 +394,7 @@ export default {
       step: 1,
       form: {
         tokenName: '',
-        tokenSymbol: '',  
+        tokenSymbol: '',
         startTime: '',
         categoryTags: [],
         tokenLogo: '',
@@ -411,8 +431,11 @@ export default {
       tokenLogoPreviewSrc: '',
       logoFile: null,
       logoPreviewSrc: '',
+      posterFile: null,
+      posterPreviewSrc: '',
       logoUploadLoading: false,
       tokenLogoUploadLoading: false,
+      posterUploadLoading: false,
       cropperModal: false,
       cropperImgSrc: '',
       cropFixedNumber: [1, 1],
@@ -466,8 +489,13 @@ export default {
       reader.onload = (res) => {
         this.cropperImgSrc = res.target.result
         this.cropperModal = true
-        this.cropFixedNumber = [1, 1]
-        this.cropImgSize = [200, 200]
+        if(type==='poster') {
+          this.cropFixedNumber = [30, 7]
+          this.cropImgSize = [1200, 280]
+        } else {
+          this.cropFixedNumber = [1, 1]
+          this.cropImgSize = [200, 200]
+        }
       }
     },
     onCancel () {
@@ -478,6 +506,7 @@ export default {
       if (this.tokenLogoUploadLoading) {
         this.tokenLogoUploadLoading = false
       }
+      if (this.posterUploadLoading) this.posterUploadLoading = false
     },
     clipCircleImg (imgSrc) {
       return new Promise(resolve => {
@@ -521,6 +550,14 @@ export default {
             this.tokenLogoFile = data
           })
         })
+      } else if(this.uploadType === 'poster') {
+        this.$refs.cropper.getCropData((data) => {
+          this.posterPreviewSrc = data
+          this.cropperModal = false
+        })
+        this.$refs.cropper.getCropBlob(async (data) => {
+          this.posterFile = data
+        })
       }
     },
     async onUpload(type) {
@@ -531,8 +568,13 @@ export default {
       }
       if(type==='logo') {
         this.logoUploadLoading = true
-        this.form.icon = await uploadImage(this.logoFile)
+        this.form.logo = await uploadImage(this.logoFile)
         this.logoUploadLoading = false
+      }
+      if(type==='poster') {
+        this.posterUploadLoading = true
+        this.form.poster = await uploadImage(this.posterFile)
+        this.posterUploadLoading = false
       }
     },
     gotoNutbox() {
