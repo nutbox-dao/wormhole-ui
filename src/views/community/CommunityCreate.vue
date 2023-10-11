@@ -195,7 +195,7 @@
               <img v-if="tokenLogoPreviewSrc"
                    :src="tokenLogoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
             <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!tokenLogoPreviewSrc || tokenLogoUploadLoading" @click="onUpload('token')">
@@ -215,7 +215,7 @@
               <img v-if="logoPreviewSrc"
                    :src="logoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
             <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!logoPreviewSrc || logoUploadLoading" @click="onUpload('logo')">
@@ -235,7 +235,7 @@
               <img v-if="posterPreviewSrc"
                    :src="posterPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <img v-else src="~@/assets/icon-add.svg" alt="">
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
             <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!posterPreviewSrc || posterUploadLoading" @click="onUpload('poster')">
@@ -379,7 +379,7 @@ export default {
       wrongName: false,
       wrongSymbol: false,
       wrongTime: false,
-      step: 2,
+      step: 1,
       form: {
         tokenName: '',
         tokenSymbol: '',
