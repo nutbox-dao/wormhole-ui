@@ -109,13 +109,13 @@
 </template>
 
 <script>
-import {TokenIcon} from "@/config";
+import {TokenIcon} from "@/chain-config";
 import ChainTokenIcon from "@/components/ChainTokenIcon";
 import {useWindowSize} from "@vant/use";
 import {parseTimestamp, formatAmount, formatPrice} from "@/utils/helper";
 import { formatAddress } from '@/utils/tool'
 import { mapGetters, mapState } from 'vuex'
-import { EVM_CHAINS, EVM_CHAINS_ID } from "@/config";
+import { EVM_CHAINS, EVM_CHAINS_ID } from "@/chain-config";
 import { getPriceFromOracle } from '@/utils/asset'
 import RewardHistoryList from "@/components/RewardHistoryList";
 import {accountChanged, getAccounts} from "@/utils/web3/account";

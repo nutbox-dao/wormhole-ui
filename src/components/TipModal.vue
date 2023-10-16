@@ -31,7 +31,8 @@
 </template>
 
   <script>
-  import { EVM_CHAINS, TWITTER_MONITOR_RULE } from '@/config'
+  import { TWITTER_MONITOR_RULE } from '@/config'
+  import { EVM_CHAINS } from '@/chain-config'
   import AssetsOptions from "@/components/AssetsOptions";
   import { mapGetters } from "vuex";
   import { sendTokenToUser } from '@/utils/asset'

@@ -209,7 +209,7 @@ import TipModalVue from "@/components/TipModal.vue";
 import { getUserInfo } from "@/utils/account";
 import { ethers } from "ethers";
 import { getTokenBalance } from "@/utils/asset";
-import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP, MAX_RC, RC_RECOVER_DAY } from "@/config";
+import { TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, VP_RECOVER_DAY, MAX_VP, MAX_RC, RC_RECOVER_DAY } from "@/config";
 import {getAccountRC, getSteemBalance} from "@/utils/steem";
 import {copyAddress} from "@/utils/tool";
 import PostDetail from "@/views/post/PostDetail";

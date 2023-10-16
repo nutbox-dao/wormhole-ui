@@ -99,7 +99,8 @@
                   <div class="text-12px leading-18px 2xl:text-14px 2xl:leading-20px
                             text-colorD9 light:text-color46">
                     <span v-if="isIgnoreAccount" class="text-blue-500 break-all">{{steemUrl}}</span>
-                    <div class="whitespace-pre-line break-word" v-else v-html="formatEmojiText(content)"></div>
+                    <div class="whitespace-pre-line break-word multi-content"
+                         v-else v-html="formatEmojiText(content)"></div>
                   </div>
                   <Space v-if="post.spaceId" :space="post" :show-avatar="false" class="mt-10px">
                     <template #bottom-btn-bar><div></div></template>
@@ -303,7 +304,7 @@
 
 <script>
 import {followPost, likePost, quotePost, replyPost, retweetPost} from "@/utils/post";
-import {errCode, IgnoreAuthor, EVM_CHAINS} from "@/config";
+import {errCode, IgnoreAuthor} from "@/config";
 import {notify} from "@/utils/notify";
 import {mapGetters} from "vuex";
 import {parseTimestamp, stringLength, formatAmount} from "@/utils/helper";

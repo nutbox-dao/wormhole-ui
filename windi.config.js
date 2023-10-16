@@ -74,6 +74,7 @@ export default defineConfig({
         colorFB: '#FBF8FF',
         colorF8: '#F8F5FE',
         colorB8: '#B8B8B8',
+        color4F: '#4F4F4F',
         colorF7F2: '#F7F2FF',
         lightHeader: '#F1F2FF',
         colorBlue: '#1DA1F2',

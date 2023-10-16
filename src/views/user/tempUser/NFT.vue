@@ -56,7 +56,7 @@
 
 <script>
 import GetNft from "@/views/user/components/GetNft";
-import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/config'
+import { STELLAR_TREK_NFT, WC2022_NFT, Christmas_NFT } from '@/nft-config'
 import { getStellarTreks, getWc2022 } from '@/utils/asset'
 import { WHILE_TYPES } from "@babel/types";
 

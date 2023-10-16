@@ -241,7 +241,7 @@
 </template>
 
 <script>
-import {TokenIcon} from "@/config";
+import {TokenIcon} from "@/chain-config";
 import {formatAddress, isNumeric, onCopy } from "@/utils/tool";
 import { formatAmount, formatPrice, formatDateString } from '@/utils/helper'
 import {useWindowSize} from "@vant/use";
@@ -253,7 +253,7 @@ import { notify } from "@/utils/notify";
 import Blog from "@/components/Blog";
 import communityModule from '@/store/community'
 import { getPriceFromOracle } from '@/utils/asset'
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config'
 import Avatar from "@/components/Avatar.vue";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import ActivityRewardItem from "@/components/community/ActivityRewardItem.vue";

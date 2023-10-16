@@ -1,13 +1,10 @@
 import axios from 'axios'
 import store from '@/store'
-import { COLLECT_BLESS_CONTRACT, NEW_YEAR_CARD_CONTRACT, USDT_CONTRACT, Multi_Config, RPC_NODE, CHAIN_NAME } from '@/ny-config'
+import { COLLECT_BLESS_CONTRACT, NEW_YEAR_CARD_CONTRACT, USDT_CONTRACT, Multi_Config, CHAIN_NAME } from '@/ny-config'
 import { ethers } from 'ethers';
-import { getEthWeb } from "./web3/web3";
-import { waitForTx } from './ethers'
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
 import { getERC20TokenBalance, getApprovement, approve, approveERC1155, approveERC721 } from './asset'
-import { getBlindCardsByIds as gbcbi } from '@/api/api'
-import { sleep } from './helper';
+
 
 async function getAbi() {
     let abi = store.state.newYear?.collectBlessAbi;

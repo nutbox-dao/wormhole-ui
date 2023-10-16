@@ -32,7 +32,6 @@
 
 <script>
 import  {getApprovement, approve} from '@/utils/asset'
-import { EVM_CHAINS } from '@/config'
 import { notify } from "@/utils/notify";
 
 export default {

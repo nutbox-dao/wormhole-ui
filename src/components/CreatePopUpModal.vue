@@ -143,7 +143,8 @@
 
 <script>
 import AssetsOptions from "@/components/AssetsOptions";
-import { EVM_CHAINS, CURATION_SHORT_URL } from '@/config'
+import { CURATION_SHORT_URL } from '@/config'
+import { EVM_CHAINS } from '@/chain-config'
 import SendTokenTipVue from "./SendTokenTip.vue";
 import CustomSelect from "@/components/CustomSelect";
 import { EmojiPicker } from 'vue3-twemoji-picker-final'
