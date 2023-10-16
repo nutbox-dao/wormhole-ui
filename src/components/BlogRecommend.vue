@@ -108,7 +108,7 @@
 import { parseTimestamp, formatPrice } from '@/utils/helper'
 import { mapState, mapGetters } from 'vuex'
 import { SteemScan, IgnoreAuthor, errCode } from '@/config'
-import { ImagePreview } from 'vant';
+import { showImagePreview } from 'vant';
 import LinkPreview from "@/components/LinkPreview";
 import Repost from "@/components/Repost";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
@@ -276,7 +276,7 @@ export default {
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||
           navigator.userAgent.toUpperCase().indexOf('ANDROID')>=0) {
-        ImagePreview({
+        showImagePreview({
           images: this.imgurls,
           startPosition: index
         });

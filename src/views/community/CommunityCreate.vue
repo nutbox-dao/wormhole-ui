@@ -123,9 +123,9 @@
           Step 2. Register your community info
         </div>
         <div class="mt-30px">
-          <div class="text-16px">Community name</div>
+          <div class="text-16px">Community name<span class="text-red-500 ml-1rem">require</span></div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
-            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Mferc”">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“Wormhole3”">
           </div>
         </div>
         <div class="mt-40px">
@@ -147,17 +147,26 @@
           </div>
         </div>
         <div class="mt-40px">
-          <div class="text-16px">YouTube link</div>
+          <div class="text-16px">Telegram link</div>
           <div class="border-b-1 border-color4F light:border-colorD6 py-8px">
-            <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://www.youtube.com/@Wormhole3/featured”">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“https://t.me/wormhole3”">
           </div>
         </div>
         <div class="mt-40px">
-          <div class="text-16px mb-8px">Description</div>
+          <div class="text-16px mb-8px">Description<span class="text-red-500 ml-1rem">require</span></div>
           <div class="border-1 border-color4F light:border-colorD6 rounded-5px">
             <textarea class="w-full bg-transparent p-10px"
                       cols="30" rows="3"
                       placeholder="Community description"></textarea>
+          </div>
+        </div>
+        <div class="mt-40px">
+          <div class="text-16px">On-chain Community tag<span class="text-red-500 ml-1rem">require</span></div>
+          <div class="text-color99 mt-10px">
+            This is the on-chain hashtag of your community. All tweets with this hashtag will be synced on-chain. This cannot be amended later.
+          </div>
+          <div class="border-b-1 border-color4F light:border-colorD6 py-8px mt-10px">
+            <input class="w-full bg-transparent" type="text" placeholder="e.g.“iweb3”">
           </div>
         </div>
         <div class="mt-40px">
@@ -172,6 +181,9 @@
               </button>
             </div>
           </div>
+          <div class="text-color99 mt-10px">
+            Tag your community with at most 3 tags, then users can easily kown your community.
+          </div>
           <div class="flex flex-wrap gap-15px py-20px border-b-1 border-color4F light:border-colorD6">
             <button v-for="(tag, index) of form.categoryTags" :key="index"
                     class="px-15px h-30px rounded-full relative text-white"
@@ -185,7 +197,7 @@
           </div>
         </div>
         <div class="flex items-center justify-between py-30px border-b-1 border-color4F light:border-colorD6">
-          <div class="text-16px mb-8px">Token Logo</div>
+          <div class="text-16px mb-8px">Token Logo<span class="text-red-500 ml-1rem">require</span></div>
           <div class="flex items-center gap-20px">
             <el-upload
                 class="bg-blockBg bg-blockBg light:bg-white w-100px h-100px flex justify-center items-center rounded-full"
@@ -195,9 +207,9 @@
               <img v-if="tokenLogoPreviewSrc"
                    :src="tokenLogoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
-            <button class="bg-color62 text-white h-40px px-15px rounded-8px flex items-center justify-center gap-8px"
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!tokenLogoPreviewSrc || tokenLogoUploadLoading" @click="onUpload('token')">
               <span>Upload</span>
               <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="tokenLogoUploadLoading"></c-spinner>
@@ -205,7 +217,7 @@
           </div>
         </div>
         <div class="flex items-center justify-between py-30px">
-          <div class="text-16px mb-8px">Community Logo</div>
+          <div class="text-16px mb-8px">Community Logo<span class="text-red-500 ml-1rem">require</span></div>
           <div class="flex items-center gap-20px">
             <el-upload
                 class="bg-blockBg bg-blockBg light:bg-white w-100px h-100px flex justify-center items-center rounded-full"
@@ -215,12 +227,32 @@
               <img v-if="logoPreviewSrc"
                    :src="logoPreviewSrc" alt=""
                    class="w-full h-full object-cover" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
             </el-upload>
-            <button class="bg-color62 text-white h-40px px-15px rounded-8px flex items-center justify-center gap-8px"
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
                     :disabled="!logoPreviewSrc || logoUploadLoading" @click="onUpload('logo')">
               <span>Upload</span>
               <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="logoUploadLoading"></c-spinner>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between py-30px">
+          <div class="text-16px mb-8px whitespace-nowrap text-left">Community Poster<span class="text-red-500 ml-1rem">require</span></div>
+          <div class="flex-1 flex items-center justify-between md:justify-end gap-20px">
+            <el-upload
+                class="bg-blockBg bg-blockBg light:bg-white w-270px h-70px flex justify-center items-center rounded-12px overflow-hidden"
+                action="#"
+                :show-file-list="false"
+                :http-request="(options)=> addUploadImg(options, 'poster')">
+              <img v-if="posterPreviewSrc"
+                   :src="posterPreviewSrc" alt=""
+                   class="w-full h-full object-cover" />
+              <img v-else class="w-20px h-20px" src="~@/assets/icon-add.svg" alt="">
+            </el-upload>
+            <button class="bg-color62 text-white h-30px px-15px rounded-8px flex items-center justify-center gap-8px"
+                    :disabled="!posterPreviewSrc || posterUploadLoading" @click="onUpload('poster')">
+              <span class="whitespace-nowrap">Upload</span>
+              <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="posterUploadLoading"></c-spinner>
             </button>
           </div>
         </div>
@@ -297,7 +329,7 @@
         <canvas id="cropper-canvas"></canvas>
         <VueCropper
             ref="cropper"
-            class="cropper-rounded-circle"
+            :class="uploadType==='poster'?'':'cropper-rounded-circle'"
             :infoTrue="true"
             :autoCrop="true"
             :img="cropperImgSrc"
@@ -362,11 +394,41 @@ export default {
       step: 1,
       form: {
         tokenName: '',
-        tokenSymbol: '',  
+        tokenSymbol: '',
         startTime: '',
         categoryTags: [],
         tokenLogo: '',
         chainTag: ''
+      },
+      infoForm: {
+        communityId: '',
+        name: '',
+        icon: '',
+        banner: '',
+        poster: '',
+        firstBlock: '',
+        tokenAddress: '',
+        tokenLogo: '',
+        description: '',
+        twitterId: '',
+        tags: '',
+        displayTag: '',
+        chainId: 42161,
+        rewardToken: '',
+        rewardSymbol: '',
+        rewardName: '',
+        decimals: 18,
+        rewardPerDay: '',
+        settleDay: 3,
+        policy: '',
+        annPerDay: '0',
+        spacePerDay: '0',
+        official: '',
+        website: '',
+        discord: '',
+        telegram: '',
+        twitter: '',
+        nutboxContract: ''
       },
       inputTag: '',
       uploadType: 'token',
@@ -374,8 +436,11 @@ export default {
       tokenLogoPreviewSrc: '',
       logoFile: null,
       logoPreviewSrc: '',
+      posterFile: null,
+      posterPreviewSrc: '',
       logoUploadLoading: false,
       tokenLogoUploadLoading: false,
+      posterUploadLoading: false,
       cropperModal: false,
       cropperImgSrc: '',
       cropFixedNumber: [1, 1],
@@ -429,8 +494,13 @@ export default {
       reader.onload = (res) => {
         this.cropperImgSrc = res.target.result
         this.cropperModal = true
-        this.cropFixedNumber = [1, 1]
-        this.cropImgSize = [200, 200]
+        if(type==='poster') {
+          this.cropFixedNumber = [30, 7]
+          this.cropImgSize = [1200, 280]
+        } else {
+          this.cropFixedNumber = [1, 1]
+          this.cropImgSize = [200, 200]
+        }
       }
     },
     onCancel () {
@@ -441,6 +511,7 @@ export default {
       if (this.tokenLogoUploadLoading) {
         this.tokenLogoUploadLoading = false
       }
+      if (this.posterUploadLoading) this.posterUploadLoading = false
     },
     clipCircleImg (imgSrc) {
       return new Promise(resolve => {
@@ -484,6 +555,14 @@ export default {
             this.tokenLogoFile = data
           })
         })
+      } else if(this.uploadType === 'poster') {
+        this.$refs.cropper.getCropData((data) => {
+          this.posterPreviewSrc = data
+          this.cropperModal = false
+        })
+        this.$refs.cropper.getCropBlob(async (data) => {
+          this.posterFile = data
+        })
       }
     },
     async onUpload(type) {
@@ -494,8 +573,13 @@ export default {
       }
       if(type==='logo') {
         this.logoUploadLoading = true
-        this.form.icon = await uploadImage(this.logoFile)
+        this.form.logo = await uploadImage(this.logoFile)
         this.logoUploadLoading = false
+      }
+      if(type==='poster') {
+        this.posterUploadLoading = true
+        this.form.poster = await uploadImage(this.posterFile)
+        this.posterUploadLoading = false
       }
     },
     gotoNutbox() {
