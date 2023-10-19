@@ -112,8 +112,7 @@
 <script>
 import RewardHistoryList from "@/components/RewardHistoryList";
 import {useWindowSize} from "@vant/use";
-import {EVM_CHAINS, EVM_CHAINS_ID} from "@/chain-config";
-import { TokenIcon } from "@/chain-config";
+import {EVM_CHAINS, EVM_CHAINS_ID, TokenIcon} from "@/config";
 import {mapGetters, mapState} from "vuex";
 import {formatAddress} from "@/utils/tool";
 import {formatAmount} from "@/utils/helper";

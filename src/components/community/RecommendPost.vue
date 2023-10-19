@@ -46,7 +46,7 @@ import {parseTimestamp, formatPrice, stringLength, formatAmount} from '@/utils/h
 import { getCurationRewardsOfPost } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { SteemScan, IgnoreAuthor, errCode } from '@/config'
-import { showImagePreview } from 'vant';
+import { ImagePreview } from 'vant';
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {formatEmojiText} from "@/utils/tool";
 import PostButtonGroup from "@/components/PostButtonGroup";
@@ -186,7 +186,7 @@ export default {
     viewImg(index) {
       if(navigator.userAgent.toUpperCase().indexOf('IPHONE')>=0 ||
           navigator.userAgent.toUpperCase().indexOf('ANDROID')>=0) {
-        showImagePreview({
+        ImagePreview({
           images: this.imgurls,
           startPosition: index
         });

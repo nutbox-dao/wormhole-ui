@@ -247,7 +247,7 @@
 </template>
 
 <script>
-import {TokenIcon} from "@/chain-config";
+import {TokenIcon} from "@/config";
 import {formatAddress, onCopy} from "@/utils/tool";
 import { getCommunityContractInfo } from "@/utils/curation"
 import CommunityPost from "@/views/community/CommunityPost";
@@ -258,7 +258,7 @@ import CommunityActivity from "@/views/community/CommunityActivity.vue";
 import CommunityCredit from "@/views/community/CommunityCredit.vue";
 import {useWindowSize} from "@vant/use";
 import { mapState, mapGetters } from 'vuex'
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config'
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 import { getCommunityById, getCommunityConfigs, joinCommunity, getCommunityOps, getCommunityNotis } from '@/api/api'
 import { notify } from "@/utils/notify";
 import {markRaw, watch} from "vue";

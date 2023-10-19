@@ -40,7 +40,6 @@ import RewardView from "@/views/user/RewardView";
 import ReferralReward from '@/views/user/ReferralRewardView'
 import SpaceReward from '@/views/user/SpaceRewardView';
 import RewardPromotion from "@/views/user/RewardPromotion.vue";
-import CommunityCreate from "@/views/community/CommunityCreate.vue";
 
 const routes = [
   {
@@ -177,12 +176,6 @@ const routes = [
     meta: {keepAlive: true}
   },
   {
-    path: '/community-create',
-    name: 'community-create',
-    component: CommunityCreate,
-    meta: {header: 'hidden', tabbar: "hidden", gotoHome: true}
-  },
-  {
     path: '/community-detail/:communityId',
     name: 'community-detail',
     component: CommunityDetail,
@@ -191,7 +184,7 @@ const routes = [
   {
     path: '/topic-detail/:topicId',
     name: 'topic-detail',
-    component: TopicDetail,
+    component: TopicDetail, 
     meta: {header: 'hidden', tabbar: 'hidden', keepAlive: true}
   },
   {

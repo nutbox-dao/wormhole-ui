@@ -25,14 +25,14 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import {formatAddress} from "@/utils/tool";
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config';
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
 import { checkCommunityRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { getCommunityPendingRewards, getCommunityAuthorPendingRewards } from '@/api/api'
-import {TokenIcon} from "@/chain-config";
+import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import CommunityRewardItem from "@/components/community/CommunityRewardItem";
 import RewardHistoryList from "@/components/RewardHistoryList";

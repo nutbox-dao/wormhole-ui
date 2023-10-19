@@ -1,7 +1,7 @@
 import {
     GraphQLClient
   } from 'graphql-request';
-import { EVM_CHAINS } from '@/chain-config';
+import { EVM_CHAINS } from '@/config';
 
 export function getClient(chainName) {
   if (EVM_CHAINS[chainName].walnutGraph.url)

@@ -10,9 +10,6 @@ export default {
   namespaced: true,
   state: {
     communities: [],
-    myCreatedWh3Community: {},
-    myCreatedNutboxCommunity: {},
-    createCommunityState: 0, // 0:loading,1:创建了nutbox合约，2:填写了社区内容，3：创建社区矿池，4：开启社区矿池，5：积分授权了社区矿池，6：填写了虫洞资料
     configs: {},
     
     showingCommunity: {},
@@ -39,15 +36,7 @@ export default {
     saveCommunities: (state, communities) => {
       state.communities = communities;
     },
-    saveMyCreatedWh3Community: (state, myCreatedWh3Community) => {
-      state.myCreatedWh3Community = myCreatedWh3Community
-    },
-    saveMyCreatedNutboxCommunity: (state, myCreatedNutboxCommunity) => {
-      state.myCreatedNutboxCommunity = myCreatedNutboxCommunity
-    },
-    saveCreateCommunityState: (state, createCommunityState) => {
-      state.createCommunityState = createCommunityState
-    },
+
     saveConfigs: (state, configs) => {
       state.configs = configs
     },

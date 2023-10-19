@@ -125,8 +125,7 @@ import ConnectMainchainBTNVue from '@/components/ConnectMainchainBTN.vue'
 import { formatPrice, formatAmount, sleep } from '@/utils/helper'
 import { getTokenBalance, getUserTokensFromCuration, depositWrappedToken } from '@/utils/asset'
 import { chainChanged } from '@/utils/web3/web3'
-import { TWITTER_MONITOR_RULE } from '@/config'
-import { TokenIcon, TokenName, isWrappedToken, EVM_CHAINS } from "@/chain-config";
+import { TWITTER_MONITOR_RULE, TokenIcon, TokenName, EVM_CHAINS, isWrappedToken } from '@/config'
 import { getSteemBalance } from '@/utils/steem'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";

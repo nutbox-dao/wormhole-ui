@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { EVM_CHAINS } from '@/chain-config'
+import { EVM_CHAINS, TWITTER_MONITOR_RULE } from '@/config'
 import { mapGetters } from "vuex";
 import { sendTokenToUser } from '@/utils/asset'
 import { tipEVM } from '@/utils/curation'

@@ -79,12 +79,23 @@
 <script>
 import axios from 'axios'
 import { sleep } from '@/utils/helper'
+// 使用状态管理工具
+/**
+ * mapState 是一个辅助函数，它用于将 Vuex store 中的状态映射到局部计算属性。
+ * 它接受一个包含 Vuex store 中状态的对象，然后返回一个可以在Vue组件中使用的计算属性对象。
+ * 这样你可以在组件中直接使用 this.xxx 来访问 Vuex store 中的状态，而不需要每次都写 this.$store.state.xxx。
+
+   mapGetters 是一个辅助函数，它用于将 Vuex store 中的 getters 映射到局部计算属性。
+   它接受一个包含 Vuex store 中 getters 的对象，然后返回一个可以在Vue组件中使用的计算属性对象。
+   通过这个函数，你可以在组件中直接使用 this.xxx 来访问 Vuex store 中的 getters，而不需要每次都写 this.$store.getters.xxx。
+*/
 import { mapState, mapGetters } from 'vuex'
 import { getAccountInfo, vestsToSteem, getSteemBalance } from '@/utils/steem'
 import { onCopy } from "@/utils/tool";
 import { getTokenBalance, getLiquidationNft } from "@/utils/asset";
 import NFTAnimation from "@/components/NFTAnimation";
 import { logout, isTokenExpired, monitorNFTReceiveState } from './utils/account';
+// ？
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
@@ -101,6 +112,7 @@ import HeaderWeb from "@/components/layout/HeaderWeb";
 import SliderBar from "@/components/layout/SliderBar";
 
 export default {
+  // 注入
   components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar, HeaderV1, HeaderH5, HeaderWeb, SliderBar},
   data: () => {
     return {
@@ -121,6 +133,10 @@ export default {
       MAX_RC
     }
   },
+  /**
+   * 使用vuex的映射函数，在Vue组件的computed属性中将它们与Vuex的状态和getters相关联
+   * 可直接用this.loginUsername和this.getAccountInfo来访问这些状态和getters
+  */
   computed: {
     ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo', 'vp', 'rc', 'rcInfo']),
     ...mapState('postsModule', ['selectedTag']),
@@ -605,6 +621,7 @@ export default {
     border-color: transparent;
     color: white;
   }
+//引用父选择器
   &.router-link-active {
     border-color: transparent;
     color: white;

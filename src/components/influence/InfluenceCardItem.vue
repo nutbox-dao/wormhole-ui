@@ -99,7 +99,7 @@
 import { mapGetters } from 'vuex'
 import {useWindowSize} from "@vant/use";
 import { getCommunityPolicyStake, getCommunityNFTHolding } from '@/utils/community'
-import { EVM_CHAINS_ID } from '@/chain-config'
+import { EVM_CHAINS_ID } from '@/config'
 import { formatAddress } from '@/utils/tool';
 import { formatAmount } from '@/utils/helper';
 

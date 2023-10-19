@@ -166,7 +166,7 @@ import { mapState, mapGetters } from "vuex";
 import { notify } from "@/utils/notify";
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import { ethers } from "ethers";
-import { TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP, MAX_RC } from "@/config";
+import { ERC20List, TWITTER_MONITOR_RULE, SteemScan, TWITTER_POST_TAG, MAX_VP, MAX_RC } from "@/config";
 import Menu from "@/components/layout/Menu";
 import {copyAddress} from "@/utils/tool";
 import UserEnergyBar from "@/components/UserEnergyBar.vue";

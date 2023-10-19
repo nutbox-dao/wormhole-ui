@@ -96,7 +96,7 @@ import {formatAddress} from "@/utils/tool";
 import RewardCuration from "@/views/user/RewardCuration";
 import { getCurationRewardList, autoCurationRewardList, autoCurationAuthorRewardList } from "@/utils/account"
 import { getPriceFromOracle } from '@/utils/asset'
-import { EVM_CHAINS } from '@/chain-config';
+import { EVM_CHAINS } from '@/config';
 import { checkCurationRewards, checkAutoCurationRewards } from '@/utils/curation'
 import ChainTokenIcon from '@/components/ChainTokenIcon'
 import { formatAmount } from '@/utils/helper'
