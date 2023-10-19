@@ -77,8 +77,7 @@
 <script>
 import { mapState } from 'vuex'
 import { formatPrice, formatAmount } from '@/utils/helper'
-import { TWITTER_MONITOR_RULE } from '@/config'
-import { TokenIcon, TokenName } from "@/chain-config";
+import { TWITTER_MONITOR_RULE, TokenIcon, TokenName } from '@/config'
 import {ethers} from "ethers";
 import {notify} from "@/utils/notify";
 

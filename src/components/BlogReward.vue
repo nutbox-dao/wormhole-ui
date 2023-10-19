@@ -122,6 +122,7 @@ import {getCurationRewardsOfPost} from "@/api/api";
 import {formatAmount, formatPrice} from "@/utils/helper";
 import {getPriceFromOracle} from "@/utils/asset";
 import {isNumeric} from "@/utils/tool";
+import { EVM_CHAINS_ID } from '@/config'
 export default {
   name: "BlogReward",
   components: {ChainTokenIcon},

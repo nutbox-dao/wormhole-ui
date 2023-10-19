@@ -7,7 +7,6 @@ import {
 import store from '@/store'
 import { ethers } from 'ethers';
 
-// get a community info from nutbox contract with community id
 export async function getSpecifyCommunityInfoFromTheGraph(chainName, community) {
   
   try {
@@ -155,95 +154,6 @@ export async function getSpecifyCommunityInfoFromTheGraph(chainName, community) 
       store.commit('community/saveNutboxCommunityInfo', data)
       store.commit('community/savePoolsData', data.pools.filter(p => p.status === 'OPENED'))
       return data
-    }
-    
-  } catch (e) {
-    console.log('Get community from graph fail:', e);
-  } finally {
-  }
-}
-
-export async function getMyCreatedCommunityInfoFromTheGraph(chainName, account) {
-  try {
-    const client = getClient(chainName);
-    if (client.useTheGraph) {
-      const query = gql`
-      query getUser($id: String!) {
-          user(id: $id) {
-              inCommunities {
-                  id
-                  owner{
-                      id
-                  }
-                  feeRatio
-                  cToken
-                  activedPoolCount
-                  pools {
-                    id
-                    status
-                    asset
-                    poolFactory
-                  }
-              }
-          }
-      }
-  `
-      const userInfo = await client.client.request(query, {
-        id: account.toLowerCase()
-      })
-      if (userInfo && userInfo.user && userInfo.user.inCommunities) {
-        const joinedCommunity = userInfo.user.inCommunities;
-        for (let i = 0; i < joinedCommunity.length; i++){
-          if (joinedCommunity[i].owner.id.toLowerCase() === account.toLowerCase()){
-            const stakingFactoryId = joinedCommunity[i].id;
-            return stakingFactoryId;
-          }
-        }
-      }
-      return;
-    }else {
-      community = ethers.utils.getAddress(community);
-      const query = `{
-        user(id:"${account}") {
-            createdAt
-            inCommunities {
-                edges{
-                    node{
-                        id
-                        owner{
-                            id
-                        }
-                        feeRatio
-                        cToken
-                        usersCount
-                        poolsCount
-                        activedPoolCount
-                        pools {
-                          edges{
-                            node{
-                              id
-                              status
-                              asset
-                              poolFactory
-                            }
-                          }
-                        }
-                    }
-                }
-            }
-        }
-    }`
-      let data = await client.client.request(query);
-      data = JSON.parse(data.value).user
-        if (data){
-            const joinedCommunity = data.inCommunities.edges.map(c => c.node)
-            for (let i = 0; i < joinedCommunity.length; i++){
-              if (joinedCommunity[i].owner.id.toLowerCase() === account.toLowerCase()){
-                const stakingFactoryId = joinedCommunity[i].id;
-                return stakingFactoryId;
-              }
-            }
-        }
     }
     
   } catch (e) {

@@ -117,7 +117,7 @@ import { mapState } from "vuex";
 import { sleep, formatAmount, formatPrice } from '@/utils/helper'
 import { getSpecifyCommunityInfoFromTheGraph } from '@/utils/graphql/community'
 import { getBlockNum } from '@/utils/web3/web3'
-import { EVM_CHAINS_ID, EVM_CHAINS } from "@/chain-config";
+import { EVM_CHAINS_ID, EVM_CHAINS } from "@/config";
 import {copyAddress} from "@/utils/tool";
 import i18n from "@/lang";
 

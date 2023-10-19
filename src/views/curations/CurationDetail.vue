@@ -474,8 +474,7 @@ import { getCurationById, getCurationRecord, popupsOfCuration, popupRecords,
   getSpaceInfo, getCurationsOfTweet, getAllTipsOfCuration } from "@/api/api";
 import { getDateString, parseTimestamp, formatAmount, parseTimestampToUppercase, sleep, stringLength } from '@/utils/helper'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
-import { errCode } from "@/config";
-import { ERC20List, EVM_CHAINS } from '@/chain-config'
+import { ERC20List, errCode, EVM_CHAINS } from "@/config";
 import Submissions from "@/views/curations/Submissions";
 import Blog from "@/components/Blog";
 import ChainTokenIconLarge from "@/components/ChainTokenIconLarge.vue";

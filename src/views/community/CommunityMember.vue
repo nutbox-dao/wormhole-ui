@@ -54,7 +54,7 @@ import { mapState } from 'vuex'
 import { sleep, formatAmount, formatPrice, parseTimestamp } from '@/utils/helper'
 import { notify } from '@/utils/notify'
 import { getTokenBalancesOfUsers } from '@/utils/asset'
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config'
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config'
 import Avatar from "@/components/Avatar.vue";
 
 export default {

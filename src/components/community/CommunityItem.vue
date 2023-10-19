@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { EVM_CHAINS } from "@/chain-config";
+import { EVM_CHAINS } from "@/config";
 import { joinCommunity } from "@/utils/community";
 import { mapGetters } from "vuex";
 import { notify, showError } from "@/utils/notify";

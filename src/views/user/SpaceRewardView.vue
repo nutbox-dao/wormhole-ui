@@ -31,12 +31,12 @@
 import { mapGetters, mapState } from 'vuex'
 import {notify} from "@/utils/notify";
 import {formatAddress} from "@/utils/tool";
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config';
+import { EVM_CHAINS, EVM_CHAINS_ID } from '@/config';
 import { formatAmount } from '@/utils/helper'
 import {accountChanged, getAccounts} from "@/utils/web3/account";
 import { setupNetwork } from '@/utils/web3/web3'
 import { getSpaceCurationRewardList } from '@/api/api'
-import {TokenIcon} from "@/chain-config";
+import {TokenIcon} from "@/config";
 import {useWindowSize} from "@vant/use";
 import SpaceRewardItem from "@/components/SpaceRewardItem";
 

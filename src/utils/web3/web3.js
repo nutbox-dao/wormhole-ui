@@ -2,9 +2,14 @@ import {
   sleep
 } from "../helper"
 import {
+  CHAIN_ID,
+  RPC_NODE,
+  CHAIN_NAME,
+  MainToken,
+  BLOCK_CHAIN_BROWER,
   EVM_CHAINS,
   EVM_CHAINS_ID
-} from '@/chain-config'
+} from '@/config'
 import store from '@/store'
 import { ethers } from 'ethers'
 
@@ -166,7 +171,6 @@ export const getBlockNum = async (chainId) => {
   if (rpc) {
     const provider = new ethers.providers.JsonRpcProvider(rpc);
     const blockNumber = await provider.getBlockNumber();
-    store.commit("community/saveCurrentBlockNum", blockNumber);
-    return blockNumber
+      store.commit("community/saveCurrentBlockNum", blockNumber);
   }
 }

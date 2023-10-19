@@ -4,24 +4,13 @@ import { joinCommunity as jc, getCommunityPendingRewards as gcpr, getCommunityAu
     getCommunityClaimRewardsParas as gccrp, getCommunityClaimAuthorRewardsParas as gccarp, setCommunityRewardClaimed as scrc,
     setCommunityAuthorRewardClaimed as scarc, getCommunityHistoryRewards as gchr, getCommunityAuthorHistoryRewards as gcahr,
     getJoinCommunityState as gjcs, getCommunities as gcs, getSpaceClaimRewardsParas as gscrp,
-    setSpaceRewardClaimed as ssrc, getWh3CommunityByEth, getMyNutboxCommunityInfo } from '@/api/api'
-import { EVM_CHAINS, EVM_CHAINS_ID } from '@/chain-config';
+    setSpaceRewardClaimed as ssrc } from '@/api/api'
+import { EVM_CHAINS, EVM_CHAINS_ID, errCode } from '@/config';
 import { aggregate } from '@makerdao/multicall/dist/multicall.cjs';
-import { getMyCreatedCommunityInfoFromTheGraph } from "@/utils/graphql/community"
 
 export const getCommunities = async () => {
     const coms = await gcs(store.getters.getAccountInfo?.twitterId);
     store.commit('community/saveCommunities', coms);
-}
-
-export const getMyCreatedCommunity = async () => {
-    const com = await getWh3CommunityByEth(store.getters.getAccountInfo.ethAddress);
-    store.commit('community/saveMyCreatedWh3Community', com);
-}
-
-export const getMyCreatedNutboxCommunityInfo = async () => {
-    const com = await getMyCreatedCommunityInfoFromTheGraph(store.getters.getAccountInfo.ethAddress);
-    store.commit("community/saveMyCreatedNutboxCommunity", com);
 }
 
 export const getCommunityClaimRewardsParas = async (communityId, twitterId, ids) => {
