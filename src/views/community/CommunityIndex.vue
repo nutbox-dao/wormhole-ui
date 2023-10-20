@@ -27,18 +27,26 @@
                     @load="onLoad">
             <div class="sm:px-15px">
               <div class="container px-15px mx-auto max-w-50rem md:max-w-48rem py-15px">
-                <!-- <div class="bg-blockBg light:bg-white py-20px xs:py-40px px-1/15 rounded-16px
+
+
+
+
+                <div class="bg-blockBg light:bg-white py-20px xs:py-40px px-1/15 rounded-16px
                             flex flex-col xs:flex-row items-center justify-between mb-15px gap-y-20px">
                   <div class="text-14px leading-20px text-left max-w-400px">
                     Discover the endless potentials of web3. Find your community here, sharing novelty journeys together.
                   </div>
                   <div class="w-full flex justify-end">
-                    <button class="flex items-center gap-10px" @click="$router.push('/community-create')">
+                    <button class="flex items-center gap-10px" @click="goToCreate">
                       <span class="text-16px c-text-black">Creat community</span>
                       <img src="~@/assets/community-create.svg" alt="">
                     </button>
                   </div>
-                </div> -->
+                </div>
+
+
+
+                
                 <div v-if="communities && communities.length === 0"
                      class="py-3rem bg-blockBg light:bg-white rounded-12px shadow-color1A">
                   <div class="c-text-black text-zinc-700 text-2rem mb-2rem">{{$t('common.none')}}</div>
@@ -128,7 +136,11 @@ export default {
       } finally {
         this.refreshing = false
       }
-    }
+    },
+    goToCreate() {
+    // window.location.href = "https://arbi.nutbox.app/#/community/index";
+    window.open("https://arbi.nutbox.app/#/community/index", "_blank");
+  },
   },
   activated() {
     this.pageScrollTo(this.$refs.communityPageRef)
@@ -139,6 +151,7 @@ export default {
       this.onRefresh();
     })
   },
+
 }
 </script>
 
