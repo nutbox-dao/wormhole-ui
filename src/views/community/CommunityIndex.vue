@@ -138,7 +138,8 @@ export default {
       }
     },
     goToCreate() {
-    window.location.href = "https://arbi.nutbox.app/#/community/index";
+    // window.location.href = "https://arbi.nutbox.app/#/community/index";
+    window.open("https://arbi.nutbox.app/#/community/index", "_blank");
   },
   },
   activated() {
