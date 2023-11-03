@@ -494,6 +494,7 @@ export default {
     didRatio: 'Social influence: ',
     comRatio: 'Community stake: ',
     nftRatio: 'NFT holding: ',
+    ftHolderRatio: 'FT-key hold: ',
     hold: ' hold',
     topicRatio: 'Curation: ',
     noRewardCanClaim: "No claimable rewards",

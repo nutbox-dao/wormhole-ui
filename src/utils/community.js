@@ -226,6 +226,27 @@ export const getCommunityNFTHolding = async (chainName, ethAddress, policys) => 
     }
 }
 
+export const getFTHolding = async (subject) => {
+    try {
+        let call = [{
+            target: EVM_CHAINS['Base']['ft'],
+            call: [
+                'sharesBalance(address,address)(uint256)',
+                subject,
+                store.getters.getAccountInfo.ethAddress
+            ],
+            returns: [
+                ['hold']
+            ]
+        }]
+        const res = await aggregate(call, EVM_CHAINS['Base']['Multi_Config']);
+        return res.results.transformed.hold;
+    } catch (e) {
+        console.log('getFTHolding fail:', e)
+        return 0
+    }
+}
+
 /**
  * get community distribution eras
  * @param {*} communityId

@@ -259,6 +259,7 @@ export const EVM_CHAINS = {
             url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbase'
         },
         rewardCalculatorAddress: "0xf6DDd65295Ca7A672C34043aa62f32C01FBfb29D",
+        ft: "0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4",
         assets: {
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', decimals: 6},
             USDbC: {symbol: 'USDbC', name: 'USD Base Coin', address: '0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA', decimals: 6},

@@ -494,6 +494,7 @@ export default {
     didRatio: '社交声誉: ',
     comRatio: '社区质押: ',
     nftRatio: 'NFT持有: ',
+    ftHolderRatio: "FT key 持有",
     hold: ' 持有',
     topicRatio: '策展: ',
     noRewardCanClaim: "没有可领取的奖励",

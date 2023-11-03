@@ -32,6 +32,10 @@
               <span>{{ $t('community.nftRatio') }}</span>
               <span>{{ parseFloat(policy?.nft?.ratio ?? 0) * 100 }}%</span>
             </p>
+            <p>
+              <span>{{ $t('community.ftHolderRatio') }}</span>
+              <span>{{ parseFloat(policy?.ftHolder?.ratio ?? 0) * 100 }}%</span>
+            </p>
             <!-- <p>
               <span>{{ $t('community.topicRatio') }}</span>
               <span>{{ parseFloat(policy?.topic?.ratio) * 100 }}%</span>
@@ -67,7 +71,7 @@
                      :text-inside="false"
                      :stroke-width="6"
                      :show-text="false"
-                     :percentage="getAccountInfo?.reputation / 1000"/>
+                     :percentagepercentage="getAccountInfo?.reputation / 1000"/>
         <div v-for="s of stakeInfo" :key="s.name">
           <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
             {{s.name}}: {{ formatAmount(s.user) }}
@@ -90,6 +94,18 @@
                        :show-text="false"
                        :percentage="s.hold * 100 / (s.supply ?? 1)"/>
         </div>
+
+        <div v-for="s of ftHolding" :key="s.name">
+          <div class="text-12px text-white light:text-white/60 text-left mt-15px mb-4px sm:mb-8px">
+            {{s.name}}: {{ formatAmount(s.hold) }}
+          </div>
+          <el-progress class="c-progress-purple flex-1 w-full"
+                       color="#7700E0"
+                       :text-inside="false"
+                       :stroke-width="6"
+                       :show-text="false"
+                       :percentage="s.hold == 0 ? 0 : 100"/>
+        </div>
       </div>
     </el-collapse-transition>
   </div>
@@ -98,7 +114,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import {useWindowSize} from "@vant/use";
-import { getCommunityPolicyStake, getCommunityNFTHolding } from '@/utils/community'
+import { getCommunityPolicyStake, getCommunityNFTHolding, getFTHolding } from '@/utils/community'
 import { EVM_CHAINS_ID } from '@/chain-config'
 import { formatAddress } from '@/utils/tool';
 import { formatAmount } from '@/utils/helper';
@@ -123,6 +139,7 @@ export default {
       gettingDetail: false,
       stakeInfo: [],
       nftHolding: [],
+      ftHolding:[],
       policy: {}
     }
   },
@@ -153,6 +170,17 @@ export default {
               this.nftHolding[contract][type] = nftHold[key]
             }
             this.nftHolding = Object.values(this.nftHolding)
+          }
+          let ftHolder = []
+          if (policy.ftHolder && policy.ftHolder.policys && policy.ftHolder.policys.length > 0) {
+            console.log(35, policy.ftHolder)
+            for (let p of policy.ftHolder.policys) {
+              ftHolder.push({
+                name: p.name,
+                hold: await getFTHolding(p.contract)
+              })
+            }
+            this.ftHolding = ftHolder
           }
           this.stakeInfo = {}
           for (let key of Object.keys(stake)) {
