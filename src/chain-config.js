@@ -271,7 +271,7 @@ export const EVM_CHAINS = {
         },
         curation: '',
         popup: '',
-        oracle: '0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B',
+        oracle: '0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8',
         communityCuration: "0x3686218f11c58ca46479acc5DdEE7e41374dF73A"
     },
     Linea: {
