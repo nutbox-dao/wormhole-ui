@@ -732,21 +732,34 @@ export async function getPriceFromOracle(chainName, tokens) {
             }
             prices[EVM_CHAINS[chainName].assets.BUSD.address] = 1
             return prices
-        }else {
+        } else if (chainName === 'Base') {
+            let pricesFromNutbox = store.state.prices ?? {};
+            let prices = {}
+            for (let t of tokens) {
+                if (pricesFromNutbox[t.token.toLowerCase()]) {
+                    prices[t.token] = pricesFromNutbox[t.token.toLowerCase()]
+                }
+            }
+            prices[EVM_CHAINS[chainName].assets.USDbC.address] = 1
+            return prices
+        }
+        else {
             // https://docs.1inch.io/docs/spot-price-aggregator/introduction/
+            const USDT = EVM_CHAINS[chainName].assets.USDT;
+
             let oracle = EVM_CHAINS[chainName].oracle
             let pricesFromNutbox = store.state.prices ?? {};
             if (!oracle) return {};
-            let call = tokens.filter(t => t.token != EVM_CHAINS[chainName].assets.USDT.address).map(t => ({
+            let call = tokens.filter(t => t.token != USDT.address).map(t => ({
                 target: oracle,
                 call: [
                     'getRate(address,address,bool)(uint256)',
                     t.token,
-                    EVM_CHAINS[chainName].assets.USDT.address,
+                    USDT.address,
                     true
                 ],
                 returns: [
-                    [t.token, val => val.toString() / (10 ** (EVM_CHAINS[chainName].assets.USDT.decimals - t.decimals + 18))]
+                    [t.token, val => val.toString() / (10 ** (USDT.decimals - t.decimals + 18))]
                 ]
             }))
             const results = await aggregate(call, EVM_CHAINS[chainName].Multi_Config);
@@ -756,7 +769,7 @@ export async function getPriceFromOracle(chainName, tokens) {
                     prices[t.token] = pricesFromNutbox[t.token.toLowerCase()]
                 }
             }
-            prices[EVM_CHAINS[chainName].assets.USDT.address] = 1
+            prices[USDT.address] = 1
             return prices
         }
     } catch (e) {

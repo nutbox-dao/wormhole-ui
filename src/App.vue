@@ -90,7 +90,7 @@ import i18n from "@/lang";
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { getProfile, getCommon, getPriceBSC, getPriceARB, getPriceLinea, searchUsers, searchCommunityByName,
-  hasNewNoti,searchTags, getUserVPRC, twitterLogin } from '@/api/api'
+  hasNewNoti,searchTags, getUserVPRC, twitterLogin, getPriceBase } from '@/api/api'
 import Login from '@/views/Login.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
@@ -160,7 +160,7 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      const [res, res2, res3, res4] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB(), getPriceLinea()])
+      const [res, res2, res3, res4, res5] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB(), getPriceLinea(), getPriceBase()])
       let {prices, vestsToSteem} = res;
       this.$store.commit('saveVestsToSteem', vestsToSteem)
       prices = {
@@ -197,6 +197,14 @@ export default {
 
       if (res4 && res4.length > 0) {
         for (let p of res4) {
+          if (p.price) {
+            prices[p.address.toLowerCase()] = p.price
+          }
+        }
+      }
+
+      if (res5 && res5.length > 0) {
+        for (let p of res5) {
           if (p.price) {
             prices[p.address.toLowerCase()] = p.price
           }

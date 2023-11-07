@@ -14,6 +14,8 @@ export const getPriceARB = async () =>
     get("https://arbi-api.nutbox.app/token/getPrices")
 export const getPriceLinea = async () =>
     get("https://api-linea.nutbox.app/token/getPrices")
+export const getPriceBase = async () => 
+    get("https://base-api.nutbox.app/token/getPrices")
 
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async(params) =>
