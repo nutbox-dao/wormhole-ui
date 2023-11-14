@@ -17,9 +17,9 @@
         <img class="opacity-50" src="~@/assets/icon-back-light.svg" alt="">
       </button>
     </div>
-    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-15px pb-15px
-                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px">
-      <div class="2md:col-span-3">
+    <div class="container mx-auto sm:max-w-50rem sm:pt-85px 2md:pt-70px pb-15px
+                2md:flex-1 2md:overflow-hidden 2md:grid grid-cols-3 gap-15px relative">
+      <div class="2md:absolute 2md:top-15px">
         <button @click="$router.go(-1)"
                 class="w-40px h-40px xs:bg-white/20 xs:light:bg-colorF7 rounded-full hidden
                        2md:flex items-center justify-center p-5px">
