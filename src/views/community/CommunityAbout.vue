@@ -142,14 +142,14 @@ export default {
     ...mapState('community', ['showingCommunity', 'configs', 'specifyDistributionEras', 'poolsData', 'communityContractInfo', 'nutboxCommunityInfo']),
     tweetPool() {
       if (this.showingCommunity) {
-        const reward = this.showingCommunity.rewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
-        const ann = this.showingCommunity.annRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
-        const space = this.showingCommunity.spaceRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals)
+        const reward = this.showingCommunity.rewardPerDay ? this.showingCommunity.rewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals) : 0
+        const ann = this.showingCommunity.annRewardPerDay ? this.showingCommunity.annRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals) : 0
+        const space = this.showingCommunity.spaceRewardPerDay ? this.showingCommunity.spaceRewardPerDay / (10 ** this.showingCommunity.rewardTokenDecimals) : 0
         const total = reward + ann + space
         return [
-          {name: i18n.global.t('community.normalTweet'), ratio: parseFloat((reward / total)*10000).toFixed(0), value: reward },
-          {name: i18n.global.t('community.announcement'), ratio: parseFloat((ann / total)*10000).toFixed(0), value: ann },
-          {name: 'Space', ratio: parseFloat((space / total)*10000).toFixed(0), value: space },
+          {name: i18n.global.t('community.normalTweet'), ratio: total == 0 ? 0 : parseFloat((reward / total)*10000).toFixed(0), value: reward },
+          {name: i18n.global.t('community.announcement'), ratio: total == 0 ? 0 : parseFloat((ann / total)*10000).toFixed(0), value: ann },
+          {name: 'Space', ratio: total == 0 ? 0 : parseFloat((space / total)*10000).toFixed(0), value: space },
         ]
       }
       return []
