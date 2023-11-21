@@ -223,8 +223,8 @@ export default {
     insufficientVP: 'VP不足',
     selectCommunityTag: "请选择帖子发布的社区。",
     loginExpire: '登录信息过期，请重新登录',
-    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞50次，请稍后再试",
-    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推50次，请稍后再试",
+    likeTooFrequent: "操作太频繁，15分钟内最多只能点赞5次，请稍后再试",
+    retweetTooFrequent: "操作太频繁，15分钟内最多只能转推5次，请稍后再试",
     quoteTooFrequent: "操作太频繁，15分钟内最多只能引用50次，请稍后再试"
   },
   ref: {
