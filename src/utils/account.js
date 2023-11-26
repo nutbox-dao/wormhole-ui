@@ -220,7 +220,16 @@ export const isTokenExpired = async () => {
 }
 
 export async function checkAccessToken() {
+    let account = localStorage.getItem('accountInfo');
+    if (account) {
+        account = JSON.parse(account);
+    }
     let acc = store.getters.getAccountInfo;
+    if (account.accessToken != acc.accessToken) {
+        // update account access token
+        store.commit('saveAccountInfo', account);
+    }
+    acc = account;
     if (acc && acc.accessToken) {
         const { expiresAt } = acc;
         if (expiresAt - new Date().getTime() < 600000) {
