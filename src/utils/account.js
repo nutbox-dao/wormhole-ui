@@ -226,7 +226,7 @@ export async function checkAccessToken() {
     }
     let acc = store.getters.getAccountInfo;
     if (account.accessToken != acc.accessToken) {
-        // update account access token
+        // update account access token to new
         store.commit('saveAccountInfo', account);
     }
     acc = account;
