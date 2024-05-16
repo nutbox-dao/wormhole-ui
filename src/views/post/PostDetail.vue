@@ -566,8 +566,8 @@ export default {
         return
       }
       this.tipUser = {
-        name: user.twitterName,
-        username: user.twitterUsername,
+        name: user.name,
+        username: user.username,
         twitterId: user.twitterId,
         ethAddress: user.ethAddress
       }
