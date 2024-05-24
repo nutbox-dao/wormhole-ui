@@ -146,7 +146,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'select',
+      authStep: 'login',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
@@ -182,7 +182,7 @@ export default {
       // if (loginInfo.pair) {
       //   this.pair = loginInfo.pair
       // }
-      this.authStep = 'select';
+      this.authStep = 'connectBtc';
     }
   },
   beforeUnmount() {
@@ -265,7 +265,7 @@ export default {
               console.log('not register')
               Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
               this.pendingAccount = userInfo.account
-              this.authStep = 'select';
+              this.authStep = 'connectBtc';
               return;
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
@@ -286,7 +286,7 @@ export default {
             console.log('not register')
             Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
             this.pendingAccount = userInfo.account
-            this.authStep = 'select';
+            this.authStep = 'connectBtc';
           }else if (userInfo.code === 3) { // log in
             this.$store.commit('saveAccountInfo', userInfo.account)
             this.$bus.emit('login')
