@@ -28,10 +28,15 @@ export default {
   signUpView: {
     p1: 'You have not yet bind your address.',
     p2: 'Sign up and...',
+    p3: "Verify identity",
+    p4: "Only users who hold BitIP can register for Wormhole3.",
+    p5: "Not yet have one? Click here to ",
+    p6: "Select BitIP as identity",
     createAccount: 'Create a new wallet',
     notAuth: "Twitter auth fail",
     or: 'Or',
     metamask: 'Connect To MetaMask',
+    unisat: 'Connect To Unisat',
     quitTip: 'Are you sure to quit?\n' +
       'All the information will be discarded.',
     cancel: 'Cancel',

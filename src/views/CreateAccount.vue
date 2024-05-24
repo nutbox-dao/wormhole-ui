@@ -132,7 +132,7 @@
 import { register, check } from '@/api/api'
 import { randomWallet } from '@/utils/ethers'
 import { box, createKeypair } from '@/utils/tweet-nacl'
-import { SendPwdServerPubKey } from '@/config'
+import { SendPwdServerPubKey, errCode } from '@/config'
 import { notify } from "@/utils/notify";
 import { onCopy } from "@/utils/tool";
 import { generateSteemAuth } from '@/utils/steem'
@@ -148,6 +148,10 @@ export default {
       default: {}
     },
     pair: {
+      type: Object,
+      default: {}
+    },
+    identityInfo: {
       type: Object,
       default: {}
     }
@@ -237,7 +241,8 @@ export default {
             sendPubKey: pair.publicKey,
             pwd,
             ethAddress: this.wallet.address,
-            isMetamask: 0
+            isMetamask: 0,
+            identityInfo: this.identityInfo
           }
          await register(params);
           // checkout register progress
@@ -252,6 +257,11 @@ export default {
           }
         }catch(e) {
           console.log('register fail', e);
+          if (e == errCode.IDENTITY_HAS_USED) {
+            this.showNotify('The identity has been used, please chose another one', 3000, 'info')
+          } else if(e == errCode.BTC_AUTH_FAIL) {
+            this.showNotify('The signature is invalid', 3000, 'info')
+          }
         }finally {
           this.isSigningup = false
         }

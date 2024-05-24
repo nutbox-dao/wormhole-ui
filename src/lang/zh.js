@@ -28,10 +28,15 @@ export default {
   signUpView: {
     p1: '你还没有绑定你的地址.',
     p2: '注册然后...',
+    p3: "身份验证",
+    p4: "只有持有BitIP的用户才能注册 Wormhole3.",
+    p5: "还没有BitIP，点击这里来",
+    p6: "选择一个BitIP作为身份",
     createAccount: '创建一个新钱包',
     notAuth: " Twitter授权失败",
     or: '或者',
     metamask: '通过MetaMask连接',
+    unisat: '通过Unisat连接',
     quitTip: '确认退出吗?\n' +
       '所有信息将被丢弃.',
     cancel: '取消',

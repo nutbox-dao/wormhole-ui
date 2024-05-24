@@ -34,7 +34,7 @@ export default {
           this.$store.commit('saveShowLogin', true);
           return;
         }else if (userInfo.code === 3) { // log in
-        this.info = 'Login Success'
+          this.info = 'Login Success'
           this.$store.commit('saveAccountInfo', userInfo.account)
           this.$router.replace('/')
           return;

@@ -52,6 +52,8 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     LARGE_IMG: 109,
     OUT_OF_USAGE: 110,
     UPLOAD_FAIL: 111,
+    IDENTITY_HAS_USED: 112,
+    BTC_AUTH_FAIL: 113,
 
     INSUFFICIENT_RC: 307,
     INSUFFICIENT_VP: 308,

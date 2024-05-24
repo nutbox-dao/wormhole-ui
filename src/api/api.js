@@ -16,6 +16,8 @@ export const getPriceLinea = async () =>
     get("https://api-linea.nutbox.app/token/getPrices")
 export const getPriceBase = async () => 
     get("https://base-api.nutbox.app/token/getPrices")
+export const getUserBitip = async (btcAddress) =>
+    get("https://api.bitip.social/inscription/listByHolder", {btcAddress})
 
 /****************************************  auth  ***********************************************/
 export const twitterAuth = async(params) =>
@@ -38,6 +40,9 @@ export const register = async (params) =>
 
 export const check = async (params) =>
     post(BACKEND_API_URL + '/register/check', params)
+
+export const checkRegistedIdentity = async (chainName, type, assetId) =>
+    get(BACKEND_API_URL + '/register/checkIdentityUsed', {chainName, type, assetId})
 
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>

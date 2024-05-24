@@ -13,6 +13,55 @@
       </button>
       <div class="text-color8B mt-1rem text-1rem lg:text-0.75rem leading-1.2rem" style="word-break: break-word">{{$t('signInView.p1')}}</div>
     </div>
+    <div v-else-if="authStep === 'connectBtc'">
+      <div class="flex justify-center items-center flex-col">
+        <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
+          {{$t('signUpView.p3')}}
+        </div>
+        <div class="c-text-black break-word text-1.2rem gradient-text bg-purple-white light:bg-text-color17 mx-auto py-3">
+          {{$t('signUpView.p4')}}
+        </div>
+       
+        <button @click="connectUnisat" :disabled="connecting"
+              class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem
+                      flex justify-center items-center">
+          <img class="w-1.7rem mr-1rem" src="~@/assets/icon-unisat.svg" alt="">
+          <span class="">{{$t('signUpView.unisat')}}</span>
+          <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
+        </button>
+        <div class="mx-auto my-3 text-1rem">
+          <span class="break-word gradient-text bg-purple-white light:bg-text-color17 ">
+            {{$t('signUpView.p5')}}
+          </span>
+          <span @click="openDonut" class="text-primaryColor">
+            Mint
+          </span>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="authStep === 'choseBitip'">
+      <div class="flex justify-center items-center flex-col">
+        <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
+          {{$t('signUpView.p6')}}
+        </div>
+        <div class="flex flex-wrap w-full space-x-5">
+          <button @click="choseBitip(bitip)" v-for="bitip of bitips" :key="bitip.iid" :disabled="connecting"
+              class="c-text-black gradient-btn max-h-65px rounded-full text-1rem mt-1.25rem
+                      flex justify-center items-center py-0.5rem px-1rem">
+          <span class="">{{ bitip.content }}</span>
+        </button>
+        </div>
+       
+        <div v-show="bitips.length == 0" class="mx-auto my-3 text-1rem">
+          <span class="break-word gradient-text bg-purple-white light:bg-text-color17 ">
+            {{$t('signUpView.p5')}}
+          </span>
+          <span @click="openDonut" class="text-primaryColor">
+            Mint
+          </span>
+        </div>
+      </div>
+    </div>
     <div v-else-if="authStep === 'select'">
       <div class="flex justify-center items-center">
         <img v-if="pendingAccount.profileImg"
@@ -52,12 +101,14 @@
     <div v-else>
       <CreateAccount v-if="authStep==='create'"
                      :wallet="wallet"
+                     :identity-info="identityInfo"
                      :pair="pair"
                      @skip="$emit('close')"
                      @back="authStep='login'"
                      @send="sendTwitter($event)"></CreateAccount>
       <MetaMaskAccount v-if="authStep==='metamask'"
                        :address="walletAddress"
+                       :identity-info="identityInfo"
                        :pair="pair"
                        @back="authStep='login'"
                        @skip="$emit('close')"/>
@@ -69,7 +120,7 @@
 import { isTokenExpired } from '@/utils/account'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
-import { twitterLogin, twitterAuth, testTwitterAuth } from '@/api/api'
+import { twitterLogin, twitterAuth, getUserBitip, checkRegistedIdentity } from '@/api/api'
 import Cookie from 'vue-cookies'
 import { randomWallet } from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
@@ -80,6 +131,7 @@ import { ethers } from 'ethers'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {useTimer} from "@/utils/hooks";
 import { mapState } from 'vuex'
+import { connectUnisat as cu, signMessage } from '@/utils/web3/btc';
 
 export default {
   name: "Login",
@@ -94,7 +146,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'login',
+      authStep: 'select',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
@@ -103,7 +155,11 @@ export default {
       wallet: {},
       pair: {},
       pendingAccount: {},
-      thirdPartInfo: {}
+      thirdPartInfo: {},
+      bitips: [],
+      btcAddress: '',
+      btcPubkey: '',
+      identityInfo: {}
     }
   },
   mounted() {
@@ -145,6 +201,9 @@ export default {
     },
     showNotify(message, duration, type) {
       notify({message, duration, type})
+    },
+    openDonut() {
+      window.open('https://bitip.social', '_blank')
     },
     async login() {
       const timeoutTip = this.$t('err.loginTimeout')
@@ -240,6 +299,48 @@ export default {
       }finally {
         this.loging = false
       }
+    },
+    async connectUnisat() {
+      try{
+        this.connecting = true
+        const acc = await cu()
+        this.btcAddress = acc.btcAddrees
+        this.btcPubkey = acc.btcPubkey
+        const bitips = await getUserBitip(acc)
+        if (bitips.length == 0) {
+          this.showNotify('You have none BitIPs, Please mint first', 3000, 'info')
+          return
+        }
+        this.bitips = bitips.concat(bitips).concat(bitips)
+        this.authStep = 'choseBitip'
+      } catch (e) {
+        this.showNotify(e, 5000, 'error')
+      } finally {
+        this.connecting = false
+      }
+    },
+    async choseBitip(bitip) {
+      // check bitip
+      const info = await checkRegistedIdentity('btc', 'bitip', bitip.content)
+      if (info.twitterId) {
+        this.showNotify('This identity had been registed', 3000, 'info')
+        return;
+      }
+      this.identityInfo = {
+        bitip: bitip.content,
+        btcAddress: this.btcAddress,
+        version: 1,
+        datetime: Date.now()
+      }
+      const content = JSON.stringify(this.identityInfo, null, 4)
+      const signature = await signMessage(content)
+      this.identityInfo.signature = signature
+      this.identityInfo.btcPubkey = this.btcPubkey
+      this.identityInfo.chainName = 'btc'
+      this.identityInfo.type = 'bitip'
+      this.identityInfo.assetId = bitip.content
+
+      this.authStep = 'select'
     },
     async connectMetamask() {
       try {

@@ -110,7 +110,7 @@ import { getUserByEth, register, check } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
-import { SignUpMessage, SendPwdServerPubKey } from '@/config'
+import { SignUpMessage, SendPwdServerPubKey, errCode } from '@/config'
 import { ethers } from 'ethers'
 import { bytesToHex } from '@/utils/code'
 import { generateSteemAuth } from '@/utils/steem'
@@ -127,6 +127,10 @@ export default {
       default: ''
     },
     pair: {
+      type: Object,
+      default: {}
+    },
+    identityInfo: {
       type: Object,
       default: {}
     }
@@ -244,7 +248,8 @@ export default {
             pwd: this.pwd,
             ethAddress: this.account,
             isMetamask: 1,
-            salt: this.salt
+            salt: this.salt,
+            identityInfo: this.identityInfo
           }
           await register(params);
           // checkout register progress
@@ -259,7 +264,13 @@ export default {
           }
         }catch(e) {
           console.log(532, e);
-          this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+          if (e == errCode.IDENTITY_HAS_USED) {
+            this.showNotify('The identity has been used, please chose another one', 3000, 'info')
+          } else if(e == errCode.BTC_AUTH_FAIL) {
+            this.showNotify('The signature is invalid', 3000, 'info')
+          }else {
+            this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+          }
         }finally {
           this.isSigningup = false
         }
