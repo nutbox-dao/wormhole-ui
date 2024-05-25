@@ -311,7 +311,7 @@ export default {
           this.showNotify('You have none BitIPs, Please mint first', 3000, 'info')
           return
         }
-        this.bitips = bitips.concat(bitips).concat(bitips)
+        this.bitips = bitips
         this.authStep = 'choseBitip'
       } catch (e) {
         this.showNotify(e, 5000, 'error')
