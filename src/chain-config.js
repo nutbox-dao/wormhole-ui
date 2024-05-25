@@ -113,7 +113,8 @@ export const EVM_CHAINS_ID = {
     1284: 'Moonbeam',
     119: 'ENULS',
     59144: 'Linea',
-    8453: 'Base'
+    8453: 'Base',
+    200901: 'Bitlayer'
 }
 
 /**
@@ -176,6 +177,28 @@ export const EVM_CHAINS = {
         popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB',
         oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550',
         communityCuration: '0x6534b7A5a4dbF65b6DE92fF60dfB25f4Fdb7636B'
+    },
+    Bitlayer: {
+        rpc: 'https://rpc.bitlayer.org',
+        scan: 'https://www.btrscan.com',
+        chainName: 'Bitlayer',
+        tokenScan: 'https://www.btrscan.com',
+        tokenScan: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
+        id: 200901,
+        main: {
+            name: 'BTC',
+            symbol: 'BTC',
+            icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
+            decimals: 18
+        },
+        assets: {
+            
+        },
+        Multi_Config: {
+            rpcUrl: 'https://rpc.bitlayer.org',
+            multicallAddress: '0xc8818aaeaBF0dF9f3f3ffF54Ab185705177A6234',
+            interval: 3000,
+        },
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
