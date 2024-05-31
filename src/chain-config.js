@@ -96,7 +96,10 @@ export const TokenName = {
     "MFERC": 'mFERC',
     "ferc": 'fair-ERC20',
     "wCTLK": 'Wormhole Ctalks', 
-    "USDbC": 'USD Base Coin'
+    "USDbC": 'USD Base Coin',
+    "BITUSD": 'BIT USD',
+    "WBTC" : 'Bit Wrapped BTC',
+    "BTC": 'BTC'
 }
 
 export const isWrappedToken = {
@@ -192,13 +195,19 @@ export const EVM_CHAINS = {
             decimals: 18
         },
         assets: {
-            
+            USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xfe9f969faf8Ad72a83b761138bF25dE87eFF9DD2', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png'},
+            USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x9827431e8b77E87C9894BD50B055D6BE56bE0030', decimals: 6, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
+            BITUSD: {symbol: 'BITUSD', name: 'BIT USD', address: '0x07373d112EDc4570B46996Ad1187bc4ac9Fb5Ed0', decimals: 18, icon: ''},
+            WBTC: {symbol: 'WBTC', name: 'Wrapped BTC', address: '0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F', decimals: 18, icon: ''},
         },
         Multi_Config: {
             rpcUrl: 'https://rpc.bitlayer.org',
             multicallAddress: '0xc8818aaeaBF0dF9f3f3ffF54Ab185705177A6234',
             interval: 3000,
         },
+        curation: '0xA643e598364A9dFB3328aD2E70AF6f9E3C477A42',
+        communityCuration: '0x39ab47b7F6D2B6874157750440b4948786066283'
+
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
