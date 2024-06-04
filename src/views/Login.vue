@@ -304,9 +304,9 @@ export default {
       try{
         this.connecting = true
         const acc = await cu()
-        this.btcAddress = acc.btcAddrees
+        this.btcAddress = acc.btcAddress
         this.btcPubkey = acc.btcPubkey
-        const bitips = await getUserBitip(acc)
+        const bitips = await getUserBitip(acc.btcAddress)
         if (bitips.length == 0) {
           this.showNotify('You have none BitIPs, Please mint first', 3000, 'info')
           return

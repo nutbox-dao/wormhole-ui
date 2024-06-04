@@ -13,7 +13,7 @@ export async function connectUnisat() {
         const accounts = await unisat.requestAccounts()
         const btcPubkey = await unisat.getPublicKey()
         return {
-            btcAddrees: accounts[0],
+            btcAddress: accounts[0],
             btcPubkey
         }
 
