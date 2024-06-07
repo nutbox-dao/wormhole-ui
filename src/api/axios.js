@@ -3,7 +3,7 @@ import axiosRetry from "axios-retry";
 import store from '@/store';
 import Cookie from 'vue-cookies'
 
-axiosRetry(axios, { retries: 5 });
+axiosRetry(axios, { retries: 2 });
 
 axios.defaults.timeout = 30000;
 

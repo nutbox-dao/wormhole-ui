@@ -56,3 +56,9 @@ export const signMessage = async (message) => {
     )
     return signature
 }
+
+export const getEnsName = async (address) => {
+    const eth = new ethers.providers.InfuraProvider('mainnet', 'dc338b1850ec4676b5c7c717a1456d36')
+    const name = await eth.lookupAddress(address)
+    return name
+}
