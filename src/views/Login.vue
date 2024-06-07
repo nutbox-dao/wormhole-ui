@@ -21,7 +21,7 @@
         <div class="c-text-black break-word text-1.2rem gradient-text bg-purple-white light:bg-text-color17 mx-auto py-3">
           {{$t('signUpView.p4')}}
         </div>
-       
+
         <button @click="connectUnisat" :disabled="connecting"
               class="c-text-black gradient-btn h-3.6rem max-h-65px w-22rem mx-auto rounded-full text-1rem mt-1.25rem
                       flex justify-center items-center">
@@ -39,26 +39,21 @@
         </div>
       </div>
     </div>
-    <div v-else-if="authStep === 'choseBitip'">
-      <div class="flex justify-center items-center flex-col">
-        <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
-          {{$t('signUpView.p6')}}
-        </div>
-        <div class="flex flex-wrap w-full space-x-5">
-          <button @click="choseBitip(bitip)" v-for="bitip of bitips" :key="bitip.iid" :disabled="connecting"
-              class="c-text-black gradient-btn max-h-65px rounded-full text-1rem mt-1.25rem
-                      flex justify-center items-center py-0.5rem px-1rem">
-          <span class="">{{ bitip.content }}</span>
-        </button>
-        </div>
-       
-        <div v-show="bitips.length == 0" class="mx-auto my-3 text-1rem">
-          <span class="break-word gradient-text bg-purple-white light:bg-text-color17 ">
-            {{$t('signUpView.p5')}}
-          </span>
-          <span @click="openDonut" class="text-primaryColor">
-            Mint
-          </span>
+    <div v-else-if="authStep === 'choseRegisterMethod'">
+      <div>
+        <div class="">这是一段描述 这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述</div>
+        <div class="flex flex-col items-center gap-4 mt-1.5rem">
+          <div class="w-full">
+            <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
+                           hover:shadow-none">ENS</button>
+            <div class="text-color8A mt-1">ens 提示信息</div>
+          </div>
+          <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
+                         hover:shadow-none"
+                  @click="onChoseRegisterMethod('payToken')">支付代币</button>
+          <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
+                         hover:shadow-none"
+                  @click="onChoseRegisterMethod('bitIp')">BitIP</button>
         </div>
       </div>
     </div>
@@ -113,6 +108,64 @@
                        @back="authStep='login'"
                        @skip="$emit('close')"/>
     </div>
+    <el-dialog :destroy-on-close="true" :model-value="modalVisible"
+               :close-on-click-modal="false" append-to-body
+               class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
+      <div class="absolute top-0 right-0 w-max p-1rem z-1" @click="modalVisible=false">
+        <i class="w-1.2rem h-1.2rem icon-close"></i>
+      </div>
+      <div v-if="registerMethod==='payToken'"
+           class="w-full px-5 flex justify-center items-center flex-col min-h-40vh">
+        <AssetsOptions class="w-full"
+                       :amount="payTokenForm.amount"
+                       :chain="'steem'"
+                       :showEvm="true"
+                       :showsteem="true"
+                       :showEmoji="false"
+                       @chainChange="selectChain"
+                       @tokenChagne="selectToken"
+                       @addressChange="selectAddress"
+                       @amountChange="selectAmount"
+                       @balanceChange="selectBalance">
+          <template #inputAmountLabel>
+            <div class="font-bold mb-10px">Pay</div>
+          </template>
+        </AssetsOptions>
+        <div class="w-full flex items-center justify-center gap-x-1rem py-1rem">
+          <button class="gradient-btn gradient-btn-disabled-grey
+                         h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                  @click="modalVisible=false">back</button>
+          <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
+                     h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
+                  @click="send"
+                  :disabled="payTokenForm.amount>selectedBalance || payTokenForm.amount === 0 || payLoading">
+            Send
+            <c-spinner v-show="payLoading" class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
+          </button>
+        </div>
+      </div>
+      <div v-if="registerMethod==='bitIp'" class="flex justify-center items-center flex-col min-h-40vh">
+        <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
+          {{$t('signUpView.p6')}}
+        </div>
+        <div class="flex flex-wrap w-full space-x-5">
+          <button @click="choseBitip(bitip)" v-for="bitip of bitips" :key="bitip.iid" :disabled="connecting"
+                  class="c-text-black gradient-btn max-h-65px rounded-full text-1rem mt-1.25rem
+                      flex justify-center items-center py-0.5rem px-1rem">
+            <span class="">{{ bitip.content }}</span>
+          </button>
+        </div>
+
+        <div v-show="bitips.length == 0" class="mx-auto my-3 text-1rem">
+          <span class="break-word gradient-text bg-purple-white light:bg-text-color17 ">
+            {{$t('signUpView.p5')}}
+          </span>
+          <span @click="openDonut" class="text-primaryColor">
+            Mint
+          </span>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -132,10 +185,11 @@ import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {useTimer} from "@/utils/hooks";
 import { mapState } from 'vuex'
 import { connectUnisat as cu, signMessage } from '@/utils/web3/btc';
+import AssetsOptions from "@/components/AssetsOptions";
 
 export default {
   name: "Login",
-  components: {CreateAccount, MetaMaskAccount},
+  components: {CreateAccount, MetaMaskAccount, AssetsOptions},
   setup() {
     const { setTimer } = useTimer()
     return {setTimer}
@@ -146,7 +200,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'login',
+      authStep: 'choseRegisterMethod',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
@@ -159,7 +213,18 @@ export default {
       bitips: [],
       btcAddress: '',
       btcPubkey: '',
-      identityInfo: {}
+      identityInfo: {},
+      modalVisible: false,
+      registerMethod: '',
+      payTokenForm: {
+        chain: '',
+        address: '',
+        token: '',
+        amount: 0,
+      },
+      selectedToken: {},
+      selectedBalance: '',
+      payLoading: false
     }
   },
   mounted() {
@@ -196,6 +261,30 @@ export default {
     // ...mapGetters(['getPrivateKey'])
   },
   methods: {
+    onChoseRegisterMethod(method) {
+      this.registerMethod = method
+      this.modalVisible = true
+    },
+    selectChain(chain){
+      this.payTokenForm.chain = chain
+    },
+    selectAddress(address) {
+      this.payTokenForm.address = address
+    },
+    selectToken(token) {
+      this.selectedToken = token;
+      this.payTokenForm.token = token.address;
+    },
+    selectAmount(amount) {
+      this.payTokenForm.amount = amount
+      this.payTokenForm.emoji = null;
+    },
+    selectBalance(balance) {
+      this.selectedBalance = balance
+    },
+    send() {
+
+    },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
     },
@@ -312,7 +401,7 @@ export default {
           return
         }
         this.bitips = bitips
-        this.authStep = 'choseBitip'
+        this.authStep = 'choseRegisterMethod'
       } catch (e) {
         this.showNotify(e, 5000, 'error')
       } finally {

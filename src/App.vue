@@ -43,7 +43,7 @@
                  :show-close="false"
                  :close-on-click-modal="true"
                  :before-close="beforeCloseLogin"
-                 class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
+                 class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem relative">
         <div class="relative min-h-20rem">
           <div class="w-max p-1rem ml-auto mr-0" @click="beforeCloseLogin">
             <i class="w-1.2rem h-1.2rem icon-close"></i>
@@ -51,7 +51,7 @@
           <Login class="px-2rem pb-2rem" ref="loginRef" @close="$store.commit('saveShowLogin', false)"/>
           <div v-show="closeLoginTipVisible"
                class="absolute top-0 left-0 w-full h-full bg-primaryBg light:bg-white rounded-8px">
-            <div class="w-full h-full flex flex-col justify-center px-2rem" :class="isDark?'bg-glass':'bg-white'">
+            <div class="w-full h-full flex flex-col justify-center px-2rem rounded-8px" :class="isDark?'bg-glass':'bg-white'">
               <div class="break-word c-text-black gradient-text bg-purple-white light:bg-text-color17
                           whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
                 {{$t('signUpView.quitTip')}}

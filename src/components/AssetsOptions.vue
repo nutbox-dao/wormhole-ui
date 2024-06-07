@@ -61,8 +61,10 @@
     <div v-else-if="formatAddress(walletAddress, 12, 12)" class="text-color62 mt-6px font-bold text-right">
       {{$t('common.address')}}: {{formatAddress(walletAddress, 12, 12) }}
     </div>
-    <div class="mt-1.8rem">
-      <div class="font-bold mb-10px">{{$t('curation.rewardsAmount')}}</div>
+    <div class="mt-1.2rem">
+      <slot name="inputAmountLabel">
+        <div class="font-bold mb-10px">{{$t('curation.rewardsAmount')}}</div>
+      </slot>
       <div class="flex items-center relative">
         <div ref="tokenPopper"
              class="w-1/2 bg-black/40 border-1 border-color8B/30 mr-5px
@@ -75,7 +77,7 @@
                  type="number"
                  @input="amountInputChange"
                  :placeholder="$t('curation.inputRewardsAmount')">
-          <el-popover popper-class="c-popper c-select-popper min-w-400px"
+          <el-popover v-if="showEmoji" popper-class="c-popper c-select-popper min-w-400px"
                       :width="popperWidth || 300" :teleported="false"
                       trigger="click" ref="giftPopover">
             <template #reference>
@@ -245,6 +247,10 @@ export default {
     showsteem: {
       type: Boolean,
       default: false
+    },
+    showEmoji: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
