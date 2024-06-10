@@ -161,6 +161,18 @@ export const lockStatusChanged = async (refresh) => {
   }).catch(console.log)
 }
 
+export const sendAssetTo = async (toAddress, amount) => {
+  const metamask = await getEthWeb()
+  const provider = new ethers.providers.Web3Provider(metamask)
+  const signer = provider.getSigner();
+  const tx = await signer.sendTransaction({
+    to: toAddress,
+    value: amount
+  })
+  await tx.wait();
+  return tx.hash;
+}
+
 export const getBlockNum = async (chainId) => {
   const rpc = EVM_CHAINS[EVM_CHAINS_ID[chainId]].rpc;
   if (rpc) {

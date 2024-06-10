@@ -40,7 +40,9 @@ export default {
     quitTip: '确认退出吗?\n' +
       '所有信息将被丢弃.',
     cancel: '取消',
-    close: '关闭'
+    close: '关闭',
+    registerRequire: '注册Wormhole3后，我们将为您申请web3社交账号，并将发帖权限代理给我们。web3社交账号需要一定的费用注册，当然如果您拥有BitIP或者ENS，我们将免费为您注册账号。',
+    noEns: '该地址没有ENS，请在钱包中切换购买了ENS的地址。'
   },
   verifyView: {
     p1: '我们已经生成了你的 \n 助记词',
@@ -69,7 +71,9 @@ export default {
     p4: `当前地址与您原应用的地址不匹配，请在小狐狸中切换为该地址：{account}.`,
     address: '地址',
     confirm: '确认',
-    back: '返回'
+    back: '返回',
+    noEns: "该地址没有ENS，请在钱包中切换包含ENS的地址",
+    ens: "该地址的ENS为：{ens}。"
   },
   signInView: {
     join: '一键进入',

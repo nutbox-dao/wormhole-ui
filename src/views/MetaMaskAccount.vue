@@ -36,6 +36,32 @@
             {{$t('metamaskView.back')}}
           </button>
         </template>
+        <template v-else-if="idType == 'ens'">
+          <div class="flex items-start mb-2rem">
+            <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
+            <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
+                 style="word-break: break-word"
+                 v-if="!ensName">
+                 {{ $t('metamaskView.noEns') }}
+            </div>
+            <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
+                 style="word-break: break-word"
+                 v-else>
+                 {{ $t('metamaskView.ens', {ens: ensname}) }}
+            </div>
+          </div>
+          <button v-if="ensname" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
+                  @click="confirm"
+                  :disabled="isCheckingAddress || isSigning">
+            {{$t('metamaskView.confirm')}}
+            <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isCheckingAddress || isSigning"></c-spinner>
+          </button>
+          <button v-show="!thirdPartInfo?.ethAddress" class="c-text-black bg-color84 light:bg-colorD6 light:text-white
+                         w-full h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
+                  @click="$emit('back')">
+            {{$t('metamaskView.back')}}
+          </button>
+        </template>
         <template v-else>
           <div class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
             {{$t('metamaskView.p2')}}
@@ -106,7 +132,7 @@
 
 <script>
 import { onCopy } from "@/utils/tool";
-import { getUserByEth, register, check } from '@/api/api'
+import { getUserByEth, register, check, getEns } from '@/api/api'
 import { mapState, mapGetters } from 'vuex'
 import { accountChanged } from '@/utils/web3/account'
 import { signMessage } from '@/utils/web3/web3'
@@ -149,12 +175,13 @@ export default {
       authError: false,
       account: '',
       thirdPartInfo: {},
-      showMismatchAddress: false
+      showMismatchAddress: false,
+      ensName: null
     }
   },
   computed: {
     // ...mapState('web3', ['account']),
-    ...mapState(['referee']),
+    ...mapState(['referee', 'idType']),
     ...mapGetters(['getAccountInfo'])
   },
   watch: {
@@ -212,11 +239,19 @@ export default {
           // registred
           this.username = account.account.twitterUsername
           this.isRegister = true;
+          return;
         }else {
           // not registred
           this.username = ''
           this.isRegister = false
         }
+
+        if (this.identityInfo.type === 'ens') {
+          const ens = await getEns(this.account)
+          this.ensname = ens
+          this.identityInfo.assetId = ens
+        }
+
         if (this.thirdPartInfo && this.thirdPartInfo.ethAddress.toLowerCase() !== this.account.toLocaleLowerCase()) {
           this.showMismatchAddress = true
         }else {
@@ -249,7 +284,11 @@ export default {
             ethAddress: this.account,
             isMetamask: 1,
             salt: this.salt,
-            identityInfo: this.identityInfo
+            identityInfo: 
+            {
+              ...this.identityInfo,
+              type: this.idType
+            }
           }
           await register(params);
           // checkout register progress

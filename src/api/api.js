@@ -44,6 +44,9 @@ export const check = async (params) =>
 export const checkRegistedIdentity = async (chainName, type, assetId) =>
     get(BACKEND_API_URL + '/register/checkIdentityUsed', {chainName, type, assetId})
 
+export const getEns = async (ethAddress) =>
+    get(BACKEND_API_URL + '/users/getENS', { ethAddress })
+
 /****************************************  user  ***********************************************/
 export const getUserInfo = async (username, ethAddress) =>
     get(BACKEND_API_URL + '/users/byusername', {username, ethAddress})

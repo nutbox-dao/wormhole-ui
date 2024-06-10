@@ -42,7 +42,8 @@ export default Vuex.createStore({
     vp: 0,
     vpInfo: {},
     rc: 0,
-    rcInfo: {}
+    rcInfo: {},
+    idType: null
   },
   getters: {
     getPrivateKey: (state) => (publicKey) => {
@@ -180,6 +181,9 @@ export default Vuex.createStore({
       state.rcInfo = rcInfo
       let rc = rcInfo.rc + (Date.now() - rcInfo.lastUpdateRCTime) * MAX_RC / (86400000 * RC_RECOVER_DAY)
       state.rc = rc > MAX_RC ? MAX_RC : rc.toFixed(2);
+    },
+    saveIdType: (state, idType) => {
+      state.idType = idType
     }
   },
   modules: {

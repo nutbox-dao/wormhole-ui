@@ -41,19 +41,26 @@
     </div>
     <div v-else-if="authStep === 'choseRegisterMethod'">
       <div>
-        <div class="">这是一段描述 这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述</div>
+        <div class="">{{ $t('signUpView.registerRequire') }}</div>
         <div class="flex flex-col items-center gap-4 mt-1.5rem">
           <div class="w-full">
             <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
-                           hover:shadow-none">ENS</button>
-            <div class="text-color8A mt-1">ens 提示信息</div>
+                           hover:shadow-none"
+                    @click="choseEns">
+              <div class="flex justify-center align-center items-center">
+                <span>
+                  I have ENS
+                </span>
+                <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="checkingEns"></c-spinner>
+              </div>     
+            </button>
           </div>
           <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
                          hover:shadow-none"
-                  @click="onChoseRegisterMethod('payToken')">支付代币</button>
+                  @click="onChoseRegisterMethod('payToken')">Pay crypto currency</button>
           <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
                          hover:shadow-none"
-                  @click="onChoseRegisterMethod('bitIp')">BitIP</button>
+                  @click="onChoseRegisterMethod('bitIp')">I have BitIP</button>
         </div>
       </div>
     </div>
@@ -99,13 +106,13 @@
                      :identity-info="identityInfo"
                      :pair="pair"
                      @skip="$emit('close')"
-                     @back="authStep='login'"
+                     @back="authStep='choseRegisterMethod'"
                      @send="sendTwitter($event)"></CreateAccount>
       <MetaMaskAccount v-if="authStep==='metamask'"
                        :address="walletAddress"
                        :identity-info="identityInfo"
                        :pair="pair"
-                       @back="authStep='login'"
+                       @back="authStep='choseRegisterMethod'"
                        @skip="$emit('close')"/>
     </div>
     <el-dialog :destroy-on-close="true" :model-value="modalVisible"
@@ -115,31 +122,47 @@
         <i class="w-1.2rem h-1.2rem icon-close"></i>
       </div>
       <div v-if="registerMethod==='payToken'"
-           class="w-full px-5 flex justify-center items-center flex-col min-h-40vh">
-        <AssetsOptions class="w-full"
-                       :amount="payTokenForm.amount"
-                       :chain="'steem'"
-                       :showEvm="true"
-                       :showsteem="true"
-                       :showEmoji="false"
-                       @chainChange="selectChain"
-                       @tokenChagne="selectToken"
-                       @addressChange="selectAddress"
-                       @amountChange="selectAmount"
-                       @balanceChange="selectBalance">
-          <template #inputAmountLabel>
-            <div class="font-bold mb-10px">Pay</div>
-          </template>
-        </AssetsOptions>
+           class="px-5 flex justify-center items-center flex-col min-h-40vh">
+        <div class="mb-1.8rem mt-1rem w-full">
+          <div class="font-bold mb-10px">{{$t('curation.network')}}</div>
+          <div class="bg-black/40 border-1 border-color8B/30
+                      light:bg-white light:border-colorE3 flex items-center
+                      rounded-8px overflow-hidden h-44px 2xl:h-2.1rem">
+            <CustomSelect v-model="selectedChainName"
+                          @change="connectWallet(selectedChainName)">
+              <template #prefix>
+                <!-- chain logo -->
+                <img v-if="EVM_CHAINS[selectedChainName]"
+                    class="w-24px min-w-24px h-24px min-h-24px rounded-full mr-15px"
+                    :src="EVM_CHAINS[selectedChainName]?.main.icon" alt="">
+              </template>
+              <template #options>
+                <div class="bg-blockBg light:bg-white border-1 border-color8B/30
+                              light:border-colorE3 rounded-8px overflow-hidden">
+                  <el-option v-for="item of Object.keys(EVM_CHAINS)" :key="item"
+                            class="py-5px px-12px h-min"
+                            :value="item">
+                    <template #default>
+                      <div class="flex items-center ">
+                        <span class="min-w-24px min-h-24px">
+                          <img class="w-24px h-24px rounded-full mr-15px"
+                              :src="EVM_CHAINS[item]?.main.icon" alt="">
+                        </span>
+                        <span>{{item}}</span>
+                      </div>
+                    </template>
+                  </el-option>
+                </div>
+              </template>
+            </CustomSelect>
+          </div>
+        </div>
         <div class="w-full flex items-center justify-center gap-x-1rem py-1rem">
-          <button class="gradient-btn gradient-btn-disabled-grey
-                         h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
-                  @click="modalVisible=false">back</button>
-          <button class="gradient-btn gradient-btn-disabled-grey flex items-center justify-center
+          <button class="gradient-btn flex items-center justify-center
                      h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
                   @click="send"
-                  :disabled="payTokenForm.amount>selectedBalance || payTokenForm.amount === 0 || payLoading">
-            Send
+                  :disabled="!EVM_CHAINS[selectedChainName] || payLoading">
+            Pay {{ EVM_CHAINS[selectedChainName] ? EVM_CHAINS[selectedChainName].gateAmount / 1e18 + ' ' + EVM_CHAINS[selectedChainName].main.symbol : '' }}
             <c-spinner v-show="payLoading" class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
           </button>
         </div>
@@ -170,6 +193,8 @@
 </template>
 
 <script>
+import {EVM_CHAINS} from "@/chain-config";
+import { CHAIN_NAME, GateFeeAddress } from "@/config";
 import { isTokenExpired } from '@/utils/account'
 import { notify } from "@/utils/notify";
 import { sleep } from '@/utils/helper'
@@ -178,24 +203,29 @@ import Cookie from 'vue-cookies'
 import { randomWallet } from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
 import MetaMaskAccount from "@/views/MetaMaskAccount";
-import { connectMetamask } from '@/utils/web3/web3'
+import { connectMetamask, setupNetwork } from '@/utils/web3/web3'
 import { createKeypair } from '@/utils/tweet-nacl'
 import { ethers } from 'ethers'
 import emptyAvatar from "@/assets/icon-default-avatar.svg";
 import {useTimer} from "@/utils/hooks";
 import { mapState } from 'vuex'
 import { connectUnisat as cu, signMessage } from '@/utils/web3/btc';
-import AssetsOptions from "@/components/AssetsOptions";
+import CustomSelect from "@/components/CustomSelect";
+import {accountChanged, getAccounts} from "@/utils/web3/account";
+import { sendAssetTo } from "@/utils/web3/web3";
+
+
 
 export default {
   name: "Login",
-  components: {CreateAccount, MetaMaskAccount, AssetsOptions},
+  components: {CreateAccount, MetaMaskAccount, CustomSelect},
   setup() {
     const { setTimer } = useTimer()
     return {setTimer}
   },
   data() {
     return {
+      EVM_CHAINS,
       loging: false,
       showRegistering: false,
       showNotSendTwitter: false,
@@ -208,6 +238,7 @@ export default {
       walletAddress: '',
       wallet: {},
       pair: {},
+      selectedChainName: '',
       pendingAccount: {},
       thirdPartInfo: {},
       bitips: [],
@@ -215,6 +246,7 @@ export default {
       btcPubkey: '',
       identityInfo: {},
       modalVisible: false,
+      checkingEns: false,
       registerMethod: '',
       payTokenForm: {
         chain: '',
@@ -224,7 +256,9 @@ export default {
       },
       selectedToken: {},
       selectedBalance: '',
-      payLoading: false
+      payLoading: false,
+      showNoEnsTip: false,
+      selectedEns: null
     }
   },
   mounted() {
@@ -257,7 +291,7 @@ export default {
     Cookie.remove('account-auth-info');
   },
   computed: {
-    ...mapState(['referee']),
+    ...mapState(['referee', 'idType']),
     // ...mapGetters(['getPrivateKey'])
   },
   methods: {
@@ -282,8 +316,15 @@ export default {
     selectBalance(balance) {
       this.selectedBalance = balance
     },
-    send() {
-
+    async send() {
+      try{
+        this.payLoading = true
+        const hash = await sendAssetTo(GateFeeAddress, EVM_CHAINS[this.selectedChainName].gateAmount)
+      } catch(e) {
+        console.log(333, e)
+      } finally {
+        this.payLoading = false
+      }
     },
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
@@ -293,6 +334,17 @@ export default {
     },
     openDonut() {
       window.open('https://bitip.social', '_blank')
+    },
+    async choseEns() {
+      try{
+        this.checkingEns = true
+        this.$store.commit('saveIdType', 'ens')
+        await this.connectMetamask()
+      } catch(e) {
+        console.log('chose ens fail', e)
+      } finally {
+        this.checkingEns = false
+      }
     },
     async login() {
       const timeoutTip = this.$t('err.loginTimeout')
@@ -410,6 +462,7 @@ export default {
     },
     async choseBitip(bitip) {
       // check bitip
+      this.$store.commit('saveIdType', 'bitip')
       const info = await checkRegistedIdentity('btc', 'bitip', bitip.content)
       if (info.twitterId) {
         this.showNotify('This identity had been registed', 3000, 'info')
@@ -430,6 +483,29 @@ export default {
       this.identityInfo.assetId = bitip.content
 
       this.authStep = 'select'
+    },
+    async connectWallet(chain) {
+      if (this.connectLoading) {
+        return
+      }
+      this.connectLoading = true
+      try{
+        const connected = await setupNetwork(chain)
+        if (connected) {
+          this.selectedChainName = chain;
+          this.walletAddress = await getAccounts(true);
+        }else {
+          this.selectedChainName = null;
+          this.walletAddress = null;
+        }
+      } catch (e) {
+        this.$emit('chainChange', null)
+        this.selectedChainName = null
+        this.walletAddress = null
+        notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
+      } finally {
+        this.connectLoading = false
+      }
     },
     async connectMetamask() {
       try {

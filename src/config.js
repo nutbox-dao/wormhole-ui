@@ -54,6 +54,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     UPLOAD_FAIL: 111,
     IDENTITY_HAS_USED: 112,
     BTC_AUTH_FAIL: 113,
+    ENS_MISMATCH: 114,
 
     INSUFFICIENT_RC: 307,
     INSUFFICIENT_VP: 308,
@@ -88,6 +89,8 @@ export const LIQUIDATION_NFT = '0x3724E11f09cF1D690f0Cfe9874108bC0F1DC7AbC';
 export const CURATION_FUND_CONTRACT = '0x525B88B649F5c8AD225122F8fe6e9304e9d54000';
 
 export const AutoCurationContract = '0x9B43E8015CB8B4a5F4C11d48fD299a27f2b01b09'
+
+export const GateFeeAddress = '0x06Deb72b2e156Ddd383651aC3d2dAb5892d9c048';
 
 export const Multi_Config = {
     rpcUrl: RPC_NODE,

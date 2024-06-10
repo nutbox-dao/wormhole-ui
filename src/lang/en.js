@@ -40,7 +40,9 @@ export default {
     quitTip: 'Are you sure to quit?\n' +
       'All the information will be discarded.',
     cancel: 'Cancel',
-    close: 'Close'
+    close: 'Close',
+    registerRequire: 'We will help you register web3 social accout and delegate your posting key to our account after you register Wormhole3. Thanks to the web3 social account need some fee, we will cost some asset to registry, but we can register account for you free if you have BitIP or ENS in your web3 account.',
+    noEns: 'This address has no ENS, please change another address in your wallet.'
   },
   verifyView: {
     p1: 'We have generated your \n mnemonic phrase',
@@ -69,7 +71,9 @@ export default {
     p4: 'Current connect address is not your addres from original page. Please change to {account} in your metamask.',
     address: 'Address',
     confirm: 'Confirm',
-    back: 'Back'
+    back: 'Back',
+    noEns: "There's no ENS of this address, please change another address in your wallet.",
+    ens: "This address binded ENS: {ens}"
   },
   signInView: {
     join: 'Join with one click',

@@ -166,6 +166,7 @@ export const EVM_CHAINS = {
             USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18, icon: 'https://assets-cdn.trustwallet.com/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png'},
             PNUT: {symbol: 'PNUT', name: 'Peanut', address: '0x705931A83C9b22fB29985f28Aee3337Aa10EFE11', decimals: 18}
         },
+        gateAmount: '8000000000000000',
         walnutGraph: {
             useTheGraph: true,
             url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbsc'
@@ -200,6 +201,7 @@ export const EVM_CHAINS = {
             BITUSD: {symbol: 'BITUSD', name: 'BIT USD', address: '0x07373d112EDc4570B46996Ad1187bc4ac9Fb5Ed0', decimals: 18, icon: ''},
             WBTC: {symbol: 'WBTC', name: 'Wrapped BTC', address: '0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F', decimals: 18, icon: ''},
         },
+        gateAmount: '80000000000000',
         Multi_Config: {
             rpcUrl: 'https://rpc.bitlayer.org',
             multicallAddress: '0xc8818aaeaBF0dF9f3f3ffF54Ab185705177A6234',
@@ -233,6 +235,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
             interval: 3000,
         },
+        gateAmount: '8000000000000000000',
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
         oracle: '0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9',
@@ -251,6 +254,7 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/ZjT_zBAS_400x400.png'
         },
+        gateAmount: "1500000000000000",
         walnutGraph: {
             useTheGraph: true,
             url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/wanlutinarbitrum'
@@ -286,6 +290,7 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/base-icon.png'
         },
+        gateAmount: "1500000000000000",
         walnutGraph: {
             useTheGraph: true,
             url: 'https://api.thegraph.com/subgraphs/name/terryyyyyy/walnutinbase'
@@ -318,6 +323,7 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://l2beat.com/icons/linea.png'
         },
+        gateAmount: "1500000000000000",
         walnutGraph: {
             useTheGraph: false,
             url: 'https://linea-graph.nutbox.app/v1/common/search'
@@ -348,6 +354,7 @@ export const EVM_CHAINS = {
             decimals: 18,
             icon: 'https://cdn.wherein.mobi/wormhole3/logo/ENULS.png'
         },
+        gateAmount: "10000000000000000000",
         assets: {
             WNULS: {symbol: 'WNULS', name: 'Wrapped NULS', address: '0x217dffF57E3b855803CE88a1374C90759Ea071bD',decimals: 18, icon: 'https://cdn.wherein.mobi/wormhole3/logo/nuls-token.png'},
 
@@ -403,31 +410,31 @@ export const EVM_CHAINS = {
         popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268',
         communityCuration: '0x1Ac88fa4ec4923835b25b21cE2061b25e0A4b05d'
     },
-    Moonbeam: {
-        rpc: 'https://rpc.api.moonbeam.network',
-        scan: 'https://moonbeam.moonscan.io/',
-        tokenScan: 'https://moonbeam.moonscan.io/token/',
-        chainName: 'MoonBeam',
-        id: 1284,
-        main: {
-            name: 'GLMR',
-            symbol: 'GLMR',
-            decimals: 18,
-            icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
-        },
-        assets: {
-          WGLMR: {symbol: 'WGLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18},
-          USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
-          USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
-          DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
-        },
-        Multi_Config: {
-            rpcUrl: 'https://rpc.api.moonbeam.network',
-            multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
-            interval: 3000
-        },
-        curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
-        popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434',
-        communityCuration: '0xA7E27609a0185721e9CFda1188c6797A6d28f452'
-    }
+    // Moonbeam: {
+    //     rpc: 'https://rpc.api.moonbeam.network',
+    //     scan: 'https://moonbeam.moonscan.io/',
+    //     tokenScan: 'https://moonbeam.moonscan.io/token/',
+    //     chainName: 'MoonBeam',
+    //     id: 1284,
+    //     main: {
+    //         name: 'GLMR',
+    //         symbol: 'GLMR',
+    //         decimals: 18,
+    //         icon: 'https://cdn.wherein.mobi/wormhole3/logo/moonbeam.png'
+    //     },
+    //     assets: {
+    //       WGLMR: {symbol: 'WGLMR', name: 'Wrapped GLMR', address: '0xAcc15dC74880C9944775448304B263D191c6077F', decimals: 18},
+    //       USDC: {symbol: 'USDC', name: 'USD Coin', address: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b', decimals: 6},
+    //       USDT: {symbol: 'USDT', name: 'Tether USD', address: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73', decimals: 6},
+    //       DAI: {symbol: 'DAI', name: 'Dai Stablecoin', address: '0x765277EebeCA2e31912C9946eAe1021199B39C61', decimals: 18},
+    //     },
+    //     Multi_Config: {
+    //         rpcUrl: 'https://rpc.api.moonbeam.network',
+    //         multicallAddress: '0xc3035058E5c81349d881267DeC610B4D4A983a76',
+    //         interval: 3000
+    //     },
+    //     curation: '0x38A096b9cF4Cfb881BaB778Ee8B5437d2A412214',
+    //     popup: '0xF3d821614AD0ECC0AcA83D4b137D2Fde7de51434',
+    //     communityCuration: '0xA7E27609a0185721e9CFda1188c6797A6d28f452'
+    // }
 }
