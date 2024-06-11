@@ -55,6 +55,7 @@ export const SteemScan = 'https://ecosynthesizer.com/steem/'
     IDENTITY_HAS_USED: 112,
     BTC_AUTH_FAIL: 113,
     ENS_MISMATCH: 114,
+    TRANSACTION_INVALID: 115,
 
     INSUFFICIENT_RC: 307,
     INSUFFICIENT_VP: 308,

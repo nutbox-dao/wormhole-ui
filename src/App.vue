@@ -160,7 +160,7 @@ export default {
       this.$store.commit('saveShowLogin', true)
     },
     async monitorPrices() {
-      const [res, res2, res3, res4, res5] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB(), getPriceLinea(), getPriceBase()])
+      const [res, res2, res3, res4, res5] = await Promise.all([getCommon(), getPriceBSC(), getPriceARB()])
       let {prices, vestsToSteem} = res;
       this.$store.commit('saveVestsToSteem', vestsToSteem)
       prices = {

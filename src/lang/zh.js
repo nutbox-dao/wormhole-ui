@@ -69,6 +69,7 @@ export default {
     p2: '对这个地址不满意? \n 前往MetaMask，并更改为不同的地址.',
     p3: '当前地址已通过Twitter {account}注册. 请返回并通过 {account} 登录或更改metamask中的其他帐户.',
     p4: `当前地址与您原应用的地址不匹配，请在小狐狸中切换为该地址：{account}.`,
+    p5: '需要使用付费的地址，请切换回 {account}',
     address: '地址',
     confirm: '确认',
     back: '返回',

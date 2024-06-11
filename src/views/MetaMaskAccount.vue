@@ -63,12 +63,15 @@
           </button>
         </template>
         <template v-else>
-          <div class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
+          <div v-if="idType !== 'payToken'" class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
             {{$t('metamaskView.p2')}}
+          </div>
+          <div v-else-if="canntChangeAddress" class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
+              {{ $t('metamaskView.p5', { account: address }) }}
           </div>
           <button class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
                   @click="confirm"
-                  :disabled="isCheckingAddress || isSigning">
+                  :disabled="isCheckingAddress || isSigning || canntChangeAddress">
             {{$t('metamaskView.confirm')}}
             <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isCheckingAddress || isSigning"></c-spinner>
           </button>
@@ -176,7 +179,8 @@ export default {
       account: '',
       thirdPartInfo: {},
       showMismatchAddress: false,
-      ensName: null
+      ensName: null,
+      canntChangeAddress: false
     }
   },
   computed: {
@@ -234,6 +238,7 @@ export default {
     async checkoutAccount() {
       try {
         this.isCheckingAddress = true
+        this.canntChangeAddress = false
         const account = await getUserByEth(this.account);
         if (account && account.code === 3){
           // registred
@@ -247,9 +252,21 @@ export default {
         }
 
         if (this.identityInfo.type === 'ens') {
+          if (this.account !== this.address) {
+            this.canntChangeAddress = true
+            return
+          }
           const ens = await getEns(this.account)
           this.ensname = ens
           this.identityInfo.assetId = ens
+          this.identityInfo.chainName = 'ETH'
+        }
+
+        if (this.identityInfo.type === 'payToken') {
+          if (this.account !== this.address) {
+            this.canntChangeAddress = true
+            return
+          }
         }
 
         if (this.thirdPartInfo && this.thirdPartInfo.ethAddress.toLowerCase() !== this.account.toLocaleLowerCase()) {

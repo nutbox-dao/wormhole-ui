@@ -116,13 +116,14 @@
                        @skip="$emit('close')"/>
     </div>
     <el-dialog :destroy-on-close="true" :model-value="modalVisible"
+              v-if="authStep === 'choseRegisterMethod'"
                :close-on-click-modal="false" append-to-body
                class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
       <div class="absolute top-0 right-0 w-max p-1rem z-1" @click="modalVisible=false">
         <i class="w-1.2rem h-1.2rem icon-close"></i>
       </div>
       <div v-if="registerMethod==='payToken'"
-           class="px-5 flex justify-center items-center flex-col min-h-40vh">
+           class="px-5 flex justify-center items-center flex-col min-h-30vh">
         <div class="mb-1.8rem mt-1rem w-full">
           <div class="font-bold mb-10px">{{$t('curation.network')}}</div>
           <div class="bg-black/40 border-1 border-color8B/30
@@ -156,15 +157,27 @@
               </template>
             </CustomSelect>
           </div>
+          <div class="flex justify-end mt-3">
+            Balance: {{ formatAmount(selectedBalance.toString() / 1e18) }}
+          </div>
         </div>
-        <div class="w-full flex items-center justify-center gap-x-1rem py-1rem">
+        <div class="w-full flex items-center justify-center gap-x-1rem">
           <button class="gradient-btn flex items-center justify-center
                      h-44px 2xl:h-2.2rem w-full rounded-full text-16px 2xl:text-0.8rem"
                   @click="send"
-                  :disabled="!EVM_CHAINS[selectedChainName] || payLoading">
+                  :disabled="!EVM_CHAINS[selectedChainName] || payLoading || showEthAddressUsed">
             Pay {{ EVM_CHAINS[selectedChainName] ? EVM_CHAINS[selectedChainName].gateAmount / 1e18 + ' ' + EVM_CHAINS[selectedChainName].main.symbol : '' }}
             <c-spinner v-show="payLoading" class="w-1.5rem h-1.5rem ml-0.5rem" color="#6246EA"></c-spinner>
           </button>
+        </div>
+        <div v-if="showEthAddressUsed" class="w-full text-redColor mt-3 flex justify-end">
+          <div class="flex items-start mb-2rem">
+            <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
+            <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
+                 style="word-break: break-word"
+                 v-html="$t('metamaskView.p3', {account: `<strong class='text-color62 c-text-black'>${username}</strong>`})">
+            </div>
+          </div>
         </div>
       </div>
       <div v-if="registerMethod==='bitIp'" class="flex justify-center items-center flex-col min-h-40vh">
@@ -197,8 +210,8 @@ import {EVM_CHAINS} from "@/chain-config";
 import { CHAIN_NAME, GateFeeAddress } from "@/config";
 import { isTokenExpired } from '@/utils/account'
 import { notify } from "@/utils/notify";
-import { sleep } from '@/utils/helper'
-import { twitterLogin, twitterAuth, getUserBitip, checkRegistedIdentity } from '@/api/api'
+import { sleep, formatAmount } from '@/utils/helper'
+import { twitterLogin, twitterAuth, getUserBitip, checkRegistedIdentity, getUserByEth } from '@/api/api'
 import Cookie from 'vue-cookies'
 import { randomWallet } from '@/utils/ethers'
 import CreateAccount from "@/views/CreateAccount";
@@ -212,7 +225,7 @@ import { mapState } from 'vuex'
 import { connectUnisat as cu, signMessage } from '@/utils/web3/btc';
 import CustomSelect from "@/components/CustomSelect";
 import {accountChanged, getAccounts} from "@/utils/web3/account";
-import { sendAssetTo } from "@/utils/web3/web3";
+import { sendAssetTo, getBalanceOfUser } from "@/utils/web3/web3";
 
 
 
@@ -245,9 +258,11 @@ export default {
       btcAddress: '',
       btcPubkey: '',
       identityInfo: {},
+      username: '',
       modalVisible: false,
       checkingEns: false,
       registerMethod: '',
+      showEthAddressUsed: false,
       payTokenForm: {
         chain: '',
         address: '',
@@ -295,9 +310,24 @@ export default {
     // ...mapGetters(['getPrivateKey'])
   },
   methods: {
+    formatAmount,
     onChoseRegisterMethod(method) {
+      this.$store.commit('saveIdType', method)
       this.registerMethod = method
       this.modalVisible = true
+      accountChanged(async acc => {
+        const b = await getBalanceOfUser(this.walletAddress)
+        this.selectedBalance = b
+        const account = await getUserByEth(this.account);
+        if (account && account.code === 3){
+          // registred
+          this.showEthAddressUsed = true
+          this.username = account.account.twitterUsername
+          return;
+        }else {
+          this.showEthAddressUsed = false
+        }
+      })
     },
     selectChain(chain){
       this.payTokenForm.chain = chain
@@ -313,13 +343,14 @@ export default {
       this.payTokenForm.amount = amount
       this.payTokenForm.emoji = null;
     },
-    selectBalance(balance) {
-      this.selectedBalance = balance
-    },
     async send() {
       try{
         this.payLoading = true
         const hash = await sendAssetTo(GateFeeAddress, EVM_CHAINS[this.selectedChainName].gateAmount)
+        this.identityInfo.type = 'payToken'
+        this.identityInfo.chain = this.selectedChainName
+        this.identityInfo.assetId = hash
+        await this.connectMetamask()
       } catch(e) {
         console.log(333, e)
       } finally {
@@ -493,13 +524,16 @@ export default {
         const connected = await setupNetwork(chain)
         if (connected) {
           this.selectedChainName = chain;
+          this.identityInfo.chainName = chain
           this.walletAddress = await getAccounts(true);
+          const b = await getBalanceOfUser(this.walletAddress)
+          this.selectedBalance = b
         }else {
           this.selectedChainName = null;
           this.walletAddress = null;
         }
       } catch (e) {
-        this.$emit('chainChange', null)
+        console.log(e)
         this.selectedChainName = null
         this.walletAddress = null
         notify({message: 'Connect metamask fail', duration: 5000, type: 'error'})
