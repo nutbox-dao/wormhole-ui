@@ -243,7 +243,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'choseRegisterMethod',
+      authStep: 'login',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
