@@ -296,7 +296,7 @@ export default {
       // if (loginInfo.pair) {
       //   this.pair = loginInfo.pair
       // }
-      this.authStep = 'connectBtc';
+      this.authStep = 'choseRegisterMethod';
     }
   },
   beforeUnmount() {
