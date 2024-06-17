@@ -353,6 +353,7 @@ export default {
         await this.connectMetamask()
       } catch(e) {
         console.log(333, e)
+        notify({message: this.$t('err.transErr'), type: 'error'})
       } finally {
         this.payLoading = false
       }
@@ -437,7 +438,7 @@ export default {
               console.log('not register')
               Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
               this.pendingAccount = userInfo.account
-              this.authStep = 'connectBtc';
+              this.authStep = 'choseRegisterMethod';
               return;
             }else if (userInfo.code === 3) { // log in
               this.$store.commit('saveAccountInfo', userInfo.account)
@@ -458,7 +459,7 @@ export default {
             console.log('not register')
             Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
             this.pendingAccount = userInfo.account
-            this.authStep = 'connectBtc';
+            this.authStep = 'choseRegisterMethod';
           }else if (userInfo.code === 3) { // log in
             this.$store.commit('saveAccountInfo', userInfo.account)
             this.$bus.emit('login')

@@ -42,15 +42,18 @@
             <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
                  style="word-break: break-word"
                  v-if="!ensName">
-                 {{ $t('metamaskView.noEns') }}
+                 <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-if="isCheckingAddress || isSigning"></c-spinner>
+                 <span v-else>
+                  {{ $t('metamaskView.noEns') }}
+                 </span>
             </div>
             <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
                  style="word-break: break-word"
                  v-else>
-                 {{ $t('metamaskView.ens', {ens: ensname}) }}
+                 {{ $t('metamaskView.ens', {ens: ensName}) }}
             </div>
           </div>
-          <button v-if="ensname" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
+          <button v-if="ensName" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem flex justify-center items-center"
                   @click="confirm"
                   :disabled="isCheckingAddress || isSigning">
             {{$t('metamaskView.confirm')}}
@@ -188,12 +191,6 @@ export default {
     ...mapState(['referee', 'idType']),
     ...mapGetters(['getAccountInfo'])
   },
-  watch: {
-    account(newValue, oldValue) {
-      if (!this.isCheckingAddress)
-        this.checkoutAccount()
-    }
-  },
   methods: {
     onCopy,
     async send() {
@@ -251,18 +248,14 @@ export default {
           this.isRegister = false
         }
 
-        if (this.identityInfo.type === 'ens') {
-          if (this.account !== this.address) {
-            this.canntChangeAddress = true
-            return
-          }
+        if (this.idType === 'ens') {
           const ens = await getEns(this.account)
-          this.ensname = ens
+          this.ensName = ens
           this.identityInfo.assetId = ens
           this.identityInfo.chainName = 'ETH'
         }
 
-        if (this.identityInfo.type === 'payToken') {
+        if (this.idType === 'payToken') {
           if (this.account !== this.address) {
             this.canntChangeAddress = true
             return
@@ -282,9 +275,9 @@ export default {
     },
     async signup() {
       console.log('signup');
-      this.$gtag.event('sync up with metamask', {
-        method: 'signup'
-      })
+      // this.$gtag.event('sync up with metamask', {
+      //   method: 'signup'
+      // })
       let loginInfo = Cookie.get('account-auth-info');
       Cookie.remove('account-auth-info');
       Cookie.remove('partner-info');
@@ -353,6 +346,9 @@ export default {
     this.checkoutAccount();
     accountChanged(acc => {
       this.account = ethers.utils.getAddress(acc)
+      if (!this.isCheckingAddress) {
+          this.checkoutAccount()
+      }
     })
   },
 }
