@@ -155,6 +155,7 @@ export default {
     promotionReward: '推广奖励',
     spaceReward: 'Space奖励',
     withdraw: '提现',
+    claimFeeDes: '领取奖励会收取费用： {fee}'
   },
   token: {
     noNft: "你当前没有任何NFT.",

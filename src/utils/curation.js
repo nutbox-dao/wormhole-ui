@@ -126,9 +126,9 @@ const abi = [
           "type": "uint256[]"
         },
         {
-          "internalType": "uint256[]",
-          "name": "amounts",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
         },
         {
           "internalType": "bytes",
@@ -138,7 +138,7 @@ const abi = [
       ],
       "name": "claimPrize",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -375,7 +375,9 @@ export const claimRewards = async (chainName, twitterId, ethAddress, ids, amount
         const provider = new ethers.providers.Web3Provider(metamask)
         let contract = new ethers.Contract(curationContract, abi, provider)
         contract = contract.connect(provider.getSigner())
-        const tx = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig)
+        const tx = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig, {
+          value: EVM_CHAINS[chainName].claimFee
+        })
         await waitForTx(provider, tx.hash)
         resolve(tx.hash)
     }catch(e) {
@@ -404,44 +406,13 @@ export const claimCommunityRewards = async (chainName, twitterId, ethAddress, co
     let contract = new ethers.Contract(curationContract, abi, provider); 
     const community = await contract.getCommunityInfo(ethers.BigNumber.from('0x' + communityId));
 
-    const claimAbi = [{
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "twitterId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "curationIds",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bytes",
-          "name": "sign",
-          "type": "bytes"
-        }
-      ],
-      "name": "claimPrize",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }]
     const metamask = await getEthWeb()
     provider = new ethers.providers.Web3Provider(metamask)
-    contract = new ethers.Contract(community.communityAddr, claimAbi, provider);
+    contract = new ethers.Contract(community.communityAddr, abi, provider);
     contract = contract.connect(provider.getSigner());
-    const result = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig);
+    const result = await contract.claimPrize(twitterId, ethAddress, ids, amount, sig, {
+      value: EVM_CHAINS[chainName].claimFee
+    });
     return result.hash;
   } catch (e) {
     console.log('claim rewards fail:', e);
@@ -454,42 +425,12 @@ export const claimPromotionCurationRewards = async (chainName, twitterId, ethAdd
     try {
       const metamask = await getEthWeb()
       const provider = new ethers.providers.Web3Provider(metamask);
-      const abi = [{
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "twitterId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "addr",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "curationIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "sign",
-            "type": "bytes"
-          }
-        ],
-        "name": "claimPrize",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }]
+
       let contract = new ethers.Contract(AutoCurationContract, abi, provider)
       contract = contract.connect(provider.getSigner());
-      const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig)
+      const tx = await contract.claimPrize(twitterId, ethAddress, ids, amounts, sig, {
+        value: EVM_CHAINS[chainName].claimFee
+      })
       await waitForTx(provider, tx.hash);
       resolve(tx.hash)
     } catch (e) {

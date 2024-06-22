@@ -31,6 +31,9 @@
           {{ $t('curation.claimReward') }}
           <c-spinner v-show="claiming" class="w-16px h-16px 2xl:w-1rem 2xl:h-1rem ml-0.5rem"></c-spinner>
         </button>
+        <div class="mt-2">
+          {{ $t('walletView.claimFeeDes', {fee: formatAmount(EVM_CHAINS[EVM_CHAINS_ID[community.chainId]].claimFee / 1e18) + ' ' + EVM_CHAINS[EVM_CHAINS_ID[community.chainId]].main.symbol}) }}
+        </div>
         <div v-if="accountMismatch" class="text-redColor mt-6px text-center">
           {{ $t('walletView.accountMismatch', {account: formatAddress(getAccountInfo.ethAddress) + `(@${getAccountInfo.twitterUsername})`}) }}
         </div>

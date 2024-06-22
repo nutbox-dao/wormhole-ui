@@ -155,6 +155,7 @@ export default {
     promotionReward: 'Promotion reward',
     spaceReward: 'Space reward',
     withdraw: 'Withdraw',
+    claimFeeDes: 'Claim will cost you {fee}'
   },
   token: {
     noNft: "You havn't got any NFTs.",

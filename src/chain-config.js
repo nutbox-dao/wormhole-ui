@@ -177,6 +177,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
             interval: 3000,
         },
+        claimFee: '500000000000000',
         curation: '0x4695c30907E95A2153486D7a6372f3FBc2a89056',
         popup: '0x7f50F5b0393E60D9c3cafdf652C1a900F5973AEB',
         oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550',
@@ -207,6 +208,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0xc8818aaeaBF0dF9f3f3ffF54Ab185705177A6234',
             interval: 3000,
         },
+        claimFee: '5000000000000',
         curation: '0xA643e598364A9dFB3328aD2E70AF6f9E3C477A42',
         communityCuration: '0x39ab47b7F6D2B6874157750440b4948786066283'
 
@@ -235,6 +237,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
             interval: 3000,
         },
+        claimFee: '500000000000000000',
         gateAmount: '8000000000000000000',
         curation: '0x20eD66fD8da443128cd8E4E128BD02Da887dAe55',
         popup: '0x9A6Dc03ceF711926155EFd010AaeF3BDD27be4f4',
@@ -273,6 +276,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x4B6EF997DbF23D320a6616ADf6499f4cdC00AB7c',
             interval: 3000
         },
+        claimFee: '80000000000000',
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
         oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
@@ -306,6 +310,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
             interval: 3000
         },
+        claimFee: '80000000000000',
         curation: '',
         popup: '',
         oracle: '0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8',
@@ -336,6 +341,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
             interval: 3000
         },
+        claimFee: '50000000000000',
         rewardCalculatorAddress: '0xF21649D901A082772Bd7B5d5eD5039C7a43A5789',
         curation: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
         popup: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
@@ -406,6 +412,7 @@ export const EVM_CHAINS = {
             multicallAddress: '0x383870Ae4E834155192cEce2fb5B0528CE0790E9',
             interval: 3000
         },
+        claimFee: '1000000000000000000',
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         popup: '0xA55deCFdcc7B57f67f4E60DfF6a8226A4cEcC268',
         communityCuration: '0x1Ac88fa4ec4923835b25b21cE2061b25e0A4b05d'
