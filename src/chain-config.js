@@ -183,6 +183,33 @@ export const EVM_CHAINS = {
         oracle: '0xfbD61B037C325b959c0F6A7e69D8f37770C2c550',
         communityCuration: '0x6534b7A5a4dbF65b6DE92fF60dfB25f4Fdb7636B'
     },
+    BEVM: {
+        rpc: 'https://rpc-mainnet-1.bevm.io',
+        scan: 'https://scan-mainnet.bevm.io',
+        chainName: 'BEVM',
+        tokenScan: 'https://scan-mainnet.bevm.io/',
+        tokenScan: 'https://scan-mainnet.bevm.io/tokens',
+        id: 11501,
+        main: {
+            name: 'BTC',
+            symbol: 'BTC',
+            icon: 'https://pbs.twimg.com/profile_images/1738138565874425856/xOG10LN0_400x400.jpg',
+            decimals: 18
+        },
+        assets: {
+            USDT: {symbol: 'ORDINALS•RU', name: 'ORDINALS•RUNES', address: '0x041bbB9c16fDBa8C805565D0bB34931e37895EC9', decimals: 0, icon: ''},
+            USDC: {symbol: 'SAT', name: 'Statoshi Stablecoin', address: '0xF2692468666E459D87052f68aE474E36C1a34fbB', decimals: 18, icon: ''},
+            WBTC: {symbol: 'WBTC', name: 'Wrapped BTC', address: '0xB5136FEba197f5fF4B765E5b50c74db717796dcD', decimals: 18, icon: ''},
+        },
+        gateAmount: '50000000000000',
+        Multi_Config: {
+            rpcUrl: 'https://rpc-mainnet-1.bevm.io',
+            multicallAddress: '0xa7487A536968Be0D563901aeb3Fc07B099e2fb04',
+            interval: 3000,
+        },
+        claimFee: '5000000000000',
+        communityCuration: '0xA643e598364A9dFB3328aD2E70AF6f9E3C477A42'
+    },
     Bitlayer: {
         rpc: 'https://rpc.bitlayer.org',
         scan: 'https://www.btrscan.com',
@@ -202,7 +229,7 @@ export const EVM_CHAINS = {
             BITUSD: {symbol: 'BITUSD', name: 'BIT USD', address: '0x07373d112EDc4570B46996Ad1187bc4ac9Fb5Ed0', decimals: 18, icon: ''},
             WBTC: {symbol: 'WBTC', name: 'Wrapped BTC', address: '0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F', decimals: 18, icon: ''},
         },
-        gateAmount: '80000000000000',
+        gateAmount: '50000000000000',
         Multi_Config: {
             rpcUrl: 'https://rpc.bitlayer.org',
             multicallAddress: '0xc8818aaeaBF0dF9f3f3ffF54Ab185705177A6234',
@@ -211,7 +238,6 @@ export const EVM_CHAINS = {
         claimFee: '5000000000000',
         curation: '0xA643e598364A9dFB3328aD2E70AF6f9E3C477A42',
         communityCuration: '0x39ab47b7F6D2B6874157750440b4948786066283'
-
     },
     Polygon: {
         rpc: 'https://polygon-rpc.com',
