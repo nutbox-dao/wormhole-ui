@@ -96,7 +96,7 @@
       <button class="h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center
                      text-color8B light:text-color7D underline font-bold"
               :disabled="!!thirdPartInfo.ethAddress"
-              @click="authStep = 'create'">
+              @click="createNewAddress">
         {{$t('signUpView.createAccount')}}
       </button>
     </div>
@@ -106,13 +106,13 @@
                      :identity-info="identityInfo"
                      :pair="pair"
                      @skip="$emit('close')"
-                     @back="authStep='choseRegisterMethod'"
+                     @back="authStep='select'"
                      @send="sendTwitter($event)"></CreateAccount>
       <MetaMaskAccount v-if="authStep==='metamask'"
                        :address="walletAddress"
                        :identity-info="identityInfo"
                        :pair="pair"
-                       @back="authStep='choseRegisterMethod'"
+                       @back="authStep='select'"
                        @skip="$emit('close')"/>
     </div>
     <el-dialog :destroy-on-close="true" :model-value="modalVisible"
@@ -243,7 +243,7 @@ export default {
       showRegistering: false,
       showNotSendTwitter: false,
       connecting: false,
-      authStep: 'login',
+      authStep: 'select',
       generatingKeys: false,
       showPrivateKey: false,
       ethAddress: '',
@@ -278,14 +278,8 @@ export default {
   },
   mounted() {
     let loginInfo = Cookie.get('account-auth-info');
-    let thirdPartInfo = Cookie.get('partner-info');
     if (loginInfo) {
       this.pendingAccount = loginInfo
-      if (thirdPartInfo) {
-        this.thirdPartInfo = thirdPartInfo;
-        this.connectMetamask()
-        return;
-      }
       this.setTimer(() => {
         randomWallet().then(wallet => this.wallet = wallet)
         createKeypair().then(pair => this.pair = pair)
@@ -296,7 +290,9 @@ export default {
       // if (loginInfo.pair) {
       //   this.pair = loginInfo.pair
       // }
-      this.authStep = 'choseRegisterMethod';
+      // this.authStep = 'choseRegisterMethod';
+      
+      this.authStep = 'select'
     }
   },
   beforeUnmount() {
@@ -343,6 +339,7 @@ export default {
       this.payTokenForm.amount = amount
       this.payTokenForm.emoji = null;
     },
+    // pay asset to register
     async send() {
       try{
         this.payLoading = true
@@ -472,6 +469,12 @@ export default {
       }finally {
         this.loging = false
       }
+    },
+    async createNewAddress() {
+      if (Object.keys(this.wallet).length == 0) {
+        this.wallet = await randomWallet()
+      }
+      this.authStep = 'create'
     },
     async connectUnisat() {
       try{

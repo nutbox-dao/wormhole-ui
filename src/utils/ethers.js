@@ -67,18 +67,29 @@ export const generateBrainKey = (key) => {
 }
 
 export const randomWallet = async () => {
+  console.log(5)
   return new Promise(async (resolve) => {
     try {
       const wallet = ethers.Wallet.createRandom();
       const nemonic = wallet.mnemonic.phrase;
       const privateKey = wallet.privateKey;
       const address = await wallet.getAddress();
-      resolve({nemonic, privateKey, address})
+      console.log(3, nemonic)
+      resolve({nemonic, privateKey, address, wallet})
     } catch (error) {
+      console.log(4, error)
       console.log('generate random nemonic fail');
       resolve(false)
     }
   })
+}
+
+export const signMessage = async (wallet, message) => {
+    try {
+      return await wallet.signMessage(message)
+    } catch (e) {
+      console.log('sign message fail')
+    }
 }
 
 const balanceAbi = [{

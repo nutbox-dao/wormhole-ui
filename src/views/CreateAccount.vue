@@ -21,10 +21,17 @@
           <div class="max-w keep-all text-left text-0.9rem lg:text-0.75rem leading-1.2rem text-color8B light:text-color6F">
             {{$t('verifyView.p2')}}
           </div>
-          <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem mt-1.25rem"
+          <div class="py-1.6rem rounded-b-12px flex justify-center items-center">
+            <button class="mr-3rem gradient-btn gradient-btn-disabled-grey c-text-black h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
+                  @click="$emit('back')">
+                  {{$t('verifyView.back')}}
+            </button>
+            
+          <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
                   @click="randomIndex();showSaveKey=true">
             {{$t('verifyView.saveBtn')}}
           </button>
+          </div>
         </template>
         <template v-else>
           <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-1rem" style="word-break: break-word">
@@ -65,74 +72,23 @@
                   {{$t('verifyView.back')}}
             </button>
             <button class="c-text-black gradient-btn h-3.6rem max-h-65px w-full rounded-full text-1rem flex justify-center items-center"
-                  :disabled="!checked || !wordsChecked"
-                  @click="step=2">
-              {{$t('verifyView.sureBtn')}}
+                  :disabled="!checked || !wordsChecked || isSigningup"
+                  @click="bondEth">
+              {{ isSigningup?$t('verifyView.verifying'):$t('verifyView.sureBtn') }}
+            <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
             </button>
           </div>
         </template>
-      </div>
-      <div v-if="step===2">
-        <template v-if="authError">
-          <div class="min-h-13rem">
-            <img class="w-5rem h-5rem mx-auto" src="~@/assets/icon-error-red.svg" alt="">
-            <div class="text-redColor text-center font-700 mt-1rem">Error!</div>
-          </div>
-          <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem max-h-65px w-full rounded-full
-                      w-full mb-2.3rem text-1rem mt-1.25rem"
-                  @click="$emit('back')">
-            {{$t('verifyView.back')}}
-          </button>
-        </template>
-        <template v-else>
-          <img class="w-5rem mx-auto mb-2rem" src="~@/assets/icon-record.svg" alt="">
-          <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
-            {{$t('verifyView.p3')}}
-          </div>
-          <button class="flex items-center justify-center c-text-black gradient-btn gradient-btn-disabled-grey
-                         h-3.6rem max-h-65px w-full rounded-full
-                         w-full mb-2.3rem text-1rem mt-1.25rem"
-                  :disabled="isSigningup"
-                  @click="signup">
-            {{isSigningup?$t('verifyView.verifying'):$t('verifyView.verify')}}
-            <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="isSigningup"></c-spinner>
-          </button>
-        </template>
-      </div>
-      <div v-if="step===3">
-        <img class="w-5rem h-5rem mx-auto mb-2rem" src="~@/assets/icon-success-login.svg" alt="">
-        <div class="keep-all c-text-black gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto">
-          {{$t('verifyView.p9')}}
-        </div>
-        <div class="keep-all gradient-text bg-purple-white light:bg-text-color17 whitespace-pre-line text-1.4rem leading-2.3rem mx-auto mb-2rem">
-          {{$t('verifyView.p10')}}
-        </div>
-        <button class="flex items-center justify-center c-text-black gradient-btn
-                      h-3.6rem max-h-65px w-full rounded-full
-                      w-full text-1rem mt-1.25rem"
-                @click="send">
-          {{$t('verifyView.postBtn')}}
-        </button>
-        <button class="text-1rem text-color8B underline mt-1rem"
-                @click="$emit('skip')">
-          {{$t('verifyView.skip')}}
-        </button>
-      </div>
-      <div class="flex justify-center mt-1.5rem">
-        <span class="w-10px h-10px block rounded-full mx-10px"
-              :class="step>=i?'bg-color62':'bg-color84/30'"
-              v-for="i of [1, 2, 3]" :key="i"></span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { register, check } from '@/api/api'
-import { randomWallet } from '@/utils/ethers'
+import { register, check, bondEth } from '@/api/api'
+import { randomWallet, signMessage } from '@/utils/ethers'
 import { box, createKeypair } from '@/utils/tweet-nacl'
-import { SendPwdServerPubKey, errCode } from '@/config'
+import { SendPwdServerPubKey, errCode, BondEthAccountMessage } from '@/config'
 import { notify } from "@/utils/notify";
 import { onCopy } from "@/utils/tool";
 import { generateSteemAuth } from '@/utils/steem'
@@ -145,7 +101,7 @@ export default {
   props: {
     wallet: {
       type: Object,
-      default: {}
+      default: null
     },
     pair: {
       type: Object,
@@ -217,6 +173,42 @@ export default {
       this.indexArray = this.indexArray.sort((a,b) => a - b);
 
     },
+
+    async bondEth() {
+      this.isSigningup = true
+      let loginInfo = Cookie.get('account-auth-info');
+      Cookie.remove('account-auth-info');
+      Cookie.remove('partner-info');
+      if (loginInfo) {
+        try {
+          this.$store.commit('saveAccountInfo', {...loginInfo, ethAddress: this.wallet.address})
+          const signature = await signMessage(this.wallet.wallet, BondEthAccountMessage)
+
+          await bondEth({
+            ethAddress: this.wallet.address,
+            signature,
+            infoStr: BondEthAccountMessage
+          })
+          this.$emit('skip')
+        }catch(e) {
+          console.log('register fail', e);
+          if (e == errCode.IDENTITY_HAS_USED) {
+            this.showNotify('The identity has been used, please chose another one', 3000, 'info')
+          } else if(e == errCode.BTC_AUTH_FAIL) {
+            this.showNotify('The signature is invalid', 3000, 'info')
+          }
+        }finally {
+          this.isSigningup = false
+        }
+      }else {
+        // not authed
+        // this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        // this.step = 0
+        // this.$emit('back');
+        this.authError = true
+      }
+    },
+
     async signup() {
       this.$gtag.event('sync up with new account', {
         method: 'signup'
@@ -254,6 +246,7 @@ export default {
             this.$store.commit('saveAccountInfo', res.account)
             // signup success
             this.step = 3;
+            this.$emit('skip')
           }
         }catch(e) {
           console.log('register fail', e);
@@ -281,7 +274,8 @@ export default {
   },
   async mounted () {
     this.$gtag.pageview('/create-new-account')
-    if (!this.wallet && !this.wallet.address) {
+
+    if (Object.keys(this.wallet).length == 0) {
       await sleep(0.6);
       randomWallet().then(wallet => {
         this.wallet = wallet

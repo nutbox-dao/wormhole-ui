@@ -32,6 +32,9 @@ export const twitterLogin = async(state) =>
 export const twitterRefreshAccessToken = async (twitterId) =>
     post(BACKEND_API_URL + '/auth/refresh', {twitterId})
 
+export const bondEth = async (params) =>
+    post(BACKEND_API_URL + '/users/bondEth', params)
+
 export const logout = async (twitterId) =>
     get(BACKEND_API_URL + '/auth/logout', {twitterId})
 
