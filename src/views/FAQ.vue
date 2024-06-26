@@ -31,14 +31,15 @@
                 <div>
                   在虫洞3平台或在推特上直接发布一条宣传自己社区的推文，并带上虫洞3平台的识别标签<strong class="text-color62 c-text-black">#iweb3</strong>
                   以及自己社区的特有标签（如Memeferc-20社区的标签是 <strong  class="text-color62 c-text-black">#ferc</strong>）
-                  即可。如果有人对你的推文进行喜欢、引用、转发等操作，你可以获取到针对内容创建者的贡献激励。
+                  即可。如果有人对你的推文进行喜欢、转发等操作，你可以获取到针对内容创建者的贡献激励。
+                  对于觉得优秀的推文，你还可以引用推文发帖，带上相应的标签，也可以创建策展。
                 </div>
               </li>
               <li>
                 <div class="c-text-black">策展内容：</div>
                 <ul class="list-alpha pl-15px">
-                  <li>在虫洞3平台上对别人发布的推文进行喜欢、引用、转发等操作，即为策展行为。你可以获取到相应的策展者激励。</li>
-                  <li>在推特上对别人发布的推文进行引用（记得带上#iweb3和社区特有标签），即把此条推文内容带上链并为其策展。你可以获取到相应的策展者激励。</li>
+                  <li>在虫洞3平台上对别人发布的推文进行喜欢、转发操作，即为策展行为。你可以获取到相应的策展者激励。</li>
+                  <li>目前，你只能在虫洞3平台上完成策展操作</li>
                 </ul>
                 <div class="mt-15px">举例如下：</div>
                 <img src="~@/assets/faq-2.webp" alt="">
@@ -140,12 +141,12 @@
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">引用</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">20</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">20</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">回复</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">关注</td>
@@ -229,30 +230,22 @@
                   <strong class="text-color62 c-text-black">#iweb3</strong>
                   and your community's unique tag (e.g., the tag for the Memeferc-20 community is
                   <strong  class="text-color62 c-text-black">#ferc</strong>).
-                  By doing so, if other Wormhole3 users like, quote, or retweet your tweet, you can earn incentives as the
+                  By doing so, if other Wormhole3 users like or retweet your tweet, you can earn curation rewards.
                 </div>
               </li>
               <li>
                 <div class="c-text-black">Curate content: </div>
                 <ul class="list-alpha pl-15px">
                   <li>
-                    When you <strong class="text-colorA2">like</strong> and <strong class="text-colorA2">quote</strong>
+                    When you <strong class="text-colorA2">like</strong> and <strong class="text-colorA2">retweet</strong>
                     posts on Wormhole3 , it’s considered curating content,
                     and you can earn curator rewards. Take note that Twitter and Wormhole3 data is not 100% synced,
                     so you are advised to perform <strong class="text-colorA2">like</strong> and
-                    <strong class="text-colorA2">quote</strong> directly on Wormhole3 to ensure
+                    <strong class="text-colorA2">retweet</strong> directly on Wormhole3 to ensure
                     that you’re eligible for curator rewards.
                   </li>
                   <li>
-                    If you choose to operate on Twitter, make sure you’ve been active for the past 3 days on Wormhole3,
-                    and take note to <strong class="text-colorA2">quote</strong>
-                    with <strong class="text-color62 c-text-black">#iweb3</strong>
-                    and the community-specific tag for the curation to be synced
-                  </li>
-                  <li>
-                    Quote a post on Twitter directly with <strong class="text-color62 c-text-black">#iweb3</strong>
-                    and the community-specific tag,
-                    you are bringing the post on-chain and you can earn curator rewards.
+                    Please note that you can only curate tweet on Wormhole3.
                   </li>
                 </ul>
                 <div class="mt-15px">For instance: </div>
@@ -392,12 +385,12 @@
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Quote</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">20</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">20</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Reply</td>
                   <td class="border-r-1 border-white h-34px px-8px w-120px">5</td>
-                  <td class="border-r-1 border-white h-34px px-8px w-140px">5</td>
+                  <td class="border-r-1 border-white h-34px px-8px w-140px">0</td>
                 </tr>
                 <tr class="border-b-1 border-white">
                   <td class="border-r-1 border-white h-34px px-8px w-90px">Follow</td>

@@ -22,6 +22,7 @@ function checkRC(consume) {
 }
 
 function updateUserVpLocal(consume) {
+    if (consume === 0) return true;
     const vpInfo = store.state.vpInfo;
     const vp = store.state.vp;
     if (vp >= consume && vpInfo.lastUpdateTime > 0) {

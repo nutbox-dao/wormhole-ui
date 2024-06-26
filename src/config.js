@@ -124,10 +124,10 @@ export const IgnoreAuthor = [
 
 // vp consume
 export const VP_CONSUME = Object.freeze({
-    QUOTE: 20,
+    QUOTE: 0,
     RETWEET: 15,
     LIKE: 3,
-    COMMENT: 5,
+    COMMENT: 0,
 });
 // rc consume
 export const RC_CONSUME = Object.freeze({
