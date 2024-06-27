@@ -1,6 +1,5 @@
 <template>
   <div class="login-view">
-    
     <div v-if="authStep === 'choseRegisterMethod'">
       <div>
         <div class="">{{ $t('signUpView.registerRequire') }}</div>
