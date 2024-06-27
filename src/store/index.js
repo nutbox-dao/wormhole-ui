@@ -36,6 +36,7 @@ export default Vuex.createStore({
     luckyCardsNFT: {},
     curatorNFT: 0,
     showLogin: false,
+    showRegister: false,
     getCardVisible: false,
     newCardId: 0,
     bindNewAccountInfo: {},
@@ -156,6 +157,9 @@ export default Vuex.createStore({
     },
     saveShowLogin: (state, showLogin) => {
       state.showLogin = showLogin
+    },
+    saveShowRegister: (state, showRegister) => {
+      state.showRegister = showRegister
     },
     saveGetCardVisible: (state, getCardVisible) => {
       state.getCardVisible = getCardVisible

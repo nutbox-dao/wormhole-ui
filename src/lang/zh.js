@@ -73,7 +73,7 @@ export default {
     address: '地址',
     confirm: '确认',
     back: '返回',
-    noEns: "该地址没有ENS，请在钱包中切换包含ENS的地址",
+    noEns: "该地址没有ENS。",
     ens: "该地址的ENS为：{ens}。"
   },
   signInView: {

@@ -65,12 +65,12 @@
           </button>
         </template>
       </Menu>
-      <router-link v-if="getAccountInfo" to="/create-curation" class="flex-1 w-full" v-slot="{isActive}">
-        <button  class="w-full h-44px flex justify-center items-center bg-color62 text-white rounded-full">
+      <div v-if="getAccountInfo" class="flex-1 w-full">
+        <button @click="create" class="w-full h-44px flex justify-center items-center bg-color62 text-white rounded-full">
           <span class="mr-8px font-bold">{{$t('slider.create')}}</span>
           <img class="w-16px h-16px" src="~@/assets/icon-add-white.svg" alt="">
         </button>
-      </router-link>
+      </div>
     </div>
     <div class="px-15px xl:px-1rem 2xl:px-2rem">
       <button v-if="!getAccountInfo"
@@ -177,6 +177,14 @@ export default {
   methods: {
     replaceEmptyImg(e) {
       e.target.src = emptyAvatar;
+    },
+    create() {
+      if (!this.getAccountInfo.steemId) {
+        // register steem
+        this.$store.commit('saveShowRegister', true)
+        return
+      }
+      this.$router.push('/create-curation')
     },
     gotoTwitter() {
       window.open(

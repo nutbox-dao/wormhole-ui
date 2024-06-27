@@ -19,7 +19,7 @@
             <img class="mr-10px w-1.3rem xl:mt-3px" src="~@/assets/icon-warning-primary.svg" alt="">
             <div class="whitespace-pre-line text-left text-color8B light:text-color46 font-bold text-0.8rem leading-1.3rem"
                  style="word-break: break-word"
-                 v-html="$t('metamaskView.p4', {account: `<strong class='text-color62 c-text-black'>${thirdPartInfo.ethAddress || '0x'}</strong>`})">
+                 v-html="$t('metamaskView.p4', {account: `<strong class='text-color62 c-text-black'>${thirdPartInfo?.ethAddress || getAccountInfo.ethAddress}</strong>`})">
             </div>
           </div>
         </template>
@@ -31,7 +31,7 @@
                  v-html="$t('metamaskView.p3', {account: `<strong class='text-color62 c-text-black'>@${username || 'Pipi'}</strong>`})">
             </div>
           </div>
-          <button v-show="!thirdPartInfo?.ethAddress" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
+          <button v-show="true" class="c-text-black w-full gradient-btn h-3.6rem max-h-65px px-2.5rem mx-auto rounded-full text-1rem mt-1.25rem"
                   @click="$emit('back')">
             {{$t('metamaskView.back')}}
           </button>
@@ -124,11 +124,11 @@
         <button class="flex items-center justify-center c-text-black gradient-btn
                       h-3.6rem max-h-65px w-full rounded-full
                       w-full text-1rem mt-1.25rem"
-                @click="send();gotoThirdPartner()">
+                @click="send()">
           {{$t('verifyView.postBtn')}}
         </button>
         <button class="text-1rem text-color8B underline mt-1rem"
-                @click="gotoThirdPartner();$emit('skip')">
+                @click="$emit('skip')">
           {{$t('verifyView.skip')}}
         </button>
       </div>
@@ -152,7 +152,7 @@ import Cookie from 'vue-cookies'
 import  { sleep } from '@/utils/helper'
 
 export default {
-  name: "MetaMaskAccount",
+  name: "RegisterSteemWithEVM",
   props: {
     address: {
       type: String,
@@ -201,37 +201,24 @@ export default {
       notify({message, duration, type})
     },
     async confirm() {
-      this.$gtag.event('sync up with metamask', {
-        method: 'confirm'
-      })
       if(this.isRegister){
         this.$emit('back')
       }else {
         try{
           this.isSigning = true
-          const signature = await signMessage(BondEthAccountMessage, this.account)
+          const signature = await signMessage(SignUpMessage, this.getAccountInfo.ethAddress)
           if (!signature) {
             this.showNotify(this.$t('tips.dismatchAddress'), 5000, 'error')
             return;
           }
-          let loginInfo = Cookie.get('account-auth-info');
-          this.$store.commit('saveAccountInfo', loginInfo)
-          await bondEth({
-            twitterId: loginInfo.twitterId,
-            ethAddress: this.account,
-            signature,
-            infoStr: BondEthAccountMessage,
-            referee: this.referee
-          })
-          this.$emit('skip')
-          return;
+          
           const salt = bytesToHex(ethers.utils.randomBytes(4))
           let pair = this.pair;
           await sleep(0.6);
           if (!pair.privateKey) {
             pair = await createKeypair();
           }
-          const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
+          const pwd = box(generateSteemAuth(signature.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
           this.pwd = pwd,
           this.salt = salt
           this.sendPubKey = pair.publicKey
@@ -247,16 +234,21 @@ export default {
       try {
         this.isCheckingAddress = true
         this.canntChangeAddress = false
+        this.showMismatchAddress = false
         const account = await getUserByEth(this.account);
-        if (account && account.code === 3){
+        if (account && account.account && account.account?.ethAddress){
           // registred
-          this.username = account.account.twitterUsername
-          this.isRegister = true;
-          return;
-        }else {
-          // not registred
-          this.username = ''
-          this.isRegister = false
+          if (this.getAccountInfo.twitterUsername !== account.account.twitterUsername) {
+            this.username = account.account.twitterUsername
+            this.isRegister = true;
+            return;
+          }
+        }
+
+        if (this.account !== this.getAccountInfo.ethAddress) {
+          this.canntChangeAddress = true
+          this.showMismatchAddress = true
+          return
         }
 
         if (this.idType === 'ens') {
@@ -264,19 +256,6 @@ export default {
           this.ensName = ens
           this.identityInfo.assetId = ens
           this.identityInfo.chainName = 'ETH'
-        }
-
-        if (this.idType === 'payToken') {
-          if (this.account !== this.address) {
-            this.canntChangeAddress = true
-            return
-          }
-        }
-
-        if (this.thirdPartInfo && this.thirdPartInfo.ethAddress.toLowerCase() !== this.account.toLocaleLowerCase()) {
-          this.showMismatchAddress = true
-        }else {
-          this.showMismatchAddress = false
         }
       } catch(e) {
 
@@ -286,67 +265,43 @@ export default {
     },
     async signup() {
       console.log('signup');
-      // this.$gtag.event('sync up with metamask', {
-      //   method: 'signup'
-      // })
-      let loginInfo = Cookie.get('account-auth-info');
-      Cookie.remove('account-auth-info');
-      Cookie.remove('partner-info');
-      if (loginInfo) {
-        try {
-          this.isSigningup = true
-          const { accessToken, twitterId } = loginInfo;
-          let params = {
-            accessToken,
-            twitterId,
-            referee: this.referee,
-            sendPubKey: this.sendPubKey,
-            pwd: this.pwd,
-            ethAddress: this.account,
-            isMetamask: 1,
-            salt: this.salt,
-            identityInfo: 
-            {
-              ...this.identityInfo,
-              type: this.idType
-            }
+      try {
+        this.isSigningup = true
+        const { accessToken, twitterId } = this.getAccountInfo;
+        let params = {
+          accessToken,
+          twitterId,
+          sendPubKey: this.sendPubKey,
+          pwd: this.pwd,
+          salt: this.salt,
+          identityInfo: 
+          {
+            ...this.identityInfo,
+            type: this.idType
           }
-          await register(params);
-          // checkout register progress
-          const res = await check({accessToken, twitterId})
-          if (res && res.code === 3) {
-            this.$gtag.event('sync up with metamask ok', {
-              method: 'signup'
-            })
-            this.$store.commit('saveAccountInfo', res.account)
-            // signup success
-            this.step = 3;
-          }
-        }catch(e) {
-          console.log(532, e);
-          if (e == errCode.IDENTITY_HAS_USED) {
-            this.showNotify('The identity has been used, please chose another one', 3000, 'info')
-          } else if(e == errCode.BTC_AUTH_FAIL) {
-            this.showNotify('The signature is invalid', 3000, 'info')
-          }else {
-            this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
-          }
-        }finally {
-          this.isSigningup = false
         }
-      }else {
-        // not authed
-        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
-        this.step = 0
-        this.$emit('back');
-        this.authError = true
-      }
-    },
-    gotoThirdPartner() {
-      if (this.thirdPartInfo && this.thirdPartInfo.callback && this.getAccountInfo) {
-        window.location = this.thirdPartInfo.callback.indexOf('?') === -1 
-            ? this.thirdPartInfo.callback + `?originalAddress=${this.thirdPartInfo.ethAddress}&twitterId=${this.getAccountInfo.twitterId}&ethAddress=${this.getAccountInfo.ethAddress}`
-            : this.thirdPartInfo.callback + `&originalAddress=${this.thirdPartInfo.ethAddress}&twitterId=${this.getAccountInfo.twitterId}&ethAddress=${this.getAccountInfo.ethAddress}`;
+        await register(params);
+        // checkout register progress
+        const res = await check({accessToken, twitterId})
+        if (res && res.code === 3) {
+          this.$gtag.event('sync up with metamask ok', {
+            method: 'signup'
+          })
+          this.$store.commit('saveAccountInfo', res.account)
+          // signup success
+          this.step = 3;
+        }
+      }catch(e) {
+        console.log(532, e);
+        if (e == errCode.IDENTITY_HAS_USED) {
+          this.showNotify('The identity has been used, please chose another one', 3000, 'info')
+        } else if(e == errCode.BTC_AUTH_FAIL) {
+          this.showNotify('The signature is invalid', 3000, 'info')
+        }else {
+          this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        }
+      }finally {
+        this.isSigningup = false
       }
     }
   },
@@ -356,6 +311,7 @@ export default {
     this.$gtag.pageview('/metamask')
     this.checkoutAccount();
     accountChanged(acc => {
+      console.log(555, acc)
       this.account = ethers.utils.getAddress(acc)
       if (!this.isCheckingAddress) {
           this.checkoutAccount()

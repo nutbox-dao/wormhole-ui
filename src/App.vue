@@ -10,6 +10,8 @@
                  @setSelectTag="setSelectTag"
                  @gotoUser="gotoUser"
                  class="hidden 2md:flex c-page-header"></HeaderWeb>
+
+{{showRegister}}sdafksadglfkhjkljho
       <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
       <div class="flex-1 overflow-hidden flex">
         <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
@@ -72,6 +74,18 @@
           </div>
         </div>
       </el-dialog>
+
+      <el-dialog :destroy-on-close="true" :model-value="showRegister"
+                 :show-close="false"
+                 :close-on-click-modal="true"
+                 class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem relative">
+        <div class="relative min-h-20rem">
+          <div class="w-max p-1rem ml-auto mr-0" @click="$store.commit('saveShowRegister', false)">
+            <i class="w-1.2rem h-1.2rem icon-close"></i>
+          </div>
+          <LoginSteem class="px-2rem pb-2rem" ref="loginRef" @close="$store.commit('saveShowRegister', false)"/>
+        </div>
+      </el-dialog>
     </div>
   </el-config-provider>
 </template>
@@ -92,6 +106,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { getProfile, getCommon, getPriceBSC, getPriceARB, getPriceLinea, searchUsers, searchCommunityByName,
   hasNewNoti,searchTags, getUserVPRC, twitterLogin, getPriceBase } from '@/api/api'
 import Login from '@/views/Login.vue'
+import LoginSteem from '@/views/LoginSteem.vue'
 import { MAX_VP, VP_RECOVER_DAY, MAX_RC, RC_RECOVER_DAY } from './config';
 import Cookie from 'vue-cookies'
 import BottomTabbar from "@/components/layout/BottomTabbar";
@@ -101,7 +116,7 @@ import HeaderWeb from "@/components/layout/HeaderWeb";
 import SliderBar from "@/components/layout/SliderBar";
 
 export default {
-  components: {NFTAnimation, ElConfigProvider, Login, BottomTabbar, HeaderV1, HeaderH5, HeaderWeb, SliderBar},
+  components: {NFTAnimation, ElConfigProvider, Login, LoginSteem, BottomTabbar, HeaderV1, HeaderH5, HeaderWeb, SliderBar},
   data: () => {
     return {
       pubKey: '',
@@ -122,7 +137,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'getCardVisible', 'referee', 'vpInfo', 'vp', 'rc', 'rcInfo']),
+    ...mapState(['accountInfo', 'loginUsername', 'hasReceivedNft', 'showLogin', 'showRegister', 'getCardVisible', 'referee', 'vpInfo', 'vp', 'rc', 'rcInfo']),
     ...mapState('postsModule', ['selectedTag']),
     ...mapGetters(['getAccountInfo']),
     modalVisible() {
@@ -426,7 +441,7 @@ export default {
       }
 
       getProfile(twitterId).then(res => {
-        if (res && res.code === 3) {
+        if (res && res.code === 3 && res.account.ethAddress) {
           let account = res.account;
           this.$store.commit('saveAccountInfo', account)
           return;

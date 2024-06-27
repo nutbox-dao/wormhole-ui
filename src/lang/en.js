@@ -73,7 +73,7 @@ export default {
     address: 'Address',
     confirm: 'Confirm',
     back: 'Back',
-    noEns: "There's no ENS of this address, please change another address in your wallet.",
+    noEns: "There's no ENS of this address.",
     ens: "This address binded ENS: {ens}"
   },
   signInView: {

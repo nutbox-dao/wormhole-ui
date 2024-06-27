@@ -24,13 +24,12 @@ export default {
     if (state) {
         this.info = ''
         let userInfo = await twitterLogin(state)
-        // console.log(35, userInfo)
         if (userInfo.code === 0) {
           // not registry
           // store auth info
           console.log('not register')
           this.info = 'Authorization succeeded, please register first.'
-          Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
+          Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '1800s')
           this.$store.commit('saveShowLogin', true);
           return;
         }else if (userInfo.code === 3) { // log in

@@ -182,15 +182,19 @@ export default {
       if (loginInfo) {
         try {
           this.$store.commit('saveAccountInfo', {...loginInfo, ethAddress: this.wallet.address})
+
           const signature = await signMessage(this.wallet.wallet, BondEthAccountMessage)
 
           await bondEth({
+            twitterId: loginInfo.twitterId,
             ethAddress: this.wallet.address,
             signature,
-            infoStr: BondEthAccountMessage
+            infoStr: BondEthAccountMessage,
+            referee: this.referee
           })
           this.$emit('skip')
         }catch(e) {
+          this.$store.commit('saveAccountInfo', null)
           console.log('register fail', e);
           if (e == errCode.IDENTITY_HAS_USED) {
             this.showNotify('The identity has been used, please chose another one', 3000, 'info')
@@ -202,10 +206,10 @@ export default {
         }
       }else {
         // not authed
-        // this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
+        this.showNotify(this.$t('signUpView.notAuth'), 5000, 'error')
         // this.step = 0
         // this.$emit('back');
-        this.authError = true
+        this.$emit('skip')
       }
     },
 
