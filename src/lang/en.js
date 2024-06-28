@@ -126,7 +126,7 @@ export default {
     curatorsList: 'Curators list:',
     postExample: 'This is my first tweet to blockchain sent from {\'@wormhole_3\'}.',
     votingPower: 'Curating Power',
-    vpDes: 'Every curation operation (like/quote/retweet) consume Curation Power (VP). Everyone has 100% VP to start, and it recovers 100% every 3 days. ',
+    vpDes: 'Every curation operation (like/retweet) consume Curation Power (VP). Everyone has 100% VP to start, and it recovers 100% every 3 days. ',
     detail: 'Detail'
   },
   profileView: {

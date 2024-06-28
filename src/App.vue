@@ -11,7 +11,6 @@
                  @gotoUser="gotoUser"
                  class="hidden 2md:flex c-page-header"></HeaderWeb>
 
-{{showRegister}}sdafksadglfkhjkljho
       <HeaderH5 v-if="$route.meta.header!=='hidden'" class="2md:hidden"></HeaderH5>
       <div class="flex-1 overflow-hidden flex">
         <SliderBar class="hidden 2md:flex h-full overflow-hidden c-page-slider"
@@ -83,7 +82,7 @@
           <div class="w-max p-1rem ml-auto mr-0" @click="$store.commit('saveShowRegister', false)">
             <i class="w-1.2rem h-1.2rem icon-close"></i>
           </div>
-          <LoginSteem class="px-2rem pb-2rem" ref="loginRef" @close="$store.commit('saveShowRegister', false)"/>
+          <LoginSteem v-if="showRegister" class="px-2rem pb-2rem" ref="loginRef" @close="$store.commit('saveShowRegister', false)"/>
         </div>
       </el-dialog>
     </div>
@@ -278,11 +277,14 @@ export default {
       }
     },
     createCuration() {
-      this.$router.push('/create-curation')
-      if (this.getAccountInfo && this.getAccountInfo.twitterId) {
+      // this.$router.push('/create-curation')
+      if (this.getAccountInfo && this.getAccountInfo.twitterId && this.getAccountInfo.steemId) {
         this.$router.push('/create-curation')
+      }
+      if (this.getAccountInfo && this.getAccountInfo.ethAddress && !this.getAccountInfo.steemId) {
+        this.$store.commit('saveShowRegister', true)
       }else {
-        this.$store.commit('saveShowLogin', true)
+        this.$store.commit('saveShowLogin', true);
       }
     },
     async onSearch(e) {

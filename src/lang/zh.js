@@ -126,7 +126,7 @@ export default {
     curatorsList: '策展人列表：',
     postExample: '这是我使用 {\'@wormhole——3\'} 发送到区块链的第一条推文',
     votingPower: '策展能量',
-    vpDes: '任何一个策展动作(点赞/引用/转推)都会消耗策展信用（VP）。用户初始会拥有100%的VP，消耗后会在3天内恢复满。',
+    vpDes: '任何一个策展动作(点赞/转推)都会消耗策展信用（VP）。用户初始会拥有100%的VP，消耗后会在3天内恢复满。',
     detail: '详情'
   },
   profileView: {

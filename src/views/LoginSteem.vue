@@ -219,9 +219,11 @@ export default {
   mounted() {
   },
   beforeUnmount() {
+    this.$store.commit('saveShowRegister', false)
     Cookie.remove('account-auth-info');
   },
   unmounted() {
+    this.$store.commit('saveShowRegister', false)
     Cookie.remove('account-auth-info');
   },
   computed: {

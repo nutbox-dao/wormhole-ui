@@ -509,7 +509,19 @@ export default {
           }
         }).catch(e => {this.rewards = []; console.log(4, e)}).finally(() => this.showCuratedTip = true)
     },
+    checkAccount() {
+      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
+        this.$store.commit('saveShowLogin', true)
+        return
+      }
+      if (!this.getAccountInfo?.steemId) {
+        this.$store.commit('saveShowRegister', true)
+        return
+      }
+      return true;
+    },
     async userReply() {
+      if (!this.checkAccount()) return
       this.inputContentEl = this.$refs.contentRef.innerHTML
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
@@ -542,6 +554,7 @@ export default {
       }
     },
     async userQuote() {
+      if (!this.checkAccount()) return
       this.inputContentEl = this.$refs.contentRef.innerHTML
       this.inputContent = this.formatElToTextContent(this.$refs.contentRef)
       try{
@@ -582,10 +595,7 @@ export default {
       }
     },
     async userFollow() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       try{
         this.isFollowing = true
         const result = await followPost(this.post.postId)
@@ -614,10 +624,7 @@ export default {
       }
     },
     async userRetweet() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       try{
         this.isRetweeting = true
         await retweetPost(this.post.postId, this.post.twitterId)
@@ -655,10 +662,7 @@ export default {
       }
     },
     async userLike() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       try{
         this.isLiking = true
         const result = await likePost(this.post.postId, this.post.twitterId)
@@ -696,10 +700,7 @@ export default {
       }
     },
     async userUnLike() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       try{
         this.isLiking = true
         const result = await likePost(this.post.postId, this.post.twitterId, false)
@@ -734,18 +735,12 @@ export default {
       }
     },
     preReply() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       this.replyVisible = true;
       this.setInputFocus()
     },
     preQuote() {
-      if (!this.getAccountInfo || !this.getAccountInfo.twitterId) {
-        this.$store.commit('saveShowLogin', true)
-        return
-      }
+      if (!this.checkAccount()) return
       this.quoteVisible = true
       this.setInputFocus()
       this.isDefaultQuote = true
