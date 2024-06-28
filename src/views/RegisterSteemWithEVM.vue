@@ -66,7 +66,7 @@
           </button>
         </template>
         <template v-else>
-          <div v-if="idType !== 'payToken'" class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
+          <div v-if="false" class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">
             {{$t('metamaskView.p2')}}
           </div>
           <div v-else-if="canntChangeAddress" class="whitespace-pre-line mb-1rem text-color8B light:text-color7D text-left text-0.9rem lg:text-0.75rem leading-1.2rem">

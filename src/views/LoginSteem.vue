@@ -51,15 +51,14 @@
         </div>
       </div>
     </div>
-    <RegisterSteemWithEVM v-else-if="authStep==='metamask'"
+    <RegisterSteemWithEVM v-else-if="authStep=='metamask'"
                        :address="walletAddress"
                        :identity-info="identityInfo"
                        :pair="pair"
                        @back="authStep='choseRegisterMethod'"
                        @skip="$emit('close')"/>
-
     <el-dialog :destroy-on-close="true" :model-value="modalVisible"
-              v-if="authStep === 'choseRegisterMethod'"
+              v-if="authStep=='choseRegisterMethod'"
                :close-on-click-modal="false" append-to-body
                class="c-dialog c-dialog-center max-w-34rem bg-glass border-1 border-color84/30 rounded-1.6rem">
       <div class="absolute top-0 right-0 w-max p-1rem z-1" @click="modalVisible=false">
@@ -127,7 +126,7 @@
         <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
           {{$t('signUpView.p6')}}
         </div>
-        <div class="flex flex-wrap w-full space-x-5">
+        <div class="flex flex-wrap w-full space-x-5 px-3rem">
           <button @click="choseBitip(bitip)" v-for="bitip of bitips" :key="bitip.iid" :disabled="connecting"
                   class="c-text-black gradient-btn max-h-65px rounded-full text-1rem mt-1.25rem
                       flex justify-center items-center py-0.5rem px-1rem">
@@ -235,19 +234,6 @@ export default {
       this.$store.commit('saveIdType', method)
       this.registerMethod = method
       this.modalVisible = true
-      accountChanged(async acc => {
-        const b = await getBalanceOfUser(this.walletAddress)
-        this.selectedBalance = b
-        const account = await getUserByEth(this.account);
-        if (account && account.code === 3){
-          // registred
-          this.showEthAddressUsed = true
-          this.username = account.account.twitterUsername
-          return;
-        }else {
-          this.showEthAddressUsed = false
-        }
-      })
     },
     selectChain(chain){
       this.payTokenForm.chain = chain
@@ -303,6 +289,11 @@ export default {
       try{
         this.connecting = true
         const acc = await cu()
+        if (!acc) {
+          this.authStep = 'choseRegisterMethod'
+          this.registerMethod = ''
+          return;
+        }
         this.btcAddress = acc.btcAddress
         this.btcPubkey = acc.btcPubkey
         const bitips = await getUserBitip(acc.btcAddress)

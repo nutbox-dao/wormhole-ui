@@ -3,7 +3,8 @@
 export async function connectUnisat() {
     if (typeof window.unisat === 'undefined'){
         console.log('UniSat Wallet is not installed!');
-        window.open('https://chromewebstore.google.com/detail/unisat-wallet/ppbibelpcjmhbdihakflkdcoccbgbkpo?hl=zh-CN&utm_source=ext_sidebar', '__blank')
+        window.open('https://chromewebstore.google.com/detail/unisat-wallet/ppbibelpcjmhbdihakflkdcoccbgbkpo?hl=zh-CN&utm_source=ext_sidebar', '__blank');
+        return false
     }
 
     try {
