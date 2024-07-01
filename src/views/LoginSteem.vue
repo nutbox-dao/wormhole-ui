@@ -4,6 +4,9 @@
       <div>
         <div class="">{{ $t('signUpView.registerRequire') }}</div>
         <div class="flex flex-col items-center gap-4 mt-1.5rem">
+          <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
+                         hover:shadow-none"
+                  @click="onChoseRegisterMethod('payToken')">Pay crypto currency</button>
           <div class="w-full">
             <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
                            hover:shadow-none"
@@ -16,12 +19,12 @@
               </div>     
             </button>
           </div>
-          <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
+          <button class="w-full flex justify-center items-center align-center max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
                          hover:shadow-none"
-                  @click="onChoseRegisterMethod('payToken')">Pay crypto currency</button>
-          <button class="w-full max-w-300px h-48px font-bold text-16px border-1 gradient-border rounded-full
-                         hover:shadow-none"
-                  @click="onChoseRegisterMethod('bitIp')">I have BitIP</button>
+                  @click="connectUnisat">
+                  <span class="">I have BitIp</span>
+                <c-spinner class="w-1.5rem h-1.5rem ml-0.5rem" v-show="connecting"></c-spinner>
+        </button>
         </div>
       </div>
     </div>
@@ -122,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div v-if="registerMethod==='bitIp'" class="flex justify-center items-center flex-col min-h-40vh">
+      <div v-if="registerMethod==='bitip'" class="flex justify-center items-center flex-col min-h-40vh">
         <div class="c-text-black break-word text-1.8rem leading-2.3rem gradient-text bg-purple-white light:bg-text-color17 mx-auto mt-1.4rem mb-1rem">
           {{$t('signUpView.p6')}}
         </div>
@@ -304,7 +307,12 @@ export default {
           return
         }
         this.bitips = bitips
+
+        this.$store.commit('saveIdType', 'bitip')
+        this.registerMethod = 'bitip'
+        this.modalVisible = true
         this.authStep = 'choseRegisterMethod'
+        this.registerMethod = 'bitip'
       } catch (e) {
         this.showNotify(e, 5000, 'error')
       } finally {
