@@ -33,6 +33,13 @@ export default {
           this.$store.commit('saveShowLogin', true);
           return;
         }else if (userInfo.code === 3) { // log in
+          if (!userInfo.account.ethAddress)  {
+            console.log('bond eth')
+             this.info = 'Authorization succeeded, please register first.'
+            Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '1800s')
+            this.$store.commit('saveShowLogin', true);
+            return
+          }
           this.info = 'Login Success'
           this.$store.commit('saveAccountInfo', userInfo.account)
           this.$router.replace('/')
