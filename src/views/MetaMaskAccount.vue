@@ -231,7 +231,7 @@ export default {
           if (!pair.privateKey) {
             pair = await createKeypair();
           }
-          const pwd = box(generateSteemAuth(sig.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
+          const pwd = box(generateSteemAuth(signature.substring(2) + salt, this.account), SendPwdServerPubKey, pair.privateKey)
           this.pwd = pwd,
           this.salt = salt
           this.sendPubKey = pair.publicKey
