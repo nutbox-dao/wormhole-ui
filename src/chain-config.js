@@ -306,7 +306,7 @@ export const EVM_CHAINS = {
         curation: '0xb9D14987De32606572F856FE747F89E6e7f86B9B',
         popup: '0x7d7d525e0937cA2B86c565F8fe56E4444BCc382D',
         oracle: '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F',
-        communityCuration: '0xDda7947F795B4636C68a14bC590fEb08cA69eef3'
+        communityCuration: '0x9d287b5670f65C537C51407086DDe4D9A399d683'
     },
     Base: {
         rpc: "https://mainnet.base.org/",
