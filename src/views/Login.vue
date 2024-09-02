@@ -294,7 +294,7 @@ export default {
                 console.log('bond eth')
                 Cookie.set('account-auth-info', JSON.stringify(userInfo.account), '180s')
                 this.pendingAccount = userInfo.account
-                this.authStep = 'selecet'
+                this.authStep = 'select'
                 return
               }
             this.$store.commit('saveAccountInfo', userInfo.account)
